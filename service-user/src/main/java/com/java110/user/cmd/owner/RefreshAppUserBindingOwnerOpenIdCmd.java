@@ -9,10 +9,15 @@ import com.java110.core.event.cmd.CmdEvent;
 import com.java110.core.factory.GenerateCodeFactory;
 import com.java110.dto.owner.OwnerAppUserDto;
 import com.java110.dto.user.UserAttrDto;
+import com.java110.dto.wechat.SmallWeChatDto;
+import com.java110.dto.wechat.WechatSubscribeDto;
+import com.java110.intf.store.ISmallWeChatInnerServiceSMO;
 import com.java110.intf.user.IOwnerAppUserV1InnerServiceSMO;
 import com.java110.intf.user.IUserAttrV1InnerServiceSMO;
+import com.java110.intf.user.IWechatSubscribeV1InnerServiceSMO;
 import com.java110.po.owner.OwnerAppUserPo;
 import com.java110.po.user.UserAttrPo;
+import com.java110.utils.cache.CommonCache;
 import com.java110.utils.exception.CmdException;
 import com.java110.utils.util.Assert;
 import com.java110.utils.util.BeanConvertUtil;
@@ -31,10 +36,17 @@ public class RefreshAppUserBindingOwnerOpenIdCmd extends Cmd {
     @Autowired
     private IUserAttrV1InnerServiceSMO userAttrV1InnerServiceSMOImpl;
 
+    @Autowired
+    private ISmallWeChatInnerServiceSMO smallWeChatInnerServiceSMOImpl;
+
+    @Autowired
+    private IWechatSubscribeV1InnerServiceSMO wechatSubscribeV1InnerServiceSMOImpl;
+
     @Override
     public void validate(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) {
         Assert.hasKeyAndValue(reqJson, "openId", "必填，请填写状态");
         Assert.hasKeyAndValue(reqJson, "communityId", "必填，请填写小区ID");
+        Assert.hasKeyAndValue(reqJson, "appId", "必填，请填写appId");
     }
 
     @Override
@@ -49,9 +61,22 @@ public class RefreshAppUserBindingOwnerOpenIdCmd extends Cmd {
         //todo 刷user_attr 中的openId
         freshUserToken(reqJson, userId);
 
+        SmallWeChatDto smallWeChatDto = new SmallWeChatDto();
+        smallWeChatDto.setAppId(reqJson.getString("appId"));
+        smallWeChatDto.setObjId(reqJson.getString("communityId"));
+        List<SmallWeChatDto> smallWeChatDtos = smallWeChatInnerServiceSMOImpl.querySmallWeChats(smallWeChatDto);
+        if (ListUtil.isNull(smallWeChatDtos)) {
+            throw new CmdException("未配置微信信息");
+        }
+
         OwnerAppUserDto ownerAppUserDto = new OwnerAppUserDto();
         ownerAppUserDto.setUserId(userId);
         ownerAppUserDto.setCommunityId(reqJson.getString("communityId"));
+        if (SmallWeChatDto.WECHAT_TYPE_PUBLIC.equals(smallWeChatDtos.get(0).getWechatType())) {
+            ownerAppUserDto.setAppTypeCd(OwnerAppUserDto.APP_TYPE_WECHAT);
+        } else {
+            ownerAppUserDto.setAppTypeCd(OwnerAppUserDto.APP_TYPE_WECHAT_MINA);
+        }
         List<OwnerAppUserDto> ownerAppUserDtos = ownerAppUserV1InnerServiceSMOImpl.queryOwnerAppUsers(ownerAppUserDto);
 
         if (ListUtil.isNull(ownerAppUserDtos)) {
@@ -64,6 +89,44 @@ public class RefreshAppUserBindingOwnerOpenIdCmd extends Cmd {
         ownerAppUserPo.setNickName(reqJson.getString("nickName"));
         ownerAppUserPo.setHeadImgUrl(reqJson.getString("headImgUrl"));
         ownerAppUserV1InnerServiceSMOImpl.updateOwnerAppUser(ownerAppUserPo);
+
+        if (OwnerAppUserDto.APP_TYPE_WECHAT.equals(ownerAppUserDtos.get(0).getAppTypeCd())) {
+            return;
+        }
+
+        String openUser = CommonCache.getValue("code2Session" + reqJson.getString("openId"));
+        if (StringUtil.isEmpty(openUser)) {
+            return;
+        }
+
+        JSONObject responseObj = JSONObject.parseObject(openUser);
+        String unionId = responseObj.getString("unionid");
+
+
+        WechatSubscribeDto wechatSubscribeDto = new WechatSubscribeDto();
+        wechatSubscribeDto.setUnionId(unionId);
+        List<WechatSubscribeDto> wechatSubscribeDtos = wechatSubscribeV1InnerServiceSMOImpl.queryWechatSubscribes(wechatSubscribeDto);
+        if (ListUtil.isNull(wechatSubscribeDtos)) {
+            return;
+        }
+
+        ownerAppUserDto = new OwnerAppUserDto();
+        ownerAppUserDto.setUserId(userId);
+        ownerAppUserDto.setCommunityId(reqJson.getString("communityId"));
+        ownerAppUserDto.setAppTypeCd(OwnerAppUserDto.APP_TYPE_WECHAT);
+        List<OwnerAppUserDto> wechatOwnerAppUserDtos = ownerAppUserV1InnerServiceSMOImpl.queryOwnerAppUsers(ownerAppUserDto);
+
+        OwnerAppUserPo wechatOwnerAppUserPo = BeanConvertUtil.covertBean(ownerAppUserDtos.get(0), OwnerAppUserPo.class);
+        wechatOwnerAppUserPo.setAppTypeCd(OwnerAppUserDto.APP_TYPE_WECHAT);
+        wechatOwnerAppUserPo.setOpenId(wechatSubscribeDtos.get(0).getOpenId());
+        if (ListUtil.isNull(wechatOwnerAppUserDtos)) {
+            wechatOwnerAppUserPo.setAppUserId(GenerateCodeFactory.getGeneratorId("11"));
+            ownerAppUserV1InnerServiceSMOImpl.saveOwnerAppUser(wechatOwnerAppUserPo);
+            return;
+        }
+        wechatOwnerAppUserPo.setAppUserId(wechatOwnerAppUserDtos.get(0).getAppUserId());
+        ownerAppUserV1InnerServiceSMOImpl.updateOwnerAppUser(wechatOwnerAppUserPo);
+
     }
 
     private void freshUserToken(JSONObject reqJson, String userId) {

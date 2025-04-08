@@ -9,11 +9,13 @@ import com.java110.core.log.LoggerFactory;
 import com.java110.dto.wechat.SmallWeChatDto;
 import com.java110.intf.store.ISmallWechatV1InnerServiceSMO;
 import com.java110.intf.user.IUserAttrV1InnerServiceSMO;
+import com.java110.utils.cache.CommonCache;
 import com.java110.utils.cache.MappingCache;
 import com.java110.utils.constant.MappingConstant;
 import com.java110.utils.constant.WechatConstant;
 import com.java110.utils.exception.CmdException;
 import com.java110.utils.util.Assert;
+import com.java110.utils.util.ListUtil;
 import com.java110.utils.util.StringUtil;
 import com.java110.vo.ResultVo;
 import org.slf4j.Logger;
@@ -65,7 +67,7 @@ public class GetWechatMiniOpenIdCmd extends Cmd {
             List<SmallWeChatDto> smallWeChatDtos = smallWechatV1InnerServiceSMOImpl.querySmallWechats(smallWeChatDto);
 
             //todo 读取全局
-            if (smallWeChatDtos == null || smallWeChatDtos.size() < 1) {
+            if (ListUtil.isNull(smallWeChatDtos)) {
                 appId = MappingCache.getValue(WechatConstant.WECHAT_DOMAIN, "appId");
                 appSecret = MappingCache.getValue(WechatConstant.WECHAT_DOMAIN, "appSecret");
             } else {
@@ -95,6 +97,8 @@ public class GetWechatMiniOpenIdCmd extends Cmd {
         }
 
         String openId = responseObj.getString("openid");
+        //String unionId = responseObj.getString("unionid");
+        CommonCache.setValue("code2Session"+openId,responseObj.toJSONString(),CommonCache.TOKEN_EXPIRE_TIME);
 
         context.setResponseEntity(ResultVo.createResponseEntity(openId));
     }

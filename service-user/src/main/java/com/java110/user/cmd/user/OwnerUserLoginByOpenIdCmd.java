@@ -17,6 +17,7 @@ import com.java110.dto.system.SystemInfoDto;
 import com.java110.dto.user.LoginOwnerResDto;
 import com.java110.dto.user.UserAttrDto;
 import com.java110.dto.user.UserDto;
+import com.java110.dto.wechat.WechatSubscribeDto;
 import com.java110.intf.common.ISmsInnerServiceSMO;
 import com.java110.intf.common.ISystemInfoV1InnerServiceSMO;
 import com.java110.intf.community.ICommunityInnerServiceSMO;
@@ -24,6 +25,8 @@ import com.java110.intf.user.*;
 import com.java110.po.owner.OwnerAppUserPo;
 import com.java110.po.user.UserAttrPo;
 import com.java110.po.user.UserPo;
+import com.java110.user.smo.impl.WechatSubscribeV1InnerServiceSMOImpl;
+import com.java110.utils.cache.CommonCache;
 import com.java110.utils.constant.CommonConstant;
 import com.java110.utils.constant.UserLevelConstant;
 import com.java110.utils.exception.CmdException;
@@ -74,6 +77,9 @@ public class OwnerUserLoginByOpenIdCmd extends Cmd {
     @Autowired
     private ISystemInfoV1InnerServiceSMO systemInfoV1InnerServiceSMOImpl;
 
+    @Autowired
+    private WechatSubscribeV1InnerServiceSMOImpl wechatSubscribeV1InnerServiceSMOImpl;
+
 
     @Override
     public void validate(CmdEvent event, ICmdDataFlowContext context, JSONObject reqJson) throws CmdException, ParseException {
@@ -107,6 +113,7 @@ public class OwnerUserLoginByOpenIdCmd extends Cmd {
         if (!ListUtil.isNull(ownerAppUserDtos)) {
             // todo 4.0 查询小区是否存在
             communityId = ownerAppUserDtos.get(0).getCommunityId();
+            updateWechatOwnerAppUserOpenId(ownerAppUserDtos.get(0),reqJson.getString("openId"));
         } else {
             SystemInfoDto systemInfoDto = new SystemInfoDto();
             List<SystemInfoDto> systemInfoDtos = systemInfoV1InnerServiceSMOImpl.querySystemInfos(systemInfoDto);
@@ -125,7 +132,7 @@ public class OwnerUserLoginByOpenIdCmd extends Cmd {
         //todo 1.0 查询用户是否存在
         List<UserDto> userDtos = userInnerServiceSMOImpl.getUsers(userDto);
 
-        if (userDtos == null || userDtos.size() < 1) {
+        if (ListUtil.isNull(userDtos)) {
             throw new CmdException("业主不存在，请先注册");
         }
 
@@ -145,6 +152,41 @@ public class OwnerUserLoginByOpenIdCmd extends Cmd {
         loginOwnerResDto.setToken(token);
         loginOwnerResDto.setKey(newKey);
         context.setResponseEntity(ResultVo.createResponseEntity(loginOwnerResDto));
+    }
+
+    private void updateWechatOwnerAppUserOpenId(OwnerAppUserDto ownerAppUserDto,String openId) {
+        String openUser = CommonCache.getValue("code2Session" + openId);
+        if (StringUtil.isEmpty(openUser)) {
+            return;
+        }
+
+        JSONObject responseObj = JSONObject.parseObject(openUser);
+        String unionId = responseObj.getString("unionid");
+
+
+        WechatSubscribeDto wechatSubscribeDto = new WechatSubscribeDto();
+        wechatSubscribeDto.setUnionId(unionId);
+        List<WechatSubscribeDto> wechatSubscribeDtos = wechatSubscribeV1InnerServiceSMOImpl.queryWechatSubscribes(wechatSubscribeDto);
+        if (ListUtil.isNull(wechatSubscribeDtos)) {
+            return;
+        }
+
+        OwnerAppUserDto tOwnerAppUserDto = new OwnerAppUserDto();
+        tOwnerAppUserDto.setUserId(ownerAppUserDto.getUserId());
+        tOwnerAppUserDto.setCommunityId(ownerAppUserDto.getCommunityId());
+        tOwnerAppUserDto.setAppTypeCd(OwnerAppUserDto.APP_TYPE_WECHAT);
+        List<OwnerAppUserDto> wechatOwnerAppUserDtos = ownerAppUserV1InnerServiceSMOImpl.queryOwnerAppUsers(tOwnerAppUserDto);
+
+        OwnerAppUserPo wechatOwnerAppUserPo = BeanConvertUtil.covertBean(ownerAppUserDto, OwnerAppUserPo.class);
+        wechatOwnerAppUserPo.setAppTypeCd(OwnerAppUserDto.APP_TYPE_WECHAT);
+        wechatOwnerAppUserPo.setOpenId(wechatSubscribeDtos.get(0).getOpenId());
+        if (ListUtil.isNull(wechatOwnerAppUserDtos)) {
+            wechatOwnerAppUserPo.setAppUserId(GenerateCodeFactory.getGeneratorId("11"));
+            ownerAppUserV1InnerServiceSMOImpl.saveOwnerAppUser(wechatOwnerAppUserPo);
+            return;
+        }
+        wechatOwnerAppUserPo.setAppUserId(wechatOwnerAppUserDtos.get(0).getAppUserId());
+        ownerAppUserV1InnerServiceSMOImpl.updateOwnerAppUser(wechatOwnerAppUserPo);
     }
 
     /**
