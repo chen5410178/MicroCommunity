@@ -39,29 +39,28 @@ public interface IWechatSubscribeV1InnerServiceSMO {
 
 
     @RequestMapping(value = "/saveWechatSubscribe", method = RequestMethod.POST)
-    public int saveWechatSubscribe(@RequestBody  WechatSubscribePo wechatSubscribePo);
+    int saveWechatSubscribe(@RequestBody WechatSubscribePo wechatSubscribePo);
 
     @RequestMapping(value = "/saveWechatSubscribes", method = RequestMethod.POST)
-    public int saveWechatSubscribes(@RequestBody  List<WechatSubscribePo> wechatSubscribePos);
+    int saveWechatSubscribes(@RequestBody List<WechatSubscribePo> wechatSubscribePos);
 
     @RequestMapping(value = "/updateWechatSubscribe", method = RequestMethod.POST)
-    public int updateWechatSubscribe(@RequestBody  WechatSubscribePo wechatSubscribePo);
+    int updateWechatSubscribe(@RequestBody WechatSubscribePo wechatSubscribePo);
 
     @RequestMapping(value = "/deleteWechatSubscribe", method = RequestMethod.POST)
-    public int deleteWechatSubscribe(@RequestBody  WechatSubscribePo wechatSubscribePo);
+    int deleteWechatSubscribe(@RequestBody WechatSubscribePo wechatSubscribePo);
 
     /**
      * <p>查询小区楼信息</p>
-     *
      *
      * @param wechatSubscribeDto 数据对象分享
      * @return WechatSubscribeDto 对象数据
      */
     @RequestMapping(value = "/queryWechatSubscribes", method = RequestMethod.POST)
     List<WechatSubscribeDto> queryWechatSubscribes(@RequestBody WechatSubscribeDto wechatSubscribeDto);
+
     /**
      * <p>查询小区楼信息</p>
-     *
      *
      * @param wechatSubscribeDto 数据对象分享
      * @return WechatSubscribeDto 对象数据

@@ -28,62 +28,85 @@ import java.io.Serializable;
 public class WechatSubscribePo implements Serializable {
 
     private String subId;
-private String openId;
-private String appId;
-private String nickname;
-private String headimgurl;
-private String statusCd = "0";
-private String userId;
-private String openType;
-public String getSubId() {
+    private String openId;
+
+    private String unionId;
+    private String appId;
+    private String nickname;
+    private String headimgurl;
+    private String statusCd = "0";
+    private String userId;
+    private String openType;
+
+    public String getSubId() {
         return subId;
     }
-public void setSubId(String subId) {
+
+    public void setSubId(String subId) {
         this.subId = subId;
     }
-public String getOpenId() {
+
+    public String getOpenId() {
         return openId;
     }
-public void setOpenId(String openId) {
+
+    public void setOpenId(String openId) {
         this.openId = openId;
     }
-public String getAppId() {
+
+    public String getAppId() {
         return appId;
     }
-public void setAppId(String appId) {
+
+    public void setAppId(String appId) {
         this.appId = appId;
     }
-public String getNickname() {
+
+    public String getNickname() {
         return nickname;
     }
-public void setNickname(String nickname) {
+
+    public void setNickname(String nickname) {
         this.nickname = nickname;
     }
-public String getHeadimgurl() {
+
+    public String getHeadimgurl() {
         return headimgurl;
     }
-public void setHeadimgurl(String headimgurl) {
+
+    public void setHeadimgurl(String headimgurl) {
         this.headimgurl = headimgurl;
     }
-public String getStatusCd() {
+
+    public String getStatusCd() {
         return statusCd;
     }
-public void setStatusCd(String statusCd) {
+
+    public void setStatusCd(String statusCd) {
         this.statusCd = statusCd;
     }
-public String getUserId() {
+
+    public String getUserId() {
         return userId;
     }
-public void setUserId(String userId) {
+
+    public void setUserId(String userId) {
         this.userId = userId;
     }
-public String getOpenType() {
+
+    public String getOpenType() {
         return openType;
     }
-public void setOpenType(String openType) {
+
+    public void setOpenType(String openType) {
         this.openType = openType;
     }
 
+    public String getUnionId() {
+        return unionId;
+    }
 
-
+    public void setUnionId(String unionId) {
+        this.unionId = unionId;
+    }
 }

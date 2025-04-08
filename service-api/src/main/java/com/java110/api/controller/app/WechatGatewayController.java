@@ -36,10 +36,7 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
@@ -68,21 +65,16 @@ public class WechatGatewayController extends BaseController {
      *
      * @param request
      */
-    @RequestMapping(path = "/gateway", method = RequestMethod.GET)
-    public ResponseEntity<String> gateway(HttpServletRequest request) {
+    @RequestMapping(path = "/gateway/{appId}", method = RequestMethod.GET)
+    public ResponseEntity<String> gateway(@PathVariable String appId,HttpServletRequest request) {
 
         String token = MappingCache.getValue(WechatConstant.WECHAT_DOMAIN, WechatConstant.TOKEN);
         String signature = request.getParameter("signature");
         String timestamp = request.getParameter("timestamp");
         String nonce = request.getParameter("nonce");
         String echostr = request.getParameter("echostr");
-        String wId = request.getParameter(WechatConstant.PAGE_WECHAT_APP_ID);
-        String java110AppId = request.getParameter("java110AppId");
         logger.debug("请求参数" + JSONObject.toJSONString(request.getParameterMap()));
-        if (!StringUtil.isEmpty(wId)) {
-            wId = wId.replace(" ", "+");
-            token = getToken(java110AppId, wId);
-        }
+
         String responseStr = "";
         logger.debug("token = " + token + "||||" + "signature = " + signature + "|||" + "timestamp = "
                 + timestamp + "|||" + "nonce = " + nonce + "|||" + "echostr = " + echostr);
@@ -115,22 +107,19 @@ public class WechatGatewayController extends BaseController {
      *
      * @param request
      */
-    @RequestMapping(path = "/gateway", method = RequestMethod.POST)
-    public ResponseEntity<String> gateway(@RequestBody String param, HttpServletRequest request) {
+    @RequestMapping(path = "/gateway/{appId}", method = RequestMethod.POST)
+    public ResponseEntity<String> gateway(@RequestBody String param,
+                                          @PathVariable String appId,
+                                          HttpServletRequest request) {
 
         String token = MappingCache.getValue(WechatConstant.WECHAT_DOMAIN, WechatConstant.TOKEN);
         String signature = request.getParameter("signature");
         String timestamp = request.getParameter("timestamp");
         String nonce = request.getParameter("nonce");
         String openId = request.getParameter("openid");
-        String java110AppId = request.getParameter("java110AppId");
         String responseStr = "";
-        String wId = request.getParameter(WechatConstant.PAGE_WECHAT_APP_ID);
         logger.debug("请求参数" + request.getParameterMap().toString());
-        if (!StringUtil.isEmpty(wId)) {
-            wId = wId.replace(" ", "+");
-            token = getToken(java110AppId, wId);
-        }
+
         ResponseEntity<String> responseEntity = null;
         logger.debug("token = " + token + "||||" + "signature = " + signature + "|||" + "timestamp = "
                 + timestamp + "|||" + "nonce = " + nonce + "|||| param = " + param + "|||| openId= " + openId);
@@ -167,10 +156,7 @@ public class WechatGatewayController extends BaseController {
             paramIn.put("msgType", msgType);
             paramIn.put("event", event);
             paramIn.put("eventKey", eventKey);
-            IPageData pd = PageData.newInstance().builder("-1", "", "", paramIn.toJSONString(),
-                    "", "", "", "",
-                    java110AppId);
-            responseEntity = wechatGatewaySMOImpl.gateway(pd,wId);
+            responseEntity = wechatGatewaySMOImpl.gateway(fromUserName,toUserName,keyword,msgType,event,eventKey,appId);
 
         } catch (Exception e) {
             // TODO Auto-generated catch block
@@ -182,44 +168,6 @@ public class WechatGatewayController extends BaseController {
         return responseEntity;
     }
 
-    private SmallWeChatDto getSmallWechat(String java110AppId, String appId) {
-        IPageData pd = PageData.newInstance().builder("-1", "", "", "",
-                "", "", "", "",
-                java110AppId);
-        SmallWeChatDto smallWeChatDto = new SmallWeChatDto();
-        smallWeChatDto.setAppId(appId);
-        smallWeChatDto = wechatGatewaySMOImpl.getSmallWechat(pd, smallWeChatDto);
-
-        return smallWeChatDto;
-
-    }
-
-    /**
-     * 获取token
-     *
-     * @param java110AppId
-     * @return
-     */
-    private String getToken(String java110AppId, String wId) {
-        String appId = WechatFactory.getAppId(wId);
-        SmallWeChatDto smallWeChatDto = getSmallWechat(java110AppId, appId);
-        String token = MappingCache.getValue(WechatConstant.WECHAT_DOMAIN, WechatConstant.TOKEN);
-        if (smallWeChatDto == null) {
-            return token;
-        }
-        List<SmallWechatAttrDto> smallWechatAttrDtos = smallWeChatDto.getSmallWechatAttrs();
-
-        if (smallWechatAttrDtos == null) {
-            return token;
-        }
-        for (SmallWechatAttrDto smallWechatAttrDto : smallWechatAttrDtos) {
-            if (SmallWechatAttrDto.SPEC_CD_TOKEN.equals(smallWechatAttrDto.getSpecCd())) {
-                token = smallWechatAttrDto.getValue();
-            }
-        }
-
-        return token;
-    }
 
 
 }

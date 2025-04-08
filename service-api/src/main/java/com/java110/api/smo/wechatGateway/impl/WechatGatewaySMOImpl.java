@@ -13,14 +13,17 @@ import com.java110.dto.owner.OwnerAppUserDto;
 import com.java110.dto.wechat.SmallWeChatDto;
 import com.java110.dto.wechat.SmallWechatAttrDto;
 import com.java110.dto.wechat.WechatSubscribeDto;
+import com.java110.intf.store.ISmallWeChatInnerServiceSMO;
 import com.java110.intf.user.IWechatSubscribeV1InnerServiceSMO;
 import com.java110.po.wechat.WechatSubscribePo;
 import com.java110.utils.cache.MappingCache;
 import com.java110.utils.constant.ServiceCodeConstant;
 import com.java110.utils.constant.ServiceCodeSmallWechatAttrConstant;
 import com.java110.utils.constant.WechatConstant;
+import com.java110.utils.exception.CmdException;
 import com.java110.utils.util.Assert;
 import com.java110.utils.util.BeanConvertUtil;
+import com.java110.utils.util.ListUtil;
 import com.java110.utils.util.StringUtil;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,53 +52,23 @@ public class WechatGatewaySMOImpl extends DefaultAbstractComponentSMO implements
     @Autowired
     private WechatAuthProperties wechatAuthProperties;
 
+    public static final String GET_USER_INFO = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN";
+
     @Autowired
     private IWechatSubscribeV1InnerServiceSMO wechatSubscribeV1InnerServiceSMOImpl;
 
+    @Autowired
+    private ISmallWeChatInnerServiceSMO smallWeChatInnerServiceSMOImpl;
+
     @Override
-    public ResponseEntity<String> gateway(IPageData pd, String wId) throws Exception {
-
-        JSONObject paramIn = JSONObject.parseObject(pd.getReqData());
-        Assert.hasKeyAndValue(paramIn, "fromUserName", "请求报文中未包含fromUserName");
-        Assert.hasKeyAndValue(paramIn, "toUserName", "请求报文中未包含toUserName");
-
-        logger.debug("doLogin入参：" + paramIn.toJSONString());
-        String responseStr = "";
-
-        String fromUserName = paramIn.getString("fromUserName");
-        String toUserName = paramIn.getString("toUserName");
-        String keyword = paramIn.getString("keyword");
-        String msgType = paramIn.getString("msgType");
-        String event = paramIn.getString("event");
-        String eventKey = paramIn.getString("eventKey");
-        //判断用户是否绑定业主
-        boolean bindFlag = judgeBindOwner(pd, fromUserName);
-        if (!bindFlag) {
-
-            String noBindOwnerResponseMessage = MappingCache.getRemark(WechatConstant.WECHAT_DOMAIN, WechatConstant.NO_BIND_OWNER);
-
-            if (StringUtil.isEmpty(noBindOwnerResponseMessage)) {
-
-                noBindOwnerResponseMessage = WechatConstant.NO_BIND_OWNER_RESPONSE_MESSAGE;
-            }
-            if (!noBindOwnerResponseMessage.contains("wAppId=")) {
-                if (noBindOwnerResponseMessage.indexOf("W_APP_ID") > 0) {
-                    noBindOwnerResponseMessage = noBindOwnerResponseMessage.replace("W_APP_ID", "wAppId=" + WechatFactory.getAppId(wId));
-                } else {
-                    if (noBindOwnerResponseMessage.indexOf("?") > -1) {
-                        noBindOwnerResponseMessage += ("&wAppId=" + WechatFactory.getAppId(wId));
-                    } else {
-//                        noBindOwnerResponseMessage += ("?wAppId=" + WechatFactory.getAppId(wId));
-                    }
-                }
-            }
-
-            responseStr = WechatFactory.formatText(toUserName, fromUserName, noBindOwnerResponseMessage);
-            return new ResponseEntity<String>(responseStr, HttpStatus.OK);
-        }
-        //保存到关注表
-        saveWechatSubscribe(WechatFactory.getAppId(wId), fromUserName);
-
+    public ResponseEntity<String> gateway(String fromUserName,
+                                          String toUserName,
+                                          String keyword,
+                                          String msgType,
+                                          String event,
+                                          String eventKey,
+                                          String appId) {
+        String responseStr = null;
         if (WechatConstant.MSG_TYPE_TEXT.equals(msgType)) {
             responseStr = textResponseHandler(fromUserName, toUserName, keyword);
         } else if (WechatConstant.MSG_TYPE_EVENT.equals(msgType)) {
@@ -103,6 +76,48 @@ public class WechatGatewaySMOImpl extends DefaultAbstractComponentSMO implements
         } else {
             responseStr = eventResponseHandler(fromUserName, toUserName, keyword, event, eventKey);
         }
+        //保存到关注表
+        if(!"subscribe".equals(event)){
+            return new ResponseEntity<>(responseStr, HttpStatus.OK);
+        }
+
+        WechatSubscribeDto wechatSubscribeDto = new WechatSubscribeDto();
+        wechatSubscribeDto.setOpenId(fromUserName);
+        wechatSubscribeDto.setOpenId(appId);
+        List<WechatSubscribeDto> wechatSubscribeDtos = wechatSubscribeV1InnerServiceSMOImpl.queryWechatSubscribes(wechatSubscribeDto);
+        if (!ListUtil.isNull(wechatSubscribeDtos)) {
+            return new ResponseEntity<>(responseStr, HttpStatus.OK);
+        }
+
+        SmallWeChatDto smallWeChatDto = new SmallWeChatDto();
+        smallWeChatDto.setAppId(appId);
+        smallWeChatDto.setWeChatType(SmallWeChatDto.WECHAT_TYPE_PUBLIC);
+        List<SmallWeChatDto> smallWeChatDtos = smallWeChatInnerServiceSMOImpl.querySmallWeChats(smallWeChatDto);
+        if (ListUtil.isNull(smallWeChatDtos)) {
+            throw new CmdException("未配置公众号");
+        }
+
+        String accessToken = WechatFactory.getAccessToken(smallWeChatDtos.get(0).getAppId(), smallWeChatDtos.get(0).getAppSecret());
+
+        String url = GET_USER_INFO.replace("ACCESS_TOKEN", accessToken).replace("OPENID",fromUserName);
+        ResponseEntity<String> paramOut = outRestTemplate.getForEntity(url, String.class);
+        logger.info("获取用户返回:{}", paramOut);
+        if (paramOut.getStatusCode() != HttpStatus.OK) {
+            throw new IllegalArgumentException(paramOut.getBody());
+        }
+        JSONObject paramOutObj = JSONObject.parseObject(paramOut.getBody());
+        if (paramOutObj.containsKey("errcode")) {
+            throw new IllegalArgumentException(paramOut.getBody());
+        }
+
+        WechatSubscribePo wechatSubscribePo = new WechatSubscribePo();
+        wechatSubscribePo.setAppId(appId);
+        wechatSubscribePo.setOpenId(fromUserName);
+        wechatSubscribePo.setUnionId(paramOutObj.getString("unionid"));
+        wechatSubscribePo.setSubId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_file_id));
+        wechatSubscribePo.setOpenType(WechatSubscribeDto.OPEN_TYPE_WECHAT);
+        wechatSubscribeV1InnerServiceSMOImpl.saveWechatSubscribe(wechatSubscribePo);
+
         return new ResponseEntity<>(responseStr, HttpStatus.OK);
     }
 
@@ -199,7 +214,7 @@ public class WechatGatewaySMOImpl extends DefaultAbstractComponentSMO implements
      */
     @SuppressWarnings({"unchecked"})
     public String eventResponseHandler(String fromUserName, String toUserName, String keyWords, String event,
-                                       String eventKey) throws Exception {
+                                       String eventKey) {
         String resultStr = "";
         //
         if (event.equals("subscribe")) {
@@ -243,19 +258,7 @@ public class WechatGatewaySMOImpl extends DefaultAbstractComponentSMO implements
      * @param fromUserName
      */
     private void saveWechatSubscribe(String appId, String fromUserName) {
-        WechatSubscribeDto wechatSubscribeDto = new WechatSubscribeDto();
-        wechatSubscribeDto.setOpenId(fromUserName);
-        wechatSubscribeDto.setOpenId(appId);
-        List<WechatSubscribeDto> wechatSubscribeDtos = wechatSubscribeV1InnerServiceSMOImpl.queryWechatSubscribes(wechatSubscribeDto);
-        if (wechatSubscribeDtos != null && wechatSubscribeDtos.size() > 0) {
-            return;
-        }
-        WechatSubscribePo wechatSubscribePo = new WechatSubscribePo();
-        wechatSubscribePo.setAppId(appId);
-        wechatSubscribePo.setOpenId(fromUserName);
-        wechatSubscribePo.setSubId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_file_id));
-        wechatSubscribePo.setOpenType(WechatSubscribeDto.OPEN_TYPE_WECHAT);
-        wechatSubscribeV1InnerServiceSMOImpl.saveWechatSubscribe(wechatSubscribePo);
+
     }
 
 }

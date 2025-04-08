@@ -19,6 +19,9 @@ public class WechatSubscribeDto extends PageDto implements Serializable {
 
     private String subId;
     private String openId;
+
+    private String unionId;
+
     private String appId;
     private String nickname;
     private String headimgurl;
@@ -102,5 +105,13 @@ public class WechatSubscribeDto extends PageDto implements Serializable {
 
     public void setStatusCd(String statusCd) {
         this.statusCd = statusCd;
+    }
+
+    public String getUnionId() {
+        return unionId;
+    }
+
+    public void setUnionId(String unionId) {
+        this.unionId = unionId;
     }
 }

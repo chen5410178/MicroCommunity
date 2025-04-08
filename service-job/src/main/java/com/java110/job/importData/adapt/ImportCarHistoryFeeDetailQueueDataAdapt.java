@@ -91,7 +91,7 @@ public class ImportCarHistoryFeeDetailQueueDataAdapt extends DefaultImportData i
         for (ImportRoomFee importCarFee : importCarFees) {
             try {
                 if (StringUtil.isEmpty(importCarFee.getCarId())) {
-                    continue;
+                    throw new IllegalArgumentException("车辆不存在");
                 }
                 importCarFeeDetail(importCarFee, storeId, userId, batchId);
                 updateImportLogDetailState(importCarFee.getDetailId());
@@ -114,8 +114,8 @@ public class ImportCarHistoryFeeDetailQueueDataAdapt extends DefaultImportData i
         feeConfigDto.setCommunityId(importRoomFee.getCommunityId());
         List<FeeConfigDto> feeConfigDtos = feeConfigInnerServiceSMOImpl.queryFeeConfigs(feeConfigDto);
 
-        if (feeConfigDtos == null || feeConfigDtos.size() < 1) {
-            return;
+        if (ListUtil.isNull(feeConfigDtos)) {
+            throw new IllegalArgumentException("费用项不存在");
         }
 
         FeeConfigDto tmpFeeConfigDto = feeConfigDtos.get(0);
@@ -180,6 +180,7 @@ public class ImportCarHistoryFeeDetailQueueDataAdapt extends DefaultImportData i
         feeAttrPo.setAttrId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_attrId));
         return feeAttrPo;
     }
+
     private void doImportFeeDetail(FeeDto tmpFeeDto, ImportRoomFee importRoomFee) {
 
 

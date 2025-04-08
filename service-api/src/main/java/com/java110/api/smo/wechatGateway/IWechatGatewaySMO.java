@@ -15,11 +15,10 @@ public interface IWechatGatewaySMO {
     /**
      * 获取微信回话信息
      *
-     * @param pd 页面数据封装
      * @return ResponseEntity 对象数据
      * @throws SMOException 业务代码层
      */
-    ResponseEntity<String> gateway(IPageData pd,String wId) throws Exception;
+    ResponseEntity<String> gateway(String fromUserName, String toUserName, String keyword, String msgType, String event, String eventKey,String appId);
 
     /**
      * 查询微信信息
@@ -28,4 +27,5 @@ public interface IWechatGatewaySMO {
      * @return
      */
     SmallWeChatDto getSmallWechat(IPageData pd, SmallWeChatDto smallWeChatDto);
+
 }

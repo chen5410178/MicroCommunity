@@ -8,17 +8,21 @@
     <!-- 保存微信关注信息 add by wuxw 2018-07-03 -->
     <insert id="saveWechatSubscribeInfo" parameterType="Map">
         insert into wechat_subscribe(
-        sub_id,open_id,app_id,nickname,headimgurl,user_id,open_type
+        sub_id,open_id,app_id,nickname,headimgurl,user_id,open_type,union_id
         ) values (
-        #{subId},#{openId},#{appId},#{nickname},#{headimgurl},#{userId},#{openType}
+        #{subId},#{openId},#{appId},#{nickname},#{headimgurl},#{userId},#{openType},#{unionId}
         )
     </insert>
     <insert id="saveWechatSubscribeInfos" parameterType="Map">
         insert into wechat_subscribe(
-        sub_id,open_id,app_id,nickname,headimgurl,user_id,open_type
+        sub_id,open_id,app_id,nickname,headimgurl,user_id,open_type,union_id
         ) values
         <foreach collection="wechatSubscribes" item="item" separator=",">
-            (#{item.subId},#{item.openId},#{item.appId},#{item.nickname},#{item.headimgurl},#{item.userId},#{item.openType})
+            (#{item.subId},#{item.openId},#{item.appId},#{item.nickname},
+            #{item.headimgurl},
+            #{item.userId},
+            #{item.openType},
+            #{item.unionId})
         </foreach>
     </insert>
 
@@ -33,11 +37,10 @@
     </insert>
 
 
-
     <select id="queryDistinctWechatSubscribes" parameterType="Map" resultType="Map">
         select distinct t.open_id,t.open_id openId,t.app_id,t.app_id
         appId,t.nickname,t.headimgurl,t.status_cd,t.status_cd statusCd,t.user_id,t.user_id
-        userId,t.open_type,t.open_type openType
+        userId,t.open_type,t.open_type openType,t.union_id unionId
         from wechat_subscribe t
         where 1 =1
         <if test="subId !=null and subId != ''">
@@ -74,7 +77,7 @@
     <select id="getWechatSubscribeInfo" parameterType="Map" resultType="Map">
         select t.sub_id,t.sub_id subId,t.open_id,t.open_id openId,t.app_id,t.app_id
         appId,t.nickname,t.headimgurl,t.status_cd,t.status_cd statusCd,t.user_id,t.user_id
-        userId,t.open_type,t.open_type openType
+        userId,t.open_type,t.open_type openType,t.union_id unionId
         from wechat_subscribe t
         where 1 =1
         <if test="subId !=null and subId != ''">
@@ -100,6 +103,9 @@
         </if>
         <if test="openType !=null and openType != ''">
             and t.open_type= #{openType}
+        </if>
+        <if test="unionId !=null and unionId != ''">
+            and t.union_id= #{unionId}
         </if>
         order by t.create_time desc
         <if test="page != -1 and page != null ">
@@ -130,6 +136,9 @@
         </if>
         <if test="openType !=null and openType != ''">
             , t.open_type= #{openType}
+        </if>
+        <if test="unionId !=null and unionId != ''">
+            , t.union_id= #{unionId}
         </if>
         where 1=1
         <if test="subId !=null and subId != ''">
@@ -169,6 +178,9 @@
         </if>
         <if test="openType !=null and openType != ''">
             and t.open_type= #{openType}
+        </if>
+        <if test="unionId !=null and unionId != ''">
+            and t.union_id= #{unionId}
         </if>
 
 

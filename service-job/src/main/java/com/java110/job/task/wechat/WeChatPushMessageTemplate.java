@@ -41,10 +41,7 @@ import com.java110.service.smo.ISaveSystemErrorSMO;
 import com.java110.utils.cache.MappingCache;
 import com.java110.utils.cache.UrlCache;
 import com.java110.utils.constant.WechatConstant;
-import com.java110.utils.util.BeanConvertUtil;
-import com.java110.utils.util.DateUtil;
-import com.java110.utils.util.ExceptionUtil;
-import com.java110.utils.util.StringUtil;
+import com.java110.utils.util.*;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -145,7 +142,7 @@ public class WeChatPushMessageTemplate extends TaskSystemQuartz {
         smallWeChatDto.setObjType(SmallWeChatDto.OBJ_TYPE_COMMUNITY);
         smallWeChatDto.setObjId(communityDto.getCommunityId());
         List<SmallWeChatDto> smallWeChatDtos = smallWeChatInnerServiceSMOImpl.querySmallWeChats(smallWeChatDto);
-        if (smallWeChatDto == null || smallWeChatDtos.size() <= 0) {
+        if (ListUtil.isNull(smallWeChatDtos)) {
             logger.info("未配置微信公众号信息,定时任务执行结束");
             return;
         }
@@ -155,19 +152,19 @@ public class WeChatPushMessageTemplate extends TaskSystemQuartz {
         smallWechatAttrDto.setWechatId(weChatDto.getWeChatId());
         smallWechatAttrDto.setSpecCd(SmallWechatAttrDto.SPEC_CD_WECHAT_TEMPLATE);
         List<SmallWechatAttrDto> smallWechatAttrDtos = smallWechatAttrInnerServiceSMOImpl.querySmallWechatAttrs(smallWechatAttrDto);
-        if (smallWechatAttrDtos == null || smallWechatAttrDtos.size() <= 0) {
+        if (ListUtil.isNull(smallWechatAttrDtos)) {
             logger.info("未配置微信公众号消息模板");
             return;
         }
         String templateId = smallWechatAttrDtos.get(0).getValue();
         String accessToken = WechatFactory.getAccessToken(weChatDto.getAppId(), weChatDto.getAppSecret());
-        if (accessToken == null || accessToken == "") {
+        if (StringUtil.isEmpty(accessToken)) {
             logger.info("推送微信模板,获取accessToken失败:{}", accessToken);
             return;
         }
         //处理通知
         List<NoticeDto> noticeDtos = getNotices(communityDto.getCommunityId());
-        if (noticeDtos == null || noticeDtos.size() < 1) {
+        if (ListUtil.isNull(noticeDtos)) {
             return;
         }
         for (NoticeDto tmpNotice : noticeDtos) {
@@ -362,7 +359,7 @@ public class WeChatPushMessageTemplate extends TaskSystemQuartz {
             getAllOpenId(accessToken, "", weChatDto);
         }
         List<WechatSubscribeDto> wechatSubscribeDtos = wechatSubscribeV1InnerServiceSMOImpl.queryDistinctWechatSubscribes(wechatSubscribeDto);
-        if (wechatSubscribeDtos == null || wechatSubscribeDtos.size() < 1) {
+        if (ListUtil.isNull(wechatSubscribeDtos)) {
             return;
         }
         String wechatUrl = UrlCache.getOwnerUrl();

@@ -57,7 +57,7 @@ public class OwnerCarInnerServiceSMOImpl extends BaseServiceSMO implements IOwne
 
         List<OwnerCarDto> ownerCars = BeanConvertUtil.covertBeanList(ownerCarServiceDaoImpl.getOwnerCarInfo(BeanConvertUtil.beanCovertMap(ownerCarDto)), OwnerCarDto.class);
 
-        if (ownerCars != null && ownerCars.size() > 0) {
+        if (!ListUtil.isNull(ownerCars)) {
             String[] carIds = getCarIds(ownerCars);
             Map attrParamInfo = new HashMap();
             attrParamInfo.put("carIds", carIds);
