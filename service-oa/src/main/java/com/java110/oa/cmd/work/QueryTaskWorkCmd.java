@@ -10,8 +10,10 @@ import com.java110.dto.work.WorkCopyDto;
 import com.java110.dto.work.WorkPoolDto;
 import com.java110.dto.work.WorkTaskDto;
 import com.java110.intf.oa.*;
+import com.java110.utils.cache.MappingCache;
 import com.java110.utils.exception.CmdException;
 import com.java110.utils.util.BeanConvertUtil;
+import com.java110.utils.util.DateUtil;
 import com.java110.utils.util.ListUtil;
 import com.java110.utils.util.StringUtil;
 import com.java110.vo.ResultVo;
@@ -49,6 +51,10 @@ public class QueryTaskWorkCmd extends Cmd {
         }
         String userId = CmdContextUtils.getUserId(context);
         workPoolDto.setStaffId(userId);
+        String queryTodayOrder = MappingCache.getValue("SYSTEM_SWITCH","QUERY_TODAY_ORDER");
+        if("ON".equals(queryTodayOrder)) {
+            workPoolDto.setQueryStartTime(DateUtil.getNow(DateUtil.DATE_FORMATE_STRING_B));
+        }
         int count = workPoolV1InnerServiceSMOImpl.queryTaskWorkPoolsCount(workPoolDto);
         List<WorkPoolDto> workPoolDtos = null;
         if (count > 0) {
