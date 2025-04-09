@@ -77,7 +77,7 @@
     <select id="getWechatSubscribeInfo" parameterType="Map" resultType="Map">
         select t.sub_id,t.sub_id subId,t.open_id,t.open_id openId,t.app_id,t.app_id
         appId,t.nickname,t.headimgurl,t.status_cd,t.status_cd statusCd,t.user_id,t.user_id
-        userId,t.open_type,t.open_type openType,t.union_id unionId
+        userId,t.open_type,t.open_type openType,t.union_id unionId,t.create_time createTime
         from wechat_subscribe t
         where 1 =1
         <if test="subId !=null and subId != ''">

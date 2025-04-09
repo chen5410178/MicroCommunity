@@ -73,9 +73,9 @@ public class RefreshAppUserBindingOwnerOpenIdCmd extends Cmd {
         ownerAppUserDto.setUserId(userId);
         ownerAppUserDto.setCommunityId(reqJson.getString("communityId"));
         if (SmallWeChatDto.WECHAT_TYPE_PUBLIC.equals(smallWeChatDtos.get(0).getWechatType())) {
-            ownerAppUserDto.setAppTypeCd(OwnerAppUserDto.APP_TYPE_WECHAT);
+            ownerAppUserDto.setAppType(OwnerAppUserDto.APP_TYPE_WECHAT);
         } else {
-            ownerAppUserDto.setAppTypeCd(OwnerAppUserDto.APP_TYPE_WECHAT_MINA);
+            ownerAppUserDto.setAppType(OwnerAppUserDto.APP_TYPE_WECHAT_MINA);
         }
         List<OwnerAppUserDto> ownerAppUserDtos = ownerAppUserV1InnerServiceSMOImpl.queryOwnerAppUsers(ownerAppUserDto);
 
@@ -90,7 +90,7 @@ public class RefreshAppUserBindingOwnerOpenIdCmd extends Cmd {
         ownerAppUserPo.setHeadImgUrl(reqJson.getString("headImgUrl"));
         ownerAppUserV1InnerServiceSMOImpl.updateOwnerAppUser(ownerAppUserPo);
 
-        if (OwnerAppUserDto.APP_TYPE_WECHAT.equals(ownerAppUserDtos.get(0).getAppTypeCd())) {
+        if (OwnerAppUserDto.APP_TYPE_WECHAT.equals(ownerAppUserDtos.get(0).getAppType())) {
             return;
         }
 
@@ -101,6 +101,10 @@ public class RefreshAppUserBindingOwnerOpenIdCmd extends Cmd {
 
         JSONObject responseObj = JSONObject.parseObject(openUser);
         String unionId = responseObj.getString("unionid");
+
+        if(StringUtil.isEmpty(unionId)){
+            return;
+        }
 
 
         WechatSubscribeDto wechatSubscribeDto = new WechatSubscribeDto();
@@ -113,11 +117,11 @@ public class RefreshAppUserBindingOwnerOpenIdCmd extends Cmd {
         ownerAppUserDto = new OwnerAppUserDto();
         ownerAppUserDto.setUserId(userId);
         ownerAppUserDto.setCommunityId(reqJson.getString("communityId"));
-        ownerAppUserDto.setAppTypeCd(OwnerAppUserDto.APP_TYPE_WECHAT);
+        ownerAppUserDto.setAppType(OwnerAppUserDto.APP_TYPE_WECHAT);
         List<OwnerAppUserDto> wechatOwnerAppUserDtos = ownerAppUserV1InnerServiceSMOImpl.queryOwnerAppUsers(ownerAppUserDto);
 
         OwnerAppUserPo wechatOwnerAppUserPo = BeanConvertUtil.covertBean(ownerAppUserDtos.get(0), OwnerAppUserPo.class);
-        wechatOwnerAppUserPo.setAppTypeCd(OwnerAppUserDto.APP_TYPE_WECHAT);
+        wechatOwnerAppUserPo.setAppType(OwnerAppUserDto.APP_TYPE_WECHAT);
         wechatOwnerAppUserPo.setOpenId(wechatSubscribeDtos.get(0).getOpenId());
         if (ListUtil.isNull(wechatOwnerAppUserDtos)) {
             wechatOwnerAppUserPo.setAppUserId(GenerateCodeFactory.getGeneratorId("11"));

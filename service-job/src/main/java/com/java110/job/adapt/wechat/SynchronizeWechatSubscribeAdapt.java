@@ -110,7 +110,10 @@ public class SynchronizeWechatSubscribeAdapt extends DatabusAdaptImpl {
             wechatSubscribePos.add(wechatSubscribePo);
             if (user_list.size() >= 100) {
                 getUserUnionId(user_list, wechatSubscribePos, accessToken);
+                wechatSubscribeV1InnerServiceSMOImpl.saveWechatSubscribes(wechatSubscribePos);
+                wechatSubscribePos = new ArrayList<>();
                 user_list = new JSONArray();
+
             }
         }
 
@@ -136,8 +139,16 @@ public class SynchronizeWechatSubscribeAdapt extends DatabusAdaptImpl {
 
         String url = GET_BATCH_USER.replace("ACCESS_TOKEN", accessToken);
 
+        JSONObject paramIn = new JSONObject();
+        paramIn.put("user_list",userList);
 
-        ResponseEntity<String> responseEntity = outRestTemplate.postForEntity(url, userList.toJSONString(), String.class);
+        logger.info("获取用户unionId:{}", paramIn.toJSONString());
+
+
+
+        ResponseEntity<String> responseEntity = outRestTemplate.postForEntity(url, paramIn.toJSONString(), String.class);
+        logger.info("获取用户unionId返回:{}", responseEntity);
+
         if (responseEntity.getStatusCode() != HttpStatus.OK) {
             throw new IllegalArgumentException(responseEntity.getBody());
         }

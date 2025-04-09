@@ -57,8 +57,8 @@ public class WechatSubscribeV1InnerServiceSMOImpl extends BaseServiceSMO impleme
     public int saveWechatSubscribes(@RequestBody  List<WechatSubscribePo> wechatSubscribePos){
 
         List<Map> wechatSubscribe = new ArrayList<>();
-        for (WechatSubscribePo payFeePo : wechatSubscribePos) {
-            wechatSubscribe.add(BeanConvertUtil.beanCovertMap(payFeePo));
+        for (WechatSubscribePo wechatSubscribePo : wechatSubscribePos) {
+            wechatSubscribe.add(BeanConvertUtil.beanCovertMap(wechatSubscribePo));
         }
 
         Map info = new HashMap();

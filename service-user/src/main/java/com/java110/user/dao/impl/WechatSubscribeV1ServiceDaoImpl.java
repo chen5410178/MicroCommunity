@@ -61,7 +61,7 @@ public class WechatSubscribeV1ServiceDaoImpl extends BaseServiceDao implements I
     }
     @Override
     public int saveWechatSubscribeInfos(Map info) throws DAOException {
-        logger.debug("保存 saveWechatSubscribeInfo 入参 info : {}",info);
+        logger.debug("保存 saveWechatSubscribeInfos 入参 info : {}",info);
 
         int saveFlag = sqlSessionTemplate.insert("wechatSubscribeV1ServiceDaoImpl.saveWechatSubscribeInfos",info);
 

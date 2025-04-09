@@ -20,10 +20,13 @@ import com.java110.core.annotation.Java110Cmd;
 import com.java110.core.context.ICmdDataFlowContext;
 import com.java110.core.event.cmd.Cmd;
 import com.java110.core.event.cmd.CmdEvent;
+import com.java110.dto.wechat.SmallWeChatDto;
+import com.java110.intf.store.ISmallWeChatInnerServiceSMO;
 import com.java110.intf.user.IWechatSubscribeV1InnerServiceSMO;
 import com.java110.utils.exception.CmdException;
 import com.java110.utils.util.Assert;
 import com.java110.utils.util.BeanConvertUtil;
+import com.java110.utils.util.ListUtil;
 import com.java110.vo.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.java110.dto.wechat.WechatSubscribeDto;
@@ -54,6 +57,10 @@ public class ListWechatSubscribeCmd extends Cmd {
     @Autowired
     private IWechatSubscribeV1InnerServiceSMO wechatSubscribeV1InnerServiceSMOImpl;
 
+    @Autowired
+    private ISmallWeChatInnerServiceSMO smallWeChatInnerServiceSMOImpl;
+
+
     @Override
     public void validate(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) {
         super.validatePageInfo(reqJson);
@@ -63,8 +70,16 @@ public class ListWechatSubscribeCmd extends Cmd {
 
     @Override
     public void doCmd(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) throws CmdException {
-
+        SmallWeChatDto smallWeChatDto = new SmallWeChatDto();
+        smallWeChatDto.setObjId(reqJson.getString("communityId"));
+        smallWeChatDto.setWeChatType(SmallWeChatDto.WECHAT_TYPE_PUBLIC);
+        List<SmallWeChatDto> smallWeChatDtos = smallWeChatInnerServiceSMOImpl.querySmallWeChats(smallWeChatDto);
+        if (ListUtil.isNull(smallWeChatDtos)) {
+            throw new CmdException("未配置公众号");
+        }
         WechatSubscribeDto wechatSubscribeDto = BeanConvertUtil.covertBean(reqJson, WechatSubscribeDto.class);
+        wechatSubscribeDto.setUserId("");
+        wechatSubscribeDto.setAppId(smallWeChatDtos.get(0).getAppId());
 
         int count = wechatSubscribeV1InnerServiceSMOImpl.queryWechatSubscribesCount(wechatSubscribeDto);
 
