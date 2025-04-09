@@ -75,27 +75,31 @@ public class CycleWorkTaskGeneratorTemplate extends TaskSystemQuartz {
         workCycleDto.setCurTime(DateUtil.getNow(DateUtil.DATE_FORMATE_STRING_A));
         List<WorkCycleDto> workCycleDtos = workCycleV1InnerServiceSMOImpl.queryWorkCycles(workCycleDto);
 
-        if(workCycleDtos == null){
-            return ;
+        if (workCycleDtos == null) {
+            return;
         }
 
-        for(WorkCycleDto tmpWorkCycleDto : workCycleDtos){
+        for (WorkCycleDto tmpWorkCycleDto : workCycleDtos) {
 
-            try{
-                doGeneratorTask(tmpWorkCycleDto,taskDto,communityDto);
-            }catch (Exception e){
+            try {
+                doGeneratorTask(tmpWorkCycleDto, taskDto, communityDto);
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
-    private void doGeneratorTask(WorkCycleDto tmpWorkCycleDto,TaskDto taskDto, CommunityDto communityDto) {
+    private void doGeneratorTask(WorkCycleDto tmpWorkCycleDto, TaskDto taskDto, CommunityDto communityDto) {
 
         WorkPoolDto workPoolDto = new WorkPoolDto();
         workPoolDto.setWorkId(tmpWorkCycleDto.getWorkId());
         List<WorkPoolDto> workPoolDtos = workPoolV1InnerServiceSMOImpl.queryWorkPools(workPoolDto);
 
-        if(ListUtil.isNull(workPoolDtos)){
+        if (ListUtil.isNull(workPoolDtos)) {
+            return;
+        }
+        //工单停止不生成
+        if (WorkPoolDto.STATE_STOP.equals(workPoolDtos.get(0).getState())) {
             return;
         }
 
@@ -104,26 +108,24 @@ public class CycleWorkTaskGeneratorTemplate extends TaskSystemQuartz {
         startTimeCal.setTime(startTime);
 
         Calendar nowCal = Calendar.getInstance();
-        nowCal.set(Calendar.HOUR_OF_DAY,startTimeCal.get(Calendar.HOUR_OF_DAY));
-        nowCal.set(Calendar.MINUTE,startTimeCal.get(Calendar.MINUTE));
-        nowCal.set(Calendar.SECOND,startTimeCal.get(Calendar.SECOND));
+        nowCal.set(Calendar.HOUR_OF_DAY, startTimeCal.get(Calendar.HOUR_OF_DAY));
+        nowCal.set(Calendar.MINUTE, startTimeCal.get(Calendar.MINUTE));
+        nowCal.set(Calendar.SECOND, startTimeCal.get(Calendar.SECOND));
 
         Date nowTime = nowCal.getTime();
 
         boolean hasCondition = false;
         switch (tmpWorkCycleDto.getPeriod()) {
             case WorkCycleDto.PERIOD_MONTH_DAY:
-                hasCondition = hasGeneratorTaskConditionByDay(tmpWorkCycleDto, taskDto, communityDto,nowTime);
+                hasCondition = hasGeneratorTaskConditionByDay(tmpWorkCycleDto, taskDto, communityDto, nowTime);
                 break;
             case WorkCycleDto.PERIOD_MONTH_WORKDAY:
-                hasCondition = hasGeneratorTaskConditionByWeek(tmpWorkCycleDto, taskDto, communityDto,nowTime);
+                hasCondition = hasGeneratorTaskConditionByWeek(tmpWorkCycleDto, taskDto, communityDto, nowTime);
                 break;
         }
         if (!hasCondition) {
             return;
         }
-
-
 
 
         WorkTaskPo workTaskPo = new WorkTaskPo();
@@ -133,7 +135,7 @@ public class CycleWorkTaskGeneratorTemplate extends TaskSystemQuartz {
         workTaskPo.setStoreId(tmpWorkCycleDto.getStoreId());
         workTaskPo.setCommunityId(tmpWorkCycleDto.getCommunityId());
         workTaskPo.setStartTime(DateUtil.getFormatTimeStringA(nowTime));
-        workTaskPo.setEndTime(DateUtil.getAddHoursStringA(nowTime,Integer.parseInt(tmpWorkCycleDto.getHours())));
+        workTaskPo.setEndTime(DateUtil.getAddHoursStringA(nowTime, Integer.parseInt(tmpWorkCycleDto.getHours())));
         workTaskPo.setStaffId(tmpWorkCycleDto.getStaffId());
         workTaskPo.setStaffName(tmpWorkCycleDto.getStaffName());
         workTaskPo.setOrgStaffId(tmpWorkCycleDto.getStaffId());
@@ -150,7 +152,7 @@ public class CycleWorkTaskGeneratorTemplate extends TaskSystemQuartz {
         List<WorkPoolContentDto> workPoolContentDtos
                 = workPoolContentV1InnerServiceSMOImpl.queryWorkPoolContents(workPoolContentDto);
 
-        for (WorkPoolContentDto tWorkPoolContentDto:workPoolContentDtos) {
+        for (WorkPoolContentDto tWorkPoolContentDto : workPoolContentDtos) {
             WorkTaskItemPo workTaskItemPo = new WorkTaskItemPo();
             workTaskItemPo.setDeductionMoney("0");
             workTaskItemPo.setContentId(tWorkPoolContentDto.getContentId());
@@ -168,7 +170,7 @@ public class CycleWorkTaskGeneratorTemplate extends TaskSystemQuartz {
         workCopyDto.setWorkId(tmpWorkCycleDto.getWorkId());
         List<WorkCopyDto> workCopyDtos = workCopyV1InnerServiceSMOImpl.queryWorkCopys(workCopyDto);
 
-        if(!ListUtil.isNull(workCopyDtos)){
+        if (!ListUtil.isNull(workCopyDtos)) {
             WorkCopyPo workCopyPo = new WorkCopyPo();
             workCopyPo.setCopyId(workCopyDtos.get(0).getCopyId());
             workCopyPo.setState(WorkCopyDto.STATE_DOING);
@@ -182,11 +184,11 @@ public class CycleWorkTaskGeneratorTemplate extends TaskSystemQuartz {
         workPoolFileDto.setFileType(WorkPoolFileDto.FILE_TYPE_START);
         List<WorkPoolFileDto> workPoolFileDtos = workPoolFileV1InnerServiceSMOImpl.queryWorkPoolFiles(workPoolFileDto);
 
-        if(ListUtil.isNull(workPoolFileDtos)){
+        if (ListUtil.isNull(workPoolFileDtos)) {
             return;
         }
         WorkPoolFilePo workPoolFilePo = null;
-        for(WorkPoolFileDto tmpWorkPoolFileDto : workPoolFileDtos){
+        for (WorkPoolFileDto tmpWorkPoolFileDto : workPoolFileDtos) {
             workPoolFilePo = new WorkPoolFilePo();
             workPoolFilePo.setCommunityId(workTaskPo.getCommunityId());
             workPoolFilePo.setFileType(WorkPoolFileDto.FILE_TYPE_START);
@@ -199,12 +201,9 @@ public class CycleWorkTaskGeneratorTemplate extends TaskSystemQuartz {
         }
 
 
-
-
-
     }
 
-    private boolean hasGeneratorTaskConditionByWeek(WorkCycleDto tmpWorkCycleDto, TaskDto taskDto, CommunityDto communityDto,Date nowTime) {
+    private boolean hasGeneratorTaskConditionByWeek(WorkCycleDto tmpWorkCycleDto, TaskDto taskDto, CommunityDto communityDto, Date nowTime) {
 
         // 检查 今日是否 需要 生成巡检任务
         // 检查 今日是否 需要 生成巡检任务
@@ -223,7 +222,7 @@ public class CycleWorkTaskGeneratorTemplate extends TaskSystemQuartz {
                 day = 7;
             }
         }
-        if(!Arrays.asList(workday).contains(day+"")){
+        if (!Arrays.asList(workday).contains(day + "")) {
             return false;
         }
 
@@ -234,8 +233,8 @@ public class CycleWorkTaskGeneratorTemplate extends TaskSystemQuartz {
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(DateUtil.getDateFromStringA(planTime));
-        calendar.add(Calendar.MINUTE,beforeTime*(-1));
-        if(DateUtil.getCurrentDate().before(calendar.getTime())){ // 还没到生成任务时间
+        calendar.add(Calendar.MINUTE, beforeTime * (-1));
+        if (DateUtil.getCurrentDate().before(calendar.getTime())) { // 还没到生成任务时间
             return false;
         }
 
@@ -245,7 +244,7 @@ public class CycleWorkTaskGeneratorTemplate extends TaskSystemQuartz {
         scheduleClassesStaffDto.setToday(DateUtil.getDateFromStringA(planTime));
         scheduleClassesStaffDto = scheduleClassesStaffV1InnerServiceSMOImpl.staffIsWork(scheduleClassesStaffDto);
 
-        if(!scheduleClassesStaffDto.isWork()){//根据排班员工 休息
+        if (!scheduleClassesStaffDto.isWork()) {//根据排班员工 休息
             return false;
 
         }
@@ -266,7 +265,7 @@ public class CycleWorkTaskGeneratorTemplate extends TaskSystemQuartz {
 
     }
 
-    private boolean hasGeneratorTaskConditionByDay(WorkCycleDto tmpWorkCycleDto, TaskDto taskDto, CommunityDto communityDto,Date nowTime) {
+    private boolean hasGeneratorTaskConditionByDay(WorkCycleDto tmpWorkCycleDto, TaskDto taskDto, CommunityDto communityDto, Date nowTime) {
 
         // 检查 今日是否 需要 生成巡检任务
         String[] months = tmpWorkCycleDto.getPeriodMonth().split(",");

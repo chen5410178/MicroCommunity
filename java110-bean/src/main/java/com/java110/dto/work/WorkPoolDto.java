@@ -21,6 +21,7 @@ public class WorkPoolDto extends PageDto implements Serializable {
     public static final String STATE_WAIT = "W"; //  W 待处理 D 处理中 C处理完成
     public static final String STATE_DOING = "D"; //  W 待处理 D 处理中 C处理完成
     public static final String STATE_COMPLETE = "C"; //  W 待处理 D 处理中 C处理完成
+    public static final String STATE_STOP = "S"; //  W 待处理 D 处理中 C处理完成 S 停止
 
     private String workCycle;
     private String createUserId;

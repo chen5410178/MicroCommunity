@@ -104,7 +104,7 @@ public class UpdateWorkPoolCmd extends Cmd {
         }
 
         JSONArray staffs = reqJson.getJSONArray("staffs");
-        if (staffs == null || staffs.isEmpty()) {
+        if (ListUtil.isNull(staffs)) {
             throw new CmdException("未包含处理人");
         }
 
