@@ -185,5 +185,14 @@
 
 
     </select>
+    <delete id="deleteWechatSubscribe" parameterType="Map">
+        delete from wechat_subscribe where 1=1
+        <if test="subId !=null and subId != ''">
+            and sub_id= #{subId}
+        </if>
+            and app_id= #{appId}
+
+    </delete>
+
 
 </mapper>

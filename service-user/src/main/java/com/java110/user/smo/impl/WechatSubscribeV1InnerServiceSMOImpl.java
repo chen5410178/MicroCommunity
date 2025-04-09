@@ -76,7 +76,7 @@ public class WechatSubscribeV1InnerServiceSMOImpl extends BaseServiceSMO impleme
      @Override
     public int deleteWechatSubscribe(@RequestBody  WechatSubscribePo wechatSubscribePo) {
        wechatSubscribePo.setStatusCd("1");
-       int saveFlag = wechatSubscribeV1ServiceDaoImpl.updateWechatSubscribeInfo(BeanConvertUtil.beanCovertMap(wechatSubscribePo));
+       int saveFlag = wechatSubscribeV1ServiceDaoImpl.deleteWechatSubscribe(BeanConvertUtil.beanCovertMap(wechatSubscribePo));
        return saveFlag;
     }
 

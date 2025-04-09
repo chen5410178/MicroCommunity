@@ -84,4 +84,5 @@ public interface IWechatSubscribeV1ServiceDao {
      */
     int queryWechatSubscribesCount(Map info);
 
+    int deleteWechatSubscribe(Map info);
 }

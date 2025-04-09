@@ -21,6 +21,7 @@ import com.java110.utils.exception.DAOException;
 import com.java110.utils.util.DateUtil;
 import com.java110.core.base.dao.BaseServiceDao;
 import com.java110.user.dao.IWechatSubscribeV1ServiceDao;
+import com.java110.utils.util.ListUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -79,9 +80,9 @@ public class WechatSubscribeV1ServiceDaoImpl extends BaseServiceDao implements I
     public List<Map> getWechatSubscribeInfo(Map info) throws DAOException {
         logger.debug("查询 getWechatSubscribeInfo 入参 info : {}",info);
 
-        List<Map> businessWechatSubscribeInfos = sqlSessionTemplate.selectList("wechatSubscribeV1ServiceDaoImpl.getWechatSubscribeInfo",info);
+        List<Map> infos = sqlSessionTemplate.selectList("wechatSubscribeV1ServiceDaoImpl.getWechatSubscribeInfo",info);
 
-        return businessWechatSubscribeInfos;
+        return infos;
     }
     /**
      * 查询微信关注信息（instance）
@@ -93,9 +94,9 @@ public class WechatSubscribeV1ServiceDaoImpl extends BaseServiceDao implements I
     public List<Map> queryDistinctWechatSubscribes(Map info) throws DAOException {
         logger.debug("查询 queryDistinctWechatSubscribes 入参 info : {}",info);
 
-        List<Map> businessWechatSubscribeInfos = sqlSessionTemplate.selectList("wechatSubscribeV1ServiceDaoImpl.queryDistinctWechatSubscribes",info);
+        List<Map> infos = sqlSessionTemplate.selectList("wechatSubscribeV1ServiceDaoImpl.queryDistinctWechatSubscribes",info);
 
-        return businessWechatSubscribeInfos;
+        return infos;
     }
 
 
@@ -122,12 +123,21 @@ public class WechatSubscribeV1ServiceDaoImpl extends BaseServiceDao implements I
     public int queryWechatSubscribesCount(Map info) {
         logger.debug("查询 queryWechatSubscribesCount 入参 info : {}",info);
 
-        List<Map> businessWechatSubscribeInfos = sqlSessionTemplate.selectList("wechatSubscribeV1ServiceDaoImpl.queryWechatSubscribesCount", info);
-        if (businessWechatSubscribeInfos.size() < 1) {
+        List<Map> infos = sqlSessionTemplate.selectList("wechatSubscribeV1ServiceDaoImpl.queryWechatSubscribesCount", info);
+        if (ListUtil.isNull(infos)) {
             return 0;
         }
 
-        return Integer.parseInt(businessWechatSubscribeInfos.get(0).get("count").toString());
+        return Integer.parseInt(infos.get(0).get("count").toString());
+    }
+
+    @Override
+    public int deleteWechatSubscribe(Map info) {
+        logger.debug("修改 deleteWechatSubscribe 入参 info : {}",info);
+
+        int saveFlag = sqlSessionTemplate.update("wechatSubscribeV1ServiceDaoImpl.deleteWechatSubscribe",info);
+
+        return saveFlag;
     }
 
 
