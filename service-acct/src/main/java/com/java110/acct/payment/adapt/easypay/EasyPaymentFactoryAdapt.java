@@ -24,6 +24,7 @@ import com.java110.utils.cache.UrlCache;
 import com.java110.utils.constant.MappingConstant;
 import com.java110.utils.constant.WechatConstant;
 import com.java110.utils.util.BeanConvertUtil;
+import com.java110.utils.util.ListUtil;
 import com.java110.utils.util.PayUtil;
 import com.java110.utils.util.StringUtil;
 import org.slf4j.Logger;
@@ -113,7 +114,7 @@ public class EasyPaymentFactoryAdapt implements IPaymentFactoryAdapt {
             ownerAppUserDto.setAppType(appType);
             List<OwnerAppUserDto> ownerAppUserDtos = ownerAppUserInnerServiceSMOImpl.queryOwnerAppUsers(ownerAppUserDto);
 
-            if (ownerAppUserDtos == null || ownerAppUserDtos.size() < 1) {
+            if (ListUtil.isNull(ownerAppUserDtos)) {
                 throw new IllegalArgumentException("未找到开放账号信息");
             }
             openId = ownerAppUserDtos.get(0).getOpenId();

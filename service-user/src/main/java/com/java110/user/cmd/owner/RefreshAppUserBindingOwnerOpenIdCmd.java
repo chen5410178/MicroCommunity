@@ -46,7 +46,7 @@ public class RefreshAppUserBindingOwnerOpenIdCmd extends Cmd {
     public void validate(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) {
         Assert.hasKeyAndValue(reqJson, "openId", "必填，请填写状态");
         Assert.hasKeyAndValue(reqJson, "communityId", "必填，请填写小区ID");
-        Assert.hasKeyAndValue(reqJson, "appId", "必填，请填写appId");
+        Assert.hasKeyAndValue(reqJson, "wechatType", "必填，请填写wechatType");
     }
 
     @Override
@@ -62,8 +62,8 @@ public class RefreshAppUserBindingOwnerOpenIdCmd extends Cmd {
         freshUserToken(reqJson, userId);
 
         SmallWeChatDto smallWeChatDto = new SmallWeChatDto();
-        smallWeChatDto.setAppId(reqJson.getString("appId"));
         smallWeChatDto.setObjId(reqJson.getString("communityId"));
+        smallWeChatDto.setWeChatType(reqJson.getString("wechatType"));
         List<SmallWeChatDto> smallWeChatDtos = smallWeChatInnerServiceSMOImpl.querySmallWeChats(smallWeChatDto);
         if (ListUtil.isNull(smallWeChatDtos)) {
             throw new CmdException("未配置微信信息");
