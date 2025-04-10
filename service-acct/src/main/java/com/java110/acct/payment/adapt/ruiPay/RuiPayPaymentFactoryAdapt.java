@@ -214,6 +214,7 @@ public class RuiPayPaymentFactoryAdapt implements IPaymentFactoryAdapt {
         bizContent.put("wx_auth_code", openid);//微信用户openId
         bizContent.put("out_trade_no", orderNum);
         bizContent.put("shopdate", DateUtil.getNow(DateUtil.DATE_FORMATE_STRING_H));
+        String sign = RuiPaySignatureGenerator.generateSign(bizContent, secret);
         bizContent.put("subject", feeName);
         bizContent.put("appid", smallWeChatDto.getAppId());
 
@@ -223,19 +224,16 @@ public class RuiPayPaymentFactoryAdapt implements IPaymentFactoryAdapt {
         params.put("biz_content", bizContentJson);
 
         // 4. 生成签名
-        String sign = RuiPaySignatureGenerator.generateSign(params, secret);
         params.put("sign", sign);
 
-        // 5. 准备form数据
-        MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
-        params.forEach(formData::add);
+        String queryString = RuiPaySignatureGenerator.buildQueryString(params);
 
         // 6. 设置请求头
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-
+        System.out.println("\n请求报文：" + queryString);
         // 7. 发送请求
-        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(formData, headers);
+        HttpEntity<String> requestEntity = new HttpEntity<>(queryString, headers);
         ResponseEntity<String> response = outRestTemplate.postForEntity(RUI_PAY_URL, requestEntity, String.class);
         System.out.println("\n响应报文：" + response);
 

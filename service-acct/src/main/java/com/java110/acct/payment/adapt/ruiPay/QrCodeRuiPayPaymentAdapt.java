@@ -96,7 +96,7 @@ public class QrCodeRuiPayPaymentAdapt implements IQrCodePaymentSMO {
         SmallWeChatDto smallWeChatDto = new SmallWeChatDto();
         smallWeChatDto.setObjId(communityId);
         List<SmallWeChatDto> smallWeChatDtos = smallWeChatInnerServiceSMOImpl.querySmallWeChats(smallWeChatDto);
-        if (smallWeChatDtos == null || smallWeChatDtos.size() < 1) {
+        if (ListUtil.isNull(smallWeChatDtos)) {
             shopSmallWeChatDto = new SmallWeChatDto();
             shopSmallWeChatDto.setObjId(communityId);
             shopSmallWeChatDto.setAppId(MappingCache.getValue(WechatConstant.WECHAT_DOMAIN, "appId"));
@@ -123,6 +123,7 @@ public class QrCodeRuiPayPaymentAdapt implements IQrCodePaymentSMO {
         bizContent.put("pay_way", payWay);//支付方式(1微信、2支付宝、3银联)
         bizContent.put("out_trade_no", orderNum);
         bizContent.put("shopdate", DateUtil.getNow(DateUtil.DATE_FORMATE_STRING_H));
+        String sign = RuiPaySignatureGenerator.generateSign(bizContent, secret);
         bizContent.put("subject", feeName);
 
         // 将bizContent转为JSON字符串
@@ -130,20 +131,16 @@ public class QrCodeRuiPayPaymentAdapt implements IQrCodePaymentSMO {
         params.put("biz_content", bizContentJson);
 
         // 4. 生成签名
-        String sign = RuiPaySignatureGenerator.generateSign(params, secret);
         params.put("sign", sign);
 
-
-        // 5. 准备form数据
-        MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
-        params.forEach(formData::add);
+        String queryString = RuiPaySignatureGenerator.buildQueryString(params);
 
         // 6. 设置请求头
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-
+        System.out.println("\n请求报文：" + queryString);
         // 7. 发送请求
-        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(formData, headers);
+        HttpEntity<String> requestEntity = new HttpEntity<>(queryString, headers);
         ResponseEntity<String> response = outRestTemplate.postForEntity(RUI_PAY_URL, requestEntity, String.class);
         System.out.println("\n响应报文：" + response);
 
@@ -157,7 +154,7 @@ public class QrCodeRuiPayPaymentAdapt implements IQrCodePaymentSMO {
             throw new IllegalArgumentException(paramOut.getString("msg"));
         }
 
-        JSONObject data = paramOut.getJSONObject("data").getJSONObject("rsy_online_pay_response");
+        JSONObject data = paramOut.getJSONObject("data").getJSONObject("rsy_online_barcodepay_response");
         doSaveOnlinePay(shopSmallWeChatDto, "-1", orderNum, data.getString("order_code"), feeName, payAmount,
                 OnlinePayDto.STATE_WAIT, "待支付", paymentPoolValueDtos.get(0).getPpId());
 
@@ -200,26 +197,24 @@ public class QrCodeRuiPayPaymentAdapt implements IQrCodePaymentSMO {
         }
         bizContent.put("out_trade_no", orderNum);
         bizContent.put("shopdate", DateUtil.getNow(DateUtil.DATE_FORMATE_STRING_H));
+        String sign = RuiPaySignatureGenerator.generateSign(bizContent, secret);
 
         // 将bizContent转为JSON字符串
         String bizContentJson = JSONObject.toJSONString(bizContent);
         params.put("biz_content", bizContentJson);
 
         // 4. 生成签名
-        String sign = RuiPaySignatureGenerator.generateSign(params, secret);
         params.put("sign", sign);
 
 
-        // 5. 准备form数据
-        MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
-        params.forEach(formData::add);
+        String queryString = RuiPaySignatureGenerator.buildQueryString(params);
 
         // 6. 设置请求头
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-
+        System.out.println("\n请求报文：" + queryString);
         // 7. 发送请求
-        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(formData, headers);
+        HttpEntity<String> requestEntity = new HttpEntity<>(queryString, headers);
         ResponseEntity<String> response = outRestTemplate.postForEntity(RUI_PAY_URL, requestEntity, String.class);
         System.out.println("\n响应报文：" + response);
 
@@ -233,7 +228,7 @@ public class QrCodeRuiPayPaymentAdapt implements IQrCodePaymentSMO {
             throw new IllegalArgumentException(paramOut.getString("msg"));
         }
 
-        JSONObject data = paramOut.getJSONObject("data").getJSONObject("rsy_online_pay_response");
+        JSONObject data = paramOut.getJSONObject("data").getJSONObject("rsy_online_order_detail_response");
 
         if ("1".equals(data.getString("pay_state"))) {
             doUpdateOnlinePay(orderNum, OnlinePayDto.STATE_COMPILE, "支付成功");
@@ -257,7 +252,7 @@ public class QrCodeRuiPayPaymentAdapt implements IQrCodePaymentSMO {
         onlinePayPo.setRefundFee("0");
         onlinePayPo.setState(state);
         onlinePayPo.setTotalFee(money + "");
-        onlinePayPo.setTransactionId(orderId);
+        onlinePayPo.setTransactionId(transactionId);
         onlinePayPo.setPaymentPoolId(ppId);
         onlinePayV1InnerServiceSMOImpl.saveOnlinePay(onlinePayPo);
     }

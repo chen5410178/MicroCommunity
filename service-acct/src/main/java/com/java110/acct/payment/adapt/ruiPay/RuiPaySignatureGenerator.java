@@ -71,6 +71,22 @@ public class RuiPaySignatureGenerator {
         return hexString.toString();
     }
 
+    /**
+     * 将Map转换为URL查询字符串格式
+     */
+    public static String buildQueryString(Map<String, String> params) {
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<String, String> entry : params.entrySet()) {
+            if (sb.length() > 0) {
+                sb.append("&");
+            }
+            sb.append(entry.getKey())
+                    .append("=")
+                    .append(entry.getValue()); // 注意：这里应该对值进行URL编码
+        }
+        return sb.toString();
+    }
+
     // 示例用法
     public static void main(String[] args) {
         // 示例参数
