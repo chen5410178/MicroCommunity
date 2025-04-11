@@ -17,9 +17,11 @@ package com.java110.oa.cmd.work;
 
 import com.alibaba.fastjson.JSONObject;
 import com.java110.core.annotation.Java110Cmd;
+import com.java110.core.context.CmdContextUtils;
 import com.java110.core.context.ICmdDataFlowContext;
 import com.java110.core.event.cmd.Cmd;
 import com.java110.core.event.cmd.CmdEvent;
+import com.java110.dto.app.AppDto;
 import com.java110.dto.work.WorkPoolFileDto;
 import com.java110.intf.oa.IWorkPoolFileV1InnerServiceSMO;
 import com.java110.intf.oa.IWorkTaskItemV1InnerServiceSMO;
@@ -27,6 +29,7 @@ import com.java110.utils.cache.MappingCache;
 import com.java110.utils.constant.MappingConstant;
 import com.java110.utils.exception.CmdException;
 import com.java110.utils.util.BeanConvertUtil;
+import com.java110.utils.util.DateUtil;
 import com.java110.utils.util.ListUtil;
 import com.java110.utils.util.StringUtil;
 import com.java110.vo.ResultVo;
@@ -71,7 +74,14 @@ public class ListWorkTaskItemCmd extends Cmd {
     @Override
     public void doCmd(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) throws CmdException {
 
+        String appId = CmdContextUtils.getAppId(cmdDataFlowContext);
+
         WorkTaskItemDto workTaskItemDto = BeanConvertUtil.covertBean(reqJson, WorkTaskItemDto.class);
+
+        String queryTodayOrder = MappingCache.getValue("SYSTEM_SWITCH","QUERY_TODAY_ORDER");
+        if("ON".equals(queryTodayOrder) && AppDto.PROPERTY_APP.equals(appId)) {
+            workTaskItemDto.setStartTime(DateUtil.getNow(DateUtil.DATE_FORMATE_STRING_B));
+        }
 
         int count = workTaskItemV1InnerServiceSMOImpl.queryWorkTaskItemsCount(workTaskItemDto);
 
