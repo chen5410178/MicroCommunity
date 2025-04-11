@@ -160,7 +160,13 @@ public class OwnerUserLoginCmd extends Cmd {
         CommunityDto communityDto = new CommunityDto();
         communityDto.setCommunityId(communityId);
         List<CommunityDto> communityDtos = communityInnerServiceSMOImpl.queryCommunitys(communityDto);
-        Assert.listOnlyOne(communityDtos, "小区不存在，确保开发者账户配置默认小区" + communityId);
+        if (ListUtil.isNull(communityDtos)) {
+            communityDto = new CommunityDto();
+            communityDtos = communityInnerServiceSMOImpl.queryCommunitys(communityDto);
+        }
+        if (ListUtil.isNull(communityDtos)) {
+            throw new CmdException("系统中未找到任何小区");
+        }
 
         //todo 生成 app 永久登录key
         UserDto tmpUserDto = userDtos.get(0);
