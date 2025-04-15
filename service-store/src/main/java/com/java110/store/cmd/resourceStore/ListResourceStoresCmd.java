@@ -17,6 +17,7 @@ import com.java110.intf.store.IResourceStoreTimesV1InnerServiceSMO;
 import com.java110.utils.exception.CmdException;
 import com.java110.utils.util.Assert;
 import com.java110.utils.util.BeanConvertUtil;
+import com.java110.utils.util.ListUtil;
 import com.java110.vo.api.resourceStore.ApiResourceStoreDataVo;
 import com.java110.vo.api.resourceStore.ApiResourceStoreVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -177,7 +178,7 @@ public class ListResourceStoresCmd extends Cmd {
         basePrivilegeDto1.setResource("/viewHiddenWarehouse");
         basePrivilegeDto1.setUserId(userId);
         List<Map> viewHiddenWarehousePrivileges = menuInnerServiceSMOImpl.checkUserHasResource(basePrivilegeDto1);
-        if (viewHiddenWarehousePrivileges.size() == 0) {
+        if (ListUtil.isNull(viewHiddenWarehousePrivileges)) {
             resourceStoreDto.setIsShow("true");
         }
         int count = resourceStoreInnerServiceSMOImpl.queryResourceStoresCount(resourceStoreDto);
@@ -228,7 +229,7 @@ public class ListResourceStoresCmd extends Cmd {
      * @param resourceStores
      */
     private void queryResourceStoreAndResourceTotalPrice(List<ApiResourceStoreDataVo> resourceStores) {
-        if (resourceStores == null || resourceStores.size() < 1) {
+        if (ListUtil.isNull(resourceStores)) {
             return;
         }
         BigDecimal stock = null;
@@ -237,7 +238,7 @@ public class ListResourceStoresCmd extends Cmd {
             stock = new BigDecimal(0.0);
             totalPrice = new BigDecimal(0.0);
             List<ResourceStoreTimesDto> resourceStoreTimesDtos = resourceStore.getTimes();
-            if (resourceStoreTimesDtos == null || resourceStoreTimesDtos.size() < 1) {
+            if (ListUtil.isNull(resourceStoreTimesDtos)) {
                 continue;
             }
             for (ResourceStoreTimesDto resourceStoreTimesDto : resourceStoreTimesDtos) {
