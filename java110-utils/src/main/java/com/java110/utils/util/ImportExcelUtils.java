@@ -95,7 +95,7 @@ public class ImportExcelUtils {
                 Cell cell = row.getCell(c);
                 if (cell == null) continue;
                 //判断是否为日期类型
-                cells[c] = getValueFromCell(cell);
+                cells[c] = getValueFromCell(cell,(r+1)+"行"+(c+1)+"列");
             }
             list.add(cells);
         }
@@ -109,7 +109,7 @@ public class ImportExcelUtils {
      * @param cell
      * @return
      */
-    public static final Object getValueFromCell(Cell cell) {
+    public static final Object getValueFromCell(Cell cell,String position) {
         if (cell == null) {
             //System.out.println("Cell is null !!!");
             return null;
@@ -128,7 +128,7 @@ public class ImportExcelUtils {
                         result = df.format(((HSSFCell) cell).getNumericCellValue());
                         break;
                     case HSSFCell.CELL_TYPE_FORMULA:
-                        throw new IllegalArgumentException("请不要公式计算，程序没法计算Excel的公式");
+                        throw new IllegalArgumentException("请不要公式计算，程序没法计算Excel的公式"+position);
                     case HSSFCell.CELL_TYPE_BOOLEAN:
                         result = ((HSSFCell) cell).getBooleanCellValue();
                         break;
@@ -157,7 +157,7 @@ public class ImportExcelUtils {
                         break;
                     case XSSFCell.CELL_TYPE_FORMULA:
                         //result = ((XSSFCell) cell).getNumericCellValue();
-                        throw new IllegalArgumentException("请不要公式计算，程序没法计算Excel的公式");
+                        throw new IllegalArgumentException("请不要公式计算，程序没法计算Excel的公式"+position);
                     case XSSFCell.CELL_TYPE_BOOLEAN:
                         result = ((XSSFCell) cell).getBooleanCellValue();
                         break;
