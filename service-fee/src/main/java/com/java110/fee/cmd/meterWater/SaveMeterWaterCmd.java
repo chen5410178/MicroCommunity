@@ -225,7 +225,7 @@ public class SaveMeterWaterCmd extends Cmd {
             ownerDto.setRoomId(reqJson.getString("objId"));
             List<OwnerDto> ownerDtos = ownerInnerServiceSMOImpl.queryOwnersByRoom(ownerDto);
 
-            if (ownerDtos != null && ownerDtos.size() > 0) {
+            if (!ListUtil.isNull(ownerDtos)) {
                 feeAttrPo = new FeeAttrPo();
                 feeAttrPo.setCommunityId(reqJson.getString("communityId"));
                 feeAttrPo.setSpecCd(FeeAttrDto.SPEC_CD_OWNER_ID);
