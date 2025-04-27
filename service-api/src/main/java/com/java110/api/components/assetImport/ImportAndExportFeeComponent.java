@@ -1,6 +1,5 @@
 package com.java110.api.components.assetImport;
 
-import com.java110.api.smo.assetExport.IExportRoomSMO;
 import com.java110.api.smo.assetImport.IImportCustomCreateFeeSMO;
 import com.java110.core.context.IPageData;
 import com.java110.core.context.PageData;
@@ -24,8 +23,6 @@ public class ImportAndExportFeeComponent {
     @Autowired
     private IImportCustomCreateFeeSMO importCustomCreateFeeSMOImpl;
 
-    @Autowired
-    private IExportRoomSMO exportRoomSMOImpl;
 
     /**
      * 添加应用数据
@@ -36,19 +33,6 @@ public class ImportAndExportFeeComponent {
     public ResponseEntity<String> importData(IPageData pd, MultipartFile uploadFile) throws Exception {
 
         return importCustomCreateFeeSMOImpl.importCustomExcelData(pd, uploadFile);
-    }
-
-
-    /**
-     * 添加应用数据
-     *
-     * @param pd 页面数据封装
-     * @return ResponseEntity 对象
-     */
-    public ResponseEntity<Object> exportCustomReportTableData(IPageData pd) throws Exception {
-        IPageData newPd = PageData.newInstance().builder(pd.getUserId(), pd.getUserName(), pd.getToken(), pd.getReqData(), pd.getComponentCode(), pd.getComponentMethod(), "",
-                pd.getSessionId(), AppDto.WEB_APP_ID, pd.getHeaders());
-        return exportRoomSMOImpl.exportCustomReportTableData(newPd);
     }
 
 
