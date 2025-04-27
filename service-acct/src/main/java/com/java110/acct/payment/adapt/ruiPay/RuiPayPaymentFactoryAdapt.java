@@ -203,7 +203,7 @@ public class RuiPayPaymentFactoryAdapt implements IPaymentFactoryAdapt {
         Map<String, String> params = new HashMap<>();
         params.put("appkey", appKey);
         params.put("timestamp", String.valueOf(System.currentTimeMillis() / 1000));
-        params.put("method", "rsy.online.barcodepay");
+        params.put("method", "rsypay.online.barcodepay");
         params.put("rpi_no", rpiNo);
         params.put("notify_url", notifyUrl + "?wId=" + WechatFactory.getWId(smallWeChatDto.getAppId()));
 
