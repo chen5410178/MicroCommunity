@@ -58,7 +58,6 @@ public class UpdateNoticeCmd extends Cmd {
         Assert.hasKeyAndValue(reqJson, "title", "必填，请填写标题");
         Assert.hasKeyAndValue(reqJson, "noticeTypeCd", "必填，请选择公告类型");
         Assert.hasKeyAndValue(reqJson, "context", "必填，请填写公告内容");
-        Assert.hasKeyAndValue(reqJson, "startTime", "必选，请填写开始时间 2019-01-02");
 
     }
 

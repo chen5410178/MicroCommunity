@@ -6,6 +6,7 @@ import com.java110.core.client.RestTemplate;
 import com.java110.core.log.LoggerFactory;
 import com.java110.dto.mapping.Mapping;
 import com.java110.dto.notice.NoticeStaffDto;
+import com.java110.dto.notice.NoticeWechatDto;
 import com.java110.dto.owner.OwnerAppUserDto;
 import com.java110.dto.privilege.RoleCommunityDto;
 import com.java110.dto.user.StaffAppAuthDto;
@@ -413,6 +414,44 @@ public class WechatMsgNotifyImpl implements IMsgNotify {
         templateMessage.setUrl(wechatUrl);
         if (StringUtil.isEmpty(noticeStaffDto.getUrl())) {
             templateMessage.setUrl(noticeStaffDto.getUrl());
+        }
+        logger.info("发送模板消息内容:{}", JSON.toJSONString(templateMessage));
+        ResponseEntity<String> responseEntity = outRestTemplate.postForEntity(url, JSON.toJSONString(templateMessage), String.class);
+        logger.info("微信模板返回内容:{}", responseEntity);
+
+        JSONObject paramOut = JSONObject.parseObject(responseEntity.getBody());
+        return new ResultVo(paramOut.getIntValue("errcode"), paramOut.getString("errmsg"));
+    }
+
+    @Override
+    public ResultVo sendWechatMsg(NoticeWechatDto noticeWechatDto) {
+        String accessToken = wechatTemplateImpl.getAccessToken(noticeWechatDto.getCommunityId());
+
+
+        String openId = noticeWechatDto.getOpenId();
+        Mapping mapping = MappingCache.getMapping(MappingConstant.WECHAT_DOMAIN, SPEC_CD_WECHAT_PROCESS_TEMPLATE);
+
+        if (mapping == null) {
+            throw new IllegalArgumentException("开发者账户编码映射未配置域为=" + MappingConstant.WECHAT_DOMAIN + ",键为=" + SPEC_CD_WECHAT_PROCESS_TEMPLATE);
+        }
+        String templateId = wechatTemplateImpl.getTemplateId(noticeWechatDto.getCommunityId(), mapping.getValue(), mapping.getName(), templateKeys.get(SPEC_CD_WECHAT_PROCESS_TEMPLATE));
+
+        String url = sendMsgUrl + accessToken;
+
+        JSONObject data = new JSONObject();
+        PropertyFeeTemplateMessage templateMessage = new PropertyFeeTemplateMessage();
+        templateMessage.setTemplate_id(templateId);
+        templateMessage.setTouser(openId);
+        data.put("thing2", new Content(noticeWechatDto.getTitle()));
+        data.put("time10", new Content(DateUtil.getNow(DateUtil.DATE_FORMATE_STRING_B)));
+        data.put("thing9", new Content(noticeWechatDto.getNotifyUserName()));
+        templateMessage.setData(data);
+
+        //获取员工公众号地址
+        String wechatUrl = MappingCache.getValue(MappingConstant.URL_DOMAIN, "STAFF_WECHAT_URL");
+        templateMessage.setUrl(wechatUrl);
+        if (StringUtil.isEmpty(noticeWechatDto.getUrl())) {
+            templateMessage.setUrl(noticeWechatDto.getUrl());
         }
         logger.info("发送模板消息内容:{}", JSON.toJSONString(templateMessage));
         ResponseEntity<String> responseEntity = outRestTemplate.postForEntity(url, JSON.toJSONString(templateMessage), String.class);

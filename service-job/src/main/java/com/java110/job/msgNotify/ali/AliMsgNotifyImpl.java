@@ -14,6 +14,7 @@ import com.java110.core.factory.CommunitySettingFactory;
 import com.java110.core.factory.LogFactory;
 import com.java110.core.log.LoggerFactory;
 import com.java110.dto.notice.NoticeStaffDto;
+import com.java110.dto.notice.NoticeWechatDto;
 import com.java110.dto.owner.OwnerDto;
 import com.java110.dto.user.StaffAppAuthDto;
 import com.java110.dto.user.UserDto;
@@ -616,5 +617,10 @@ public class AliMsgNotifyImpl implements IMsgNotify {
             LogFactory.saveOutLog("SMS", param.toString(), new ResponseEntity(resParam, HttpStatus.OK));
         }
         return new ResultVo(ResultVo.CODE_OK, "成功");
+    }
+
+    @Override
+    public ResultVo sendWechatMsg(NoticeWechatDto noticeWechatDto) {
+        return new ResultVo();
     }
 }

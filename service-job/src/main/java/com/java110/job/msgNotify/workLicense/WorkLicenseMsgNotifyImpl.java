@@ -6,6 +6,7 @@ import com.java110.core.client.RestTemplate;
 import com.java110.core.log.LoggerFactory;
 import com.java110.dto.mapping.Mapping;
 import com.java110.dto.notice.NoticeStaffDto;
+import com.java110.dto.notice.NoticeWechatDto;
 import com.java110.dto.owner.OwnerAppUserDto;
 import com.java110.dto.user.UserDto;
 import com.java110.dto.wechat.Content;
@@ -522,5 +523,10 @@ public class WorkLicenseMsgNotifyImpl implements IMsgNotify {
         paramIn.put("ttsText", "尊敬的员工，您有一个" + noticeStaffDto.getTitle() + "，请您及时处理");
         ResultVo resultVo = sendIotImpl.post(PLAY_TTS_URL, paramIn);
         return resultVo;
+    }
+
+    @Override
+    public ResultVo sendWechatMsg(NoticeWechatDto noticeWechatDto) {
+        return new ResultVo();
     }
 }

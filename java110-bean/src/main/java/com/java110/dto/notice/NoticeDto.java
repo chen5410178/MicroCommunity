@@ -26,6 +26,8 @@ public class NoticeDto extends PageDto implements Serializable {
     public static final String OBJ_TYPE_ALL = "005";//全部发送
 
     public static final String NOTICE_TYPE_OWNER_WECHAT = "1003";//发送给业主微信
+    public static final String NOTICE_TYPE_OWNER = "1000";//发送给业主微信
+    public static final String NOTICE_TYPE_STAFF = "1001";//发送给员工微信
 
     private String noticeTypeCd;
     private String[] noticeTypeCds;

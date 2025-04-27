@@ -2,6 +2,7 @@ package com.java110.job.msgNotify;
 
 import com.alibaba.fastjson.JSONObject;
 import com.java110.dto.notice.NoticeStaffDto;
+import com.java110.dto.notice.NoticeWechatDto;
 import com.java110.vo.ResultVo;
 
 import java.util.List;
@@ -172,4 +173,11 @@ public interface IMsgNotify {
      * @return
      */
     ResultVo sendStaffMsg(NoticeStaffDto noticeStaffDto);
+
+    /**
+     * 微信通知消息
+     * @param noticeStaffDto
+     * @return
+     */
+    ResultVo sendWechatMsg(NoticeWechatDto noticeWechatDto);
 }
