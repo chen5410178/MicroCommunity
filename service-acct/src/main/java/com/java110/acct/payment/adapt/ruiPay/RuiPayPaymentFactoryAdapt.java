@@ -249,6 +249,12 @@ public class RuiPayPaymentFactoryAdapt implements IPaymentFactoryAdapt {
         JSONObject data = paramOut.getJSONObject("data").getJSONObject("rsy_online_pay_response");
         //wxWcPayData
         String wxWcPayData = data.getString("js_api");
+        doSaveOnlinePay(smallWeChatDto, openid,
+                orderNum,data.getString("order_code"),
+                feeName,
+                payAmount,
+                OnlinePayDto.STATE_WAIT,
+                "待支付", paymentPoolValueDtos.get(0).getPpId());
 
         return JSONObject.parseObject(wxWcPayData);
     }
@@ -325,7 +331,7 @@ public class RuiPayPaymentFactoryAdapt implements IPaymentFactoryAdapt {
         onlinePayV1InnerServiceSMOImpl.updateOnlinePay(onlinePayPo);
     }
 
-    private void doSaveOnlinePay(SmallWeChatDto smallWeChatDto, String openId, String orderId, String feeName,
+    private void doSaveOnlinePay(SmallWeChatDto smallWeChatDto, String openId,  String orderId, String transactionId,  String feeName,
                                  double money, String state, String message,String ppId) {
         OnlinePayPo onlinePayPo = new OnlinePayPo();
         onlinePayPo.setAppId(smallWeChatDto.getAppId());
@@ -338,7 +344,7 @@ public class RuiPayPaymentFactoryAdapt implements IPaymentFactoryAdapt {
         onlinePayPo.setRefundFee("0");
         onlinePayPo.setState(state);
         onlinePayPo.setTotalFee(money + "");
-        onlinePayPo.setTransactionId(orderId);
+        onlinePayPo.setTransactionId(transactionId);
         onlinePayPo.setPaymentPoolId(ppId);
         onlinePayV1InnerServiceSMOImpl.saveOnlinePay(onlinePayPo);
     }
