@@ -176,7 +176,7 @@ public interface IMsgNotify {
 
     /**
      * 微信通知消息
-     * @param noticeStaffDto
+     * @param noticeWechatDto
      * @return
      */
     ResultVo sendWechatMsg(NoticeWechatDto noticeWechatDto);

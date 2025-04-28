@@ -19,6 +19,7 @@ import com.java110.job.msgNotify.IMsgNotify;
 import com.java110.job.msgNotify.IWechatTemplate;
 import com.java110.job.msgNotify.MsgNotifyFactory;
 import com.java110.utils.cache.MappingCache;
+import com.java110.utils.cache.UrlCache;
 import com.java110.utils.constant.MappingConstant;
 import com.java110.utils.util.DateUtil;
 import com.java110.utils.util.ListUtil;
@@ -412,7 +413,7 @@ public class WechatMsgNotifyImpl implements IMsgNotify {
         //获取员工公众号地址
         String wechatUrl = MappingCache.getValue(MappingConstant.URL_DOMAIN, "STAFF_WECHAT_URL");
         templateMessage.setUrl(wechatUrl);
-        if (StringUtil.isEmpty(noticeStaffDto.getUrl())) {
+        if (!StringUtil.isEmpty(noticeStaffDto.getUrl())) {
             templateMessage.setUrl(noticeStaffDto.getUrl());
         }
         logger.info("发送模板消息内容:{}", JSON.toJSONString(templateMessage));
@@ -448,9 +449,9 @@ public class WechatMsgNotifyImpl implements IMsgNotify {
         templateMessage.setData(data);
 
         //获取员工公众号地址
-        String wechatUrl = MappingCache.getValue(MappingConstant.URL_DOMAIN, "STAFF_WECHAT_URL");
+        String wechatUrl = UrlCache.getOwnerUrl();
         templateMessage.setUrl(wechatUrl);
-        if (StringUtil.isEmpty(noticeWechatDto.getUrl())) {
+        if (!StringUtil.isEmpty(noticeWechatDto.getUrl())) {
             templateMessage.setUrl(noticeWechatDto.getUrl());
         }
         logger.info("发送模板消息内容:{}", JSON.toJSONString(templateMessage));
