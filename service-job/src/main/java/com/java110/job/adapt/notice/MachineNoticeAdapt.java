@@ -112,11 +112,11 @@ public class MachineNoticeAdapt extends DatabusAdaptImpl {
 
         //查询小区信息
         CommunityDto communityDto = new CommunityDto();
-        communityDto.setCommunityId(businessNotice.getString("communityId"));
+        communityDto.setCommunityId(noticeDtos.get(0).getCommunityId());
         List<CommunityDto> communityDtos = communityInnerServiceSMOImpl.queryCommunitys(communityDto);
         Assert.listOnlyOne(communityDtos, "查询小区错误！");
         updateNoticeState(noticeDtos.get(0), NoticeDto.STATE_DOING);
-        if (NoticeDto.NOTICE_TYPE_OWNER.equals(businessNotice.getString("noticeTypeCd"))) {
+        if (NoticeDto.NOTICE_TYPE_OWNER.equals(noticeDtos.get(0).getNoticeTypeCd())) {
             noticeOwnerWechat(noticeDtos.get(0), communityDtos.get(0));
         } else {
             noticeStaffWechat(noticeDtos.get(0), communityDtos.get(0));
