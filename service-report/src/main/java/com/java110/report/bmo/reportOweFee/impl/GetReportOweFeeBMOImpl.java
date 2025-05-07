@@ -7,6 +7,7 @@ import com.java110.intf.fee.IPayFeeConfigV1InnerServiceSMO;
 import com.java110.intf.report.IReportOweFeeInnerServiceSMO;
 import com.java110.report.bmo.reportOweFee.IGetReportOweFeeBMO;
 import com.java110.utils.util.DateUtil;
+import com.java110.utils.util.ListUtil;
 import com.java110.utils.util.StringUtil;
 import com.java110.vo.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -109,7 +110,7 @@ public class GetReportOweFeeBMOImpl implements IGetReportOweFeeBMO {
     @Override
     public ResponseEntity<String> getAllFees(ReportOweFeeDto reportOweFeeDto) {
         List<ReportOweFeeDto> allReportOweFeeDtos = reportOweFeeInnerServiceSMOImpl.queryReportAllOweFees(reportOweFeeDto);
-        if (allReportOweFeeDtos == null || allReportOweFeeDtos.size() < 1) {
+        if (ListUtil.isNull(allReportOweFeeDtos)) {
             return ResultVo.createResponseEntity(allReportOweFeeDtos);
         }
 
