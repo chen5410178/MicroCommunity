@@ -9,10 +9,12 @@ import com.java110.core.event.cmd.Cmd;
 import com.java110.core.event.cmd.CmdEvent;
 import com.java110.core.factory.GenerateCodeFactory;
 import com.java110.doc.annotation.*;
+import com.java110.dto.data.DatabusDataDto;
 import com.java110.dto.room.RoomDto;
 import com.java110.dto.unit.UnitDto;
 import com.java110.dto.owner.OwnerRoomRelDto;
 import com.java110.intf.community.*;
+import com.java110.intf.job.IDataBusInnerServiceSMO;
 import com.java110.intf.user.IOwnerRoomRelInnerServiceSMO;
 import com.java110.po.owner.OwnerRoomRelPo;
 import com.java110.po.room.RoomAttrPo;
@@ -92,6 +94,9 @@ public class UpdateRoomCmd extends Cmd {
     @Autowired
     private IOwnerRoomRelInnerServiceSMO ownerRoomRelInnerServiceSMOImpl;
 
+    @Autowired
+    private IDataBusInnerServiceSMO dataBusInnerServiceSMOImpl;
+
     @Override
     public void validate(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) throws CmdException {
         Assert.jsonObjectHaveKey(reqJson, "roomId", "请求报文中未包含roomId节点");
@@ -143,6 +148,13 @@ public class UpdateRoomCmd extends Cmd {
 
         // todo 修改租期
         modifyRoomRateTime(reqJson,cmdDataFlowContext);
+
+
+        // 同步数据到IOT
+        JSONObject data = new JSONObject();
+        data.put("roomId",reqJson.getString("roomId"));
+        dataBusInnerServiceSMOImpl.databusData(new DatabusDataDto(DatabusDataDto.BUSINESS_TYPE_SEND_ROOM_DATA_TO_IOT,data));
+
 
         if (!reqJson.containsKey("attrs")) {
             return;

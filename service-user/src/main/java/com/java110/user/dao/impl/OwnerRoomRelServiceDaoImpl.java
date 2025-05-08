@@ -6,6 +6,7 @@ import com.java110.user.dao.IOwnerRoomRelServiceDao;
 import com.java110.utils.constant.ResponseConstant;
 import com.java110.utils.exception.DAOException;
 import com.java110.utils.util.DateUtil;
+import com.java110.utils.util.ListUtil;
 import org.slf4j.Logger;
 import com.java110.core.log.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -26,18 +27,18 @@ public class OwnerRoomRelServiceDaoImpl extends BaseServiceDao implements IOwner
     /**
      * 业主房屋信息封装
      *
-     * @param businessOwnerRoomRelInfo 业主房屋信息 封装
+     * @param info 业主房屋信息 封装
      * @throws DAOException DAO异常
      */
     @Override
-    public void saveBusinessOwnerRoomRelInfo(Map businessOwnerRoomRelInfo) throws DAOException {
-        businessOwnerRoomRelInfo.put("month", DateUtil.getCurrentMonth());
+    public void saveBusinessOwnerRoomRelInfo(Map info) throws DAOException {
+        info.put("month", DateUtil.getCurrentMonth());
         // 查询business_user 数据是否已经存在
-        logger.debug("保存业主房屋信息 入参 businessOwnerRoomRelInfo : {}", businessOwnerRoomRelInfo);
-        int saveFlag = sqlSessionTemplate.insert("ownerRoomRelServiceDaoImpl.saveBusinessOwnerRoomRelInfo", businessOwnerRoomRelInfo);
+        logger.debug("保存业主房屋信息 入参 businessOwnerRoomRelInfo : {}", info);
+        int saveFlag = sqlSessionTemplate.insert("ownerRoomRelServiceDaoImpl.saveBusinessOwnerRoomRelInfo", info);
 
         if (saveFlag < 1) {
-            throw new DAOException(ResponseConstant.RESULT_PARAM_ERROR, "保存业主房屋数据失败：" + JSONObject.toJSONString(businessOwnerRoomRelInfo));
+            throw new DAOException(ResponseConstant.RESULT_PARAM_ERROR, "保存业主房屋数据失败：" + JSONObject.toJSONString(info));
         }
     }
 
@@ -54,9 +55,9 @@ public class OwnerRoomRelServiceDaoImpl extends BaseServiceDao implements IOwner
 
         logger.debug("查询业主房屋信息 入参 info : {}", info);
 
-        List<Map> businessOwnerRoomRelInfos = sqlSessionTemplate.selectList("ownerRoomRelServiceDaoImpl.getBusinessOwnerRoomRelInfo", info);
+        List<Map> infos = sqlSessionTemplate.selectList("ownerRoomRelServiceDaoImpl.getBusinessOwnerRoomRelInfo", info);
 
-        return businessOwnerRoomRelInfos;
+        return infos;
     }
 
 
@@ -89,9 +90,9 @@ public class OwnerRoomRelServiceDaoImpl extends BaseServiceDao implements IOwner
     public List<Map<Object, Object>> getOwnerRoomRelInfo(Map<Object, Object> info) throws DAOException {
         logger.debug("查询业主房屋信息 入参 info : {}", info);
 
-        List<Map<Object, Object>> businessOwnerRoomRelInfos = sqlSessionTemplate.selectList("ownerRoomRelServiceDaoImpl.getOwnerRoomRelInfo", info);
+        List<Map<Object, Object>> infos = sqlSessionTemplate.selectList("ownerRoomRelServiceDaoImpl.getOwnerRoomRelInfo", info);
 
-        return businessOwnerRoomRelInfos;
+        return infos;
     }
 
 
@@ -122,12 +123,12 @@ public class OwnerRoomRelServiceDaoImpl extends BaseServiceDao implements IOwner
     public int queryOwnerRoomRelsCount(Map info) {
         logger.debug("查询业主房屋数据 入参 info : {}", info);
 
-        List<Map> businessOwnerRoomRelInfos = sqlSessionTemplate.selectList("ownerRoomRelServiceDaoImpl.queryOwnerRoomRelsCount", info);
-        if (businessOwnerRoomRelInfos.size() < 1) {
+        List<Map> infos = sqlSessionTemplate.selectList("ownerRoomRelServiceDaoImpl.queryOwnerRoomRelsCount", info);
+        if (ListUtil.isNull(infos)) {
             return 0;
         }
 
-        return Integer.parseInt(businessOwnerRoomRelInfos.get(0).get("count").toString());
+        return Integer.parseInt(infos.get(0).get("count").toString());
     }
 
     @Override

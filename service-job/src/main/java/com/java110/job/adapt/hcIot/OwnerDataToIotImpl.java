@@ -29,7 +29,9 @@ import org.springframework.stereotype.Service;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class OwnerDataToIotImpl implements IOwnerDataToIot {
@@ -202,9 +204,12 @@ public class OwnerDataToIotImpl implements IOwnerDataToIot {
         }
 
         List<String> roomIds = new ArrayList<>();
-
+        Map<String,String> startTimeMap = new HashMap<>();
+        Map<String,String> endTimeMap = new HashMap<>();
         for (OwnerRoomRelDto tmpOwnerRoomRelDto : ownerRoomRelDtos) {
             roomIds.add(tmpOwnerRoomRelDto.getRoomId());
+            startTimeMap.put(tmpOwnerRoomRelDto.getRoomId(),DateUtil.getFormatTimeStringA(tmpOwnerRoomRelDto.getStartTime()));
+            endTimeMap.put(tmpOwnerRoomRelDto.getRoomId(),DateUtil.getFormatTimeStringA(tmpOwnerRoomRelDto.getEndTime()));
         }
 
         RoomDto roomDto = new RoomDto();
@@ -223,6 +228,8 @@ public class OwnerDataToIotImpl implements IOwnerDataToIot {
             room.put("floorNum", tmpRoomDto.getFloorNum());
             room.put("unitNum", tmpRoomDto.getUnitNum());
             room.put("roomNum", tmpRoomDto.getRoomNum());
+            room.put("startTime",startTimeMap.get(tmpRoomDto.getRoomId()));
+            room.put("endTime",endTimeMap.get(tmpRoomDto.getRoomId()));
             rooms.add(room);
         }
         paramIn.put("rooms", rooms);
