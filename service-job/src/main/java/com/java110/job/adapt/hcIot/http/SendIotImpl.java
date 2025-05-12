@@ -1,5 +1,6 @@
 package com.java110.job.adapt.hcIot.http;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.java110.core.client.RestTemplate;
 import com.java110.core.factory.AuthenticationFactory;
@@ -19,6 +20,7 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -71,6 +73,8 @@ public class SendIotImpl implements ISendIot {
         if(paramOut.containsKey("records")){
             records = paramOut.getIntValue("records");
         }
+
+
 
         return new ResultVo(records,total,paramOut.getIntValue("code"), paramOut.getString("msg"), paramOut.get("data"));
     }

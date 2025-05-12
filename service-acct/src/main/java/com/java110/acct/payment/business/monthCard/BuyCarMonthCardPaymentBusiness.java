@@ -126,7 +126,15 @@ public class BuyCarMonthCardPaymentBusiness implements IPaymentBusiness {
             throw new CmdException(data.getMsg());
         }
 
-        JSONArray carMonthCardDtos = (JSONArray) data.getData();
+        Object obj = data.getData();
+        JSONArray carMonthCardDtos = null;
+         if (obj instanceof List) {
+             carMonthCardDtos = new JSONArray((List) obj);
+        }else{
+             carMonthCardDtos = (JSONArray) obj;
+        }
+
+
 
         if (ListUtil.isNull(carMonthCardDtos)) {
             throw new CmdException("月卡不存在");
