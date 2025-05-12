@@ -168,6 +168,9 @@ public class SynchronizeWechatSubscribeAdapt extends DatabusAdaptImpl {
             for(WechatSubscribePo wechatSubscribePo : wechatSubscribePos){
                 if(user.getString("openid").equals(wechatSubscribePo.getOpenId())){
                     wechatSubscribePo.setUnionId(user.getString("unionid"));
+                    if(StringUtil.isEmpty(wechatSubscribePo.getUnionId())){
+                        wechatSubscribePo.setUnionId("-1");
+                    }
                 }
             }
         }
