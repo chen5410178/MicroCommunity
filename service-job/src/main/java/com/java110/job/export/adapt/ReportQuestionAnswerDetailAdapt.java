@@ -6,6 +6,7 @@ import com.java110.dto.user.UserQuestionAnswerValueDto;
 import com.java110.intf.report.IReportUserQuestionAnswerValueInnerServiceSMO;
 import com.java110.job.export.IExportDataAdapt;
 import com.java110.utils.util.BeanConvertUtil;
+import com.java110.utils.util.DateUtil;
 import com.java110.utils.util.ListUtil;
 import com.java110.utils.util.StringUtil;
 import org.apache.poi.ss.usermodel.Row;
@@ -54,7 +55,7 @@ public class ReportQuestionAnswerDetailAdapt implements IExportDataAdapt {
             row.createCell(2).setCellValue(dataObj.getQaName());
             row.createCell(3).setCellValue(dataObj.getQaTitle());
             row.createCell(4).setCellValue(dataObj.getQaValue());
-            row.createCell(5).setCellValue(dataObj.getCreateTime());
+            row.createCell(5).setCellValue(DateUtil.getFormatTimeStringA(dataObj.getCreateTime()));
         }
         return workbook;
     }
