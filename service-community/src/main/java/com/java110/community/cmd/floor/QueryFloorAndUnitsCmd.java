@@ -48,6 +48,7 @@ public class QueryFloorAndUnitsCmd extends Cmd {
         //查询 员工是否有配置 授权单元
         String staffId = cmdDataFlowContext.getReqHeaders().get("user-id");
         DataPrivilegeStaffDto dataPrivilegeStaffDto = new DataPrivilegeStaffDto();
+        dataPrivilegeStaffDto.setCommunityId(reqJson.getString("communityId"));
         dataPrivilegeStaffDto.setStaffId(staffId);
         String[] unitIds = dataPrivilegeUnitV1InnerServiceSMOImpl.queryDataPrivilegeUnitsByStaff(dataPrivilegeStaffDto);
 
