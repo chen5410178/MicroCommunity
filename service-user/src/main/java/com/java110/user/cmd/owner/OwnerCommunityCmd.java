@@ -16,6 +16,7 @@ import com.java110.po.owner.OwnerAppUserPo;
 import com.java110.utils.exception.CmdException;
 import com.java110.utils.util.Assert;
 import com.java110.utils.util.BeanConvertUtil;
+import com.java110.utils.util.ListUtil;
 import com.java110.vo.ResultVo;
 import org.slf4j.Logger;
 import com.java110.core.log.LoggerFactory;
@@ -88,6 +89,11 @@ public class OwnerCommunityCmd extends Cmd {
         OwnerAppUserDto ownerAppUserDto = new OwnerAppUserDto();
         ownerAppUserDto.setLink(reqJson.getString("link"));
         List<OwnerAppUserDto> ownerAppUserDtos = ownerAppUserV1InnerServiceSMOImpl.queryOwnerAppUsers(ownerAppUserDto);
+
+        if(ListUtil.isNull(ownerAppUserDtos)){
+            cmdDataFlowContext.setResponseEntity(ResultVo.createResponseEntity(ownerDtos));
+            return;
+        }
 
         for (OwnerDto tmpOwnerDto : ownerDtos) {
             if (hasOwnerAppUser(tmpOwnerDto, ownerAppUserDtos)) {

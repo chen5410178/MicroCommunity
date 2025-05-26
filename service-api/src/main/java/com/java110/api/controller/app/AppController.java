@@ -26,6 +26,7 @@ import com.java110.core.language.Java110Lang;
 import com.java110.core.log.LoggerFactory;
 import com.java110.utils.constant.CommonConstant;
 import com.java110.utils.util.DateUtil;
+import com.java110.utils.util.TokenUtil;
 import com.java110.vo.ResultVo;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -394,6 +395,8 @@ public class AppController extends BaseController {
             super.initHeadParam(request, headers);
             super.initUrlParam(request, headers);
             this.getUserInfo(request, headers);
+            headers.put(CommonConstant.COOKIE_AUTH_TOKEN, TokenUtil.getToken(request));
+
 
         } catch (Exception e) {
             logger.error("加载头信息失败", e);

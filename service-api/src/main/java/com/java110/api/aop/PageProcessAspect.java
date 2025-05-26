@@ -7,6 +7,7 @@ import com.java110.core.log.LoggerFactory;
 import com.java110.utils.constant.CommonConstant;
 import com.java110.utils.exception.FilterException;
 import com.java110.utils.util.StringUtil;
+import com.java110.utils.util.TokenUtil;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
@@ -133,7 +134,7 @@ public class PageProcessAspect {
             headers.put(headerName.toLowerCase(), request.getHeader(headerName));
         }
         //pd = PageData.newInstance().builder(userId, userName, this.getToken(request), reqData, componentCode, componentMethod, url, sessionId, appId, headers);
-        headers.put(CommonConstant.COOKIE_AUTH_TOKEN,this.getToken(request));
+        headers.put(CommonConstant.COOKIE_AUTH_TOKEN, TokenUtil.getToken(request));
         pd = PageData.newInstance().builder(userId, userName, "", reqData, componentCode, componentMethod, url, sessionId, appId, headers);
         pd.setMethod(request.getMethod().equals("GET") ? HttpMethod.GET : HttpMethod.POST);
 
@@ -186,32 +187,6 @@ public class PageProcessAspect {
     }
 
 
-    /**
-     * 获取TOKEN
-     *
-     * @param request
-     * @return
-     */
-    private String getToken(HttpServletRequest request) throws FilterException {
-        String token = "";
-//        if (request.getCookies() != null && request.getCookies().length > 0) {
-//            for (Cookie cookie : request.getCookies()) {
-//                if (CommonConstant.COOKIE_AUTH_TOKEN.equals(cookie.getName())) {
-//                    token = cookie.getValue();
-//                }
-//            }
-//        }
-        String authorization = request.getHeader("Authorization");
-
-        if( StringUtil.isEmpty(authorization)){
-            return token;
-        }
-        if(authorization.length()> 7) {
-            token = authorization.substring("Bearer ".length());
-        }
-
-        return token;
-    }
 
 
     /**
