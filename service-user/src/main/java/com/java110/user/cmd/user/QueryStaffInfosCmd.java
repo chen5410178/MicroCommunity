@@ -91,7 +91,7 @@ public class QueryStaffInfosCmd extends Cmd {
     @Override
     public void validate(CmdEvent event, ICmdDataFlowContext context, JSONObject reqJson) throws CmdException {
         Assert.hasKeyAndValue(reqJson, "page", "请求报文中未包含page节点");
-        Assert.hasKeyAndValue(reqJson, "row", "请求报文中未包含rows节点");
+        Assert.hasKeyAndValue(reqJson, "row", "请求报文中未包含row节点");
 
         String storeId = context.getReqHeaders().get("store-id");
         reqJson.put("storeId", storeId);

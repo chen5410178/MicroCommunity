@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="storeStaffLeaderV1ServiceDaoImpl">
+
+
+    <!-- 保存员工领导信息 add by wuxw 2018-07-03 -->
+    <insert id="saveStoreStaffLeaderInfo" parameterType="Map">
+        insert into store_staff_leader(
+        leader_name,store_id,ssl_id,staff_id,leader_id,rel_cd
+        ) values (
+        #{leaderName},#{storeId},#{sslId},#{staffId},#{leaderId},#{relCd}
+        )
+    </insert>
+
+
+    <!-- 查询员工领导信息 add by wuxw 2018-07-03 -->
+    <select id="getStoreStaffLeaderInfo" parameterType="Map" resultType="Map">
+        select t.leader_name leaderName,t.status_cd statusCd,t.store_id storeId,t.ssl_id sslId,t.staff_id
+        staffId,t.leader_id leaderId,t.rel_cd relCd,t.create_time createTime
+        from store_staff_leader t
+        where 1 =1
+        <if test="leaderName !=null and leaderName != ''">
+            and t.leader_name= #{leaderName}
+        </if>
+        <if test="statusCd !=null and statusCd != ''">
+            and t.status_cd= #{statusCd}
+        </if>
+        <if test="storeId !=null and storeId != ''">
+            and t.store_id= #{storeId}
+        </if>
+        <if test="sslId !=null and sslId != ''">
+            and t.ssl_id= #{sslId}
+        </if>
+        <if test="staffId !=null and staffId != ''">
+            and t.staff_id= #{staffId}
+        </if>
+        <if test="leaderId !=null and leaderId != ''">
+            and t.leader_id= #{leaderId}
+        </if>
+        <if test="relCd !=null and relCd != ''">
+            and t.rel_cd= #{relCd}
+        </if>
+        order by t.create_time desc
+        <if test="page != -1 and page != null ">
+            limit #{page}, #{row}
+        </if>
+
+    </select>
+
+
+    <!-- 修改员工领导信息 add by wuxw 2018-07-03 -->
+    <update id="updateStoreStaffLeaderInfo" parameterType="Map">
+        update store_staff_leader t set t.status_cd = #{statusCd}
+        <if test="newBId != null and newBId != ''">
+            ,t.b_id = #{newBId}
+        </if>
+        <if test="leaderName !=null and leaderName != ''">
+            , t.leader_name= #{leaderName}
+        </if>
+        <if test="storeId !=null and storeId != ''">
+            , t.store_id= #{storeId}
+        </if>
+        <if test="staffId !=null and staffId != ''">
+            , t.staff_id= #{staffId}
+        </if>
+        <if test="leaderId !=null and leaderId != ''">
+            , t.leader_id= #{leaderId}
+        </if>
+        <if test="relCd !=null and relCd != ''">
+            , t.rel_cd= #{relCd}
+        </if>
+        where 1=1
+        <if test="sslId !=null and sslId != ''">
+            and t.ssl_id= #{sslId}
+        </if>
+
+    </update>
+
+    <!-- 查询员工领导数量 add by wuxw 2018-07-03 -->
+    <select id="queryStoreStaffLeadersCount" parameterType="Map" resultType="Map">
+        select count(1) count
+        from store_staff_leader t
+        where 1 =1
+        <if test="leaderName !=null and leaderName != ''">
+            and t.leader_name= #{leaderName}
+        </if>
+        <if test="statusCd !=null and statusCd != ''">
+            and t.status_cd= #{statusCd}
+        </if>
+        <if test="storeId !=null and storeId != ''">
+            and t.store_id= #{storeId}
+        </if>
+        <if test="sslId !=null and sslId != ''">
+            and t.ssl_id= #{sslId}
+        </if>
+        <if test="staffId !=null and staffId != ''">
+            and t.staff_id= #{staffId}
+        </if>
+        <if test="leaderId !=null and leaderId != ''">
+            and t.leader_id= #{leaderId}
+        </if>
+        <if test="relCd !=null and relCd != ''">
+            and t.rel_cd= #{relCd}
+        </if>
+
+
+    </select>
+
+</mapper>
