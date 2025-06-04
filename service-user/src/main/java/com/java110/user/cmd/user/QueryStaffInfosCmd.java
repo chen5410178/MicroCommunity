@@ -10,10 +10,12 @@ import com.java110.dto.privilege.BasePrivilegeDto;
 import com.java110.dto.file.FileRelDto;
 import com.java110.dto.org.OrgDto;
 import com.java110.dto.org.OrgStaffRelDto;
+import com.java110.dto.storeStaffLeader.StoreStaffLeaderDto;
 import com.java110.dto.user.UserDto;
 import com.java110.intf.common.IFileRelInnerServiceSMO;
 import com.java110.intf.community.IMenuInnerServiceSMO;
 import com.java110.intf.store.IOrgStaffRelV1InnerServiceSMO;
+import com.java110.intf.store.IStoreStaffLeaderV1InnerServiceSMO;
 import com.java110.intf.user.IOrgStaffRelInnerServiceSMO;
 import com.java110.intf.user.IOrgV1InnerServiceSMO;
 import com.java110.intf.user.IUserInnerServiceSMO;
@@ -88,6 +90,9 @@ public class QueryStaffInfosCmd extends Cmd {
     @Autowired
     private IOrgStaffRelInnerServiceSMO iOrgStaffRelInnerServiceSMO;
 
+    @Autowired
+    private IStoreStaffLeaderV1InnerServiceSMO storeStaffLeaderV1InnerServiceSMOImpl;
+
     @Override
     public void validate(CmdEvent event, ICmdDataFlowContext context, JSONObject reqJson) throws CmdException {
         Assert.hasKeyAndValue(reqJson, "page", "请求报文中未包含page节点");
@@ -154,6 +159,8 @@ public class QueryStaffInfosCmd extends Cmd {
             }
             refreshInitials(staffs);
             refreshOrgs(staffs, reqJson.getString("storeId"));
+            // 查询上级领导
+            findLeaders(staffs,reqJson.getString("storeId"));
         } else {
             staffs = new ArrayList<>();
         }
@@ -163,6 +170,34 @@ public class QueryStaffInfosCmd extends Cmd {
         apiStaffVo.setStaffs(staffs);
         ResponseEntity<String> responseEntity = new ResponseEntity<String>(JSONObject.toJSONString(apiStaffVo), HttpStatus.OK);
         context.setResponseEntity(responseEntity);
+    }
+
+    private void findLeaders(List<ApiStaffDataVo> staffs, String storeId) {
+        List<String> staffIds = new ArrayList<>();
+        for (ApiStaffDataVo apiStaffDataVo : staffs) {
+            staffIds.add(apiStaffDataVo.getUserId());
+        }
+        StoreStaffLeaderDto storeStaffLeaderDto = new StoreStaffLeaderDto();
+        storeStaffLeaderDto.setStaffIds(staffIds.toArray(new String[staffIds.size()]));
+
+
+       List<StoreStaffLeaderDto> leaderDtos = storeStaffLeaderV1InnerServiceSMOImpl.queryStoreStaffLeaders(storeStaffLeaderDto);
+       if(ListUtil.isNull(leaderDtos)){
+           return;
+       }
+
+       List<StoreStaffLeaderDto> leaders = null;
+        for (ApiStaffDataVo apiStaffDataVo : staffs) {
+            leaders = new ArrayList<>();
+            for (StoreStaffLeaderDto tmpLeaderDto : leaderDtos) {
+                if (!apiStaffDataVo.getUserId().equals(tmpLeaderDto.getStaffId())) {
+                    continue;
+                }
+                leaders.add(tmpLeaderDto);
+                apiStaffDataVo.setLeaders(leaders);
+            }
+        }
+
     }
 
     private void refreshOrgs(List<ApiStaffDataVo> staffs, String storeId) {

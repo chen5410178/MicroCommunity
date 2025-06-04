@@ -8,12 +8,14 @@ import com.java110.dto.notice.NoticeStaffDto;
 import com.java110.dto.privilege.BasePrivilegeDto;
 import com.java110.dto.repair.RepairDto;
 import com.java110.dto.repair.RepairUserDto;
+import com.java110.dto.storeStaffLeader.StoreStaffLeaderDto;
 import com.java110.dto.task.TaskDto;
 import com.java110.dto.user.UserDto;
 import com.java110.intf.community.*;
 import com.java110.intf.order.IPrivilegeInnerServiceSMO;
 import com.java110.intf.store.ISmallWeChatInnerServiceSMO;
 import com.java110.intf.store.ISmallWechatAttrInnerServiceSMO;
+import com.java110.intf.store.IStoreStaffLeaderV1InnerServiceSMO;
 import com.java110.intf.user.IStaffAppAuthInnerServiceSMO;
 import com.java110.intf.user.IUserInnerServiceSMO;
 import com.java110.job.msgNotify.IMsgNotify;
@@ -65,6 +67,9 @@ public class NoticeStaffTaskTemplate extends TaskSystemQuartz {
 
     @Autowired
     private IRepairUserInnerServiceSMO repairUserInnerServiceSMOImpl;
+
+    @Autowired
+    private IStoreStaffLeaderV1InnerServiceSMO storeStaffLeaderV1InnerServiceSMOImpl;
 
 
     @Autowired
@@ -160,6 +165,24 @@ public class NoticeStaffTaskTemplate extends TaskSystemQuartz {
                                 "系统管理员"));
             } catch (Exception e) {
                 e.printStackTrace();
+            }
+
+            StoreStaffLeaderDto storeStaffLeaderDto = new StoreStaffLeaderDto();
+            storeStaffLeaderDto.setStaffId(repairUserDtos.get(0).getStaffId());
+            List<StoreStaffLeaderDto> storeStaffLeaderDtos = storeStaffLeaderV1InnerServiceSMOImpl.queryStoreStaffLeaders(storeStaffLeaderDto);
+            if(ListUtil.isNull(storeStaffLeaderDtos)){
+                continue;
+            }
+            for(StoreStaffLeaderDto leaderDto : storeStaffLeaderDtos){
+                try {
+                    msgNotify.sendStaffMsg(
+                            new NoticeStaffDto(communityDto.getCommunityId(),
+                                    leaderDto.getLeaderId(),
+                                    tRepairDto.getRepairName() + "提交报修单已超时",
+                                    "系统管理员"));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

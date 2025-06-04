@@ -1,6 +1,7 @@
 package com.java110.dto.storeStaffLeader;
 
 import com.java110.dto.PageDto;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -15,11 +16,13 @@ import java.util.Date;
 public class StoreStaffLeaderDto extends PageDto implements Serializable {
 
     private String leaderName;
-private String storeId;
-private String sslId;
-private String staffId;
-private String leaderId;
-private String relCd;
+    private String storeId;
+    private String sslId;
+    private String staffId;
+
+    private String[] staffIds;
+    private String leaderId;
+    private String relCd;
 
 
     private Date createTime;
@@ -30,37 +33,48 @@ private String relCd;
     public String getLeaderName() {
         return leaderName;
     }
-public void setLeaderName(String leaderName) {
+
+    public void setLeaderName(String leaderName) {
         this.leaderName = leaderName;
     }
-public String getStoreId() {
+
+    public String getStoreId() {
         return storeId;
     }
-public void setStoreId(String storeId) {
+
+    public void setStoreId(String storeId) {
         this.storeId = storeId;
     }
-public String getSslId() {
+
+    public String getSslId() {
         return sslId;
     }
-public void setSslId(String sslId) {
+
+    public void setSslId(String sslId) {
         this.sslId = sslId;
     }
-public String getStaffId() {
+
+    public String getStaffId() {
         return staffId;
     }
-public void setStaffId(String staffId) {
+
+    public void setStaffId(String staffId) {
         this.staffId = staffId;
     }
-public String getLeaderId() {
+
+    public String getLeaderId() {
         return leaderId;
     }
-public void setLeaderId(String leaderId) {
+
+    public void setLeaderId(String leaderId) {
         this.leaderId = leaderId;
     }
-public String getRelCd() {
+
+    public String getRelCd() {
         return relCd;
     }
-public void setRelCd(String relCd) {
+
+    public void setRelCd(String relCd) {
         this.relCd = relCd;
     }
 
@@ -79,5 +93,13 @@ public void setRelCd(String relCd) {
 
     public void setStatusCd(String statusCd) {
         this.statusCd = statusCd;
+    }
+
+    public String[] getStaffIds() {
+        return staffIds;
+    }
+
+    public void setStaffIds(String[] staffIds) {
+        this.staffIds = staffIds;
     }
 }

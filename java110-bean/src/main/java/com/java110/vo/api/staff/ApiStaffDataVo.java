@@ -1,5 +1,7 @@
 package com.java110.vo.api.staff;
 
+import com.java110.dto.storeStaffLeader.StoreStaffLeaderDto;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -54,6 +56,8 @@ public class ApiStaffDataVo implements Serializable {
     private String idCard;
 
     private List<String> urls;
+
+    private List<StoreStaffLeaderDto> leaders;
 
     public String getUserId() {
         return userId;
@@ -261,5 +265,13 @@ public class ApiStaffDataVo implements Serializable {
 
     public void setIdCard(String idCard) {
         this.idCard = idCard;
+    }
+
+    public List<StoreStaffLeaderDto> getLeaders() {
+        return leaders;
+    }
+
+    public void setLeaders(List<StoreStaffLeaderDto> leaders) {
+        this.leaders = leaders;
     }
 }
