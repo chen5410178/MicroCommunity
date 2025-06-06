@@ -803,12 +803,14 @@ public class PayFeeCmd extends Cmd {
         List<FeeAttrPo> tmpFeeAttrPos = new ArrayList<>();
         FeeAttrPo tmpFeeAttrPo = null;
         boolean hasDeadLineTime = false;
+        String customStartTime = reqJson.getString("customStartTime");
+        customStartTime = DateUtil.getPreSecTime(customStartTime);
         for (FeeAttrDto tmpFeeAttrDto : feeAttrDtos) {
             tmpFeeAttrDto.setFeeId(tmpPayFeePo.getFeeId());
             tmpFeeAttrDto.setAttrId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_attrId, true));
 
             if (FeeAttrDto.SPEC_CD_ONCE_FEE_DEADLINE_TIME.equals(tmpFeeAttrDto.getSpecCd())) {
-                tmpFeeAttrDto.setValue(reqJson.getString("customStartTime"));
+                tmpFeeAttrDto.setValue(customStartTime);
                 hasDeadLineTime = true;
             }
             tmpFeeAttrPo = BeanConvertUtil.covertBean(tmpFeeAttrDto, FeeAttrPo.class);
@@ -821,7 +823,7 @@ public class PayFeeCmd extends Cmd {
             tmpFeeAttrPo.setFeeId(tmpPayFeePo.getFeeId());
             tmpFeeAttrPo.setCommunityId(tmpPayFeePo.getCommunityId());
             tmpFeeAttrPo.setSpecCd(FeeAttrDto.SPEC_CD_ONCE_FEE_DEADLINE_TIME);
-            tmpFeeAttrPo.setValue(reqJson.getString("customStartTime"));
+            tmpFeeAttrPo.setValue(customStartTime);
             tmpFeeAttrPos.add(tmpFeeAttrPo);
         }
 

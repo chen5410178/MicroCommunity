@@ -923,7 +923,13 @@ public class DateUtil {
     }
 
     public static String getPreSecTime(String time) {
-        Date tTime = getDateFromStringA(time);
+        Date tTime = null;
+        if(time.contains(":")){
+            tTime = getDateFromStringA(time);
+        }else{
+            tTime = getDateFromStringB(time);
+        }
+
         return getPreSecTime(tTime);
     }
 
