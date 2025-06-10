@@ -9,10 +9,12 @@ import com.java110.core.event.cmd.Cmd;
 import com.java110.core.event.cmd.CmdEvent;
 import com.java110.doc.annotation.*;
 import com.java110.dto.owner.OwnerAppUserDto;
+import com.java110.dto.owner.OwnerDto;
 import com.java110.dto.room.RoomDto;
 import com.java110.dto.user.UserDto;
 import com.java110.intf.community.IFloorInnerServiceSMO;
 import com.java110.intf.community.IRoomInnerServiceSMO;
+import com.java110.intf.user.IBuildingOwnerV1InnerServiceSMO;
 import com.java110.intf.user.IOwnerAppUserV1InnerServiceSMO;
 import com.java110.intf.user.IUserV1InnerServiceSMO;
 import com.java110.utils.exception.CmdException;
@@ -41,6 +43,9 @@ public class QueryPhoneOwnerRoomsCmd extends Cmd {
     private IQueryRoomStatisticsBMO queryRoomStatisticsBMOImpl;
     @Autowired
     private IOwnerAppUserV1InnerServiceSMO ownerAppUserV1InnerServiceSMOImpl;
+
+    @Autowired
+    private IBuildingOwnerV1InnerServiceSMO buildingOwnerV1InnerServiceSMOImpl;
 
     @Override
     public void validate(CmdEvent event, ICmdDataFlowContext context, JSONObject reqJson) throws CmdException {
@@ -74,8 +79,16 @@ public class QueryPhoneOwnerRoomsCmd extends Cmd {
             throw new CmdException("未认证房屋");
         }
 
+        OwnerDto ownerDto = new OwnerDto();
+        ownerDto.setMemberId(memberId);
+        ownerDto.setCommunityId(reqJson.getString("communityId"));
+        List<OwnerDto> ownerDtos = buildingOwnerV1InnerServiceSMOImpl.queryBuildingOwners(ownerDto);
+        if(ListUtil.isNull(ownerDtos)){
+            throw new CmdException("业主或成员不存在");
+        }
+
         RoomDto roomDto = BeanConvertUtil.covertBean(reqJson, RoomDto.class);
-        roomDto.setOwnerId(memberId);
+        roomDto.setOwnerId(ownerDtos.get(0).getOwnerId());
         hasRoomNum(reqJson, roomDto);
 
         ApiRoomVo apiRoomVo = new ApiRoomVo();
