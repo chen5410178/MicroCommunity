@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.java110.config.properties.code.Java110Properties;
 import com.java110.core.annotation.Java110Cmd;
 import com.java110.core.annotation.Java110Transactional;
+import com.java110.core.context.CmdContextUtils;
 import com.java110.core.context.Environment;
 import com.java110.core.context.ICmdDataFlowContext;
 import com.java110.core.event.cmd.Cmd;
@@ -13,6 +14,7 @@ import com.java110.dto.fee.FeeAttrDto;
 import com.java110.dto.fee.FeeDto;
 import com.java110.dto.repair.RepairDto;
 import com.java110.dto.repair.RepairUserDto;
+import com.java110.dto.user.UserDto;
 import com.java110.intf.community.IRepairInnerServiceSMO;
 import com.java110.intf.community.IRepairPoolV1InnerServiceSMO;
 import com.java110.intf.community.IRepairUserInnerServiceSMO;
@@ -20,6 +22,7 @@ import com.java110.intf.community.IRepairUserV1InnerServiceSMO;
 import com.java110.intf.fee.IFeeAttrInnerServiceSMO;
 import com.java110.intf.fee.IFeeInnerServiceSMO;
 import com.java110.intf.fee.IPayFeeV1InnerServiceSMO;
+import com.java110.intf.user.IUserV1InnerServiceSMO;
 import com.java110.po.fee.PayFeePo;
 import com.java110.po.owner.RepairPoolPo;
 import com.java110.po.owner.RepairUserPo;
@@ -75,6 +78,9 @@ public class RepairDispatchCmd extends Cmd {
     @Autowired
     private IRepairUserV1InnerServiceSMO repairUserV1InnerServiceSMOImpl;
 
+    @Autowired
+    private IUserV1InnerServiceSMO userV1InnerServiceSMOImpl;
+
     //域
     public static final String DOMAIN_COMMON = "DOMAIN.COMMON";
 
@@ -90,9 +96,15 @@ public class RepairDispatchCmd extends Cmd {
         Assert.hasKeyAndValue(reqJson, "communityId", "未包含小区信息");
         Assert.hasKeyAndValue(reqJson, "action", "未包含处理动作");
 
-        if (!reqJson.containsKey("userId")) {
-            reqJson.put("userId", context.getReqHeaders().get("user-id"));
-        }
+
+        String userId = CmdContextUtils.getUserId(context);
+
+        UserDto userDto = new UserDto();
+        userDto.setUserId(userId);
+        List<UserDto> userDtos = userV1InnerServiceSMOImpl.queryUsers(userDto);
+        Assert.listOnlyOne(userDtos, "用户未登录");
+        reqJson.put("userId", userId);
+        reqJson.put("userName", userDtos.get(0).getName());
 
     }
 
@@ -165,7 +177,7 @@ public class RepairDispatchCmd extends Cmd {
         repairUserDto.setRepairId(reqJson.getString("repairId"));
         repairUserDto.setCommunityId(reqJson.getString("communityId"));
         //todo 这里考虑带评价
-        repairUserDto.setStates(new String[]{RepairUserDto.STATE_DOING,RepairUserDto.STATE_EVALUATE});
+        repairUserDto.setStates(new String[]{RepairUserDto.STATE_DOING, RepairUserDto.STATE_EVALUATE});
         repairUserDto.setStaffId(reqJson.getString("userId"));
         List<RepairUserDto> repairUserDtos = repairUserInnerServiceSMOImpl.queryRepairUsers(repairUserDto);
         if (ListUtil.isNull(repairUserDtos)) {
@@ -177,10 +189,10 @@ public class RepairDispatchCmd extends Cmd {
         repair.setRepairId(reqJson.getString("repairId"));
         repair.setStaffId(reqJson.getString("staffId"));
         repair.setCommunityId(reqJson.getString("communityId"));
-        repair.setStates(new String[]{RepairUserDto.STATE_TRANSFER, RepairUserDto.STATE_CLOSE, RepairUserDto.STATE_STOP,RepairUserDto.STATE_EVALUATE});
+        repair.setStates(new String[]{RepairUserDto.STATE_TRANSFER, RepairUserDto.STATE_CLOSE, RepairUserDto.STATE_STOP, RepairUserDto.STATE_EVALUATE});
         List<RepairUserDto> repairUsers = repairUserInnerServiceSMOImpl.queryRepairUsers(repair);
         if (ListUtil.isNull(repairUsers)) { //指派的不能退单
-            if (RepairDto.REPAIR_WAY_GRABBING.equals(repairDtos.get(0).getRepairWay())  
+            if (RepairDto.REPAIR_WAY_GRABBING.equals(repairDtos.get(0).getRepairWay())
                     || RepairDto.REPAIR_WAY_TRAINING.equals(repairDtos.get(0).getRepairWay())) {  //抢单、轮训
                 modifyBusinessRepairDispatch(reqJson, RepairDto.STATE_WAIT);//维修单变成未派单
                 //把自己改成退单
@@ -411,7 +423,7 @@ public class RepairDispatchCmd extends Cmd {
         repairUserDto.setCommunityId(reqJson.getString("communityId"));
         //repairUserDto.setRepairEvent(RepairUserDto.REPAIR_EVENT_START_USER);
         List<RepairUserDto> repairUserDtos = repairUserInnerServiceSMOImpl.queryRepairUsers(repairUserDto);
-        if (repairUserDtos == null || repairUserDtos.size() < 1) {
+        if (ListUtil.isNull(repairUserDtos)) {
             repairUserPo.setPreStaffId("-1");
             repairUserPo.setPreStaffName("-1");
             repairUserPo.setPreRuId("-1");

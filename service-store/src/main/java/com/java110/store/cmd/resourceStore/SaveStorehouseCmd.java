@@ -61,9 +61,9 @@ public class SaveStorehouseCmd extends Cmd {
     @Override
     public void validate(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) {
         Assert.hasKeyAndValue(reqJson, "shName", "请求报文中未包含shName");
-        Assert.hasKeyAndValue(reqJson, "purchaseSwitch", "请求报文中未包含shName");
-        Assert.hasKeyAndValue(reqJson, "useSwitch", "请求报文中未包含shName");
-        Assert.hasKeyAndValue(reqJson, "allocationSwitch", "请求报文中未包含shName");
+        Assert.hasKeyAndValue(reqJson, "purchaseSwitch", "请求报文中未包含purchaseSwitch");
+        Assert.hasKeyAndValue(reqJson, "useSwitch", "请求报文中未包含useSwitch");
+        Assert.hasKeyAndValue(reqJson, "allocationSwitch", "请求报文中未包含allocationSwitch");
         String storeId = CmdContextUtils.getStoreId(cmdDataFlowContext);
         reqJson.put("storeId", storeId);
 
