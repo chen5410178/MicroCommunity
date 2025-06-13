@@ -64,7 +64,7 @@ public class ServiceConfiguration {
         exclusions.append("/app/activities.listActivitiess,");//小区广告
         exclusions.append("/app/advert.listAdvertPhoto,");//小区广告图片
         exclusions.append("/app/junkRequirement.listJunkRequirements,");//市场
-        exclusions.append("/app/wechat/gateway,");//微信公众号对接接口
+        exclusions.append("/app/wechat/gateway/*,");//微信公众号对接接口
         exclusions.append("/app/loginOwnerWechatAuth,");//微信公众号对接接口
         exclusions.append("/app/refreshToken,");//微信公众号对接接口
         exclusions.append("/app/refreshOpenId,");//微信公众号对接接口
