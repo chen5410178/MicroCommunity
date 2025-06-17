@@ -1605,6 +1605,7 @@
         <if test="ownerId != null and ownerId != ''">
             left join pay_fee_attrs pfa1 on t.fee_id = pfa1.fee_id and pfa1.spec_cd = '390007'
         </if>
+        left join pay_fee_attrs pfa3 on t.fee_id = pfa3.fee_id and pfa3.spec_cd = '390012'
         where t.status_cd = '0'
         and pf.status_cd = '0' and t.state != '1500'
         <if test="detailId !=null and detailId != ''">
