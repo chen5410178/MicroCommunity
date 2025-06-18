@@ -94,6 +94,7 @@ public class ReportListOweFeeAdapt implements IExportDataAdapt {
         ReportOweFeeDto reportOweFeeDto = new ReportOweFeeDto();
         reportOweFeeDto.setPage(1);
         reportOweFeeDto.setRow(10000);
+        reportOweFeeDto.setCommunityId(reqJson.getString("communityId"));
         reportOweFeeDto.setHasOweFee("Y");
 
         List<ReportOweFeeDto> allReportOweFeeDtos = reportOweFeeInnerServiceSMOImpl.queryReportAllOweFees(reportOweFeeDto);
