@@ -10,7 +10,7 @@ git clone https://gitee.com/wuxw7/MicroCommunity.git <br/>
 127.0.0.1 dev.redis.java110.com <br/>
 127.0.0.1 api.java110.com <br/>
 127.0.0.1 dev.java110.com <br/>
-3、安装mysql 导入TT.sql 和 hc_community.sql （文件在docs/db下）<br/>
+3、安装mysql 导入TT.sql （文件在docs/db下）<br/>
 4、安装redis 指定redis密码<br/>
 5、修改模块service-开头的服务下的 application-dev.yml 和 dataSource.yml<br/>
 application-dev.yml 中主要修改redis密码
@@ -55,17 +55,6 @@ spring:
 ```yaml
 dataSources:
   ds0: !!com.alibaba.druid.pool.DruidDataSource
-    driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://dev.db.java110.com:3306/hc_community?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
-    username: hc_community
-    password: hc_community@12345678
-    minIdle: 5
-    validationQuery: SELECT 1 FROM DUAL
-    initialSize: 5
-    maxWait: 60000
-    filters: stat,wall,log4j
-    poolPreparedStatements: true
-  ds1: !!com.alibaba.druid.pool.DruidDataSource
     driverClassName: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://dev.db.java110.com:3306/TT?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
     username: TT

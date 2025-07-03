@@ -1725,13 +1725,15 @@ public class ComputeFeeSMOImpl implements IComputeFeeSMO {
             // 轮数 * 周期 * 30 + 开始时间 = 目标 到期时间
             targetEndDate = getTargetEndTime(round * paymentCycle, startDate, false);//目标结束时间
 
-            //todo 如果 到了 预付期 产生下个周期的费用
-            if (DateUtil.getFormatTimeStringB(targetEndDate).equals(DateUtil.getFormatTimeStringB(endDate))
-                    && DateUtil.getCurrentDate().getTime() > preEndTime.getTime()
-            ) {
-                targetEndDate = getTargetEndTime((round + 1) * paymentCycle, startDate, true);//目标结束时间
-            } else {
-                targetEndDate = getTargetEndTime(round * paymentCycle, startDate, true);//目标结束时间
+            //todo 如果 是预付费 到了 预付期 产生下个周期的费用
+            if("1200".equals(feeDto.getPaymentCd())) {
+                if (DateUtil.getFormatTimeStringB(targetEndDate).equals(DateUtil.getFormatTimeStringB(endDate))
+                        && DateUtil.getCurrentDate().getTime() > preEndTime.getTime()
+                ) {
+                    targetEndDate = getTargetEndTime((round + 1) * paymentCycle, startDate, true);//目标结束时间
+                } else {
+                    targetEndDate = getTargetEndTime(round * paymentCycle, startDate, true);//目标结束时间
+                }
             }
 
             //todo 费用项的结束时间<缴费的结束时间  费用快结束了   取费用项的结束时间
