@@ -177,7 +177,7 @@ public class RepairDispatchCmd extends Cmd {
         repairUserDto.setRepairId(reqJson.getString("repairId"));
         repairUserDto.setCommunityId(reqJson.getString("communityId"));
         //todo 这里考虑带评价
-        repairUserDto.setStates(new String[]{RepairUserDto.STATE_DOING, RepairUserDto.STATE_EVALUATE});
+        repairUserDto.setStates(new String[]{RepairUserDto.STATE_DOING, RepairUserDto.STATE_EVALUATE,RepairUserDto.STATE_PAY_FEE});
         repairUserDto.setStaffId(reqJson.getString("userId"));
         List<RepairUserDto> repairUserDtos = repairUserInnerServiceSMOImpl.queryRepairUsers(repairUserDto);
         if (ListUtil.isNull(repairUserDtos)) {
