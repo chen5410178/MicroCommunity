@@ -20,6 +20,8 @@
 
 [操作手册](http://bbs.homecommunity.cn/document.html?docId=102022031484710001)
 
+[接口文档](http://api.homecommunity.cn/pages/hc/login/PcUserLoginCmd_cn.html)
+
    
 ## 产品
 
