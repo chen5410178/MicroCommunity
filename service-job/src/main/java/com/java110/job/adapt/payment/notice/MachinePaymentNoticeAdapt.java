@@ -25,6 +25,7 @@ import com.java110.dto.owner.OwnerCarDto;
 import com.java110.dto.owner.OwnerDto;
 import com.java110.dto.owner.OwnerRoomRelDto;
 import com.java110.dto.privilege.RoleCommunityDto;
+import com.java110.dto.staffCommunity.StaffCommunityDto;
 import com.java110.dto.wechat.SmallWeChatDto;
 import com.java110.dto.wechat.SmallWechatAttrDto;
 import com.java110.dto.user.StaffAppAuthDto;
@@ -113,7 +114,7 @@ public class MachinePaymentNoticeAdapt extends DatabusAdaptImpl {
     private IOwnerAppUserInnerServiceSMO ownerAppUserInnerServiceSMO;
 
     @Autowired
-    private IRoleCommunityV1InnerServiceSMO roleCommunityV1InnerServiceSMOImpl;
+    private IStaffCommunityV1InnerServiceSMO staffCommunityV1InnerServiceSMOImpl;
 
     //模板信息推送地址
     private static String sendMsgUrl = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=";
@@ -266,11 +267,11 @@ public class MachinePaymentNoticeAdapt extends DatabusAdaptImpl {
             //根据 userId 查询到openId
 
             //todo 判断给员工是否授权了该小区
-            RoleCommunityDto roleCommunityDto = new RoleCommunityDto();
-            roleCommunityDto.setStaffId(userDto.getUserId());
-            roleCommunityDto.setCommunityId(payFeeDetailPo.getCommunityId());
-           List<RoleCommunityDto> roleCommunityDtos =  roleCommunityV1InnerServiceSMOImpl.queryRoleCommunitys(roleCommunityDto);
-           if(ListUtil.isNull(roleCommunityDtos)){
+            StaffCommunityDto staffCommunityDto = new StaffCommunityDto();
+            staffCommunityDto.setStaffId(userDto.getUserId());
+            staffCommunityDto.setCommunityId(payFeeDetailPo.getCommunityId());
+           List<StaffCommunityDto> staffCommunityDtos =  staffCommunityV1InnerServiceSMOImpl.queryStaffCommunitys(staffCommunityDto);
+           if(ListUtil.isNull(staffCommunityDtos)){
                continue;
            }
 
