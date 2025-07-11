@@ -18,7 +18,7 @@
 
 ## 如何使用
 
-[操作手册](http://bbs.homecommunity.cn/document.html?docId=102022031484710001)
+[操作手册](http://www.homecommunity.cn/pages/introduce/introduce_cn.html)
 
 [接口文档](http://api.homecommunity.cn/pages/hc/login/PcUserLoginCmd_cn.html)
 
