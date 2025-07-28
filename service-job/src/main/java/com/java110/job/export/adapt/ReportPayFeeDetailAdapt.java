@@ -110,6 +110,9 @@ public class ReportPayFeeDetailAdapt implements IExportDataAdapt {
         Object data = resultVo.getData();
         JSONArray reportFeeMonthStatisticsDtos = JSONArray.parseArray(JSONObject.toJSONString(data));
 //        List<ReportFeeMonthStatisticsDto> reportFeeMonthStatisticsDtos = (List<ReportFeeMonthStatisticsDto>) resultVo.getData();
+        if (ListUtil.isNull(reportFeeMonthStatisticsDtos)) {
+            return;
+        }
         Row row = null;
         JSONObject dataObj = null;
 //        JSONObject reportFeeMonthStatisticsDto = null;
