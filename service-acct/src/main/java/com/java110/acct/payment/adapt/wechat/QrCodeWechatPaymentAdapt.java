@@ -120,6 +120,7 @@ public class QrCodeWechatPaymentAdapt implements IQrCodePaymentSMO {
         String xmlData = PayUtil.mapToXml(paramMap);
 
         logger.debug("调用支付统一下单接口" + xmlData);
+        shopSmallWeChatDto.setMchId(mchId);
 
         doSaveOnlinePay(shopSmallWeChatDto, "-1", orderNum, feeName, payAmount,
                 OnlinePayDto.STATE_WAIT, "待支付",paymentPoolValueDtos.get(0).getPpId());
