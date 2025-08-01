@@ -72,18 +72,29 @@ dataSource.yml 中修改password密码<br/>
 注意启动是没有顺序的，但是我们优先推荐您启动service-eureka<br/>
 7、下载前段代码 <br/>
 git clone https://gitee.com/java110/MicroCommunityWeb.git <br/>
-8、修改app.js 中的地址<br/>
+8、修改vue.config.js 中的ip和端口信息<br/>
 ```shell script
-app.use('/callComponent', proxy('http://192.168.100.108:8008', opts));
-app.use('/app', proxy('http://192.168.100.108:8008', opts));
+    proxy: {
+      '/app': {
+        target: 'http://127.0.0.1:8008/app', // 后端API地址
+        changeOrigin: true,
+        pathRewrite: {
+          '^/app': ''
+        }
+      },
+      '/callComponent': {
+        target: 'http://127.0.0.1:8008/callComponent', // 后端API地址
+        changeOrigin: true,
+        pathRewrite: {
+          '^/callComponent': ''
+        }
+      }
 ```
-将192.168.100.108 修改为你后端的ip<br/>
+将127.0.0.1 修改为你后端的ip<br/>
 9、启动并且访问<br/>
-npm start
+npm run dev
 ```shell script
-PS C:\project\vip\MicroCommunityWeb> npm start
-> micrcommunityweb@0.0.0 start C:\project\vip\MicroCommunityWeb
-> node ./bin/www
+npm run dev
 ```
 表示启动成功<br/>
 访问地址：http://localhost:3000
