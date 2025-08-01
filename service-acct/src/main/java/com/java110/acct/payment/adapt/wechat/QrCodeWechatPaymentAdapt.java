@@ -13,6 +13,7 @@ import com.java110.po.wechat.OnlinePayPo;
 import com.java110.utils.cache.MappingCache;
 import com.java110.utils.constant.MappingConstant;
 import com.java110.utils.constant.WechatConstant;
+import com.java110.utils.util.ListUtil;
 import com.java110.utils.util.PayUtil;
 import com.java110.utils.util.StringUtil;
 import com.java110.vo.ResultVo;
@@ -77,7 +78,7 @@ public class QrCodeWechatPaymentAdapt implements IQrCodePaymentSMO {
         SmallWeChatDto smallWeChatDto = new SmallWeChatDto();
         smallWeChatDto.setObjId(communityId);
         List<SmallWeChatDto> smallWeChatDtos = smallWeChatInnerServiceSMOImpl.querySmallWeChats(smallWeChatDto);
-        if (smallWeChatDtos == null || smallWeChatDtos.size() < 1) {
+        if (ListUtil.isNull(smallWeChatDtos)) {
             shopSmallWeChatDto = new SmallWeChatDto();
             shopSmallWeChatDto.setObjId(communityId);
             shopSmallWeChatDto.setAppId(MappingCache.getValue(WechatConstant.WECHAT_DOMAIN, "appId"));
