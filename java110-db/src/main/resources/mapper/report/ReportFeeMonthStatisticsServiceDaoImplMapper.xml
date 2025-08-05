@@ -3380,7 +3380,7 @@
         and t.fee_id = rof.fee_id
         and t.community_id = f.community_id
         and t.detail_id = '-1'
-        and t.cur_month_time &lt;= #{startTime}
+        and t.cur_month_time &lt; #{startTime}
         ) preOweAmount
         from building_room br
         inner join building_unit bu on br.unit_id = bu.unit_id and bu.status_cd = '0'
