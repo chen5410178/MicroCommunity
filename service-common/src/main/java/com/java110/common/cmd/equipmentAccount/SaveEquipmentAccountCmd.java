@@ -103,6 +103,7 @@ public class SaveEquipmentAccountCmd extends Cmd {
                 UserDto userDto =  new UserDto();
                 userDto.setUserId(currentUserId);
                 List<UserDto> userDtos = userV1InnerServiceSMO.queryUsers(userDto);
+                Assert.listOnlyOne(userDtos,"用户不存在");
                 equipmentOperatingLogPo.setUserName(userDtos.get(0).getName());
                 equipmentOperatingLogPo.setUserId(currentUserId);
                 equipmentOperatingLogPo.setUseTel(userDtos.get(0).getTel());
