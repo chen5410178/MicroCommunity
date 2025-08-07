@@ -20,6 +20,8 @@ import com.java110.intf.user.IOrgStaffRelInnerServiceSMO;
 import com.java110.intf.user.IOrgV1InnerServiceSMO;
 import com.java110.intf.user.IUserInnerServiceSMO;
 import com.java110.intf.user.IUserV1InnerServiceSMO;
+import com.java110.utils.cache.MappingCache;
+import com.java110.utils.constant.MappingConstant;
 import com.java110.utils.exception.CmdException;
 import com.java110.utils.util.*;
 import com.java110.vo.api.staff.ApiStaffDataVo;
@@ -141,6 +143,8 @@ public class QueryStaffInfosCmd extends Cmd {
         }
         int count = userInnerServiceSMOImpl.getStaffCount(userDto);
         List<ApiStaffDataVo> staffs = new ArrayList<>();
+        String imgUrl = MappingCache.getValue(MappingConstant.FILE_DOMAIN, "IMG_PATH");
+
         if (count > 0) {
             List<ApiStaffDataVo> staffList = BeanConvertUtil.covertBeanList(userInnerServiceSMOImpl.getStaffs(userDto), ApiStaffDataVo.class);
             for (ApiStaffDataVo apiStaffDataVo : staffList) {
@@ -154,16 +158,25 @@ public class QueryStaffInfosCmd extends Cmd {
                         urls.add(fileRel.getFileRealName());
                     }
                     apiStaffDataVo.setUrls(urls);
+                    if (!urls.isEmpty()) {
+                        if (urls.get(0).startsWith("http")) {
+                            apiStaffDataVo.setPhoneUrl(urls.get(0));
+                        } else {
+                            apiStaffDataVo.setPhoneUrl(imgUrl + urls.get(0));
+                        }
+                    }
                 }
                 staffs.add(apiStaffDataVo);
             }
             refreshInitials(staffs);
             refreshOrgs(staffs, reqJson.getString("storeId"));
             // 查询上级领导
-            findLeaders(staffs,reqJson.getString("storeId"));
+            findLeaders(staffs, reqJson.getString("storeId"));
         } else {
             staffs = new ArrayList<>();
         }
+
+
         ApiStaffVo apiStaffVo = new ApiStaffVo();
         apiStaffVo.setTotal(count);
         apiStaffVo.setRecords((int) Math.ceil((double) count / (double) reqJson.getInteger("row")));
@@ -181,12 +194,12 @@ public class QueryStaffInfosCmd extends Cmd {
         storeStaffLeaderDto.setStaffIds(staffIds.toArray(new String[staffIds.size()]));
 
 
-       List<StoreStaffLeaderDto> leaderDtos = storeStaffLeaderV1InnerServiceSMOImpl.queryStoreStaffLeaders(storeStaffLeaderDto);
-       if(ListUtil.isNull(leaderDtos)){
-           return;
-       }
+        List<StoreStaffLeaderDto> leaderDtos = storeStaffLeaderV1InnerServiceSMOImpl.queryStoreStaffLeaders(storeStaffLeaderDto);
+        if (ListUtil.isNull(leaderDtos)) {
+            return;
+        }
 
-       List<StoreStaffLeaderDto> leaders = null;
+        List<StoreStaffLeaderDto> leaders = null;
         for (ApiStaffDataVo apiStaffDataVo : staffs) {
             leaders = new ArrayList<>();
             for (StoreStaffLeaderDto tmpLeaderDto : leaderDtos) {

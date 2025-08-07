@@ -55,6 +55,8 @@ public class ApiStaffDataVo implements Serializable {
 
     private String idCard;
 
+    private String phoneUrl;
+
     private List<String> urls;
 
     private List<StoreStaffLeaderDto> leaders;
@@ -273,5 +275,13 @@ public class ApiStaffDataVo implements Serializable {
 
     public void setLeaders(List<StoreStaffLeaderDto> leaders) {
         this.leaders = leaders;
+    }
+
+    public String getPhoneUrl() {
+        return phoneUrl;
+    }
+
+    public void setPhoneUrl(String phoneUrl) {
+        this.phoneUrl = phoneUrl;
     }
 }
