@@ -160,9 +160,9 @@ public class QueryStaffInfosCmd extends Cmd {
                     apiStaffDataVo.setUrls(urls);
                     if (!urls.isEmpty()) {
                         if (urls.get(0).startsWith("http")) {
-                            apiStaffDataVo.setPhoneUrl(urls.get(0));
+                            apiStaffDataVo.setPhotoUrl(urls.get(0));
                         } else {
-                            apiStaffDataVo.setPhoneUrl(imgUrl + urls.get(0));
+                            apiStaffDataVo.setPhotoUrl(imgUrl + urls.get(0));
                         }
                     }
                 }

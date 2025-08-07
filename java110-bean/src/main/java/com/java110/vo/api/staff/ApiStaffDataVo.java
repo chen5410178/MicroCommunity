@@ -55,7 +55,7 @@ public class ApiStaffDataVo implements Serializable {
 
     private String idCard;
 
-    private String phoneUrl;
+    private String photoUrl;
 
     private List<String> urls;
 
@@ -277,11 +277,11 @@ public class ApiStaffDataVo implements Serializable {
         this.leaders = leaders;
     }
 
-    public String getPhoneUrl() {
-        return phoneUrl;
+    public String getPhotoUrl() {
+        return photoUrl;
     }
 
-    public void setPhoneUrl(String phoneUrl) {
-        this.phoneUrl = phoneUrl;
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
     }
 }
