@@ -23,7 +23,7 @@ public class StopTaskCmd extends Cmd {
     @Override
     public void validate(CmdEvent event, ICmdDataFlowContext context, JSONObject reqJson) throws CmdException {
 
-        Assert.hasKeyAndValue(reqJson, "taskId", "请求报文中未包含taskName");
+        Assert.hasKeyAndValue(reqJson, "taskId", "taskId不能为空");
     }
 
     @Override
