@@ -58,8 +58,6 @@ public class UpdateOrgCmd extends Cmd {
     public void validate(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) {
         Assert.hasKeyAndValue(reqJson, "orgId", "组织ID不能为空");
         Assert.hasKeyAndValue(reqJson, "orgName", "必填，请填写组织名称");
-        Assert.hasKeyAndValue(reqJson, "orgLevel", "必填，请填写报修人名称");
-        Assert.hasKeyAndValue(reqJson, "parentOrgId", "必填，请选择上级ID");
         //Assert.hasKeyAndValue(reqJson, "description", "必填，请填写描述");
         String storeId = cmdDataFlowContext.getReqHeaders().get("store-id");
         reqJson.put("storeId", storeId);
