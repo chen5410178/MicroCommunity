@@ -17,7 +17,7 @@ HC小区管理系统之前一直是以spring cloud 方式启动 它的优点是�
 
 脚本主要是实现将service服务下的 pom-boot.xml 的内容 写到 pom.xml 文件中
 
-2、跟目录下执行 编译
+2、根目录下执行 编译
 
 mvn clean install
 
@@ -33,5 +33,5 @@ spring boot 我们只关注 springboot 这个服务就可以 service开头的服
 
 4、部署前段访问
 
-前段部署 没有差别
+前端部署 没有差别
 
