@@ -12305,7 +12305,6 @@ INSERT INTO `c_mapping` VALUES ('194', 'SYSTEM_SWITCH', '调用外部系统记�
 INSERT INTO `c_mapping` VALUES ('195', 'SYSTEM_SWITCH', '商家停车劵赠送动态二维码开关', 'CHECK_PARKING_COUPON_QRCODE_CODE', 'ON', '主要 有些物业感觉 领劵二维码 动态不方便，但是我们考虑静态有安全风险 所以加入开关ON 表示 二维码动态 OFF 二维码静态', '2022-11-23 01:24:10', '0');
 INSERT INTO `c_mapping` VALUES ('196', 'MALL', '商城是否按小区查询', 'QUERY_BY_COMMUNITY', 'OFF', 'ON 表示按小区查询 OFF 表示 全系统查询 ', '2022-12-02 10:16:25', '0');
 INSERT INTO `c_mapping` VALUES ('197', 'DOMAIN.COMMON', 'payFeeDetailToMonth', 'payFeeDetailToMonth', 'bailefu', '', '2023-01-07 21:59:36', '1');
-INSERT INTO `c_mapping` VALUES ('198', 'SYSTEM_SWITCH', '添加业主自动生成登录账号', 'AUTO_GENERATOR_OWNER_USER', 'OFF', '登录账号密码都是手机号 ON 生成登录账号 OFF 不生成登录账号', '2023-01-25 23:47:40', '0');
 INSERT INTO `c_mapping` VALUES ('199', 'YIDONG_SMS', '集团客户名称', 'ecName', 'xx', '', '2023-02-03 11:52:40', '0');
 INSERT INTO `c_mapping` VALUES ('200', 'YIDONG_SMS', '用户名', 'apId', 'xx', '', '2023-02-03 11:52:58', '0');
 INSERT INTO `c_mapping` VALUES ('201', 'YIDONG_SMS', '密码', 'secretKey', 'xx', '', '2023-02-03 11:53:16', '0');

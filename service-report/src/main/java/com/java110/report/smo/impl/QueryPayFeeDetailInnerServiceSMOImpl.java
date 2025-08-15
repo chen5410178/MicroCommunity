@@ -1,6 +1,7 @@
 package com.java110.report.smo.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.java110.core.annotation.Java110Transactional;
 import com.java110.dto.PageDto;
 import com.java110.dto.community.CommunityDto;
 import com.java110.dto.repair.RepairDto;
@@ -181,6 +182,7 @@ public class QueryPayFeeDetailInnerServiceSMOImpl implements IQueryPayFeeDetailI
         computeParkingSpace(reportFeeMonthStatisticsDtos, payerObjIds);
 
     }
+
 
     private void computeParkingSpace(List<ReportFeeMonthStatisticsDto> reportFeeMonthStatisticsDtos, List<String> payerObjIds) {
         OwnerCarDto ownerCarDto = new OwnerCarDto();
