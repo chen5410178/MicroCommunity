@@ -33,6 +33,7 @@ import com.java110.utils.cache.UrlCache;
 import com.java110.utils.constant.MappingConstant;
 import com.java110.utils.util.Assert;
 import com.java110.utils.util.DateUtil;
+import com.java110.utils.util.ListUtil;
 import com.java110.utils.util.StringUtil;
 import org.slf4j.Logger;
 import com.java110.core.log.LoggerFactory;
@@ -262,7 +263,7 @@ public class MachineReturnRepairAdapt extends DatabusAdaptImpl {
         smallWeChatDto.setObjType(SmallWeChatDto.OBJ_TYPE_COMMUNITY);
         smallWeChatDto.setObjId(communityDto.getCommunityId());
         List<SmallWeChatDto> smallWeChatDtos = smallWeChatInnerServiceSMOImpl.querySmallWeChats(smallWeChatDto);
-        if (smallWeChatDto == null || smallWeChatDtos.size() <= 0) {
+        if (ListUtil.isNull(smallWeChatDtos)) {
             logger.info("未配置微信公众号信息,定时任务执行结束");
             return;
         }

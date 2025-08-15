@@ -492,7 +492,7 @@ public class WechatMsgNotifyImpl implements IMsgNotify {
         ownerAppUserDto.setAppType(OwnerAppUserDto.APP_TYPE_WECHAT);
         ownerAppUserDto.setUserId(userId);
         List<OwnerAppUserDto> ownerAppUserDtos = ownerAppUserInnerServiceSMOImpl.queryOwnerAppUsers(ownerAppUserDto);
-        if (ownerAppUserDtos == null || ownerAppUserDtos.size() < 1) {
+        if (ListUtil.isNull(ownerAppUserDtos)) {
             throw new IllegalArgumentException("业主未绑定，没有获取到微信openId");
         }
         openId = ownerAppUserDtos.get(0).getOpenId();
@@ -545,7 +545,7 @@ public class WechatMsgNotifyImpl implements IMsgNotify {
         ownerAppUserDto.setAppType(OwnerAppUserDto.APP_TYPE_WECHAT);
         ownerAppUserDto.setUserId(userId);
         List<OwnerAppUserDto> ownerAppUserDtos = ownerAppUserInnerServiceSMOImpl.queryOwnerAppUsers(ownerAppUserDto);
-        if (ownerAppUserDtos == null || ownerAppUserDtos.size() < 1) {
+        if (ListUtil.isNull(ownerAppUserDtos)) {
             throw new IllegalArgumentException("业主未绑定，没有获取到微信openId");
         }
         openId = ownerAppUserDtos.get(0).getOpenId();

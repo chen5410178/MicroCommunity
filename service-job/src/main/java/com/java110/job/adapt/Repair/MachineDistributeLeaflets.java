@@ -37,6 +37,7 @@ import com.java110.utils.exception.CmdException;
 import com.java110.utils.factory.ApplicationContextFactory;
 import com.java110.utils.util.Assert;
 import com.java110.utils.util.ImageUtils;
+import com.java110.utils.util.ListUtil;
 import com.java110.utils.util.StringUtil;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -255,7 +256,7 @@ public class MachineDistributeLeaflets extends DatabusAdaptImpl {
         smallWeChatDto.setObjType(SmallWeChatDto.OBJ_TYPE_COMMUNITY);
         smallWeChatDto.setObjId(communityDto.getCommunityId());
         List<SmallWeChatDto> smallWeChatDtos = smallWeChatInnerServiceSMOImpl.querySmallWeChats(smallWeChatDto);
-        if (smallWeChatDto == null || smallWeChatDtos.size() <= 0) {
+        if (ListUtil.isNull(smallWeChatDtos)) {
             logger.info("未配置微信公众号信息,定时任务执行结束");
             return;
         }
