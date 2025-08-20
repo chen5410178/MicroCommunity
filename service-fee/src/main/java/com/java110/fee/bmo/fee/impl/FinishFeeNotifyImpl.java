@@ -231,6 +231,10 @@ public class FinishFeeNotifyImpl implements IFinishFeeNotify {
             //如果是待评价状态，就更新结束时间
             repairUserPo.setEndTime(DateUtil.getNow(DateUtil.DATE_FORMATE_STRING_A));
             repairUserPo.setContext("已支付" + receivedAmount + "元");
+            flag = repairUserV1InnerServiceSMOImpl.updateRepairUserNew(repairUserPo);
+            if (flag < 1) {
+                throw new CmdException("修改失败");
+            }
             //新增待评价状态
             RepairUserPo repairUser = new RepairUserPo();
             repairUser.setRuId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_ruId));
@@ -246,7 +250,7 @@ public class FinishFeeNotifyImpl implements IFinishFeeNotify {
             repairUser.setPreStaffName(repairUserDtoList.get(0).getStaffName());
             repairUser.setPreRuId(repairUserDtoList.get(0).getRuId());
             repairUser.setRepairEvent("auditUser");
-            flag = repairUserV1InnerServiceSMOImpl.saveRepairUserNew(repairUserPo);
+            flag = repairUserV1InnerServiceSMOImpl.saveRepairUserNew(repairUser);
             if (flag < 1) {
                 throw new CmdException("修改失败");
             }
