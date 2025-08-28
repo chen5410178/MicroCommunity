@@ -2897,12 +2897,17 @@ CREATE TABLE `business_building_owner` (
   `remark` varchar(200) DEFAULT NULL COMMENT '备注',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `operate` varchar(4) NOT NULL COMMENT '数据状态，添加ADD，修改MOD 删除DEL',
-  `owner_type_cd` varchar(4) NOT NULL DEFAULT '1001' COMMENT '1001 业主本人 1002 家庭成员',
+  `owner_type_cd` varchar(12) NOT NULL COMMENT '户主，1001 户主 1002 户员',
   `community_id` varchar(30) DEFAULT NULL COMMENT '小区ID',
-  `id_card` varchar(30) DEFAULT '-1' COMMENT '身份证号码',
+  `id_card` varchar(64) DEFAULT NULL COMMENT '证件号，个人时为身份证 公司时为 统一社会信用代码',
   `state` varchar(12) NOT NULL DEFAULT '2000' COMMENT '业主 成员状态 1000 表示待审核，2000 审核完成  3000 拒绝审核 ',
   `owner_flag` varchar(12) NOT NULL DEFAULT 'T' COMMENT '业主标识 T是真实业主 F 是虚拟业主',
   `address` varchar(255) DEFAULT NULL COMMENT '家庭住址',
+  `person_type` varchar(12) DEFAULT 'P' COMMENT '人员类型 P 个人 C 公司',
+  `person_role` varchar(12) DEFAULT '1' COMMENT '人员角色 1 业主 2 租客 3 家庭成员 4 公司员工 99 其他',
+  `concact_person` varchar(64) DEFAULT NULL COMMENT '联系人,人员类型为公司时有用',
+  `concact_link` varchar(11) DEFAULT NULL COMMENT '联系人电话',
+  `face_url` varchar(512) DEFAULT NULL COMMENT '人脸地址',
   KEY `idx_business_owner_id` (`member_id`) USING BTREE,
   KEY `idx_business_owner_b_id` (`b_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -2910,7 +2915,6 @@ CREATE TABLE `business_building_owner` (
 -- ----------------------------
 -- Records of business_building_owner
 -- ----------------------------
-INSERT INTO `business_building_owner` VALUES ('772025040248490038', '772025040248490038', '202025040269500039', '未知', '0', null, '18909714563', '302024122682660030', null, '2025-04-02 18:56:22', 'ADD', '1001', '2024122649870005', '-1', '2000', 'T', null);
 
 -- ----------------------------
 -- Table structure for business_building_owner_attr
