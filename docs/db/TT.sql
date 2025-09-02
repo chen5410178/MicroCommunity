@@ -22014,8 +22014,6 @@ INSERT INTO `m_menu` VALUES ('702020021988260017', '巡检任务', '802020020977
 INSERT INTO `m_menu` VALUES ('702020022008800009', '组织信息', '800201904001', '/#/pages/frame/orgManage', '7', '502020022062840008', '', '2020-02-20 09:00:14', '0', 'N');
 INSERT INTO `m_menu` VALUES ('702020022068180011', '修改密码', '802019091604450001', '/#/pages/frame/changeStaffPwd', '3', '502020022030570010', '', '2020-02-20 09:22:12', '0', 'Y');
 INSERT INTO `m_menu` VALUES ('702020041486250003', '受理单', '802020041496780001', '/#/pages/admin/orderManage', '1', '502020041499210002', '', '2020-04-14 11:52:57', '0', 'Y');
-INSERT INTO `m_menu` VALUES ('702020041871090020', '发布需求', '802020041868120016', '/#/pages/proxy/junkRequirementManage?typeCd=333333', '2', '502020041852410019', '', '2020-04-18 15:18:40', '0', 'Y');
-INSERT INTO `m_menu` VALUES ('702020041891280018', '旧货甩卖', '802020041868120016', '/#/pages/proxy/junkRequirementManage?typeCd=222222', '1', '502020041876870017', '', '2020-04-18 15:17:31', '0', 'Y');
 INSERT INTO `m_menu` VALUES ('702020042680040009', '商户信息', '802019091604450001', '/#/pages/common/storeInfoManage', '10', '502020042615070008', '', '2020-04-26 10:14:30', '0', 'Y');
 INSERT INTO `m_menu` VALUES ('702020051144890083', '个人信息', '802019091604450001', '/#/pages/frame/userInfoManage', '8', '502020051101260082', '', '2020-05-11 09:55:23', '0', 'N');
 INSERT INTO `m_menu` VALUES ('702020051167520158', '退费审核', '802019103010680005', '/#/pages/property/returnPayFeeManage', '8', '502020051194940157', '', '2020-05-11 16:59:17', '0', 'Y');
@@ -22168,8 +22166,6 @@ INSERT INTO `m_menu` VALUES ('702021051834760934', '发布广告', '802020101497
 INSERT INTO `m_menu` VALUES ('702021052105540002', '采购申请', '802023091808030004', '/pages/resource/purchaseApplyManage', '12', '-1', '/static/image/index_apply.png', '2021-05-21 16:36:02', '0', 'Y');
 INSERT INTO `m_menu` VALUES ('702021052131590006', '物品调拨', '802023091808030004', '/pages/resource/allocationStorehouseManage', '14', '-1', '/static/image/index_allocation.png', '2021-05-21 16:38:15', '0', 'Y');
 INSERT INTO `m_menu` VALUES ('702021052136420004', '物品领用', '802023091808030004', '/pages/resource/itemOutManage', '13', '-1', '/static/image/index_itemout.png', '2021-05-21 16:37:08', '0', 'Y');
-INSERT INTO `m_menu` VALUES ('702021052166830389', '便民信息维护', '802020101497090051', '/#/pages/admin/storeInfoManage', '9', '-1', '', '2021-05-21 15:44:49', '0', 'Y');
-INSERT INTO `m_menu` VALUES ('702021052193760386', '便民菜单维护', '802020101497090051', '/#/pages/admin/convenienceMenusManage', '8', '-1', '', '2021-05-21 15:43:30', '0', 'Y');
 INSERT INTO `m_menu` VALUES ('702021052458460212', '问卷明细表', '802020101628950105', '/#/pages/property/reportQuestionAnswerDetail', '13', '-1', '', '2021-05-24 11:02:45', '0', 'Y');
 INSERT INTO `m_menu` VALUES ('702021052592090024', '服务类型', '802021052526080022', '/#/pages/goods/housekeepingTypeManage', '1', '-1', '', '2021-05-25 15:05:11', '0', 'Y');
 INSERT INTO `m_menu` VALUES ('702021052638000726', '供应商', '802021030869330063', '/#/pages/goods/resourceSupplierManage', '5', '-1', '', '2021-05-26 22:25:09', '0', 'Y');
@@ -22258,7 +22254,7 @@ INSERT INTO `m_menu` VALUES ('702021111211780405', '报表组件', '802021110952
 INSERT INTO `m_menu` VALUES ('702021111283300047', '报修报表', '802020101628950105', '/#/pages/property/commonReport?groupId=102021111007300001', '14', '-1', '', '2021-11-12 15:51:18', '0', 'Y');
 INSERT INTO `m_menu` VALUES ('702021111293630375', '报表信息', '802021110952690125', '/#/pages/dev/reportCustomManage', '2', '-1', '', '2021-11-12 09:03:45', '0', 'Y');
 INSERT INTO `m_menu` VALUES ('702021112400650642', '购买记录', '802020041868120016', '/#/pages/admin/couponDetailManage', '6', '-1', '', '2021-11-24 09:48:21', '0', 'Y');
-INSERT INTO `m_menu` VALUES ('702021112410210640', '制作优惠券', '802020041868120016', '/#/pages/admin/couponPoolManage', '5', '-1', '', '2021-11-24 09:47:32', '0', 'Y');
+INSERT INTO `m_menu` VALUES ('702021112410210640', '制作优惠券', '802020041868120016', '/#/pages/admin/couponPoolManage', '1', '-1', '', '2021-11-24 09:47:32', '0', 'Y');
 INSERT INTO `m_menu` VALUES ('702021112475670048', '优惠劵管理', '802021030429840613', '/#/pages/goods/couponShopPoolManage', '5', '-1', '', '2021-11-24 15:29:09', '0', 'Y');
 INSERT INTO `m_menu` VALUES ('702021112575360067', '购买记录', '802021030429840613', '/#/pages/goods/couponDetailManage', '6', '-1', '', '2021-11-25 18:09:13', '0', 'Y');
 INSERT INTO `m_menu` VALUES ('702021112709830035', '店铺变更', '802021031077490162', '/#/pages/admin/shopAuditManage', '11', '-1', '', '2021-11-27 23:49:24', '1', 'Y');
@@ -22837,8 +22833,6 @@ INSERT INTO `m_menu_org` VALUES ('702020022008800009', '组织信息', '80020190
 INSERT INTO `m_menu_org` VALUES ('702020022068180011', '修改密码', '802019091604450001', '/admin.html#/changeStaffPwd', '3', '502020022030570010', '', '2020-02-20 09:22:12', '0', 'Y');
 INSERT INTO `m_menu_org` VALUES ('702020040987510016', '订单查询', '802019091604450001', '/admin.html#/orderManage', '6', '502020040944140015', '', '2020-04-09 10:41:36', '1', 'Y');
 INSERT INTO `m_menu_org` VALUES ('702020041486250003', '订单信息', '802020041496780001', '/admin.html#/orderManage', '1', '502020041499210002', '', '2020-04-14 11:52:57', '0', 'Y');
-INSERT INTO `m_menu_org` VALUES ('702020041871090020', '发布需求', '802020041868120016', '/admin.html#/junkRequirementManage?typeCd=333333', '2', '502020041852410019', '', '2020-04-18 15:18:40', '0', 'Y');
-INSERT INTO `m_menu_org` VALUES ('702020041891280018', '旧货甩卖', '802020041868120016', '/admin.html#/junkRequirementManage?typeCd=222222', '1', '502020041876870017', '', '2020-04-18 15:17:31', '0', 'Y');
 INSERT INTO `m_menu_org` VALUES ('702020042155330022', '采购入库', '800201906011', '/admin.html#/resourceEnterManage', '7', '502020042158720021', '', '2020-04-21 14:58:57', '0', 'Y');
 INSERT INTO `m_menu_org` VALUES ('702020042330250199', '标签管理3', '802020012374230001', '/admin.html#/tagManager', '5', '502020042355910198', '', '2020-04-23 00:21:48', '1', 'Y');
 INSERT INTO `m_menu_org` VALUES ('702020042364070195', '标签管理', '802020042333850193', '/admin.html#/tagManage', '1', '502020042301080194', '', '2020-04-23 00:11:20', '1', 'Y');
@@ -25309,8 +25303,6 @@ INSERT INTO `p_privilege` VALUES ('502020021963300016', '巡检任务', '', '202
 INSERT INTO `p_privilege` VALUES ('502020022030570010', '修改密码', '', '2020-02-20 09:22:12', '0', '800900000001', '/changeStaffPwdFlow', '702020022068180011');
 INSERT INTO `p_privilege` VALUES ('502020022062840008', '组织信息', '', '2020-02-20 09:00:14', '0', '800900000001', '/orgFlow', '702020022008800009');
 INSERT INTO `p_privilege` VALUES ('502020041499210002', '订单信息', '', '2020-04-14 11:52:57', '0', '800900000001', '/admin.html#/orderManage', '702020041486250003');
-INSERT INTO `p_privilege` VALUES ('502020041852410019', '发布需求', '', '2020-04-18 15:18:40', '0', '800900000001', '/admin.html', '702020041871090020');
-INSERT INTO `p_privilege` VALUES ('502020041876870017', '旧货甩卖', '', '2020-04-18 15:17:31', '0', '800900000001', '/admin.html', '702020041891280018');
 INSERT INTO `p_privilege` VALUES ('502020042615070008', '商户信息', '', '2020-04-26 10:14:30', '0', '800900000003', '/admin.html#/storeInfoManage', '702020042680040009');
 INSERT INTO `p_privilege` VALUES ('502020051101260082', '个人信息', '', '2020-05-11 09:55:23', '0', '800900000003', '/admin.html#/userInfo', '702020051144890083');
 INSERT INTO `p_privilege` VALUES ('502020051194940157', '退费审核', '', '2020-05-11 16:59:17', '0', '800900000003', '/admin.html#/pages/property/returnPayFeeManage', '702020051167520158');
@@ -25536,11 +25528,9 @@ INSERT INTO `p_privilege` VALUES ('502021051529650204', '退货地址', '', '202
 INSERT INTO `p_privilege` VALUES ('502021051814820935', '发布广告', '', '2021-05-18 00:31:17', '0', '800900000001', '/admin.html#/pages/property/advertManage', '702021051834760934');
 INSERT INTO `p_privilege` VALUES ('502021051927250004', '查看所有出入库明细', '查看所有出入库明细', '2021-05-19 14:43:21', '0', '800900000003', '/viewAllPurchaseApplyDetail', '702021042286380004');
 INSERT INTO `p_privilege` VALUES ('502021052094720028', '查看所有组织架构信息', '查看所有组织架构信息', '2021-05-20 17:21:37', '0', '800900000003', '/viewAllOrganization', '702019100725620006');
-INSERT INTO `p_privilege` VALUES ('502021052108990387', '便民菜单维护', '', '2021-05-21 15:43:30', '0', '800900000001', '/admin.html#/pages/admin/convenienceMenusManage', '702021052193760386');
 INSERT INTO `p_privilege` VALUES ('502021052111240007', '物品调拨', '/static/image/index_dealRepair.png', '2021-05-21 16:38:15', '0', '800900000003', '/pages/allocationStorehouseManage/allocationStorehouseManage', '702021052131590006');
 INSERT INTO `p_privilege` VALUES ('502021052177980003', '采购申请', ' /static/image/index_dealRepair.png', '2021-05-21 16:36:02', '0', '800900000003', '/pages/purchaseApplyManage/purchaseApplyManage', '702021052105540002');
 INSERT INTO `p_privilege` VALUES ('502021052180090005', '物品领用', '/static/image/index_dealRepair.png', '2021-05-21 16:37:08', '0', '800900000003', '/pages/itemOutManage/itemOutManage', '702021052136420004');
-INSERT INTO `p_privilege` VALUES ('502021052182860390', '便民信息维护', '', '2021-05-21 15:44:49', '0', '800900000001', '/admin.html#/pages/admin/storeInfoManage', '702021052166830389');
 INSERT INTO `p_privilege` VALUES ('502021052423840213', '问卷明细表', '', '2021-05-24 11:02:45', '0', '800900000003', '/admin.html#/pages/property/reportQuestionAnswerDetail', '702021052458460212');
 INSERT INTO `p_privilege` VALUES ('502021052570530025', '家政服务', '', '2021-05-25 15:05:11', '0', '800900000005', '/admin.html#/pages/goods/housekeepingTypeManage', '702021052592090024');
 INSERT INTO `p_privilege` VALUES ('502021052623750727', '物品供应商', '', '2021-05-26 22:25:09', '0', '800900000005', '/admin.html#/pages/goods/resourceSupplierManage', '702021052638000726');
@@ -25569,11 +25559,9 @@ INSERT INTO `p_privilege` VALUES ('502021062118340481', '拼团产品', '', '202
 INSERT INTO `p_privilege` VALUES ('502021062127960368', '提现付款', '', '2021-06-21 17:37:29', '0', '800900000001', '/admin.html#/pages/goods/accountWithdrawalApplyFkManage', '702021062198850367');
 INSERT INTO `p_privilege` VALUES ('502021062145860366', '提现审核', '', '2021-06-21 17:37:02', '0', '800900000001', '/admin.html#/pages/goods/accountWithdrawalApplyShManage', '702021062120260365');
 INSERT INTO `p_privilege` VALUES ('502021062159200489', '发布广告', '', '2021-06-21 22:54:24', '0', '800900000005', '/admin.html#/pages/property/advertManage', '702021062118030488');
-INSERT INTO `p_privilege` VALUES ('502021062162470491', '便民信息维护', '', '2021-06-21 22:54:54', '0', '800900000005', '/admin.html#/pages/admin/storeInfoManage', '702021062181060490');
 INSERT INTO `p_privilege` VALUES ('502021062168800412', '账户提现', '', '2021-06-21 18:08:11', '0', '800900000005', '/admin.html#/pages/goods/accountWithdrawalApplyManage', '702021062150280411');
 INSERT INTO `p_privilege` VALUES ('502021062170010483', '拼团列表', '', '2021-06-21 22:52:42', '0', '800900000005', '/admin.html#/pages/goods/groupBuyManage', '702021062145590482');
 INSERT INTO `p_privilege` VALUES ('502021062175020402', '开户行管理', '', '2021-06-21 18:00:24', '0', '800900000005', '/admin.html#/pages/admin/accountBankManage', '702021062194830401');
-INSERT INTO `p_privilege` VALUES ('502021062179880493', '便民菜单维护', '', '2021-06-21 22:55:22', '0', '800900000005', '/admin.html#/pages/admin/convenienceMenusManage', '702021062117500492');
 INSERT INTO `p_privilege` VALUES ('502021062184180332', '家政已办', '', '2021-06-21 17:08:12', '0', '800900000005', '/admin.html#/pages/goods/myHousekeepingDispatchManage', '702021062112480331');
 INSERT INTO `p_privilege` VALUES ('502021062186560485', '拼团批次 	', '', '2021-06-21 22:53:15', '0', '800900000005', '/admin.html#/pages/goods/groupBuyBatchManage', '702021062184420484');
 INSERT INTO `p_privilege` VALUES ('502021062186930334', '家政待办', '', '2021-06-21 17:09:01', '0', '800900000005', '/admin.html#/pages/goods/housekeepingDispatchManage', '702021062154910333');
@@ -26134,8 +26122,6 @@ INSERT INTO `p_privilege_0731` VALUES ('502020022030570010', '修改密码', '',
 INSERT INTO `p_privilege_0731` VALUES ('502020022062840008', '组织信息', '', '2020-02-20 09:00:14', '0', '800900000001', '/orgFlow', '');
 INSERT INTO `p_privilege_0731` VALUES ('502020040944140015', '订单查询', '', '2020-04-09 10:41:36', '1', '800900000003', '/admin.html#/orderManage', '');
 INSERT INTO `p_privilege_0731` VALUES ('502020041499210002', '订单信息', '', '2020-04-14 11:52:57', '0', '800900000001', '/admin.html#/orderManage', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020041852410019', '发布需求', '', '2020-04-18 15:18:40', '0', '800900000002', '/admin.html', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020041876870017', '旧货甩卖', '', '2020-04-18 15:17:31', '0', '800900000002', '/admin.html', '');
 INSERT INTO `p_privilege_0731` VALUES ('502020042158720021', '入库', '', '2020-04-21 14:58:57', '0', '800900000003', '/admin.html#/resourceEnterManage', '');
 INSERT INTO `p_privilege_0731` VALUES ('502020042301080194', '标签管理', '', '2020-04-23 00:11:20', '1', '800900000000', 'ww', '');
 INSERT INTO `p_privilege_0731` VALUES ('502020042355910198', '标签管理3', '', '2020-04-23 00:21:48', '1', '800900000000', '/admin.html#/tagManager', '');
@@ -26297,8 +26283,6 @@ INSERT INTO `p_privilege_copy1` VALUES ('502020022030570010', '修改密码', ''
 INSERT INTO `p_privilege_copy1` VALUES ('502020022062840008', '组织信息', '', '2020-02-20 09:00:14', '0', '800900000001', '/orgFlow', '702020022008800009');
 INSERT INTO `p_privilege_copy1` VALUES ('502020040944140015', '订单查询', '', '2020-04-09 10:41:36', '1', '800900000003', '/admin.html#/orderManage', '702020040987510016');
 INSERT INTO `p_privilege_copy1` VALUES ('502020041499210002', '订单信息', '', '2020-04-14 11:52:57', '0', '800900000001', '/admin.html#/orderManage', '702020041486250003');
-INSERT INTO `p_privilege_copy1` VALUES ('502020041852410019', '发布需求', '', '2020-04-18 15:18:40', '0', '800900000001', '/admin.html', '702020041871090020');
-INSERT INTO `p_privilege_copy1` VALUES ('502020041876870017', '旧货甩卖', '', '2020-04-18 15:17:31', '0', '800900000001', '/admin.html', '702020041891280018');
 INSERT INTO `p_privilege_copy1` VALUES ('502020042158720021', '采购入库', '', '2020-04-21 14:58:57', '0', '800900000003', '/admin.html#/resourceEnterManage', '702020042155330022');
 INSERT INTO `p_privilege_copy1` VALUES ('502020042301080194', '标签管理', '', '2020-04-23 00:11:20', '1', '800900000000', 'ww', '702020042364070195');
 INSERT INTO `p_privilege_copy1` VALUES ('502020042355910198', '标签管理3', '', '2020-04-23 00:21:48', '1', '800900000000', '/admin.html#/tagManager', '702020042330250199');
@@ -26548,11 +26532,9 @@ INSERT INTO `p_privilege_copy1` VALUES ('502021051529650204', '退货地址', ''
 INSERT INTO `p_privilege_copy1` VALUES ('502021051814820935', '发布广告', '', '2021-05-18 00:31:17', '0', '800900000001', '/admin.html#/pages/property/advertManage', '702021051834760934');
 INSERT INTO `p_privilege_copy1` VALUES ('502021051927250004', '查看所有出入库明细', '查看所有出入库明细', '2021-05-19 14:43:21', '0', '800900000003', '/viewAllPurchaseApplyDetail', '702021042286380004');
 INSERT INTO `p_privilege_copy1` VALUES ('502021052094720028', '查看所有组织架构信息', '查看所有组织架构信息', '2021-05-20 17:21:37', '0', '800900000003', '/viewAllOrganization', '702019100725620006');
-INSERT INTO `p_privilege_copy1` VALUES ('502021052108990387', '便民菜单维护', '', '2021-05-21 15:43:30', '0', '800900000001', '/admin.html#/pages/admin/convenienceMenusManage', '702021052193760386');
 INSERT INTO `p_privilege_copy1` VALUES ('502021052111240007', '物品调拨', '/static/image/index_dealRepair.png', '2021-05-21 16:38:15', '0', '800900000003', '/pages/allocationStorehouseManage/allocationStorehouseManage', '702021052131590006');
 INSERT INTO `p_privilege_copy1` VALUES ('502021052177980003', '采购申请', ' /static/image/index_dealRepair.png', '2021-05-21 16:36:02', '0', '800900000003', '/pages/purchaseApplyManage/purchaseApplyManage', '702021052105540002');
 INSERT INTO `p_privilege_copy1` VALUES ('502021052180090005', '物品领用', '/static/image/index_dealRepair.png', '2021-05-21 16:37:08', '0', '800900000003', '/pages/itemOutManage/itemOutManage', '702021052136420004');
-INSERT INTO `p_privilege_copy1` VALUES ('502021052182860390', '便民信息维护', '', '2021-05-21 15:44:49', '0', '800900000001', '/admin.html#/pages/admin/storeInfoManage', '702021052166830389');
 INSERT INTO `p_privilege_copy1` VALUES ('502021052423840213', '问卷明细表', '', '2021-05-24 11:02:45', '0', '800900000003', '/admin.html#/pages/property/reportQuestionAnswerDetail', '702021052458460212');
 INSERT INTO `p_privilege_copy1` VALUES ('502021052570530025', '家政服务', '', '2021-05-25 15:05:11', '0', '800900000005', '/admin.html#/pages/goods/housekeepingTypeManage', '702021052592090024');
 INSERT INTO `p_privilege_copy1` VALUES ('502021052623750727', '物品供应商', '', '2021-05-26 22:25:09', '0', '800900000005', '/admin.html#/pages/goods/resourceSupplierManage', '702021052638000726');
@@ -26581,11 +26563,9 @@ INSERT INTO `p_privilege_copy1` VALUES ('502021062118340481', '拼团产品', ''
 INSERT INTO `p_privilege_copy1` VALUES ('502021062127960368', '提现付款', '', '2021-06-21 17:37:29', '0', '800900000001', '/admin.html#/pages/goods/accountWithdrawalApplyFkManage', '702021062198850367');
 INSERT INTO `p_privilege_copy1` VALUES ('502021062145860366', '提现审核', '', '2021-06-21 17:37:02', '0', '800900000001', '/admin.html#/pages/goods/accountWithdrawalApplyShManage', '702021062120260365');
 INSERT INTO `p_privilege_copy1` VALUES ('502021062159200489', '发布广告', '', '2021-06-21 22:54:24', '0', '800900000005', '/admin.html#/pages/property/advertManage', '702021062118030488');
-INSERT INTO `p_privilege_copy1` VALUES ('502021062162470491', '便民信息维护', '', '2021-06-21 22:54:54', '0', '800900000005', '/admin.html#/pages/admin/storeInfoManage', '702021062181060490');
 INSERT INTO `p_privilege_copy1` VALUES ('502021062168800412', '账户提现', '', '2021-06-21 18:08:11', '0', '800900000005', '/admin.html#/pages/goods/accountWithdrawalApplyManage', '702021062150280411');
 INSERT INTO `p_privilege_copy1` VALUES ('502021062170010483', '拼团列表', '', '2021-06-21 22:52:42', '0', '800900000005', '/admin.html#/pages/goods/groupBuyManage', '702021062145590482');
 INSERT INTO `p_privilege_copy1` VALUES ('502021062175020402', '开户行管理', '', '2021-06-21 18:00:24', '0', '800900000005', '/admin.html#/pages/admin/accountBankManage', '702021062194830401');
-INSERT INTO `p_privilege_copy1` VALUES ('502021062179880493', '便民菜单维护', '', '2021-06-21 22:55:22', '0', '800900000005', '/admin.html#/pages/admin/convenienceMenusManage', '702021062117500492');
 INSERT INTO `p_privilege_copy1` VALUES ('502021062184180332', '家政已办', '', '2021-06-21 17:08:12', '0', '800900000005', '/admin.html#/pages/goods/myHousekeepingDispatchManage', '702021062112480331');
 INSERT INTO `p_privilege_copy1` VALUES ('502021062186560485', '拼团批次 	', '', '2021-06-21 22:53:15', '0', '800900000005', '/admin.html#/pages/goods/groupBuyBatchManage', '702021062184420484');
 INSERT INTO `p_privilege_copy1` VALUES ('502021062186930334', '家政待办', '', '2021-06-21 17:09:01', '0', '800900000005', '/admin.html#/pages/goods/housekeepingDispatchManage', '702021062154910333');
@@ -26936,8 +26916,6 @@ INSERT INTO `p_privilege_copy2` VALUES ('502020022030570010', '修改密码', ''
 INSERT INTO `p_privilege_copy2` VALUES ('502020022062840008', '组织信息', '', '2020-02-20 09:00:14', '0', '800900000001', '/orgFlow', '702020022008800009');
 INSERT INTO `p_privilege_copy2` VALUES ('502020040944140015', '订单查询', '', '2020-04-09 10:41:36', '1', '800900000003', '/admin.html#/orderManage', '702020040987510016');
 INSERT INTO `p_privilege_copy2` VALUES ('502020041499210002', '订单信息', '', '2020-04-14 11:52:57', '0', '800900000001', '/admin.html#/orderManage', '702020041486250003');
-INSERT INTO `p_privilege_copy2` VALUES ('502020041852410019', '发布需求', '', '2020-04-18 15:18:40', '0', '800900000001', '/admin.html', '702020041871090020');
-INSERT INTO `p_privilege_copy2` VALUES ('502020041876870017', '旧货甩卖', '', '2020-04-18 15:17:31', '0', '800900000001', '/admin.html', '702020041891280018');
 INSERT INTO `p_privilege_copy2` VALUES ('502020042158720021', '采购入库', '', '2020-04-21 14:58:57', '0', '800900000003', '/admin.html#/resourceEnterManage', '702020042155330022');
 INSERT INTO `p_privilege_copy2` VALUES ('502020042301080194', '标签管理', '', '2020-04-23 00:11:20', '1', '800900000000', 'ww', '702020042364070195');
 INSERT INTO `p_privilege_copy2` VALUES ('502020042355910198', '标签管理3', '', '2020-04-23 00:21:48', '1', '800900000000', '/admin.html#/tagManager', '702020042330250199');
@@ -27187,11 +27165,9 @@ INSERT INTO `p_privilege_copy2` VALUES ('502021051529650204', '退货地址', ''
 INSERT INTO `p_privilege_copy2` VALUES ('502021051814820935', '发布广告', '', '2021-05-18 00:31:17', '0', '800900000001', '/admin.html#/pages/property/advertManage', '702021051834760934');
 INSERT INTO `p_privilege_copy2` VALUES ('502021051927250004', '查看所有出入库明细', '查看所有出入库明细', '2021-05-19 14:43:21', '0', '800900000003', '/viewAllPurchaseApplyDetail', '702021042286380004');
 INSERT INTO `p_privilege_copy2` VALUES ('502021052094720028', '查看所有组织架构信息', '查看所有组织架构信息', '2021-05-20 17:21:37', '0', '800900000003', '/viewAllOrganization', '702019100725620006');
-INSERT INTO `p_privilege_copy2` VALUES ('502021052108990387', '便民菜单维护', '', '2021-05-21 15:43:30', '0', '800900000001', '/admin.html#/pages/admin/convenienceMenusManage', '702021052193760386');
 INSERT INTO `p_privilege_copy2` VALUES ('502021052111240007', '物品调拨', '/static/image/index_dealRepair.png', '2021-05-21 16:38:15', '0', '800900000003', '/pages/allocationStorehouseManage/allocationStorehouseManage', '702021052131590006');
 INSERT INTO `p_privilege_copy2` VALUES ('502021052177980003', '采购申请', ' /static/image/index_dealRepair.png', '2021-05-21 16:36:02', '0', '800900000003', '/pages/purchaseApplyManage/purchaseApplyManage', '702021052105540002');
 INSERT INTO `p_privilege_copy2` VALUES ('502021052180090005', '物品领用', '/static/image/index_dealRepair.png', '2021-05-21 16:37:08', '0', '800900000003', '/pages/itemOutManage/itemOutManage', '702021052136420004');
-INSERT INTO `p_privilege_copy2` VALUES ('502021052182860390', '便民信息维护', '', '2021-05-21 15:44:49', '0', '800900000001', '/admin.html#/pages/admin/storeInfoManage', '702021052166830389');
 INSERT INTO `p_privilege_copy2` VALUES ('502021052423840213', '问卷明细表', '', '2021-05-24 11:02:45', '0', '800900000003', '/admin.html#/pages/property/reportQuestionAnswerDetail', '702021052458460212');
 INSERT INTO `p_privilege_copy2` VALUES ('502021052570530025', '家政服务', '', '2021-05-25 15:05:11', '0', '800900000005', '/admin.html#/pages/goods/housekeepingTypeManage', '702021052592090024');
 INSERT INTO `p_privilege_copy2` VALUES ('502021052623750727', '物品供应商', '', '2021-05-26 22:25:09', '0', '800900000005', '/admin.html#/pages/goods/resourceSupplierManage', '702021052638000726');
@@ -27220,11 +27196,9 @@ INSERT INTO `p_privilege_copy2` VALUES ('502021062118340481', '拼团产品', ''
 INSERT INTO `p_privilege_copy2` VALUES ('502021062127960368', '提现付款', '', '2021-06-21 17:37:29', '0', '800900000001', '/admin.html#/pages/goods/accountWithdrawalApplyFkManage', '702021062198850367');
 INSERT INTO `p_privilege_copy2` VALUES ('502021062145860366', '提现审核', '', '2021-06-21 17:37:02', '0', '800900000001', '/admin.html#/pages/goods/accountWithdrawalApplyShManage', '702021062120260365');
 INSERT INTO `p_privilege_copy2` VALUES ('502021062159200489', '发布广告', '', '2021-06-21 22:54:24', '0', '800900000005', '/admin.html#/pages/property/advertManage', '702021062118030488');
-INSERT INTO `p_privilege_copy2` VALUES ('502021062162470491', '便民信息维护', '', '2021-06-21 22:54:54', '0', '800900000005', '/admin.html#/pages/admin/storeInfoManage', '702021062181060490');
 INSERT INTO `p_privilege_copy2` VALUES ('502021062168800412', '账户提现', '', '2021-06-21 18:08:11', '0', '800900000005', '/admin.html#/pages/goods/accountWithdrawalApplyManage', '702021062150280411');
 INSERT INTO `p_privilege_copy2` VALUES ('502021062170010483', '拼团列表', '', '2021-06-21 22:52:42', '0', '800900000005', '/admin.html#/pages/goods/groupBuyManage', '702021062145590482');
 INSERT INTO `p_privilege_copy2` VALUES ('502021062175020402', '开户行管理', '', '2021-06-21 18:00:24', '0', '800900000005', '/admin.html#/pages/admin/accountBankManage', '702021062194830401');
-INSERT INTO `p_privilege_copy2` VALUES ('502021062179880493', '便民菜单维护', '', '2021-06-21 22:55:22', '0', '800900000005', '/admin.html#/pages/admin/convenienceMenusManage', '702021062117500492');
 INSERT INTO `p_privilege_copy2` VALUES ('502021062184180332', '家政已办', '', '2021-06-21 17:08:12', '0', '800900000005', '/admin.html#/pages/goods/myHousekeepingDispatchManage', '702021062112480331');
 INSERT INTO `p_privilege_copy2` VALUES ('502021062186560485', '拼团批次 	', '', '2021-06-21 22:53:15', '0', '800900000005', '/admin.html#/pages/goods/groupBuyBatchManage', '702021062184420484');
 INSERT INTO `p_privilege_copy2` VALUES ('502021062186930334', '家政待办', '', '2021-06-21 17:09:01', '0', '800900000005', '/admin.html#/pages/goods/housekeepingDispatchManage', '702021062154910333');
