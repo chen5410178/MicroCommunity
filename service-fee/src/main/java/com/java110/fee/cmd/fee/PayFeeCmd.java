@@ -344,7 +344,7 @@ public class PayFeeCmd extends Cmd {
         //账户金额
         BigDecimal remainAmount = new BigDecimal(preFee.getString("remainAmount"));
         //实收金额
-        BigDecimal receivedAmount = new BigDecimal(payFeeDetailPo.getReceivedAmount());
+        BigDecimal receivedAmount = new BigDecimal(payFeeDetailPo.getReceivableAmount());
         int flag = remainAmount.compareTo(receivedAmount);
         BigDecimal redepositAmount = new BigDecimal(0.00);
         double received = 0;
