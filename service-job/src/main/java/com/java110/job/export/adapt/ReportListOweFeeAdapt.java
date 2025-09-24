@@ -74,8 +74,8 @@ public class ReportListOweFeeAdapt implements IExportDataAdapt {
             row.createCell(0).setCellValue(reportOweFeeDto.getPayerObjName());
             row.createCell(1).setCellValue(reportOweFeeDto.getOwnerName());
             row.createCell(2).setCellValue(reportOweFeeDto.getOwnerTel());
-            row.createCell(3).setCellValue(reportOweFeeDto.getEndTime());
-            row.createCell(4).setCellValue(reportOweFeeDto.getDeadlineTime());
+            row.createCell(3).setCellValue(reportOweFeeDto.getStartTime());
+            row.createCell(4).setCellValue(reportOweFeeDto.getEndTime());
             if (!StringUtil.isEmpty(configIds)) {
                 for (int feeConfigIndex = 0; feeConfigIndex < feeConfigDtos.size(); feeConfigIndex++) {
                     row.createCell(5 + feeConfigIndex).setCellValue(getFeeConfigAmount(feeConfigDtos.get(feeConfigIndex), reportOweFeeDto));
@@ -179,8 +179,8 @@ public class ReportListOweFeeAdapt implements IExportDataAdapt {
                 reportOweFeeItemDto.setPayerObjName(reportOweFeeDto.getPayerObjName());
                 reportOweFeeItemDto.setConfigName(reportOweFeeDto.getConfigName());
                 try {
-                    reportOweFeeItemDto.setStartTime(DateUtil.getDateFromString(reportOweFeeDto.getEndTime(), DateUtil.DATE_FORMATE_STRING_A));
-                    reportOweFeeItemDto.setEndTime(DateUtil.getDateFromString(reportOweFeeDto.getDeadlineTime(), DateUtil.DATE_FORMATE_STRING_A));
+                    reportOweFeeItemDto.setStartTime(DateUtil.getDateFromString(reportOweFeeDto.getStartTime(), DateUtil.DATE_FORMATE_STRING_A));
+                    reportOweFeeItemDto.setEndTime(DateUtil.getDateFromString(reportOweFeeDto.getEndTime(), DateUtil.DATE_FORMATE_STRING_A));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -219,8 +219,8 @@ public class ReportListOweFeeAdapt implements IExportDataAdapt {
             }
             totalAmount = totalAmount.add(new BigDecimal(Double.parseDouble(tempReportOweFeeItemDto.getAmountOwed()))).setScale(2, BigDecimal.ROUND_HALF_EVEN);
         }
-        oldReportOweFeeDto.setEndTime(DateUtil.getFormatTimeString(startTime, DateUtil.DATE_FORMATE_STRING_A));
-        oldReportOweFeeDto.setDeadlineTime(DateUtil.getFormatTimeString(endTime, DateUtil.DATE_FORMATE_STRING_A));
+        oldReportOweFeeDto.setStartTime(DateUtil.getFormatTimeString(startTime, DateUtil.DATE_FORMATE_STRING_A));
+        oldReportOweFeeDto.setEndTime(DateUtil.getFormatTimeString(endTime, DateUtil.DATE_FORMATE_STRING_A));
         oldReportOweFeeDto.setItems(items);
         oldReportOweFeeDto.setPayerObjName(items.get(0).getPayerObjName());
         oldReportOweFeeDto.setAmountOwed(totalAmount.doubleValue() + "");

@@ -25,6 +25,7 @@ public class FeeDetailDto extends PageDto implements Serializable {
     public static final String PRIME_REATE_WECHAT_APP = "6";
 
     public static final String PRIME_REATE_REFUND_ACCT = "8";
+    public static final String PRIME_REATE_DEDUCTION = "11";
     public static final String STATE_RETURNING = "1000";
     public static final String STATE_RETURNED = "1100";
     public static final String STATE_RETURN_ERROR = "1200";

@@ -1,19 +1,17 @@
 package com.java110.fee.discount.impl;
 
 import com.java110.core.smo.IComputeFeeSMO;
-import com.java110.dto.fee.FeeDto;
-import com.java110.dto.fee.ComputeDiscountDto;
-import com.java110.dto.fee.FeeDiscountDto;
-import com.java110.dto.fee.FeeDiscountSpecDto;
+import com.java110.dto.fee.*;
 import com.java110.fee.discount.IComputeDiscount;
 import com.java110.intf.fee.IFeeInnerServiceSMO;
+import com.java110.utils.util.DateUtil;
+import com.java110.utils.util.ListUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 打折无欠费规则
@@ -43,7 +41,7 @@ public class DiscountWithoutArrearsRule implements IComputeDiscount {
     public ComputeDiscountDto compute(FeeDiscountDto feeDiscountDto) {
         List<FeeDiscountSpecDto> feeDiscountSpecDtos = feeDiscountDto.getFeeDiscountSpecs();
 
-        if (feeDiscountSpecDtos.size() < 1) {
+        if (ListUtil.isNull(feeDiscountSpecDtos)) {
             return null;
         }
         //月份
@@ -81,20 +79,27 @@ public class DiscountWithoutArrearsRule implements IComputeDiscount {
         }
 
         //查询费用
-        FeeDto feeDto = new FeeDto();
-        feeDto.setCommunityId(feeDiscountDto.getCommunityId());
-        feeDto.setFeeId(feeDiscountDto.getFeeId());
-        List<FeeDto> feeDtos = feeInnerServiceSMOImpl.queryFees(feeDto);
+        List<PayFeeDto> payFeeDtos = feeDiscountDto.getPayFeeDtos();
+        Date startTime = null;
+        Date sTime = null;
+        for (PayFeeDto payFeeDto : payFeeDtos) {
+            sTime = DateUtil.getDateFromStringA(payFeeDto.getStartTime());
+            if (startTime == null) {
+                startTime = sTime;
+                continue;
+            }
+            if (sTime.before(startTime)) {
+                startTime = sTime;
+            }
+        }
 
-        //查看用户是否欠费
-        Date endTime = feeDtos.get(0).getEndTime();
         //获取当前时间
         Date date = new Date();
         //计算相差的天数
         long day = 0;
-        if (date.getTime() >= endTime.getTime()) {
+        if (date.getTime() >= startTime.getTime()) {
             //天数不大于1天时按1天来算
-            day = (date.getTime() - endTime.getTime()) / (1000 * 60 * 60 * 24) + 1;
+            day = (date.getTime() - startTime.getTime()) / (1000 * 60 * 60 * 24) + 1;
         }
         if (day > arrearsDay) {
             ComputeDiscountDto computeDiscountDto = new ComputeDiscountDto();
@@ -107,10 +112,10 @@ public class DiscountWithoutArrearsRule implements IComputeDiscount {
             computeDiscountDto.setFeeDiscountSpecs(feeDiscountSpecDtos);
             return computeDiscountDto;
         }
-        Map feePriceAll = computeFeeSMOImpl.getFeePrice(feeDtos.get(0));
-        BigDecimal priceDec = new BigDecimal(feePriceAll.get("feePrice").toString());
-        BigDecimal cycleDec = new BigDecimal(feeDiscountDto.getCycles());
-        double discountPrice = priceDec.multiply(cycleDec).multiply(new BigDecimal(1.0 - rate)).setScale(2, BigDecimal.ROUND_HALF_EVEN).doubleValue();
+        double oweAmount = feeDiscountDto.getOweAmount();
+
+        BigDecimal priceDec = new BigDecimal(oweAmount + "");
+        double discountPrice = priceDec.multiply(new BigDecimal(1.0 - rate)).setScale(2, BigDecimal.ROUND_HALF_EVEN).doubleValue();
 
         ComputeDiscountDto computeDiscountDto = new ComputeDiscountDto();
         computeDiscountDto.setDiscountId(feeDiscountDto.getDiscountId());
@@ -118,7 +123,7 @@ public class DiscountWithoutArrearsRule implements IComputeDiscount {
         computeDiscountDto.setRuleId(feeDiscountDto.getRuleId());
         computeDiscountDto.setRuleName(feeDiscountDto.getRuleName());
         computeDiscountDto.setDiscountName(feeDiscountDto.getDiscountName());
-        computeDiscountDto.setDiscountPrice(discountPrice);
+        computeDiscountDto.setDiscountPrice(discountPrice*-1);
         computeDiscountDto.setFeeDiscountSpecs(feeDiscountSpecDtos);
         return computeDiscountDto;
     }

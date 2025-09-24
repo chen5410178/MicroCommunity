@@ -212,7 +212,7 @@ public class EditOwnerCmd extends Cmd {
         //todo 判断业主手机号和账户手机号是否相同，不相同修改账户手机号
         AccountDto accountDto = new AccountDto();
         accountDto.setObjId(paramInJson.getString("memberId"));
-        accountDto.setPartId(paramInJson.getString("communityId"));
+        accountDto.setCommunityId(paramInJson.getString("communityId"));
         List<AccountDto> accountDtos = accountInnerServiceSMOImpl.queryAccounts(accountDto);
         if (ListUtil.isNull(accountDtos)) {
             return;

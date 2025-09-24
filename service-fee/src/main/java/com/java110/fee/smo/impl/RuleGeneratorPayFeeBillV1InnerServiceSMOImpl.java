@@ -20,11 +20,13 @@ import com.java110.core.base.smo.BaseServiceSMO;
 import com.java110.core.factory.CommunitySettingFactory;
 import com.java110.dto.fee.FeeConfigDto;
 import com.java110.dto.fee.FeeDto;
+import com.java110.dto.prePayFee.PrePayFeeDto;
 import com.java110.fee.bill.ICycleConvertOnceFee;
+import com.java110.fee.bill.IDeductionPrePayFee;
 import com.java110.intf.fee.IPayFeeConfigV1InnerServiceSMO;
 import com.java110.intf.fee.IRuleGeneratorPayFeeBillV1InnerServiceSMO;
-import com.java110.po.fee.PayFeeConfigPo;
 import com.java110.po.fee.PayFeePo;
+import com.java110.po.payFee.PayFeeRulePo;
 import com.java110.utils.util.ListUtil;
 import com.java110.utils.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +55,9 @@ public class RuleGeneratorPayFeeBillV1InnerServiceSMOImpl extends BaseServiceSMO
     @Autowired
     private IPayFeeConfigV1InnerServiceSMO payFeeConfigV1InnerServiceSMOImpl;
 
+    @Autowired
+    private IDeductionPrePayFee deductionPrePayFeeImpl;
+
 
     /**
      * 将小区里的费用批量转换为一次性费用
@@ -62,12 +67,6 @@ public class RuleGeneratorPayFeeBillV1InnerServiceSMOImpl extends BaseServiceSMO
      */
     @Override
     public int covertCommunityPayFee(@RequestBody String communityId) {
-        String value = CommunitySettingFactory.getValue(communityId, "PAY_FEE_MONTH");
-
-        //todo 小区没有按月缴费 skip
-        if (!"ON".equals(value)) {
-            return 0;
-        }
         return cycleConvertOnceFeeImpl.covertCommunityPayFee(communityId);
     }
 
@@ -75,27 +74,13 @@ public class RuleGeneratorPayFeeBillV1InnerServiceSMOImpl extends BaseServiceSMO
     public String needGeneratorBillData(@RequestBody List<PayFeePo> feePos) {
 
         if (ListUtil.isNull(feePos)) {
-            return BILL_NO;
+            throw new IllegalArgumentException("费用不存在");
         }
 
         String communityId = feePos.get(0).getCommunityId();
 
         if (StringUtil.isEmpty(communityId)) {
-            return BILL_NO;
-        }
-
-        String value = CommunitySettingFactory.getValue(communityId, "PAY_FEE_MONTH");
-
-        //todo 小区没有按月缴费 skip
-        if (!"ON".equals(value)) {
-            return BILL_NO;
-        }
-
-        // todo 判断费用是否为周期性或者间接性费用,如果包含一次性费用就不生成
-        for (PayFeePo payFeePo : feePos) {
-            if (FeeDto.FEE_FLAG_ONCE.equals(payFeePo.getFeeFlag())) {
-                return BILL_NO;
-            }
+            throw new IllegalArgumentException("小区不存在");
         }
 
         FeeConfigDto feeConfigDto = new FeeConfigDto();
@@ -104,13 +89,9 @@ public class RuleGeneratorPayFeeBillV1InnerServiceSMOImpl extends BaseServiceSMO
 
         //todo 数据有问题 咱不处理
         if (ListUtil.isNull(feeConfigDtos)) {
-            return BILL_NO;
+            throw new IllegalArgumentException("费用项不存在");
         }
 
-        //todo 计算公式是否为租金递增，租金递增暂时不支持 账单模式，因为计算比较复杂
-        if (FeeConfigDto.COMPUTING_FORMULA_RANT_RATE.equals(feeConfigDtos.get(0).getComputingFormula())) {
-            return BILL_NO;
-        }
 
         cycleConvertOnceFeeImpl.convertPayFees(feePos);
 
@@ -119,7 +100,7 @@ public class RuleGeneratorPayFeeBillV1InnerServiceSMOImpl extends BaseServiceSMO
     }
 
     @Override
-    public String needGeneratorBillDataOnlyFee(PayFeePo feePo) {
+    public String needGeneratorBillDataOnlyFee(@RequestBody PayFeePo feePo) {
         if (feePo == null) {
             return BILL_NO;
         }
@@ -162,5 +143,24 @@ public class RuleGeneratorPayFeeBillV1InnerServiceSMOImpl extends BaseServiceSMO
 
 
         return BILL_YES;
+    }
+
+    @Override
+    public int rulesGeneratePayFees(@RequestBody List<PayFeeRulePo> payFeeRulePos) {
+        //todo 走账单模式
+       int flag = cycleConvertOnceFeeImpl.rulesGeneratePayFees(payFeeRulePos);
+       return flag;
+    }
+
+    @Override
+    public int rulesGeneratePayFee(@RequestBody PayFeeRulePo payFeeRulePo) {
+        //todo 走账单模式
+        int flag = cycleConvertOnceFeeImpl.ruleGeneratePayFee(payFeeRulePo);
+        return flag;
+    }
+
+    @Override
+    public int deductionPayFee(@RequestBody PrePayFeeDto prePayFeeDto) {
+        return deductionPrePayFeeImpl.deductionPrePayFee(prePayFeeDto);
     }
 }

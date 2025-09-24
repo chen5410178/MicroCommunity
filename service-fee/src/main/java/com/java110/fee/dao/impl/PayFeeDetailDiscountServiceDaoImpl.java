@@ -9,7 +9,6 @@ import com.java110.fee.dao.IPayFeeDetailDiscountServiceDao;
 import org.slf4j.Logger;
 import com.java110.core.log.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;

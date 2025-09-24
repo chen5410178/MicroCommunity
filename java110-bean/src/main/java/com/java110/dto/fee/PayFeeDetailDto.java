@@ -28,6 +28,7 @@ public class PayFeeDetailDto extends PageDto implements Serializable {
     private String statusCd = "0";
     private String state;
     private String payOrderId;
+    private String[] payOrderIds;
     private String convertAmount;
     private String feeTypeCd;
     private String feeTypeCdName;
@@ -277,5 +278,13 @@ public class PayFeeDetailDto extends PageDto implements Serializable {
 
     public void setGiftAmount(String giftAmount) {
         this.giftAmount = giftAmount;
+    }
+
+    public String[] getPayOrderIds() {
+        return payOrderIds;
+    }
+
+    public void setPayOrderIds(String[] payOrderIds) {
+        this.payOrderIds = payOrderIds;
     }
 }

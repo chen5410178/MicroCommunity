@@ -1,0 +1,332 @@
+/*
+ * Copyright 2017-2020 吴学文 and java110 team.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.java110.fee.cmd.refundFee;
+
+import com.alibaba.fastjson.JSONObject;
+import com.java110.core.annotation.Java110Cmd;
+import com.java110.core.annotation.Java110Transactional;
+import com.java110.core.context.CmdContextUtils;
+import com.java110.core.context.ICmdDataFlowContext;
+import com.java110.core.event.cmd.Cmd;
+import com.java110.core.event.cmd.CmdEvent;
+import com.java110.core.factory.GenerateCodeFactory;
+import com.java110.dto.fee.FeeDetailDto;
+import com.java110.dto.payFee.ReturnPayFeeDto;
+import com.java110.dto.refundDepositPre.RefundDepositPreDto;
+import com.java110.dto.refundFeeDetail.RefundFeeDetailDto;
+import com.java110.dto.refundFeeOrder.RefundFeeOrderDto;
+import com.java110.dto.user.UserDto;
+import com.java110.dto.wechat.OnlinePayDto;
+import com.java110.intf.acct.IAccountDetailInnerServiceSMO;
+import com.java110.intf.acct.IAccountInnerServiceSMO;
+import com.java110.intf.acct.IOnlinePayRefundV1InnerServiceSMO;
+import com.java110.intf.acct.IOnlinePayV1InnerServiceSMO;
+import com.java110.intf.community.IRoomInnerServiceSMO;
+import com.java110.intf.fee.*;
+import com.java110.intf.user.IOwnerCarInnerServiceSMO;
+import com.java110.intf.user.IOwnerInnerServiceSMO;
+import com.java110.intf.user.IOwnerRoomRelInnerServiceSMO;
+import com.java110.intf.user.IUserV1InnerServiceSMO;
+import com.java110.po.fee.PayFeeDetailPo;
+import com.java110.po.fee.PayFeePo;
+import com.java110.po.onlinePayRefund.OnlinePayRefundPo;
+import com.java110.po.prePayFee.PrePayFeePo;
+import com.java110.po.refundFeeOrder.RefundFeeOrderPo;
+import com.java110.po.wechat.OnlinePayPo;
+import com.java110.utils.exception.CmdException;
+import com.java110.utils.util.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.math.BigDecimal;
+import java.util.List;
+
+/**
+ * 类表述：押金退款 审核
+ * 服务编码：returnPayFee.updateReturnPayFee
+ * 请求路劲：/app/returnPayFee.UpdateReturnPayFee
+ * add by 吴学文 at 2022-02-21 12:20:03 mail: 928255095@qq.com
+ * open source address: https://gitee.com/wuxw7/MicroCommunity
+ * 官网：http://www.homecommunity.cn
+ * 温馨提示：如果您对此文件进行修改 请不要删除原有作者及注释信息，请补充您的 修改的原因以及联系邮箱如下
+ * // modify by 张三 at 2021-09-12 第10行在某种场景下存在某种bug 需要修复，注释10至20行 加入 20行至30行
+ */
+@Java110Cmd(serviceCode = "refundFee.auditRefundDeposit")
+public class AuditRefundDepositCmd extends Cmd {
+
+    private static Logger logger = LoggerFactory.getLogger(AuditRefundDepositCmd.class);
+
+    @Autowired
+    private IReturnPayFeeV1InnerServiceSMO returnPayFeeV1InnerServiceSMOImpl;
+
+    @Autowired
+    private IPayFeeConfigDiscountInnerServiceSMO payFeeConfigDiscountInnerServiceSMOImpl;
+
+    @Autowired
+    private IFeeDiscountInnerServiceSMO feeDiscountInnerServiceSMOImpl;
+
+    @Autowired
+    private IFeeDiscountRuleInnerServiceSMO feeDiscountRuleInnerServiceSMOImpl;
+
+    @Autowired
+    private IFeeDiscountSpecInnerServiceSMO feeDiscountSpecInnerServiceSMOImpl;
+
+    @Autowired
+    private IFeeInnerServiceSMO feeInnerServiceSMOImpl;
+
+    @Autowired
+    private IFeeDetailInnerServiceSMO feeDetailInnerServiceSMOImpl;
+
+    @Autowired
+    private IPayFeeDetailV1InnerServiceSMO payFeeDetailV1InnerServiceSMOImpl;
+
+    @Autowired
+    private IPayFeeDetailDiscountInnerServiceSMO payFeeDetailDiscountInnerServiceSMOImpl;
+
+    @Autowired
+    private IReturnPayFeeInnerServiceSMO returnPayFeeInnerServiceSMOImpl;
+
+    @Autowired
+    private IPayFeeV1InnerServiceSMO payFeeV1InnerServiceSMOImpl;
+
+    @Autowired
+    private IPayFeeDetailDiscountNewV1InnerServiceSMO payFeeDetailDiscountNewV1InnerServiceSMOImpl;
+
+    @Autowired
+    private IOwnerRoomRelInnerServiceSMO ownerRoomRelInnerServiceSMOImpl;
+
+    @Autowired
+    private IOwnerInnerServiceSMO ownerInnerServiceSMOImpl;
+
+    @Autowired
+    private IOwnerCarInnerServiceSMO ownerCarInnerServiceSMOImpl;
+
+    @Autowired
+    private IAccountInnerServiceSMO accountInnerServiceSMOImpl;
+
+    @Autowired
+    private IAccountDetailInnerServiceSMO accountDetailInnerServiceSMOImpl;
+
+    @Autowired
+    private IOnlinePayV1InnerServiceSMO onlinePayV1InnerServiceSMOImpl;
+
+    @Autowired
+    private IFeeReceiptInnerServiceSMO feeReceiptInnerServiceSMOImpl;
+
+    @Autowired
+    private IFeeReceiptDetailInnerServiceSMO feeReceiptDetailInnerServiceSMOImpl;
+
+    @Autowired
+    private IRoomInnerServiceSMO roomInnerServiceSMOImpl;
+
+    @Autowired
+    private IUserV1InnerServiceSMO userV1InnerServiceSMOImpl;
+
+    @Autowired
+    private IOnlinePayRefundV1InnerServiceSMO onlinePayRefundV1InnerServiceSMOImpl;
+
+    @Autowired
+    private IPayFeeConfigV1InnerServiceSMO payFeeConfigV1InnerServiceSMOImpl;
+
+    @Autowired
+    private IRefundFeeOrderV1InnerServiceSMO refundFeeOrderV1InnerServiceSMOImpl;
+
+    @Autowired
+    private IRefundFeeDetailV1InnerServiceSMO refundFeeDetailV1InnerServiceSMOImpl;
+
+    @Autowired
+    private IRefundDepositPreV1InnerServiceSMO refundDepositPreV1InnerServiceSMOImpl;
+
+    @Autowired
+    private IPrePayFeeV1InnerServiceSMO prePayFeeV1InnerServiceSMOImpl;
+
+
+    public static final String CODE_PREFIX_ID = "10";
+
+
+    @Override
+    public void validate(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) {
+        Assert.hasKeyAndValue(reqJson, "refundOrderId", "refundOrderId不能为空");
+        Assert.hasKeyAndValue(reqJson, "state", "state不能为空");
+        Assert.hasKeyAndValue(reqJson, "communityId", "小区不能为空");
+    }
+
+    @Override
+    @Java110Transactional
+    public void doCmd(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) throws CmdException {
+        String userId = CmdContextUtils.getUserId(cmdDataFlowContext);
+
+        UserDto userDto = new UserDto();
+        userDto.setUserId(userId);
+        List<UserDto> userDtos = userV1InnerServiceSMOImpl.queryUsers(userDto);
+        Assert.listOnlyOne(userDtos, "用户不存在");
+
+        RefundFeeOrderDto refundFeeOrderDto = new RefundFeeOrderDto();
+        refundFeeOrderDto.setRefundOrderId(reqJson.getString("refundOrderId"));
+        refundFeeOrderDto.setCommunityId(reqJson.getString("communityId"));
+        refundFeeOrderDto.setState(ReturnPayFeeDto.STATE_WAIT);
+        List<RefundFeeOrderDto> refundFeeOrderDtos = refundFeeOrderV1InnerServiceSMOImpl.queryRefundFeeOrders(refundFeeOrderDto);
+        if (ListUtil.isNull(refundFeeOrderDtos)) {
+            throw new CmdException("退费订单不存在");
+        }
+
+        RefundFeeOrderPo refundFeeOrderPo = new RefundFeeOrderPo();
+        refundFeeOrderPo.setRefundOrderId(refundFeeOrderDtos.get(0).getRefundOrderId());
+        refundFeeOrderPo.setState(reqJson.getString("state"));
+        refundFeeOrderPo.setAuditPersonId(userId);
+        refundFeeOrderPo.setAuditPersonName(userDtos.get(0).getName());
+        refundFeeOrderV1InnerServiceSMOImpl.updateRefundFeeOrder(refundFeeOrderPo);
+
+        RefundFeeDetailDto refundFeeDetailDto = new RefundFeeDetailDto();
+        refundFeeDetailDto.setRefundOrderId(refundFeeOrderDtos.get(0).getRefundOrderId());
+        List<RefundFeeDetailDto> refundFeeDetailDtos = refundFeeDetailV1InnerServiceSMOImpl.queryRefundFeeDetails(refundFeeDetailDto);
+        PayFeeDetailPo payFeeDetailPo = null;
+        //不通过
+        if ("1200".equals(reqJson.getString("state"))) {
+
+            for (RefundFeeDetailDto refundFeeDetailDto1 : refundFeeDetailDtos) {
+                payFeeDetailPo = new PayFeeDetailPo();
+                payFeeDetailPo.setDetailId(refundFeeDetailDto1.getDetailId());
+                payFeeDetailPo.setState(FeeDetailDto.STATE_NORMAL);
+                payFeeDetailV1InnerServiceSMOImpl.updatePayFeeDetailNew(payFeeDetailPo);
+            }
+            return;
+        }
+
+
+        //退费审核通过
+        FeeDetailDto feeDetailDto = null;
+
+        List<FeeDetailDto> feeDetailDtos = null;
+        PayFeePo payFeePo = null;
+        payFeeDetailPo = new PayFeeDetailPo();
+        payFeeDetailPo.setDetailId(refundFeeDetailDtos.get(0).getDetailId());
+        payFeeDetailPo.setState(FeeDetailDto.STATE_RETURNED);
+        payFeeDetailV1InnerServiceSMOImpl.updatePayFeeDetailNew(payFeeDetailPo);
+
+        feeDetailDto = new FeeDetailDto();
+        feeDetailDto.setDetailId(refundFeeDetailDtos.get(0).getDetailId());
+        feeDetailDtos = feeDetailInnerServiceSMOImpl.queryFeeDetails(feeDetailDto);
+
+        if (ListUtil.isNull(feeDetailDtos)) {
+            return;
+        }
+
+        payFeeDetailPo = BeanConvertUtil.covertBean(feeDetailDtos.get(0), PayFeeDetailPo.class);
+        payFeeDetailPo.setDetailId(GenerateCodeFactory.getGeneratorId("11"));
+        payFeeDetailPo.setState(FeeDetailDto.STATE_RETURN_ORDER);
+        payFeeDetailPo.setCycles(unum(feeDetailDtos.get(0).getCycles()) + "");
+        payFeeDetailPo.setReceivableAmount(unum(feeDetailDtos.get(0).getReceivableAmount()) + "");
+        payFeeDetailPo.setReceivedAmount(unum(feeDetailDtos.get(0).getReceivedAmount()) + "");
+        payFeeDetailPo.setCreateTime(DateUtil.getFormatTimeStringA(feeDetailDtos.get(0).getCreateTime()));
+        payFeeDetailV1InnerServiceSMOImpl.savePayFeeDetailNew(payFeeDetailPo);
+
+
+        RefundDepositPreDto refundDepositPreDto = new RefundDepositPreDto();
+        refundDepositPreDto.setRefundOrderId(refundFeeOrderDtos.get(0).getRefundOrderId());
+        refundDepositPreDto.setCommunityId(refundFeeOrderDtos.get(0).getCommunityId());
+        List<RefundDepositPreDto> refundDepositPreDtos
+                = refundDepositPreV1InnerServiceSMOImpl.queryRefundDepositPres(refundDepositPreDto);
+        if(ListUtil.isNull(refundDepositPreDtos)){
+            returnOnlinePayMoney(refundFeeOrderDtos.get(0), refundFeeDetailDtos);
+            return;
+        }
+        //String payOrderId = GenerateCodeFactory.getGeneratorId("11");
+        String payOrderId = "-1";
+        for(RefundDepositPreDto tmpRefundDepositPreDto:refundDepositPreDtos){
+            PrePayFeePo prePayFeePo = new PrePayFeePo();
+            prePayFeePo.setGiftAmount("0");
+            prePayFeePo.setPayOrderId(payOrderId);
+            prePayFeePo.setPrimeRate(FeeDetailDto.PRIME_REATE_REFUND_ACCT);
+            prePayFeePo.setReceivableAmount(tmpRefundDepositPreDto.getRefundAmount());
+            prePayFeePo.setDiscountAmount("0");
+            prePayFeePo.setCycles( "1");
+            prePayFeePo.setRemark(refundFeeOrderDtos.get(0).getRemark());
+            prePayFeePo.setReceivedAmount(tmpRefundDepositPreDto.getRefundAmount());
+            prePayFeePo.setOwnerId(tmpRefundDepositPreDto.getOwnerId());
+            prePayFeePo.setPayerObjName(tmpRefundDepositPreDto.getPayerObjName());
+            prePayFeePo.setOwnerName(tmpRefundDepositPreDto.getOwnerName());
+            prePayFeePo.setRemainAmount(tmpRefundDepositPreDto.getRefundAmount());
+            prePayFeePo.setFeeName(tmpRefundDepositPreDto.getFeeName());
+            prePayFeePo.setOpenInvoice("N");
+            prePayFeePo.setStartTime(tmpRefundDepositPreDto.getStartTime());
+            prePayFeePo.setCashierId(userDto.getUserId());
+            prePayFeePo.setState(FeeDetailDto.STATE_NORMAL);
+            prePayFeePo.setEndTime(tmpRefundDepositPreDto.getEndTime());
+            prePayFeePo.setRuleId(tmpRefundDepositPreDto.getRuleId());
+            prePayFeePo.setCommunityId(tmpRefundDepositPreDto.getCommunityId());
+            prePayFeePo.setCashierName(userDto.getName());
+            prePayFeePo.setPpfId(GenerateCodeFactory.getGeneratorId("11"));
+            prePayFeePo.setPayerObjId(tmpRefundDepositPreDto.getPayerObjId());
+            prePayFeePo.setFtId(tmpRefundDepositPreDto.getFtId());
+            prePayFeePo.setFtName(tmpRefundDepositPreDto.getFtName());
+            prePayFeePo.setWay("Y");
+            prePayFeeV1InnerServiceSMOImpl.savePrePayFee(prePayFeePo);
+        }
+
+
+    }
+
+    private double unum(String value) {
+        double dValue = Double.parseDouble(value);
+        return dValue * -1;
+    }
+
+    /**
+     * 发起退款
+     * 这里发起退款后 通过databus 触发 ReturnPayFeeMoneyAdapt 这个类 退款
+     *
+     * @param refundFeeOrderDto
+     */
+    private void returnOnlinePayMoney(RefundFeeOrderDto refundFeeOrderDto, List<RefundFeeDetailDto> refundFeeDetailDtos) {
+        if (ListUtil.isNull(refundFeeDetailDtos)) {
+            return;
+        }
+        if (StringUtil.isEmpty(refundFeeOrderDto.getPayOrderId())) {
+            return;
+        }
+        BigDecimal refundFee = new BigDecimal("0");
+        for (RefundFeeDetailDto refundFeeDetailDto : refundFeeDetailDtos) {
+            refundFee = refundFee.add(new BigDecimal(refundFeeDetailDto.getReceivedAmount()));
+        }
+
+        OnlinePayDto onlinePayDto = new OnlinePayDto();
+        onlinePayDto.setOrderId(refundFeeOrderDto.getPayOrderId());
+        List<OnlinePayDto> onlinePayDtos = onlinePayV1InnerServiceSMOImpl.queryOnlinePays(onlinePayDto);
+        if (ListUtil.isNull(onlinePayDtos)) {
+            return;
+        }
+        OnlinePayPo onlinePayPo = new OnlinePayPo();
+        onlinePayPo.setOrderId(onlinePayDtos.get(0).getOrderId());
+        onlinePayPo.setPayId(onlinePayDtos.get(0).getPayId());
+        onlinePayPo.setState(OnlinePayDto.STATE_WT);
+        onlinePayPo.setRefundFee(refundFee.doubleValue() + "");
+        onlinePayV1InnerServiceSMOImpl.updateOnlinePay(onlinePayPo);
+
+        //todo 保存 退费明细
+
+        OnlinePayRefundPo onlinePayRefundPo = new OnlinePayRefundPo();
+        onlinePayRefundPo.setPayId(onlinePayDtos.get(0).getPayId());
+        onlinePayRefundPo.setRefundId(GenerateCodeFactory.getGeneratorId("11"));
+        onlinePayRefundPo.setState(OnlinePayDto.STATE_WT);
+        onlinePayRefundPo.setMessage("待退费");
+        onlinePayRefundPo.setBusiId(refundFeeOrderDto.getRefundOrderId());
+        onlinePayRefundPo.setRefundFee(refundFee.doubleValue() + "");
+        onlinePayRefundPo.setCommunityId(refundFeeOrderDto.getCommunityId());
+        onlinePayRefundV1InnerServiceSMOImpl.saveOnlinePayRefund(onlinePayRefundPo);
+    }
+}

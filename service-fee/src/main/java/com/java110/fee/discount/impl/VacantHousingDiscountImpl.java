@@ -1,18 +1,17 @@
 package com.java110.fee.discount.impl;
 
 import com.java110.core.smo.IComputeFeeSMO;
-import com.java110.dto.fee.FeeDto;
 import com.java110.dto.fee.ComputeDiscountDto;
 import com.java110.dto.fee.FeeDiscountDto;
 import com.java110.dto.fee.FeeDiscountSpecDto;
 import com.java110.fee.discount.IComputeDiscount;
 import com.java110.intf.fee.IFeeInnerServiceSMO;
+import com.java110.utils.util.ListUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 空置房打折规则
@@ -44,7 +43,7 @@ public class VacantHousingDiscountImpl implements IComputeDiscount {
     @Override
     public ComputeDiscountDto compute(FeeDiscountDto feeDiscountDto) {
         List<FeeDiscountSpecDto> feeDiscountSpecDtos = feeDiscountDto.getFeeDiscountSpecs();
-        if (feeDiscountSpecDtos.size() < 1) {
+        if (ListUtil.isNull(feeDiscountSpecDtos)) {
             return null;
         }
         //月份
@@ -74,20 +73,13 @@ public class VacantHousingDiscountImpl implements IComputeDiscount {
             return computeDiscountDto;
         }
         //查询费用
-        FeeDto feeDto = new FeeDto();
-        feeDto.setCommunityId(feeDiscountDto.getCommunityId());
-        feeDto.setFeeId(feeDiscountDto.getFeeId());
-        List<FeeDto> feeDtos = feeInnerServiceSMOImpl.queryFees(feeDto);
 
-        Map feePriceAll = computeFeeSMOImpl.getFeePrice(feeDtos.get(0));
-
-        BigDecimal priceDec = new BigDecimal(feePriceAll.get("feePrice").toString());
 
         //BigDecimal cycleDec = new BigDecimal(month);
         //2021-03-05 根据缴费 时长来算 不应该按 至少缴费来算
-        BigDecimal cycleDec = new BigDecimal(feeDiscountDto.getCycles());
-
-        double discountPrice = priceDec.multiply(cycleDec).multiply(new BigDecimal(1.0 - rate)).setScale(2, BigDecimal.ROUND_HALF_EVEN).doubleValue();
+        double oweAmount = feeDiscountDto.getOweAmount();
+        BigDecimal priceDec = new BigDecimal(oweAmount + "");
+        double discountPrice = priceDec.multiply(new BigDecimal(1.0 - rate)).setScale(2, BigDecimal.ROUND_HALF_EVEN).doubleValue();
 
         ComputeDiscountDto computeDiscountDto = new ComputeDiscountDto();
         computeDiscountDto.setDiscountId(feeDiscountDto.getDiscountId());
@@ -95,7 +87,7 @@ public class VacantHousingDiscountImpl implements IComputeDiscount {
         computeDiscountDto.setRuleId(feeDiscountDto.getRuleId());
         computeDiscountDto.setRuleName(feeDiscountDto.getRuleName());
         computeDiscountDto.setDiscountName(feeDiscountDto.getDiscountName());
-        computeDiscountDto.setDiscountPrice(discountPrice);
+        computeDiscountDto.setDiscountPrice(discountPrice* -1);
         computeDiscountDto.setFeeDiscountSpecs(feeDiscountSpecDtos);
         return computeDiscountDto;
     }

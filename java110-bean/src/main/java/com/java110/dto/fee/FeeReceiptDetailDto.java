@@ -17,6 +17,9 @@ public class FeeReceiptDetailDto extends PageDto implements Serializable {
 
     private String area;
     private String amount;
+    private String orgAmount;
+    private String orgReceiptCode;
+    private String receiptCode;
     private String feeName;
     private String detailId;
     private String[] detailIds;
@@ -34,6 +37,12 @@ public class FeeReceiptDetailDto extends PageDto implements Serializable {
     private String curDegrees;
     private String primeRate;
     private String units;
+    private String feeMonth; // fee_month
+    private String startDegree; // start_degree
+    private String endDegree; // end_degree
+    private String payWay; // pay_way
+    private String deductionAmount; // deduction_amount
+    private String lateAmount; // late_amount
 
 
     private Date createTime;
@@ -46,11 +55,19 @@ public class FeeReceiptDetailDto extends PageDto implements Serializable {
 
     private String discountPrice;
 
-    private String acctAmount;
-
     private String payerObjId;
 
-    private String receivableAmount;
+    private String ftId;
+
+    private String ftName;
+
+    private String yearMonth;
+
+    private String deductFrom;
+
+    private int printCount;
+
+    private String acctAmount;
 
 
 
@@ -255,6 +272,70 @@ public class FeeReceiptDetailDto extends PageDto implements Serializable {
         this.payerObjId = payerObjId;
     }
 
+    public String getFtId() {
+        return ftId;
+    }
+
+    public void setFtId(String ftId) {
+        this.ftId = ftId;
+    }
+
+    public String getFtName() {
+        return ftName;
+    }
+
+    public void setFtName(String ftName) {
+        this.ftName = ftName;
+    }
+
+    public String getOrgAmount() {
+        return orgAmount;
+    }
+
+    public void setOrgAmount(String orgAmount) {
+        this.orgAmount = orgAmount;
+    }
+
+    public String getOrgReceiptCode() {
+        return orgReceiptCode;
+    }
+
+    public void setOrgReceiptCode(String orgReceiptCode) {
+        this.orgReceiptCode = orgReceiptCode;
+    }
+
+    public String getReceiptCode() {
+        return receiptCode;
+    }
+
+    public void setReceiptCode(String receiptCode) {
+        this.receiptCode = receiptCode;
+    }
+
+    public String getYearMonth() {
+        return yearMonth;
+    }
+
+    public void setYearMonth(String yearMonth) {
+        this.yearMonth = yearMonth;
+    }
+
+    public String getDeductFrom() {
+        return deductFrom;
+    }
+
+    public void setDeductFrom(String deductFrom) {
+        this.deductFrom = deductFrom;
+    }
+
+    public int getPrintCount() {
+        return printCount;
+    }
+
+    public void setPrintCount(int printCount) {
+        this.printCount = printCount;
+    }
+
     public String getAcctAmount() {
         return acctAmount;
     }
@@ -263,11 +344,51 @@ public class FeeReceiptDetailDto extends PageDto implements Serializable {
         this.acctAmount = acctAmount;
     }
 
-    public String getReceivableAmount() {
-        return receivableAmount;
+    public String getFeeMonth() {
+        return feeMonth;
     }
 
-    public void setReceivableAmount(String receivableAmount) {
-        this.receivableAmount = receivableAmount;
+    public void setFeeMonth(String feeMonth) {
+        this.feeMonth = feeMonth;
+    }
+
+    public String getStartDegree() {
+        return startDegree;
+    }
+
+    public void setStartDegree(String startDegree) {
+        this.startDegree = startDegree;
+    }
+
+    public String getEndDegree() {
+        return endDegree;
+    }
+
+    public void setEndDegree(String endDegree) {
+        this.endDegree = endDegree;
+    }
+
+    public String getPayWay() {
+        return payWay;
+    }
+
+    public void setPayWay(String payWay) {
+        this.payWay = payWay;
+    }
+
+    public String getDeductionAmount() {
+        return deductionAmount;
+    }
+
+    public void setDeductionAmount(String deductionAmount) {
+        this.deductionAmount = deductionAmount;
+    }
+
+    public String getLateAmount() {
+        return lateAmount;
+    }
+
+    public void setLateAmount(String lateAmount) {
+        this.lateAmount = lateAmount;
     }
 }

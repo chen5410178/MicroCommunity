@@ -159,7 +159,7 @@ public class GetAccountBMOImpl implements IGetAccountBMO {
             accountPo.setObjType(AccountDto.OBJ_TYPE_PERSON);
             accountPo.setAcctType(AccountDto.ACCT_TYPE_CASH);
             accountPo.setAcctName(acctName);
-            accountPo.setPartId(ownerDto.getCommunityId());
+            accountPo.setCommunityId(ownerDto.getCommunityId());
             accountPo.setLink(ownerDto.getLink());
             accountInnerServiceSMOImpl.saveAccount(accountPo);
             List<AccountDto> accountDtos = accountInnerServiceSMOImpl.queryAccounts(accountDto);

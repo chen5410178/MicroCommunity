@@ -101,7 +101,7 @@ public class CustomSendAcctCmd extends Cmd {
         AccountDto accountDto = new AccountDto();
         accountDto.setLink(reqJson.getString("link"));
         accountDto.setAcctType(reqJson.getString("acctType"));
-        accountDto.setPartId(reqJson.getString("communityId"));
+        accountDto.setCommunityId(reqJson.getString("communityId"));
         List<AccountDto> accountDtos = accountInnerServiceSMOImpl.queryAccounts(accountDto);
 
         if (accountDtos == null || accountDtos.size() < 1) {
@@ -147,7 +147,7 @@ public class CustomSendAcctCmd extends Cmd {
             accountPo.setObjType(AccountDto.OBJ_TYPE_PERSON);
             accountPo.setAcctType(reqJson.getString("acctType"));
             accountPo.setAcctName(acctName);
-            accountPo.setPartId(reqJson.getString("communityId"));
+            accountPo.setCommunityId(reqJson.getString("communityId"));
             accountPo.setLink(reqJson.getString("link"));
             accountInnerServiceSMOImpl.saveAccount(accountPo);
             List<AccountDto> accountDtos = accountInnerServiceSMOImpl.queryAccounts(accountDto);

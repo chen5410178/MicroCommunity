@@ -1,8 +1,8 @@
 package com.java110.intf.fee;
 
 import com.java110.config.feign.FeignConfiguration;
-import com.java110.dto.fee.FeeDetailDto;
 import com.java110.dto.fee.ComputeDiscountDto;
+import com.java110.dto.fee.FeeDetailDto;
 import com.java110.dto.fee.FeeDiscountDto;
 import com.java110.po.fee.FeeDiscountPo;
 import org.springframework.cloud.openfeign.FeignClient;

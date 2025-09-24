@@ -2,7 +2,6 @@ package com.java110.fee.bmo.fee.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.java110.core.factory.GenerateCodeFactory;
-import com.java110.dto.data.DatabusDataDto;
 import com.java110.dto.fee.FeeAttrDto;
 import com.java110.dto.fee.FeeConfigDto;
 import com.java110.dto.fee.FeeDto;
@@ -18,7 +17,6 @@ import com.java110.intf.community.*;
 import com.java110.intf.fee.IFeeAttrInnerServiceSMO;
 import com.java110.intf.fee.IFeeInnerServiceSMO;
 import com.java110.intf.fee.IOwnerCarNewV1InnerServiceSMO;
-import com.java110.intf.job.IDataBusInnerServiceSMO;
 import com.java110.intf.user.IOwnerCarInnerServiceSMO;
 import com.java110.intf.user.IOwnerRoomRelInnerServiceSMO;
 import com.java110.po.account.AccountDetailPo;
@@ -71,9 +69,6 @@ public class FinishFeeNotifyImpl implements IFinishFeeNotify {
 
     @Autowired
     private IOwnerRoomRelInnerServiceSMO ownerRoomRelInnerServiceSMOImpl;
-
-    @Autowired
-    private IDataBusInnerServiceSMO dataBusInnerServiceSMOImpl;
 
     @Override
     public void updateCarEndTime(String feeId, String communityId) {
@@ -153,9 +148,8 @@ public class FinishFeeNotifyImpl implements IFinishFeeNotify {
         if (!FeeDto.PAYER_OBJ_TYPE_ROOM.equals(feeDtos.get(0).getPayerObjType())) {
             return;
         }
-        //todo 不是租金和物业费跳过
-        if(!FeeConfigDto.FEE_TYPE_CD_RENT.equals(feeDtos.get(0).getFeeTypeCd())
-                && !FeeConfigDto.FEE_TYPE_CD_PROPERTY.equals(feeDtos.get(0).getFeeTypeCd())){
+        //todo 不是租金跳过
+        if(!FeeConfigDto.FEE_TYPE_CD_RENT.equals(feeDtos.get(0).getFeeTypeCd())){
             return;
         }
 
@@ -177,11 +171,6 @@ public class FinishFeeNotifyImpl implements IFinishFeeNotify {
             ownerRoomRelPo.setEndTime(DateUtil.getFormatTimeStringA(feeEndTime));
             ownerRoomRelInnerServiceSMOImpl.updateOwnerRoomRels(ownerRoomRelPo);
         }
-
-        // 同步数据到IOT
-        JSONObject data = new JSONObject();
-        data.put("roomId",ownerRoomRelDtos.get(0).getRoomId());
-        dataBusInnerServiceSMOImpl.databusData(new DatabusDataDto(DatabusDataDto.BUSINESS_TYPE_SEND_ROOM_DATA_TO_IOT,data));
 
 
 
@@ -231,10 +220,6 @@ public class FinishFeeNotifyImpl implements IFinishFeeNotify {
             //如果是待评价状态，就更新结束时间
             repairUserPo.setEndTime(DateUtil.getNow(DateUtil.DATE_FORMATE_STRING_A));
             repairUserPo.setContext("已支付" + receivedAmount + "元");
-            flag = repairUserV1InnerServiceSMOImpl.updateRepairUserNew(repairUserPo);
-            if (flag < 1) {
-                throw new CmdException("修改失败");
-            }
             //新增待评价状态
             RepairUserPo repairUser = new RepairUserPo();
             repairUser.setRuId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_ruId));
@@ -250,7 +235,7 @@ public class FinishFeeNotifyImpl implements IFinishFeeNotify {
             repairUser.setPreStaffName(repairUserDtoList.get(0).getStaffName());
             repairUser.setPreRuId(repairUserDtoList.get(0).getRuId());
             repairUser.setRepairEvent("auditUser");
-            flag = repairUserV1InnerServiceSMOImpl.saveRepairUserNew(repairUser);
+            flag = repairUserV1InnerServiceSMOImpl.saveRepairUserNew(repairUserPo);
             if (flag < 1) {
                 throw new CmdException("修改失败");
             }

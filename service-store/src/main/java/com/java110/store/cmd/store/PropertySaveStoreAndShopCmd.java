@@ -329,7 +329,7 @@ public class PropertySaveStoreAndShopCmd extends Cmd {
         accountPo.setObjType(AccountDto.OBJ_TYPE_STORE);
         accountPo.setAcctType(AccountDto.ACCT_TYPE_CASH);
         accountPo.setAcctName(storePo.getName());
-        accountPo.setPartId(reqJson.getString("shopId"));
+        accountPo.setCommunityId(reqJson.getString("shopId"));
         accountPo.setLink(reqJson.getString("link"));
         accountInnerServiceSMOImpl.saveAccount(accountPo);
     }

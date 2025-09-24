@@ -16,7 +16,6 @@ import com.java110.dto.room.RoomDto;
 import com.java110.intf.community.IRoomV1InnerServiceSMO;
 import com.java110.intf.fee.IPayFeeV1InnerServiceSMO;
 import com.java110.intf.store.IContractInnerServiceSMO;
-import com.java110.intf.user.IBuildingOwnerV1InnerServiceSMO;
 import com.java110.intf.user.IOwnerCarV1InnerServiceSMO;
 import com.java110.intf.user.IOwnerRoomRelV1InnerServiceSMO;
 import com.java110.intf.user.IOwnerV1InnerServiceSMO;

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="refundFeeDetailV1ServiceDaoImpl">
+
+
+    <!-- 保存退费明细信息 add by wuxw 2018-07-03 -->
+    <insert id="saveRefundFeeDetailInfo" parameterType="Map">
+        insert into refund_fee_detail(
+        refund_order_id,fee_name,detail_id,start_time,remark,end_time,received_amount,community_id,rfd_id,fee_id
+        ) values (
+        #{refundOrderId},#{feeName},#{detailId},#{startTime},#{remark},#{endTime},#{receivedAmount},#{communityId},#{rfdId},#{feeId}
+        )
+    </insert>
+
+
+    <!-- 查询退费明细信息 add by wuxw 2018-07-03 -->
+    <select id="getRefundFeeDetailInfo" parameterType="Map" resultType="Map">
+        select t.refund_order_id refundOrderId,t.fee_name feeName,t.detail_id detailId,t.start_time
+        startTime,t.remark,t.status_cd statusCd,t.end_time endTime,t.received_amount receivedAmount,t.community_id
+        communityId,t.rfd_id rfdId,t.fee_id feeId,t.create_time createTime
+        from refund_fee_detail t
+        where 1 =1
+        <if test="refundOrderId !=null and refundOrderId != ''">
+            and t.refund_order_id= #{refundOrderId}
+        </if>
+        <if test="refundOrderIds !=null ">
+            and t.refund_order_id in
+            <foreach collection="refundOrderIds" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        <if test="feeName !=null and feeName != ''">
+            and t.fee_name= #{feeName}
+        </if>
+        <if test="detailId !=null and detailId != ''">
+            and t.detail_id= #{detailId}
+        </if>
+        <if test="startTime !=null and startTime != ''">
+            and t.start_time= #{startTime}
+        </if>
+        <if test="remark !=null and remark != ''">
+            and t.remark= #{remark}
+        </if>
+        <if test="statusCd !=null and statusCd != ''">
+            and t.status_cd= #{statusCd}
+        </if>
+        <if test="endTime !=null and endTime != ''">
+            and t.end_time= #{endTime}
+        </if>
+        <if test="receivedAmount !=null and receivedAmount != ''">
+            and t.received_amount= #{receivedAmount}
+        </if>
+        <if test="communityId !=null and communityId != ''">
+            and t.community_id= #{communityId}
+        </if>
+        <if test="rfdId !=null and rfdId != ''">
+            and t.rfd_id= #{rfdId}
+        </if>
+        <if test="feeId !=null and feeId != ''">
+            and t.fee_id= #{feeId}
+        </if>
+        order by t.create_time desc
+        <if test="page != -1 and page != null ">
+            limit #{page}, #{row}
+        </if>
+
+    </select>
+
+
+    <!-- 修改退费明细信息 add by wuxw 2018-07-03 -->
+    <update id="updateRefundFeeDetailInfo" parameterType="Map">
+        update refund_fee_detail t set t.status_cd = #{statusCd}
+        <if test="newBId != null and newBId != ''">
+            ,t.b_id = #{newBId}
+        </if>
+        <if test="refundOrderId !=null and refundOrderId != ''">
+            , t.refund_order_id= #{refundOrderId}
+        </if>
+        <if test="feeName !=null and feeName != ''">
+            , t.fee_name= #{feeName}
+        </if>
+        <if test="detailId !=null and detailId != ''">
+            , t.detail_id= #{detailId}
+        </if>
+        <if test="startTime !=null and startTime != ''">
+            , t.start_time= #{startTime}
+        </if>
+        <if test="remark !=null and remark != ''">
+            , t.remark= #{remark}
+        </if>
+        <if test="endTime !=null and endTime != ''">
+            , t.end_time= #{endTime}
+        </if>
+        <if test="receivedAmount !=null and receivedAmount != ''">
+            , t.received_amount= #{receivedAmount}
+        </if>
+        <if test="communityId !=null and communityId != ''">
+            , t.community_id= #{communityId}
+        </if>
+        <if test="feeId !=null and feeId != ''">
+            , t.fee_id= #{feeId}
+        </if>
+        where 1=1
+        <if test="rfdId !=null and rfdId != ''">
+            and t.rfd_id= #{rfdId}
+        </if>
+
+    </update>
+
+    <!-- 查询退费明细数量 add by wuxw 2018-07-03 -->
+    <select id="queryRefundFeeDetailsCount" parameterType="Map" resultType="Map">
+        select count(1) count
+        from refund_fee_detail t
+        where 1 =1
+        <if test="refundOrderId !=null and refundOrderId != ''">
+            and t.refund_order_id= #{refundOrderId}
+        </if>
+        <if test="feeName !=null and feeName != ''">
+            and t.fee_name= #{feeName}
+        </if>
+        <if test="detailId !=null and detailId != ''">
+            and t.detail_id= #{detailId}
+        </if>
+        <if test="startTime !=null and startTime != ''">
+            and t.start_time= #{startTime}
+        </if>
+        <if test="remark !=null and remark != ''">
+            and t.remark= #{remark}
+        </if>
+        <if test="statusCd !=null and statusCd != ''">
+            and t.status_cd= #{statusCd}
+        </if>
+        <if test="endTime !=null and endTime != ''">
+            and t.end_time= #{endTime}
+        </if>
+        <if test="receivedAmount !=null and receivedAmount != ''">
+            and t.received_amount= #{receivedAmount}
+        </if>
+        <if test="communityId !=null and communityId != ''">
+            and t.community_id= #{communityId}
+        </if>
+        <if test="rfdId !=null and rfdId != ''">
+            and t.rfd_id= #{rfdId}
+        </if>
+        <if test="feeId !=null and feeId != ''">
+            and t.fee_id= #{feeId}
+        </if>
+
+
+    </select>
+
+</mapper>

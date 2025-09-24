@@ -58,7 +58,6 @@ public class ListAccountReceiptCmd extends Cmd {
     @Override
     public void validate(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) {
         super.validatePageInfo(reqJson);
-        super.validateProperty(cmdDataFlowContext);
         Assert.hasKeyAndValue(reqJson, "communityId", "未包含小区信息");
     }
 

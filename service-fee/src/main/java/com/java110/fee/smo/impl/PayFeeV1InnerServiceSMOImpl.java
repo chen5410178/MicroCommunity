@@ -16,7 +16,9 @@
 package com.java110.fee.smo.impl;
 
 
+import com.java110.dto.fee.ComputeDiscountDto;
 import com.java110.dto.fee.PayFeeDto;
+import com.java110.fee.bill.IComputeFeeDiscount;
 import com.java110.fee.dao.IPayFeeV1ServiceDao;
 import com.java110.fee.feeMonth.IPayFeeMonth;
 import com.java110.intf.fee.IPayFeeV1InnerServiceSMO;
@@ -47,6 +49,9 @@ public class PayFeeV1InnerServiceSMOImpl extends BaseServiceSMO implements IPayF
 
     @Autowired
     private IPayFeeMonth payFeeMonthImpl;
+
+    @Autowired
+    private IComputeFeeDiscount computeFeeDiscountImpl;
 
 
     @Override
@@ -96,6 +101,13 @@ public class PayFeeV1InnerServiceSMOImpl extends BaseServiceSMO implements IPayF
     @Override
     public int queryPayFeesCount(@RequestBody PayFeeDto payFeeDto) {
         return payFeeV1ServiceDaoImpl.queryPayFeesCount(BeanConvertUtil.beanCovertMap(payFeeDto));
+    }
+
+    @Override
+    public List<ComputeDiscountDto> computeDiscount(@RequestBody List<PayFeeDto> payFeeDtos) {
+        List<ComputeDiscountDto> computeDiscountDtos = computeFeeDiscountImpl.compute(payFeeDtos);
+
+        return computeDiscountDtos;
     }
 
 }

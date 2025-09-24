@@ -90,7 +90,7 @@ public class ListFeeCmd extends Cmd {
     public void doCmd(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) throws CmdException {
         if (reqJson.containsKey("roomNum") && !StringUtil.isEmpty(reqJson.getString("roomNum"))) {
             String[] roomNums = reqJson.getString("roomNum").split("-");
-            if (roomNums.length != 3) {
+            if (roomNums == null || roomNums.length != 3) {
                 throw new IllegalArgumentException("房屋编号格式不对！");
             }
             RoomDto roomDto = new RoomDto();
@@ -127,14 +127,21 @@ public class ListFeeCmd extends Cmd {
         int count = feeInnerServiceSMOImpl.queryFeesCount(feeDto);
         if (count > 0) {
             List<FeeDto> feeDtos = feeInnerServiceSMOImpl.queryFees(feeDto);//查询费用项目
-            //todo 计算费用
-            computeFeePrice(feeDtos);
+
             List<ApiFeeDataVo> apiFeeDataVos = BeanConvertUtil.covertBeanList(feeDtos, ApiFeeDataVo.class);
             for (ApiFeeDataVo apiFeeDataVo : apiFeeDataVos) {
                 //获取付费对象类型
                 String payerObjType = apiFeeDataVo.getPayerObjType();
                 if (FeeDto.PAYER_OBJ_TYPE_CAR.equals(payerObjType)) {
                     apiFeeDataVo.setCarTypeCd("1001");
+                }
+                //当月，当月就取开始时间，这里先按开始时间计算，这样因为合理，也可以按创建时间来计算
+                if (FeeDto.DEDUCT_FROM_CURRENT_MONTH.equals(apiFeeDataVo.getDeductFrom())) {
+                    apiFeeDataVo.setYearMonth(DateUtil.getFormatTimeStringQ(DateUtil.getDateFromStringA(apiFeeDataVo.getStartTime())));
+                } else if(FeeDto.DEDUCT_FROM_NEXT_MONTH.equals(apiFeeDataVo.getDeductFrom())){
+                    apiFeeDataVo.setYearMonth(DateUtil.getFormatTimeStringQ(DateUtil.getNextMonthDate(apiFeeDataVo.getStartTime(), 1)));
+                } else {
+                    apiFeeDataVo.setYearMonth(DateUtil.getFormatTimeStringQ(DateUtil.getNextMonthDate(apiFeeDataVo.getStartTime(), -1)));
                 }
                 fees.add(apiFeeDataVo);
             }

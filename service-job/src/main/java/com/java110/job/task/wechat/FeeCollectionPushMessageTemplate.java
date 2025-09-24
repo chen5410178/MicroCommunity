@@ -553,8 +553,8 @@ public class FeeCollectionPushMessageTemplate extends TaskSystemQuartz {
                 reportOweFeeItemDto.setPayerObjName(reportOweFeeDto.getPayerObjName());
                 reportOweFeeItemDto.setConfigName(reportOweFeeDto.getConfigName());
                 try {
-                    reportOweFeeItemDto.setStartTime(DateUtil.getDateFromString(reportOweFeeDto.getEndTime(), DateUtil.DATE_FORMATE_STRING_A));
-                    reportOweFeeItemDto.setEndTime(DateUtil.getDateFromString(reportOweFeeDto.getDeadlineTime(), DateUtil.DATE_FORMATE_STRING_A));
+                    reportOweFeeItemDto.setStartTime(DateUtil.getDateFromString(reportOweFeeDto.getStartTime(), DateUtil.DATE_FORMATE_STRING_A));
+                    reportOweFeeItemDto.setEndTime(DateUtil.getDateFromString(reportOweFeeDto.getEndTime(), DateUtil.DATE_FORMATE_STRING_A));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -596,8 +596,8 @@ public class FeeCollectionPushMessageTemplate extends TaskSystemQuartz {
             }
             totalAmount = totalAmount.add(new BigDecimal(Double.parseDouble(tempReportOweFeeItemDto.getAmountOwed()))).setScale(2, BigDecimal.ROUND_HALF_EVEN);
         }
-        oldReportOweFeeDto.setEndTime(DateUtil.getFormatTimeString(startTime, DateUtil.DATE_FORMATE_STRING_A));
-        oldReportOweFeeDto.setDeadlineTime(DateUtil.getFormatTimeString(endTime, DateUtil.DATE_FORMATE_STRING_A));
+        oldReportOweFeeDto.setStartTime(DateUtil.getFormatTimeString(startTime, DateUtil.DATE_FORMATE_STRING_A));
+        oldReportOweFeeDto.setEndTime(DateUtil.getFormatTimeString(endTime, DateUtil.DATE_FORMATE_STRING_A));
         oldReportOweFeeDto.setItems(items);
         oldReportOweFeeDto.setPayerObjName(items.get(0).getPayerObjName());
         oldReportOweFeeDto.setAmountOwed(totalAmount.doubleValue() + "");

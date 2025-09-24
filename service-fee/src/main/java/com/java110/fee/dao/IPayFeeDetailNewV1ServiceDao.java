@@ -72,6 +72,9 @@ public interface IPayFeeDetailNewV1ServiceDao {
      */
     List<Map> queryPayFeeDetailNewInfo(Map info);
 
+
+    List<Map> queryPayFeeDetailSimple(Map info);
+
     /**
      * 缴费清单数量查询
      *
@@ -91,4 +94,5 @@ public interface IPayFeeDetailNewV1ServiceDao {
     int queryFeeDepositCount(Map info);
 
     List<Map> queryFeeDeposit(Map info);
+
 }

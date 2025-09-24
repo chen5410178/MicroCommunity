@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,4 +29,41 @@ public interface IInitializePayFeeInnerServiceSMO {
      */
     @RequestMapping(value = "/deletePayFee", method = RequestMethod.POST)
     int deletePayFee(@RequestBody Map communityId);
+
+    /**
+     * 按费用项删除缴费记录
+     * @param configIds
+     */
+    @RequestMapping(value = "/deleteConfigsFeeDetail", method = RequestMethod.POST)
+    int deleteConfigsFeeDetail(@RequestBody List<String> configIds);
+
+    @RequestMapping(value = "/deleteConfigsFeeReceipt", method = RequestMethod.POST)
+    int deleteConfigsFeeReceipt(@RequestBody List<String> configIds);
+
+    @RequestMapping(value = "/deleteConfigsMeterWater", method = RequestMethod.POST)
+    int deleteConfigsMeterWater(@RequestBody List<String> configIds);
+
+    @RequestMapping(value = "/deleteConfigsFeeDetailMonth", method = RequestMethod.POST)
+    int deleteConfigsFeeDetailMonth(@RequestBody List<String> configIds);
+
+    @RequestMapping(value = "/deleteConfigsFee", method = RequestMethod.POST)
+    int deleteConfigsFee(@RequestBody List<String> configIds);
+
+    @RequestMapping(value = "/deleteConfigsFeeRules", method = RequestMethod.POST)
+    int deleteConfigsFeeRules(@RequestBody List<String> configIds);
+
+    @RequestMapping(value = "/deleteAssetImportLog", method = RequestMethod.POST)
+    int deleteAssetImportLog(@RequestBody String communityId);
+
+    @RequestMapping(value = "/deleteAssetImportLogDetail", method = RequestMethod.POST)
+    int deleteAssetImportLogDetail(@RequestBody String communityId);
+
+    @RequestMapping(value = "/deleteImportFee", method = RequestMethod.POST)
+    int deleteImportFee(@RequestBody String communityId);
+
+    @RequestMapping(value = "/deleteImportFeeDetail", method = RequestMethod.POST)
+    int deleteImportFeeDetail(@RequestBody String communityId);
+
+    @RequestMapping(value = "/deletePayFeeOrder", method = RequestMethod.POST)
+    int deletePayFeeOrder(@RequestBody String communityId);
 }

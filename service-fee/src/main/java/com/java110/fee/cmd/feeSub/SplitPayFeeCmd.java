@@ -15,6 +15,7 @@
  */
 package com.java110.fee.cmd.feeSub;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.java110.core.annotation.Java110Cmd;
 import com.java110.core.annotation.Java110Transactional;
@@ -23,8 +24,8 @@ import com.java110.core.event.cmd.Cmd;
 import com.java110.core.event.cmd.CmdEvent;
 import com.java110.core.factory.GenerateCodeFactory;
 import com.java110.dto.fee.FeeAttrDto;
-import com.java110.dto.fee.FeeConfigDto;
 import com.java110.dto.fee.FeeDto;
+import com.java110.dto.payFee.PayFeeSubDto;
 import com.java110.intf.fee.*;
 import com.java110.po.fee.FeeAttrPo;
 import com.java110.po.fee.PayFeePo;
@@ -32,7 +33,6 @@ import com.java110.po.payFee.PayFeeSubPo;
 import com.java110.utils.exception.CmdException;
 import com.java110.utils.util.Assert;
 import com.java110.utils.util.BeanConvertUtil;
-import com.java110.utils.util.DateUtil;
 import com.java110.utils.util.ListUtil;
 import com.java110.vo.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +40,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -77,14 +76,17 @@ public class SplitPayFeeCmd extends Cmd {
 
     @Override
     public void validate(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) {
-        Assert.hasKeyAndValue(reqJson, "preFeeId", "请求报文中未包含preFeeId");
+        Assert.hasKeyAndValue(reqJson, "feeId", "请求报文中未包含feeId");
         Assert.hasKeyAndValue(reqJson, "communityId", "请求报文中未包含communityId");
-        Assert.hasKeyAndValue(reqJson, "splitTime", "请求报文中未包含splitTime");
-        Assert.hasKeyAndValue(reqJson, "remark", "请求报文中未包含remark");
+        Assert.hasKey(reqJson, "subFees", "未包含拆分费用");
+        JSONArray subFees = reqJson.getJSONArray("subFees");
+        if (ListUtil.isNull(subFees)) {
+            throw new CmdException("未包含拆分费用");
+        }
 
         //todo 判断 费用是不是 间接性费用或者是一次性费用
         FeeDto feeDto = new FeeDto();
-        feeDto.setFeeId(reqJson.getString("preFeeId"));
+        feeDto.setFeeId(reqJson.getString("feeId"));
         feeDto.setCommunityId(reqJson.getString("communityId"));
 
         List<FeeDto> feeDtos = feeInnerServiceSMOImpl.queryFees(feeDto);
@@ -95,50 +97,12 @@ public class SplitPayFeeCmd extends Cmd {
             throw new CmdException("费用已结束不能拆分");
         }
 
-        FeeConfigDto feeConfigDto = new FeeConfigDto();
-        feeConfigDto.setConfigId(feeDtos.get(0).getConfigId());
-        feeConfigDto.setCommunityId(reqJson.getString("communityId"));
-
-        List<FeeConfigDto> feeConfigDtos = feeConfigInnerServiceSMOImpl.queryFeeConfigs(feeConfigDto);
-
-        Assert.listOnlyOne(feeConfigDtos, "费用项不存在");
-
-
-        if (!FeeDto.FEE_FLAG_CYCLE.equals(feeConfigDtos.get(0).getFeeFlag())) {
-            throw new CmdException("只有周期性费用才能做拆分");
+        PayFeeSubDto payFeeSubDto = new PayFeeSubDto();
+        payFeeSubDto.setFeeId(reqJson.getString("feeId"));
+        List<PayFeeSubDto> payFeeSubDtos = payFeeSubV1InnerServiceSMOImpl.queryPayFeeSubs(payFeeSubDto);
+        if (!ListUtil.isNull(payFeeSubDtos)) {
+            throw new CmdException("拆分费用不能再拆分");
         }
-
-        if (ListUtil.isNull(feeDtos.get(0).getFeeAttrDtos())) {
-            throw new CmdException("费用属性为空");
-        }
-
-        Date endTime = feeDtos.get(0).getEndTime();
-
-        Date maxTime = feeDtos.get(0).getDeadlineTime();
-
-        if (maxTime == null) {
-            throw new CmdException("费用错误未包含最大结束时间");
-        }
-
-        Date splitTime = DateUtil.getDateFromStringB(reqJson.getString("splitTime"));
-        if (splitTime.before(endTime)) {
-            throw new CmdException("拆分时间错误，应大于计费起始时间");
-        }
-
-        if (splitTime.after(maxTime)) {
-            throw new CmdException("拆分时间错误，应小于最大结束时间");
-
-        }
-
-        String startDate = DateUtil.getFormatTimeStringB(endTime);
-        String deadlineTime = DateUtil.getFormatTimeStringB(maxTime);
-
-
-        if (splitTime.getTime() == DateUtil.getDateFromStringB(startDate).getTime()
-                || splitTime.getTime() == DateUtil.getDateFromStringB(deadlineTime).getTime()) {
-            throw new CmdException("拆分时间不能为 开始时间或者结束时间");
-        }
-
 
         reqJson.put("feeDto", feeDtos.get(0));
     }
@@ -148,23 +112,20 @@ public class SplitPayFeeCmd extends Cmd {
     public void doCmd(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) throws CmdException {
         FeeDto feeDto = (FeeDto) reqJson.get("feeDto");
 
-        //todo 保存拆分后的sub数据
 
-        //todo 前半段
-        saveSubFee(feeDto, DateUtil.getFormatTimeStringA(feeDto.getEndTime()), reqJson.getString("splitTime"));
-
-        //todo 后半段
-        saveSubFee(feeDto, reqJson.getString("splitTime"), DateUtil.getFormatTimeStringA(feeDto.getDeadlineTime()));
-
+        JSONArray subFees = reqJson.getJSONArray("subFees");
+        JSONObject subFee = null;
+        for(int subIndex  = 0;subIndex < subFees.size();subIndex++){
+            subFee = subFees.getJSONObject(subIndex);
+            saveSubFee(feeDto, subFee);
+        }
 
         //todo 结束原费用
 
         PayFeePo payFeePo = new PayFeePo();
         payFeePo.setFeeId(feeDto.getFeeId());
-        payFeePo.setState(FeeDto.STATE_FINISH);
         payFeePo.setCommunityId(feeDto.getCommunityId());
-        int flag = payFeeV1InnerServiceSMOImpl.updatePayFee(payFeePo);
-
+        int flag = payFeeV1InnerServiceSMOImpl.deletePayFee(payFeePo);
 
         if (flag < 1) {
             throw new CmdException("结束费用失败");
@@ -177,26 +138,27 @@ public class SplitPayFeeCmd extends Cmd {
      * 拆分费用
      *
      * @param feeDto  费用对象
-     * @param endTime 计费起始时间
-     * @param maxTime 最大结束时间
+     * @param subFee
      */
-    private void saveSubFee(FeeDto feeDto, String endTime, String maxTime) {
+    private void saveSubFee(FeeDto feeDto, JSONObject subFee) {
 
-        PayFeeSubPo payFeeSubPo = BeanConvertUtil.covertBean(feeDto, PayFeeSubPo.class);
-        payFeeSubPo.setEndTime(endTime);
-        payFeeSubPo.setMaxTime(maxTime);
+        PayFeeSubPo payFeeSubPo = new PayFeeSubPo();
         payFeeSubPo.setFeeId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_feeId));
-        payFeeSubPo.setPayerObjName(feeDto.getPayerObjName());
         payFeeSubPo.setPreFeeId(feeDto.getFeeId());
+        payFeeSubPo.setCommunityId(feeDto.getCommunityId());
         int flag = payFeeSubV1InnerServiceSMOImpl.savePayFeeSub(payFeeSubPo);
         if (flag < 1) {
             throw new CmdException("保存数据失败");
         }
 
         PayFeePo payFeePo = BeanConvertUtil.covertBean(feeDto, PayFeePo.class);
-        payFeePo.setEndTime(endTime);
+        payFeePo.setReceivableAmount(subFee.getString("oweAmount"));
+        payFeePo.setOweAmount(subFee.getString("oweAmount"));
+        payFeePo.setRemark(payFeePo.getRemark()+"\n"+subFee.getString("remark"));
         payFeePo.setFeeId(payFeeSubPo.getFeeId());
         payFeePo.setState(FeeDto.STATE_DOING);
+        payFeePo.setAmount("0");// 这个字段没有用了
+
         flag = payFeeV1InnerServiceSMOImpl.savePayFee(payFeePo);
         if (flag < 1) {
             throw new CmdException("保存数据失败");
@@ -213,9 +175,6 @@ public class SplitPayFeeCmd extends Cmd {
             feeAttrPo = BeanConvertUtil.covertBean(feeAttrDto, FeeAttrPo.class);
             feeAttrPo.setFeeId(payFeePo.getFeeId());
             feeAttrPo.setAttrId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_attrId));
-            if (FeeAttrDto.SPEC_CD_ONCE_FEE_DEADLINE_TIME.equals(feeAttrPo.getSpecCd())) {
-                feeAttrPo.setValue(payFeeSubPo.getMaxTime());
-            }
             feeAttrPos.add(feeAttrPo);
         }
 

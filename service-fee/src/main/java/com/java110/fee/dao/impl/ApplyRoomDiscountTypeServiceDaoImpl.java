@@ -3,13 +3,11 @@ package com.java110.fee.dao.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.java110.utils.constant.ResponseConstant;
 import com.java110.utils.exception.DAOException;
-import com.java110.utils.util.DateUtil;
 import com.java110.core.base.dao.BaseServiceDao;
 import com.java110.fee.dao.IApplyRoomDiscountTypeServiceDao;
 import org.slf4j.Logger;
 import com.java110.core.log.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -55,9 +53,9 @@ public class ApplyRoomDiscountTypeServiceDaoImpl extends BaseServiceDao implemen
     public List<Map> getApplyRoomDiscountTypeInfo(Map info) throws DAOException {
         logger.debug("查询优惠申请类型信息 入参 info : {}",info);
 
-        List<Map> infos = sqlSessionTemplate.selectList("applyRoomDiscountTypeServiceDaoImpl.getApplyRoomDiscountTypeInfo",info);
+        List<Map> businessApplyRoomDiscountTypeInfos = sqlSessionTemplate.selectList("applyRoomDiscountTypeServiceDaoImpl.getApplyRoomDiscountTypeInfo",info);
 
-        return infos;
+        return businessApplyRoomDiscountTypeInfos;
     }
 
 
@@ -86,12 +84,12 @@ public class ApplyRoomDiscountTypeServiceDaoImpl extends BaseServiceDao implemen
     public int queryApplyRoomDiscountTypesCount(Map info) {
         logger.debug("查询优惠申请类型数据 入参 info : {}",info);
 
-        List<Map> infos = sqlSessionTemplate.selectList("applyRoomDiscountTypeServiceDaoImpl.queryApplyRoomDiscountTypesCount", info);
-        if (infos.size() < 1) {
+        List<Map> businessApplyRoomDiscountTypeInfos = sqlSessionTemplate.selectList("applyRoomDiscountTypeServiceDaoImpl.queryApplyRoomDiscountTypesCount", info);
+        if (businessApplyRoomDiscountTypeInfos.size() < 1) {
             return 0;
         }
 
-        return Integer.parseInt(infos.get(0).get("count").toString());
+        return Integer.parseInt(businessApplyRoomDiscountTypeInfos.get(0).get("count").toString());
     }
 
 

@@ -52,6 +52,8 @@ public class FeeConfigDto extends PageDto implements Serializable {
     private String isDefault;
     private String configId;
     private String[] configIds;
+    private String[] communityIds;
+
     private String feeFlag;
     private String feeName;
 
@@ -61,7 +63,6 @@ public class FeeConfigDto extends PageDto implements Serializable {
     private String endTime;
     private String curTime;
     private String communityId;
-    private String[] communityIds;
     private String feeTypeCdName;
     private String feeFlagName;
 
@@ -109,6 +110,18 @@ public class FeeConfigDto extends PageDto implements Serializable {
 
     private String state;
 
+    private String ftId;
+
+    private String ftName;
+
+
+    public String[] getCommunityIds() {
+        return communityIds;
+    }
+
+    public void setCommunityIds(String[] communityIds) {
+        this.communityIds = communityIds;
+    }
 
     public String getFeeTypeCd() {
         return feeTypeCd;
@@ -449,11 +462,19 @@ public class FeeConfigDto extends PageDto implements Serializable {
         this.state = state;
     }
 
-    public String[] getCommunityIds() {
-        return communityIds;
+    public String getFtId() {
+        return ftId;
     }
 
-    public void setCommunityIds(String[] communityIds) {
-        this.communityIds = communityIds;
+    public void setFtId(String ftId) {
+        this.ftId = ftId;
+    }
+
+    public String getFtName() {
+        return ftName;
+    }
+
+    public void setFtName(String ftName) {
+        this.ftName = ftName;
     }
 }

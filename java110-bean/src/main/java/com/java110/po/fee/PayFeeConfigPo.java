@@ -43,6 +43,9 @@ public class PayFeeConfigPo implements Serializable {
 
     private String state;
 
+
+    private String ftId;
+
     public String getConfigId() {
         return configId;
     }
@@ -221,5 +224,13 @@ public class PayFeeConfigPo implements Serializable {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public String getFtId() {
+        return ftId;
+    }
+
+    public void setFtId(String ftId) {
+        this.ftId = ftId;
     }
 }

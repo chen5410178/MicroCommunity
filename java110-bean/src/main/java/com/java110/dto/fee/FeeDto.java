@@ -32,6 +32,12 @@ public class FeeDto extends PageDto implements Serializable {
     public static final String REDIS_PAY_TEMP_CAR_FEE = "PAY_TEMP_CAR_FEE_";
     public static final String REDIS_PAY_TEMP_CAR_FEE_COMMUNITY = "REDIS_PAY_TEMP_CAR_FEE_COMMUNITY_";
 
+    public static final String DEDUCT_FROM_CURRENT_MONTH = "C"; // 当月
+    public static final String DEDUCT_FROM_HISTORY_MONTH = "H"; // 上月
+    public static final String DEDUCT_FROM_NEXT_MONTH = "N"; // 上月
+
+
+
     private String amount;
     private String incomeObjId;
     private String incomeObjName;
@@ -40,6 +46,7 @@ public class FeeDto extends PageDto implements Serializable {
     private Date endTime;
     private String communityId;
     private String feeId;
+    private String[] feeIds;
     private String userId;
     private String payerObjId;
     private String payerObjName;
@@ -177,6 +184,52 @@ public class FeeDto extends PageDto implements Serializable {
     private String curYear;
 
     private String targetEndTime;
+
+    private String receivableAmount;
+
+    private String oweAmount;
+
+    private String remark;
+
+    private String ftId;
+
+    private String ftName;
+
+    private String yearMonth;
+
+    private String feeRemark;
+
+    public String[] getFeeIds() {
+        return feeIds;
+    }
+
+    public void setFeeIds(String[] feeIds) {
+        this.feeIds = feeIds;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public String getReceivableAmount() {
+        return receivableAmount;
+    }
+
+    public void setReceivableAmount(String receivableAmount) {
+        this.receivableAmount = receivableAmount;
+    }
+
+    public String getOweAmount() {
+        return oweAmount;
+    }
+
+    public void setOweAmount(String oweAmount) {
+        this.oweAmount = oweAmount;
+    }
 
     public String getAmount() {
         return amount;
@@ -875,5 +928,37 @@ public class FeeDto extends PageDto implements Serializable {
 
     public void setTargetEndTime(String targetEndTime) {
         this.targetEndTime = targetEndTime;
+    }
+
+    public String getFtId() {
+        return ftId;
+    }
+
+    public void setFtId(String ftId) {
+        this.ftId = ftId;
+    }
+
+    public String getYearMonth() {
+        return yearMonth;
+    }
+
+    public void setYearMonth(String yearMonth) {
+        this.yearMonth = yearMonth;
+    }
+
+    public String getFtName() {
+        return ftName;
+    }
+
+    public void setFtName(String ftName) {
+        this.ftName = ftName;
+    }
+
+    public String getFeeRemark() {
+        return feeRemark;
+    }
+
+    public void setFeeRemark(String feeRemark) {
+        this.feeRemark = feeRemark;
     }
 }

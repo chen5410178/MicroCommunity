@@ -20,6 +20,7 @@ import com.java110.dto.fee.FeeDiscountDto;
 import com.java110.dto.fee.FeeDiscountSpecDto;
 import com.java110.fee.discount.IComputeDiscount;
 import com.java110.intf.fee.IFeeInnerServiceSMO;
+import com.java110.utils.util.ListUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -53,7 +54,7 @@ public class ReductionFeeRule implements IComputeDiscount {
 
         List<FeeDiscountSpecDto> feeDiscountSpecDtos = feeDiscountDto.getFeeDiscountSpecs();
 
-        if (feeDiscountSpecDtos.size() < 1) {
+        if (ListUtil.isNull(feeDiscountSpecDtos)) {
             return null;
         }
         double month = 0.0;
@@ -90,7 +91,7 @@ public class ReductionFeeRule implements IComputeDiscount {
         computeDiscountDto.setRuleId(feeDiscountDto.getRuleId());
         computeDiscountDto.setRuleName(feeDiscountDto.getRuleName());
         computeDiscountDto.setDiscountName(feeDiscountDto.getDiscountName());
-        computeDiscountDto.setDiscountPrice(discountPrice);
+        computeDiscountDto.setDiscountPrice(discountPrice* -1);
         computeDiscountDto.setFeeDiscountSpecs(feeDiscountSpecDtos);
         return computeDiscountDto;
     }

@@ -20,30 +20,27 @@ import com.java110.core.annotation.Java110Cmd;
 import com.java110.core.context.ICmdDataFlowContext;
 import com.java110.core.event.cmd.Cmd;
 import com.java110.core.event.cmd.CmdEvent;
-import com.java110.dto.fee.FeeAccountDetailDto;
 import com.java110.dto.onlinePayRefund.OnlinePayRefundDto;
-import com.java110.dto.payFee.PayFeeDetailDiscountDto;
+import com.java110.dto.refundFeeDetail.RefundFeeDetailDto;
+import com.java110.dto.refundFeeOrder.RefundFeeOrderDto;
 import com.java110.intf.acct.IOnlinePayRefundV1InnerServiceSMO;
 import com.java110.intf.fee.IFeeAccountDetailServiceSMO;
 import com.java110.intf.fee.IPayFeeDetailDiscountInnerServiceSMO;
-import com.java110.intf.fee.IReturnPayFeeInnerServiceSMO;
+import com.java110.intf.fee.IRefundFeeDetailV1InnerServiceSMO;
+import com.java110.intf.fee.IRefundFeeOrderV1InnerServiceSMO;
 import com.java110.utils.exception.CmdException;
 import com.java110.utils.util.Assert;
 import com.java110.utils.util.BeanConvertUtil;
 import com.java110.utils.util.ListUtil;
 import com.java110.vo.ResultVo;
-import com.java110.vo.api.returnPayFee.ApiReturnPayFeeDataVo;
-import com.java110.vo.api.returnPayFee.ApiReturnPayFeeVo;
-import org.springframework.beans.factory.annotation.Autowired;
-import com.java110.dto.payFee.ReturnPayFeeDto;
-
-import java.util.List;
-import java.util.ArrayList;
-
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 类表述：查询
@@ -61,7 +58,7 @@ public class ListReturnPayFeesCmd extends Cmd {
     private static Logger logger = LoggerFactory.getLogger(ListReturnPayFeesCmd.class);
 
     @Autowired
-    private IReturnPayFeeInnerServiceSMO returnPayFeeInnerServiceSMOImpl;
+    private IRefundFeeOrderV1InnerServiceSMO refundFeeOrderV1InnerServiceSMOImpl;
 
     @Autowired
     private IFeeAccountDetailServiceSMO feeAccountDetailServiceSMOImpl;
@@ -72,6 +69,9 @@ public class ListReturnPayFeesCmd extends Cmd {
     @Autowired
     private IOnlinePayRefundV1InnerServiceSMO onlinePayRefundV1InnerServiceSMOImpl;
 
+    @Autowired
+    private IRefundFeeDetailV1InnerServiceSMO refundFeeDetailV1InnerServiceSMOImpl;
+
     @Override
     public void validate(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) {
         super.validatePageInfo(reqJson);
@@ -81,51 +81,67 @@ public class ListReturnPayFeesCmd extends Cmd {
     @Override
     public void doCmd(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) throws CmdException {
 
-        ReturnPayFeeDto returnPayFeeDto = BeanConvertUtil.covertBean(reqJson, ReturnPayFeeDto.class);
+        RefundFeeOrderDto refundFeeOrderDto = BeanConvertUtil.covertBean(reqJson, RefundFeeOrderDto.class);
 
-        int count = returnPayFeeInnerServiceSMOImpl.queryReturnPayFeesCount(returnPayFeeDto);
+        int count = refundFeeOrderV1InnerServiceSMOImpl.queryRefundFeeOrdersCount(refundFeeOrderDto);
 
-        List<ReturnPayFeeDto> returnPayFees;
+        List<RefundFeeOrderDto> refundFeeOrderDtos;
 
         if (count > 0) {
             //注意这里处理 记得测试退费逻辑
-            returnPayFees = returnPayFeeInnerServiceSMOImpl.queryReturnPayFees(returnPayFeeDto);
-            for (ReturnPayFeeDto returnPayFee : returnPayFees) {
-                FeeAccountDetailDto feeAccountDetailDto = new FeeAccountDetailDto();
-                feeAccountDetailDto.setDetailId(returnPayFee.getDetailId());
-                List<FeeAccountDetailDto> feeAccountDetailDtos = feeAccountDetailServiceSMOImpl.queryFeeAccountDetails(feeAccountDetailDto);
-                if (!ListUtil.isNull(feeAccountDetailDtos)) {
-                    returnPayFee.setFeeAccountDetailDtoList(feeAccountDetailDtos);
-                }
-                PayFeeDetailDiscountDto payFeeDetailDiscountDto = new PayFeeDetailDiscountDto();
-                payFeeDetailDiscountDto.setDetailId(returnPayFee.getDetailId());
-                List<PayFeeDetailDiscountDto> payFeeDetailDiscountDtos = payFeeDetailDiscountInnerServiceSMOImpl.queryPayFeeDetailDiscounts(payFeeDetailDiscountDto);
-                if (!ListUtil.isNull(payFeeDetailDiscountDtos)) {
-                    returnPayFee.setPayFeeDetailDiscountDtoList(payFeeDetailDiscountDtos);
-                }
-            }
+            refundFeeOrderDtos = refundFeeOrderV1InnerServiceSMOImpl.queryRefundFeeOrders(refundFeeOrderDto);
         } else {
-            returnPayFees = new ArrayList<>();
+            refundFeeOrderDtos = new ArrayList<>();
         }
+        // 查询退费明细
+        computeDetail(refundFeeOrderDtos);
         //todo 查询退款 支付系统返回内容
-        computeOnlinePayRefundRemark(returnPayFees);
+        computeOnlinePayRefundRemark(refundFeeOrderDtos);
 
-        ResultVo resultVo = new ResultVo((int) Math.ceil((double) count / (double) reqJson.getInteger("row")), count, returnPayFees);
+        ResultVo resultVo = new ResultVo((int) Math.ceil((double) count / (double) reqJson.getInteger("row")), count, refundFeeOrderDtos);
 
         ResponseEntity<String> responseEntity = new ResponseEntity<String>(resultVo.toString(), HttpStatus.OK);
 
         cmdDataFlowContext.setResponseEntity(responseEntity);
     }
 
-    private void computeOnlinePayRefundRemark(List<ReturnPayFeeDto> returnPayFees) {
+    private void computeDetail(List<RefundFeeOrderDto> refundFeeOrderDtos) {
+        if (ListUtil.isNull(refundFeeOrderDtos)) {
+            return;
+        }
+        List<String> refundOrderIds = new ArrayList<>();
+        for (RefundFeeOrderDto returnPayFeeDto : refundFeeOrderDtos) {
+            refundOrderIds.add(returnPayFeeDto.getRefundOrderId());
+        }
 
-        if (ListUtil.isNull(returnPayFees)) {
+        RefundFeeDetailDto refundFeeDetailDto = new RefundFeeDetailDto();
+        refundFeeDetailDto.setRefundOrderIds(refundOrderIds.toArray(new String[refundOrderIds.size()]));
+        List<RefundFeeDetailDto> refundFeeDetailDtos = refundFeeDetailV1InnerServiceSMOImpl.queryRefundFeeDetails(refundFeeDetailDto);
+        if (ListUtil.isNull(refundFeeDetailDtos)) {
+            return;
+        }
+        List<RefundFeeDetailDto> details = null;
+        for (RefundFeeOrderDto refundFeeOrderDto : refundFeeOrderDtos) {
+            details = new ArrayList<>();
+            for (RefundFeeDetailDto refundFeeDetailDto1 : refundFeeDetailDtos) {
+                if (!refundFeeOrderDto.getRefundOrderId().equals(refundFeeDetailDto1.getRefundOrderId())) {
+                    continue;
+                }
+                details.add(refundFeeDetailDto1);
+            }
+            refundFeeOrderDto.setDetails(details);
+        }
+    }
+
+    private void computeOnlinePayRefundRemark(List<RefundFeeOrderDto> refundFeeOrderDtos) {
+
+        if (ListUtil.isNull(refundFeeOrderDtos)) {
             return;
         }
 
         List<String> detailIds = new ArrayList<>();
-        for (ReturnPayFeeDto returnPayFeeDto : returnPayFees) {
-            detailIds.add(returnPayFeeDto.getDetailId());
+        for (RefundFeeOrderDto returnPayFeeDto : refundFeeOrderDtos) {
+            detailIds.add(returnPayFeeDto.getRefundOrderId());
         }
 
         OnlinePayRefundDto onlinePayRefundDto = new OnlinePayRefundDto();
@@ -136,11 +152,11 @@ public class ListReturnPayFeesCmd extends Cmd {
             return;
         }
 
-        for (ReturnPayFeeDto returnPayFeeDto : returnPayFees) {
-            for(OnlinePayRefundDto tmpOnlinePayRefundDto:onlinePayRefundDtos){
-                if(returnPayFeeDto.getDetailId().equals(tmpOnlinePayRefundDto.getBusiId())){
-                    returnPayFeeDto.setRefundState(tmpOnlinePayRefundDto.getState());
-                    returnPayFeeDto.setRefundRemark(tmpOnlinePayRefundDto.getMessage());
+        for (RefundFeeOrderDto refundFeeOrderDto : refundFeeOrderDtos) {
+            for (OnlinePayRefundDto tmpOnlinePayRefundDto : onlinePayRefundDtos) {
+                if (refundFeeOrderDto.getRefundOrderId().equals(tmpOnlinePayRefundDto.getBusiId())) {
+                    refundFeeOrderDto.setRefundState(tmpOnlinePayRefundDto.getState());
+                    refundFeeOrderDto.setRefundRemark(tmpOnlinePayRefundDto.getMessage());
                 }
             }
         }

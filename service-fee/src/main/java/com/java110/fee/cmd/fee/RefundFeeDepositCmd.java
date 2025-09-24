@@ -13,13 +13,11 @@ import com.java110.dto.account.AccountDto;
 import com.java110.dto.fee.FeeDetailDto;
 import com.java110.dto.owner.OwnerDto;
 import com.java110.dto.user.UserDto;
-import com.java110.fee.dao.IPayFeeDetailNewV1ServiceDao;
 import com.java110.intf.acct.IAccountInnerServiceSMO;
 import com.java110.intf.fee.IFeeDetailInnerServiceSMO;
 import com.java110.intf.fee.IPayFeeDetailV1InnerServiceSMO;
 import com.java110.intf.user.IUserV1InnerServiceSMO;
 import com.java110.po.account.AccountDetailPo;
-import com.java110.po.account.AccountPo;
 import com.java110.po.fee.PayFeeDetailPo;
 import com.java110.utils.exception.CmdException;
 import com.java110.utils.util.Assert;
@@ -28,9 +26,7 @@ import com.java110.utils.util.DateUtil;
 import com.java110.utils.util.ListUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.math.BigDecimal;
 import java.text.ParseException;
-import java.util.Date;
 import java.util.List;
 
 /**

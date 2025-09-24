@@ -17,7 +17,7 @@ import java.util.List;
 public class ReportOweFeeDto extends PageDto implements Serializable {
 
     private String configName;
-    private String deadlineTime;
+    private String startTime;
     private String ownerTel;
     private String updateTime;
     private String oweId;
@@ -59,12 +59,12 @@ public class ReportOweFeeDto extends PageDto implements Serializable {
         this.configName = configName;
     }
 
-    public String getDeadlineTime() {
-        return deadlineTime;
+    public String getStartTime() {
+        return startTime;
     }
 
-    public void setDeadlineTime(String deadlineTime) {
-        this.deadlineTime = deadlineTime;
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
     }
 
     public String getOwnerTel() {

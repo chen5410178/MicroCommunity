@@ -26,4 +26,33 @@ public interface IInitializePayFeeServiceDao {
     int deleteReportOweFee(Map communityId);
 
     int deletePayFeeDetailMonth(Map communityId);
+
+    /**
+     * 格式化删除账单规则
+     * @param communityId
+     * @return
+     */
+    int deletePayFeeRule(Map communityId);
+
+    int deleteImportFee(Map info);
+
+    int deleteImportFeeDetail(Map info);
+
+    int deleteConfigsFeeDetail(Map info);
+
+    int deleteConfigsFeeReceipt(Map info);
+
+    int deleteConfigsMeterWater(Map info);
+
+    int deleteConfigsFeeDetailMonth(Map info);
+
+    int deleteConfigsFee(Map info);
+
+    int deleteConfigsFeeRules(Map info);
+
+    int deleteAssetImportLog(Map info);
+
+    int deleteAssetImportLogDetail(Map info);
+
+    int deletePayFeeOrder(Map info);
 }

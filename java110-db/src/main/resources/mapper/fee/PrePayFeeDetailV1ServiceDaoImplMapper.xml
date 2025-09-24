@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="prePayFeeDetailV1ServiceDaoImpl">
+
+
+    <!-- 保存扣款记录信息 add by wuxw 2018-07-03 -->
+    <insert id="savePrePayFeeDetailInfo" parameterType="Map">
+        insert into pre_pay_fee_detail(
+        fee_type_cd,cur_year_month,detail_id,remark,owner_id,ft_name,fee_id,pre_amount,payer_obj_name,owner_name,remain_amount,
+        his_owe_amount,ft_id,community_id,cur_amount,cur_owe_amount,ppf_id,payer_obj_id
+        ) values (
+        #{feeTypeCd},#{curYearMonth},#{detailId},#{remark},#{ownerId},#{ftName},#{feeId},#{preAmount},#{payerObjName},
+        #{ownerName},#{remainAmount},#{hisOweAmount},#{ftId},#{communityId},#{curAmount},#{curOweAmount},#{ppfId},#{payerObjId}
+        )
+    </insert>
+
+
+    <!-- 查询扣款记录信息 add by wuxw 2018-07-03 -->
+    <select id="getPrePayFeeDetailInfo" parameterType="Map" resultType="Map">
+        select t.fee_type_cd feeTypeCd,t.cur_year_month curYearMonth,t.detail_id detailId,t.remark,t.status_cd
+        statusCd,t.owner_id ownerId,t.ft_name ftName,t.fee_id feeId,t.pre_amount preAmount,t.payer_obj_name
+        payerObjName,t.owner_name ownerName,t.remain_amount remainAmount,t.his_owe_amount hisOweAmount,t.ft_id
+        ftId,t.community_id communityId,t.cur_amount curAmount,t.cur_owe_amount curOweAmount,t.ppf_id
+        ppfId,t.payer_obj_id payerObjId,t.create_time createTime,ppf.fee_name feeName
+        from pre_pay_fee_detail t
+        left join pre_pay_fee ppf on t.ppf_id = ppf.ppf_id
+        where 1 =1
+        <if test="feeTypeCd !=null and feeTypeCd != ''">
+            and t.fee_type_cd= #{feeTypeCd}
+        </if>
+        <if test="curYearMonth !=null and curYearMonth != ''">
+            and t.cur_year_month= #{curYearMonth}
+        </if>
+        <if test="detailId !=null and detailId != ''">
+            and t.detail_id= #{detailId}
+        </if>
+        <if test="remark !=null and remark != ''">
+            and t.remark= #{remark}
+        </if>
+        <if test="statusCd !=null and statusCd != ''">
+            and t.status_cd= #{statusCd}
+        </if>
+        <if test="ownerId !=null and ownerId != ''">
+            and t.owner_id= #{ownerId}
+        </if>
+        <if test="ftName !=null and ftName != ''">
+            and t.ft_name= #{ftName}
+        </if>
+        <if test="feeId !=null and feeId != ''">
+            and t.fee_id= #{feeId}
+        </if>
+        <if test="preAmount !=null and preAmount != ''">
+            and t.pre_amount= #{preAmount}
+        </if>
+        <if test="payerObjName !=null and payerObjName != ''">
+            and t.payer_obj_name= #{payerObjName}
+        </if>
+        <if test="ownerName !=null and ownerName != ''">
+            and t.owner_name= #{ownerName}
+        </if>
+        <if test="remainAmount !=null and remainAmount != ''">
+            and t.remain_amount= #{remainAmount}
+        </if>
+        <if test="hisOweAmount !=null and hisOweAmount != ''">
+            and t.his_owe_amount= #{hisOweAmount}
+        </if>
+        <if test="ftId !=null and ftId != ''">
+            and t.ft_id= #{ftId}
+        </if>
+        <if test="communityId !=null and communityId != ''">
+            and t.community_id= #{communityId}
+        </if>
+        <if test="curAmount !=null and curAmount != ''">
+            and t.cur_amount= #{curAmount}
+        </if>
+        <if test="curOweAmount !=null and curOweAmount != ''">
+            and t.cur_owe_amount= #{curOweAmount}
+        </if>
+        <if test="ppfId !=null and ppfId != ''">
+            and t.ppf_id= #{ppfId}
+        </if>
+        <if test="payerObjId !=null and payerObjId != ''">
+            and t.payer_obj_id= #{payerObjId}
+        </if>
+        order by t.create_time desc
+        <if test="page != -1 and page != null ">
+            limit #{page}, #{row}
+        </if>
+
+    </select>
+
+
+    <!-- 修改扣款记录信息 add by wuxw 2018-07-03 -->
+    <update id="updatePrePayFeeDetailInfo" parameterType="Map">
+        update pre_pay_fee_detail t set t.status_cd = #{statusCd}
+        <if test="newBId != null and newBId != ''">
+            ,t.b_id = #{newBId}
+        </if>
+        <if test="feeTypeCd !=null and feeTypeCd != ''">
+            , t.fee_type_cd= #{feeTypeCd}
+        </if>
+        <if test="curYearMonth !=null and curYearMonth != ''">
+            , t.cur_year_month= #{curYearMonth}
+        </if>
+        <if test="remark !=null and remark != ''">
+            , t.remark= #{remark}
+        </if>
+        <if test="ownerId !=null and ownerId != ''">
+            , t.owner_id= #{ownerId}
+        </if>
+        <if test="ftName !=null and ftName != ''">
+            , t.ft_name= #{ftName}
+        </if>
+        <if test="feeId !=null and feeId != ''">
+            , t.fee_id= #{feeId}
+        </if>
+        <if test="preAmount !=null and preAmount != ''">
+            , t.pre_amount= #{preAmount}
+        </if>
+        <if test="payerObjName !=null and payerObjName != ''">
+            , t.payer_obj_name= #{payerObjName}
+        </if>
+        <if test="ownerName !=null and ownerName != ''">
+            , t.owner_name= #{ownerName}
+        </if>
+        <if test="remainAmount !=null and remainAmount != ''">
+            , t.remain_amount= #{remainAmount}
+        </if>
+        <if test="hisOweAmount !=null and hisOweAmount != ''">
+            , t.his_owe_amount= #{hisOweAmount}
+        </if>
+        <if test="ftId !=null and ftId != ''">
+            , t.ft_id= #{ftId}
+        </if>
+        <if test="communityId !=null and communityId != ''">
+            , t.community_id= #{communityId}
+        </if>
+        <if test="curAmount !=null and curAmount != ''">
+            , t.cur_amount= #{curAmount}
+        </if>
+        <if test="curOweAmount !=null and curOweAmount != ''">
+            , t.cur_owe_amount= #{curOweAmount}
+        </if>
+        <if test="ppfId !=null and ppfId != ''">
+            , t.ppf_id= #{ppfId}
+        </if>
+        <if test="payerObjId !=null and payerObjId != ''">
+            , t.payer_obj_id= #{payerObjId}
+        </if>
+        where 1=1
+        <if test="detailId !=null and detailId != ''">
+            and t.detail_id= #{detailId}
+        </if>
+
+    </update>
+
+    <!-- 查询扣款记录数量 add by wuxw 2018-07-03 -->
+    <select id="queryPrePayFeeDetailsCount" parameterType="Map" resultType="Map">
+        select count(1) count
+        from pre_pay_fee_detail t
+        where 1 =1
+        <if test="feeTypeCd !=null and feeTypeCd != ''">
+            and t.fee_type_cd= #{feeTypeCd}
+        </if>
+        <if test="curYearMonth !=null and curYearMonth != ''">
+            and t.cur_year_month= #{curYearMonth}
+        </if>
+        <if test="detailId !=null and detailId != ''">
+            and t.detail_id= #{detailId}
+        </if>
+        <if test="remark !=null and remark != ''">
+            and t.remark= #{remark}
+        </if>
+        <if test="statusCd !=null and statusCd != ''">
+            and t.status_cd= #{statusCd}
+        </if>
+        <if test="ownerId !=null and ownerId != ''">
+            and t.owner_id= #{ownerId}
+        </if>
+        <if test="ftName !=null and ftName != ''">
+            and t.ft_name= #{ftName}
+        </if>
+        <if test="feeId !=null and feeId != ''">
+            and t.fee_id= #{feeId}
+        </if>
+        <if test="preAmount !=null and preAmount != ''">
+            and t.pre_amount= #{preAmount}
+        </if>
+        <if test="payerObjName !=null and payerObjName != ''">
+            and t.payer_obj_name= #{payerObjName}
+        </if>
+        <if test="ownerName !=null and ownerName != ''">
+            and t.owner_name= #{ownerName}
+        </if>
+        <if test="remainAmount !=null and remainAmount != ''">
+            and t.remain_amount= #{remainAmount}
+        </if>
+        <if test="hisOweAmount !=null and hisOweAmount != ''">
+            and t.his_owe_amount= #{hisOweAmount}
+        </if>
+        <if test="ftId !=null and ftId != ''">
+            and t.ft_id= #{ftId}
+        </if>
+        <if test="communityId !=null and communityId != ''">
+            and t.community_id= #{communityId}
+        </if>
+        <if test="curAmount !=null and curAmount != ''">
+            and t.cur_amount= #{curAmount}
+        </if>
+        <if test="curOweAmount !=null and curOweAmount != ''">
+            and t.cur_owe_amount= #{curOweAmount}
+        </if>
+        <if test="ppfId !=null and ppfId != ''">
+            and t.ppf_id= #{ppfId}
+        </if>
+        <if test="payerObjId !=null and payerObjId != ''">
+            and t.payer_obj_id= #{payerObjId}
+        </if>
+
+
+    </select>
+
+</mapper>

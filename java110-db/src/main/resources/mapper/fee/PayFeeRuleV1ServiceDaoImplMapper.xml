@@ -8,22 +8,24 @@
     <!-- 保存费用规则信息 add by wuxw 2018-07-03 -->
     <insert id="savePayFeeRuleInfo" parameterType="Map">
         insert into pay_fee_rule(
-        max_time,amount,fee_type_cd,cur_year_month,batch_id,user_id,income_obj_id,config_id,fee_flag,start_time,end_time,state,rule_id,community_id,payer_obj_type,payer_obj_id
+        max_time,amount,fee_type_cd,cur_year_month,batch_id,user_id,income_obj_id,config_id,fee_flag,start_time,end_time,
+        state,rule_id,community_id,payer_obj_type,payer_obj_id,fee_remark
         ) values (
-        #{maxTime},#{amount},#{feeTypeCd},#{curYearMonth},#{batchId},#{userId},#{incomeObjId},#{configId},#{feeFlag},#{startTime},#{endTime},#{state},#{ruleId},#{communityId},#{payerObjType},#{payerObjId}
+        #{maxTime},#{amount},#{feeTypeCd},#{curYearMonth},#{batchId},#{userId},#{incomeObjId},#{configId},#{feeFlag},#{startTime},#{endTime},
+        #{state},#{ruleId},#{communityId},#{payerObjType},#{payerObjId},#{feeRemark}
         )
     </insert>
 
     <insert id="savePayFeeRules" parameterType="Map">
         insert into pay_fee_rule(
         max_time,amount,fee_type_cd,cur_year_month,batch_id,user_id,income_obj_id,config_id,fee_flag,
-        start_time,end_time,state,rule_id,community_id,payer_obj_type,payer_obj_id
+        start_time,end_time,state,rule_id,community_id,payer_obj_type,payer_obj_id,fee_remark
         ) values
         <foreach collection="payFeeRulePos" item="item" separator=",">
             (
             #{item.maxTime},#{item.amount},#{item.feeTypeCd},#{item.curYearMonth},#{item.batchId},#{item.userId},
             #{item.incomeObjId},#{item.configId},#{item.feeFlag},#{item.startTime},#{item.endTime},#{item.state},#{item.ruleId},
-            #{item.communityId},#{item.payerObjType},#{item.payerObjId}
+            #{item.communityId},#{item.payerObjType},#{item.payerObjId},#{item.feeRemark}
             )
         </foreach>
     </insert>
@@ -31,17 +33,19 @@
 
     <!-- 查询费用规则信息 add by wuxw 2018-07-03 -->
     <select id="getPayFeeRuleInfo" parameterType="Map" resultType="Map">
-        select t.max_time,t.max_time maxTime,t.amount,t.fee_type_cd,t.fee_type_cd
-        feeTypeCd,t.cur_year_month,t.cur_year_month curYearMonth,t.status_cd,t.status_cd statusCd,t.batch_id,t.batch_id
-        batchId,t.user_id,t.user_id userId,t.income_obj_id,t.income_obj_id incomeObjId,t.config_id,t.config_id
+        select t.max_time maxTime,t.amount,t.fee_type_cd
+        feeTypeCd,t.cur_year_month curYearMonth,t.status_cd statusCd,t.batch_id,t.batch_id
+        batchId,t.user_id,t.user_id userId,t.income_obj_id incomeObjId,t.config_id,t.config_id
         configId,t.fee_flag,t.fee_flag feeFlag,t.start_time,t.start_time startTime,t.end_time,t.end_time
         endTime,t.state,t.rule_id,t.rule_id ruleId,t.community_id,t.community_id
         communityId,t.payer_obj_type,t.payer_obj_type payerObjType,t.payer_obj_id,t.payer_obj_id payerObjId,
         pfc.fee_name feeName,pfc.square_price squarePrice,pfc.additional_amount
         additionalAmount,pfc.fee_flag,pfc.fee_flag feeFlag,td1.name feeTypeCdName,td2.name stateName,td3.name feeFlagName,pfc.computing_formula
-        computingFormula,pfc.computing_formula_text computingFormulaText,td4.name computingFormulaName
+        computingFormula,pfc.computing_formula_text computingFormulaText,td4.name computingFormulaName,ft.ft_id ftId,ft.ft_name ftName,
+        t.fee_remark feeRemark
         from pay_fee_rule t
         left join pay_fee_config pfc on t.config_id = pfc.config_id and pfc.status_cd = '0'
+        left join fee_type ft on pfc.ft_id = ft.ft_id and ft.status_cd = '0'
         left join t_dict td1 on pfc.fee_type_cd = td1.status_cd and td1.table_name = 'pay_fee_config' and td1.table_columns = 'fee_type_cd'
         left join t_dict td2 on t.state = td2.status_cd and td2.table_name = 'pay_fee' and td2.table_columns = 'state'
         left join t_dict td3 on t.fee_flag = td3.status_cd and td3.table_name = 'pay_fee' and td3.table_columns =
@@ -60,6 +64,9 @@
         </if>
         <if test="curYearMonth !=null and curYearMonth != ''">
             and t.cur_year_month= #{curYearMonth}
+        </if>
+        <if test="valid !=null and valid != ''">
+            and t.cur_year_month &lt;= now()
         </if>
         <if test="statusCd !=null and statusCd != ''">
             and t.status_cd= #{statusCd}
@@ -102,6 +109,12 @@
         </if>
         <if test="payerObjId !=null and payerObjId != ''">
             and t.payer_obj_id= #{payerObjId}
+        </if>
+        <if test="ftId !=null and ftId != ''">
+            and ft.ft_id= #{ftId}
+        </if>
+        <if test="ftName !=null and ftName != ''">
+            and ft.ft_name= #{ftName}
         </if>
         order by t.create_time desc
         <if test="page != -1 and page != null ">
@@ -153,6 +166,9 @@
         <if test="payerObjId !=null and payerObjId != ''">
             , t.payer_obj_id= #{payerObjId}
         </if>
+        <if test="feeRemark !=null and feeRemark != ''">
+            , t.fee_remark = #{feeRemark}
+        </if>
         where 1=1
         <if test="ruleId !=null and ruleId != ''">
             and t.rule_id= #{ruleId}
@@ -173,6 +189,8 @@
     <select id="queryPayFeeRulesCount" parameterType="Map" resultType="Map">
         select count(1) count
         from pay_fee_rule t
+        left join pay_fee_config pfc on t.config_id = pfc.config_id and pfc.status_cd = '0'
+        left join fee_type ft on pfc.ft_id = ft.ft_id and ft.status_cd = '0'
         where 1 =1
         <if test="maxTime !=null and maxTime != ''">
             and t.max_time= #{maxTime}
@@ -221,6 +239,12 @@
         </if>
         <if test="payerObjId !=null and payerObjId != ''">
             and t.payer_obj_id= #{payerObjId}
+        </if>
+        <if test="ftId !=null and ftId != ''">
+            and ft.ft_id= #{ftId}
+        </if>
+        <if test="ftName !=null and ftName != ''">
+            and ft.ft_name= #{ftName}
         </if>
 
 

@@ -6,22 +6,22 @@ import com.java110.core.context.ICmdDataFlowContext;
 import com.java110.core.event.cmd.Cmd;
 import com.java110.core.event.cmd.CmdEvent;
 import com.java110.core.factory.GenerateCodeFactory;
+import com.java110.dto.payFee.PayFeeRuleDto;
 import com.java110.dto.room.RoomDto;
-import com.java110.dto.fee.FeeAttrDto;
 import com.java110.dto.fee.FeeConfigDto;
 import com.java110.dto.fee.FeeDto;
 import com.java110.dto.owner.OwnerDto;
 import com.java110.dto.payFee.PayFeeBatchDto;
 import com.java110.dto.user.UserDto;
+import com.java110.fee.bill.ICycleConvertOnceFee;
 import com.java110.fee.bmo.fee.IFeeBMO;
 import com.java110.fee.feeMonth.IPayFeeMonth;
 import com.java110.intf.community.IRoomInnerServiceSMO;
 import com.java110.intf.fee.*;
 import com.java110.intf.user.IOwnerInnerServiceSMO;
 import com.java110.intf.user.IUserInnerServiceSMO;
-import com.java110.po.fee.FeeAttrPo;
-import com.java110.po.fee.PayFeePo;
 import com.java110.po.payFee.PayFeeBatchPo;
+import com.java110.po.payFee.PayFeeRulePo;
 import com.java110.utils.constant.CommonConstant;
 import com.java110.utils.exception.CmdException;
 import com.java110.utils.util.*;
@@ -29,7 +29,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -72,6 +71,15 @@ public class SaveRoomCreateFeeCmd extends Cmd {
     @Autowired
     private IRuleGeneratorPayFeeBillV1InnerServiceSMO ruleGeneratorPayFeeBillV1InnerServiceSMOImpl;
 
+    @Autowired
+    private IPayFeeConfigV1InnerServiceSMO payFeeConfigV1InnerServiceSMOImpl;
+
+    @Autowired
+    private IPayFeeRuleV1InnerServiceSMO payFeeRuleV1InnerServiceSMOImpl;
+
+    @Autowired
+    private ICycleConvertOnceFee cycleConvertOnceFeeImpl;
+
 
     @Override
     public void validate(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) {
@@ -103,6 +111,34 @@ public class SaveRoomCreateFeeCmd extends Cmd {
             Assert.hasKeyAndValue(reqJson, "rate", "未包含递增率");
             Assert.hasKeyAndValue(reqJson, "rateStartTime", "未包含递增开始时间");
             reqJson.put("configComputingFormula", feeConfigDtos.get(0).getComputingFormula());
+        }
+
+        // todo 判断是不是物业费，物业费不能重复创建
+        if (!FeeConfigDto.FEE_TYPE_CD_PROPERTY.equals(feeConfigDtos.get(0).getFeeTypeCd())) {
+            return;
+        }
+
+        PayFeeRuleDto payFeeRuleDto = new PayFeeRuleDto();
+        payFeeRuleDto.setConfigId(feeConfigDtos.get(0).getConfigId());
+        payFeeRuleDto.setPayerObjId(reqJson.getString("locationObjId"));
+        payFeeRuleDto.setState(FeeDto.STATE_DOING);
+        List<PayFeeRuleDto> payFeeRuleDtos = payFeeRuleV1InnerServiceSMOImpl.queryPayFeeRules(payFeeRuleDto);
+        if (ListUtil.isNull(payFeeRuleDtos)) {
+            return;
+        }
+        Date aTime = DateUtil.getDateFromStringA(payFeeRuleDtos.get(0).getEndTime());
+        Date bTime = DateUtil.getDateFromStringA(payFeeRuleDtos.get(0).getMaxTime());
+
+        if (DateUtil.belongCalendar(DateUtil.getDateFromStringB(reqJson.getString("startTime")),
+                aTime, bTime
+        )) {
+            throw new CmdException("存在重复费用不能创建");
+        }
+
+        if (DateUtil.belongCalendar(DateUtil.getDateFromStringA(reqJson.getString("endTime")),
+                aTime, bTime
+        )) {
+            throw new CmdException("存在重复费用不能创建");
         }
 
 
@@ -143,77 +179,93 @@ public class SaveRoomCreateFeeCmd extends Cmd {
             roomDto.setLink(ownerDtos.get(0).getLink());
         }
 
-        List<PayFeePo> feePos = new ArrayList<>();
-        List<FeeAttrPo> feeAttrsPos = new ArrayList<>();
+        List<PayFeeRulePo> payFeeRulePos = new ArrayList<>();
         ResponseEntity<String> responseEntity = null;
 
+        PayFeeRulePo payFeeRulePo = createPayFeeRulePo(roomDto, reqJson);
+
         //todo 加入 房屋费用
-        feePos.add(BeanConvertUtil.covertBean(feeBMOImpl.addRoomFee(roomDto, reqJson, context), PayFeePo.class));
+        payFeeRulePos.add(payFeeRulePo);
 
-        //todo 走账单模式
-        String billModal = ruleGeneratorPayFeeBillV1InnerServiceSMOImpl.needGeneratorBillData(feePos);
-        if ("Y".equals(billModal)) {
-            JSONObject paramOut = new JSONObject();
-            paramOut.put("totalRoom", 1);
-            paramOut.put("successRoom", 1);
-            paramOut.put("errorRoom", 0);
-            responseEntity = new ResponseEntity<>(paramOut.toJSONString(), HttpStatus.OK);
-            context.setResponseEntity(responseEntity);
-            return;
+        if (ListUtil.isNull(payFeeRulePos)) {
+            throw new IllegalArgumentException("费用不存在");
         }
 
-        feeAttrsPos.add(feeBMOImpl.addFeeAttr(reqJson,
-                context,
-                FeeAttrDto.SPEC_CD_ONCE_FEE_DEADLINE_TIME,
-                reqJson.getString("endTime")));
+        String communityId = payFeeRulePos.get(0).getCommunityId();
 
-        if (!StringUtil.isEmpty(roomDto.getOwnerId())) {
-            feeAttrsPos.add(feeBMOImpl.addFeeAttr(reqJson, context, FeeAttrDto.SPEC_CD_OWNER_ID, roomDto.getOwnerId()));
-            feeAttrsPos.add(feeBMOImpl.addFeeAttr(reqJson, context, FeeAttrDto.SPEC_CD_OWNER_LINK, roomDto.getLink()));
-            feeAttrsPos.add(feeBMOImpl.addFeeAttr(reqJson, context, FeeAttrDto.SPEC_CD_OWNER_NAME, roomDto.getOwnerName()));
+        if (StringUtil.isEmpty(communityId)) {
+            throw new IllegalArgumentException("小区不存在");
         }
 
-        //todo 定制开发 加入
-        //1、对合同约定的租金递增比例、递增年限各不相同的问题，支持按合同到期日期设租金递增比例。
-        //2、能自动设置递增的租金实行自动计算当月的租金。
-        if (reqJson.containsKey("configComputingFormula") && FeeConfigDto.COMPUTING_FORMULA_RANT_RATE.equals(reqJson.getString("configComputingFormula"))) {
-            feeAttrsPos.add(feeBMOImpl.addFeeAttr(reqJson, context, FeeAttrDto.SPEC_CD_RATE_CYCLE, reqJson.getString("rateCycle")));
-            feeAttrsPos.add(feeBMOImpl.addFeeAttr(reqJson, context, FeeAttrDto.SPEC_CD_RATE, reqJson.getString("rate")));
-            feeAttrsPos.add(feeBMOImpl.addFeeAttr(reqJson, context, FeeAttrDto.SPEC_CD_RATE_START_TIME, reqJson.getString("rateStartTime")));
-        }
-        //付费对象名称
-        feeAttrsPos.add(feeBMOImpl.addFeeAttr(reqJson, context, FeeAttrDto.SPEC_CD_PAY_OBJECT_NAME, roomDto.getFloorNum() + "-" + roomDto.getUnitNum() + "-" + roomDto.getRoomNum()));
-
-        int saveFlag = saveFeeAndAttrs(feePos, feeAttrsPos);
-
+        //todo 业务处理
         JSONObject paramOut = new JSONObject();
         paramOut.put("totalRoom", 1);
         paramOut.put("successRoom", 1);
         paramOut.put("errorRoom", 0);
         responseEntity = new ResponseEntity<>(paramOut.toJSONString(), HttpStatus.OK);
+
+        if (payFeeRulePos.isEmpty()) {
+            context.setResponseEntity(responseEntity);
+            return;
+        }
+
+        //todo 设置费用
+        payFeeRuleV1InnerServiceSMOImpl.savePayFeeRules(payFeeRulePos);
+
+
+        //todo 走账单模式
+        cycleConvertOnceFeeImpl.rulesGeneratePayFees(payFeeRulePos);
+
         context.setResponseEntity(responseEntity);
+
     }
 
-    private int saveFeeAndAttrs(List<PayFeePo> feePos, List<FeeAttrPo> feeAttrsPos) {
-        if (feePos == null || feePos.size() < 1) {
-            return 1;
-        }
-        int flag = feeInnerServiceSMOImpl.saveFee(feePos);
-        if (flag < 1) {
-            return flag;
-        }
+    private PayFeeRulePo createPayFeeRulePo(RoomDto roomDto, JSONObject paramInJson) {
 
-        flag = feeAttrInnerServiceSMOImpl.saveFeeAttrs(feeAttrsPos);
-
-        // todo 这里异步的方式计算 月数据 和欠费数据
-        List<String> feeIds = new ArrayList<>();
-        for (PayFeePo feePo : feePos) {
-            feeIds.add(feePo.getFeeId());
+        String time = DateUtil.getNow(DateUtil.DATE_FORMATE_STRING_A);
+        if (paramInJson.containsKey("feeEndDate")) {
+            time = paramInJson.getString("feeEndDate");
+        } else if (paramInJson.containsKey("startTime")) {
+            time = paramInJson.getString("startTime");
         }
-        payFeeMonthImpl.doGeneratorFeeMonths(feeIds, feePos.get(0).getCommunityId());
+        //查询费用项
+        FeeConfigDto feeConfigDto = new FeeConfigDto();
+        feeConfigDto.setConfigId(paramInJson.getString("configId"));
+        List<FeeConfigDto> feeConfigDtos = feeConfigInnerServiceSMOImpl.queryFeeConfigs(feeConfigDto);
+        Assert.listOnlyOne(feeConfigDtos, "查询费用项错误！");
 
-        payFeeMonthImpl.doGeneratorOweFees(feeIds, feePos.get(0).getCommunityId());
-        return flag;
+        PayFeeRulePo payFeeRulePo = new PayFeeRulePo();
+        payFeeRulePo.setMaxTime(paramInJson.getString("endTime"));
+
+        payFeeRulePo.setAmount("-1");
+        if (!StringUtil.isEmpty(paramInJson.getString("amount"))) {
+            payFeeRulePo.setAmount(paramInJson.getString("amount"));
+        }
+        payFeeRulePo.setFeeTypeCd(feeConfigDtos.get(0).getFeeTypeCd());
+        payFeeRulePo.setBatchId(paramInJson.getString("batchId"));
+        payFeeRulePo.setUserId("-1");
+        payFeeRulePo.setIncomeObjId(paramInJson.getString("storeId"));
+        payFeeRulePo.setConfigId(feeConfigDtos.get(0).getConfigId());
+        payFeeRulePo.setFeeFlag(feeConfigDtos.get(0).getFeeFlag());
+        payFeeRulePo.setStartTime(time);
+        payFeeRulePo.setEndTime(time);
+        payFeeRulePo.setState(FeeDto.STATE_DOING);
+//        if (FeeDto.FEE_FLAG_CYCLE.equals(feeConfigDtos.get(0).getFeeFlag())) {
+//            payFeeRulePo.setState(FeeDto.STATE_FINISH);
+//        }
+        payFeeRulePo.setRuleId(GenerateCodeFactory.getGeneratorId("11"));
+        payFeeRulePo.setCommunityId(paramInJson.getString("communityId"));
+        payFeeRulePo.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_ROOM);
+        payFeeRulePo.setPayerObjId(roomDto.getRoomId());
+        String curYearMonth = DateUtil.getFormatTimeStringB(DateUtil.getDateFromStringB(payFeeRulePo.getEndTime()));
+        // 后付费
+        if(FeeConfigDto.PAYMENT_CD_AFTER.equals(feeConfigDtos.get(0).getPaymentCd())){
+            int ruleCycle = Integer.parseInt(feeConfigDtos.get(0).getPaymentCycle());
+           Date endTime = DateUtil.getNextMonthDateB(payFeeRulePo.getEndTime(), ruleCycle);
+           curYearMonth = DateUtil.getFormatTimeStringB(endTime);
+        }
+        payFeeRulePo.setCurYearMonth(curYearMonth);
+        return payFeeRulePo;
     }
 
 

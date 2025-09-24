@@ -1,8 +1,6 @@
 package com.java110.fee.bmo.feeReceiptDetail.impl;
 
-import com.java110.dto.fee.FeeDto;
 import com.java110.dto.fee.FeeReceiptDetailDto;
-import com.java110.dto.fee.FeeReceiptDto;
 import com.java110.dto.payFee.PayFeeDetailDiscountDto;
 import com.java110.fee.bmo.feeReceiptDetail.IGetFeeReceiptDetailBMO;
 import com.java110.intf.fee.IFeeReceiptDetailInnerServiceSMO;
@@ -40,10 +38,12 @@ public class GetFeeReceiptDetailBMOImpl implements IGetFeeReceiptDetailBMO {
         List<FeeReceiptDetailDto> feeReceiptDetailDtos = null;
         if (count > 0) {
             feeReceiptDetailDtos = feeReceiptDetailInnerServiceSMOImpl.queryFeeReceiptDetails(feeReceiptDetailDto);
-
         } else {
             feeReceiptDetailDtos = new ArrayList<>();
         }
+
+        // todo 如果是退费计算原始单据编号
+        ifRefundOrgReceipt(feeReceiptDetailDtos);
 
         //todo 计算优惠金额
         computeDiscountFee(feeReceiptDetailDtos);
@@ -58,9 +58,35 @@ public class GetFeeReceiptDetailBMOImpl implements IGetFeeReceiptDetailBMO {
         return responseEntity;
     }
 
+    private void ifRefundOrgReceipt(List<FeeReceiptDetailDto> feeReceiptDetailDtos) {
+        if (ListUtil.isNull(feeReceiptDetailDtos)) {
+            return;
+        }
+        FeeReceiptDetailDto orgFeeReceiptDetailDto = null;
+        List<FeeReceiptDetailDto> orgFeeReceiptDetailDtos = null;
+        for (FeeReceiptDetailDto feeReceiptDetailDto : feeReceiptDetailDtos) {
+            orgFeeReceiptDetailDto = new FeeReceiptDetailDto();
+            orgFeeReceiptDetailDto.setFeeId(feeReceiptDetailDto.getFeeId());
+            orgFeeReceiptDetailDtos = feeReceiptDetailInnerServiceSMOImpl.queryFeeReceiptDetails(orgFeeReceiptDetailDto);
+            if (ListUtil.isNull(orgFeeReceiptDetailDtos)) {
+                continue;
+            }
+            for (FeeReceiptDetailDto oFeeReceiptDetailDto : orgFeeReceiptDetailDtos) {
+                if (oFeeReceiptDetailDto.getReceiptId().equals(feeReceiptDetailDto.getReceiptId())) {
+                    continue;
+                }
+                if (Double.parseDouble(oFeeReceiptDetailDto.getAmount()) < 0) {
+                    continue;
+                }
+                feeReceiptDetailDto.setOrgReceiptCode(oFeeReceiptDetailDto.getReceiptCode());
+                feeReceiptDetailDto.setOrgAmount(oFeeReceiptDetailDto.getAmount());
+            }
+        }
+    }
+
     private void computeDiscountFee(List<FeeReceiptDetailDto> feeReceiptDetailDtos) {
 
-        if (feeReceiptDetailDtos == null || feeReceiptDetailDtos.size() < 1) {
+        if (ListUtil.isNull(feeReceiptDetailDtos)) {
             return;
         }
 
@@ -160,7 +186,7 @@ public class GetFeeReceiptDetailBMOImpl implements IGetFeeReceiptDetailBMO {
                 continue;
             }
 
-            if(StringUtil.isEmpty(nFeeReceiptDetailDto.getSquarePrice()) && !StringUtil.isEmpty(feeReceiptDetailDto.getSquarePrice())){
+            if (StringUtil.isEmpty(nFeeReceiptDetailDto.getSquarePrice()) && !StringUtil.isEmpty(feeReceiptDetailDto.getSquarePrice())) {
                 continue;
             }
 
@@ -192,14 +218,6 @@ public class GetFeeReceiptDetailBMOImpl implements IGetFeeReceiptDetailBMO {
         amount = amount.add(new BigDecimal(feeReceiptDetailDto.getAmount()));
         nOnceFeeReceiptDetailDto.setAmount(amount.doubleValue() + "");
         nOnceFeeReceiptDetailDto.setCurDegrees(feeReceiptDetailDto.getCurDegrees());
-
-        BigDecimal receivableAmount = new BigDecimal(nOnceFeeReceiptDetailDto.getReceivableAmount());
-        receivableAmount = receivableAmount.add(new BigDecimal(feeReceiptDetailDto.getReceivableAmount()));
-        nOnceFeeReceiptDetailDto.setReceivableAmount(receivableAmount.doubleValue() + "");
-
-        BigDecimal acctAmount = new BigDecimal(nOnceFeeReceiptDetailDto.getAcctAmount());
-        acctAmount = acctAmount.add(new BigDecimal(feeReceiptDetailDto.getAcctAmount()));
-        nOnceFeeReceiptDetailDto.setAcctAmount(acctAmount.doubleValue() + "");
     }
 
 }

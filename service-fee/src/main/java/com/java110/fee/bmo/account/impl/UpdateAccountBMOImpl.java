@@ -4,8 +4,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.java110.core.context.DataFlowContext;
 import com.java110.core.factory.GenerateCodeFactory;
-import com.java110.dto.account.AccountDto;
 import com.java110.dto.account.AccountDetailDto;
+import com.java110.dto.account.AccountDto;
 import com.java110.dto.owner.OwnerDto;
 import com.java110.dto.owner.OwnerRoomRelDto;
 import com.java110.fee.bmo.ApiBaseBMO;
@@ -14,8 +14,8 @@ import com.java110.intf.acct.IAccountDetailInnerServiceSMO;
 import com.java110.intf.acct.IAccountInnerServiceSMO;
 import com.java110.intf.user.IOwnerInnerServiceSMO;
 import com.java110.intf.user.IOwnerRoomRelInnerServiceSMO;
-import com.java110.po.account.AccountPo;
 import com.java110.po.account.AccountDetailPo;
+import com.java110.po.account.AccountPo;
 import com.java110.utils.constant.BusinessTypeConstant;
 import com.java110.utils.util.Assert;
 import com.java110.utils.util.BeanConvertUtil;
@@ -75,7 +75,7 @@ public class UpdateAccountBMOImpl extends ApiBaseBMO implements IUpdateAccountBM
             //根据业主id去查这个业主的账户余额
             AccountDto accountDto = new AccountDto();
             accountDto.setObjId(ownerId);
-            accountDto.setPartId(paramObj.getString("communityId"));
+            accountDto.setCommunityId(paramObj.getString("communityId"));
             accountDto.setObjType(AccountDto.OBJ_TYPE_PERSON);
             accountDto.setAcctType(AccountDto.ACCT_TYPE_CASH);
             List<AccountDto> accountDtos = accountInnerServiceSMOImpl.queryAccounts(accountDto);
@@ -130,7 +130,7 @@ public class UpdateAccountBMOImpl extends ApiBaseBMO implements IUpdateAccountBM
         ownerDto.setCommunityId(reqJson.getString("communityId"));
         List<OwnerDto> ownerDtos = ownerInnerServiceSMOImpl.queryOwners(ownerDto);
         accountPo.setAcctName(ownerDtos.get(0).getName());
-        accountPo.setPartId(reqJson.getString("communityId"));
+        accountPo.setCommunityId(reqJson.getString("communityId"));
         accountPo.setLink(ownerDtos.get(0).getLink());
         accountInnerServiceSMOImpl.saveAccount(accountPo);
         return BeanConvertUtil.covertBean(accountPo, AccountDto.class);

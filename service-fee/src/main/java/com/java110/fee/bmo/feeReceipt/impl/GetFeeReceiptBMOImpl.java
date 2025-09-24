@@ -11,7 +11,6 @@ import com.java110.intf.community.IRoomInnerServiceSMO;
 import com.java110.intf.fee.IFeeReceiptInnerServiceSMO;
 import com.java110.intf.user.IOwnerCarInnerServiceSMO;
 import com.java110.intf.user.IOwnerRoomRelInnerServiceSMO;
-import com.java110.utils.util.DateUtil;
 import com.java110.utils.util.ListUtil;
 import com.java110.vo.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,7 +97,7 @@ public class GetFeeReceiptBMOImpl implements IGetFeeReceiptBMO {
         ownerCarDto.setCommunityId(feeReceiptDto.getCommunityId());
         List<OwnerCarDto> ownerCarDtos = ownerCarInnerServiceSMOImpl.queryOwnerCars(ownerCarDto);
 
-        if (ownerCarDtos == null || ownerCarDtos.size() < 1) {
+        if (ListUtil.isNull(ownerCarDtos)) {
             feeReceiptDto.setRoomName("-");
             return;
         }
@@ -106,7 +105,7 @@ public class GetFeeReceiptBMOImpl implements IGetFeeReceiptBMO {
         ownerRoomRelDto.setOwnerId(ownerCarDtos.get(0).getOwnerId());
 
         List<OwnerRoomRelDto> ownerRoomRelDtos = ownerRoomRelInnerServiceSMOImpl.queryOwnerRoomRels(ownerRoomRelDto);
-        if (ownerRoomRelDtos == null || ownerRoomRelDtos.size() < 1) {
+        if (ListUtil.isNull(ownerRoomRelDtos)) {
             feeReceiptDto.setRoomName("-");
             return;
         }

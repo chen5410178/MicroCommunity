@@ -83,7 +83,7 @@ public class QueryAdminOwnerAccountCmd extends Cmd {
         }
 
         accountDto.setObjType(AccountDto.OBJ_TYPE_PERSON);
-        accountDto.setPartId(reqJson.getString("communityId"));
+        accountDto.setCommunityId(reqJson.getString("communityId"));
 
         String acctTypes = reqJson.getString("acctTypes");
         if (!StringUtil.isNullOrNone(acctTypes)) {

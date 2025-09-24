@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="refundDepositPreV1ServiceDaoImpl">
+
+
+    <!-- 保存退押金信息 add by wuxw 2018-07-03 -->
+    <insert id="saveRefundDepositPreInfo" parameterType="Map">
+        insert into refund_deposit_pre(
+        rdp_id,owner_id,ft_name,payer_obj_name,owner_name,fee_name,ft_id,start_time,end_time,rule_id,
+        community_id,payer_obj_id,refund_amount,refund_order_id
+        ) values (
+        #{rdpId},#{ownerId},#{ftName},#{payerObjName},#{ownerName},#{feeName},#{ftId},#{startTime},
+        #{endTime},#{ruleId},#{communityId},#{payerObjId},#{refundAmount},#{refundOrderId}
+        )
+    </insert>
+
+
+    <!-- 查询退押金信息 add by wuxw 2018-07-03 -->
+    <select id="getRefundDepositPreInfo" parameterType="Map" resultType="Map">
+        select t.status_cd statusCd,t.rdp_id rdpId,t.owner_id ownerId,t.ft_name ftName,t.payer_obj_name
+        payerObjName,t.owner_name ownerName,t.fee_name feeName,t.ft_id ftId,t.start_time startTime,t.end_time
+        endTime,t.rule_id ruleId,t.community_id communityId,t.payer_obj_id payerObjId,t.refund_amount refundAmount,
+        t.refund_order_id refundOrderId
+        from refund_deposit_pre t
+        where 1 =1
+        <if test="statusCd !=null and statusCd != ''">
+            and t.status_cd= #{statusCd}
+        </if>
+        <if test="rdpId !=null and rdpId != ''">
+            and t.rdp_id= #{rdpId}
+        </if>
+        <if test="ownerId !=null and ownerId != ''">
+            and t.owner_id= #{ownerId}
+        </if>
+        <if test="ftName !=null and ftName != ''">
+            and t.ft_name= #{ftName}
+        </if>
+        <if test="payerObjName !=null and payerObjName != ''">
+            and t.payer_obj_name= #{payerObjName}
+        </if>
+        <if test="ownerName !=null and ownerName != ''">
+            and t.owner_name= #{ownerName}
+        </if>
+        <if test="feeName !=null and feeName != ''">
+            and t.fee_name= #{feeName}
+        </if>
+        <if test="ftId !=null and ftId != ''">
+            and t.ft_id= #{ftId}
+        </if>
+        <if test="startTime !=null and startTime != ''">
+            and t.start_time= #{startTime}
+        </if>
+        <if test="endTime !=null and endTime != ''">
+            and t.end_time= #{endTime}
+        </if>
+        <if test="ruleId !=null and ruleId != ''">
+            and t.rule_id= #{ruleId}
+        </if>
+        <if test="communityId !=null and communityId != ''">
+            and t.community_id= #{communityId}
+        </if>
+        <if test="payerObjId !=null and payerObjId != ''">
+            and t.payer_obj_id= #{payerObjId}
+        </if>
+        <if test="refundOrderId !=null and refundOrderId != ''">
+            and t.refund_order_id= #{refundOrderId}
+        </if>
+        <if test="refundAmount !=null and refundAmount != ''">
+            and t.refund_amount= #{refundAmount}
+        </if>
+        order by t.create_time desc
+        <if test="page != -1 and page != null ">
+            limit #{page}, #{row}
+        </if>
+
+    </select>
+
+
+    <!-- 修改退押金信息 add by wuxw 2018-07-03 -->
+    <update id="updateRefundDepositPreInfo" parameterType="Map">
+        update refund_deposit_pre t set t.status_cd = #{statusCd}
+        <if test="newBId != null and newBId != ''">
+            ,t.b_id = #{newBId}
+        </if>
+        <if test="ownerId !=null and ownerId != ''">
+            , t.owner_id= #{ownerId}
+        </if>
+        <if test="ftName !=null and ftName != ''">
+            , t.ft_name= #{ftName}
+        </if>
+        <if test="payerObjName !=null and payerObjName != ''">
+            , t.payer_obj_name= #{payerObjName}
+        </if>
+        <if test="ownerName !=null and ownerName != ''">
+            , t.owner_name= #{ownerName}
+        </if>
+        <if test="feeName !=null and feeName != ''">
+            , t.fee_name= #{feeName}
+        </if>
+        <if test="ftId !=null and ftId != ''">
+            , t.ft_id= #{ftId}
+        </if>
+        <if test="startTime !=null and startTime != ''">
+            , t.start_time= #{startTime}
+        </if>
+        <if test="endTime !=null and endTime != ''">
+            , t.end_time= #{endTime}
+        </if>
+        <if test="ruleId !=null and ruleId != ''">
+            , t.rule_id= #{ruleId}
+        </if>
+        <if test="communityId !=null and communityId != ''">
+            , t.community_id= #{communityId}
+        </if>
+        <if test="payerObjId !=null and payerObjId != ''">
+            , t.payer_obj_id= #{payerObjId}
+        </if>
+        <if test="refundAmount !=null and refundAmount != ''">
+            , t.refund_amount= #{refundAmount}
+        </if>
+        where 1=1
+        <if test="rdpId !=null and rdpId != ''">
+            and t.rdp_id= #{rdpId}
+        </if>
+
+    </update>
+
+    <!-- 查询退押金数量 add by wuxw 2018-07-03 -->
+    <select id="queryRefundDepositPresCount" parameterType="Map" resultType="Map">
+        select count(1) count
+        from refund_deposit_pre t
+        where 1 =1
+        <if test="statusCd !=null and statusCd != ''">
+            and t.status_cd= #{statusCd}
+        </if>
+        <if test="rdpId !=null and rdpId != ''">
+            and t.rdp_id= #{rdpId}
+        </if>
+        <if test="ownerId !=null and ownerId != ''">
+            and t.owner_id= #{ownerId}
+        </if>
+        <if test="ftName !=null and ftName != ''">
+            and t.ft_name= #{ftName}
+        </if>
+        <if test="payerObjName !=null and payerObjName != ''">
+            and t.payer_obj_name= #{payerObjName}
+        </if>
+        <if test="ownerName !=null and ownerName != ''">
+            and t.owner_name= #{ownerName}
+        </if>
+        <if test="feeName !=null and feeName != ''">
+            and t.fee_name= #{feeName}
+        </if>
+        <if test="ftId !=null and ftId != ''">
+            and t.ft_id= #{ftId}
+        </if>
+        <if test="startTime !=null and startTime != ''">
+            and t.start_time= #{startTime}
+        </if>
+        <if test="endTime !=null and endTime != ''">
+            and t.end_time= #{endTime}
+        </if>
+        <if test="ruleId !=null and ruleId != ''">
+            and t.rule_id= #{ruleId}
+        </if>
+        <if test="communityId !=null and communityId != ''">
+            and t.community_id= #{communityId}
+        </if>
+        <if test="payerObjId !=null and payerObjId != ''">
+            and t.payer_obj_id= #{payerObjId}
+        </if>
+        <if test="refundAmount !=null and refundAmount != ''">
+            and t.refund_amount= #{refundAmount}
+        </if>
+        <if test="refundOrderId !=null and refundOrderId != ''">
+            and t.refund_order_id= #{refundOrderId}
+        </if>
+
+
+    </select>
+
+</mapper>

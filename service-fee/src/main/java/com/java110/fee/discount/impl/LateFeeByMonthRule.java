@@ -16,10 +16,10 @@
 package com.java110.fee.discount.impl;
 
 import com.java110.core.smo.IComputeFeeSMO;
-import com.java110.dto.fee.FeeDto;
 import com.java110.dto.fee.ComputeDiscountDto;
 import com.java110.dto.fee.FeeDiscountDto;
 import com.java110.dto.fee.FeeDiscountSpecDto;
+import com.java110.dto.fee.FeeDto;
 import com.java110.fee.discount.IComputeDiscount;
 import com.java110.intf.fee.IFeeInnerServiceSMO;
 import com.java110.utils.util.DateUtil;
@@ -29,7 +29,6 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @desc add by 吴学文 12:43
@@ -64,14 +63,26 @@ public class LateFeeByMonthRule implements IComputeDiscount {
 
         FeeDto feeDto = new FeeDto();
         feeDto.setCommunityId(feeDiscountDto.getCommunityId());
-        feeDto.setFeeId(feeDiscountDto.getFeeId());
+        feeDto.setConfigId(feeDiscountDto.getPayFeeDtos().get(0).getConfigId());
         List<FeeDto> feeDtos = feeInnerServiceSMOImpl.queryFees(feeDto);
+
+        Date startTime = null;
+        Date sTime = null;
+        for (FeeDto payFeeDto : feeDtos) {
+            sTime = payFeeDto.getStartTime();
+            if (startTime == null) {
+                startTime = sTime;
+                continue;
+            }
+            if (sTime.before(startTime)) {
+                startTime = sTime;
+            }
+        }
 
         Date curTime = DateUtil.getCurrentDate();
 
-        Date endTime = feeDtos.get(0).getEndTime();
 
-        if (endTime.getTime() > curTime.getTime()) {
+        if (startTime.getTime() > curTime.getTime()) {
             ComputeDiscountDto computeDiscountDto = new ComputeDiscountDto();
             computeDiscountDto.setDiscountId(feeDiscountDto.getDiscountId());
             computeDiscountDto.setDiscountType(FeeDiscountDto.DISCOUNT_TYPE_V);
@@ -83,11 +94,11 @@ public class LateFeeByMonthRule implements IComputeDiscount {
             return computeDiscountDto;
         }
         //查询费用
-        Double month = DateUtil.dayCompare(endTime, curTime);
+        Double month = DateUtil.dayCompare(startTime, curTime);
 
-        Map feePriceAll = computeFeeSMOImpl.getFeePrice(feeDtos.get(0));
+        double oweAmount = feeDiscountDto.getOweAmount();
 
-        BigDecimal priceDec = new BigDecimal(feePriceAll.get("feePrice").toString());
+        BigDecimal priceDec = new BigDecimal(oweAmount+"");
 
         BigDecimal monthDec = new BigDecimal(month);
 
@@ -99,7 +110,7 @@ public class LateFeeByMonthRule implements IComputeDiscount {
         computeDiscountDto.setRuleId(feeDiscountDto.getRuleId());
         computeDiscountDto.setRuleName(feeDiscountDto.getRuleName());
         computeDiscountDto.setDiscountName(feeDiscountDto.getDiscountName());
-        computeDiscountDto.setDiscountPrice(discountPrice * -1);
+        computeDiscountDto.setDiscountPrice(discountPrice );
         computeDiscountDto.setFeeDiscountSpecs(feeDiscountSpecDtos);
         return computeDiscountDto;
     }

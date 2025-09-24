@@ -6,12 +6,10 @@ import com.java110.utils.exception.DAOException;
 import com.java110.utils.util.DateUtil;
 import com.java110.core.base.dao.BaseServiceDao;
 import com.java110.fee.dao.IFeeDetailServiceDao;
-import com.java110.utils.util.StringUtil;
 import org.slf4j.Logger;
 import com.java110.core.log.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -54,9 +52,9 @@ public class FeeDetailServiceDaoImpl extends BaseServiceDao implements IFeeDetai
 
         logger.debug("查询费用明细信息 入参 info : {}",info);
 
-        List<Map> infos = sqlSessionTemplate.selectList("feeDetailServiceDaoImpl.getBusinessFeeDetailInfo",info);
+        List<Map> businessFeeDetailInfos = sqlSessionTemplate.selectList("feeDetailServiceDaoImpl.getBusinessFeeDetailInfo",info);
 
-        return infos;
+        return businessFeeDetailInfos;
     }
 
 
@@ -119,12 +117,12 @@ public class FeeDetailServiceDaoImpl extends BaseServiceDao implements IFeeDetai
     public int queryFeeDetailsCount(Map info) {
         logger.debug("查询费用明细数据 入参 info : {}",info);
 
-        List<Map> infos = sqlSessionTemplate.selectList("feeDetailServiceDaoImpl.queryFeeDetailsCount", info);
-        if (infos.size() < 1) {
+        List<Map> businessFeeDetailInfos = sqlSessionTemplate.selectList("feeDetailServiceDaoImpl.queryFeeDetailsCount", info);
+        if (businessFeeDetailInfos.size() < 1) {
             return 0;
         }
 
-        return Integer.parseInt(infos.get(0).get("count").toString());
+        return Integer.parseInt(businessFeeDetailInfos.get(0).get("count").toString());
     }
 
     @Override

@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,10 +29,11 @@ public class InitializePayFeeInnerServiceSMOImpl extends BaseServiceSMO implemen
 
     @Override
     public int deletePayFee(@RequestBody Map communityId) {
-        int deleteFee = initializePayFeeServiceDaoImpl.deletePayFee(communityId);
 
         //todo 删除缴费明细
         initializePayFeeServiceDaoImpl.deletePayFeeDetail(communityId);
+
+        int deleteFee = initializePayFeeServiceDaoImpl.deletePayFee(communityId);
 
         //todo 删除 欠费表
         initializePayFeeServiceDaoImpl.deleteReportOweFee(communityId);
@@ -38,7 +41,104 @@ public class InitializePayFeeInnerServiceSMOImpl extends BaseServiceSMO implemen
         //todo 删除 月报表
         initializePayFeeServiceDaoImpl.deletePayFeeDetailMonth(communityId);
 
+        // todo 删除 账单规则
+        initializePayFeeServiceDaoImpl.deletePayFeeRule(communityId);
+
+        initializePayFeeServiceDaoImpl.deleteImportFee(communityId);
+
+        initializePayFeeServiceDaoImpl.deleteImportFeeDetail(communityId);
+
+
         return deleteFee;
+    }
+
+    @Override
+    public int deleteConfigsFeeDetail(@RequestBody List<String> configIds) {
+
+        Map info = new HashMap();
+        info.put("configIds", configIds.toArray(new String[configIds.size()]));
+
+        return initializePayFeeServiceDaoImpl.deleteConfigsFeeDetail(info);
+
+
+    }
+
+    @Override
+    public int deleteConfigsFeeReceipt(@RequestBody List<String> configIds) {
+        Map info = new HashMap();
+        info.put("configIds", configIds.toArray(new String[configIds.size()]));
+
+        return initializePayFeeServiceDaoImpl.deleteConfigsFeeReceipt(info);
+
+    }
+
+    @Override
+    public int deleteConfigsMeterWater(@RequestBody List<String> configIds) {
+        Map info = new HashMap();
+        info.put("configIds", configIds.toArray(new String[configIds.size()]));
+
+        return initializePayFeeServiceDaoImpl.deleteConfigsMeterWater(info);
+    }
+
+    @Override
+    public int deleteConfigsFeeDetailMonth(@RequestBody List<String> configIds) {
+        Map info = new HashMap();
+        info.put("configIds", configIds.toArray(new String[configIds.size()]));
+
+        return initializePayFeeServiceDaoImpl.deleteConfigsFeeDetailMonth(info);
+    }
+
+    @Override
+    public int deleteConfigsFee(@RequestBody List<String> configIds) {
+        Map info = new HashMap();
+        info.put("configIds", configIds.toArray(new String[configIds.size()]));
+
+        return initializePayFeeServiceDaoImpl.deleteConfigsFee(info);
+    }
+
+    @Override
+    public int deleteConfigsFeeRules(@RequestBody List<String> configIds) {
+        Map info = new HashMap();
+        info.put("configIds", configIds.toArray(new String[configIds.size()]));
+
+        return initializePayFeeServiceDaoImpl.deleteConfigsFeeRules(info);
+    }
+
+    @Override
+    public int deleteAssetImportLog(@RequestBody String communityId) {
+        Map info = new HashMap();
+        info.put("communityId", communityId);
+
+        return initializePayFeeServiceDaoImpl.deleteAssetImportLog(info);
+    }
+
+    @Override
+    public int deleteAssetImportLogDetail(@RequestBody String communityId) {
+        Map info = new HashMap();
+        info.put("communityId", communityId);
+
+        return initializePayFeeServiceDaoImpl.deleteAssetImportLogDetail(info);
+    }
+
+    @Override
+    public int deleteImportFee(@RequestBody String communityId) {
+        Map info = new HashMap();
+        info.put("communityId", communityId);
+        return initializePayFeeServiceDaoImpl.deleteImportFee(info);
+    }
+
+    @Override
+    public int deleteImportFeeDetail(@RequestBody String communityId) {
+        Map info = new HashMap();
+        info.put("communityId", communityId);
+        return initializePayFeeServiceDaoImpl.deleteImportFeeDetail(info);
+    }
+
+    @Override
+    public int deletePayFeeOrder(@RequestBody String communityId) {
+        Map info = new HashMap();
+        info.put("communityId", communityId);
+        return initializePayFeeServiceDaoImpl.deletePayFeeOrder(info);
     }
 
     public IInitializePayFeeServiceDao getInitializePayFeeServiceDaoImpl() {

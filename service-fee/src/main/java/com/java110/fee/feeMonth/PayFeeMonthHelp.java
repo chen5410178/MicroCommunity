@@ -3,17 +3,18 @@ package com.java110.fee.feeMonth;
 import com.java110.core.factory.GenerateCodeFactory;
 import com.java110.core.smo.IComputeFeeSMO;
 import com.java110.dto.contract.ContractDto;
-import com.java110.dto.fee.FeeAttrDto;
-import com.java110.dto.fee.FeeDetailDto;
 import com.java110.dto.fee.FeeDto;
+import com.java110.dto.fee.PayFeeDetailDto;
 import com.java110.dto.owner.OwnerCarDto;
-import com.java110.dto.payFee.PayFeeDetailMonthDto;
+import com.java110.dto.owner.OwnerDto;
 import com.java110.dto.payFee.PayFeeMonthOwnerDto;
 import com.java110.dto.room.RoomDto;
 import com.java110.intf.community.IRoomInnerServiceSMO;
 import com.java110.intf.fee.IPayFeeDetailMonthInnerServiceSMO;
+import com.java110.intf.fee.IPayFeeDetailV1InnerServiceSMO;
 import com.java110.intf.store.IContractInnerServiceSMO;
 import com.java110.intf.user.IOwnerCarInnerServiceSMO;
+import com.java110.intf.user.IOwnerV1InnerServiceSMO;
 import com.java110.po.payFee.PayFeeDetailMonthPo;
 import com.java110.utils.util.DateUtil;
 import com.java110.utils.util.ListUtil;
@@ -22,7 +23,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 @Service
 public class PayFeeMonthHelp implements IPayFeeMonthHelp {
@@ -42,19 +45,34 @@ public class PayFeeMonthHelp implements IPayFeeMonthHelp {
     @Autowired
     private IPayFeeDetailMonthInnerServiceSMO payFeeDetailMonthInnerServiceSMOImpl;
 
+    @Autowired
+    private IPayFeeDetailV1InnerServiceSMO payFeeDetailV1InnerServiceSMOImpl;
+
+    @Autowired
+    private IOwnerV1InnerServiceSMO ownerV1InnerServiceSMOImpl;
+
 
     public PayFeeMonthOwnerDto generatorOwnerRoom(FeeDto feeDto) {
 
         PayFeeMonthOwnerDto payFeeMonthOwnerDto = new PayFeeMonthOwnerDto();
-        payFeeMonthOwnerDto.setOwnerId(FeeAttrDto.getFeeAttrValue(feeDto, FeeAttrDto.SPEC_CD_OWNER_ID));
-        payFeeMonthOwnerDto.setOwnerName(FeeAttrDto.getFeeAttrValue(feeDto, FeeAttrDto.SPEC_CD_OWNER_NAME));
-        payFeeMonthOwnerDto.setLink(FeeAttrDto.getFeeAttrValue(feeDto, FeeAttrDto.SPEC_CD_OWNER_LINK));
-        payFeeMonthOwnerDto.setObjName(FeeAttrDto.getFeeAttrValue(feeDto, FeeAttrDto.SPEC_CD_PAY_OBJECT_NAME));
+        payFeeMonthOwnerDto.setObjName(feeDto.getPayerObjName());
         payFeeMonthOwnerDto.setObjId(feeDto.getPayerObjId());
+        payFeeMonthOwnerDto.setOwnerId(feeDto.getOwnerId());
+        payFeeMonthOwnerDto.setOwnerName(feeDto.getOwnerName());
         payFeeMonthOwnerDto.setObjFpcId("-1");
 
         if (StringUtil.isEmpty(feeDto.getPayerObjId())) {
             return payFeeMonthOwnerDto;
+        }
+
+        if (!StringUtil.isEmpty(feeDto.getOwnerId())) {
+            OwnerDto ownerDto = new OwnerDto();
+            ownerDto.setMemberId(feeDto.getOwnerId());
+            ownerDto.setCommunityId(feeDto.getCommunityId());
+            List<OwnerDto> ownerDtos = ownerV1InnerServiceSMOImpl.queryOwners(ownerDto);
+            if (!ListUtil.isNull(ownerDtos)) {
+                payFeeMonthOwnerDto.setLink(ownerDtos.get(0).getLink());
+            }
         }
 
         // 如果是房屋
@@ -87,489 +105,79 @@ public class PayFeeMonthHelp implements IPayFeeMonthHelp {
         return payFeeMonthOwnerDto;
     }
 
-    /**
-     * 计算每月单价
-     *
-     * @param feeDto
-     * @return
-     */
-    public Double getMonthFeePrice(FeeDto feeDto) {
-        Map feePriceAll = computeFeeSMOImpl.getFeePrice(feeDto);
-
-        Double feePrice = Double.parseDouble(feePriceAll.get("feePrice").toString());
-
-        return feePrice;
-    }
-
-
-    @Override
-    public Double getDiscountAmount(Double feePrice, double receivedAmount, Date curDate, FeeDto feeDto) {
-
-        //todo 这种情况下应该 优惠为0
-        if (curDate.getTime() >= feeDto.getEndTime().getTime()) {
-            return 0.00;
-        }
-
-        BigDecimal discountAmountDec = new BigDecimal(feePrice).subtract(new BigDecimal(receivedAmount)).setScale(4, BigDecimal.ROUND_HALF_UP);
-        return discountAmountDec.doubleValue();
-    }
-
-
-    /**
-     * 处理已经交过费的记录处理
-     *
-     * @param feeDto
-     * @param payFeeMonthOwnerDto
-     */
-    @Override
-    public void waitDispersedFeeDetail(FeeDto feeDto, PayFeeMonthOwnerDto payFeeMonthOwnerDto, Double feePrice) {
-        PayFeeDetailMonthDto payFeeDetailMonthDto = new PayFeeDetailMonthDto();
-        payFeeDetailMonthDto.setCommunityId(feeDto.getCommunityId());
-        payFeeDetailMonthDto.setFeeId(feeDto.getFeeId());
-        List<FeeDetailDto> feeDetailDtos = payFeeDetailMonthInnerServiceSMOImpl.getWaitDispersedFeeDetail(payFeeDetailMonthDto);
-
-        if (ListUtil.isNull(feeDetailDtos)) {
-            return;
-        }
-
-
-        for (FeeDetailDto feeDetailDto : feeDetailDtos) {
-            // todo 逐条去离散
-            try {
-                // 自然月实收处理
-                doDispersedFeeDetailNormalMonth(feeDetailDto, feeDto, payFeeMonthOwnerDto, feePrice);
-
-                //非自然月或者一次性费用处理已经交过费的
-                doDispersedFeeDetailUnNormalMonth(feeDetailDto, feeDto, payFeeMonthOwnerDto, feePrice);
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-        }
-    }
-
 
     /**
      * 处理 欠费 离散
      *
      * @param feeDto
      * @param payFeeMonthOwnerDto
-     * @param feePrice
-     * @param deadlineTime
      */
     @Override
-    public void waitDispersedOweFee(FeeDto feeDto, PayFeeMonthOwnerDto payFeeMonthOwnerDto, Double feePrice, Date deadlineTime, double oweMonth) {
+    public void generatorPayFeeDetailMonth(FeeDto feeDto, PayFeeMonthOwnerDto payFeeMonthOwnerDto) {
 
-
-        // todo 清理 detailId 为-1 的数据
+        // todo 清理
         PayFeeDetailMonthPo payFeeDetailMonthPo = new PayFeeDetailMonthPo();
         payFeeDetailMonthPo.setCommunityId(feeDto.getCommunityId());
         payFeeDetailMonthPo.setFeeId(feeDto.getFeeId());
-        payFeeDetailMonthPo.setDetailId("-1");
         payFeeDetailMonthInnerServiceSMOImpl.deletePayFeeDetailMonth(payFeeDetailMonthPo);
 
-        // todo 费用已经结束
-        if (FeeDto.STATE_FINISH.equals(feeDto.getState())) {
-            return;
+        PayFeeDetailDto payFeeDetailDto = new PayFeeDetailDto();
+        payFeeDetailDto.setCommunityId(feeDto.getCommunityId());
+        payFeeDetailDto.setFeeId(feeDto.getFeeId());
+        payFeeDetailDto.setPage(1);
+        payFeeDetailDto.setRow(100);
+        List<PayFeeDetailDto> payFeeDetailDtos = payFeeDetailV1InnerServiceSMOImpl.queryPayFeeDetailNew(payFeeDetailDto);
+
+        BigDecimal receivedAmount = new BigDecimal("0");
+        BigDecimal discountAmount = new BigDecimal("0");
+        String payFeeTime = null;
+        String detailId = "-1";
+        if (ListUtil.isNull(payFeeDetailDtos)) {
+            for (PayFeeDetailDto tFeeDetailDto : payFeeDetailDtos) {
+                detailId = tFeeDetailDto.getDetailId();
+                payFeeTime = tFeeDetailDto.getCreateTime();
+                receivedAmount = receivedAmount.add(new BigDecimal(tFeeDetailDto.getReceivedAmount()));
+                receivedAmount = receivedAmount.add(new BigDecimal(tFeeDetailDto.getLateAmount())); // 滞纳金
+                discountAmount = discountAmount.add(new BigDecimal(tFeeDetailDto.getDiscountAmount()));
+                discountAmount = discountAmount.add(new BigDecimal(tFeeDetailDto.getAcctAmount())); //账户
+                discountAmount = discountAmount.add(new BigDecimal(tFeeDetailDto.getDeductionAmount()));
+            }
         }
 
-        // 自然月周期性费用计算
-        waitDispersedOweFeeCycleNormalMonth(feeDto, payFeeMonthOwnerDto, feePrice, deadlineTime);
-
-        // 一次性或者非自然月处理
-        waitDispersedOweFeeOnceUnNormalMonth(feeDto, payFeeMonthOwnerDto, feePrice, deadlineTime, oweMonth);
-
-    }
-
-    /**
-     * 自然月周期性费用计算
-     *
-     * @param feeDto
-     * @param payFeeMonthOwnerDto
-     * @param feePrice
-     * @param deadlineTime
-     */
-    private void waitDispersedOweFeeCycleNormalMonth(FeeDto feeDto, PayFeeMonthOwnerDto payFeeMonthOwnerDto, Double feePrice, Date deadlineTime) {
-        // 一次性费用直接返回
-        if (FeeDto.FEE_FLAG_ONCE.equals(feeDto.getFeeFlag())) {
-            return;
+        String yearMonth = "";
+        if (FeeDto.DEDUCT_FROM_CURRENT_MONTH.equals(feeDto.getDeductFrom())) {
+            yearMonth = DateUtil.getFormatTimeStringQ(feeDto.getStartTime());
+        }else if(FeeDto.DEDUCT_FROM_NEXT_MONTH.equals(feeDto.getDeductFrom())){
+            yearMonth = DateUtil.getFormatTimeStringQ(DateUtil.getNextMonthDate(feeDto.getStartTime(), 1));
+        }  else {
+            yearMonth = DateUtil.getFormatTimeStringQ(DateUtil.getNextMonthDate(feeDto.getStartTime(), -1));
         }
-        // 不是自然月 费用直接返回
-        if (DateUtil.getDay(feeDto.getStartTime()) != 1) {
-            return;
-        }
+
+        int feeYear = Integer.parseInt(yearMonth.split("-")[0]);
+        int feeMonth = Integer.parseInt(yearMonth.split("-")[1]);
+
+
         List<PayFeeDetailMonthPo> payFeeDetailMonthPos = new ArrayList<>();
         // todo 处理 开始时间和结束时间
-        Date startTime = DateUtil.timeToDate(feeDto.getEndTime());
-        Date endTime = DateUtil.deadTimeToDate(deadlineTime);
-
-        BigDecimal receivableAmount = new BigDecimal(feePrice);
-
-        BigDecimal dayReceivableAmount = null;
-
-        // todo 寻找第一个自然月 一日
-        Calendar firstMonthDayCal = Calendar.getInstance();
-        firstMonthDayCal.setTime(startTime);
-        firstMonthDayCal.add(Calendar.MONTH, 1);
-        firstMonthDayCal.set(Calendar.DAY_OF_MONTH, 1);
-        Date firstMonthDayTime = firstMonthDayCal.getTime();
-
-        Date startMonthDayTime = startTime;
-        // todo  循环，只到 firstMonthDayTime 大于 endTime
-        int curDay = 0;
-        int curMonthMaxDay = 30;
-        BigDecimal curMonthReceivableAmount = null;
-
-        while (firstMonthDayTime.getTime() < endTime.getTime()) {
-            curDay = DateUtil.daysBetween(firstMonthDayTime, startMonthDayTime);
-            // todo 计算当月天数
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(startMonthDayTime);
-            curMonthMaxDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-
-            dayReceivableAmount = receivableAmount.divide(new BigDecimal(curMonthMaxDay), 8, BigDecimal.ROUND_HALF_UP);// 日 实收
-            // todo 计算 应收
-            curMonthReceivableAmount = new BigDecimal(curDay).multiply(dayReceivableAmount).setScale(4, BigDecimal.ROUND_HALF_UP);
-
-            // todo 保存数据到pay_fee_detail_month
-            toSavePayFeeDetailMonth(curMonthReceivableAmount.doubleValue(), 0, null, feeDto, payFeeMonthOwnerDto, payFeeDetailMonthPos, startMonthDayTime, deadlineTime);
-
-            // todo 将startTime 修改为 下月1日时间
-            startMonthDayTime = firstMonthDayTime;
-            firstMonthDayCal.add(Calendar.MONTH, 1);
-            firstMonthDayTime = firstMonthDayCal.getTime();
-        }
-
-        //todo 最后处理 最后 startMonthDayTime 到endTime 的
-        if (startMonthDayTime.getTime() >= endTime.getTime()) {
-            payFeeDetailMonthInnerServiceSMOImpl.savePayFeeDetailMonths(payFeeDetailMonthPos);
-            return;
-        }
-
-        curDay = DateUtil.daysBetween(endTime, startMonthDayTime);
-        // todo 计算当月天数
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(startMonthDayTime);
-        curMonthMaxDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-        //todo 周期性费用 日应收重新算
-        if (!FeeDto.FEE_FLAG_ONCE.equals(feeDto.getFeeFlag())) {
-            dayReceivableAmount = receivableAmount.divide(new BigDecimal(curMonthMaxDay), 8, BigDecimal.ROUND_HALF_UP);// 日 实收
-        }
-        // todo 计算 应收
-        curMonthReceivableAmount = new BigDecimal(curDay).multiply(dayReceivableAmount).setScale(4, BigDecimal.ROUND_HALF_UP);
-
-        // todo 保存数据到pay_fee_detail_month
-        toSavePayFeeDetailMonth(curMonthReceivableAmount.doubleValue(), 0, null, feeDto, payFeeMonthOwnerDto, payFeeDetailMonthPos, startMonthDayTime, deadlineTime);
-        payFeeDetailMonthInnerServiceSMOImpl.savePayFeeDetailMonths(payFeeDetailMonthPos);
-    }
-
-
-    /**
-     * 一次性或者非自然月处理
-     *
-     * @param feeDto
-     * @param payFeeMonthOwnerDto
-     * @param deadlineTime
-     * @param oweMonth
-     */
-    private void waitDispersedOweFeeOnceUnNormalMonth(FeeDto feeDto, PayFeeMonthOwnerDto payFeeMonthOwnerDto, double feePrice, Date deadlineTime, double oweMonth) {
-
-        // 不是一次性费用 并且是 自然月就返回
-        if (!FeeDto.FEE_FLAG_ONCE.equals(feeDto.getFeeFlag()) && DateUtil.getDay(feeDto.getStartTime()) == 1) {
-            return;
-        }
-        List<PayFeeDetailMonthPo> payFeeDetailMonthPos = new ArrayList<>();
-        // todo 处理 开始时间和结束时间
-        Date startTime = DateUtil.timeToDate(feeDto.getEndTime());
-        Date endTime = DateUtil.deadTimeToDate(deadlineTime);
-
-
-        BigDecimal receivableAmount = new BigDecimal(feePrice).multiply(new BigDecimal(oweMonth)).setScale(8, BigDecimal.ROUND_HALF_UP);
-
-        BigDecimal dayReceivableAmount = null;
-
-
-        int day = DateUtil.daysBetween(endTime, startTime);
-        if (day < 1) {
-            day = 1;
-        }
-        dayReceivableAmount = receivableAmount.divide(new BigDecimal(day), 8, BigDecimal.ROUND_HALF_UP);// 日 应收
-
-        // todo 寻找第一个自然月 一日
-        Calendar firstMonthDayCal = Calendar.getInstance();
-        firstMonthDayCal.setTime(startTime);
-        firstMonthDayCal.add(Calendar.MONTH, 1);
-        firstMonthDayCal.set(Calendar.DAY_OF_MONTH, 1);
-        Date firstMonthDayTime = firstMonthDayCal.getTime();
-
-        Date startMonthDayTime = startTime;
-        // todo  循环，只到 firstMonthDayTime 大于 endTime
-        int curDay = 0;
-        int curMonthMaxDay = 30;
-        BigDecimal curMonthReceivableAmount = null;
-
-        while (firstMonthDayTime.getTime() < endTime.getTime()) {
-            curDay = DateUtil.daysBetween(firstMonthDayTime, startMonthDayTime);
-            // todo 计算 应收
-            curMonthReceivableAmount = new BigDecimal(curDay).multiply(dayReceivableAmount).setScale(4, BigDecimal.ROUND_HALF_UP);
-
-            // todo 保存数据到pay_fee_detail_month
-            toSavePayFeeDetailMonth(curMonthReceivableAmount.doubleValue(), 0, null, feeDto, payFeeMonthOwnerDto, payFeeDetailMonthPos, startMonthDayTime, deadlineTime);
-
-            // todo 将startTime 修改为 下月1日时间
-            startMonthDayTime = firstMonthDayTime;
-            firstMonthDayCal.add(Calendar.MONTH, 1);
-            firstMonthDayTime = firstMonthDayCal.getTime();
-        }
-
-        //todo 最后处理 最后 startMonthDayTime 到endTime 的
-        if (startMonthDayTime.getTime() >= endTime.getTime()) {
-            payFeeDetailMonthInnerServiceSMOImpl.savePayFeeDetailMonths(payFeeDetailMonthPos);
-            return;
-        }
-        curDay = DateUtil.daysBetween(endTime, startMonthDayTime);
-        // todo 计算 应收
-        curMonthReceivableAmount = new BigDecimal(curDay).multiply(dayReceivableAmount).setScale(4, BigDecimal.ROUND_HALF_UP);
-        // todo 保存数据到pay_fee_detail_month
-        toSavePayFeeDetailMonth(curMonthReceivableAmount.doubleValue(), 0, null, feeDto, payFeeMonthOwnerDto, payFeeDetailMonthPos, startMonthDayTime, deadlineTime);
-        payFeeDetailMonthInnerServiceSMOImpl.savePayFeeDetailMonths(payFeeDetailMonthPos);
-    }
-
-
-
-
-    /**
-     * 自然月处理已经交过费的
-     *
-     * @param feeDetailDto
-     * @param feeDto
-     * @param payFeeMonthOwnerDto
-     * @param feePrice
-     */
-    private void doDispersedFeeDetailNormalMonth(FeeDetailDto feeDetailDto, FeeDto feeDto, PayFeeMonthOwnerDto
-            payFeeMonthOwnerDto, Double feePrice) {
-        // 一次性费用直接返回
-        if (FeeDto.FEE_FLAG_ONCE.equals(feeDto.getFeeFlag())) {
-            return;
-        }
-        // 不是自然月 费用直接返回
-        if (DateUtil.getDay(feeDto.getStartTime()) != 1) {
-            return;
-        }
-        List<PayFeeDetailMonthPo> payFeeDetailMonthPos = new ArrayList<>();
-
-        // todo 去除 开始时间和 结束时间的 小时 分钟 秒
-        Date startTime = DateUtil.timeToDate(feeDetailDto.getStartTime());
-        Date endTime = feeDetailDto.getEndTime();
-        endTime = DateUtil.getNextSecDateTime(endTime);
-        endTime = DateUtil.timeToDate(endTime);
-
-        int day = DateUtil.daysBetween(endTime, startTime);
-        if (day < 1) {
-            day = 1;
-        }
-        double month = DateUtil.dayCompare(feeDetailDto.getStartTime(), feeDetailDto.getEndTime(), true);
-
-        BigDecimal receivableAmount = new BigDecimal(feeDetailDto.getReceivableAmount());
-        BigDecimal receivedAmount = new BigDecimal(feeDetailDto.getReceivedAmount());
-        BigDecimal monthReceivableAmount = receivableAmount.divide(new BigDecimal(month + ""), 8, BigDecimal.ROUND_HALF_UP);
-        BigDecimal monthReceivedAmount = receivedAmount.divide(new BigDecimal(month + ""), 8, BigDecimal.ROUND_HALF_UP);
-
-        BigDecimal dayReceivableAmount = null;
-        BigDecimal dayReceivedAmount = null;
-
-        // todo 寻找第一个自然月 一日
-        Calendar firstMonthDayCal = Calendar.getInstance();
-        firstMonthDayCal.setTime(startTime);
-        firstMonthDayCal.add(Calendar.MONTH, 1);
-        firstMonthDayCal.set(Calendar.DAY_OF_MONTH, 1);
-        Date firstMonthDayTime = firstMonthDayCal.getTime();
-
-        Date startMonthDayTime = startTime;
-        // todo  循环，只到 firstMonthDayTime 大于 endTime
-        int curDay = 0;
-        BigDecimal curMonthReceivableAmount = null;
-        BigDecimal curMonthReceivedAmount = null;
-        int curMonthMaxDay = 30;
-        while (firstMonthDayTime.getTime() < endTime.getTime()) {
-            curDay = DateUtil.daysBetween(firstMonthDayTime, startMonthDayTime);
-            // todo 计算当月天数
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(startMonthDayTime);
-            curMonthMaxDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-            dayReceivableAmount = monthReceivableAmount.divide(new BigDecimal(curMonthMaxDay), 8, BigDecimal.ROUND_HALF_UP);// 日 实收
-            dayReceivedAmount = monthReceivedAmount.divide(new BigDecimal(curMonthMaxDay), 8, BigDecimal.ROUND_HALF_UP);// 日 实收
-            // todo 计算 应收
-            curMonthReceivableAmount = new BigDecimal(curDay).multiply(dayReceivableAmount).setScale(4, BigDecimal.ROUND_HALF_UP);
-            // todo 计算 实收
-            curMonthReceivedAmount = new BigDecimal(curDay).multiply(dayReceivedAmount).setScale(4, BigDecimal.ROUND_HALF_UP);
-            if(curMonthReceivableAmount.doubleValue() > receivableAmount.doubleValue()){
-                curMonthReceivableAmount = receivableAmount;
-            }
-            if(curMonthReceivedAmount.doubleValue() > receivedAmount.doubleValue()){
-                curMonthReceivedAmount = receivedAmount;
-            }
-            // todo 保存数据到pay_fee_detail_month
-            toSavePayFeeDetailMonth(curMonthReceivableAmount.doubleValue(), curMonthReceivedAmount.doubleValue(), feeDetailDto, feeDto, payFeeMonthOwnerDto, payFeeDetailMonthPos, startMonthDayTime, endTime);
-
-            // todo 将startTime 修改为 下月1日时间
-            startMonthDayTime = firstMonthDayTime;
-            firstMonthDayCal.add(Calendar.MONTH, 1);
-            firstMonthDayTime = firstMonthDayCal.getTime();
-
-            receivableAmount = receivableAmount.subtract(curMonthReceivableAmount);
-            receivedAmount = receivedAmount.subtract(curMonthReceivedAmount);
-        }
-
-        //todo 最后处理 最后 startMonthDayTime 到endTime 的
-        if (startMonthDayTime.getTime() >= endTime.getTime()) {
-            payFeeDetailMonthInnerServiceSMOImpl.savePayFeeDetailMonths(payFeeDetailMonthPos);
-            return;
-        }
-
-        curDay = DateUtil.daysBetween(endTime, startMonthDayTime);
-        // todo 计算当月天数
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(startMonthDayTime);
-        curMonthMaxDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-        dayReceivableAmount = monthReceivableAmount.divide(new BigDecimal(curMonthMaxDay), 8, BigDecimal.ROUND_HALF_UP);// 日 实收
-        dayReceivedAmount = monthReceivedAmount.divide(new BigDecimal(curMonthMaxDay), 8, BigDecimal.ROUND_HALF_UP);// 日 实收
-
-        // todo 计算 应收
-        curMonthReceivableAmount = new BigDecimal(curDay).multiply(dayReceivableAmount).setScale(4, BigDecimal.ROUND_HALF_UP);
-        // todo 计算 实收
-        curMonthReceivedAmount = new BigDecimal(curDay).multiply(dayReceivedAmount).setScale(4, BigDecimal.ROUND_HALF_UP);
-
-        if(curMonthReceivableAmount.doubleValue() > receivableAmount.doubleValue()){
-            curMonthReceivableAmount = receivableAmount;
-        }
-        if(curMonthReceivedAmount.doubleValue() > receivedAmount.doubleValue()){
-            curMonthReceivedAmount = receivedAmount;
-        }
-
-        // todo 保存数据到pay_fee_detail_month
-        toSavePayFeeDetailMonth(curMonthReceivableAmount.doubleValue(), curMonthReceivedAmount.doubleValue(), feeDetailDto, feeDto, payFeeMonthOwnerDto, payFeeDetailMonthPos, startMonthDayTime, endTime);
-        payFeeDetailMonthInnerServiceSMOImpl.savePayFeeDetailMonths(payFeeDetailMonthPos);
-    }
-
-
-    /**
-     * 非自然月或者一次性费用处理已经交过费的
-     *
-     * @param feeDetailDto
-     * @param feeDto
-     * @param payFeeMonthOwnerDto
-     * @param feePrice
-     */
-    private void doDispersedFeeDetailUnNormalMonth(FeeDetailDto feeDetailDto, FeeDto feeDto, PayFeeMonthOwnerDto
-            payFeeMonthOwnerDto, Double feePrice) {
-        // 不是一次性费用 并且是 自然月就返回
-        if (!FeeDto.FEE_FLAG_ONCE.equals(feeDto.getFeeFlag()) && DateUtil.getDay(feeDto.getStartTime()) == 1) {
-            return;
-        }
-
-        List<PayFeeDetailMonthPo> payFeeDetailMonthPos = new ArrayList<>();
-
-        // todo 去除 开始时间和 结束时间的 小时 分钟 秒
-        Date startTime = DateUtil.timeToDate(feeDetailDto.getStartTime());
-        Date endTime = feeDetailDto.getEndTime();
-        endTime = DateUtil.getNextSecDateTime(endTime);
-        endTime = DateUtil.timeToDate(endTime);
-
-        int day = DateUtil.daysBetween(endTime, startTime);
-        if (day < 1) {
-            day = 1;
-        }
-
-        BigDecimal receivableAmount = new BigDecimal(feeDetailDto.getReceivableAmount());
-        BigDecimal receivedAmount = new BigDecimal(feeDetailDto.getReceivedAmount());
-
-        BigDecimal dayReceivableAmount = receivableAmount.divide(new BigDecimal(day), 8, BigDecimal.ROUND_HALF_UP);// 日 应收
-        BigDecimal dayReceivedAmount = receivedAmount.divide(new BigDecimal(day), 8, BigDecimal.ROUND_HALF_UP);// 日 实收
-
-        // todo 寻找第一个自然月 一日
-        Calendar firstMonthDayCal = Calendar.getInstance();
-        firstMonthDayCal.setTime(startTime);
-        firstMonthDayCal.add(Calendar.MONTH, 1);
-        firstMonthDayCal.set(Calendar.DAY_OF_MONTH, 1);
-        Date firstMonthDayTime = firstMonthDayCal.getTime();
-
-        Date startMonthDayTime = startTime;
-        // todo  循环，只到 firstMonthDayTime 大于 endTime
-        int curDay = 0;
-        BigDecimal curMonthReceivableAmount = null;
-        BigDecimal curMonthReceivedAmount = null;
-        int curMonthMaxDay = 30;
-        while (firstMonthDayTime.getTime() < endTime.getTime()) {
-            curDay = DateUtil.daysBetween(firstMonthDayTime, startMonthDayTime);
-            // todo 计算 应收
-            curMonthReceivableAmount = new BigDecimal(curDay).multiply(dayReceivableAmount).setScale(4, BigDecimal.ROUND_HALF_UP);
-            // todo 计算 实收
-            curMonthReceivedAmount = new BigDecimal(curDay).multiply(dayReceivedAmount).setScale(4, BigDecimal.ROUND_HALF_UP);
-            // todo 保存数据到pay_fee_detail_month
-            toSavePayFeeDetailMonth(curMonthReceivableAmount.doubleValue(), curMonthReceivedAmount.doubleValue(), feeDetailDto, feeDto, payFeeMonthOwnerDto, payFeeDetailMonthPos, startMonthDayTime, endTime);
-
-            // todo 将startTime 修改为 下月1日时间
-            startMonthDayTime = firstMonthDayTime;
-            firstMonthDayCal.add(Calendar.MONTH, 1);
-            firstMonthDayTime = firstMonthDayCal.getTime();
-        }
-
-        //todo 最后处理 最后 startMonthDayTime 到endTime 的
-        if (startMonthDayTime.getTime() >= endTime.getTime()) {
-            payFeeDetailMonthInnerServiceSMOImpl.savePayFeeDetailMonths(payFeeDetailMonthPos);
-            return;
-        }
-
-        curDay = DateUtil.daysBetween(endTime, startMonthDayTime);
-        // todo 计算 应收
-        curMonthReceivableAmount = new BigDecimal(curDay).multiply(dayReceivableAmount).setScale(4, BigDecimal.ROUND_HALF_UP);
-        // todo 计算 实收
-        curMonthReceivedAmount = new BigDecimal(curDay).multiply(dayReceivedAmount).setScale(4, BigDecimal.ROUND_HALF_UP);
-
-        // todo 保存数据到pay_fee_detail_month
-        toSavePayFeeDetailMonth(curMonthReceivableAmount.doubleValue(), curMonthReceivedAmount.doubleValue(), feeDetailDto, feeDto, payFeeMonthOwnerDto, payFeeDetailMonthPos, startMonthDayTime, endTime);
-        payFeeDetailMonthInnerServiceSMOImpl.savePayFeeDetailMonths(payFeeDetailMonthPos);
-
-    }
-    /**
-     * 保存数据
-     *
-     * @param receivableAmount
-     * @param receivedAmount
-     * @param feeDetailDto
-     * @param feeDto
-     */
-    private void toSavePayFeeDetailMonth(double receivableAmount,
-                                         double receivedAmount,
-                                         FeeDetailDto feeDetailDto,
-                                         FeeDto feeDto,
-                                         PayFeeMonthOwnerDto payFeeMonthOwnerDto,
-                                         List<PayFeeDetailMonthPo> payFeeDetailMonthPos,
-                                         Date curTime,
-                                         Date deadlineTime) {
 
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(curTime);
+        calendar.setTime(feeDto.getStartTime());
+        calendar.set(Calendar.YEAR, feeYear);
+        calendar.set(Calendar.MONTH, feeMonth - 1);
+        String curTime = DateUtil.getFormatTimeStringB(calendar.getTime());
+
         PayFeeDetailMonthPo tmpPayFeeDetailMonthPo = new PayFeeDetailMonthPo();
         tmpPayFeeDetailMonthPo.setFeeId(feeDto.getFeeId());
         tmpPayFeeDetailMonthPo.setCommunityId(feeDto.getCommunityId());
-        if (feeDetailDto == null) {
-            tmpPayFeeDetailMonthPo.setDetailId("-1");
-        } else { // todo 交费记录 保存时
-            tmpPayFeeDetailMonthPo.setDetailId(feeDetailDto.getDetailId());
-        }
-        tmpPayFeeDetailMonthPo.setDetailYear(calendar.get(Calendar.YEAR) + "");
-        tmpPayFeeDetailMonthPo.setDetailMonth((calendar.get(Calendar.MONTH) + 1) + "");
 
-        tmpPayFeeDetailMonthPo.setReceivableAmount(receivableAmount + "");
-        tmpPayFeeDetailMonthPo.setReceivedAmount(receivedAmount + "");
-        tmpPayFeeDetailMonthPo.setDiscountAmount(
-                getDiscountAmount(Double.parseDouble(tmpPayFeeDetailMonthPo.getReceivableAmount()),
-                        Double.parseDouble(tmpPayFeeDetailMonthPo.getReceivedAmount()),
-                        calendar.getTime(), feeDto) + "");
-        if (feeDetailDto == null) {
-            tmpPayFeeDetailMonthPo.setDiscountAmount("0");
-        }
+        tmpPayFeeDetailMonthPo.setDetailId(detailId);
+
+        tmpPayFeeDetailMonthPo.setDetailYear(feeYear + "");
+        tmpPayFeeDetailMonthPo.setDetailMonth(feeMonth + "");
+
+        tmpPayFeeDetailMonthPo.setReceivableAmount(feeDto.getReceivableAmount());
+        tmpPayFeeDetailMonthPo.setReceivedAmount(receivedAmount.doubleValue() + "");
+        tmpPayFeeDetailMonthPo.setDiscountAmount(discountAmount.doubleValue() + "");
         tmpPayFeeDetailMonthPo.setMonthId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_monthId, true));
         tmpPayFeeDetailMonthPo.setRemark("程序计算生成");
         tmpPayFeeDetailMonthPo.setObjName(payFeeMonthOwnerDto.getObjName());
@@ -577,23 +185,19 @@ public class PayFeeMonthHelp implements IPayFeeMonthHelp {
         tmpPayFeeDetailMonthPo.setOwnerId(payFeeMonthOwnerDto.getOwnerId());
         tmpPayFeeDetailMonthPo.setOwnerName(payFeeMonthOwnerDto.getOwnerName());
         tmpPayFeeDetailMonthPo.setLink(payFeeMonthOwnerDto.getLink());
-        tmpPayFeeDetailMonthPo.setCurMonthTime(DateUtil.getFormatTimeStringB(calendar.getTime()));
-        tmpPayFeeDetailMonthPo.setDeadlineTime(DateUtil.getFormatTimeStringA(deadlineTime));
-        if (feeDetailDto == null) {
-            tmpPayFeeDetailMonthPo.setPayFeeTime(null);
-        } else { // todo 交费记录 保存时
-            tmpPayFeeDetailMonthPo.setPayFeeTime(DateUtil.getFormatTimeStringA(feeDetailDto.getCreateTime()));
-        }
+        tmpPayFeeDetailMonthPo.setCurMonthTime(curTime);
+        tmpPayFeeDetailMonthPo.setDeadlineTime(DateUtil.getFormatTimeStringA(feeDto.getEndTime()));
+        tmpPayFeeDetailMonthPo.setPayFeeTime(payFeeTime);
         tmpPayFeeDetailMonthPo.setState("W"); // todo 这里暂时写死，目前用不到，算是预留字段
         tmpPayFeeDetailMonthPo.setFeeName(feeDto.getFeeName());
         tmpPayFeeDetailMonthPo.setConfigId(feeDto.getConfigId());
         tmpPayFeeDetailMonthPo.setFeeTypeCd(feeDto.getFeeTypeCd());
-
+        tmpPayFeeDetailMonthPo.setFtId(feeDto.getFtId());
         //todo 查询obj_fpc_id
         tmpPayFeeDetailMonthPo.setObjFpcId(payFeeMonthOwnerDto.getObjFpcId());
-
         payFeeDetailMonthPos.add(tmpPayFeeDetailMonthPo);
-
+        // todo 保存数据到pay_fee_detail_month
+        payFeeDetailMonthInnerServiceSMOImpl.savePayFeeDetailMonths(payFeeDetailMonthPos);
     }
 
 

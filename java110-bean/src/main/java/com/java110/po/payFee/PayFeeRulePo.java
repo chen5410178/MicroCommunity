@@ -46,6 +46,8 @@ public class PayFeeRulePo implements Serializable {
     private String payerObjType;
     private String payerObjId;
 
+    private String feeRemark;
+
     public String getMaxTime() {
         return maxTime;
     }
@@ -183,4 +185,11 @@ public class PayFeeRulePo implements Serializable {
     }
 
 
+    public String getFeeRemark() {
+        return feeRemark;
+    }
+
+    public void setFeeRemark(String feeRemark) {
+        this.feeRemark = feeRemark;
+    }
 }

@@ -40,6 +40,8 @@ public class PayFeeDetailMonthPo implements Serializable {
 
     private String feeTypeCd;
 
+    private String ftId;
+
 
     public String getDetailMonth() {
         return detailMonth;
@@ -247,5 +249,13 @@ public class PayFeeDetailMonthPo implements Serializable {
 
     public void setFeeTypeCd(String feeTypeCd) {
         this.feeTypeCd = feeTypeCd;
+    }
+
+    public String getFtId() {
+        return ftId;
+    }
+
+    public void setFtId(String ftId) {
+        this.ftId = ftId;
     }
 }

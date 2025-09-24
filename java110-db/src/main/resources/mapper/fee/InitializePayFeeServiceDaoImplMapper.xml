@@ -6,18 +6,93 @@
     <!-- 初始化数据 add by wuxw 2018-07-03 -->
     <delete id="deletePayFee" parameterType="Map">
         delete from pay_fee where 1=1
-        and community_id = #{communityId}
+        and community_id = #{communityId} and fee_type_cd !='888800010008'
     </delete>
     <delete id="deletePayFeeDetail" parameterType="Map">
-        delete from pay_fee_detail where 1=1
-        and community_id = #{communityId}
+        delete from pay_fee_detail where  fee_id in (select fee_id from pay_fee where 1=1
+        and community_id = #{communityId} and fee_type_cd !='888800010008')
     </delete>
     <delete id="deleteReportOweFee" parameterType="Map">
-        delete from report_owe_fee where 1=1
-        and community_id = #{communityId}
+        delete from report_owe_fee where  fee_id in ( select fee_id from pay_fee where 1=1
+        and community_id = #{communityId} and fee_type_cd !='888800010008')
     </delete>
     <delete id="deletePayFeeDetailMonth" parameterType="Map">
         delete from pay_fee_detail_month where 1=1
+        and community_id = #{communityId} and fee_type_cd !='888800010008'
+    </delete>
+    <delete id="deletePayFeeRule" parameterType="Map">
+        delete from pay_fee_rule where 1=1
+        and community_id = #{communityId} and fee_type_cd !='888800010008'
+    </delete>
+    <!-- and fee_type_cd !='888800010008' -->
+    <delete id="deleteImportFee" parameterType="Map">
+        delete from import_fee where 1=1
+        and community_id = #{communityId}
+    </delete>
+
+    <delete id="deleteImportFeeDetail" parameterType="Map">
+        delete from import_fee_detail where 1=1
+        and community_id = #{communityId}
+    </delete>
+
+    <delete id="deleteConfigsFeeDetail" parameterType="Map">
+        delete from pay_fee_detail where fee_id in (
+        select pf.fee_id from pay_fee pf where pf.config_id in
+        <foreach collection="configIds" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+        )
+    </delete>
+
+    <delete id="deleteConfigsFeeReceipt" parameterType="Map">
+        delete from fee_receipt_detail where fee_id in (
+        select pf.fee_id from pay_fee pf where pf.config_id in
+        <foreach collection="configIds" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+        )
+    </delete>
+
+    <delete id="deleteConfigsMeterWater" parameterType="Map">
+        delete from meter_water where fee_id in (
+        select pf.rule_id from pay_fee_rule pf where pf.config_id in
+        <foreach collection="configIds" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+        )
+    </delete>
+
+    <delete id="deleteConfigsFeeDetailMonth" parameterType="Map">
+        delete from pay_fee_detail_month where config_id in
+        <foreach collection="configIds" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+    <delete id="deleteConfigsFee" parameterType="Map">
+        delete from pay_fee where config_id in
+        <foreach collection="configIds" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+
+    <delete id="deleteConfigsFeeRules" parameterType="Map">
+        delete from pay_fee_rule where config_id in
+        <foreach collection="configIds" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+    <delete id="deleteAssetImportLog" parameterType="Map">
+        delete from asset_import_log where community_id = #{communityId}
+    </delete>
+    <delete id="deleteAssetImportLogDetail" parameterType="Map">
+        delete from asset_import_log_detail where community_id = #{communityId}
+    </delete>
+    <delete id="deletePayFeeOrder" parameterType="Map">
+        delete from pay_fee_order  where order_type = '2002'
+        and payer_obj_id not in (
+        select a.pay_order_id from pay_fee_detail a where a.status_cd = '0' and a.community_id = #{communityId}
+        )
         and community_id = #{communityId}
     </delete>
 

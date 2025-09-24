@@ -36,6 +36,24 @@ public class PayFeePo implements Serializable {
 
     private String ruleId;
 
+    private String payerObjName;
+
+    private String ownerId;
+
+    private String ownerName;
+
+    private String receivableAmount;
+
+    private String oweAmount;
+
+    private String remark;
+
+    private String ftId;
+    private String ftName;
+
+    private String feeRemark;
+
+
     public String getFeeId() {
         return feeId;
     }
@@ -190,5 +208,77 @@ public class PayFeePo implements Serializable {
 
     public void setRuleId(String ruleId) {
         this.ruleId = ruleId;
+    }
+
+    public String getPayerObjName() {
+        return payerObjName;
+    }
+
+    public void setPayerObjName(String payerObjName) {
+        this.payerObjName = payerObjName;
+    }
+
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
+    }
+
+    public String getReceivableAmount() {
+        return receivableAmount;
+    }
+
+    public void setReceivableAmount(String receivableAmount) {
+        this.receivableAmount = receivableAmount;
+    }
+
+    public String getOweAmount() {
+        return oweAmount;
+    }
+
+    public void setOweAmount(String oweAmount) {
+        this.oweAmount = oweAmount;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public String getFtId() {
+        return ftId;
+    }
+
+    public void setFtId(String ftId) {
+        this.ftId = ftId;
+    }
+
+    public String getFtName() {
+        return ftName;
+    }
+
+    public void setFtName(String ftName) {
+        this.ftName = ftName;
+    }
+
+    public String getFeeRemark() {
+        return feeRemark;
+    }
+
+    public void setFeeRemark(String feeRemark) {
+        this.feeRemark = feeRemark;
     }
 }

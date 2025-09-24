@@ -112,7 +112,7 @@ public class ComprehensiveQueryImpl implements IComprehensiveQuery {
         //todo 查询账户余额
         AccountDto accountDto = new AccountDto();
         accountDto.setObjId(ownerDto.getMemberId());
-        accountDto.setPartId(communityId);
+        accountDto.setCommunityId(communityId);
         List<AccountDto> accountDtos = accountInnerServiceSMOImpl.queryAccounts(accountDto);
         if (ListUtil.isNull(accountDtos)) {
             return ResultVo.createResponseEntity(1, 1, ownerDto);

@@ -20,6 +20,8 @@ public class MeterTypeDto extends PageDto implements Serializable {
     private String remark;
     private String communityId;
 
+    private String ratio;
+
 
     private Date createTime;
 
@@ -73,5 +75,13 @@ public class MeterTypeDto extends PageDto implements Serializable {
 
     public void setStatusCd(String statusCd) {
         this.statusCd = statusCd;
+    }
+
+    public String getRatio() {
+        return ratio;
+    }
+
+    public void setRatio(String ratio) {
+        this.ratio = ratio;
     }
 }

@@ -87,6 +87,17 @@ public class ApiFeeDataVo implements Serializable {
     private String decimalPlace;
     private String units;
 
+    private String receivableAmount;
+
+    private String oweAmount;
+
+    private String remark;
+
+    private String yearMonth;
+
+    private String feeRemark;
+
+
     public String getMaxEndTime() {
         return maxEndTime;
     }
@@ -466,5 +477,45 @@ public class ApiFeeDataVo implements Serializable {
 
     public void setUnits(String units) {
         this.units = units;
+    }
+
+    public String getReceivableAmount() {
+        return receivableAmount;
+    }
+
+    public void setReceivableAmount(String receivableAmount) {
+        this.receivableAmount = receivableAmount;
+    }
+
+    public String getOweAmount() {
+        return oweAmount;
+    }
+
+    public void setOweAmount(String oweAmount) {
+        this.oweAmount = oweAmount;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public String getYearMonth() {
+        return yearMonth;
+    }
+
+    public void setYearMonth(String yearMonth) {
+        this.yearMonth = yearMonth;
+    }
+
+    public String getFeeRemark() {
+        return feeRemark;
+    }
+
+    public void setFeeRemark(String feeRemark) {
+        this.feeRemark = feeRemark;
     }
 }

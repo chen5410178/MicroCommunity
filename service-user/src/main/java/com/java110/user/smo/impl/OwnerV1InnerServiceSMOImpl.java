@@ -95,7 +95,7 @@ public class OwnerV1InnerServiceSMOImpl extends BaseServiceSMO implements IOwner
             List<OwnerDto> ownerDtos = queryOwners(tmpOwnerDto);
             Assert.listOnlyOne(ownerDtos, "业主不存在");
             accountPo.setAcctName(ownerDtos.get(0).getName());
-            accountPo.setPartId(communityId);
+            accountPo.setCommunityId(communityId);
             accountPo.setLink(ownerDtos.get(0).getLink());
             accountInnerServiceSMOImpl.saveAccount(accountPo);
         } finally {

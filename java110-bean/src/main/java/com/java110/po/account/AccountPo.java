@@ -10,7 +10,7 @@ public class AccountPo implements Serializable {
     private String acctId;
     private String acctName;
     private String objType;
-    private String partId;
+    private String communityId;
 
     private String link;
 
@@ -20,9 +20,12 @@ public class AccountPo implements Serializable {
 
     private String statusCd = "0";
 
-    private String roomId;
-    private String roomName;
+    private String payerObjId;
+    private String payerObjName;
 
+    private String configId;
+
+    private String feeName;
     public String getAmount() {
         return amount;
     }
@@ -71,13 +74,7 @@ public class AccountPo implements Serializable {
         this.objType = objType;
     }
 
-    public String getPartId() {
-        return partId;
-    }
 
-    public void setPartId(String partId) {
-        this.partId = partId;
-    }
 
     public String getLink() {
         return link;
@@ -111,19 +108,44 @@ public class AccountPo implements Serializable {
         this.oLink = oLink;
     }
 
-    public String getRoomId() {
-        return roomId;
+
+    public String getCommunityId() {
+        return communityId;
     }
 
-    public void setRoomId(String roomId) {
-        this.roomId = roomId;
+    public void setCommunityId(String communityId) {
+        this.communityId = communityId;
     }
 
-    public String getRoomName() {
-        return roomName;
+    public String getPayerObjId() {
+        return payerObjId;
     }
 
-    public void setRoomName(String roomName) {
-        this.roomName = roomName;
+    public void setPayerObjId(String payerObjId) {
+        this.payerObjId = payerObjId;
+    }
+
+    public String getPayerObjName() {
+        return payerObjName;
+    }
+
+    public void setPayerObjName(String payerObjName) {
+        this.payerObjName = payerObjName;
+    }
+
+    public String getConfigId() {
+        return configId;
+    }
+
+    public void setConfigId(String configId) {
+        this.configId = configId;
+    }
+
+    public String getFeeName() {
+        return feeName;
+    }
+
+    public void setFeeName(String feeName) {
+        this.feeName = feeName;
     }
 }

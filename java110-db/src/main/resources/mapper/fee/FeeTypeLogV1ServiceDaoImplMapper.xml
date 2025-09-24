@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="feeTypeLogV1ServiceDaoImpl">
+
+
+    <!-- 保存费用记录信息 add by wuxw 2018-07-03 -->
+    <insert id="saveFeeTypeLogInfo" parameterType="Map">
+        insert into fee_type_log(
+        org_month_amount,month_amount,staff_name,ft_id,log_id,ft_name,community_id
+        ) values (
+        #{orgMonthAmount},#{monthAmount},#{staffName},#{ftId},#{logId},#{ftName},#{communityId}
+        )
+    </insert>
+
+
+    <!-- 查询费用记录信息 add by wuxw 2018-07-03 -->
+    <select id="getFeeTypeLogInfo" parameterType="Map" resultType="Map">
+        select t.org_month_amount orgMonthAmount,t.month_amount monthAmount,t.staff_name staffName,t.ft_id ftId,t.log_id
+        logId,t.status_cd statusCd,t.ft_name ftName,t.community_id communityId,t.create_time createTime
+        from fee_type_log t
+        where 1 =1
+        <if test="orgMonthAmount !=null and orgMonthAmount != ''">
+            and t.org_month_amount= #{orgMonthAmount}
+        </if>
+        <if test="monthAmount !=null and monthAmount != ''">
+            and t.month_amount= #{monthAmount}
+        </if>
+        <if test="staffName !=null and staffName != ''">
+            and t.staff_name= #{staffName}
+        </if>
+        <if test="ftId !=null and ftId != ''">
+            and t.ft_id= #{ftId}
+        </if>
+        <if test="logId !=null and logId != ''">
+            and t.log_id= #{logId}
+        </if>
+        <if test="statusCd !=null and statusCd != ''">
+            and t.status_cd= #{statusCd}
+        </if>
+        <if test="ftName !=null and ftName != ''">
+            and t.ft_name= #{ftName}
+        </if>
+        <if test="communityId !=null and communityId != ''">
+            and t.community_id= #{communityId}
+        </if>
+        order by t.create_time desc
+        <if test="page != -1 and page != null ">
+            limit #{page}, #{row}
+        </if>
+
+    </select>
+
+
+    <!-- 修改费用记录信息 add by wuxw 2018-07-03 -->
+    <update id="updateFeeTypeLogInfo" parameterType="Map">
+        update fee_type_log t set t.status_cd = #{statusCd}
+        <if test="newBId != null and newBId != ''">
+            ,t.b_id = #{newBId}
+        </if>
+        <if test="orgMonthAmount !=null and orgMonthAmount != ''">
+            , t.org_month_amount= #{orgMonthAmount}
+        </if>
+        <if test="monthAmount !=null and monthAmount != ''">
+            , t.month_amount= #{monthAmount}
+        </if>
+        <if test="staffName !=null and staffName != ''">
+            , t.staff_name= #{staffName}
+        </if>
+        <if test="ftId !=null and ftId != ''">
+            , t.ft_id= #{ftId}
+        </if>
+        <if test="ftName !=null and ftName != ''">
+            , t.ft_name= #{ftName}
+        </if>
+        <if test="communityId !=null and communityId != ''">
+            , t.community_id= #{communityId}
+        </if>
+        where 1=1
+        <if test="logId !=null and logId != ''">
+            and t.log_id= #{logId}
+        </if>
+
+    </update>
+
+    <!-- 查询费用记录数量 add by wuxw 2018-07-03 -->
+    <select id="queryFeeTypeLogsCount" parameterType="Map" resultType="Map">
+        select count(1) count
+        from fee_type_log t
+        where 1 =1
+        <if test="orgMonthAmount !=null and orgMonthAmount != ''">
+            and t.org_month_amount= #{orgMonthAmount}
+        </if>
+        <if test="monthAmount !=null and monthAmount != ''">
+            and t.month_amount= #{monthAmount}
+        </if>
+        <if test="staffName !=null and staffName != ''">
+            and t.staff_name= #{staffName}
+        </if>
+        <if test="ftId !=null and ftId != ''">
+            and t.ft_id= #{ftId}
+        </if>
+        <if test="logId !=null and logId != ''">
+            and t.log_id= #{logId}
+        </if>
+        <if test="statusCd !=null and statusCd != ''">
+            and t.status_cd= #{statusCd}
+        </if>
+        <if test="ftName !=null and ftName != ''">
+            and t.ft_name= #{ftName}
+        </if>
+        <if test="communityId !=null and communityId != ''">
+            and t.community_id= #{communityId}
+        </if>
+
+
+    </select>
+
+</mapper>

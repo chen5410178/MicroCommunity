@@ -15,6 +15,7 @@ import java.io.Serializable;
 public class PayFeeDto extends PageDto implements Serializable {
 
     private String feeId;
+    private String[] feeIds;
     private String feeTypeCd;
     private String communityId;
     private String payerObjId;
@@ -33,6 +34,76 @@ public class PayFeeDto extends PageDto implements Serializable {
     private String batchId;
 
     private String ruleId;
+
+    private String payerObjName;
+
+    private String ownerId;
+
+    private String ownerName;
+
+    private String receivableAmount;
+
+    private String oweAmount;
+
+    private String remark;
+
+    private String ftId;
+
+    public String[] getFeeIds() {
+        return feeIds;
+    }
+
+    public void setFeeIds(String[] feeIds) {
+        this.feeIds = feeIds;
+    }
+
+    public String getRuleId() {
+        return ruleId;
+    }
+
+    public void setRuleId(String ruleId) {
+        this.ruleId = ruleId;
+    }
+
+    public String getPayerObjName() {
+        return payerObjName;
+    }
+
+    public void setPayerObjName(String payerObjName) {
+        this.payerObjName = payerObjName;
+    }
+
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
+    }
+
+    public String getReceivableAmount() {
+        return receivableAmount;
+    }
+
+    public void setReceivableAmount(String receivableAmount) {
+        this.receivableAmount = receivableAmount;
+    }
+
+    public String getOweAmount() {
+        return oweAmount;
+    }
+
+    public void setOweAmount(String oweAmount) {
+        this.oweAmount = oweAmount;
+    }
 
     public String getFeeId() {
         return feeId;
@@ -160,5 +231,21 @@ public class PayFeeDto extends PageDto implements Serializable {
 
     public void setBatchId(String batchId) {
         this.batchId = batchId;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public String getFtId() {
+        return ftId;
+    }
+
+    public void setFtId(String ftId) {
+        this.ftId = ftId;
     }
 }

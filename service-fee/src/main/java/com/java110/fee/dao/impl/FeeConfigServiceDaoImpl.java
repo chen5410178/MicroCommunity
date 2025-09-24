@@ -1,13 +1,13 @@
 package com.java110.fee.dao.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.java110.core.base.dao.BaseServiceDao;
+import com.java110.core.log.LoggerFactory;
+import com.java110.fee.dao.IFeeConfigServiceDao;
 import com.java110.utils.constant.ResponseConstant;
 import com.java110.utils.exception.DAOException;
 import com.java110.utils.util.DateUtil;
-import com.java110.core.base.dao.BaseServiceDao;
-import com.java110.fee.dao.IFeeConfigServiceDao;
 import org.slf4j.Logger;
-import com.java110.core.log.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -51,8 +51,8 @@ public class FeeConfigServiceDaoImpl extends BaseServiceDao implements IFeeConfi
     @Override
     public List<Map> getBusinessFeeConfigInfo(Map info) throws DAOException {
         logger.debug("查询费用配置信息 入参 info : {}", info);
-        List<Map> infos = sqlSessionTemplate.selectList("feeConfigServiceDaoImpl.getBusinessFeeConfigInfo", info);
-        return infos;
+        List<Map> businessFeeConfigInfos = sqlSessionTemplate.selectList("feeConfigServiceDaoImpl.getBusinessFeeConfigInfo", info);
+        return businessFeeConfigInfos;
     }
 
 
@@ -111,11 +111,11 @@ public class FeeConfigServiceDaoImpl extends BaseServiceDao implements IFeeConfi
     @Override
     public int queryFeeConfigsCount(Map info) {
         logger.debug("查询费用配置数据 入参 info : {}", info);
-        List<Map> infos = sqlSessionTemplate.selectList("feeConfigServiceDaoImpl.queryFeeConfigsCount", info);
-        if (infos.size() < 1) {
+        List<Map> businessFeeConfigInfos = sqlSessionTemplate.selectList("feeConfigServiceDaoImpl.queryFeeConfigsCount", info);
+        if (businessFeeConfigInfos.size() < 1) {
             return 0;
         }
-        return Integer.parseInt(infos.get(0).get("count").toString());
+        return Integer.parseInt(businessFeeConfigInfos.get(0).get("count").toString());
     }
 
     @Override

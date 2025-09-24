@@ -14,32 +14,16 @@ import com.java110.core.log.LoggerFactory;
 import com.java110.core.smo.IComputeFeeSMO;
 import com.java110.dto.account.AccountDto;
 import com.java110.dto.app.AppDto;
-import com.java110.dto.fee.FeeAttrDto;
-import com.java110.dto.fee.FeeConfigDto;
 import com.java110.dto.fee.FeeDetailDto;
 import com.java110.dto.fee.FeeDto;
-import com.java110.dto.fee.FeeReceiptDetailDto;
-import com.java110.dto.owner.OwnerCarDto;
-import com.java110.dto.owner.OwnerDto;
-import com.java110.dto.parking.ParkingSpaceDto;
-import com.java110.dto.repair.RepairDto;
-import com.java110.dto.repair.RepairUserDto;
 import com.java110.dto.user.UserDto;
 import com.java110.fee.bmo.fee.IFinishFeeNotify;
-import com.java110.fee.smo.impl.FeeReceiptInnerServiceSMOImpl;
 import com.java110.intf.acct.IAccountInnerServiceSMO;
 import com.java110.intf.community.*;
 import com.java110.intf.fee.*;
-import com.java110.intf.user.IOwnerCarInnerServiceSMO;
 import com.java110.intf.user.IUserV1InnerServiceSMO;
-import com.java110.po.account.AccountDetailPo;
-import com.java110.po.car.OwnerCarPo;
 import com.java110.po.fee.PayFeeDetailPo;
 import com.java110.po.fee.PayFeePo;
-import com.java110.po.fee.FeeReceiptPo;
-import com.java110.po.fee.FeeReceiptDetailPo;
-import com.java110.po.owner.RepairPoolPo;
-import com.java110.po.owner.RepairUserPo;
 import com.java110.utils.cache.CommonCache;
 import com.java110.utils.constant.ResponseConstant;
 import com.java110.utils.exception.CmdException;
@@ -190,7 +174,6 @@ public class PayOweFeeCmd extends Cmd {
             feeObj.put("state", "1400");
             // todo 添加交费明细
             addOweFeeDetail(feeObj, details, userDto, receiptCode, payOrderId);
-            modifyOweFee(feeObj, dataFlowContext);
 
             //todo 账户扣款
             finishFeeNotifyImpl.withholdAccount(feeObj, feeObj.getString("feeId"), feeObj.getString("communityId"));
@@ -217,38 +200,36 @@ public class PayOweFeeCmd extends Cmd {
     /**
      * 修改费用信息
      *
-     * @param paramInJson     接口调用放传入入参
-     * @param dataFlowContext 数据上下文
+     * @param payFeeDetailPo     接口调用放传入入参
      * @return 订单服务能够接受的报文
      */
-    public void modifyOweFee(JSONObject paramInJson, ICmdDataFlowContext dataFlowContext) {
+    public void modifyOweFee(PayFeeDetailPo payFeeDetailPo) {
 
-        JSONObject businessFee = new JSONObject();
-        FeeDto feeInfo = (FeeDto) paramInJson.get("feeInfo");
-        Map feeMap = BeanConvertUtil.beanCovertMap(feeInfo);
-        feeMap.put("startTime", DateUtil.getFormatTimeString(feeInfo.getStartTime(), DateUtil.DATE_FORMATE_STRING_A));
-        feeMap.put("endTime", DateUtil.getNextSecTime(paramInJson.getString("endTime")));
-        feeMap.put("cycles", paramInJson.getString("cycles"));
-        feeMap.put("configEndTime", feeInfo.getConfigEndTime());
-        if (FeeDto.FEE_FLAG_ONCE.equals(feeInfo.getFeeFlag())) { //缴费结束
-            feeMap.put("state", FeeDto.STATE_FINISH);
-        }
-        Date maxEndTime = feeInfo.getMaxEndTime();
-        if (maxEndTime == null) {
-            maxEndTime = feeInfo.getConfigEndTime();
-        }
-        if (maxEndTime != null) { //这里数据问题的情况下
-            Date endTime = DateUtil.getDateFromStringA(paramInJson.getString("endTime"));
-            if (endTime.getTime() >= maxEndTime.getTime()) {
-                feeMap.put("state", FeeDto.STATE_FINISH);
-            }
+        PayFeePo payFeePo = new PayFeePo();
+        payFeePo.setFeeId(payFeeDetailPo.getFeeId());
+        payFeePo.setState(FeeDto.STATE_FINISH);
+        payFeePo.setOweAmount("0");
+        BigDecimal receivableAmount = new BigDecimal(payFeeDetailPo.getReceivableAmount());
+        BigDecimal receivedAmount = new BigDecimal(payFeeDetailPo.getReceivedAmount());
+        BigDecimal acctAmount = new BigDecimal(payFeeDetailPo.getAcctAmount());
+        BigDecimal discountAmount = new BigDecimal(payFeeDetailPo.getDiscountAmount());
+        BigDecimal deductionAmount = new BigDecimal(payFeeDetailPo.getDeductionAmount());
+        BigDecimal giftAmount = new BigDecimal(payFeeDetailPo.getGiftAmount());
+
+        BigDecimal oweAmount = receivableAmount.subtract(receivedAmount)
+                .subtract(acctAmount)
+                .subtract(discountAmount)
+                .subtract(deductionAmount)
+                .subtract(giftAmount);
+
+        if (oweAmount.doubleValue() > 0) {
+            payFeePo.setState(FeeDto.STATE_DOING);
+            payFeePo.setOweAmount(oweAmount.doubleValue() + "");
         }
 
-        businessFee.putAll(feeMap);
-        PayFeePo payFeePo = BeanConvertUtil.covertBean(businessFee, PayFeePo.class);
-        int flag = payFeeV1InnerServiceSMOImpl.updatePayFee(payFeePo);
+       int flag = payFeeV1InnerServiceSMOImpl.updatePayFee(payFeePo);
         if (flag < 1) {
-            throw new CmdException("修改失败");
+            throw new CmdException("缴费失败");
         }
     }
 
@@ -315,6 +296,8 @@ public class PayOweFeeCmd extends Cmd {
         if (flag < 1) {
             throw new CmdException("保存明细失败");
         }
+
+        modifyOweFee(payFeeDetailPo);
 
         paramInJson.put("detailId", businessFeeDetail.getString("detailId"));
         detailIds.add(businessFeeDetail.getString("detailId"));

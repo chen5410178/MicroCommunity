@@ -2,32 +2,24 @@ package com.java110.fee.cmd.meterWater;
 
 import com.alibaba.fastjson.JSONObject;
 import com.java110.core.annotation.Java110Cmd;
+import com.java110.core.context.CmdContextUtils;
 import com.java110.core.context.ICmdDataFlowContext;
 import com.java110.core.event.cmd.Cmd;
 import com.java110.core.event.cmd.CmdEvent;
 import com.java110.core.factory.GenerateCodeFactory;
-import com.java110.dto.room.RoomDto;
-import com.java110.dto.contract.ContractDto;
-import com.java110.dto.fee.FeeAttrDto;
+import com.java110.dto.fee.FeeConfigDto;
 import com.java110.dto.fee.FeeDto;
-import com.java110.dto.owner.OwnerCarDto;
-import com.java110.dto.owner.OwnerDto;
 import com.java110.dto.payFee.PayFeeBatchDto;
 import com.java110.dto.user.UserDto;
-import com.java110.intf.community.IRoomInnerServiceSMO;
-import com.java110.intf.fee.IFeeAttrInnerServiceSMO;
-import com.java110.intf.fee.IFeeInnerServiceSMO;
-import com.java110.intf.fee.IPayFeeBatchV1InnerServiceSMO;
-import com.java110.intf.store.IContractInnerServiceSMO;
-import com.java110.intf.user.IOwnerCarInnerServiceSMO;
-import com.java110.intf.user.IOwnerInnerServiceSMO;
+import com.java110.fee.bill.ICycleConvertOnceFee;
+import com.java110.intf.fee.*;
 import com.java110.intf.user.IUserInnerServiceSMO;
 import com.java110.po.fee.FeeAttrPo;
 import com.java110.po.fee.PayFeePo;
 import com.java110.po.payFee.PayFeeBatchPo;
+import com.java110.po.payFee.PayFeeRulePo;
 import com.java110.utils.exception.CmdException;
 import com.java110.utils.util.Assert;
-import com.java110.utils.util.BeanConvertUtil;
 import com.java110.utils.util.StringUtil;
 import com.java110.vo.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,24 +36,15 @@ public class SaveProxyFeeCmd extends Cmd {
     @Autowired
     private IUserInnerServiceSMO userInnerServiceSMOImpl;
 
-    @Autowired
-    private IFeeInnerServiceSMO feeInnerServiceSMOImpl;
 
     @Autowired
-    private IFeeAttrInnerServiceSMO feeAttrInnerServiceSMOImpl;
+    private IPayFeeRuleV1InnerServiceSMO payFeeRuleV1InnerServiceSMOImpl;
 
     @Autowired
-    private IOwnerInnerServiceSMO ownerInnerServiceSMOImpl;
+    private ICycleConvertOnceFee cycleConvertOnceFeeImpl;
 
     @Autowired
-    private IRoomInnerServiceSMO roomInnerServiceSMOImpl;
-
-    @Autowired
-    private IOwnerCarInnerServiceSMO ownerCarInnerServiceSMOImpl;
-
-
-    @Autowired
-    private IContractInnerServiceSMO contractInnerServiceSMOImpl;
+    private IFeeConfigInnerServiceSMO feeConfigInnerServiceSMOImpl;
 
     @Override
     public void validate(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) {
@@ -83,106 +66,53 @@ public class SaveProxyFeeCmd extends Cmd {
     }
 
     @Override
-    public void doCmd(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) throws CmdException {
+    public void doCmd(CmdEvent event, ICmdDataFlowContext context, JSONObject reqJson) throws CmdException {
         //生成批次
-        generatorBatch(reqJson);
+        String userId = CmdContextUtils.getUserId(context);
+        String storeId = CmdContextUtils.getStoreId(context);
 
-        List<PayFeePo> payFeePos = new ArrayList<>();
-        List<FeeAttrPo> feeAttrPos = new ArrayList<>();
+        FeeConfigDto feeConfigDto = new FeeConfigDto();
+        feeConfigDto.setConfigId(reqJson.getString("configId"));
+        feeConfigDto.setCommunityId(reqJson.getString("communityId"));
+        List<FeeConfigDto> feeConfigDtos = feeConfigInnerServiceSMOImpl.queryFeeConfigs(feeConfigDto);
+        Assert.listOnlyOne(feeConfigDtos, "费用项不存在");
 
-        PayFeePo payFeePo = BeanConvertUtil.covertBean(reqJson, PayFeePo.class);
-        payFeePo.setFeeId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_feeId));
-        payFeePo.setIncomeObjId(reqJson.getString("storeId"));
-        //payFeePo.setAmount("-1");
-        payFeePo.setStartTime(reqJson.getString("startTime"));
-        payFeePo.setEndTime(reqJson.getString("startTime"));
-        payFeePo.setPayerObjId(reqJson.getString("objId"));
-        payFeePo.setPayerObjType(reqJson.getString("objType"));
-        payFeePo.setFeeFlag(FeeDto.FEE_FLAG_ONCE);
-        payFeePo.setState(FeeDto.STATE_DOING);
-        payFeePo.setUserId(reqJson.getString("userId"));
-        payFeePo.setBatchId(reqJson.getString("batchId"));
+        //生成批次
+        generatorBatch(reqJson, userId);
+        List<PayFeeRulePo> payFeeRulePos = new ArrayList<>();
 
-        payFeePos.add(payFeePo);
-
-        FeeAttrPo feeAttrPo = new FeeAttrPo();
-        feeAttrPo.setCommunityId(reqJson.getString("communityId"));
-        feeAttrPo.setSpecCd(FeeAttrDto.SPEC_CD_PROXY_CONSUMPTION);
-        feeAttrPo.setValue(reqJson.getString("consumption"));
-        feeAttrPo.setFeeId(payFeePo.getFeeId());
-        feeAttrPo.setAttrId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_attrId));
-        feeAttrPos.add(feeAttrPo);
-        feeAttrPo = new FeeAttrPo();
-        feeAttrPo.setCommunityId(reqJson.getString("communityId"));
-        feeAttrPo.setSpecCd(FeeAttrDto.SPEC_CD_ONCE_FEE_DEADLINE_TIME);
-        feeAttrPo.setValue(reqJson.getString("endTime"));
-        feeAttrPo.setFeeId(payFeePo.getFeeId());
-        feeAttrPo.setAttrId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_attrId));
-        feeAttrPos.add(feeAttrPo);
-        String objName = "";
-        String ownerId = "";
-        String tel = "";
-        String name = "";
-        if (FeeDto.PAYER_OBJ_TYPE_ROOM.equals(reqJson.getString("objType"))) {
-            RoomDto roomDto = new RoomDto();
-            roomDto.setRoomId(reqJson.getString("objId"));
-            roomDto.setCommunityId(reqJson.getString("communityId"));
-            List<RoomDto> roomDtos = roomInnerServiceSMOImpl.queryRooms(roomDto);
-            if (roomDtos == null || roomDtos.size() != 1) {
-                return;
-            }
-            roomDto = roomDtos.get(0);
-            objName = roomDto.getFloorNum() + "-" + roomDto.getUnitNum() + "-" + roomDto.getRoomNum();
-
-            OwnerDto ownerDto = new OwnerDto();
-            ownerDto.setRoomId(roomDto.getRoomId());
-            List<OwnerDto> ownerDtos = ownerInnerServiceSMOImpl.queryOwners(ownerDto);
-
-            if (ownerDtos != null && ownerDtos.size() > 0) {
-                ownerId = ownerDtos.get(0).getOwnerId();
-                tel = ownerDtos.get(0).getLink();
-                name = ownerDtos.get(0).getName();
-            }
-        } else if (FeeDto.PAYER_OBJ_TYPE_CAR.equals(reqJson.getString("objType"))) {
-            OwnerCarDto ownerCarDto = new OwnerCarDto();
-            ownerCarDto.setCarId(reqJson.getString("objId"));
-            ownerCarDto.setCommunityId(reqJson.getString("communityId"));
-            List<OwnerCarDto> ownerCarDtos = ownerCarInnerServiceSMOImpl.queryOwnerCars(ownerCarDto);
-
-            if (ownerCarDtos == null || ownerCarDtos.size() < 1) {
-                return;
-            }
-            objName = ownerCarDtos.get(0).getCarNum();
-            ownerId = ownerCarDtos.get(0).getOwnerId();
-            tel = ownerCarDtos.get(0).getLink();
-            name = ownerCarDtos.get(0).getOwnerName();
-        } else if (FeeDto.PAYER_OBJ_TYPE_CONTRACT.equals(reqJson.getString("objType"))) {
-
-
-            ContractDto contractDto = new ContractDto();
-            contractDto.setContractId(reqJson.getString("objId"));
-            List<ContractDto> contractDtos = contractInnerServiceSMOImpl.queryContracts(contractDto);
-
-            if (contractDtos == null || contractDtos.size() < 1) {
-                return;
-            }
-
-            objName = contractDtos.get(0).getContractCode();
-            tel = contractDtos.get(0).getbLink();
-            name = contractDtos.get(0).getPartyB();
+        PayFeeRulePo payFeeRulePo = new PayFeeRulePo();
+        payFeeRulePo.setMaxTime(reqJson.getString("endTime"));
+        payFeeRulePo.setAmount(reqJson.getString("amount"));
+        payFeeRulePo.setFeeTypeCd(reqJson.getString("feeTypeCd"));
+        payFeeRulePo.setCurYearMonth(reqJson.getString("startTime"));
+        payFeeRulePo.setBatchId(reqJson.getString("batchId"));
+        payFeeRulePo.setUserId(userId);
+        payFeeRulePo.setIncomeObjId(storeId);
+        payFeeRulePo.setConfigId(reqJson.getString("configId"));
+        payFeeRulePo.setFeeFlag(FeeDto.FEE_FLAG_ONCE);
+        payFeeRulePo.setStartTime(reqJson.getString("startTime"));
+        payFeeRulePo.setEndTime(reqJson.getString("startTime"));
+        payFeeRulePo.setState(FeeDto.STATE_DOING);
+        payFeeRulePo.setRuleId(GenerateCodeFactory.getGeneratorId("11"));
+        payFeeRulePo.setCommunityId(reqJson.getString("communityId"));
+        payFeeRulePo.setPayerObjType(reqJson.getString("objType"));
+        payFeeRulePo.setPayerObjId(reqJson.getString("objId"));
+        // 后付费
+        if(FeeConfigDto.PAYMENT_CD_AFTER.equals(feeConfigDtos.get(0).getPaymentCd())){
+            payFeeRulePo.setCurYearMonth(reqJson.getString("endTime"));
         }
-        addFeeAttr(FeeAttrDto.SPEC_CD_OWNER_ID, ownerId, feeAttrPos, payFeePo);
-        addFeeAttr(FeeAttrDto.SPEC_CD_OWNER_NAME, name, feeAttrPos, payFeePo);
-        addFeeAttr(FeeAttrDto.SPEC_CD_OWNER_LINK, tel, feeAttrPos, payFeePo);
-        addFeeAttr(FeeAttrDto.SPEC_CD_PAY_OBJECT_NAME, objName, feeAttrPos, payFeePo);
+        payFeeRulePos.add(payFeeRulePo);
 
-        int saveFlag = saveFeeAndAttrs(payFeePos, feeAttrPos);
 
-        if (saveFlag < 1) {
-            throw new IllegalArgumentException("创建费用失败");
-        }
+        //todo 设置费用
+        payFeeRuleV1InnerServiceSMOImpl.savePayFeeRules(payFeeRulePos);
 
-        cmdDataFlowContext.setResponseEntity(ResultVo.success());
+
+        //todo 走账单模式
+        cycleConvertOnceFeeImpl.rulesGeneratePayFees(payFeeRulePos);
+
+        context.setResponseEntity(ResultVo.success());
 
     }
 
@@ -209,13 +139,13 @@ public class SaveProxyFeeCmd extends Cmd {
      *
      * @param reqJson
      */
-    private void generatorBatch(JSONObject reqJson) {
+    private void generatorBatch(JSONObject reqJson, String userId) {
         PayFeeBatchPo payFeeBatchPo = new PayFeeBatchPo();
         payFeeBatchPo.setBatchId(GenerateCodeFactory.getGeneratorId("12"));
         payFeeBatchPo.setCommunityId(reqJson.getString("communityId"));
         payFeeBatchPo.setCreateUserId(reqJson.getString("userId"));
         UserDto userDto = new UserDto();
-        userDto.setUserId(reqJson.getString("userId"));
+        userDto.setUserId(userId);
         List<UserDto> userDtos = userInnerServiceSMOImpl.getUsers(userDto);
 
         Assert.listOnlyOne(userDtos, "用户不存在");
@@ -229,16 +159,5 @@ public class SaveProxyFeeCmd extends Cmd {
         }
 
         reqJson.put("batchId", payFeeBatchPo.getBatchId());
-    }
-
-    private int saveFeeAndAttrs(List<PayFeePo> feePos, List<FeeAttrPo> feeAttrsPos) {
-        int flag = feeInnerServiceSMOImpl.saveFee(feePos);
-        if (flag < 1) {
-            return flag;
-        }
-
-        flag = feeAttrInnerServiceSMOImpl.saveFeeAttrs(feeAttrsPos);
-
-        return flag;
     }
 }

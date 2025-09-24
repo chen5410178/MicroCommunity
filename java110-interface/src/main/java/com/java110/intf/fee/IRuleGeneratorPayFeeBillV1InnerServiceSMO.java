@@ -16,7 +16,9 @@
 package com.java110.intf.fee;
 
 import com.java110.config.feign.FeignConfiguration;
+import com.java110.dto.prePayFee.PrePayFeeDto;
 import com.java110.po.fee.PayFeePo;
+import com.java110.po.payFee.PayFeeRulePo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -63,4 +65,13 @@ public interface IRuleGeneratorPayFeeBillV1InnerServiceSMO {
      */
     @RequestMapping(value = "/needGeneratorBillDataOnlyFee", method = RequestMethod.POST)
     String needGeneratorBillDataOnlyFee(@RequestBody PayFeePo feePo);
+
+    @RequestMapping(value = "/rulesGeneratePayFees", method = RequestMethod.POST)
+    int rulesGeneratePayFees(@RequestBody List<PayFeeRulePo> payFeeRulePos);
+
+    @RequestMapping(value = "/rulesGeneratePayFee", method = RequestMethod.POST)
+    int rulesGeneratePayFee(@RequestBody PayFeeRulePo payFeeRulePo);
+
+    @RequestMapping(value = "/deductionPayFee", method = RequestMethod.POST)
+    int deductionPayFee(@RequestBody PrePayFeeDto prePayFeeDto);
 }

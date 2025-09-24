@@ -2,7 +2,6 @@ package com.java110.fee.api;
 
 import com.java110.dto.fee.FeeDto;
 import com.java110.fee.bmo.rentingFee.IQueryRentingFee;
-import com.java110.intf.fee.IFeeInnerServiceSMO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;

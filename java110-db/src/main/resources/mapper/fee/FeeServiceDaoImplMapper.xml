@@ -118,7 +118,7 @@
 
     <!-- 查询费用信息 add by wuxw 2018-07-03 -->
     <select id="getFeeInfo" parameterType="Map" resultType="Map">
-        select t.amount,t.income_obj_id,t.income_obj_id incomeObjId,t.fee_type_cd,t.fee_type_cd
+        select t.income_obj_id,t.income_obj_id incomeObjId,t.fee_type_cd,t.fee_type_cd
         feeTypeCd,t.start_time,t.start_time startTime,t.status_cd,t.status_cd statusCd,t.end_time,t.end_time
         endTime,t.community_id,t.community_id communityId,t.b_id,t.b_id bId,t.fee_id,t.fee_id feeId,t.user_id,t.user_id
         userId,t.payer_obj_id,t.payer_obj_id payerObjId,pfc.square_price squarePrice,pfc.additional_amount
@@ -129,16 +129,16 @@
         configStartTime,pfc.end_time configEndTime,pfc.payment_cd paymentCd,pfc.payment_cycle paymentCycle,td4.name
         billTypeName,pfa.value importFeeName,ifd.end_time importFeeEndTime,mw.cur_degrees curDegrees,mw.pre_degrees
         preDegrees,
-        mw.pre_reading_time preReadingTime,mw.cur_reading_time curReadingTime,pfa1.`value` deadlineTime,pfa1.`value`
-        maxEndTime,mw.price
+        mw.pre_reading_time preReadingTime,mw.cur_reading_time curReadingTime,mw.price
         mwPrice,
-        pfa2.`value` ownerName,t.batch_id,t.batch_id batchId,
+        t.batch_id,t.batch_id batchId,
         pfc.pay_online payOnline,pfc.scale,pfc.decimal_place decimalPlace,pfc.units,pfc.prepayment_period
-        prepaymentPeriod,
-        pfrb.rule_id ruleId,pfrb.month_cycle monthCycle
+        prepaymentPeriod,pfc.deduct_from deductFrom,pfc.ft_id ftId,t.payer_obj_name payerObjName,t.owner_id ownerId,
+        t.owner_name ownerName, t.receivable_amount receivableAmount,
+        t.owe_amount oweAmount,t.rule_id ruleId,t.remark,ft.ft_name ftName,t.fee_remark feeRemark
         from pay_fee t
-        INNER join pay_fee_config pfc on t.config_id = pfc.config_id and
-        pfc.status_cd = '0'
+        INNER join pay_fee_config pfc on t.config_id = pfc.config_id and pfc.status_cd = '0'
+        left join fee_type ft on pfc.ft_id = ft.ft_id and ft.status_cd = '0'
         left join t_dict td1 on pfc.fee_type_cd = td1.status_cd and td1.table_name = 'pay_fee_config' and
         td1.table_columns = 'fee_type_cd'
         left join t_dict td2 on t.state = td2.status_cd and td2.table_name = 'pay_fee' and td2.table_columns = 'state'
@@ -147,21 +147,14 @@
         left join t_dict td4 on pfc.bill_type = td4.status_cd and td4.table_name = 'pay_fee_config' and
         td4.table_columns = 'bill_type'
         LEFT JOIN pay_fee_attrs pfa on t.fee_id = pfa.fee_id and pfa.spec_cd = '390002' and pfa.status_cd = '0'
-        LEFT JOIN pay_fee_attrs pfa1 on t.fee_id = pfa1.fee_id and pfa1.spec_cd = '390010' and pfa1.status_cd = '0'
-        LEFT JOIN pay_fee_attrs pfa2 on t.fee_id = pfa2.fee_id and pfa2.spec_cd = '390008' and pfa2.status_cd = '0'
         left join import_fee_detail ifd on t.fee_id = ifd.fee_id and ifd.status_cd = '0' and t.fee_flag = '2006012'
         LEFT JOIN meter_water mw on t.fee_id = mw.fee_id and mw.status_cd = '0' and mw.community_id = t.community_id
-        LEFT JOIN pay_fee_rule_bill pfrb on t.fee_id = pfrb.fee_id and pfrb.status_cd = '0' and pfrb.community_id =
-        t.community_id
-        <if test="ownerId != null and ownerId != ''">
-            LEFT JOIN pay_fee_attrs pfao on t.fee_id = pfao.fee_id and pfao.spec_cd = '390007' and pfao.status_cd = '0'
-        </if>
         where 1 =1
         <if test="amount !=null and amount != ''">
             and t.amount= #{amount}
         </if>
         <if test="ownerId !=null and ownerId != ''">
-            and pfao.value= #{ownerId}
+            and t.owner_id= #{ownerId}
         </if>
         <if test="incomeObjId !=null and incomeObjId != ''">
             and t.income_obj_id= #{incomeObjId}
@@ -233,7 +226,7 @@
         <if test="curYear !=null and curYear != ''">
             and DATE_FORMAT(t.end_time,'%Y') = #{curYear}
         </if>
-        order by t.create_time desc
+        order by t.config_id,t.start_time
         <if test="page != -1 and page != null ">
             limit #{page}, #{row}
         </if>
@@ -275,6 +268,12 @@
         <if test="feeFlag !=null and feeFlag != ''">
             , t.fee_flag= #{feeFlag}
         </if>
+        <if test="feeRemark !=null and feeRemark != ''">
+            , t.fee_remark = #{feeRemark}
+        </if>
+        <if test="oweAmount !=null and oweAmount != ''">
+            , t.owe_amount = #{oweAmount}
+        </if>
         where 1=1
         <if test="bId !=null and bId != ''">
             and t.b_id= #{bId}
@@ -302,15 +301,13 @@
         LEFT JOIN pay_fee_attrs pfa2 on t.fee_id = pfa2.fee_id and pfa2.spec_cd = '390008' and pfa2.status_cd = '0'
         left join import_fee_detail ifd on t.fee_id = ifd.fee_id and ifd.status_cd = '0' and t.fee_flag = '2006012'
         LEFT JOIN meter_water mw on t.fee_id = mw.fee_id and mw.status_cd = '0' and mw.community_id = t.community_id
-        <if test="ownerId != null and ownerId != ''">
-            LEFT JOIN pay_fee_attrs pfao on t.fee_id = pfao.fee_id and pfao.spec_cd = '390007' and pfao.status_cd = '0'
-        </if>
+
         where 1 =1
         <if test="amount !=null and amount != ''">
             and t.amount= #{amount}
         </if>
         <if test="ownerId !=null and ownerId != ''">
-            and pfao.value= #{ownerId}
+            and t.owner_id= #{ownerId}
         </if>
         <if test="incomeObjId !=null and incomeObjId != ''">
             and t.income_obj_id= #{incomeObjId}
@@ -694,7 +691,7 @@
         pfc.fee_name feeName,td1.name feeTypeCdName,td2.name stateName,td3.name feeFlagName,pfc.computing_formula
         computingFormula,pfc.computing_formula_text computingFormulaText,
         t.payer_obj_type,t.payer_obj_type payerObjType,pfc.is_default isDefault,pfc.start_time
-        configStartTime,pfc.end_time configEndTime,pfc.payment_cd paymentCd,pfc.payment_cycle paymentCycle
+        configStartTime,pfc.end_time configEndTime,pfc.payment_cd paymentCd,pfc.payment_cycle paymentCycle,t.fee_remark feeRemark
         from pay_fee t
         left join pay_fee_config pfc on t.fee_type_cd = pfc.fee_type_cd and t.config_id = pfc.config_id and
         pfc.status_cd = '0'
@@ -773,11 +770,14 @@
     <!-- 批量插入费用 -->
     <insert id="insertFees" parameterType="Map">
         insert into pay_fee (amount,status_cd,income_obj_id,fee_type_cd,start_time,end_time,community_id,b_id,fee_id,
-        user_id,payer_obj_id,fee_flag,state,config_id,payer_obj_type,batch_id)
+        user_id,payer_obj_id,fee_flag,state,config_id,payer_obj_type,batch_id,payer_obj_name,owner_id,owner_name,
+        receivable_amount,owe_amount,rule_id,remark,fee_remark)
         VALUES
         <foreach collection="payFeePos" item="item" separator=",">
             (#{item.amount},'0',#{item.incomeObjId},#{item.feeTypeCd},#{item.startTime},#{item.endTime},#{item.communityId},
-            '-1',#{item.feeId},#{item.userId},#{item.payerObjId},#{item.feeFlag},#{item.state},#{item.configId},#{item.payerObjType},#{item.batchId})
+            '-1',#{item.feeId},#{item.userId},#{item.payerObjId},#{item.feeFlag},#{item.state},#{item.configId},#{item.payerObjType},#{item.batchId},
+            #{item.payerObjName},#{item.ownerId},#{item.ownerName},
+            #{item.receivableAmount},#{item.oweAmount},#{item.ruleId},#{item.remark},#{item.feeRemark})
         </foreach>
     </insert>
 

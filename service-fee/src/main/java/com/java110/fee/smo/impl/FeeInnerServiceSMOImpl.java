@@ -6,11 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.java110.core.annotation.Java110Transactional;
 import com.java110.core.base.smo.BaseServiceSMO;
 import com.java110.dto.PageDto;
-import com.java110.dto.fee.BillDto;
-import com.java110.dto.fee.BillOweFeeDto;
-import com.java110.dto.fee.FeeAttrDto;
-import com.java110.dto.fee.FeeConfigDto;
-import com.java110.dto.fee.FeeDto;
+import com.java110.dto.fee.*;
 import com.java110.fee.dao.IFeeAttrServiceDao;
 import com.java110.fee.dao.IFeeServiceDao;
 import com.java110.intf.fee.IFeeConfigInnerServiceSMO;
@@ -87,28 +83,15 @@ public class FeeInnerServiceSMOImpl extends BaseServiceSMO implements IFeeInnerS
 
         List<FeeAttrDto> feeAttrDtos = BeanConvertUtil.covertBeanList(attrMaps, FeeAttrDto.class);
         List<FeeAttrDto> tmpFeeAttrDtos = null;
-        String payerObjName = "";
-        String ownerId = "";
         for (FeeDto tmpFeeDto : fees) {
-            payerObjName = "";
-            ownerId = "";
             tmpFeeAttrDtos = new ArrayList<>();
             for (FeeAttrDto feeAttrDto : feeAttrDtos) {
                 if (!tmpFeeDto.getFeeId().equals(feeAttrDto.getFeeId())) {
                     continue;
                 }
                 tmpFeeAttrDtos.add(feeAttrDto);
-                if (FeeAttrDto.SPEC_CD_PAY_OBJECT_NAME.equals(feeAttrDto.getSpecCd())) {
-                    payerObjName = feeAttrDto.getValue();
-                }
-                if (FeeAttrDto.SPEC_CD_OWNER_ID.equals(feeAttrDto.getSpecCd())) {
-                    ownerId = feeAttrDto.getValue();
-                }
-
             }
-            tmpFeeDto.setPayerObjName(payerObjName);
             tmpFeeDto.setFeeAttrDtos(tmpFeeAttrDtos);
-            tmpFeeDto.setOwnerId(ownerId);
         }
         return fees;
     }

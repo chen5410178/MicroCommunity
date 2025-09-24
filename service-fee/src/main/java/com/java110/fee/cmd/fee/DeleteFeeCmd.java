@@ -10,6 +10,8 @@ import com.java110.core.event.cmd.CmdEvent;
 import com.java110.dto.fee.FeeDetailDto;
 import com.java110.dto.fee.FeeDto;
 import com.java110.dto.payFee.PayFeeRuleBillDto;
+import com.java110.dto.payFeeOrder.PayFeeOrderDto;
+import com.java110.fee.bmo.fee.IGeneratorPayFeeOrder;
 import com.java110.fee.feeMonth.IPayFeeMonth;
 import com.java110.intf.community.IRoomInnerServiceSMO;
 import com.java110.intf.fee.*;
@@ -52,6 +54,9 @@ public class DeleteFeeCmd extends Cmd {
 
     @Autowired
     private IPayFeeRuleBillV1InnerServiceSMO payFeeRuleBillV1InnerServiceSMOImpl;
+
+    @Autowired
+    private IGeneratorPayFeeOrder generatorPayFeeOrderImpl;
 
     @Override
     public void validate(CmdEvent event, ICmdDataFlowContext context, JSONObject reqJson) throws CmdException {
@@ -107,6 +112,10 @@ public class DeleteFeeCmd extends Cmd {
             if (flag2 < 1) {
                 throw new IllegalArgumentException("删除失败");
             }
+            PayFeeOrderDto payFeeOrderDto = new PayFeeOrderDto();
+            payFeeOrderDto.setPayOrderId(feeDetailDtos.get(0).getPayOrderId());
+            generatorPayFeeOrderImpl.computePayFeeOrder(BeanConvertUtil.covertBean(payFeeDetailPo, PayFeeOrderDto.class));
+
         }
 
         //todo 检查费用是否有账单数据 如果有直接删除

@@ -133,8 +133,8 @@ public class PublicWeChatPushMessageTemplate extends TaskSystemQuartz {
             oweFeeCallablePo.setStaffId("-1");
             oweFeeCallablePo.setStaffName("系统自动催缴");
             oweFeeCallablePo.setState(OweFeeCallableDto.STATE_WAIT);
-            oweFeeCallablePo.setStartTime(fee.getEndTime());
-            oweFeeCallablePo.setEndTime(fee.getDeadlineTime());
+            oweFeeCallablePo.setStartTime(fee.getStartTime());
+            oweFeeCallablePo.setEndTime(fee.getEndTime());
             oweFeeCallablePos.add(oweFeeCallablePo);
 
         }

@@ -17,6 +17,20 @@ public class FeeReceiptDetailPo implements Serializable {
     private String cycle;
     private String squarePrice;
     private String createTime;
+    private String remark;
+    private String feeMonth; // fee_month
+    private String startDegree; // start_degree
+    private String endDegree; // end_degree
+    private String payWay; // pay_way
+    private String deductionAmount; // deduction_amount
+    private String lateAmount; // late_amount
+
+    private String printCount;
+
+    private String ftName;
+
+    private String acctAmount;
+
     public String getArea() {
         return area;
     }
@@ -119,5 +133,85 @@ public class FeeReceiptDetailPo implements Serializable {
 
     public void setCreateTime(String createTime) {
         this.createTime = createTime;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public String getFeeMonth() {
+        return feeMonth;
+    }
+
+    public void setFeeMonth(String feeMonth) {
+        this.feeMonth = feeMonth;
+    }
+
+    public String getStartDegree() {
+        return startDegree;
+    }
+
+    public void setStartDegree(String startDegree) {
+        this.startDegree = startDegree;
+    }
+
+    public String getEndDegree() {
+        return endDegree;
+    }
+
+    public void setEndDegree(String endDegree) {
+        this.endDegree = endDegree;
+    }
+
+    public String getPayWay() {
+        return payWay;
+    }
+
+    public void setPayWay(String payWay) {
+        this.payWay = payWay;
+    }
+
+    public String getDeductionAmount() {
+        return deductionAmount;
+    }
+
+    public void setDeductionAmount(String deductionAmount) {
+        this.deductionAmount = deductionAmount;
+    }
+
+    public String getLateAmount() {
+        return lateAmount;
+    }
+
+    public void setLateAmount(String lateAmount) {
+        this.lateAmount = lateAmount;
+    }
+
+    public String getPrintCount() {
+        return printCount;
+    }
+
+    public void setPrintCount(String printCount) {
+        this.printCount = printCount;
+    }
+
+    public String getFtName() {
+        return ftName;
+    }
+
+    public void setFtName(String ftName) {
+        this.ftName = ftName;
+    }
+
+    public String getAcctAmount() {
+        return acctAmount;
+    }
+
+    public void setAcctAmount(String acctAmount) {
+        this.acctAmount = acctAmount;
     }
 }

@@ -102,6 +102,13 @@ public class PayFeeDetailNewV1ServiceDaoImpl extends BaseServiceDao implements I
     }
 
     @Override
+    public List<Map> queryPayFeeDetailSimple(Map info) {
+        logger.debug("查询 queryPayFeeDetailSimple 入参 info : {}", info);
+        List<Map> infos = sqlSessionTemplate.selectList("payFeeDetailNewV1ServiceDaoImpl.queryPayFeeDetailSimple", info);
+        return infos;
+    }
+
+    @Override
     public int queryPayFeeDetailNewCount(Map info) {
         logger.debug("查询 queryPayFeeDetailNewCount 入参 info : {}", info);
         List<Map> infos = sqlSessionTemplate.selectList("payFeeDetailNewV1ServiceDaoImpl.queryPayFeeDetailNewCount", info);

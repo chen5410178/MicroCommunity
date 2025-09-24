@@ -29,8 +29,9 @@
         statusCd,t.start_time,t.start_time startTime,t.received_amount,t.received_amount
         receivedAmount,t.state,t.end_time,t.end_time endTime,t.community_id,t.community_id communityId,t.fee_id,t.fee_id
         feeId,t.payable_amount,t.payable_amount payableAmount,t.pay_order_id payOrderId,t.cashier_id
-        cashierId,t.cashier_name cashierName,t.open_invoice openInvoice,t.acct_amount acctAmount,t.discount_amount discountAmount,t.deduction_amount deductionAmount,
-        t.late_amount lateAmount,t.gift_amount giftAmount
+        cashierId,t.cashier_name cashierName,t.open_invoice openInvoice,t.acct_amount acctAmount, t.discount_amount discountAmount,
+        t.deduction_amount deductionAmount, t.late_amount lateAmount,
+        t.gift_amount giftAmount
         from pay_fee_detail t
         where 1 =1
         <if test="primeRate !=null and primeRate != ''">
@@ -243,6 +244,9 @@
         <if test="storeId !=null and storeId !=''">
             and ss.`store_id` = #{storeId}
         </if>
+        <if test="feeId !=null and feeId !=''">
+            and pfd.`fee_id` = #{feeId}
+        </if>
         <if test="startTime!=null and startTime != ''">
             AND pfd.`create_time` &gt;= #{startTime}
         </if>
@@ -299,6 +303,9 @@
         <if test="storeId !=null and storeId !=''">
             and ss.`store_id` = #{storeId}
         </if>
+        <if test="feeId !=null and feeId !=''">
+            and pfd.`fee_id` = #{feeId}
+        </if>
         <if test="startTime!=null and startTime != ''">
             AND pfd.`create_time` &gt;= #{startTime}
         </if>
@@ -322,6 +329,63 @@
         limit #{page}, #{row}
     </select>
 
+    <select id="queryPayFeeDetailSimple" parameterType="Map" resultType="Map">
+        SELECT td.`name` feeTypeCdName,
+        pfc.fee_name feeName,
+        pf.fee_id feeId,
+        td2.`name` primeRate,
+        DATE_FORMAT(pfd.create_time, '%Y-%m-%d %H:%i:%s') createTime,
+        pfd.prime_rate primeRate,pfd.detail_id detailId,pfd.receivable_amount receivableAmount,
+        pfd.cycles,pfd.remark,
+        pfd.start_time startTime,pfd.received_amount receivedAmount,pfd.state,pfd.end_time endTime,
+        pfd.community_id communityId,pfd.fee_id
+        feeId,pfd.payable_amount payableAmount,pfd.pay_order_id payOrderId,pfd.cashier_id
+        cashierId,pfd.cashier_name cashierName,pfd.open_invoice openInvoice,pfd.acct_amount acctAmount, pfd.discount_amount discountAmount,
+        pfd.deduction_amount deductionAmount, pfd.late_amount lateAmount,pfd.gift_amount giftAmount
+        FROM pay_fee_detail pfd
+        left join pay_fee pf on pf.`fee_id` = pfd.`fee_id` AND pf.`status_cd` = '0'
+        left join pay_fee_config pfc on pf.config_id = pfc.config_id and pfc.status_cd = '0'
+        left join t_dict td on pfc.`fee_type_cd` = td.`status_cd` AND
+        td.`table_name` = 'pay_fee_config' AND td.`table_columns` = 'fee_type_cd'
+        left join t_dict td2 on pfd.`prime_rate` = td2.`status_cd` AND
+        td2.`table_name` = 'pay_fee_detail' AND td2.`table_columns` = 'prime_rate'
+        WHERE 1 = 1
+        AND pfd.`status_cd` = '0'
+        <if test="feeId !=null and feeId !=''">
+            and pfd.`fee_id` = #{feeId}
+        </if>
+        <if test="startTime!=null and startTime != ''">
+            AND pfd.`create_time` &gt;= #{startTime}
+        </if>
+        <if test="endTime !=null and endTime != ''">
+            AND pfd.`create_time` &lt;= #{endTime}
+        </if>
+        <if test="communityId !=null and communityId != ''">
+            AND pfd.`community_id` = #{communityId}
+        </if>
+        <if test="payOrderId !=null and payOrderId != ''">
+            AND pfd.`pay_order_id` = #{payOrderId}
+        </if>
+        <if test="state !=null and state != ''">
+            AND pfd.`state` = #{state}
+        </if>
+        <if test="payOrderIds !=null ">
+            and pfd.pay_order_id in
+            <foreach collection="payOrderIds" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        <if test="configId !=null and configId !=''">
+            AND pf.config_id = #{configId}
+        </if>
+        <if test="primeRate!=null and primeRate!=''">
+            AND pfd.prime_rate= #{primeRate}
+        </if>
+        order by createTime desc
+        <if test="page != -1 and page != null ">
+            limit #{page}, #{row}
+        </if>
+    </select>
     <!--查询缴费清单数量-->
     <select id="queryPayFeeDetailNewCount" parameterType="Map" resultType="Map">
         select count(1) total from (
@@ -540,15 +604,12 @@
         left join pay_fee pf on t.fee_id = pf.fee_id and pf.status_cd = '0'
         left join pay_fee_config pfc on pf.config_id = pfc.config_id and pfc.status_cd = '0'
         left join t_dict td on t.state = td.status_cd and td.table_name = 'pay_fee_detail' and td.table_columns = 'state'
-        LEFT JOIN pay_fee_attrs pfa1 on t.fee_id = pfa1.fee_id and pfa1.spec_cd = '390008' and pfa1.status_cd = '0'
-        LEFT JOIN pay_fee_attrs pfa2 on t.fee_id = pfa2.fee_id and pfa2.spec_cd = '390012' and pfa2.status_cd = '0'
-        LEFT JOIN pay_fee_attrs pfa3 on t.fee_id = pfa3.fee_id and pfa3.spec_cd = '390007' and pfa3.status_cd = '0'
         where 1=1
         <if test="state !=null and state != ''">
             and t.state= #{state}
         </if>
         <if test="ownerId !=null and ownerId != ''">
-            and pfa3.`value`= #{ownerId}
+            and pf.`owner_id`= #{ownerId}
         </if>
         <if test="payerObjId !=null and payerObjId != ''">
             and pf.payer_obj_id= #{payerObjId}
@@ -588,21 +649,18 @@
     <select id="queryFeeDeposit" parameterType="Map" resultType="Map">
         select t.detail_id detailId,t.fee_id feeId,t.start_time startTime,
         t.end_time endTime,t.received_amount receivedAmount,pfc.fee_name feeName,
-        t.create_time createTime,t.state,td.name stateName,pfa1.`value` ownerName,pfa2.`value` payerObjName,
-        pfa3.`value` ownerId,pf.payer_obj_id payerObjId,t.cashier_name cashierName,t.pay_order_id payOrderId,t.remark
+        t.create_time createTime,t.state,td.name stateName,pf.`owner_name` ownerName,pf.`payer_obj_name` payerObjName,
+        pf.`owner_id` ownerId,pf.payer_obj_id payerObjId,t.cashier_name cashierName,t.pay_order_id payOrderId,t.remark
         from pay_fee_detail t
         left join pay_fee pf on t.fee_id = pf.fee_id and pf.status_cd = '0'
         left join pay_fee_config pfc on pf.config_id = pfc.config_id and pfc.status_cd = '0'
         left join t_dict td on t.state = td.status_cd and td.table_name = 'pay_fee_detail' and td.table_columns = 'state'
-        LEFT JOIN pay_fee_attrs pfa1 on t.fee_id = pfa1.fee_id and pfa1.spec_cd = '390008' and pfa1.status_cd = '0'
-        LEFT JOIN pay_fee_attrs pfa2 on t.fee_id = pfa2.fee_id and pfa2.spec_cd = '390012' and pfa2.status_cd = '0'
-        LEFT JOIN pay_fee_attrs pfa3 on t.fee_id = pfa3.fee_id and pfa3.spec_cd = '390007' and pfa3.status_cd = '0'
         where 1=1
         <if test="state !=null and state != ''">
             and t.state= #{state}
         </if>
         <if test="ownerId !=null and ownerId != ''">
-            and pfa3.`value`= #{ownerId}
+            and pf.`owner_id`= #{ownerId}
         </if>
 
         <if test="payerObjId !=null and payerObjId != ''">

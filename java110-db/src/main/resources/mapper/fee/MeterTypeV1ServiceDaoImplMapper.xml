@@ -8,9 +8,9 @@
     <!-- 保存抄表类型信息 add by wuxw 2018-07-03 -->
     <insert id="saveMeterTypeInfo" parameterType="Map">
         insert into meter_type(
-        type_name,type_id,remark,community_id
+        type_name,type_id,remark,community_id,ratio
         ) values (
-        #{typeName},#{typeId},#{remark},#{communityId}
+        #{typeName},#{typeId},#{remark},#{communityId},#{ratio}
         )
     </insert>
 
@@ -18,7 +18,7 @@
     <!-- 查询抄表类型信息 add by wuxw 2018-07-03 -->
     <select id="getMeterTypeInfo" parameterType="Map" resultType="Map">
         select t.type_name,t.type_name typeName,t.type_id,t.type_id typeId,t.remark,t.status_cd,t.status_cd
-        statusCd,t.community_id,t.community_id communityId,t.create_time createTime
+        statusCd,t.community_id,t.community_id communityId,t.create_time createTime,t.ratio
         from meter_type t
         where 1 =1
         <if test="typeName !=null and typeName != ''">
@@ -58,6 +58,9 @@
         </if>
         <if test="communityId !=null and communityId != ''">
             , t.community_id= #{communityId}
+        </if>
+        <if test="communityId !=null and communityId != ''">
+            , t.ratio= #{ratio}
         </if>
         where 1=1
         <if test="typeId !=null and typeId != ''">

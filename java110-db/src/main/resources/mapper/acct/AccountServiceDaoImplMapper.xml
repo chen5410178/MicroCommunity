@@ -5,22 +5,22 @@
 
     <!-- 保存账户信息 add by wuxw 2018-07-03 -->
     <insert id="saveBusinessAccountInfo" parameterType="Map">
-        insert into business_account(amount, operate, acct_type, obj_id, acct_id, acct_name, b_id, obj_type, part_id,
-                                     link)
-        values (#{amount}, #{operate}, #{acctType}, #{objId}, #{acctId}, #{acctName}, #{bId}, #{objType}, #{partId},
-                #{link})
+        insert into business_account(amount, operate, acct_type, obj_id, acct_id, acct_name, b_id, obj_type, community_id,
+        link)
+        values (#{amount}, #{operate}, #{acctType}, #{objId}, #{acctId}, #{acctName}, #{bId}, #{objType}, #{communityId},
+        #{link})
     </insert>
 
     <insert id="saveAccount" parameterType="Map">
-        insert into account(amount, acct_type, obj_id, acct_id, acct_name, b_id, obj_type, part_id, link,room_id,room_name)
-        values (#{amount}, #{acctType}, #{objId}, #{acctId}, #{acctName}, '-1', #{objType}, #{partId}, #{link},#{roomId},#{roomName})
+        insert into account(amount, acct_type, obj_id, acct_id, acct_name, b_id, obj_type, community_id, link,payer_obj_id,payer_obj_name,config_id,fee_name)
+        values (#{amount}, #{acctType}, #{objId}, #{acctId}, #{acctName}, '-1', #{objType}, #{communityId}, #{link},#{payerObjId},#{payerObjName},#{configId},#{feeName})
     </insert>
 
     <!-- 查询账户信息（Business） add by wuxw 2018-07-03 -->
     <select id="getBusinessAccountInfo" parameterType="Map" resultType="Map">
         select t.amount,t.operate,t.acct_type,t.acct_type acctType,t.obj_id,t.obj_id objId,t.acct_id,t.acct_id
-        acctId,t.acct_name,t.acct_name acctName,t.b_id,t.b_id bId,t.obj_type,t.obj_type objType,t.part_id,t.part_id
-        partId,t.link
+        acctId,t.acct_name,t.acct_name acctName,t.b_id,t.b_id bId,t.obj_type,t.obj_type objType,t.community_id,t.community_id
+        communityId,t.link
         from business_account t
         where 1 =1
         <if test="amount !=null and amount != ''">
@@ -47,8 +47,8 @@
         <if test="objType !=null and objType != ''">
             and t.obj_type= #{objType}
         </if>
-        <if test="partId !=null and partId != ''">
-            and t.obj_type= #{partId}
+        <if test="communityId !=null and communityId != ''">
+            and t.obj_type= #{communityId}
         </if>
         <if test="link !=null and link != ''">
             and t.link= #{link}
@@ -58,8 +58,8 @@
     <!-- 保存账户信息至 instance表中 add by wuxw 2018-07-03 -->
     <insert id="saveAccountInfoInstance" parameterType="Map">
         insert into account(
-        amount,acct_type,obj_id,acct_id,status_cd,acct_name,b_id,obj_type,part_id,link
-        ) select t.amount,t.acct_type,t.obj_id,t.acct_id,'0',t.acct_name,t.b_id,t.obj_type,t.part_id,t.link
+        amount,acct_type,obj_id,acct_id,status_cd,acct_name,b_id,obj_type,community_id,link
+        ) select t.amount,t.acct_type,t.obj_id,t.acct_id,'0',t.acct_name,t.b_id,t.obj_type,t.community_id,t.link
         from business_account t where
         1=1
         <if test="amount !=null and amount != ''">
@@ -90,8 +90,8 @@
     <select id="getAccountInfo" parameterType="Map" resultType="Map">
         select t.amount,t.acct_type,t.acct_type acctType,t.obj_id,t.obj_id objId,t.acct_id,t.acct_id
         acctId,t.status_cd,t.status_cd statusCd,t.acct_name,t.acct_name acctName,t.b_id,t.b_id bId,t.obj_type,t.obj_type
-        objType,t.create_time createTime,td.`name` acctTypeName,t.part_id,t.part_id partId,t.link,t.room_id roomId,
-        t.room_name roomName
+        objType,t.create_time createTime,td.`name` acctTypeName,t.community_id,t.community_id communityId,t.link,t.payer_obj_id payerObjId,
+        t.payer_obj_name payerObjName,t.config_id configId,t.fee_name feeName
         <if test="objType !=null and objType == 6006">
             ,bo.id_card idCard
         </if>
@@ -147,20 +147,17 @@
         <if test="objType !=null and objType != ''">
             and t.obj_type= #{objType}
         </if>
-        <if test="partId !=null and partId != ''">
-            and t.part_id= #{partId}
-        </if>
-        <if test="communityIds !=null ">
-            and t.part_id in
-            <foreach collection="communityIds" item="item" open="(" close=")" separator=",">
-                #{item}
-            </foreach>
+        <if test="communityId !=null and communityId != ''">
+            and t.community_id= #{communityId}
         </if>
         <if test="link !=null and link != ''">
             and t.link= #{link}
         </if>
-        <if test="roomId !=null and roomId != ''">
-            and t.room_id= #{roomId}
+        <if test="payerObjId !=null and payerObjId != ''">
+            and t.payer_obj_id= #{payerObjId}
+        </if>
+        <if test="configId !=null and configId != ''">
+            and t.config_id= #{configId}
         </if>
         order by t.create_time desc
         <if test="page != -1 and page != null ">
@@ -189,8 +186,8 @@
         <if test="objType !=null and objType != ''">
             , t.obj_type= #{objType}
         </if>
-        <if test="partId !=null and partId != ''">
-            , t.obj_type= #{partId}
+        <if test="communityId !=null and communityId != ''">
+            , t.obj_type= #{communityId}
         </if>
         <if test="oLink !=null and oLink != ''">
             , t.link= #{oLink}
@@ -256,14 +253,8 @@
         <if test="objType !=null and objType != ''">
             and t.obj_type= #{objType}
         </if>
-        <if test="partId !=null and partId != ''">
-            and t.part_id= #{partId}
-        </if>
-        <if test="communityIds !=null ">
-            and t.part_id in
-            <foreach collection="communityIds" item="item" open="(" close=")" separator=",">
-                #{item}
-            </foreach>
+        <if test="communityId !=null and communityId != ''">
+            and t.community_id= #{communityId}
         </if>
         <if test="link !=null and link != ''">
             and t.link= #{link}

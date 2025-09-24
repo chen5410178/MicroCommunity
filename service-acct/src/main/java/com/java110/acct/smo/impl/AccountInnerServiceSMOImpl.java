@@ -105,7 +105,7 @@ public class AccountInnerServiceSMOImpl extends BaseServiceSMO implements IAccou
         //todo 查询账户是否已经存在
         AccountDto accountDto = new AccountDto();
         accountDto.setObjId(accountPo.getObjId());
-        accountDto.setPartId(accountPo.getPartId());
+        accountDto.setCommunityId(accountPo.getCommunityId());
         accountDto.setLink(accountPo.getLink());
         accountDto.setAcctType(accountPo.getAcctType());
         int flag = accountServiceDaoImpl.queryAccountsCount(BeanConvertUtil.beanCovertMap(accountDto));

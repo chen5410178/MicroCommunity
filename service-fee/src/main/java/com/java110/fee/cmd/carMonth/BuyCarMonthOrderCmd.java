@@ -14,18 +14,13 @@ import com.java110.dto.IotDataDto;
 import com.java110.dto.community.CommunityMemberDto;
 import com.java110.dto.fee.FeeAttrDto;
 import com.java110.dto.fee.FeeConfigDto;
-import com.java110.dto.fee.FeeDetailDto;
 import com.java110.dto.fee.FeeDto;
 import com.java110.dto.owner.OwnerCarDto;
 import com.java110.dto.owner.OwnerDto;
-import com.java110.dto.owner.OwnerRoomRelDto;
 import com.java110.dto.parking.ParkingSpaceDto;
-import com.java110.dto.room.RoomDto;
 import com.java110.dto.user.UserDto;
 import com.java110.intf.community.ICommunityMemberV1InnerServiceSMO;
 import com.java110.intf.community.IParkingSpaceInnerServiceSMO;
-import com.java110.intf.community.IParkingSpaceV1InnerServiceSMO;
-import com.java110.intf.community.IRoomV1InnerServiceSMO;
 import com.java110.intf.fee.IFeeAttrInnerServiceSMO;
 import com.java110.intf.fee.IFeeInnerServiceSMO;
 import com.java110.intf.fee.IPayFeeConfigV1InnerServiceSMO;
@@ -45,10 +40,8 @@ import com.java110.utils.util.StringUtil;
 import com.java110.vo.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -136,13 +129,7 @@ public class BuyCarMonthOrderCmd extends Cmd {
             throw new CmdException(data.getMsg());
         }
 
-        Object obj = data.getData();
-        JSONArray carMonthCardDtos = null;
-        if (obj instanceof List) {
-            carMonthCardDtos = new JSONArray((List) obj);
-        }else{
-            carMonthCardDtos = (JSONArray) obj;
-        }
+        JSONArray carMonthCardDtos = (JSONArray) data.getData();
 
         if (ListUtil.isNull(carMonthCardDtos)) {
             throw new CmdException("月卡不存在");

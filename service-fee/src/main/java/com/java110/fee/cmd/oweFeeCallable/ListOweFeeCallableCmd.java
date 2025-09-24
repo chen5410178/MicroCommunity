@@ -17,13 +17,10 @@ package com.java110.fee.cmd.oweFeeCallable;
 
 import com.alibaba.fastjson.JSONObject;
 import com.java110.core.annotation.Java110Cmd;
-import com.java110.core.annotation.Java110Transactional;
 import com.java110.core.context.ICmdDataFlowContext;
 import com.java110.core.event.cmd.Cmd;
 import com.java110.core.event.cmd.CmdEvent;
-import com.java110.core.factory.GenerateCodeFactory;
 import com.java110.intf.fee.IOweFeeCallableV1InnerServiceSMO;
-import com.java110.po.oweFeeCallable.OweFeeCallablePo;
 import com.java110.utils.exception.CmdException;
 import com.java110.utils.util.Assert;
 import com.java110.utils.util.BeanConvertUtil;
@@ -58,7 +55,6 @@ public class ListOweFeeCallableCmd extends Cmd {
     @Override
     public void validate(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) {
         super.validatePageInfo(reqJson);
-        super.validateProperty(cmdDataFlowContext);
         Assert.hasKeyAndValue(reqJson, "communityId", "请求报文中未包含communityId");
     }
 

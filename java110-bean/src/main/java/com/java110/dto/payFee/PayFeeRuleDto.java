@@ -39,6 +39,12 @@ public class PayFeeRuleDto extends FeeConfigDto implements Serializable {
 
     private String statusCd = "0";
 
+    private double monthAmount;
+
+    private String remark;
+
+    private String feeRemark;
+
 
     public String getMaxTime() {
         return maxTime;
@@ -183,5 +189,29 @@ public class PayFeeRuleDto extends FeeConfigDto implements Serializable {
 
     public void setRuleIds(String[] ruleIds) {
         this.ruleIds = ruleIds;
+    }
+
+    public double getMonthAmount() {
+        return monthAmount;
+    }
+
+    public void setMonthAmount(double monthAmount) {
+        this.monthAmount = monthAmount;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public String getFeeRemark() {
+        return feeRemark;
+    }
+
+    public void setFeeRemark(String feeRemark) {
+        this.feeRemark = feeRemark;
     }
 }

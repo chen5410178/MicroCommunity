@@ -50,6 +50,14 @@ public interface IPayFeeDetailV1InnerServiceSMO {
     @RequestMapping(value = "/queryPayFeeDetailNew", method = RequestMethod.POST)
     public List<PayFeeDetailDto> queryPayFeeDetailNew(@RequestBody PayFeeDetailDto payFeeDetailDto);
 
+    /**
+     * 单纯查询数据不做多表关联，不然慢了
+     * @param payFeeDetailDto
+     * @return
+     */
+    @RequestMapping(value = "/queryPayFeeDetailSimple", method = RequestMethod.POST)
+    public List<PayFeeDetailDto> queryPayFeeDetailSimple(@RequestBody PayFeeDetailDto payFeeDetailDto);
+
     @RequestMapping(value = "/queryPayFeeDetailNewCount", method = RequestMethod.POST)
     public int queryPayFeeDetailNewCount(@RequestBody PayFeeDetailDto payFeeDetailDto);
 

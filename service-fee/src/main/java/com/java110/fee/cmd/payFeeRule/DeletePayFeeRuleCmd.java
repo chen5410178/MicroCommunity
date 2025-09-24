@@ -22,7 +22,7 @@ import com.java110.core.context.Environment;
 import com.java110.core.context.ICmdDataFlowContext;
 import com.java110.core.event.cmd.Cmd;
 import com.java110.core.event.cmd.CmdEvent;
-import com.java110.dto.payFee.PayFeeRuleBillDto;
+import com.java110.dto.fee.PayFeeDto;
 import com.java110.fee.feeMonth.IPayFeeMonth;
 import com.java110.intf.fee.IPayFeeDetailV1InnerServiceSMO;
 import com.java110.intf.fee.IPayFeeRuleBillV1InnerServiceSMO;
@@ -31,16 +31,17 @@ import com.java110.intf.fee.IPayFeeV1InnerServiceSMO;
 import com.java110.intf.report.IReportOweFeeInnerServiceSMO;
 import com.java110.po.fee.PayFeeDetailPo;
 import com.java110.po.fee.PayFeePo;
-import com.java110.po.payFee.PayFeeRulePo;
 import com.java110.po.payFee.PayFeeRuleBillPo;
+import com.java110.po.payFee.PayFeeRulePo;
 import com.java110.po.reportFee.ReportOweFeePo;
 import com.java110.utils.exception.CmdException;
 import com.java110.utils.util.Assert;
 import com.java110.utils.util.BeanConvertUtil;
+import com.java110.utils.util.ListUtil;
 import com.java110.vo.ResultVo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -76,6 +77,8 @@ public class DeletePayFeeRuleCmd extends Cmd {
     @Autowired
     private IReportOweFeeInnerServiceSMO reportOweFeeInnerServiceSMOImpl;
 
+
+
     @Override
     public void validate(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) {
         Environment.isDevEnv();
@@ -96,12 +99,12 @@ public class DeletePayFeeRuleCmd extends Cmd {
         }
 
         //todo 查询账单费用
-        PayFeeRuleBillDto payFeeRuleBillDto = new PayFeeRuleBillDto();
-        payFeeRuleBillDto.setRuleId(reqJson.getString("ruleId"));
-        payFeeRuleBillDto.setCommunityId(reqJson.getString("communityId"));
-        List<PayFeeRuleBillDto> ruleBillDtos = payFeeRuleBillV1InnerServiceSMOImpl.queryPayFeeRuleBills(payFeeRuleBillDto);
+        PayFeeDto payFeeDto = new PayFeeDto();
+        payFeeDto.setRuleId(reqJson.getString("ruleId"));
+        payFeeDto.setCommunityId(reqJson.getString("communityId"));
+        List<PayFeeDto> payFeeDtos = payFeeV1InnerServiceSMOImpl.queryPayFees(payFeeDto);
 
-        if (ruleBillDtos == null || ruleBillDtos.isEmpty()) {
+        if (ListUtil.isNull(payFeeDtos)) {
             return;
         }
         PayFeeRuleBillPo payFeeRuleBillPo = null;
@@ -112,15 +115,15 @@ public class DeletePayFeeRuleCmd extends Cmd {
 
         PayFeePo payFeePo = null;
         PayFeeDetailPo payFeeDetailPo = null;
-        for (PayFeeRuleBillDto tmpPayFeeRuleBillDto : ruleBillDtos) {
+        for (PayFeeDto tmpPayFeeDto : payFeeDtos) {
             payFeePo = new PayFeePo();
-            payFeePo.setFeeId(tmpPayFeeRuleBillDto.getFeeId());
-            payFeePo.setCommunityId(tmpPayFeeRuleBillDto.getCommunityId());
+            payFeePo.setFeeId(tmpPayFeeDto.getFeeId());
+            payFeePo.setCommunityId(tmpPayFeeDto.getCommunityId());
             payFeeV1InnerServiceSMOImpl.deletePayFee(payFeePo);
 
             payFeeDetailPo = new PayFeeDetailPo();
-            payFeeDetailPo.setFeeId(tmpPayFeeRuleBillDto.getFeeId());
-            payFeeDetailPo.setCommunityId(tmpPayFeeRuleBillDto.getCommunityId());
+            payFeeDetailPo.setFeeId(tmpPayFeeDto.getFeeId());
+            payFeeDetailPo.setCommunityId(tmpPayFeeDto.getCommunityId());
 
             payFeeDetailV1InnerServiceSMOImpl.deletePayFeeDetailNew(payFeeDetailPo);
 

@@ -8,11 +8,11 @@
         insert into pay_fee_config(fee_type_cd, computing_formula, additional_amount, bill_type, computing_formula_text,
         square_price, payment_cd, is_default, config_id, fee_flag, fee_name, payment_cycle,
         start_time, end_time, community_id, deduct_from, pay_online, scale, decimal_place,
-        units, prepayment_period,state)
+        units, prepayment_period,state,ft_id)
         values (#{feeTypeCd}, #{computingFormula}, #{additionalAmount}, #{billType}, #{computingFormulaText},
         #{squarePrice}, #{paymentCd}, #{isDefault}, #{configId}, #{feeFlag}, #{feeName}, #{paymentCycle},
         #{startTime}, #{endTime}, #{communityId}, #{deductFrom}, #{payOnline}, #{scale}, #{decimalPlace},
-        #{units}, #{prepaymentPeriod},#{state})
+        #{units}, #{prepaymentPeriod},#{state},#{ftId})
     </insert>
 
     <!-- 查询收费项目信息 add by wuxw 2018-07-03 -->
@@ -26,7 +26,7 @@
         endTime,t.community_id,t.community_id communityId,t.deduct_from,t.deduct_from deductFrom,
         t.pay_online payOnline,t.scale,t.decimal_place decimalPlace,t.units,t.prepayment_period,t.prepayment_period
         prepaymentPeriod,
-        t.state
+        t.state,t.ft_id ftId
         from pay_fee_config t
         where 1 =1
         <if test="feeTypeCd !=null and feeTypeCd != ''">
@@ -95,6 +95,9 @@
         </if>
         <if test="state !=null and state != ''">
             and t.state = #{state}
+        </if>
+        <if test="ftId !=null and ftId != ''">
+            and t.ft_id = #{ftId}
         </if>
         order by t.create_time desc
         <if test="page != -1 and page != null ">
@@ -168,6 +171,9 @@
         </if>
         <if test="state !=null and state != ''">
             , t.state = #{state}
+        </if>
+        <if test="ftId !=null and ftId != ''">
+            , t.ft_id = #{ftId}
         </if>
         where 1=1
         <if test="configId !=null and configId != ''">
@@ -250,6 +256,9 @@
         <if test="state !=null and state != ''">
             and t.state = #{state}
         </if>
+        <if test="ftId !=null and ftId != ''">
+            and t.ft_id = #{ftId}
+        </if>
     </select>
 
     <!-- 查询收费项目数量 add by wuxw 2018-07-03 -->
@@ -263,10 +272,7 @@
         <if test="payerObjType != null and payerObjType != ''">
             and t.payer_obj_type= #{payerObjType}
         </if>
-        <if test="communityId != null and communityId != ''">
-            and t.community_id= #{communityId}
-        </if>
-
+        and t.community_id= #{communityId}
     </select>
 
     <!-- 查询收费项目信息 add by wuxw 2018-07-03 -->
@@ -278,9 +284,7 @@
         left join pay_fee_attrs pfa1 on t.fee_id = pfa1.fee_id and pfa1.status_cd = '0' and pfa1.spec_cd = '390008'
         left join pay_fee_attrs pfa2 on t.fee_id = pfa2.fee_id and pfa2.status_cd = '0' and pfa2.spec_cd = '390009'
         where t.config_id = #{configId}
-        <if test="communityId != null and communityId != ''">
-            and t.community_id= #{communityId}
-        </if>
+        and t.community_id= #{communityId}
         <if test="payerObjType != null and payerObjType != ''">
             and t.payer_obj_type= #{payerObjType}
         </if>

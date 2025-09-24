@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="prePayFeeV1ServiceDaoImpl">
+
+
+    <!-- 保存应付收款信息 add by wuxw 2018-07-03 -->
+    <insert id="savePrePayFeeInfo" parameterType="Map">
+        insert into pre_pay_fee(
+        gift_amount,pay_order_id,prime_rate,receivable_amount,discount_amount,cycles,remark,received_amount,owner_id,
+        payer_obj_name,owner_name,remain_amount,fee_name,open_invoice,start_time,cashier_id,state,end_time,rule_id,
+        community_id,cashier_name,ppf_id,payer_obj_id,ft_id,ft_name,way
+        ) values (
+        #{giftAmount},#{payOrderId},#{primeRate},#{receivableAmount},#{discountAmount},#{cycles},#{remark},#{receivedAmount},
+        #{ownerId},#{payerObjName},#{ownerName},#{remainAmount},#{feeName},#{openInvoice},#{startTime},#{cashierId},#{state},
+        #{endTime},#{ruleId},#{communityId},#{cashierName},#{ppfId},#{payerObjId},#{ftId},#{ftName},#{way}
+        )
+    </insert>
+
+
+    <!-- 查询应付收款信息 add by wuxw 2018-07-03 -->
+    <select id="getPrePayFeeInfo" parameterType="Map" resultType="Map">
+        select t.gift_amount giftAmount,t.pay_order_id payOrderId,t.prime_rate primeRate,t.receivable_amount
+        receivableAmount,t.discount_amount discountAmount,t.cycles,t.remark,t.status_cd statusCd,t.received_amount
+        receivedAmount,t.owner_id ownerId,t.payer_obj_name payerObjName,t.owner_name ownerName,t.remain_amount
+        remainAmount,t.fee_name feeName,t.open_invoice openInvoice,t.start_time startTime,t.cashier_id
+        cashierId,t.state,t.end_time endTime,t.rule_id ruleId,t.community_id communityId,t.cashier_name
+        cashierName,t.ppf_id ppfId,t.payer_obj_id payerObjId,t.create_time createTime,td.`name` primeRateName,d.name stateName,
+        t.ft_id ftId,t.ft_name ftName,pfc.square_price squarePrice,pfc.additional_amount additionalAmount,t.way way
+        from pre_pay_fee t
+        left join t_dict d on t.state = d.status_cd and d.table_name = 'pay_fee_detail' and d.table_columns = 'state'
+        left join t_dict td on t.prime_rate = td.status_cd and td.table_name = 'pay_fee_detail' and td.table_columns =
+        'prime_rate'
+        left join pay_fee_rule pfr on t.rule_id = pfr.rule_id and pfr.status_cd = '0'
+        left join pay_fee_config pfc on pfr.config_id = pfc.config_id and pfc.status_cd = '0'
+        where 1 =1
+        <if test="giftAmount !=null and giftAmount != ''">
+            and t.gift_amount= #{giftAmount}
+        </if>
+        <if test="payOrderId !=null and payOrderId != ''">
+            and t.pay_order_id= #{payOrderId}
+        </if>
+        <if test="payOrderIds !=null ">
+            and t.pay_order_id in
+            <foreach collection="payOrderIds" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        <if test="primeRate !=null and primeRate != ''">
+            and t.prime_rate= #{primeRate}
+        </if>
+        <if test="receivableAmount !=null and receivableAmount != ''">
+            and t.receivable_amount= #{receivableAmount}
+        </if>
+        <if test="discountAmount !=null and discountAmount != ''">
+            and t.discount_amount= #{discountAmount}
+        </if>
+        <if test="cycles !=null and cycles != ''">
+            and t.cycles= #{cycles}
+        </if>
+        <if test="remark !=null and remark != ''">
+            and t.remark= #{remark}
+        </if>
+        <if test="statusCd !=null and statusCd != ''">
+            and t.status_cd= #{statusCd}
+        </if>
+        <if test="receivedAmount !=null and receivedAmount != ''">
+            and t.received_amount= #{receivedAmount}
+        </if>
+        <if test="ownerId !=null and ownerId != ''">
+            and t.owner_id= #{ownerId}
+        </if>
+        <if test="payerObjName !=null and payerObjName != ''">
+            and t.payer_obj_name= #{payerObjName}
+        </if>
+        <if test="ownerName !=null and ownerName != ''">
+            and t.owner_name= #{ownerName}
+        </if>
+        <if test="remainAmount !=null and remainAmount != ''">
+            and t.remain_amount= #{remainAmount}
+        </if>
+        <if test="hasMoney !=null and hasMoney != ''">
+            and t.remain_amount > 0
+        </if>
+        <if test="feeName !=null and feeName != ''">
+            and t.fee_name= #{feeName}
+        </if>
+        <if test="openInvoice !=null and openInvoice != ''">
+            and t.open_invoice= #{openInvoice}
+        </if>
+        <if test="startTime !=null and startTime != ''">
+            and t.start_time= #{startTime}
+        </if>
+        <if test="cashierId !=null and cashierId != ''">
+            and t.cashier_id= #{cashierId}
+        </if>
+        <if test="state !=null and state != ''">
+            and t.state= #{state}
+        </if>
+        <if test="endTime !=null and endTime != ''">
+            and t.end_time= #{endTime}
+        </if>
+        <if test="ruleId !=null and ruleId != ''">
+            and t.rule_id= #{ruleId}
+        </if>
+        <if test="ftId !=null and ftId != ''">
+            and t.ft_id = #{ftId}
+        </if>
+        <if test="communityId !=null and communityId != ''">
+            and t.community_id= #{communityId}
+        </if>
+        <if test="cashierName !=null and cashierName != ''">
+            and t.cashier_name= #{cashierName}
+        </if>
+        <if test="ppfId !=null and ppfId != ''">
+            and t.ppf_id= #{ppfId}
+        </if>
+        <if test="ppfIds !=null ">
+            and t.ppf_id in
+            <foreach collection="ppfIds" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="payerObjId !=null and payerObjId != ''">
+            and t.payer_obj_id= #{payerObjId}
+        </if>
+        <if test="queryStartTime !=null and queryStartTime != ''">
+            and t.create_time &gt; #{queryStartTime}
+        </if>
+        <if test="queryEndTime !=null and queryEndTime != ''">
+            and t.create_time &lt; #{queryEndTime}
+        </if>
+        <if test="way !=null and way != ''">
+            and t.way= #{way}
+        </if>
+        order by t.create_time desc
+        <if test="page != -1 and page != null ">
+            limit #{page}, #{row}
+        </if>
+
+    </select>
+
+
+    <!-- 修改应付收款信息 add by wuxw 2018-07-03 -->
+    <update id="updatePrePayFeeInfo" parameterType="Map">
+        update pre_pay_fee t set t.status_cd = #{statusCd}
+        <if test="newBId != null and newBId != ''">
+            ,t.b_id = #{newBId}
+        </if>
+        <if test="giftAmount !=null and giftAmount != ''">
+            , t.gift_amount= #{giftAmount}
+        </if>
+        <if test="payOrderId !=null and payOrderId != ''">
+            , t.pay_order_id= #{payOrderId}
+        </if>
+        <if test="primeRate !=null and primeRate != ''">
+            , t.prime_rate= #{primeRate}
+        </if>
+        <if test="receivableAmount !=null and receivableAmount != ''">
+            , t.receivable_amount= #{receivableAmount}
+        </if>
+        <if test="discountAmount !=null and discountAmount != ''">
+            , t.discount_amount= #{discountAmount}
+        </if>
+        <if test="cycles !=null and cycles != ''">
+            , t.cycles= #{cycles}
+        </if>
+        <if test="remark !=null and remark != ''">
+            , t.remark= #{remark}
+        </if>
+        <if test="receivedAmount !=null and receivedAmount != ''">
+            , t.received_amount= #{receivedAmount}
+        </if>
+        <if test="ownerId !=null and ownerId != ''">
+            , t.owner_id= #{ownerId}
+        </if>
+        <if test="payerObjName !=null and payerObjName != ''">
+            , t.payer_obj_name= #{payerObjName}
+        </if>
+        <if test="ownerName !=null and ownerName != ''">
+            , t.owner_name= #{ownerName}
+        </if>
+        <if test="remainAmount !=null and remainAmount != ''">
+            , t.remain_amount= #{remainAmount}
+        </if>
+        <if test="feeName !=null and feeName != ''">
+            , t.fee_name= #{feeName}
+        </if>
+        <if test="openInvoice !=null and openInvoice != ''">
+            , t.open_invoice= #{openInvoice}
+        </if>
+        <if test="startTime !=null and startTime != ''">
+            , t.start_time= #{startTime}
+        </if>
+        <if test="cashierId !=null and cashierId != ''">
+            , t.cashier_id= #{cashierId}
+        </if>
+        <if test="state !=null and state != ''">
+            , t.state= #{state}
+        </if>
+        <if test="endTime !=null and endTime != ''">
+            , t.end_time= #{endTime}
+        </if>
+        <if test="ruleId !=null and ruleId != ''">
+            , t.rule_id= #{ruleId}
+        </if>
+
+        <if test="cashierName !=null and cashierName != ''">
+            , t.cashier_name= #{cashierName}
+        </if>
+        <if test="payerObjId !=null and payerObjId != ''">
+            , t.payer_obj_id= #{payerObjId}
+        </if>
+        <if test="way !=null and way != ''">
+            , t.way= #{way}
+        </if>
+        where 1=1
+        <if test="ppfId !=null and ppfId != ''">
+            and t.ppf_id= #{ppfId}
+        </if>
+        <if test="communityId !=null and communityId != ''">
+            and t.community_id= #{communityId}
+        </if>
+
+    </update>
+
+    <!-- 查询应付收款数量 add by wuxw 2018-07-03 -->
+    <select id="queryPrePayFeesCount" parameterType="Map" resultType="Map">
+        select count(1) count
+        from pre_pay_fee t
+        where 1 =1
+        <if test="giftAmount !=null and giftAmount != ''">
+            and t.gift_amount= #{giftAmount}
+        </if>
+        <if test="payOrderId !=null and payOrderId != ''">
+            and t.pay_order_id= #{payOrderId}
+        </if>
+        <if test="primeRate !=null and primeRate != ''">
+            and t.prime_rate= #{primeRate}
+        </if>
+        <if test="receivableAmount !=null and receivableAmount != ''">
+            and t.receivable_amount= #{receivableAmount}
+        </if>
+        <if test="discountAmount !=null and discountAmount != ''">
+            and t.discount_amount= #{discountAmount}
+        </if>
+        <if test="cycles !=null and cycles != ''">
+            and t.cycles= #{cycles}
+        </if>
+        <if test="remark !=null and remark != ''">
+            and t.remark= #{remark}
+        </if>
+        <if test="statusCd !=null and statusCd != ''">
+            and t.status_cd= #{statusCd}
+        </if>
+        <if test="receivedAmount !=null and receivedAmount != ''">
+            and t.received_amount= #{receivedAmount}
+        </if>
+        <if test="ownerId !=null and ownerId != ''">
+            and t.owner_id= #{ownerId}
+        </if>
+        <if test="payerObjName !=null and payerObjName != ''">
+            and t.payer_obj_name= #{payerObjName}
+        </if>
+        <if test="ownerName !=null and ownerName != ''">
+            and t.owner_name= #{ownerName}
+        </if>
+        <if test="remainAmount !=null and remainAmount != ''">
+            and t.remain_amount= #{remainAmount}
+        </if>
+        <if test="hasMoney !=null and hasMoney != ''">
+            and t.remain_amount > 0
+        </if>
+        <if test="feeName !=null and feeName != ''">
+            and t.fee_name= #{feeName}
+        </if>
+        <if test="openInvoice !=null and openInvoice != ''">
+            and t.open_invoice= #{openInvoice}
+        </if>
+        <if test="startTime !=null and startTime != ''">
+            and t.start_time= #{startTime}
+        </if>
+        <if test="cashierId !=null and cashierId != ''">
+            and t.cashier_id= #{cashierId}
+        </if>
+        <if test="state !=null and state != ''">
+            and t.state= #{state}
+        </if>
+        <if test="endTime !=null and endTime != ''">
+            and t.end_time= #{endTime}
+        </if>
+        <if test="ruleId !=null and ruleId != ''">
+            and t.rule_id= #{ruleId}
+        </if>
+        <if test="communityId !=null and communityId != ''">
+            and t.community_id= #{communityId}
+        </if>
+        <if test="cashierName !=null and cashierName != ''">
+            and t.cashier_name= #{cashierName}
+        </if>
+        <if test="ppfId !=null and ppfId != ''">
+            and t.ppf_id= #{ppfId}
+        </if>
+        <if test="ppfIds !=null ">
+            and t.ppf_id in
+            <foreach collection="ppfIds" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        <if test="payerObjId !=null and payerObjId != ''">
+            and t.payer_obj_id= #{payerObjId}
+        </if>
+        <if test="ftId !=null and ftId != ''">
+            and t.ft_id = #{ftId}
+        </if>
+        <if test="queryStartTime !=null and queryStartTime != ''">
+            and t.create_time &gt; #{queryStartTime}
+        </if>
+        <if test="queryEndTime !=null and queryEndTime != ''">
+            and t.create_time &lt; #{queryEndTime}
+        </if>
+        <if test="way !=null and way != ''">
+            and t.way= #{way}
+        </if>
+
+    </select>
+
+</mapper>

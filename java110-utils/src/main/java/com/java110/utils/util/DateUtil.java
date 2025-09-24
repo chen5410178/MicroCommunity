@@ -140,6 +140,20 @@ public class DateUtil {
         }
     }
 
+    /**
+     * 格式化成 YYYY-MM
+     *
+     * @param date
+     * @return
+     */
+    public static String getFormatTimeStringQ(Date date) {
+        SimpleDateFormat sDateFormat = getDateFormat(DateUtil.DATE_FORMATE_STRING_Q);
+
+        synchronized (sDateFormat) {
+            return sDateFormat.format(date);
+        }
+    }
+
     public static String getDefaultFormateTimeString(Date date) {
         return getFormatTimeString(date, "yyyyMMddHHmmss");
     }
@@ -428,6 +442,38 @@ public class DateUtil {
         return curDateCal.getTime();
     }
 
+    public static Date getNextMonthDate(String data, int monthCount) {
+        Date curDate = DateUtil.getDateFromStringA(data);
+        Calendar curDateCal = Calendar.getInstance();
+        curDateCal.setTime(curDate);
+        curDateCal.set(Calendar.HOUR_OF_DAY, 0);
+        curDateCal.set(Calendar.MINUTE, 0);
+        curDateCal.set(Calendar.SECOND, 0);
+        curDateCal.add(Calendar.MONTH, monthCount);
+        return curDateCal.getTime();
+    }
+
+    public static Date getNextMonthDate(Date curDate, int monthCount) {
+        Calendar curDateCal = Calendar.getInstance();
+        curDateCal.setTime(curDate);
+        curDateCal.set(Calendar.HOUR_OF_DAY, 0);
+        curDateCal.set(Calendar.MINUTE, 0);
+        curDateCal.set(Calendar.SECOND, 0);
+        curDateCal.add(Calendar.MONTH, monthCount);
+        return curDateCal.getTime();
+    }
+
+    public static Date getNextMonthDateB(String data, int monthCount) {
+        Date curDate = DateUtil.getDateFromStringB(data);
+        Calendar curDateCal = Calendar.getInstance();
+        curDateCal.setTime(curDate);
+        curDateCal.set(Calendar.HOUR_OF_DAY, 0);
+        curDateCal.set(Calendar.MINUTE, 0);
+        curDateCal.set(Calendar.SECOND, 0);
+        curDateCal.add(Calendar.MONTH, monthCount);
+        return curDateCal.getTime();
+    }
+
     public static Date getFirstDate() {
         Calendar curDateCal = Calendar.getInstance();
         curDateCal.set(Calendar.DAY_OF_MONTH, 1);
@@ -619,13 +665,6 @@ public class DateUtil {
         return calendar.get(Calendar.MONTH) + 1;
     }
 
-    public static int getDay(Date date) {
-        Calendar a = Calendar.getInstance();
-        a.setTime(date);
-        return a.get(Calendar.DAY_OF_MONTH);
-    }
-
-
     /**
      * 判断时间是否在时间段内
      *
@@ -648,6 +687,13 @@ public class DateUtil {
         } else {
             return false;
         }
+    }
+
+    public static boolean belongCalendarA(String cTime, String startTime, String endTime) {
+        Date cTimeD = DateUtil.getDateFromStringA(cTime);
+        Date sTimeD = DateUtil.getDateFromStringA(startTime);
+        Date eTimeD = DateUtil.getDateFromStringA(endTime);
+        return belongCalendar(cTimeD, sTimeD, eTimeD);
     }
 
     //获取两个日期之间的天数
@@ -695,6 +741,61 @@ public class DateUtil {
 
         return Integer.parseInt(String.valueOf(between_days));
     }
+
+//    public static double dayCompare(Date fromDate, Date toDate) {
+//        double resMonth = 0.0;
+//        Calendar from = Calendar.getInstance();
+//        from.setTime(fromDate);
+//        Calendar to = Calendar.getInstance();
+//        to.setTime(toDate);
+//        //比较月份差 可能有整数 也会负数
+//        int result = to.get(Calendar.MONTH) - from.get(Calendar.MONTH);
+//        //比较年差
+//        int month = (to.get(Calendar.YEAR) - from.get(Calendar.YEAR)) * 12;
+//
+//        //真实 相差月份
+//        result = result + month;
+//
+//        //开始时间  2021-06-01  2021-08-05   result = 2    2021-08-01
+//        Calendar newFrom = Calendar.getInstance();
+//        newFrom.setTime(fromDate);
+//        newFrom.add(Calendar.MONTH, result);
+//        //如果加月份后 大于了当前时间 默认加 月份 -1 情况 12-19  21-01-10
+//        //这个是神的逻辑一定好好理解
+//        if (newFrom.getTime().getTime() > toDate.getTime()) {
+//            newFrom.setTime(fromDate);
+//            result = result - 1;
+//            newFrom.add(Calendar.MONTH, result);
+//        }
+//
+//        // t1 2021-08-01   t2 2021-08-05
+//        long t1 = newFrom.getTime().getTime();
+//        long t2 = to.getTime().getTime();
+//        //相差毫秒
+//        double days = (t2 - t1) * 1.00 / (24 * 60 * 60 * 1000);
+//        BigDecimal tmpDays = new BigDecimal(days); //相差天数
+//        BigDecimal monthDay = null;
+//        Calendar newFromMaxDay = Calendar.getInstance();
+//        newFromMaxDay.set(newFrom.get(Calendar.YEAR), newFrom.get(Calendar.MONTH), 1, 0, 0, 0);
+//        newFromMaxDay.add(Calendar.MONTH, 1); //下个月1号
+//        //在当前月中 这块有问题
+//        if (toDate.getTime() < newFromMaxDay.getTime().getTime()) {
+//            monthDay = new BigDecimal(newFrom.getActualMaximum(Calendar.DAY_OF_MONTH));
+//            return tmpDays.divide(monthDay, 4, BigDecimal.ROUND_HALF_UP).add(new BigDecimal(result)).doubleValue();
+//        }
+//        // 上月天数
+//        days = (newFromMaxDay.getTimeInMillis() - t1) * 1.00 / (24 * 60 * 60 * 1000);
+//        tmpDays = new BigDecimal(days);
+//        monthDay = new BigDecimal(newFrom.getActualMaximum(Calendar.DAY_OF_MONTH));
+//        BigDecimal preRresMonth = tmpDays.divide(monthDay, 4, BigDecimal.ROUND_HALF_UP);
+//
+//        //下月天数
+//        days = (t2 - newFromMaxDay.getTimeInMillis()) * 1.00 / (24 * 60 * 60 * 1000);
+//        tmpDays = new BigDecimal(days);
+//        monthDay = new BigDecimal(newFromMaxDay.getActualMaximum(Calendar.DAY_OF_MONTH));
+//        resMonth = tmpDays.divide(monthDay, 4, BigDecimal.ROUND_HALF_UP).add(new BigDecimal(result)).add(preRresMonth).doubleValue();
+//        return resMonth;
+//    }
 
     /**
      * 通过时间秒毫秒数判断两个时间的间隔
@@ -772,7 +873,7 @@ public class DateUtil {
 
     /**
      * 除去 小时 分 秒
-     *
+     * <p>
      * deadtime 本来就少了一秒
      *
      * @param time
@@ -781,7 +882,7 @@ public class DateUtil {
     public static Date deadTimeToDate(Date time) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(time);
-        calendar.add(Calendar.SECOND,1);
+        calendar.add(Calendar.SECOND, 1);
         setTimeToMidnight(calendar);
         return calendar.getTime();
     }
@@ -923,13 +1024,7 @@ public class DateUtil {
     }
 
     public static String getPreSecTime(String time) {
-        Date tTime = null;
-        if(time.contains(":")){
-            tTime = getDateFromStringA(time);
-        }else{
-            tTime = getDateFromStringB(time);
-        }
-
+        Date tTime = getDateFromStringA(time);
         return getPreSecTime(tTime);
     }
 
@@ -946,9 +1041,7 @@ public class DateUtil {
         calendar.add(Calendar.SECOND, -1);
         return calendar.getTime();
     }
-    public static String getPreSecTimeStr(Date time,int month) {
-        return getFormatTimeStringB(getPreSecTime(time,month));
-    }
+
     public static String calculateTimeDifference(Date start, Date end) {
         Duration duration = Duration.between(start.toInstant(), end.toInstant());
 
@@ -972,5 +1065,4 @@ public class DateUtil {
 
         return result.toString();
     }
-
 }

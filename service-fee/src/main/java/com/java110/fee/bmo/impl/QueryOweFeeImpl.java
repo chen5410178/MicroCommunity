@@ -8,7 +8,6 @@ import com.java110.core.smo.IComputeFeeSMO;
 import com.java110.dto.room.RoomDto;
 import com.java110.dto.fee.FeeConfigDto;
 import com.java110.dto.fee.FeeDto;
-import com.java110.dto.owner.OwnerCarDto;
 import com.java110.dto.owner.OwnerDto;
 import com.java110.dto.parking.ParkingSpaceDto;
 import com.java110.fee.bmo.IQueryOweFee;
@@ -19,18 +18,14 @@ import com.java110.intf.fee.IFeeInnerServiceSMO;
 import com.java110.intf.user.IOwnerCarInnerServiceSMO;
 import com.java110.intf.user.IOwnerInnerServiceSMO;
 import com.java110.utils.cache.MappingCache;
-import com.java110.utils.constant.ResponseConstant;
-import com.java110.utils.exception.ListenerExecuteException;
 import com.java110.utils.util.*;
 import com.java110.vo.ResultVo;
-import com.java110.vo.api.feeConfig.ApiFeeConfigDataVo;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.*;
 
 @Service
@@ -98,26 +93,16 @@ public class QueryOweFeeImpl implements IQueryOweFee {
                 if (!StringUtil.isEmpty(tmpFeeDto.getSquarePrice())) {
                     tmpFeeDto.setSquarePrice(Double.parseDouble(tmpFeeDto.getSquarePrice()) + "");
                 }
-
-                //todo 有目标结束时间,并且不是一次性费用
-                if (!StringUtil.isEmpty(feeDto.getTargetEndTime())
-                        && !FeeDto.FEE_FLAG_ONCE.equals(tmpFeeDto.getFeeFlag())
-                ) {
-                    computeFeeSMOImpl.computeEveryOweFeeByTargetEndTime(tmpFeeDto, feeDto.getTargetEndTime());//计算欠费金额
+                //当月，当月就取开始时间，这里先按开始时间计算，这样因为合理，也可以按创建时间来计算
+                if (FeeDto.DEDUCT_FROM_CURRENT_MONTH.equals(tmpFeeDto.getDeductFrom())) {
+                    tmpFeeDto.setYearMonth(DateUtil.getFormatTimeStringQ(tmpFeeDto.getStartTime()));
+                }else if(FeeDto.DEDUCT_FROM_NEXT_MONTH.equals(tmpFeeDto.getDeductFrom())){
+                    tmpFeeDto.setYearMonth(DateUtil.getFormatTimeStringQ(DateUtil.getNextMonthDate(tmpFeeDto.getStartTime(), 1)));
                 } else {
-                    computeFeeSMOImpl.computeEveryOweFee(tmpFeeDto);//计算欠费金额
+                    tmpFeeDto.setYearMonth(DateUtil.getFormatTimeStringQ(DateUtil.getNextMonthDate(tmpFeeDto.getStartTime(), -1)));
                 }
-                //如果金额为0 就排除
-                tmpFeeDto.setFeeTotalPrice(
-                        MoneyUtil.computePriceScale(
-                                tmpFeeDto.getFeeTotalPrice(),
-                                tmpFeeDto.getScale(),
-                                Integer.parseInt(tmpFeeDto.getDecimalPlace())
-                        )
-                );
-
                 tmpFeeDto.setVal(val);
-                if (tmpFeeDto.getFeeTotalPrice() != 0) {
+                if (Double.parseDouble(tmpFeeDto.getOweAmount()) != 0) {
                     tmpFeeDtos.add(tmpFeeDto);
                 }
             } catch (Exception e) {
@@ -153,82 +138,20 @@ public class QueryOweFeeImpl implements IQueryOweFee {
         if (ListUtil.isNull(feeDtos)) {
             return ResultVo.success();
         }
-        String cycel = null;
         String custEndTime = null;
-        String customStartTime = "";
-        String customEndTime = "";
-        if (!StringUtil.isEmpty(feeDto.getCycle())) {
-            cycel = feeDto.getCycle();
-        }
         if (!StringUtil.isEmpty(feeDto.getCustEndTime())) {
             custEndTime = feeDto.getCustEndTime();
         }
-        customStartTime = feeDto.getCustomStartTime();
-        customEndTime = feeDto.getCustomEndTime();
         feeDto = feeDtos.get(0);
-        //todo 考虑账单模式
-        if (FeeDto.FEE_FLAG_ONCE.equals(feeDto.getFeeFlag()) && StringUtil.isNumber(feeDto.getMonthCycle())) {
-            cycel = feeDto.getMonthCycle();
-        }
-        if (!StringUtil.isEmpty(cycel)) {
-            feeDto.setCycle(cycel);
-        }
-        if (!StringUtil.isEmpty(custEndTime)) {
-            feeDto.setCustEndTime(custEndTime);
-        }
 
-        feeDto.setCustomStartTime(customStartTime);
-        feeDto.setCustomEndTime(customEndTime);
-
-        if (FeeDto.PAYER_OBJ_TYPE_ROOM.equals(feeDto.getPayerObjType())) { //房屋相关
-            RoomDto roomDto = new RoomDto();
-            roomDto.setRoomId(feeDto.getPayerObjId());
-            roomDto.setCommunityId(feeDto.getCommunityId());
-            List<RoomDto> roomDtos = roomInnerServiceSMOImpl.queryRooms(roomDto);
-            if (roomDtos == null || roomDtos.size() != 1) {
-                throw new ListenerExecuteException(ResponseConstant.RESULT_CODE_ERROR, "未查到房屋信息，查询多条数据");
-            }
-            roomDto = roomDtos.get(0);
-            feeDto.setPayerObjName(roomDto.getFloorNum() + "-" + roomDto.getUnitNum() + "-" + roomDto.getRoomNum());
-            feeDto.setBuiltUpArea(roomDto.getBuiltUpArea());
-
-        } else if (FeeDto.PAYER_OBJ_TYPE_CAR.equals(feeDto.getPayerObjType())) {//车位相关
-            OwnerCarDto ownerCarDto = new OwnerCarDto();
-            ownerCarDto.setCarTypeCd("1001"); //业主车辆
-            ownerCarDto.setCommunityId(feeDto.getCommunityId());
-            ownerCarDto.setCarId(feeDto.getPayerObjId());
-            List<OwnerCarDto> ownerCarDtos = ownerCarInnerServiceSMOImpl.queryOwnerCars(ownerCarDto);
-            Assert.listOnlyOne(ownerCarDtos, "未找到车辆信息");
-            ParkingSpaceDto parkingSpaceDto = new ParkingSpaceDto();
-            parkingSpaceDto.setCommunityId(feeDto.getCommunityId());
-            parkingSpaceDto.setPsId(ownerCarDtos.get(0).getPsId());
-            List<ParkingSpaceDto> parkingSpaceDtos = parkingSpaceInnerServiceSMOImpl.queryParkingSpaces(parkingSpaceDto);
-            if (ListUtil.isNull(parkingSpaceDtos)) { //数据有问题
-                throw new ListenerExecuteException(ResponseConstant.RESULT_CODE_ERROR, "未查到停车位信息，查询多条数据");
-            }
-            ownerCarDto = ownerCarDtos.get(0);
-            parkingSpaceDto = parkingSpaceDtos.get(0);
-            feeDto.setPayerObjName(ownerCarDto.getCarNum() + "(" + parkingSpaceDto.getAreaNum() + "停车场" + parkingSpaceDto.getNum() + "车位)");
-            feeDto.setBuiltUpArea(parkingSpaceDto.getArea());
-        }
-
-        Map feePriceAll = computeFeeSMOImpl.getFeePrice(feeDto);
-        feeDto.setFeePrice(Double.parseDouble(feePriceAll.get("feePrice").toString()));
+        feeDto.setFeePrice(Double.parseDouble(feeDto.getOweAmount()));
 
         feeDto.setFeeTotalPrice(
-                MoneyUtil.computePriceScale(
-                        Double.parseDouble(feePriceAll.get("feeTotalPrice").toString()),
+                MoneyUtil.computePriceScale(Double.parseDouble(feeDto.getOweAmount()),
                         feeDto.getScale(),
                         Integer.parseInt(feeDto.getDecimalPlace())
                 )
         );
-
-        if (!StringUtil.isEmpty(custEndTime)) {
-            Date date = DateUtil.getDateFromStringB(custEndTime);
-            computeFeeSMOImpl.dealRentRateCustEndTime(feeDto, date);
-        } else {
-            computeFeeSMOImpl.dealRentRateCycle(feeDto, NumberUtil.getDouble(feeDto.getCycle()));
-        }
 
 
         //应收款取值

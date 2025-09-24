@@ -206,7 +206,7 @@ public class AuditAuthOwnerCmd extends Cmd {
 
         AccountDto accountDto = new AccountDto();
         accountDto.setObjId(ownerRoomRelDtos.get(0).getOwnerId());
-        accountDto.setPartId(ownerRoomRelDtos.get(0).getCommunityId());
+        accountDto.setCommunityId(ownerRoomRelDtos.get(0).getCommunityId());
         List<AccountDto> accountDtos = accountInnerServiceSMOImpl.queryAccounts(accountDto);
         if (ListUtil.isNull(accountDtos)) {
             return ownerRoomRelDtos.get(0).getOwnerId();

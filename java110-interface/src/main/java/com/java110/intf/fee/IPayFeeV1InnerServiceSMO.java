@@ -16,6 +16,7 @@
 package com.java110.intf.fee;
 
 import com.java110.config.feign.FeignConfiguration;
+import com.java110.dto.fee.ComputeDiscountDto;
 import com.java110.dto.fee.PayFeeDto;
 import com.java110.po.fee.PayFeePo;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -65,4 +66,12 @@ public interface IPayFeeV1InnerServiceSMO {
      */
     @RequestMapping(value = "/queryPayFeesCount", method = RequestMethod.POST)
     int queryPayFeesCount(@RequestBody PayFeeDto payFeeDto);
+
+    /**
+     * 计算优惠
+     * @param payFeeDtos
+     * @return
+     */
+    @RequestMapping(value = "/computeDiscount", method = RequestMethod.POST)
+    List<ComputeDiscountDto> computeDiscount(@RequestBody List<PayFeeDto> payFeeDtos);
 }

@@ -111,8 +111,8 @@ public class WriteOweFeeCallableCmd extends Cmd {
         oweFeeCallablePo.setStaffId(userDto.getUserId());
         oweFeeCallablePo.setStaffName(userDto.getName());
         oweFeeCallablePo.setState(OweFeeCallableDto.STATE_COMPLETE);
-        oweFeeCallablePo.setStartTime(reportOweFeeDtos.get(0).getEndTime());
-        oweFeeCallablePo.setEndTime(reportOweFeeDtos.get(0).getDeadlineTime());
+        oweFeeCallablePo.setStartTime(reportOweFeeDtos.get(0).getStartTime());
+        oweFeeCallablePo.setEndTime(reportOweFeeDtos.get(0).getEndTime());
 
         int flag = oweFeeCallableV1InnerServiceSMOImpl.saveOweFeeCallable(oweFeeCallablePo);
 

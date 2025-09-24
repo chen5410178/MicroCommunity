@@ -81,7 +81,7 @@ public class OwnerPrestoreAccountCmd extends Cmd {
         AccountDto accountDto = new AccountDto();
         accountDto.setObjId(accountDetailPo.getObjId());
         accountDto.setObjType(AccountDto.OBJ_TYPE_PERSON);
-        accountDto.setPartId(reqJson.getString("communityId"));
+        accountDto.setCommunityId(reqJson.getString("communityId"));
         accountDto.setAcctType(reqJson.getString("acctType"));
         List<AccountDto> accountDtos = accountInnerServiceSMOImpl.queryAccounts(accountDto);
         if (ListUtil.isNull(accountDtos)) {
@@ -157,10 +157,8 @@ public class OwnerPrestoreAccountCmd extends Cmd {
         accountPo.setObjType(AccountDto.OBJ_TYPE_PERSON);
         accountPo.setAcctType(reqJson.getString("acctType"));
         accountPo.setAcctName(ownerDtos.get(0).getName());
-        accountPo.setPartId(reqJson.getString("communityId"));
+        accountPo.setCommunityId(reqJson.getString("communityId"));
         accountPo.setLink(ownerDtos.get(0).getLink());
-        accountPo.setRoomId(roomDtos.get(0).getRoomId());
-        accountPo.setRoomName(roomDtos.get(0).getRoomName());
         accountInnerServiceSMOImpl.saveAccount(accountPo);
         return BeanConvertUtil.covertBean(accountPo, AccountDto.class);
     }

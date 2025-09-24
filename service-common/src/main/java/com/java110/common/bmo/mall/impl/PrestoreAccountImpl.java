@@ -37,7 +37,7 @@ public class PrestoreAccountImpl implements IMallCommonApiBmo {
         AccountDto accountDto = new AccountDto();
         accountDto.setObjId(reqJson.getString("ownerId"));
         accountDto.setLink(reqJson.getString("link"));
-        accountDto.setPartId(reqJson.getString("communityId"));
+        accountDto.setCommunityId(reqJson.getString("communityId"));
         List<AccountDto> accountDtos = accountInnerServiceSMOImpl.queryAccounts(accountDto);
         if (ListUtil.isNull(accountDtos)) {
             throw new CmdException("账户不存在");

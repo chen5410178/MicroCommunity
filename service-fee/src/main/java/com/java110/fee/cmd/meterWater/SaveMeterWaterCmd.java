@@ -18,39 +18,32 @@ package com.java110.fee.cmd.meterWater;
 import com.alibaba.fastjson.JSONObject;
 import com.java110.core.annotation.Java110Cmd;
 import com.java110.core.annotation.Java110Transactional;
+import com.java110.core.context.CmdContextUtils;
 import com.java110.core.context.ICmdDataFlowContext;
 import com.java110.core.event.cmd.Cmd;
 import com.java110.core.event.cmd.CmdEvent;
 import com.java110.core.factory.GenerateCodeFactory;
 import com.java110.dto.room.RoomDto;
-import com.java110.dto.fee.FeeAttrDto;
 import com.java110.dto.fee.FeeConfigDto;
 import com.java110.dto.fee.FeeDto;
-import com.java110.dto.owner.OwnerDto;
 import com.java110.dto.payFee.PayFeeBatchDto;
 import com.java110.dto.user.UserDto;
-import com.java110.fee.feeMonth.IPayFeeMonth;
+import com.java110.fee.bill.ICycleConvertOnceFee;
 import com.java110.intf.community.IRoomInnerServiceSMO;
 import com.java110.intf.fee.*;
 import com.java110.intf.user.IOwnerInnerServiceSMO;
 import com.java110.intf.user.IUserInnerServiceSMO;
-import com.java110.po.fee.FeeAttrPo;
-import com.java110.po.fee.PayFeePo;
 import com.java110.po.meter.MeterWaterPo;
 import com.java110.po.payFee.PayFeeBatchPo;
-import com.java110.utils.cache.MappingCache;
+import com.java110.po.payFee.PayFeeRulePo;
 import com.java110.utils.exception.CmdException;
-import com.java110.utils.util.Assert;
-import com.java110.utils.util.BeanConvertUtil;
-import com.java110.utils.util.ListUtil;
-import com.java110.utils.util.StringUtil;
+import com.java110.utils.util.*;
 import com.java110.vo.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -96,13 +89,11 @@ public class SaveMeterWaterCmd extends Cmd {
 
     @Autowired
     private IMeterWaterV1InnerServiceSMO meterWaterV1InnerServiceSMOImpl;
+    @Autowired
+    private IPayFeeRuleV1InnerServiceSMO payFeeRuleV1InnerServiceSMOImpl;
 
     @Autowired
-    private IPayFeeV1InnerServiceSMO payFeeV1InnerServiceSMOImpl;
-
-
-    @Autowired
-    private IFeeAttrInnerServiceSMO feeAttrInnerServiceSMOImpl;
+    private ICycleConvertOnceFee cycleConvertOnceFeeImpl;
 
     @Override
     public void validate(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) {
@@ -127,6 +118,8 @@ public class SaveMeterWaterCmd extends Cmd {
     @Java110Transactional
     public void doCmd(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) throws CmdException {
 
+        String userId = CmdContextUtils.getUserId(cmdDataFlowContext);
+        String storeId = CmdContextUtils.getStoreId(cmdDataFlowContext);
         FeeConfigDto feeConfigDto = new FeeConfigDto();
         feeConfigDto.setConfigId(reqJson.getString("configId"));
         feeConfigDto.setCommunityId(reqJson.getString("communityId"));
@@ -144,145 +137,53 @@ public class SaveMeterWaterCmd extends Cmd {
         generatorBatch(reqJson);
         //获取抄表对象所属小区id
         String communityId = roomList.get(0).getCommunityId();
+        String ruleId = GenerateCodeFactory.getGeneratorId("11");
         //获取表类型
         String meterType = reqJson.getString("meterType");
-        //取出开关映射的备注值(水费黑名单)
-        String waterRemark = MappingCache.getRemark(DOMAIN_COMMON, WATER_BLACK_LIST);
-        List<String> waterRemarkList = new ArrayList<>();
-        if (!StringUtil.isEmpty(waterRemark)) {
-            String[] waterSplit = waterRemark.split(",");
-            //将数组转成list集合(水费黑名单集合)
-            waterRemarkList = Arrays.asList(waterSplit);
-        }
-        //取出开关映射的备注值(电费黑名单)
-        String electricRemark = MappingCache.getRemark(DOMAIN_COMMON, ELECTRIC_BLACK_LIST);
-        List<String> electricRemarkList = new ArrayList<>();
-        if (!StringUtil.isEmpty(electricRemark)) {
-            String[] electricSplit = electricRemark.split(",");
-            //将数组转成list集合(电费黑名单集合)
-            electricRemarkList = Arrays.asList(electricSplit);
-        }
 
-
-        //如果是水费，且在水费黑名单就直接生成水费记录，不生成费用
-        if (waterRemarkList.contains(communityId)
-                && FeeConfigDto.FEE_TYPE_CD_METER.equals(reqJson.getString("feeTypeCd"))) {
-            reqJson.put("feeId", "-1");
-            addMeterWater(reqJson, roomList.get(0));
-        } else if (electricRemarkList.contains(communityId)
-                && FeeConfigDto.FEE_TYPE_CD_WATER.equals(reqJson.getString("feeTypeCd"))) {
-            reqJson.put("feeId", "-1");
-            addMeterWater(reqJson, roomList.get(0));
-        } else {
-            PayFeePo payFeePo = BeanConvertUtil.covertBean(reqJson, PayFeePo.class);
-            payFeePo.setFeeId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_feeId));
-            payFeePo.setIncomeObjId(reqJson.getString("storeId"));
-            payFeePo.setAmount("-1");
-            payFeePo.setStartTime(reqJson.getString("preReadingTime"));
-            payFeePo.setEndTime(reqJson.getString("preReadingTime"));
-            payFeePo.setPayerObjId(reqJson.getString("objId"));
-            //payFeePo.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_ROOM);
-            payFeePo.setbId("-1");
-            payFeePo.setPayerObjType(reqJson.getString("objType"));
-            payFeePo.setFeeFlag(FeeDto.FEE_FLAG_ONCE);
-            payFeePo.setState(FeeDto.STATE_DOING);
-            payFeePo.setBatchId(reqJson.getString("batchId"));
-            payFeePo.setUserId("-1");
-
-            //todo 先写 不然 写月离散表 查询费用时 查不到
-            reqJson.put("feeId", payFeePo.getFeeId());
-            addMeterWater(reqJson, roomList.get(0));
-
-
-            FeeAttrPo feeAttrPo = new FeeAttrPo();
-            feeAttrPo.setCommunityId(reqJson.getString("communityId"));
-            feeAttrPo.setSpecCd(FeeAttrDto.SPEC_CD_ONCE_FEE_DEADLINE_TIME);
-            feeAttrPo.setValue(reqJson.getString("curReadingTime"));
-            feeAttrPo.setFeeId(payFeePo.getFeeId());
-            feeAttrPo.setAttrId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_attrId));
-            int flag = feeAttrInnerServiceSMOImpl.saveFeeAttr(feeAttrPo);
-            if (flag < 1) {
-                throw new CmdException("保存数据失败");
-            }
-
-            //todo 保存 房屋名称
-            feeAttrPo = new FeeAttrPo();
-            feeAttrPo.setCommunityId(reqJson.getString("communityId"));
-            feeAttrPo.setSpecCd(FeeAttrDto.SPEC_CD_PAY_OBJECT_NAME);
-            feeAttrPo.setValue(roomList.get(0).getFloorNum() + "-" + roomList.get(0).getUnitNum() + "-" + roomList.get(0).getRoomNum());
-            feeAttrPo.setFeeId(payFeePo.getFeeId());
-            feeAttrPo.setAttrId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_attrId));
-             flag = feeAttrInnerServiceSMOImpl.saveFeeAttr(feeAttrPo);
-            if (flag < 1) {
-                throw new CmdException("保存数据失败");
-            }
-
-            OwnerDto ownerDto = new OwnerDto();
-            ownerDto.setCommunityId(reqJson.getString("communityId"));
-            ownerDto.setRoomId(reqJson.getString("objId"));
-            List<OwnerDto> ownerDtos = ownerInnerServiceSMOImpl.queryOwnersByRoom(ownerDto);
-
-            if (!ListUtil.isNull(ownerDtos)) {
-                feeAttrPo = new FeeAttrPo();
-                feeAttrPo.setCommunityId(reqJson.getString("communityId"));
-                feeAttrPo.setSpecCd(FeeAttrDto.SPEC_CD_OWNER_ID);
-                feeAttrPo.setValue(ownerDtos.get(0).getOwnerId());
-                feeAttrPo.setFeeId(payFeePo.getFeeId());
-                feeAttrPo.setAttrId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_attrId));
-                flag = feeAttrInnerServiceSMOImpl.saveFeeAttr(feeAttrPo);
-                if (flag < 1) {
-                    throw new CmdException("保存数据失败");
-                }
-
-                feeAttrPo = new FeeAttrPo();
-                feeAttrPo.setCommunityId(reqJson.getString("communityId"));
-                feeAttrPo.setSpecCd(FeeAttrDto.SPEC_CD_OWNER_LINK);
-                feeAttrPo.setValue(ownerDtos.get(0).getLink());
-                feeAttrPo.setFeeId(payFeePo.getFeeId());
-                feeAttrPo.setAttrId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_attrId));
-                flag = feeAttrInnerServiceSMOImpl.saveFeeAttr(feeAttrPo);
-                if (flag < 1) {
-                    throw new CmdException("保存数据失败");
-                }
-
-                feeAttrPo = new FeeAttrPo();
-                feeAttrPo.setCommunityId(reqJson.getString("communityId"));
-                feeAttrPo.setSpecCd(FeeAttrDto.SPEC_CD_OWNER_NAME);
-                feeAttrPo.setValue(ownerDtos.get(0).getName());
-                feeAttrPo.setFeeId(payFeePo.getFeeId());
-                feeAttrPo.setAttrId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_attrId));
-                flag = feeAttrInnerServiceSMOImpl.saveFeeAttr(feeAttrPo);
-                if (flag < 1) {
-                    throw new CmdException("保存数据失败");
-                }
-            }
-             flag = payFeeV1InnerServiceSMOImpl.savePayFee(payFeePo);
-            if (flag < 1) {
-                throw new CmdException("保存数据失败");
-            }
-        }
-        cmdDataFlowContext.setResponseEntity(ResultVo.success());
-    }
-
-    /**
-     * 添加小区信息
-     *
-     * @param paramInJson 接口调用放传入入参
-     * @return 订单服务能够接受的报文
-     */
-    public void addMeterWater(JSONObject paramInJson, RoomDto roomDto) {
-        MeterWaterPo meterWaterPo = BeanConvertUtil.covertBean(paramInJson, MeterWaterPo.class);
+        MeterWaterPo meterWaterPo = BeanConvertUtil.covertBean(reqJson, MeterWaterPo.class);
         if (StringUtil.isEmpty(meterWaterPo.getbId())) {
             meterWaterPo.setbId("-1");
         }
         meterWaterPo.setWaterId(GenerateCodeFactory.getGeneratorId(CODE_PREFIX_ID));
-        meterWaterPo.setObjName(roomDto.getFloorNum() + "-" + roomDto.getUnitNum() + "-" + roomDto.getRoomNum());
+        meterWaterPo.setObjName(roomList.get(0).getFloorNum() + "-" + roomList.get(0).getUnitNum() + "-" + roomList.get(0).getRoomNum());
+        meterWaterPo.setFeeId(ruleId);
         int flag = meterWaterV1InnerServiceSMOImpl.saveMeterWater(meterWaterPo);
 
         if (flag < 1) {
             throw new CmdException("保存数据失败");
         }
+        List<PayFeeRulePo> payFeeRulePos = new ArrayList<>();
+
+        PayFeeRulePo payFeeRulePo =new PayFeeRulePo();
+        payFeeRulePo.setMaxTime(reqJson.getString("curReadingTime"));
+        payFeeRulePo.setAmount("-1");
+        payFeeRulePo.setFeeTypeCd(feeConfigDtos.get(0).getFeeTypeCd());
+        payFeeRulePo.setCurYearMonth(reqJson.getString("preReadingTime").split(" ")[0]);
+        payFeeRulePo.setBatchId(reqJson.getString("batchId"));
+        payFeeRulePo.setUserId(userId);
+        payFeeRulePo.setIncomeObjId(storeId);
+        payFeeRulePo.setConfigId(reqJson.getString("configId"));
+        payFeeRulePo.setFeeFlag(FeeDto.FEE_FLAG_ONCE);
+        payFeeRulePo.setStartTime(reqJson.getString("preReadingTime"));
+        payFeeRulePo.setEndTime(reqJson.getString("preReadingTime"));
+        payFeeRulePo.setState(FeeDto.STATE_DOING);
+        payFeeRulePo.setRuleId(ruleId);
+        payFeeRulePo.setCommunityId(reqJson.getString("communityId"));
+        payFeeRulePo.setPayerObjType(reqJson.getString("objType"));
+        payFeeRulePo.setPayerObjId(reqJson.getString("objId"));
+        payFeeRulePos.add(payFeeRulePo);
+
+        //todo 设置费用
+        payFeeRuleV1InnerServiceSMOImpl.savePayFeeRules(payFeeRulePos);
+
+        //todo 走账单模式
+        cycleConvertOnceFeeImpl.rulesGeneratePayFees(payFeeRulePos);
+
+
+        cmdDataFlowContext.setResponseEntity(ResultVo.success());
     }
+
 
 
     /**

@@ -239,8 +239,8 @@ public class OweFeeCallableAdapt extends DatabusAdaptImpl {
             oweFeeCallablePo.setStaffId(userDto.getUserId());
             oweFeeCallablePo.setStaffName(userDto.getName());
             oweFeeCallablePo.setState(OweFeeCallableDto.STATE_WAIT);
-            oweFeeCallablePo.setStartTime(reportOweFeeDto.getEndTime());
-            oweFeeCallablePo.setEndTime(reportOweFeeDto.getDeadlineTime());
+            oweFeeCallablePo.setStartTime(reportOweFeeDto.getStartTime());
+            oweFeeCallablePo.setEndTime(reportOweFeeDto.getEndTime());
             oweFeeCallablePos.add(oweFeeCallablePo);
         }
 
@@ -312,14 +312,14 @@ public class OweFeeCallableAdapt extends DatabusAdaptImpl {
         if (StringUtil.isEmpty(startTime) || StringUtil.isEmpty(endTime)) {
             return true;
         }
-        if (StringUtil.isEmpty(tempFeeDto.getDeadlineTime())) {
+        if (StringUtil.isEmpty(tempFeeDto.getEndTime())) {
             return true;
         }
         if (StringUtil.isEmpty(tempFeeDto.getEndTime())) {
             return true;
         }
 
-        if (DateUtil.getDateFromStringB(tempFeeDto.getEndTime()).before(DateUtil.getDateFromStringB(startTime)) && DateUtil.getDateFromStringB(tempFeeDto.getDeadlineTime()).after(DateUtil.getDateFromStringB(endTime))) {
+        if (DateUtil.getDateFromStringB(tempFeeDto.getEndTime()).before(DateUtil.getDateFromStringB(startTime)) && DateUtil.getDateFromStringB(tempFeeDto.getStartTime()).after(DateUtil.getDateFromStringB(endTime))) {
             return true;
         }
 

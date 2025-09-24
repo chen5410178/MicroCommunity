@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="refundFeeOrderV1ServiceDaoImpl">
+
+
+    <!-- 保存退费订单信息 add by wuxw 2018-07-03 -->
+    <insert id="saveRefundFeeOrderInfo" parameterType="Map">
+        insert into refund_fee_order(
+        order_type,reason,pay_time,apply_person_name,remark,owner_id,refund_order_id,payer_obj_name,owner_name,audit_person_name,
+        audit_person_id,apply_person_id,state,community_id,payer_obj_type,payer_obj_id,pay_order_id
+        ) values (
+        #{orderType},#{reason},#{payTime},#{applyPersonName},#{remark},#{ownerId},#{refundOrderId},#{payerObjName},#{ownerName},
+        #{auditPersonName},#{auditPersonId},#{applyPersonId},#{state},#{communityId},#{payerObjType},#{payerObjId},#{payOrderId}
+        )
+    </insert>
+
+
+    <!-- 查询退费订单信息 add by wuxw 2018-07-03 -->
+    <select id="getRefundFeeOrderInfo" parameterType="Map" resultType="Map">
+        select t.order_type orderType,t.reason,t.pay_time payTime,t.apply_person_name
+        applyPersonName,t.remark,t.status_cd statusCd,t.owner_id ownerId,t.refund_order_id
+        refundOrderId,t.payer_obj_name payerObjName,t.owner_name ownerName,t.audit_person_name
+        auditPersonName,t.audit_person_id auditPersonId,t.apply_person_id applyPersonId,t.state,t.community_id
+        communityId,t.payer_obj_type payerObjType,t.payer_obj_id payerObjId,t.create_time createTime,td.name stateName,
+        t.pay_order_id payOrderId
+        from refund_fee_order t
+        left join t_dict td on t.state = td.status_cd and td.table_name = 'return_pay_fee' and td.table_columns = 'state'
+        where 1 =1
+        <if test="orderType !=null and orderType != ''">
+            and t.order_type= #{orderType}
+        </if>
+        <if test="reason !=null and reason != ''">
+            and t.reason= #{reason}
+        </if>
+        <if test="payTime !=null and payTime != ''">
+            and t.pay_time= #{payTime}
+        </if>
+        <if test="applyPersonName !=null and applyPersonName != ''">
+            and t.apply_person_name= #{applyPersonName}
+        </if>
+        <if test="remark !=null and remark != ''">
+            and t.remark= #{remark}
+        </if>
+        <if test="statusCd !=null and statusCd != ''">
+            and t.status_cd= #{statusCd}
+        </if>
+        <if test="ownerId !=null and ownerId != ''">
+            and t.owner_id= #{ownerId}
+        </if>
+        <if test="refundOrderId !=null and refundOrderId != ''">
+            and t.refund_order_id= #{refundOrderId}
+        </if>
+        <if test="payerObjName !=null and payerObjName != ''">
+            and t.payer_obj_name= #{payerObjName}
+        </if>
+        <if test="ownerName !=null and ownerName != ''">
+            and t.owner_name= #{ownerName}
+        </if>
+        <if test="auditPersonName !=null and auditPersonName != ''">
+            and t.audit_person_name= #{auditPersonName}
+        </if>
+        <if test="auditPersonId !=null and auditPersonId != ''">
+            and t.audit_person_id= #{auditPersonId}
+        </if>
+        <if test="applyPersonId !=null and applyPersonId != ''">
+            and t.apply_person_id= #{applyPersonId}
+        </if>
+        <if test="state !=null and state != ''">
+            and t.state= #{state}
+        </if>
+        <if test="communityId !=null and communityId != ''">
+            and t.community_id= #{communityId}
+        </if>
+        <if test="payerObjType !=null and payerObjType != ''">
+            and t.payer_obj_type= #{payerObjType}
+        </if>
+        <if test="payerObjId !=null and payerObjId != ''">
+            and t.payer_obj_id= #{payerObjId}
+        </if>
+        order by t.create_time desc
+        <if test="page != -1 and page != null ">
+            limit #{page}, #{row}
+        </if>
+
+    </select>
+
+
+    <!-- 修改退费订单信息 add by wuxw 2018-07-03 -->
+    <update id="updateRefundFeeOrderInfo" parameterType="Map">
+        update refund_fee_order t set t.status_cd = #{statusCd}
+        <if test="newBId != null and newBId != ''">
+            ,t.b_id = #{newBId}
+        </if>
+        <if test="orderType !=null and orderType != ''">
+            , t.order_type= #{orderType}
+        </if>
+        <if test="reason !=null and reason != ''">
+            , t.reason= #{reason}
+        </if>
+        <if test="payTime !=null and payTime != ''">
+            , t.pay_time= #{payTime}
+        </if>
+        <if test="applyPersonName !=null and applyPersonName != ''">
+            , t.apply_person_name= #{applyPersonName}
+        </if>
+        <if test="remark !=null and remark != ''">
+            , t.remark= #{remark}
+        </if>
+        <if test="ownerId !=null and ownerId != ''">
+            , t.owner_id= #{ownerId}
+        </if>
+        <if test="payerObjName !=null and payerObjName != ''">
+            , t.payer_obj_name= #{payerObjName}
+        </if>
+        <if test="ownerName !=null and ownerName != ''">
+            , t.owner_name= #{ownerName}
+        </if>
+        <if test="auditPersonName !=null and auditPersonName != ''">
+            , t.audit_person_name= #{auditPersonName}
+        </if>
+        <if test="auditPersonId !=null and auditPersonId != ''">
+            , t.audit_person_id= #{auditPersonId}
+        </if>
+        <if test="applyPersonId !=null and applyPersonId != ''">
+            , t.apply_person_id= #{applyPersonId}
+        </if>
+        <if test="state !=null and state != ''">
+            , t.state= #{state}
+        </if>
+
+        <if test="payerObjType !=null and payerObjType != ''">
+            , t.payer_obj_type= #{payerObjType}
+        </if>
+        <if test="payerObjId !=null and payerObjId != ''">
+            , t.payer_obj_id= #{payerObjId}
+        </if>
+        where 1=1
+        <if test="refundOrderId !=null and refundOrderId != ''">
+            and t.refund_order_id= #{refundOrderId}
+        </if>
+        <if test="communityId !=null and communityId != ''">
+            and t.community_id= #{communityId}
+        </if>
+
+    </update>
+
+    <!-- 查询退费订单数量 add by wuxw 2018-07-03 -->
+    <select id="queryRefundFeeOrdersCount" parameterType="Map" resultType="Map">
+        select count(1) count
+        from refund_fee_order t
+        where 1 =1
+        <if test="orderType !=null and orderType != ''">
+            and t.order_type= #{orderType}
+        </if>
+        <if test="reason !=null and reason != ''">
+            and t.reason= #{reason}
+        </if>
+        <if test="payTime !=null and payTime != ''">
+            and t.pay_time= #{payTime}
+        </if>
+        <if test="applyPersonName !=null and applyPersonName != ''">
+            and t.apply_person_name= #{applyPersonName}
+        </if>
+        <if test="remark !=null and remark != ''">
+            and t.remark= #{remark}
+        </if>
+        <if test="statusCd !=null and statusCd != ''">
+            and t.status_cd= #{statusCd}
+        </if>
+        <if test="ownerId !=null and ownerId != ''">
+            and t.owner_id= #{ownerId}
+        </if>
+        <if test="refundOrderId !=null and refundOrderId != ''">
+            and t.refund_order_id= #{refundOrderId}
+        </if>
+        <if test="payerObjName !=null and payerObjName != ''">
+            and t.payer_obj_name= #{payerObjName}
+        </if>
+        <if test="ownerName !=null and ownerName != ''">
+            and t.owner_name= #{ownerName}
+        </if>
+        <if test="auditPersonName !=null and auditPersonName != ''">
+            and t.audit_person_name= #{auditPersonName}
+        </if>
+        <if test="auditPersonId !=null and auditPersonId != ''">
+            and t.audit_person_id= #{auditPersonId}
+        </if>
+        <if test="applyPersonId !=null and applyPersonId != ''">
+            and t.apply_person_id= #{applyPersonId}
+        </if>
+        <if test="state !=null and state != ''">
+            and t.state= #{state}
+        </if>
+        <if test="communityId !=null and communityId != ''">
+            and t.community_id= #{communityId}
+        </if>
+        <if test="payerObjType !=null and payerObjType != ''">
+            and t.payer_obj_type= #{payerObjType}
+        </if>
+        <if test="payerObjId !=null and payerObjId != ''">
+            and t.payer_obj_id= #{payerObjId}
+        </if>
+
+
+    </select>
+
+</mapper>

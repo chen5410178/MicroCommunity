@@ -1,7 +1,6 @@
 package com.java110.fee.dao;
 
 
-import com.java110.po.fee.PayFeePo;
 import com.java110.utils.exception.DAOException;
 
 

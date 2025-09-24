@@ -58,7 +58,7 @@ public class VacantHousingReductionImpl implements IComputeDiscount {
             computeDiscountDto.setFeeDiscountSpecs(feeDiscountSpecDtos);
             return computeDiscountDto;
         }
-        Double cycle = month / month;
+        Double cycle = feeDiscountDto.getCycles() / month;
         BigDecimal cycleDec = new BigDecimal(cycle.intValue());
         double discountPrice = cycleDec.multiply(new BigDecimal(money)).setScale(2, BigDecimal.ROUND_HALF_EVEN).doubleValue();
         ComputeDiscountDto computeDiscountDto = new ComputeDiscountDto();
@@ -67,7 +67,7 @@ public class VacantHousingReductionImpl implements IComputeDiscount {
         computeDiscountDto.setRuleId(feeDiscountDto.getRuleId());
         computeDiscountDto.setRuleName(feeDiscountDto.getRuleName());
         computeDiscountDto.setDiscountName(feeDiscountDto.getDiscountName());
-        computeDiscountDto.setDiscountPrice(discountPrice);
+        computeDiscountDto.setDiscountPrice(discountPrice* -1);
         computeDiscountDto.setFeeDiscountSpecs(feeDiscountSpecDtos);
         return computeDiscountDto;
     }
