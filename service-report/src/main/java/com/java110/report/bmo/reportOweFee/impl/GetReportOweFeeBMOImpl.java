@@ -71,7 +71,7 @@ public class GetReportOweFeeBMOImpl implements IGetReportOweFeeBMO {
      * @param reportOweFeeDto
      */
     private void dealTheOweFeeSumAmount(List<ReportOweFeeDto> reportOweFeeDtos, ReportOweFeeDto reportOweFeeDto) {
-        if (reportOweFeeDtos == null || reportOweFeeDtos.size() < 1) {
+        if (ListUtil.isNull(reportOweFeeDtos)) {
             return;
         }
         //查询总计
@@ -87,7 +87,7 @@ public class GetReportOweFeeBMOImpl implements IGetReportOweFeeBMO {
         //计算分项的累计值
         List<ReportOweFeeItemDto> reportOweFeeItemDtos = reportOweFeeInnerServiceSMOImpl.computeReportOweFeeItemAmount(reportOweFeeDto);
 
-        if (reportOweFeeItemDtos == null || reportOweFeeItemDtos.size() < 1) {
+        if (ListUtil.isNull(reportOweFeeItemDtos)) {
             return;
         }
         BigDecimal totalAmountDes = new BigDecimal(totalAmount);
@@ -147,7 +147,7 @@ public class GetReportOweFeeBMOImpl implements IGetReportOweFeeBMO {
                 }
                 ReportOweFeeItemDto reportOweFeeItemDto = new ReportOweFeeItemDto();
                 reportOweFeeItemDto.setConfigId(configId);
-                reportOweFeeItemDto.setConfigName(getFeeConfigName(feeConfigDtos,configId));
+                reportOweFeeItemDto.setConfigName(getFeeConfigName(feeConfigDtos, configId));
                 reportOweFeeItemDto.setAmountOwed("0");
                 reportOweFeeItemDto.setPayerObjId("");
                 reportOweFeeItemDto.setPayerObjName("");
@@ -180,7 +180,7 @@ public class GetReportOweFeeBMOImpl implements IGetReportOweFeeBMO {
     private void refreshReportOwe(List<ReportOweFeeDto> oldReportOweFeeDtos, String[] configIds) {
         List<String> payObjIds = new ArrayList<>();
 
-        if (oldReportOweFeeDtos == null || oldReportOweFeeDtos.size() < 1) {
+        if (ListUtil.isNull(oldReportOweFeeDtos)) {
             return;
         }
 
@@ -190,29 +190,8 @@ public class GetReportOweFeeBMOImpl implements IGetReportOweFeeBMO {
         ReportOweFeeDto reportOweFeeDto = new ReportOweFeeDto();
         reportOweFeeDto.setPayerObjIds(payObjIds.toArray(new String[payObjIds.size()]));
         reportOweFeeDto.setConfigIds(configIds);
-        List<ReportOweFeeDto> allReportOweFeeDtos = reportOweFeeInnerServiceSMOImpl.queryReportAllOweFees(reportOweFeeDto);
-        List<ReportOweFeeDto> reportOweFeeDtos = new ArrayList<>();
-        for (ReportOweFeeDto reportOweFee : allReportOweFeeDtos) {
-            ReportOweFeeDto reportOwe = new ReportOweFeeDto();
-            reportOwe.setOweId(reportOweFee.getOweId());
-            if ("3333".equals(reportOweFee.getPayerObjType())) {
-                List<ReportOweFeeDto> reportOweFees = reportOweFeeInnerServiceSMOImpl.queryReportAllOweFeesByRoom(reportOwe);
-                reportOweFee.setOweId(reportOweFees.get(0).getOweId());
-                reportOweFee.setOwnerName(reportOweFees.get(0).getOwnerName());
-                reportOweFee.setOwnerTel(reportOweFees.get(0).getOwnerTel());
-            } else if ("6666".equals(reportOweFee.getPayerObjType())) {
-                List<ReportOweFeeDto> reportOweFees = reportOweFeeInnerServiceSMOImpl.queryReportAllOweFeesByCar(reportOwe);
-                reportOweFee.setOweId(reportOweFees.get(0).getOweId());
-                reportOweFee.setOwnerName(reportOweFees.get(0).getOwnerName());
-                reportOweFee.setOwnerTel(reportOweFees.get(0).getOwnerTel());
-            }else if ("7777".equals(reportOweFee.getPayerObjType())) {
-                List<ReportOweFeeDto> reportOweFees = reportOweFeeInnerServiceSMOImpl.queryReportAllOweFeesByCar(reportOwe);
-                reportOweFee.setOweId(reportOweFees.get(0).getOweId());
-                reportOweFee.setOwnerName(reportOweFees.get(0).getOwnerName());
-                reportOweFee.setOwnerTel(reportOweFees.get(0).getOwnerTel());
-            }
-            reportOweFeeDtos.add(reportOweFee);
-        }
+        List<ReportOweFeeDto> reportOweFeeDtos = reportOweFeeInnerServiceSMOImpl.queryReportAllOweFees(reportOweFeeDto);
+
         for (ReportOweFeeDto tmpReportOweFeeDto : oldReportOweFeeDtos) {
             dealItem(tmpReportOweFeeDto, reportOweFeeDtos);
         }
@@ -234,7 +213,7 @@ public class GetReportOweFeeBMOImpl implements IGetReportOweFeeBMO {
                 }
                 ReportOweFeeItemDto reportOweFeeItemDto = new ReportOweFeeItemDto();
                 reportOweFeeItemDto.setConfigId(configId);
-                reportOweFeeItemDto.setConfigName(getFeeConfigName(feeConfigDtos,configId));
+                reportOweFeeItemDto.setConfigName(getFeeConfigName(feeConfigDtos, configId));
                 reportOweFeeItemDto.setAmountOwed("0");
                 reportOweFeeItemDto.setPayerObjId("");
                 reportOweFeeItemDto.setPayerObjName("");
@@ -246,12 +225,12 @@ public class GetReportOweFeeBMOImpl implements IGetReportOweFeeBMO {
 
     private String getFeeConfigName(List<FeeConfigDto> feeConfigDtos, String configId) {
 
-        if(feeConfigDtos == null || feeConfigDtos.size()<1){
+        if (ListUtil.isNull(feeConfigDtos)) {
             return "无";
         }
 
-        for(FeeConfigDto feeConfigDto:feeConfigDtos){
-            if(feeConfigDto.getConfigId().equals(configId)){
+        for (FeeConfigDto feeConfigDto : feeConfigDtos) {
+            if (feeConfigDto.getConfigId().equals(configId)) {
                 return feeConfigDto.getFeeName();
             }
         }
@@ -261,7 +240,7 @@ public class GetReportOweFeeBMOImpl implements IGetReportOweFeeBMO {
 
     private void dealItem(ReportOweFeeDto oldReportOweFeeDto, List<ReportOweFeeDto> allReportOweFeeDtos) {
         List<ReportOweFeeItemDto> items = new ArrayList<>();
-        if (allReportOweFeeDtos == null || allReportOweFeeDtos.size() < 1) {
+        if (ListUtil.isNull(allReportOweFeeDtos)) {
             return;
         }
 
@@ -329,7 +308,7 @@ public class GetReportOweFeeBMOImpl implements IGetReportOweFeeBMO {
     }
 
     private ReportOweFeeItemDto hasItem(List<ReportOweFeeItemDto> reportOweFeeItemDtos, String configId) {
-        if (reportOweFeeItemDtos == null || reportOweFeeItemDtos.size() < 1) {
+        if (ListUtil.isNull(reportOweFeeItemDtos)) {
             return null;
         }
         for (ReportOweFeeItemDto reportOweFeeItemDto : reportOweFeeItemDtos) {
