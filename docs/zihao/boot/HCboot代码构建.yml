@@ -1,7 +1,7 @@
 version: "1.0"
 job:
     job_name: HCboot代码构建
-    git_url: https://gitee.com/wuxw7/MicroCommunity.git
+    git_url: https://gitee.com/wuxw7/MicroCommunityV2.git
     git_passwd: 无
     git_username: 无
     work_dir: /home/hc/boot
