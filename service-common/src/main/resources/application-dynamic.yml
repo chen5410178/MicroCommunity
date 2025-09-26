@@ -26,7 +26,7 @@ spring:
   application:
     name: common-service
   redis:
-    database: 0
+    database: 8
     host: dev.redis.java110.com
     port: ${redisport:6379}
     password: ${redispwd}
@@ -39,8 +39,8 @@ spring:
   activiti:
     database-schema-update: false
   datasource:
-    url: jdbc:mysql://dev.db.java110.com:3306/TT?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
-    username: TT
+    url: jdbc:mysql://dev.db.java110.com:3306/TT_EN?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
+    username: TT_EN
     password: ${mysqlpwd}
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver

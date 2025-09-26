@@ -40,7 +40,7 @@ spring:
   application:
     name: community-service
   redis:
-    database: 0
+    database: 8
     host: dev.redis.java110.com
     port: 6379
     password: hc
@@ -56,8 +56,8 @@ spring:
 dataSources:
   ds0: !!com.alibaba.druid.pool.DruidDataSource
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://dev.db.java110.com:3306/TT?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
-    username: TT
+    url: jdbc:mysql://dev.db.java110.com:3306/TT_EN?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
+    username: TT_EN
     password: TT@12345678
     minIdle: 5
     validationQuery: SELECT 1 FROM DUAL

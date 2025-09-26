@@ -26,7 +26,7 @@ spring:
   application:
     name: api-service
   redis:
-    database: 0
+    database: 8
     host: dev.redis.java110.com
     port: ${redisport:6379}
     password: ${redispwd}
