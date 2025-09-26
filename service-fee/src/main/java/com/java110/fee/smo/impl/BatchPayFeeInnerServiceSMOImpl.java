@@ -1,5 +1,6 @@
 package com.java110.fee.smo.impl;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.java110.dto.fee.BatchPayFeeDto;
 import com.java110.fee.bill.IBatchPayFee;
@@ -18,6 +19,6 @@ public class BatchPayFeeInnerServiceSMOImpl implements IBatchPayFeeInnerServiceS
     public JSONObject batchPayFee(@RequestBody BatchPayFeeDto batchPayFeeDto) {
         return batchPayFeeImpl.batchPayFee(batchPayFeeDto.getCommunityId(), batchPayFeeDto.getPrimeRate(),
                 batchPayFeeDto.getAcctId(), batchPayFeeDto.getPayOrderId(), batchPayFeeDto.getRemark(),
-                batchPayFeeDto.getUserDto(), batchPayFeeDto.getFeeConfigs());
+                batchPayFeeDto.getUserDto(), batchPayFeeDto.getFeeConfigs(),new JSONArray());
     }
 }

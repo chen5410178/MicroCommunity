@@ -103,10 +103,11 @@ public class PayBatchFeeCmd extends Cmd {
         String discountAmount = reqJson.getString("discountAmount");
         String remark = reqJson.getString("remark");
         JSONArray feeConfigs = reqJson.getJSONArray("feeConfigs");
+        JSONArray rules = reqJson.getJSONArray("rules");
 
 
         //todo 生成收据编号
-        JSONObject data = batchPayFeeImpl.batchPayFee(communityId, primeRate, acctId, payOrderId, remark, userDtos.get(0), feeConfigs);
+        JSONObject data = batchPayFeeImpl.batchPayFee(communityId, primeRate, acctId, payOrderId, remark, userDtos.get(0), feeConfigs,rules);
 
         cmdDataFlowContext.setResponseEntity(ResultVo.createResponseEntity(data));
     }

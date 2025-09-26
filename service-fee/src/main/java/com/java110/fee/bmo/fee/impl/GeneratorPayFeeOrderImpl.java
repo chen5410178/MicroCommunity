@@ -6,9 +6,11 @@ import com.java110.dto.fee.PayFeeDetailDto;
 import com.java110.dto.fee.PayFeeDto;
 import com.java110.dto.payFee.BatchPayFeeOrder;
 import com.java110.dto.payFeeOrder.PayFeeOrderDto;
+import com.java110.dto.prePayFee.PrePayFeeDto;
 import com.java110.fee.bmo.fee.IGeneratorPayFeeOrder;
 import com.java110.intf.fee.IPayFeeDetailV1InnerServiceSMO;
 import com.java110.intf.fee.IPayFeeOrderV1InnerServiceSMO;
+import com.java110.intf.fee.IPrePayFeeV1InnerServiceSMO;
 import com.java110.po.fee.PayFeeDetailPo;
 import com.java110.po.payFeeOrder.PayFeeOrderPo;
 import com.java110.po.prePayFee.PrePayFeePo;
@@ -27,6 +29,9 @@ public class GeneratorPayFeeOrderImpl implements IGeneratorPayFeeOrder {
 
     @Autowired
     private IPayFeeDetailV1InnerServiceSMO payFeeDetailV1InnerServiceSMOImpl;
+
+    @Autowired
+    private IPrePayFeeV1InnerServiceSMO prePayFeeV1InnerServiceSMOImpl;
 
     @Override
     public int generatorPayFeeOrder(PayFeeDetailPo payFeeDetailPo, FeeDto feeDto, String extPayOrderId,String primeFile) {
@@ -218,6 +223,44 @@ public class GeneratorPayFeeOrderImpl implements IGeneratorPayFeeOrder {
         payFeeOrderPo.setReceivedAmount(receivedAmount.doubleValue() + "");
         payFeeOrderPo.setLateAmount(lateAmount.doubleValue() + "");
         payFeeOrderPo.setAcctAmount(acctAmount.doubleValue() + "");
+        payFeeOrderPo.setPayOrderId(payFeeOrderDto.getPayOrderId());
+
+        int flag = payFeeOrderV1InnerServiceSMOImpl.updatePayFeeOrder(payFeeOrderPo);
+        return flag;
+    }
+
+    @Override
+    public int computePayFeeOrderPre(PayFeeOrderDto payFeeOrderDto) {
+        PrePayFeeDto prePayFeeDto = new PrePayFeeDto();
+        prePayFeeDto.setPayOrderId(payFeeOrderDto.getPayOrderId());
+        prePayFeeDto.setState(PrePayFeeDto.STATE_NORMAL);
+        List<PrePayFeeDto> prePayFeeDtos = prePayFeeV1InnerServiceSMOImpl.queryPrePayFees(prePayFeeDto);
+        if (ListUtil.isNull(prePayFeeDtos)) {
+            PayFeeOrderPo payFeeOrderPo = new PayFeeOrderPo();
+            payFeeOrderPo.setGiftAmount("0");
+            payFeeOrderPo.setReceivableAmount("0");
+            payFeeOrderPo.setDiscountAmount("0");
+            payFeeOrderPo.setReceivedAmount("0");
+            payFeeOrderPo.setLateAmount("0");
+            payFeeOrderPo.setAcctAmount("0");
+            payFeeOrderPo.setPayOrderId(payFeeOrderDto.getPayOrderId());
+            int flag = payFeeOrderV1InnerServiceSMOImpl.updatePayFeeOrder(payFeeOrderPo);
+            return flag;
+        }
+
+        BigDecimal receivableAmount = new BigDecimal("0");
+        BigDecimal discountAmount = new BigDecimal("0");
+        BigDecimal receivedAmount = new BigDecimal("0");
+        for (PrePayFeeDto tPrePayFeeDto : prePayFeeDtos) {
+            receivableAmount = receivableAmount.add(new BigDecimal(tPrePayFeeDto.getReceivableAmount()));
+            discountAmount = discountAmount.add(new BigDecimal(tPrePayFeeDto.getDiscountAmount()));
+            receivedAmount = receivedAmount.add(new BigDecimal(tPrePayFeeDto.getReceivedAmount()));
+        }
+
+        PayFeeOrderPo payFeeOrderPo = new PayFeeOrderPo();
+        payFeeOrderPo.setReceivableAmount(receivableAmount.doubleValue() + "");
+        payFeeOrderPo.setDiscountAmount(discountAmount.doubleValue() + "");
+        payFeeOrderPo.setReceivedAmount(receivedAmount.doubleValue() + "");
         payFeeOrderPo.setPayOrderId(payFeeOrderDto.getPayOrderId());
 
         int flag = payFeeOrderV1InnerServiceSMOImpl.updatePayFeeOrder(payFeeOrderPo);

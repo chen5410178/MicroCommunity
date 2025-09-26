@@ -6,6 +6,7 @@ import com.java110.core.factory.GenerateCodeFactory;
 import com.java110.dto.fee.ComputeDiscountDto;
 import com.java110.dto.fee.FeeDetailDto;
 import com.java110.dto.fee.FeeDto;
+import com.java110.dto.fee.PayFeeDto;
 import com.java110.dto.payFee.PayFeeRuleDto;
 import com.java110.dto.prePayFee.PrePayFeeDto;
 import com.java110.dto.user.UserDto;
@@ -18,6 +19,7 @@ import com.java110.intf.fee.IPayFeeRuleV1InnerServiceSMO;
 import com.java110.intf.fee.IPrePayFeeV1InnerServiceSMO;
 import com.java110.po.prePayFee.PrePayFeePo;
 import com.java110.utils.exception.CmdException;
+import com.java110.utils.util.BeanConvertUtil;
 import com.java110.utils.util.DateUtil;
 import com.java110.utils.util.ListUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +53,7 @@ public class PayPrePayFeeBmoImpl implements IPayPrePayFeeBmo {
     private IFeeReceiptBmo feeReceiptBmoImpl;
 
     @Override
-    public int payPreFee(JSONArray rules, String receiptCode, FeeDto feeDto, String primeRate, UserDto userDto,String remark) {
+    public int payPreFee(JSONArray rules, String receiptCode, FeeDto feeDto, String primeRate, UserDto userDto, String remark) {
         if (ListUtil.isNull(rules)) {
             return 0;
         }
@@ -60,15 +62,20 @@ public class PayPrePayFeeBmoImpl implements IPayPrePayFeeBmo {
 
         for (int i = 0; i < rules.size(); i++) {
             JSONObject rule = rules.getJSONObject(i);
-            doPayPreFee(rule, receiptCode, feeDto, primeRate,payOrderId,prePayFeePos,userDto,remark);
+            doPayPreFee(rule, receiptCode, feeDto, primeRate, payOrderId, prePayFeePos, userDto, remark);
         }
 
-        generatorPayFeeOrderImpl.generatorPrePayFeeOrder(prePayFeePos,feeDto.getPayerObjType());
+        generatorPayFeeOrderImpl.generatorPrePayFeeOrder(prePayFeePos, feeDto.getPayerObjType());
         return 1;
     }
 
-    private void doPayPreFee(JSONObject rule, String receiptCode, FeeDto feeDto, String primeRate,String payOrderId,
-                             List<PrePayFeePo> prePayFeePos, UserDto userDto,String remark) {
+    @Override
+    public int payPreFee(JSONArray rules, String receiptCode, PayFeeDto payFeeDto, String primeRate, UserDto userDto, String remark) {
+        return payPreFee(rules, receiptCode, BeanConvertUtil.covertBean(payFeeDto, FeeDto.class), primeRate, userDto, remark);
+    }
+
+    private void doPayPreFee(JSONObject rule, String receiptCode, FeeDto feeDto, String primeRate, String payOrderId,
+                             List<PrePayFeePo> prePayFeePos, UserDto userDto, String remark) {
         String ruleId = rule.getString("ruleId");
         int cycles = rule.getIntValue("cycles");
         double ruleReceivedAmount = rule.getDoubleValue("receivedAmount");
@@ -127,7 +134,7 @@ public class PayPrePayFeeBmoImpl implements IPayPrePayFeeBmo {
 
         int flag = prePayFeeV1InnerServiceSMOImpl.savePrePayFee(prePayFeePo);
 
-        feeReceiptBmoImpl.savePrePayFeeReceipt(prePayFeePo,receiptCode);
+        feeReceiptBmoImpl.savePrePayFeeReceipt(prePayFeePo, receiptCode);
         prePayFeePos.add(prePayFeePo);
     }
 

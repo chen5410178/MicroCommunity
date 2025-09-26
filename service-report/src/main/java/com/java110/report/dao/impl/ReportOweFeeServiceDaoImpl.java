@@ -69,9 +69,9 @@ public class ReportOweFeeServiceDaoImpl extends BaseServiceDao implements IRepor
 
         int saveFlag = sqlSessionTemplate.update("reportOweFeeServiceDaoImpl.updateReportOweFeeInfo", info);
 
-        if (saveFlag < 1) {
-            throw new DAOException(ResponseConstant.RESULT_PARAM_ERROR, "修改欠费统计信息Instance数据失败：" + JSONObject.toJSONString(info));
-        }
+//        if (saveFlag < 1) {
+//            throw new DAOException(ResponseConstant.RESULT_PARAM_ERROR, "修改欠费统计信息Instance数据失败：" + JSONObject.toJSONString(info));
+//        }
     }
 
     /**

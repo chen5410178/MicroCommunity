@@ -12,6 +12,7 @@ import com.java110.dto.payFee.BatchPayFeeOrder;
 import com.java110.dto.user.UserDto;
 import com.java110.fee.bmo.fee.IFinishFeeNotify;
 import com.java110.fee.bmo.fee.IGeneratorPayFeeOrder;
+import com.java110.fee.bmo.fee.IPayPrePayFeeBmo;
 import com.java110.fee.bmo.receipt.IFeeReceiptBmo;
 import com.java110.intf.acct.IAccountInnerServiceSMO;
 import com.java110.intf.fee.IFeeInnerServiceSMO;
@@ -65,8 +66,18 @@ public class BatchPayFeeImpl implements IBatchPayFee {
     @Autowired
     private IFeeReceiptBmo feeReceiptBmoImpl;
 
+    @Autowired
+    private IPayPrePayFeeBmo payPrePayFeeBmoImpl;
+
     @Override
-    public JSONObject batchPayFee(String communityId, String primeRate, String acctId, String payOrderId, String remark, UserDto userDto, JSONArray feeConfigs) {
+    public JSONObject batchPayFee(String communityId,
+                                  String primeRate,
+                                  String acctId,
+                                  String payOrderId,
+                                  String remark,
+                                  UserDto userDto,
+                                  JSONArray feeConfigs,
+                                  JSONArray rules) {
 
         String receiptCode = feeReceiptInnerServiceSMOImpl.generatorReceiptCode(communityId);
         JSONArray details = new JSONArray();
@@ -111,8 +122,25 @@ public class BatchPayFeeImpl implements IBatchPayFee {
         for (String key : batchPayFeeOrderMap.keySet()) {
             generatorPayFeeOrderImpl.generatorPayFeeOrder(batchPayFeeOrderMap.get(key), payOrderId);
         }
+
+        // 如果有预付款，保存预付款
+        if (!ListUtil.isNull(rules)) {
+            PayFeeDto payFeeDto = new PayFeeDto();
+            payFeeDto.setFeeId(feeId);
+            payFeeDto.setCommunityId(communityId);
+            List<PayFeeDto> feeDtos = payFeeV1InnerServiceSMOImpl.queryPayFees(payFeeDto);
+            if (!ListUtil.isNull(feeDtos)) {
+                payPrePayFeeBmoImpl.payPreFee(rules,
+                        receiptCode, feeDtos.get(0),
+                        primeRate,
+                        userDto,
+                        remark);
+            }
+
+        }
         JSONObject data = new JSONObject();
         data.put("details", details);
+        data.put("receiptCode", receiptCode);
         return data;
     }
 

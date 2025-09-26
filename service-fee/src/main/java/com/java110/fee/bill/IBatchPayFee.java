@@ -8,5 +8,5 @@ public interface IBatchPayFee {
 
     JSONObject batchPayFee(String communityId, String primeRate, String acctId, String payOrderId,
                            String remark, UserDto userDto,
-                           JSONArray feeConfigs);
+                           JSONArray feeConfigs,JSONArray rules);
 }

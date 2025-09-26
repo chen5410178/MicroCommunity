@@ -23,21 +23,35 @@ import com.java110.core.context.ICmdDataFlowContext;
 import com.java110.core.event.cmd.Cmd;
 import com.java110.core.event.cmd.CmdEvent;
 import com.java110.core.factory.GenerateCodeFactory;
+import com.java110.dto.account.AccountDto;
 import com.java110.dto.fee.FeeDetailDto;
+import com.java110.dto.fee.FeeDto;
+import com.java110.dto.owner.OwnerCarDto;
+import com.java110.dto.owner.OwnerDto;
+import com.java110.dto.owner.OwnerRoomRelDto;
 import com.java110.dto.payFee.ReturnPayFeeDto;
+import com.java110.dto.payFeeOrder.PayFeeOrderDto;
 import com.java110.dto.prePayFee.PrePayFeeDto;
 import com.java110.dto.refundFeeDetail.RefundFeeDetailDto;
 import com.java110.dto.refundFeeOrder.RefundFeeOrderDto;
+import com.java110.dto.room.RoomDto;
 import com.java110.dto.user.UserDto;
 import com.java110.dto.wechat.OnlinePayDto;
+import com.java110.fee.bmo.fee.IGeneratorPayFeeOrder;
 import com.java110.intf.acct.IAccountDetailInnerServiceSMO;
 import com.java110.intf.acct.IAccountInnerServiceSMO;
 import com.java110.intf.acct.IOnlinePayRefundV1InnerServiceSMO;
 import com.java110.intf.acct.IOnlinePayV1InnerServiceSMO;
+import com.java110.intf.community.IRoomInnerServiceSMO;
 import com.java110.intf.fee.*;
+import com.java110.intf.user.IOwnerCarInnerServiceSMO;
 import com.java110.intf.user.IOwnerInnerServiceSMO;
 import com.java110.intf.user.IOwnerRoomRelInnerServiceSMO;
 import com.java110.intf.user.IUserV1InnerServiceSMO;
+import com.java110.po.account.AccountDetailPo;
+import com.java110.po.fee.FeeReceiptDetailPo;
+import com.java110.po.fee.FeeReceiptPo;
+import com.java110.po.fee.PayFeePo;
 import com.java110.po.onlinePayRefund.OnlinePayRefundPo;
 import com.java110.po.prePayFee.PrePayFeePo;
 import com.java110.po.refundFeeOrder.RefundFeeOrderPo;
@@ -139,6 +153,9 @@ public class AuditRefundPrePayFeeCmd extends Cmd {
     @Autowired
     private IRefundFeeDetailV1InnerServiceSMO refundFeeDetailV1InnerServiceSMOImpl;
 
+    @Autowired
+    private IGeneratorPayFeeOrder generatorPayFeeOrderImpl;
+
 
 
     public static final String CODE_PREFIX_ID = "10";
@@ -200,11 +217,20 @@ public class AuditRefundPrePayFeeCmd extends Cmd {
             prePayFeePo.setPpfId(refundFeeDetailDto1.getDetailId());
             prePayFeePo.setState(FeeDetailDto.STATE_RETURNED);
             prePayFeePo.setRemainAmount("0");
+            prePayFeePo.setReceivableAmount("0");
+            prePayFeePo.setReceivedAmount("0");
             prePayFeeV1InnerServiceSMOImpl.updatePrePayFee(prePayFeePo);
 
+
         }
+        // 修改订单应收
+        PayFeeOrderDto payFeeOrderDto = new PayFeeOrderDto();
+        payFeeOrderDto.setPayOrderId(refundFeeOrderDtos.get(0).getPayOrderId());
+        generatorPayFeeOrderImpl.computePayFeeOrderPre(payFeeOrderDto);
+
 //todo 提交线上退费
         returnOnlinePayMoney(refundFeeOrderDtos.get(0), refundFeeDetailDtos);
+
 
     }
 

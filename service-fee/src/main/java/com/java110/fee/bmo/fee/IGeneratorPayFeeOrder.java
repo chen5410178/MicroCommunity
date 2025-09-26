@@ -34,4 +34,6 @@ public interface IGeneratorPayFeeOrder {
     int generatorPrePayFeeOrder(List<PrePayFeePo> prePayFeePos,String payerObjType);
 
     int computePayFeeOrder(PayFeeOrderDto payFeeOrderDto);
+
+    int computePayFeeOrderPre(PayFeeOrderDto payFeeOrderDto);
 }
