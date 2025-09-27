@@ -5,6 +5,7 @@ import com.java110.core.annotation.Java110Cmd;
 import com.java110.core.context.ICmdDataFlowContext;
 import com.java110.core.event.cmd.Cmd;
 import com.java110.core.event.cmd.CmdEvent;
+import com.java110.dto.contract.ContractDto;
 import com.java110.dto.fee.FeeAmountDto;
 import com.java110.dto.fee.FeeDto;
 import com.java110.dto.owner.OwnerCarDto;
@@ -17,6 +18,7 @@ import com.java110.fee.bill.IComputeBillPrice;
 import com.java110.intf.community.IRoomV1InnerServiceSMO;
 import com.java110.intf.fee.IPayFeeRuleV1InnerServiceSMO;
 import com.java110.intf.fee.IPrePayFeeV1InnerServiceSMO;
+import com.java110.intf.store.IContractInnerServiceSMO;
 import com.java110.intf.user.IOwnerCarInnerServiceSMO;
 import com.java110.intf.user.IOwnerRoomRelV1InnerServiceSMO;
 import com.java110.intf.user.IOwnerV1InnerServiceSMO;
@@ -55,6 +57,9 @@ public class ListPrePayFeeRuleCmd extends Cmd {
     @Autowired
     private IPrePayFeeV1InnerServiceSMO prePayFeeV1InnerServiceSMOImpl;
 
+    @Autowired
+    private IContractInnerServiceSMO contractInnerServiceSMOImpl;
+
     @Override
     public void validate(CmdEvent event, ICmdDataFlowContext context, JSONObject reqJson) throws CmdException, ParseException {
         Assert.hasKeyAndValue(reqJson, "payerObjId", "未包含费用对象");
@@ -88,10 +93,12 @@ public class ListPrePayFeeRuleCmd extends Cmd {
         // 计算房屋信息
         computeRoomInfo(paramOut, reqJson.getString("payerObjId"), reqJson.getString("payerObjType"), reqJson.getString("communityId"));
         computeCarInfo(paramOut, reqJson.getString("payerObjId"), reqJson.getString("payerObjType"), reqJson.getString("communityId"));
+        computeContractInfo(paramOut, reqJson.getString("payerObjId"), reqJson.getString("payerObjType"), reqJson.getString("communityId"));
 
         context.setResponseEntity(ResultVo.createResponseEntity(paramOut));
 
     }
+
 
     private void computeStartMonth(PayFeeRuleDto tPayFeeRuleDto) {
 
@@ -173,5 +180,34 @@ public class ListPrePayFeeRuleCmd extends Cmd {
         paramOut.put("ownerId", ownerDtos.get(0).getMemberId());
 
     }
+
+    private void computeContractInfo(JSONObject paramOut, String payerObjId, String payerObjType, String communityId) {
+
+        if (!FeeDto.PAYER_OBJ_TYPE_CONTRACT.equals(payerObjType)) {
+            return;
+        }
+
+        ContractDto contractDto = new ContractDto();
+        contractDto.setContractId(payerObjId);
+        contractDto.setCommunityId(communityId);
+        List<ContractDto> contractDtos = contractInnerServiceSMOImpl.queryContracts(contractDto);
+        if (ListUtil.isNull(contractDtos)) {
+            throw new CmdException("合同不存在");
+        }
+        paramOut.put("payerObjName", contractDtos.get(0).getContractName());
+
+        OwnerDto ownerDto = new OwnerDto();
+        ownerDto.setMemberId(contractDtos.get(0).getObjId());
+        ownerDto.setCommunityId(communityId);
+        List<OwnerDto> ownerDtos = ownerV1InnerServiceSMOImpl.queryOwners(ownerDto);
+        if (ListUtil.isNull(ownerDtos)) {
+            return;
+        }
+        paramOut.put("ownerName", ownerDtos.get(0).getName());
+        paramOut.put("ownerTel", ownerDtos.get(0).getLink());
+        paramOut.put("ownerId", ownerDtos.get(0).getMemberId());
+
+    }
+
 
 }

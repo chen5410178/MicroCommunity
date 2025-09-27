@@ -2,44 +2,35 @@ package com.java110.fee.cmd.fee;
 
 import com.alibaba.fastjson.JSONObject;
 import com.java110.core.annotation.Java110Cmd;
+import com.java110.core.context.CmdContextUtils;
 import com.java110.core.context.ICmdDataFlowContext;
 import com.java110.core.event.cmd.Cmd;
 import com.java110.core.event.cmd.CmdEvent;
 import com.java110.core.factory.GenerateCodeFactory;
-import com.java110.core.log.LoggerFactory;
 import com.java110.dto.contract.ContractDto;
-import com.java110.dto.fee.FeeAttrDto;
 import com.java110.dto.fee.FeeConfigDto;
 import com.java110.dto.fee.FeeDto;
 import com.java110.dto.payFee.PayFeeBatchDto;
 import com.java110.dto.user.UserDto;
+import com.java110.fee.bill.ICycleConvertOnceFee;
 import com.java110.fee.bmo.fee.IFeeBMO;
-import com.java110.intf.fee.IFeeAttrInnerServiceSMO;
-import com.java110.intf.fee.IFeeConfigInnerServiceSMO;
-import com.java110.intf.fee.IFeeInnerServiceSMO;
-import com.java110.intf.fee.IPayFeeBatchV1InnerServiceSMO;
+import com.java110.intf.community.IParkingSpaceInnerServiceSMO;
+import com.java110.intf.fee.*;
 import com.java110.intf.store.IContractInnerServiceSMO;
-import com.java110.intf.user.IOwnerInnerServiceSMO;
 import com.java110.intf.user.IUserInnerServiceSMO;
-import com.java110.po.fee.FeeAttrPo;
-import com.java110.po.fee.PayFeePo;
 import com.java110.po.payFee.PayFeeBatchPo;
+import com.java110.po.payFee.PayFeeRulePo;
 import com.java110.utils.exception.CmdException;
 import com.java110.utils.util.*;
-import com.java110.vo.ResultVo;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Java110Cmd(serviceCode = "fee.saveContractCreateFee")
 public class SaveContractCreateFeeCmd extends Cmd {
-
-    private static Logger logger = LoggerFactory.getLogger(SaveContractCreateFeeCmd.class);
 
     @Autowired
     private IFeeBMO feeBMOImpl;
@@ -53,9 +44,6 @@ public class SaveContractCreateFeeCmd extends Cmd {
     private IFeeConfigInnerServiceSMO feeConfigInnerServiceSMOImpl;
 
     @Autowired
-    private IOwnerInnerServiceSMO ownerInnerServiceSMOImpl;
-
-    @Autowired
     private IPayFeeBatchV1InnerServiceSMO payFeeBatchV1InnerServiceSMOImpl;
 
     @Autowired
@@ -67,32 +55,34 @@ public class SaveContractCreateFeeCmd extends Cmd {
     @Autowired
     private IFeeAttrInnerServiceSMO feeAttrInnerServiceSMOImpl;
 
+    @Autowired
+    private IRuleGeneratorPayFeeBillV1InnerServiceSMO ruleGeneratorPayFeeBillV1InnerServiceSMOImpl;
+
+    @Autowired
+    private IPayFeeRuleV1InnerServiceSMO payFeeRuleV1InnerServiceSMOImpl;
+
+    @Autowired
+    private ICycleConvertOnceFee cycleConvertOnceFeeImpl;
+
     @Override
     public void validate(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) {
         // super.validatePageInfo(pd);
         Assert.hasKeyAndValue(reqJson, "communityId", "未包含小区ID");
         Assert.hasKeyAndValue(reqJson, "configId", "未包含收费项目");
-        Assert.hasKeyAndValue(reqJson, "startTime", "未包含收费其实时间");
-        Assert.hasKeyAndValue(reqJson, "endTime", "未包含计费结束时间");
+        Assert.hasKeyAndValue(reqJson, "startTime", "未包含费用起始时间");
+        Assert.hasKeyAndValue(reqJson, "endTime", "未包含费用结束时间");
 
         String endTime = reqJson.getString("endTime");
         if (!endTime.contains(":")) {
             endTime += " 23:59:59";
             reqJson.put("endTime", endTime);
         }
-        //Assert.hasKeyAndValue(reqJson, "billType", "未包含出账类型");
-        //Assert.hasKeyAndValue(reqJson, "storeId", "未包含商户ID");
     }
 
     @Override
     public void doCmd(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) throws CmdException {
-        logger.debug("ServiceDataFlowEvent : {}", event);
-        String storeId = cmdDataFlowContext.getReqHeaders().get("store-id");
-//        String storeId = cmdDataFlowContext.getReqHeaders().get("store-id");
-//        String userId = cmdDataFlowContext.getReqHeaders().get("user-id");
-//        reqJson.put("storeId", storeId);
-//        reqJson.put("userId", userId);
         List<ContractDto> contractDtos = null;
+        String storeId = CmdContextUtils.getStoreId(cmdDataFlowContext);
         FeeConfigDto feeConfigDto = new FeeConfigDto();
         feeConfigDto.setCommunityId(reqJson.getString("communityId"));
         feeConfigDto.setConfigId(reqJson.getString("configId"));
@@ -102,42 +92,102 @@ public class SaveContractCreateFeeCmd extends Cmd {
         reqJson.put("feeFlag", feeConfigDtos.get(0).getFeeFlag());
         reqJson.put("configEndTime", feeConfigDtos.get(0).getEndTime());
 
-        if (!FeeDto.FEE_FLAG_CYCLE.equals(feeConfigDtos.get(0).getFeeFlag()) && reqJson.containsKey("endTime")) {
-            Date endTime = null;
-            Date configEndTime = null;
-            try {
-                endTime = DateUtil.getDateFromString(reqJson.getString("endTime"), DateUtil.DATE_FORMATE_STRING_B);
-                configEndTime = DateUtil.getDateFromString(feeConfigDtos.get(0).getEndTime(), DateUtil.DATE_FORMATE_STRING_A);
-                if (endTime.getTime() > configEndTime.getTime()) {
-                    throw new IllegalArgumentException("结束时间不能超过费用项时间");
-                }
-            } catch (ParseException e) {
-                throw new IllegalArgumentException("结束时间错误" + reqJson.getString("endTime"));
-            }
-        }
-        //生成批次号
+        //生成批次
         generatorBatch(reqJson);
         //判断收费范围
         ContractDto contractDto = new ContractDto();
-        /*if (reqJson.containsKey("roomState") && RoomDto.STATE_SELL.equals(reqJson.getString("roomState"))) {
-            roomDto.setState(RoomDto.STATE_SELL);
-        }*/
-        if (reqJson.containsKey("contractState") && reqJson.getString("contractState").contains(",")) {
-            String states = reqJson.getString("contractState");
-            contractDto.setStates(states.split(","));
-        }
-
         contractDto.setContractId(reqJson.getString("contractId"));
         contractDto.setStoreId(storeId);
-        //contractDto.setCommunityId(reqJson.getString("communityId"));
         contractDtos = contractInnerServiceSMOImpl.queryContracts(contractDto);
 
-        if (contractDtos == null || contractDtos.size() < 1) {
-            throw new IllegalArgumentException("未查到需要付费的房屋");
+        if (ListUtil.isNull(contractDtos)) {
+            throw new IllegalArgumentException("未查到需要付费的合同");
         }
+        
         dealContractFee(contractDtos, cmdDataFlowContext, reqJson, event);
     }
 
+    private void dealContractFee(List<ContractDto> contractDtos, ICmdDataFlowContext context, JSONObject reqJson, CmdEvent event) {
+
+        List<PayFeeRulePo> payFeeRulePos = new ArrayList<>();
+        ResponseEntity<String> responseEntity = null;
+
+        for (int roomIndex = 0; roomIndex < contractDtos.size(); roomIndex++) {
+            PayFeeRulePo payFeeRulePo = createPayFeeRulePo(contractDtos.get(roomIndex), reqJson);
+            payFeeRulePos.add(payFeeRulePo);
+        }
+
+        if (ListUtil.isNull(payFeeRulePos)) {
+            throw new IllegalArgumentException("费用不存在");
+        }
+
+        String communityId = payFeeRulePos.get(0).getCommunityId();
+
+        if (StringUtil.isEmpty(communityId)) {
+            throw new IllegalArgumentException("小区不存在");
+        }
+
+        //todo 业务处理
+        JSONObject paramOut = new JSONObject();
+        paramOut.put("totalContract", contractDtos.size());
+        paramOut.put("successContract", contractDtos.size());
+        paramOut.put("errorContract", 0);
+        paramOut.put("code", 0);
+        paramOut.put("msg", "成功");
+        responseEntity = new ResponseEntity<>(paramOut.toJSONString(), HttpStatus.OK);
+
+        if (payFeeRulePos.isEmpty()) {
+            context.setResponseEntity(responseEntity);
+            return;
+        }
+
+        //todo 设置费用
+        payFeeRuleV1InnerServiceSMOImpl.savePayFeeRules(payFeeRulePos);
+
+        //todo 走账单模式
+        cycleConvertOnceFeeImpl.rulesGeneratePayFees(payFeeRulePos);
+
+        context.setResponseEntity(responseEntity);
+    }
+
+    private PayFeeRulePo createPayFeeRulePo(ContractDto contractDto, JSONObject paramInJson) {
+
+        String time = DateUtil.getNow(DateUtil.DATE_FORMATE_STRING_A);
+        if (paramInJson.containsKey("feeEndDate")) {
+            time = paramInJson.getString("feeEndDate");
+        } else if (paramInJson.containsKey("startTime")) {
+            time = paramInJson.getString("startTime");
+        }
+        //查询费用项
+        FeeConfigDto feeConfigDto = new FeeConfigDto();
+        feeConfigDto.setConfigId(paramInJson.getString("configId"));
+        List<FeeConfigDto> feeConfigDtos = feeConfigInnerServiceSMOImpl.queryFeeConfigs(feeConfigDto);
+        Assert.listOnlyOne(feeConfigDtos, "查询费用项错误！");
+
+        PayFeeRulePo payFeeRulePo = new PayFeeRulePo();
+        payFeeRulePo.setMaxTime(paramInJson.getString("endTime"));
+
+        payFeeRulePo.setAmount("-1");
+        if (!StringUtil.isEmpty(paramInJson.getString("amount"))) {
+            payFeeRulePo.setAmount(paramInJson.getString("amount"));
+        }
+        payFeeRulePo.setFeeTypeCd(feeConfigDtos.get(0).getFeeTypeCd());
+        payFeeRulePo.setBatchId(paramInJson.getString("batchId"));
+        payFeeRulePo.setUserId("-1");
+        payFeeRulePo.setIncomeObjId(paramInJson.getString("storeId"));
+        payFeeRulePo.setConfigId(feeConfigDtos.get(0).getConfigId());
+        payFeeRulePo.setFeeFlag(feeConfigDtos.get(0).getFeeFlag());
+        payFeeRulePo.setStartTime(time);
+        payFeeRulePo.setEndTime(time);
+        payFeeRulePo.setState(FeeDto.STATE_DOING);
+        payFeeRulePo.setRuleId(GenerateCodeFactory.getGeneratorId("11"));
+        payFeeRulePo.setCommunityId(paramInJson.getString("communityId"));
+        payFeeRulePo.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_CONTRACT);
+        payFeeRulePo.setPayerObjId(contractDto.getContractId());
+        String curYearMonth  = DateUtil.getFormatTimeStringB(DateUtil.getDateFromStringB(payFeeRulePo.getEndTime()));
+        payFeeRulePo.setCurYearMonth(curYearMonth);
+        return payFeeRulePo;
+    }
 
     /**
      * 生成批次号
@@ -164,67 +214,5 @@ public class SaveContractCreateFeeCmd extends Cmd {
         }
 
         reqJson.put("batchId", payFeeBatchPo.getBatchId());
-    }
-
-    private void dealContractFee(List<ContractDto> contractDtos, ICmdDataFlowContext context, JSONObject reqJson, CmdEvent event) {
-
-
-        List<PayFeePo> feePos = new ArrayList<>();
-        List<FeeAttrPo> feeAttrsPos = new ArrayList<>();
-        JSONObject paramInObj = null;
-        ResponseEntity<String> responseEntity = null;
-        int failRooms = 0;
-        //添加单元信息
-        int curFailRoomCount = 0;
-        int saveFlag = 0;
-        for (int roomIndex = 0; roomIndex < contractDtos.size(); roomIndex++) {
-            curFailRoomCount++;
-            feePos.add(BeanConvertUtil.covertBean(feeBMOImpl.addContractFee(contractDtos.get(roomIndex), reqJson, context), PayFeePo.class));
-            feeAttrsPos.add(feeBMOImpl.addFeeAttr(reqJson, context, FeeAttrDto.SPEC_CD_ONCE_FEE_DEADLINE_TIME,
-                    reqJson.getString("endTime")));
-            if (!StringUtil.isEmpty(contractDtos.get(roomIndex).getObjId())) {
-                feeAttrsPos.add(feeBMOImpl.addFeeAttr(reqJson, context, FeeAttrDto.SPEC_CD_OWNER_ID, contractDtos.get(roomIndex).getObjId()));
-                feeAttrsPos.add(feeBMOImpl.addFeeAttr(reqJson, context, FeeAttrDto.SPEC_CD_OWNER_LINK, contractDtos.get(roomIndex).getbLink()));
-                feeAttrsPos.add(feeBMOImpl.addFeeAttr(reqJson, context, FeeAttrDto.SPEC_CD_OWNER_NAME, contractDtos.get(roomIndex).getPartyB()));
-            }
-            //付费对象名称
-            feeAttrsPos.add(feeBMOImpl.addFeeAttr(reqJson, context, FeeAttrDto.SPEC_CD_PAY_OBJECT_NAME,
-                    contractDtos.get(roomIndex).getContractName()));
-
-            if (roomIndex % DEFAULT_ADD_FEE_COUNT == 0 && roomIndex != 0) {
-                saveFlag = saveFeeAndAttrs(feePos, feeAttrsPos);
-                feePos = new ArrayList<>();
-                feeAttrsPos = new ArrayList<>();
-                if (saveFlag < 1) {
-                    failRooms += curFailRoomCount;
-                } else {
-                    curFailRoomCount = 0;
-                }
-            }
-        }
-        if (!ListUtil.isNull(feePos)) {
-            saveFlag = saveFeeAndAttrs(feePos, feeAttrsPos);
-            if (saveFlag < 1) {
-                failRooms += curFailRoomCount;
-            }
-        }
-        JSONObject paramOut = new JSONObject();
-        paramOut.put("totalRoom", contractDtos.size());
-        paramOut.put("successRoom", contractDtos.size() - failRooms);
-        paramOut.put("errorRoom", failRooms);
-
-        context.setResponseEntity(ResultVo.createResponseEntity(paramOut));
-    }
-
-
-    private int saveFeeAndAttrs(List<PayFeePo> feePos, List<FeeAttrPo> feeAttrsPos) {
-        int flag = feeInnerServiceSMOImpl.saveFee(feePos);
-        if (flag < 1) {
-            return flag;
-        }
-
-        flag = feeAttrInnerServiceSMOImpl.saveFeeAttrs(feeAttrsPos);
-
-        return flag;
     }
 }
