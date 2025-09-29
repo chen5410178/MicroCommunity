@@ -52,12 +52,14 @@ public class SendRoomDataToIotAdapt extends DatabusAdaptImpl {
 
 
         OwnerDto ownerDto = new OwnerDto();
-        ownerDto.setMemberId(ownerRoomRelDtos.get(0).getOwnerId());
+        ownerDto.setOwnerId(ownerRoomRelDtos.get(0).getOwnerId());
         List<OwnerDto> ownerDtos = ownerV1InnerServiceSMOImpl.queryOwners(ownerDto);
 
         if (ListUtil.isNull(ownerDtos)) {
             throw new IllegalArgumentException("业主不存在");
         }
-        ownerDataToIotImpl.sendOwnerData(ownerDtos.get(0));
+        for(OwnerDto tmpOwnerDto:ownerDtos) {
+            ownerDataToIotImpl.sendOwnerData(tmpOwnerDto);
+        }
     }
 }
