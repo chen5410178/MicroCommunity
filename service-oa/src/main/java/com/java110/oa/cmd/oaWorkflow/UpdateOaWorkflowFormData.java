@@ -93,6 +93,12 @@ public class UpdateOaWorkflowFormData extends Cmd {
             if("realFileName".equals(key)){
                 continue;
             }
+            if("userId".equals(key)){
+                continue;
+            }
+            if("loginUserId".equals(key)){
+                continue;
+            }
             columns.add(key + "='" + reqJson.getString(key)+"'");
 
             //简单校验
