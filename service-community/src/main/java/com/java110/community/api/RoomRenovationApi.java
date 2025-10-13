@@ -182,7 +182,7 @@ public class RoomRenovationApi {
         ownerRoomRelDto.setRoomId(roomId);
         //查询业主房屋关系表
         List<OwnerRoomRelDto> ownerRoomRelDtos = ownerRoomRelInnerServiceSMOImpl.queryOwnerRoomRels(ownerRoomRelDto);
-        Assert.listOnlyOne(ownerRoomRelDtos, "查询业主房屋关系表错误！");
+        Assert.listLeastOne(ownerRoomRelDtos, "未查到房屋业主");
         //获取业主id
         String ownerId = ownerRoomRelDtos.get(0).getOwnerId();
         if (!StringUtil.isEmpty(settingValue)) {

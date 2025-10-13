@@ -8,6 +8,7 @@ import com.java110.core.event.cmd.CmdEvent;
 import com.java110.core.factory.GenerateCodeFactory;
 import com.java110.doc.annotation.*;
 import com.java110.dto.owner.OwnerDto;
+import com.java110.dto.owner.OwnerRoomRelDto;
 import com.java110.intf.community.ICommunityInnerServiceSMO;
 import com.java110.intf.community.IRoomV1InnerServiceSMO;
 import com.java110.intf.community.IUnitInnerServiceSMO;
@@ -21,7 +22,9 @@ import com.java110.utils.exception.CmdException;
 import com.java110.utils.util.Assert;
 import com.java110.utils.util.BeanConvertUtil;
 import com.java110.utils.util.DateUtil;
+import com.java110.utils.util.ListUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.listener.ListenerUtils;
 
 import java.text.ParseException;
 import java.util.List;
@@ -95,6 +98,14 @@ public class SellRoomCmd extends Cmd {
         Assert.hasLength(reqJson.getString("ownerId"), "ownerId不能为空");
         Assert.hasLength(reqJson.getString("roomId"), "roomId不能为空");
         Assert.hasLength(reqJson.getString("state"), "state不能为空");
+
+        OwnerRoomRelDto ownerRoomRelDto = new OwnerRoomRelDto();
+        ownerRoomRelDto.setRoomId(reqJson.getString("roomId"));
+        ownerRoomRelDto.setCommunityId(reqJson.getString("communityId"));
+        List<OwnerRoomRelDto> ownerRoomRelDtos = ownerRoomRelV1InnerServiceSMOImpl.queryOwnerRoomRels(ownerRoomRelDto);
+        if(!ListUtil.isNull(ownerRoomRelDtos)){
+            throw new CmdException("房屋已经绑定业主");
+        }
     }
 
     @Override

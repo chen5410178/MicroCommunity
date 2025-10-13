@@ -147,6 +147,22 @@ public class Assert extends org.springframework.util.Assert {
     }
 
     /**
+     * 数组只有一条数据
+     *
+     * @param jsonArray
+     * @param message
+     */
+    public static void listLeastOne(List jsonArray, String message) {
+
+        Assert.notNull(jsonArray, message);
+
+        if (jsonArray.isEmpty()) {
+            throw new IllegalArgumentException(message);
+        }
+    }
+
+
+    /**
      * 判断list 是否为空
      *
      * @param targetList
