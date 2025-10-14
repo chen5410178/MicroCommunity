@@ -14,6 +14,8 @@ import com.java110.utils.exception.CmdException;
 import com.java110.utils.exception.SMOException;
 import com.java110.utils.util.Assert;
 import com.java110.utils.util.BeanConvertUtil;
+import com.java110.utils.util.ListUtil;
+import com.java110.utils.util.StringUtil;
 import com.java110.vo.api.ApiRoomDataVo;
 import com.java110.vo.api.ApiRoomVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,23 +80,23 @@ public class QueryRoomsWithOutSellCmd extends Cmd {
      */
     private void freshFloorIdToParam(JSONObject reqJson) {
 
-        FloorDto floorDto = BeanConvertUtil.covertBean(reqJson, FloorDto.class);
-        String floorId = "001";
-        floorDto.setPage(1);
-        //检查 请求报文中是否有floorNum 小区楼编号，如果没有就随机选一个
-        try {
-            //if (!reqJson.containsKey("floorNum") || StringUtils.isEmpty(reqJson.getString("floorNum"))) {
-            floorDto.setPage(1);
-            List<FloorDto> floorDtos = floorInnerServiceSMOImpl.queryFloors(floorDto);
-
-            if (floorDtos.size() == 0) {
-                return;
-            }
-
-            floorId = floorDtos.get(0).getFloorId();
-            //}
-        } finally {
-            reqJson.put("floorId", floorId);
+        if (!reqJson.containsKey("floorNum")) {
+            return;
         }
+        if (StringUtil.isEmpty(reqJson.getString("floorNum"))) {
+            return;
+        }
+        FloorDto floorDto = new FloorDto();
+        floorDto.setFloorNum(reqJson.getString("floorNum"));
+        floorDto.setCommunityId(reqJson.getString("communityId"));
+        floorDto.setPage(1);
+        floorDto.setRow(1);
+        List<FloorDto> floorDtos = floorInnerServiceSMOImpl.queryFloors(floorDto);
+
+        if (ListUtil.isNull(floorDtos)) {
+            return;
+        }
+        String floorId = floorDtos.get(0).getFloorId();
+        reqJson.put("floorId", floorId);
     }
 }
