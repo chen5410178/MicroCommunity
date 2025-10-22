@@ -966,7 +966,7 @@
                             return;
                         }
                         if (res.status == 404) {
-                            window.location.href = '/user.html#/pages/frame/login';
+                            window.location.href = '/#/views/user/login';
                             return;
                         }
                         errorCallback(res.bodyText, res);
@@ -1024,7 +1024,7 @@
 
                         }
                         if (res.status == 404) {
-                            window.location.href = '/user.html#/pages/frame/login';
+                            window.location.href = '/#/views/user/login';
                             return;
                         }
                         errorCallback(res.bodyText, res);
@@ -1079,7 +1079,7 @@
                             return;
                         }
                         if (res.status == 404) {
-                            window.location.href = '/user.html#/pages/frame/login';
+                            window.location.href = '/#/views/user/login';
                             return;
                         }
                         errorCallback(res.bodyText, res);
@@ -1155,7 +1155,7 @@
 
                         }
                         if (res.status == 404) {
-                            window.location.href = '/user.html#/pages/frame/login';
+                            window.location.href = '/#/views/user/login';
                             return;
                         }
                         errorCallback(res.bodyText, res);

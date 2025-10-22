@@ -89,12 +89,12 @@ public class JwtFilter implements Filter {
         if ("XMLHttpRequest".equals(type)) {
             //是ajax请求
             // 异步请求下的重定向
-            response.setHeader("CONTEXTPATH", "/user.html#/pages/frame/login");//重定向目标地址
-            response.setHeader("location", "/user.html#/pages/frame/login");//重定向目标地址
+            response.setHeader("CONTEXTPATH", "/#/views/user/login");//重定向目标地址
+            response.setHeader("location", "/#/views/user/login");//重定向目标地址
             response.setStatus(401);
         } else {
             //非ajax请求，直接使用重定向
-            response.sendRedirect("/user.html#/pages/frame/login");
+            response.sendRedirect("/#/views/user/login");
         }
     }
 
