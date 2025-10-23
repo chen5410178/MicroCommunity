@@ -74,6 +74,7 @@ public class DeductionPrePayFeeImpl implements IDeductionPrePayFee {
             payFeeDto.setRuleId(prePayFeeDto.getRuleId());
         }
         payFeeDto.setFtId(prePayFeeDto.getFtId());
+        payFeeDto.setPayerObjId(prePayFeeDto.getPayerObjId());
         payFeeDto.setState(FeeDto.STATE_DOING);
         List<PayFeeDto> payFeeDtos = payFeeV1InnerServiceSMOImpl.queryPayFees(payFeeDto);
         if (ListUtil.isNull(payFeeDtos)) {
@@ -208,7 +209,7 @@ public class DeductionPrePayFeeImpl implements IDeductionPrePayFee {
             throw new CmdException("缴费失败");
         }
         //生成订单
-        generatorPayFeeOrderImpl.generatorPayFeeOrder(payFeeDetailPo,tPayFeeDto,"-1","");
+        generatorPayFeeOrderImpl.generatorPayFeeOrder(payFeeDetailPo, tPayFeeDto, "-1", "");
 
         BigDecimal curAmount = remainAmountDec.subtract(new BigDecimal(remainAmount + ""));
 
@@ -251,13 +252,13 @@ public class DeductionPrePayFeeImpl implements IDeductionPrePayFee {
     }
 
     @Override
-    public int deductionAmount(String ppfId, double amount,String feeId) {
+    public int deductionAmount(String ppfId, double amount, String feeId) {
         PrePayFeeDto tPrePayFeeDto = new PrePayFeeDto();
         tPrePayFeeDto.setPpfId(ppfId);
         tPrePayFeeDto.setHasMoney("Y");
         List<PrePayFeeDto> prePayFeeDtos = prePayFeeV1InnerServiceSMOImpl.queryPrePayFees(tPrePayFeeDto);
         if (ListUtil.isNull(prePayFeeDtos)) {
-           throw new IllegalArgumentException("余额不足");
+            throw new IllegalArgumentException("余额不足");
         }
 
         BigDecimal remainAmountDec = new BigDecimal(prePayFeeDtos.get(0).getRemainAmount());
@@ -265,14 +266,14 @@ public class DeductionPrePayFeeImpl implements IDeductionPrePayFee {
 
         BigDecimal curAmount = remainAmountDec.subtract(new BigDecimal(amount + ""));
 
-        if(curAmount.doubleValue() < 0){
+        if (curAmount.doubleValue() < 0) {
             throw new IllegalArgumentException("余额不足");
         }
         PayFeeDto payFeeDto = new PayFeeDto();
         payFeeDto.setFeeId(feeId);
         payFeeDto.setCommunityId(prePayFeeDtos.get(0).getCommunityId());
         List<PayFeeDto> payFeeDtos = payFeeV1InnerServiceSMOImpl.queryPayFees(payFeeDto);
-        if(ListUtil.isNull(payFeeDtos)){
+        if (ListUtil.isNull(payFeeDtos)) {
             throw new IllegalArgumentException("费用不存在");
         }
 
