@@ -23,6 +23,12 @@
         from coupon_property_user_detail t
         left join coupon_property_user cpu on t.coupon_id = cpu.coupon_id and cpu.status_cd = '0'
         where 1 =1
+        <if test="couponUserName !=null and couponUserName != ''">
+            and cpu.user_name= #{couponUserName}
+        </if>
+        <if test="tel !=null and tel != ''">
+            and cpu.tel= #{tel}
+        </if>
         <if test="detailType !=null and detailType != ''">
             and t.detail_type= #{detailType}
         </if>
@@ -89,7 +95,14 @@
     <select id="queryCouponPropertyUserDetailsCount" parameterType="Map" resultType="Map">
         select count(1) count
         from coupon_property_user_detail t
+        left join coupon_property_user cpu on t.coupon_id = cpu.coupon_id and cpu.status_cd = '0'
         where 1 =1
+        <if test="couponUserName !=null and couponUserName != ''">
+            and cpu.user_name= #{couponUserName}
+        </if>
+        <if test="tel !=null and tel != ''">
+            and cpu.tel= #{tel}
+        </if>
         <if test="detailType !=null and detailType != ''">
             and t.detail_type= #{detailType}
         </if>
