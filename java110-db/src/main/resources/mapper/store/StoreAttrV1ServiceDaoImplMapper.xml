@@ -18,8 +18,9 @@
     <!-- 查询商户属性信息 add by wuxw 2018-07-03 -->
     <select id="getStoreAttrInfo" parameterType="Map" resultType="Map">
         select t.attr_id,t.attr_id attrId,t.spec_cd,t.spec_cd specCd,t.status_cd,t.status_cd
-        statusCd,t.store_id,t.store_id storeId,t.value
+        statusCd,t.store_id,t.store_id storeId,t.value,sp.`name`
         from s_store_attr t
+        left join spec sp on t.spec_cd = sp.spec_cd and sp.domain = 'STORE_ATTR'
         where 1 =1
         <if test="attrId !=null and attrId != ''">
             and t.attr_id= #{attrId}
