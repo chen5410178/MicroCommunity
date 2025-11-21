@@ -1,10 +1,14 @@
 package com.java110.community.bmo.applyRoomDiscountRecord.impl;
 
 import com.java110.community.bmo.applyRoomDiscountRecord.IGetApplyRoomDiscountRecordBMO;
+import com.java110.dto.file.FileRelDto;
 import com.java110.dto.room.ApplyRoomDiscountRecordDto;
 import com.java110.intf.community.IApplyRoomDiscountRecordInnerServiceSMO;
+import com.java110.utils.cache.MappingCache;
+import com.java110.utils.constant.MappingConstant;
 import com.java110.utils.util.StringUtil;
 import com.java110.vo.ResultVo;
+import com.java110.vo.api.machineRecord.ApiMachineRecordDataVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,15 +33,22 @@ public class GetApplyRoomDiscountRecordBMOImpl implements IGetApplyRoomDiscountR
     public ResponseEntity<String> getRecord(ApplyRoomDiscountRecordDto applyRoomDiscountRecordDto) {
         int count = applyRoomDiscountRecordInnerServiceSMOImpl.queryApplyRoomDiscountRecordsCount(applyRoomDiscountRecordDto);
         List<ApplyRoomDiscountRecordDto> applyRoomDiscountRecordDtos = new ArrayList<>();
+        String imgUrl = MappingCache.getValue(MappingConstant.FILE_DOMAIN, "IMG_PATH");
+
         if (count > 0) {
             List<ApplyRoomDiscountRecordDto> applyRoomDiscountRecordDtoList = applyRoomDiscountRecordInnerServiceSMOImpl.queryApplyRoomDiscountRecords(applyRoomDiscountRecordDto);
             for (ApplyRoomDiscountRecordDto applyRoomDiscountRecord : applyRoomDiscountRecordDtoList) {
                 if (!StringUtil.isEmpty(applyRoomDiscountRecord.getFileRealName()) && applyRoomDiscountRecord.getRelTypeCd().equals("19000")) {
-                    applyRoomDiscountRecord.setUrl("/callComponent/download/getFile/file?fileId=" +
-                            applyRoomDiscountRecord.getFileRealName() + "&communityId=-1");
+                    applyRoomDiscountRecord.setUrl(applyRoomDiscountRecord.getFileRealName());
                 } else if (!StringUtil.isEmpty(applyRoomDiscountRecord.getFileRealName()) && applyRoomDiscountRecord.getRelTypeCd().equals("21000")) {
-                    applyRoomDiscountRecord.setUrl("/video/" + applyRoomDiscountRecord.getFileRealName());
+                    applyRoomDiscountRecord.setUrl(applyRoomDiscountRecord.getFileRealName());
                 }
+                if (applyRoomDiscountRecord.getUrl().startsWith("http")) {
+                    applyRoomDiscountRecord.setUrl(applyRoomDiscountRecord.getUrl());
+                } else {
+                    applyRoomDiscountRecord.setUrl(imgUrl + applyRoomDiscountRecord.getUrl());
+                }
+
                 applyRoomDiscountRecordDtos.add(applyRoomDiscountRecord);
             }
         } else {

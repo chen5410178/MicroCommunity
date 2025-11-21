@@ -217,7 +217,7 @@ public class PhoneWechatLoginCmd extends Cmd {
         ownerAppUserPo.setCommunityId(ownerDtos.get(0).getCommunityId());
         ownerAppUserPo.setAppUserName(ownerDtos.get(0).getName());
         ownerAppUserPo.setIdCard(ownerDtos.get(0).getIdCard());
-        ownerAppUserPo.setAppType("WECHAT");
+        ownerAppUserPo.setAppType(OwnerAppUserDto.APP_TYPE_WECHAT_MINA);
         ownerAppUserPo.setLink(ownerDtos.get(0).getLink());
         ownerAppUserPo.setUserId(userDto.getUserId());
         ownerAppUserPo.setOpenId("-1");
