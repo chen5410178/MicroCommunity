@@ -24,9 +24,7 @@ import com.java110.core.context.ICmdDataFlowContext;
 import com.java110.core.event.cmd.Cmd;
 import com.java110.core.event.cmd.CmdEvent;
 import com.java110.core.factory.GenerateCodeFactory;
-import com.java110.dto.fee.ComputeDiscountDto;
-import com.java110.dto.fee.FeeDetailDto;
-import com.java110.dto.fee.FeeDto;
+import com.java110.dto.fee.*;
 import com.java110.dto.owner.OwnerDto;
 import com.java110.dto.payFee.PayFeeRuleDto;
 import com.java110.dto.prePayFee.PrePayFeeDto;
@@ -36,20 +34,19 @@ import com.java110.fee.bill.IComputeFeeDiscount;
 import com.java110.fee.bill.IDeductionPrePayFee;
 import com.java110.fee.bmo.fee.IGeneratorPayFeeOrder;
 import com.java110.fee.bmo.receipt.IFeeReceiptBmo;
-import com.java110.intf.fee.IFeeReceiptInnerServiceSMO;
-import com.java110.intf.fee.IPayFeeRuleV1InnerServiceSMO;
-import com.java110.intf.fee.IPrePayFeeV1InnerServiceSMO;
+import com.java110.intf.fee.*;
 import com.java110.intf.user.IOwnerV1InnerServiceSMO;
 import com.java110.intf.user.IUserV1InnerServiceSMO;
 import com.java110.po.prePayFee.PrePayFeePo;
 import com.java110.utils.exception.CmdException;
 import com.java110.utils.util.Assert;
+import com.java110.utils.util.BeanConvertUtil;
 import com.java110.utils.util.DateUtil;
 import com.java110.utils.util.ListUtil;
 import com.java110.vo.ResultVo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -103,6 +100,9 @@ public class PrePayFeeCmd extends Cmd {
 
     @Autowired
     private IFeeReceiptInnerServiceSMO feeReceiptInnerServiceSMOImpl;
+
+    @Autowired
+    private IFeeDiscountSpecInnerServiceSMO feeDiscountSpecInnerServiceSMOImpl;
 
 
     @Override
@@ -180,8 +180,8 @@ public class PrePayFeeCmd extends Cmd {
                 rule = rules.getJSONObject(ruleIndex);
                 doPrePayFee(rule, primeRate, communityId,
                         payerObjId, payerObjName,
-                        receivedAmount, remark,way, userDtos.get(0),
-                        ownerDtos.get(0), payOrderId,prePayFeePos,receiptCode);
+                        receivedAmount, remark, way, userDtos.get(0),
+                        ownerDtos.get(0), payOrderId, prePayFeePos, receiptCode);
             }
         }
         JSONArray meterRules = reqJson.getJSONArray("meterRules");
@@ -192,23 +192,23 @@ public class PrePayFeeCmd extends Cmd {
                 doMeterPrePayFee(meterRule, primeRate,
                         communityId, payerObjId,
                         payerObjName, receivedAmount,
-                        remark,way, userDtos.get(0),
-                        ownerDtos.get(0), payOrderId,prePayFeePos,receiptCode);
+                        remark, way, userDtos.get(0),
+                        ownerDtos.get(0), payOrderId, prePayFeePos, receiptCode);
             }
         }
         String payerObjType = FeeDto.PAYER_OBJ_TYPE_ROOM;
-        if(!payerObjName.contains("-")){
+        if (!payerObjName.contains("-")) {
             payerObjType = FeeDto.PAYER_OBJ_TYPE_CAR;
         }
-        generatorPayFeeOrderImpl.generatorPrePayFeeOrder(prePayFeePos,payerObjType);
+        generatorPayFeeOrderImpl.generatorPrePayFeeOrder(prePayFeePos, payerObjType);
 
         cmdDataFlowContext.setResponseEntity(ResultVo.success());
     }
 
 
     private void doPrePayFee(JSONObject rule, String primeRate, String communityId, String payerObjId,
-                             String payerObjName, String receivedAmount, String remark, String way,UserDto userDto, OwnerDto ownerDto,
-                             String payOrderId,List<PrePayFeePo> prePayFeePos,String receiptCode) {
+                             String payerObjName, String receivedAmount, String remark, String way, UserDto userDto, OwnerDto ownerDto,
+                             String payOrderId, List<PrePayFeePo> prePayFeePos, String receiptCode) {
         String ruleId = rule.getString("ruleId");
         int cycles = rule.getIntValue("cycles");
         double ruleReceivedAmount = rule.getDoubleValue("receivedAmount");
@@ -224,7 +224,7 @@ public class PrePayFeeCmd extends Cmd {
             throw new CmdException("账单规则不存在");
         }
         //计算应收
-       // FeeAmountDto feeAmountDto = computeBillPriceImpl.computeBillReceiveAmount(payFeeRuleDtos.get(0), cycles);
+        // FeeAmountDto feeAmountDto = computeBillPriceImpl.computeBillReceiveAmount(payFeeRuleDtos.get(0), cycles);
 
         Date startTime = DateUtil.getDateFromStringA(payFeeRuleDtos.get(0).getEndTime());
         Calendar calendar = Calendar.getInstance();
@@ -236,29 +236,27 @@ public class PrePayFeeCmd extends Cmd {
         calendar.setTime(startTime);
         calendar.add(Calendar.MONTH, cycles);
         Date endTime = calendar.getTime();
-
-        double discountAmount = computeFeeDiscountAmount(rule, communityId, cycles, payFeeRuleDtos.get(0));
         PrePayFeePo prePayFeePo = new PrePayFeePo();
         prePayFeePo.setReceivableAmount(ruleReceivedAmount + "");
-        BigDecimal receivedAmountDec = new BigDecimal(ruleReceivedAmount + "");
-        receivedAmountDec = receivedAmountDec.subtract(new BigDecimal(discountAmount));
+        prePayFeePo.setReceivedAmount(ruleReceivedAmount + "");
+        prePayFeePo.setDiscountAmount("0");
+        prePayFeePo.setCycles(cycles + "");
+        prePayFeePo.setStartTime(DateUtil.getFormatTimeStringB(startTime));
+        prePayFeePo.setEndTime(DateUtil.getPreSecTime(endTime));
+        computeFeeDiscountAmount(rule, communityId, cycles, payFeeRuleDtos.get(0), prePayFeePo);
+
         prePayFeePo.setGiftAmount("0");
         prePayFeePo.setPayOrderId(payOrderId);
         prePayFeePo.setPrimeRate(primeRate);
-        prePayFeePo.setDiscountAmount(discountAmount + "");
-        prePayFeePo.setCycles(cycles + "");
         prePayFeePo.setRemark(remark);
-        prePayFeePo.setReceivedAmount(receivedAmountDec.doubleValue() + "");
         prePayFeePo.setOwnerId(ownerDto.getOwnerId());
         prePayFeePo.setPayerObjName(payerObjName);
         prePayFeePo.setOwnerName(ownerDto.getName());
         prePayFeePo.setRemainAmount(ruleReceivedAmount + "");
         prePayFeePo.setFeeName(payFeeRuleDtos.get(0).getFeeName());
         prePayFeePo.setOpenInvoice("N");
-        prePayFeePo.setStartTime(DateUtil.getFormatTimeStringB(startTime));
         prePayFeePo.setCashierId(userDto.getUserId());
         prePayFeePo.setState(FeeDetailDto.STATE_NORMAL);
-        prePayFeePo.setEndTime(DateUtil.getPreSecTime(endTime));
         prePayFeePo.setRuleId(ruleId);
         prePayFeePo.setCommunityId(communityId);
         prePayFeePo.setCashierName(userDto.getName());
@@ -270,7 +268,7 @@ public class PrePayFeeCmd extends Cmd {
 
         int flag = prePayFeeV1InnerServiceSMOImpl.savePrePayFee(prePayFeePo);
 
-        feeReceiptBmoImpl.savePrePayFeeReceipt(prePayFeePo,receiptCode);
+        feeReceiptBmoImpl.savePrePayFeeReceipt(prePayFeePo, receiptCode);
 
         prePayFeePos.add(prePayFeePo);
 
@@ -278,7 +276,7 @@ public class PrePayFeeCmd extends Cmd {
             throw new CmdException("保存数据失败");
         }
 
-        if(PrePayFeeDto.WAY_NO.equals(way)){
+        if (PrePayFeeDto.WAY_NO.equals(way)) {
             return;
         }
 
@@ -287,8 +285,8 @@ public class PrePayFeeCmd extends Cmd {
 
     private void doMeterPrePayFee(JSONObject meterRule, String primeRate, String communityId,
                                   String payerObjId, String payerObjName, String receivedAmount,
-                                  String remark,String way, UserDto userDto, OwnerDto ownerDto,
-                                  String payOrderId,List<PrePayFeePo> prePayFeePos,String receiptCode) {
+                                  String remark, String way, UserDto userDto, OwnerDto ownerDto,
+                                  String payOrderId, List<PrePayFeePo> prePayFeePos, String receiptCode) {
         String ruleId = "-1";
         int cycles = 1;
         double amount = meterRule.getDoubleValue("amount");
@@ -323,40 +321,73 @@ public class PrePayFeeCmd extends Cmd {
         prePayFeePo.setWay(way);
 
         int flag = prePayFeeV1InnerServiceSMOImpl.savePrePayFee(prePayFeePo);
-        feeReceiptBmoImpl.savePrePayFeeReceipt(prePayFeePo,receiptCode);
+        feeReceiptBmoImpl.savePrePayFeeReceipt(prePayFeePo, receiptCode);
         prePayFeePos.add(prePayFeePo);
         if (flag < 1) {
             throw new CmdException("保存数据失败");
         }
-        if(PrePayFeeDto.WAY_NO.equals(way)){
+        if (PrePayFeeDto.WAY_NO.equals(way)) {
             return;
         }
 
         deductionPrePayFeeImpl.deductionPrePayFee(prePayFeePo.getPpfId());
     }
 
-    private double computeFeeDiscountAmount(JSONObject rule, String communityId, int cycles, PayFeeRuleDto payFeeRuleDto) {
+    private void computeFeeDiscountAmount(JSONObject rule, String communityId, int cycles, PayFeeRuleDto payFeeRuleDto, PrePayFeePo prePayFeePo) {
         if (!rule.containsKey("selectedDiscountIds")) {
-            return 0.0;
+            return;
         }
         JSONArray selectedDiscountIds = rule.getJSONArray("selectedDiscountIds");
 
         if (ListUtil.isNull(selectedDiscountIds)) {
-            return 0.0;
+            return;
         }
         List<ComputeDiscountDto> computeDiscountDtos = computeFeeDiscountImpl.computePrePayFeeDiscount(payFeeRuleDto, cycles);
         if (ListUtil.isNull(computeDiscountDtos)) {
-            return 0.0;
+            return;
         }
+
+        BigDecimal receivedAmountDec = new BigDecimal(prePayFeePo.getReceivedAmount());
+        // receivedAmountDec = receivedAmountDec.subtract(new BigDecimal(discountAmount));
+
         BigDecimal discountAmount = new BigDecimal("0");
         for (ComputeDiscountDto computeDiscountDto : computeDiscountDtos) {
             for (int dIndex = 0; dIndex < selectedDiscountIds.size(); dIndex++) {
-                if (selectedDiscountIds.getString(dIndex).equals(computeDiscountDto.getDiscountId())) {
-                    discountAmount = discountAmount.add(new BigDecimal(computeDiscountDto.getDiscountPrice()));
+                if (!selectedDiscountIds.getString(dIndex).equals(computeDiscountDto.getDiscountId())) {
+                    continue;
+                }
+                //这里不考虑多个折扣的情况
+                discountAmount = discountAmount.add(new BigDecimal(computeDiscountDto.getDiscountPrice()));
+                if (!"102020008".equals(computeDiscountDto.getRuleId())) {
+                    receivedAmountDec = receivedAmountDec.add(new BigDecimal(computeDiscountDto.getDiscountPrice()));
+                    continue;
+                }
+                FeeDiscountSpecDto feeDiscountSpecDto = new FeeDiscountSpecDto();
+                feeDiscountSpecDto.setDiscountId(computeDiscountDto.getDiscountId());
+                List<FeeDiscountSpecDto> feeDiscountSpecDtos = feeDiscountSpecInnerServiceSMOImpl.queryFeeDiscountSpecs(feeDiscountSpecDto);
+                if (ListUtil.isNull(feeDiscountSpecDtos)) {
+                    continue;
+                }
+
+                for (FeeDiscountSpecDto tFeeDiscountSpecDto : feeDiscountSpecDtos) {
+                    if (!"89002020980015".equals(tFeeDiscountSpecDto.getSpecId())) { //赠送月份
+                        continue;
+                    }
+                    String specValue = tFeeDiscountSpecDto.getSpecValue();
+                    //获取费用结束时间(也就是下次费用开始时间)
+                    Date endTime = DateUtil.getDateFromStringA(prePayFeePo.getEndTime());
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(endTime);
+                    cal.add(Calendar.MONTH, Integer.parseInt(specValue));
+                    //cal.add(Calendar.SECOND,1);
+                    prePayFeePo.setEndTime(DateUtil.getFormatTimeStringA(cal.getTime()));
+                    double cycle = Double.parseDouble(prePayFeePo.getCycles()) + Integer.parseInt(specValue);
+                    prePayFeePo.setCycles(cycle + "");
                 }
             }
         }
         discountAmount = discountAmount.multiply(new BigDecimal("-1")).setScale(2, BigDecimal.ROUND_HALF_UP);
-        return discountAmount.doubleValue();
+        prePayFeePo.setReceivedAmount(receivedAmountDec.doubleValue() + "");
+        prePayFeePo.setDiscountAmount(discountAmount.doubleValue() + "");
     }
 }
