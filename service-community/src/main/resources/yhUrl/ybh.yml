@@ -1,0 +1,11 @@
+url: https://mbank.bankofbbg.com/www/corepaycer/CashierPreOrder
+#cs
+#returnUrl: http://odev.guiejia.cn/#/pages/successPage/successPage
+#zs
+returnUrl: http://o.guiej.cn/#/pages/successPage/successPage
+
+testUrl: https://epaytest.bankofbbg.com/www/corepaycer/CashierPreOrder
+#cs
+#asynUrl: http://116.8.107.234:8008/BhOrder/bhOrderCompleted
+#zs
+asynUrl: http://116.8.108.128:8008/BhOrder/bhOrderCompleted
