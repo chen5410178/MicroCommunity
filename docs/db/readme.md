@@ -9,3 +9,15 @@
 
 4、如果开发环境 sql 导入始终无法成功，您可以找台服务器 用梓豪安装HC（梓豪安装后会自动导入sql TT.sql  不需要再导入）</br>
 然后本地代码连接梓豪安装的mysql，梓豪默认安装的 用户名密码为 TT/hc12345678
+
+### 创建数据库
+
+```shell
+mysql -h 127.0.0.1 -p
+密码为123456
+use mysql;
+create user 'TT_v2'@'%' IDENTIFIED WITH mysql_native_password BY 'hc12345678';
+flush privileges;
+CREATE DATABASE TT_v2 CHARACTER SET utf8;
+grant all privileges on TT_v2.* to 'TT_v2'@'%' ;
+```
