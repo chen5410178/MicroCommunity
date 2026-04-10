@@ -1,4 +1,3 @@
-import { messages as reportProficientMessages } from '../views/report/reportProficientLang'
 import { messages as reportCustomManageMessages } from '../views/report/reportCustomManageLang'
 import { messages as reportCustomComponentManageMessages } from '../views/report/reportCustomComponentManageLang'
 
@@ -8,7 +7,6 @@ import { messages as reportCustomComponentFooterManageMessages } from '../views/
 
 import { messages as reportFeeSummaryMessages } from '../views/report/reportFeeSummaryLang'
 import { messages as reportFeeDetailMessages } from '../views/report/reportFeeDetailLang'
-import { messages as feeRemindMessages } from '../views/report/feeRemindLang'
 import { messages as dataReportMessages } from '../views/report/dataReportLang'
 import { messages as reportOweFeeDetailMessages } from '../views/report/reportOweFeeDetailLang'
 import { messages as reportPayFeeDetailMessages } from '../views/report/reportPayFeeDetailLang'
@@ -29,10 +27,8 @@ export const messages = {
         ...reportCustomComponentFooterManageMessages.en,
         ...reportCustomManageMessages.en,
         ...reportCustomComponentManageMessages.en,
-        ...reportProficientMessages.en,
         ...reportFeeSummaryMessages.en,
         ...reportFeeDetailMessages.en,
-        ...feeRemindMessages.en,
         ...dataReportMessages.en,
         ...reportOweFeeDetailMessages.en,
         ...reportPayFeeDetailMessages.en,
@@ -51,10 +47,8 @@ export const messages = {
         ...reportCustomComponentFooterManageMessages.zh,
         ...reportCustomManageMessages.zh,
         ...reportCustomComponentManageMessages.zh,
-        ...reportProficientMessages.zh,
         ...reportFeeSummaryMessages.zh,
         ...reportFeeDetailMessages.zh,
-        ...feeRemindMessages.zh,
         ...dataReportMessages.zh,
         ...reportOweFeeDetailMessages.zh,
         ...reportPayFeeDetailMessages.zh,

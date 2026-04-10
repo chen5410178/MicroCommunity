@@ -64,30 +64,13 @@ export default [
         name: '/views/fee/shareReadingFee',
         component: () => import('@/views/fee/shareReadingFeeList.vue')
     },
-    {
-        path: '/pages/property/feeComboManage',
-        name: '/pages/property/feeComboManage',
-        component: () => import('@/views/fee/feeComboManageList.vue')
-    },
-    {
-        path: '/pages/property/payFeeAuditManage',
-        name: '/pages/property/payFeeAuditManage',
-        component: () => import('@/views/fee/payFeeAuditManageList.vue')
-    },
-    {
-        path: '/views/fee/feeComboMemberManage',
-        name: '/views/fee/feeComboMemberManage',
-        component: () => import('@/views/fee/feeComboMemberManageList.vue')
-    },
+
+
+
     {
         path: '/pages/property/payFeeBatch',
         name: '/pages/property/payFeeBatch',
         component: () => import('@/views/fee/payFeeBatchList.vue')
-    },
-    {
-        path: '/pages/property/listOweFee',
-        name: '/pages/property/listOweFee',
-        component: () => import('@/views/fee/listOweFeeList.vue')
     },
     {
         path: '/pages/fee/oweFeeCallable',
@@ -99,16 +82,8 @@ export default [
         name: '/views/fee/addOweFeeCallable',
         component: () => import('@/views/fee/addOweFeeCallableList.vue')
     },
-    {
-        path: '/pages/property/staffFeeManage',
-        name: '/pages/property/staffFeeManage',
-        component: () => import('@/views/fee/staffFeeManageList.vue')
-    },
-    {
-        path: '/pages/property/feeSummary',
-        name: '/pages/property/feeSummary',
-        component: () => import('@/views/fee/feeSummaryList.vue')
-    },
+
+
     {
         path: '/pages/property/roomCreateFee',
         name: '/pages/property/roomCreateFee',

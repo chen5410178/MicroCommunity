@@ -1,9 +1,5 @@
 export default [
-    {
-        path: '/pages/property/reportProficient',
-        name: '/pages/property/reportProficient',
-        component: () => import('@/views/report/reportProficientList.vue')
-    },
+
     {
         path: '/pages/property/reportFeeSummary',
         name: '/pages/property/reportFeeSummary',
@@ -14,11 +10,7 @@ export default [
         name: '/pages/property/reportFeeDetail',
         component: () => import('@/views/report/reportFeeDetailList.vue')
     },
-    {
-        path: '/pages/report/feeRemind',
-        name: '/pages/report/feeRemind',
-        component: () => import('@/views/report/feeRemindList.vue')
-    },
+
     {
         path: '/pages/report/dataReport',
         name: '/pages/report/dataReport',

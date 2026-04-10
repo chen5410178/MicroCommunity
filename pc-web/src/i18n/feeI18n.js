@@ -14,15 +14,9 @@ import { messages as floorShareMessages } from '../views/fee/floorShareLang'
 import { messages as shareReadingMessages } from '../views/fee/shareReadingLang'
 import { messages as roomFeeImportMessages } from '../views/fee/roomFeeImportLang'
 import { messages as shareReadingFeeMessages } from '../views/fee/shareReadingFeeLang'
-import { messages as feeComboManageMessages } from '../views/fee/feeComboManageLang'
-import { messages as payFeeAuditManageMessages } from '../views/fee/payFeeAuditManageLang'
-import { messages as feeComboMemberManageMessages } from '../views/fee/feeComboMemberManageLang'
 import { messages as payFeeBatchMessages } from '../views/fee/payFeeBatchLang'
-import { messages as listOweFeeMessages } from '../views/fee/listOweFeeLang'
 import { messages as oweFeeCallableMessages } from '../views/fee/oweFeeCallableLang'
 import { messages as addOweFeeCallableMessages } from '../views/fee/addOweFeeCallableLang'
-import { messages as staffFeeManageMessages } from '../views/fee/staffFeeManageLang'
-import { messages as feeSummaryMessages } from '../views/fee/feeSummaryLang'
 import { messages as roomCreateFeeMessages } from '../views/fee/roomCreateFeeLang.js'
 import { messages as propertyFeeMessages } from '../views/fee/propertyFeeLang'
 import { messages as batchPayFeeOrderMessages } from '../views/fee/batchPayFeeOrderLang'
@@ -61,15 +55,9 @@ export const messages = {
         ...shareReadingMessages.en,
         ...roomFeeImportMessages.en,
         ...shareReadingFeeMessages.en,
-        ...feeComboManageMessages.en,
-        ...payFeeAuditManageMessages.en,
-        ...feeComboMemberManageMessages.en,
         ...payFeeBatchMessages.en,
-        ...listOweFeeMessages.en,
         ...oweFeeCallableMessages.en,
         ...addOweFeeCallableMessages.en,
-        ...staffFeeManageMessages.en,
-        ...feeSummaryMessages.en,
         ...roomCreateFeeMessages.en,
         ...propertyFeeMessages.en,
         ...batchPayFeeOrderMessages.en,
@@ -107,15 +95,9 @@ export const messages = {
         ...shareReadingMessages.zh,
         ...roomFeeImportMessages.zh,
         ...shareReadingFeeMessages.zh,
-        ...feeComboManageMessages.zh,
-        ...payFeeAuditManageMessages.zh,
-        ...feeComboMemberManageMessages.zh,
         ...payFeeBatchMessages.zh,
-        ...listOweFeeMessages.zh,
         ...oweFeeCallableMessages.zh,
         ...addOweFeeCallableMessages.zh,
-        ...staffFeeManageMessages.zh,
-        ...feeSummaryMessages.zh,
         ...roomCreateFeeMessages.zh,
         ...propertyFeeMessages.zh,
         ...batchPayFeeOrderMessages.zh,
