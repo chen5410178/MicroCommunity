@@ -242,6 +242,9 @@ public class PayOweFeeImpl implements IPayOweFee {
         payFeeDetailPo.setReceivableAmount(receivedAmount.doubleValue() + "");
         payFeeDetailPo.setReceivedAmount(receivedAmount.doubleValue() + "");
         payFeeDetailPo.setFeeId(feeDto.getFeeId());
+        if (feeDto.getFeeTime() != null) {
+            payFeeDetailPo.setFeeTime(DateUtil.getFormatTimeStringB(feeDto.getFeeTime()));
+        }
 
         int saveFeeDetail = feeDetailInnerServiceSMOImpl.saveFeeDetail(payFeeDetailPo);
 

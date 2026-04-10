@@ -269,6 +269,9 @@ public class BuyCarMonthCardPaymentBusiness implements IPaymentBusiness {
         payFeeDetailPo.setGiftAmount("0");
         payFeeDetailPo.setDiscountAmount("0");
         payFeeDetailPo.setLateAmount("0");
+        if (!StringUtil.isEmpty(payFeePo.getFeeTime())) {
+            payFeeDetailPo.setFeeTime(payFeePo.getFeeTime());
+        }
         payFeeDetailPo.setCashierName(userDtos.get(0).getName());
         payFeeDetailPo.setCashierId("-1");
 

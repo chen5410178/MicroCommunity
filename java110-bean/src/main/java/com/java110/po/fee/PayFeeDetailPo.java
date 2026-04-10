@@ -1,6 +1,10 @@
 package com.java110.po.fee;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * @ClassName PayFeeDetailPo
@@ -45,6 +49,10 @@ public class PayFeeDetailPo implements Serializable {
     private String deductionAmount = "0";
     private String lateAmount = "0";
     private String giftAmount = "0";
+
+    private String feeTime;
+    private String feeStartTime;
+    private String feeEndTime;
 
 
     public String getDetailId() {
@@ -237,5 +245,49 @@ public class PayFeeDetailPo implements Serializable {
 
     public void setGiftAmount(String giftAmount) {
         this.giftAmount = giftAmount;
+    }
+
+    public String getFeeTime() {
+        return feeTime;
+    }
+
+    public void setFeeTime(String feeTime) {
+        this.feeTime = feeTime;
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date feeDate = sdf.parse(feeTime);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(feeDate);
+            calendar.set(Calendar.DAY_OF_MONTH, 1);
+            calendar.set(Calendar.HOUR_OF_DAY, 0);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
+            this.feeStartTime = sdf.format(calendar.getTime()) + " 00:00:00";
+            calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+            calendar.set(Calendar.HOUR_OF_DAY, 23);
+            calendar.set(Calendar.MINUTE, 59);
+            calendar.set(Calendar.SECOND, 59);
+            calendar.set(Calendar.MILLISECOND, 999);
+            this.feeEndTime = sdf.format(calendar.getTime()) + " 23:59:59";
+        } catch (ParseException e) {
+            throw new IllegalArgumentException("feeTime格式错误，应为yyyy-MM-dd: " + feeTime);
+        }
+    }
+
+    public String getFeeStartTime() {
+        return feeStartTime;
+    }
+
+    public void setFeeStartTime(String feeStartTime) {
+        this.feeStartTime = feeStartTime;
+    }
+
+    public String getFeeEndTime() {
+        return feeEndTime;
+    }
+
+    public void setFeeEndTime(String feeEndTime) {
+        this.feeEndTime = feeEndTime;
     }
 }

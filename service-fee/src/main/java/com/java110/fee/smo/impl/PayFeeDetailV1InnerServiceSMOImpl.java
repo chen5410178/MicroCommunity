@@ -67,26 +67,7 @@ public class PayFeeDetailV1InnerServiceSMOImpl extends BaseServiceSMO implements
     public int savePayFeeDetailNew(@RequestBody PayFeeDetailPo payFeeDetailPo) {
         int saveFlag = payFeeDetailNewV1ServiceDaoImpl.savePayFeeDetailNewInfo(BeanConvertUtil.beanCovertMap(payFeeDetailPo));
 
-        //todo 判断应收=实收+优惠是否相等，如果不相等，那么就生成一条欠费
-//        BigDecimal receivableAmount = new BigDecimal(payFeeDetailPo.getReceivableAmount());
-//        BigDecimal receivedAmount = new BigDecimal(payFeeDetailPo.getReceivedAmount());
-//        BigDecimal acctAmount = new BigDecimal(payFeeDetailPo.getAcctAmount());
-//        BigDecimal discountAmount = new BigDecimal(payFeeDetailPo.getDiscountAmount());
-//        BigDecimal deductionAmount = new BigDecimal(payFeeDetailPo.getDeductionAmount());
-//        BigDecimal giftAmount = new BigDecimal(payFeeDetailPo.getGiftAmount());
-//
-//        BigDecimal oweAmount = receivableAmount.subtract(receivedAmount)
-//                .subtract(acctAmount)
-//                .subtract(discountAmount)
-//                .subtract(deductionAmount)
-//                .subtract(giftAmount);
-//
-//        if (oweAmount.doubleValue() <= 0) {
-//            return saveFlag;
-//        }
-//
-//        // todo 生成一条欠费
-//        generatorOweFee(payFeeDetailPo, oweAmount.doubleValue());
+
 
         return saveFlag;
     }

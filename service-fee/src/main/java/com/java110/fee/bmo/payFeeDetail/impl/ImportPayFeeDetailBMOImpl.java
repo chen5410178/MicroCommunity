@@ -330,6 +330,9 @@ public class ImportPayFeeDetailBMOImpl implements IImportPayFeeBMODetail {
             importRoomFee.setEndTime(endTime);
         }
         payFeeDetailPo.setEndTime(importRoomFee.getEndTime());
+        if (tmpFeeDto.getFeeTime() != null) {
+            payFeeDetailPo.setFeeTime(DateUtil.getFormatTimeStringB(tmpFeeDto.getFeeTime()));
+        }
         payFeeDetailPo.setDetailId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_detailId));
         payFeeDetailPo.setRemark(importRoomFee.getRemark());
         payFeeDetailPo.setCreateTime(importRoomFee.getCreateTime());

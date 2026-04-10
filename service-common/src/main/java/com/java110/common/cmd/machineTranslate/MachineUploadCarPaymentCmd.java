@@ -277,6 +277,9 @@ public class MachineUploadCarPaymentCmd extends Cmd {
         payFeeDetailPo.setReceivableAmount(carInoutPaymentPo.getPayCharge());
         payFeeDetailPo.setReceivedAmount(carInoutPaymentPo.getRealCharge());
         payFeeDetailPo.setFeeId(feeDto.getFeeId());
+        if (feeDto.getFeeTime() != null) {
+            payFeeDetailPo.setFeeTime(DateUtil.getFormatTimeStringB(feeDto.getFeeTime()));
+        }
 
         flag = feeDetailInnerServiceSMOImpl.saveFeeDetail(payFeeDetailPo);
         if (flag < 1) {

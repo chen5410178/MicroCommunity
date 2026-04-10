@@ -49,6 +49,8 @@ public class PayFeeDto extends PageDto implements Serializable {
 
     private String ftId;
 
+    private String feeTime;
+
     public String[] getFeeIds() {
         return feeIds;
     }
@@ -247,5 +249,13 @@ public class PayFeeDto extends PageDto implements Serializable {
 
     public void setFtId(String ftId) {
         this.ftId = ftId;
+    }
+
+    public String getFeeTime() {
+        return feeTime;
+    }
+
+    public void setFeeTime(String feeTime) {
+        this.feeTime = feeTime;
     }
 }

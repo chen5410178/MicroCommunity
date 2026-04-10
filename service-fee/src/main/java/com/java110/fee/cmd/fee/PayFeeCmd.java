@@ -223,6 +223,8 @@ public class PayFeeCmd extends Cmd {
             payFeeDetailPo.setState(FeeDetailDto.STATE_NORMAL);
             payFeeDetailPo.setStartTime(DateUtil.getFormatTimeStringA(feeDtos.get(0).getStartTime()));
             payFeeDetailPo.setEndTime(DateUtil.getFormatTimeStringA(feeDtos.get(0).getEndTime()));
+            payFeeDetailPo.setFeeTime(DateUtil.getFormatTimeStringB(feeInfo.getFeeTime()));
+
             payFeeDetailPo.setDetailId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_detailId));
             //todo 缓存收据编号
             CommonCache.setValue(payFeeDetailPo.getDetailId() + CommonCache.RECEIPT_CODE, receiptCode, CommonCache.DEFAULT_EXPIRETIME_TWO_MIN);

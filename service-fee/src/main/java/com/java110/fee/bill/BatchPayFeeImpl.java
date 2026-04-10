@@ -234,6 +234,8 @@ public class BatchPayFeeImpl implements IBatchPayFee {
         payFeeDetailPo.setLateAmount(lateAmount + "");
         payFeeDetailPo.setGiftAmount("0");
 
+        payFeeDetailPo.setFeeTime(feeDtos.get(0).getFeeTime());
+
 
         //todo 缓存收据编号
         CommonCache.setValue(payFeeDetailPo.getDetailId() + CommonCache.RECEIPT_CODE, receiptCode, CommonCache.DEFAULT_EXPIRETIME_TWO_MIN);
