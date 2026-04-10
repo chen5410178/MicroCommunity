@@ -311,9 +311,10 @@ public class CycleConvertOnceFeeImpl implements ICycleConvertOnceFee {
         payFeePo.setRemark(feeAmountDto.getRemark());
         payFeePo.setFeeRemark(tmpPayFeeRulePo.getFeeRemark());
         Date feeTime = startTime;
-        if (FeeDto.DEDUCT_FROM_NEXT_MONTH.equals(feeConfigDto.getDeductFrom())) {
+        String deductFrom = feeConfigDto.getDeductFrom();
+        if (FeeDto.DEDUCT_FROM_NEXT_MONTH.equals(deductFrom)) {
             feeTime = DateUtil.getNextMonthDate(startTime, 1);
-        } else if (FeeDto.DEDUCT_FROM_HISTORY_MONTH.equals(feeConfigDto.getDeductFrom())) {
+        } else if (FeeDto.DEDUCT_FROM_HISTORY_MONTH.equals(deductFrom)) {
             feeTime = DateUtil.getNextMonthDate(startTime, -1);
         }
         payFeePo.setFeeTime(DateUtil.getFormatTimeStringB(feeTime));

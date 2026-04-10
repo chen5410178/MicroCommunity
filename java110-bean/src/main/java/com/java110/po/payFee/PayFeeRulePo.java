@@ -48,6 +48,8 @@ public class PayFeeRulePo implements Serializable {
 
     private String feeRemark;
 
+    private String deductFrom;
+
     public String getMaxTime() {
         return maxTime;
     }
@@ -191,5 +193,13 @@ public class PayFeeRulePo implements Serializable {
 
     public void setFeeRemark(String feeRemark) {
         this.feeRemark = feeRemark;
+    }
+
+    public String getDeductFrom() {
+        return deductFrom;
+    }
+
+    public void setDeductFrom(String deductFrom) {
+        this.deductFrom = deductFrom;
     }
 }
