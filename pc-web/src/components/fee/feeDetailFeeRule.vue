@@ -11,22 +11,23 @@
       <el-col :span="20" class="text-right">
         <el-button type="primary" size="small" style="margin-left:10px" v-if="hasPrivilege('502022073096990007')" @click="_openRoomCreateFeeAddModal">
           <i class="fa fa-plus"></i>
-          {{ $t('simplifyRoomFee.createFee') || '创建费用' }}
+          {{ $t('simplifyRoomFee.createFee')}}
         </el-button>
         <el-button type="primary" size="small" style="margin-left:10px" v-if="hasPrivilege('502022073007100003')" @click="_openTempImportRoomFeeModal">
           <i class="fa fa-plus"></i>
-          {{ $t('simplifyRoomFee.tempFee') || '临时收费' }}
+          {{ $t('simplifyRoomFee.tempFee')}}
         </el-button>
         <el-button type="primary" size="small" style="margin-left:10px" v-if="hasPrivilege('502022073049300004')" @click="_openProxyFeeModal">
           <i class="fa fa-plus"></i>
-          {{ $t('simplifyRoomFee.quantityPayment') || '按量缴费' }}
+          {{ $t('simplifyRoomFee.quantityPayment')  }}
         </el-button>
         <el-button type="primary" size="small" style="margin-left:10px" v-if="hasPrivilege('502022073042960005')" @click="_openAddMeterWaterSimplifyModal">
           <i class="fa fa-plus"></i>
-          {{ $t('simplifyRoomFee.waterElectricity') || '水电抄表' }}
+          {{ $t('simplifyRoomFee.waterElectricity')  }}
         </el-button>
       </el-col>
     </el-row>
+    <div class="margin-top-sm">
     <el-table :data="feeDetailFeeRuleInfo.rules" border style="width: 100%">
       <el-table-column prop="ruleId" :label="$t('feeDetailFeeRule.ruleId')" align="center"></el-table-column>
       <el-table-column :label="$t('feeDetailFeeRule.feeItem')" align="center">
@@ -96,6 +97,7 @@
         </template>
       </el-table-column>
     </el-table>
+    </div>
     
     <el-pagination
       @size-change="handleSizeChange"
@@ -109,7 +111,7 @@
 
     <edit-fee-rule ref="editFeeRule" @success="loadData"></edit-fee-rule>
     <finish-fee-rule ref="finishFeeRule" @success="loadData"></finish-fee-rule>
-    <delete-fee ref="deleteFee" @success="loadData"></delete-fee>
+    <delete-fee-rule ref="deleteFee" @success="loadData"></delete-fee-rule>
     <!-- Newly integrated modals moved from simplifyRoomFee -->
     <temp-import-room-fee ref="tempImportRoomFee" @success="loadData"></temp-import-room-fee>
     <room-create-fee-add ref="roomCreateFeeAdd" @success="loadData"></room-create-fee-add>
@@ -122,7 +124,7 @@
 import { listPayFeeRule } from '@/api/fee/feeDetailFeeRuleApi'
 import EditFeeRule from './editFeeRule'
 import FinishFeeRule from './finishFeeRule'
-import DeleteFee from './deleteFee'
+import DeleteFeeRule from './deleteFeeRule'
 import TempImportRoomFee from './tempImportRoomFee'
 import RoomCreateFeeAdd from './roomCreateFeeAdd'
 import AddMeterWater from './addMeterWater'
@@ -134,7 +136,7 @@ export default {
   components: {
     EditFeeRule,
     FinishFeeRule,
-    DeleteFee,
+    DeleteFeeRule,
     TempImportRoomFee,
     RoomCreateFeeAdd,
     AddMeterWater,

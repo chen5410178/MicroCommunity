@@ -147,6 +147,8 @@ public class FeeDto extends PageDto implements Serializable {
 
     private String deductFrom;
 
+    private Date feeTime;
+
     private String rateCycle;
 
     private String rate;
@@ -738,6 +740,15 @@ public class FeeDto extends PageDto implements Serializable {
     public String getDeductFrom() { return deductFrom; }
 
     public void setDeductFrom(String deductFrom) { this.deductFrom = deductFrom; }
+
+    public Date getFeeTime() {
+        return feeTime;
+    }
+
+    public void setFeeTime(Date feeTime) {
+        this.feeTime = feeTime;
+    }
+
     public String getCustEndTime() {
         return custEndTime;
     }

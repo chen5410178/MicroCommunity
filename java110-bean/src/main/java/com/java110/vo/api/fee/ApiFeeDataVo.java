@@ -97,6 +97,8 @@ public class ApiFeeDataVo implements Serializable {
 
     private String feeRemark;
 
+    private String feeTime;
+
 
     public String getMaxEndTime() {
         return maxEndTime;
@@ -517,5 +519,13 @@ public class ApiFeeDataVo implements Serializable {
 
     public void setFeeRemark(String feeRemark) {
         this.feeRemark = feeRemark;
+    }
+
+    public String getFeeTime() {
+        return feeTime;
+    }
+
+    public void setFeeTime(String feeTime) {
+        this.feeTime = feeTime;
     }
 }

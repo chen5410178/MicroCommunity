@@ -7,10 +7,10 @@
     <insert id="savePayFeeInfo" parameterType="Map">
         insert into pay_fee(amount, fee_type_cd, batch_id, fee_id, user_id, income_obj_id, config_id, fee_flag,
         start_time, end_time, state, community_id, payer_obj_type, payer_obj_id, b_id,payer_obj_name,owner_id,owner_name,
-        receivable_amount,owe_amount,rule_id,remark,fee_remark)
+        receivable_amount,owe_amount,rule_id,remark,fee_remark,fee_time)
         values (#{amount}, #{feeTypeCd}, #{batchId}, #{feeId}, #{userId}, #{incomeObjId}, #{configId}, #{feeFlag},
         #{startTime}, #{endTime}, #{state}, #{communityId}, #{payerObjType}, #{payerObjId}, #{bId},#{payerObjName},#{ownerId},#{ownerName},
-        #{receivableAmount},#{oweAmount},#{ruleId},#{remark},#{feeRemark})
+        #{receivableAmount},#{oweAmount},#{ruleId},#{remark},#{feeRemark},#{feeTime})
     </insert>
 
     <!-- 查询费用明细信息 add by wuxw 2018-07-03 -->
@@ -21,7 +21,7 @@
         startTime,t.end_time,t.end_time endTime,t.state,t.community_id,t.community_id
         communityId,t.payer_obj_type,t.payer_obj_type payerObjType,t.payer_obj_id,t.payer_obj_id payerObjId,
         t.payer_obj_name payerObjName,t.owner_id ownerId,t.owner_name ownerName, t.receivable_amount receivableAmount,
-        t.owe_amount oweAmount,t.rule_id ruleId,t.remark,t.fee_remark feeRemark
+        t.owe_amount oweAmount,t.rule_id ruleId,t.remark,t.fee_remark feeRemark, t.fee_time feeTime
         from pay_fee t
         left join pay_fee_config pfc on t.config_id = pfc.config_id and pfc.status_cd = '0'
         where 1 =1
@@ -157,7 +157,10 @@
                 t.remark= #{remark}
             </if>
             <if test="feeRemark !=null and feeRemark != ''">
-                t.fee_remark = #{feeRemark}
+                t.fee_remark = #{feeRemark},
+            </if>
+            <if test="feeTime !=null and feeTime != ''">
+                t.fee_time = #{feeTime}
             </if>
         </set>
         where 1=1
