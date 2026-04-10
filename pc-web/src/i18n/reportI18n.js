@@ -12,7 +12,6 @@ import { messages as reportOweFeeDetailMessages } from '../views/report/reportOw
 import { messages as reportPayFeeDetailMessages } from '../views/report/reportPayFeeDetailLang'
 import { messages as reportRepairMessages } from '../views/report/reportRepairLang'
 import { messages as reportNoFeeRoomMessages } from '../views/report/reportNoFeeRoomLang'
-import { messages as reportQuestionAnswerDetailMessages } from '../views/report/reportQuestionAnswerDetailLang'
 import { messages as reportOwnerPayFeeMessages } from '../views/report/reportOwnerPayFeeLang'
 import { messages as reportHuaningMessages } from '../views/report/reportHuaningLang'
 import { messages as reportPayFeeDepositMessages } from '../views/report/reportPayFeeDepositLang'
@@ -34,7 +33,6 @@ export const messages = {
         ...reportPayFeeDetailMessages.en,
         ...reportRepairMessages.en,
         ...reportNoFeeRoomMessages.en,
-        ...reportQuestionAnswerDetailMessages.en,
         ...reportOwnerPayFeeMessages.en,
         ...reportHuaningMessages.en,
         ...reportPayFeeDepositMessages.en,
@@ -54,7 +52,6 @@ export const messages = {
         ...reportPayFeeDetailMessages.zh,
         ...reportRepairMessages.zh,
         ...reportNoFeeRoomMessages.zh,
-        ...reportQuestionAnswerDetailMessages.zh,
         ...reportOwnerPayFeeMessages.zh,
         ...reportHuaningMessages.zh,
         ...reportPayFeeDepositMessages.zh,

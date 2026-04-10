@@ -37,11 +37,6 @@ export default [
         component: () => import('@/views/report/reportNoFeeRoomList.vue')
     },
     {
-        path: '/pages/property/reportQuestionAnswerDetail',
-        name: '/pages/property/reportQuestionAnswerDetail',
-        component: () => import('@/views/report/reportQuestionAnswerDetailList.vue')
-    },
-    {
         path: '/pages/property/reportOwnerPayFee',
         name: '/pages/property/reportOwnerPayFee',
         component: () => import('@/views/report/reportOwnerPayFeeList.vue')

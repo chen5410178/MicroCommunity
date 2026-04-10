@@ -750,7 +750,7 @@
           and t.obj_type = '6006'
           and ac.acct_type = '2003'
           and t.detail_type = '1001'
-          and ac.part_id = #{communityId}
+          and ac.community_id = #{communityId}
           and t.create_time &gt; #{startDate}
           and t.create_time &lt; #{endDate}
     </select>
@@ -764,7 +764,7 @@
           and t.obj_type = '6006'
           and ac.acct_type = '2003'
           and t.detail_type = '2002'
-          and ac.part_id = #{communityId}
+          and ac.community_id = #{communityId}
           and t.create_time &gt; #{startDate}
           and t.create_time &lt; #{endDate}
     </select>
