@@ -1,0 +1,106 @@
+﻿<template>
+  <el-dialog :title="$t('store.dialog.addTitle')" :visible.sync="dialogVisible" width="500px" @close="handleClose">
+    <el-form ref="form" :model="form" :rules="rules" label-width="100px">
+      <el-form-item :label="$t('store.form.name')" prop="name">
+        <el-input v-model="form.name" />
+      </el-form-item>
+      <el-form-item :label="$t('store.form.address')" prop="address">
+        <el-input v-model="form.address" />
+      </el-form-item>
+      <el-form-item :label="$t('store.form.tel')" prop="tel">
+        <el-input v-model="form.tel" />
+      </el-form-item>
+      <el-form-item :label="$t('store.form.propertyNum')" prop="propertyNum">
+        <el-input v-model="form.propertyNum" />
+      </el-form-item>
+      <el-form-item :label="$t('store.form.state')" prop="state">
+        <el-select v-model="form.state" :placeholder="$t('store.form.state')" style="width: 100%">
+          <el-option label="正常" value="48001" />
+          <el-option label="限制" value="48002" />
+        </el-select>
+      </el-form-item>
+    </el-form>
+    <span slot="footer" class="dialog-footer">
+      <el-button @click="handleClose">{{ $t('store.dialog.cancel') }}</el-button>
+      <el-button type="primary" @click="handleSubmit">{{ $t('store.dialog.confirm') }}</el-button>
+    </span>
+  </el-dialog>
+</template>
+
+<script>
+import { addStore } from '@/api/store/storeApi'
+
+export default {
+  name: 'AddStore',
+  props: {
+    visible: {
+      type: Boolean,
+      default: false
+    }
+  },
+  data() {
+    return {
+      dialogVisible: false,
+      form: {
+        name: '',
+        address: '',
+        tel: '',
+        propertyNum: '',
+        state: '',
+        createTime: '',
+      },
+      rules: {
+        name: [
+          { required: true, message: this.$t('store.validate.name'), trigger: 'blur' }
+        ],
+        address: [
+          { required: true, message: this.$t('store.validate.address'), trigger: 'blur' }
+        ],
+        tel: [
+          { required: true, message: this.$t('store.validate.tel'), trigger: 'blur' }
+        ],
+        state: [
+          { required: true, message: this.$t('store.validate.state'), trigger: 'blur' }
+        ],
+        createTime: [
+          { required: true, message: this.$t('store.validate.createTime'), trigger: 'blur' }
+        ],
+      }
+    }
+  },
+  watch: {
+    visible: {
+      handler(val) {
+        this.dialogVisible = val
+      },
+      immediate: true
+    },
+    dialogVisible(val) {
+      this.$emit('update:visible', val)
+    }
+  },
+  methods: {
+    handleClose() {
+      this.dialogVisible = false
+      this.$refs.form && this.$refs.form.resetFields()
+    },
+    async handleSubmit() {
+      try {
+        await this.$refs.form.validate()
+        await addStore(this.form)
+        this.$message.success(this.$t('common.operationSuccess'))
+        this.handleClose()
+        this.$emit('success')
+      } catch (error) {
+        console.error('添加失败:', error)
+      }
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+.dialog-footer {
+  text-align: right;
+}
+</style>

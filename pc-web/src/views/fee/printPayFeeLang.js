@@ -1,0 +1,60 @@
+export const messages = {
+  en: {
+    printPayFee: {
+      apply: 'Application',
+      receipt: 'Receipt',
+      refund: 'Refund',
+      owner: 'Owner',
+      receiptNum: 'Receipt No.',
+      payTime: 'Payment Time',
+      serialNumber: 'No.',
+      feeItem: 'Fee Item',
+      houseCar: 'House/Vehicle',
+      feeRange: 'Fee Range',
+      to: 'to',
+      none: 'None',
+      unitPrice: 'Unit Price',
+      areaUsage: 'Area/Usage',
+      paymentMethod: 'Payment Method',
+      receivableActual: 'Receivable/Actual',
+      yuan: 'yuan',
+      discountAmount: 'Discount Amount',
+      remark: 'Remark',
+      capitalRMB: 'Capital RMB',
+      accountDeduction: 'Account Deduction',
+      departmentHead: 'Department Head:',
+      operator: 'Operator',
+      financeReceipt: 'Finance Receipt:',
+      customerConfirm: 'Customer Confirm:'
+    }
+  },
+  zh: {
+    printPayFee: {
+      apply: '申请单',
+      receipt: '收据单',
+      refund: '退款单',
+      owner: '业主',
+      receiptNum: '单号',
+      payTime: '缴费时间',
+      serialNumber: '编号',
+      feeItem: '收费项目',
+      houseCar: '房屋/车辆',
+      feeRange: '收费范围',
+      to: '至',
+      none: '无',
+      unitPrice: '单价',
+      areaUsage: '面积/用量',
+      paymentMethod: '支付方式',
+      receivableActual: '实收',
+      yuan: '元',
+      discountAmount: '优惠金额',
+      remark: '备注',
+      capitalRMB: '大写人民币（元）',
+      accountDeduction: '账户扣款',
+      departmentHead: '部门负责人：',
+      operator: '经办人：',
+      financeReceipt: '财务收款：',
+      customerConfirm: '客户确认：'
+    }
+  }
+}

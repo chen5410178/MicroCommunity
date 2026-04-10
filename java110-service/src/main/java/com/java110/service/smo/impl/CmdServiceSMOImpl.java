@@ -13,11 +13,9 @@ import com.java110.core.trace.Java110TraceLog;
 import com.java110.dto.system.DataFlowLinksCost;
 import com.java110.service.smo.ICmdServiceSMO;
 import com.java110.utils.cache.MappingCache;
-import com.java110.utils.constant.KafkaConstant;
 import com.java110.utils.constant.MappingConstant;
 import com.java110.utils.exception.BusinessException;
 import com.java110.utils.exception.SMOException;
-import com.java110.utils.kafka.KafkaFactory;
 import com.java110.utils.log.LoggerEngine;
 import com.java110.utils.util.DateUtil;
 import com.java110.vo.ResultVo;
@@ -112,7 +110,6 @@ public class CmdServiceSMOImpl extends LoggerEngine implements ICmdServiceSMO {
                 JSONObject log = new JSONObject();
                 log.put("request", requestJson);
                 log.put("response", responseJson);
-                KafkaFactory.sendKafkaMessage(KafkaConstant.TOPIC_LOG_NAME, "", log.toJSONString());
             }
         } catch (Exception e) {
             logger.error("报错日志出错了，", e);
@@ -139,7 +136,6 @@ public class CmdServiceSMOImpl extends LoggerEngine implements ICmdServiceSMO {
                 }
                 costDate.put("costDates", costDates);
 
-                KafkaFactory.sendKafkaMessage(KafkaConstant.TOPIC_COST_TIME_LOG_NAME, "", costDate.toJSONString());
             }
         } catch (Exception e) {
             logger.error("报错日志出错了，", e);

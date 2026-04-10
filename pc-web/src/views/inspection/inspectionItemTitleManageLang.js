@@ -1,0 +1,60 @@
+export const messages = {
+  en: {
+    inspectionItemTitleManage: {
+      searchTitle: 'Search Conditions',
+      listTitle: 'Inspection Items',
+      placeholderTitleId: 'Please enter title ID',
+      placeholderItemTitle: 'Please enter question name',
+      placeholderTitleType: 'Please select title type',
+      selectTitleType: 'Select title type',
+      singleChoice: 'Single choice',
+      multipleChoice: 'Multiple choice',
+      shortAnswer: 'Short answer',
+      titleId: 'Title ID',
+      title: 'Title',
+      titleType: 'Title Type',
+      seq: 'Sequence',
+      createTime: 'Create Time',
+      operation: 'Operation',
+      addTitle: 'Add Title',
+      editTitle: 'Edit Title',
+      confirmDelete: 'Are you sure to delete this title?',
+      placeholderItemTitleRequired: 'Required, please enter title',
+      placeholderTitleTypeRequired: 'Required, please select title type',
+      option: 'Option',
+      addOption: 'Add Option',
+      removeOption: 'Remove Option',
+      placeholderSeq: 'Required, please enter sequence',
+      seqMustNumber: 'Sequence must be a number'
+    }
+  },
+  zh: {
+    inspectionItemTitleManage: {
+      searchTitle: '查询条件',
+      listTitle: '巡检项',
+      placeholderTitleId: '请输入题目ID',
+      placeholderItemTitle: '请输入问题名称',
+      placeholderTitleType: '请选择题目类型',
+      selectTitleType: '请选择题目类型',
+      singleChoice: '单选',
+      multipleChoice: '多选',
+      shortAnswer: '简答题',
+      titleId: '题目ID',
+      title: '题目',
+      titleType: '题目类型',
+      seq: '顺序',
+      createTime: '创建时间',
+      operation: '操作',
+      addTitle: '添加题目',
+      editTitle: '修改题目',
+      confirmDelete: '确定删除题目？',
+      placeholderItemTitleRequired: '必填，请填写题目',
+      placeholderTitleTypeRequired: '必填，请选择题目类型',
+      option: '选项',
+      addOption: '增加选项',
+      removeOption: '删除选项',
+      placeholderSeq: '必填，请填写顺序',
+      seqMustNumber: '顺序必须是数字'
+    }
+  }
+}

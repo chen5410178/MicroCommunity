@@ -16,7 +16,6 @@ import com.java110.intf.common.IMachineTranslateInnerServiceSMO;
 import com.java110.intf.community.ICommunityInnerServiceSMO;
 import com.java110.intf.user.IOwnerInnerServiceSMO;
 import com.java110.utils.exception.CmdException;
-import com.java110.utils.kafka.KafkaFactory;
 import com.java110.utils.util.StringUtil;
 import com.java110.vo.ResultVo;
 import org.slf4j.Logger;
@@ -33,7 +32,6 @@ public class MachineCmdResultCmd extends Cmd {
     private final static Logger logger = LoggerFactory.getLogger(MachineCmdResultCmd.class);
 
 
-    public static final String FRONT_KAFKA_TOPIC = "webSentMessageTopic";
     public static final String STATE_NO_TRANSLATE = "10000";//待同步
     public static final String STATE_TRANSLATEED = "20000";//同步完成
     public static final String STATE_TRANSLATEING = "30000";//同步中
@@ -130,12 +128,7 @@ public class MachineCmdResultCmd extends Cmd {
 
         }
         machineTranslateInnerServiceSMOImpl.updateMachineTranslateState(tmpMtDto);
-        //写kafka消息
-        try {
-            KafkaFactory.sendKafkaMessage(FRONT_KAFKA_TOPIC, frontResultVo.toString());
-        } catch (Exception e) {
-            logger.error("通知 front失败", e);
-        }
+        logger.info("设备命令执行结果: {}", frontResultVo.toString());
         resultVo = new ResultVo(ResultVo.CODE_MACHINE_OK, ResultVo.MSG_OK);
         responseEntity = new ResponseEntity<>(resultVo.toString(), headers, HttpStatus.OK);
         context.setResponseEntity(responseEntity);

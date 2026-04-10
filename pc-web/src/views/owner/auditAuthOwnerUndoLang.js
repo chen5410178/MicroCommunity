@@ -1,0 +1,60 @@
+export const messages = {
+    en: {
+      auditAuthOwnerUndo: {
+        title: 'Authentication Review',
+        back: 'Back',
+        roomNumber: 'Room Number:',
+        roomArea: 'Room Area:',
+        roomType: 'Room Type:',
+        roomStatus: 'Room Status:',
+        owner: 'Owner:',
+        ownerPhone: 'Owner Phone:',
+        authPerson: 'Authenticator:',
+        housePersonnel: 'House Personnel',
+        ownerFace: 'Owner Face',
+        name: 'Name',
+        contact: 'Contact',
+        address: 'Address',
+        idCard: 'ID Card',
+        audit: 'Audit',
+        action: 'Action',
+        selectAudit: 'Please Audit',
+        agree: 'Agree',
+        reject: 'Reject',
+        auditRemark: 'Audit Remark',
+        requiredRemark: 'Required, please fill in the work order description',
+        submit: 'Submit',
+        submitSuccess: 'Submitted successfully',
+        submitFailed: 'Submission failed:'
+      }
+    },
+    zh: {
+      auditAuthOwnerUndo: {
+        title: '认证审核',
+        back: '返回',
+        roomNumber: '房屋编号：',
+        roomArea: '房屋面积：',
+        roomType: '房屋类型：',
+        roomStatus: '房屋状态：',
+        owner: '业主：',
+        ownerPhone: '业主电话：',
+        authPerson: '认证人员：',
+        housePersonnel: '房屋人员',
+        ownerFace: '业主人脸',
+        name: '姓名',
+        contact: '联系方式',
+        address: '家庭住址',
+        idCard: '身份证',
+        audit: '审核',
+        action: '动作',
+        selectAudit: '请审核',
+        agree: '同意',
+        reject: '拒绝',
+        auditRemark: '审核说明',
+        requiredRemark: '必填，请填写工单说明',
+        submit: '提交',
+        submitSuccess: '提交成功',
+        submitFailed: '提交失败：'
+      }
+    }
+  }

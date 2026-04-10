@@ -1,0 +1,102 @@
+﻿<template>
+  <el-dialog :title="$t('communitySpaceManage.addSpace')" :visible.sync="visible" width="50%" @close="resetForm">
+    <el-form ref="form" :model="form" :rules="rules" label-width="120px">
+      <el-form-item :label="$t('communitySpaceManage.name')" prop="name">
+        <el-input v-model="form.name" :placeholder="$t('communitySpaceManage.selectSpace')" />
+      </el-form-item>
+
+      <el-form-item :label="$t('communitySpaceManage.feeMoney')" prop="feeMoney">
+        <el-input v-model="form.feeMoney" :placeholder="$t('communitySpaceManage.feeMoney')" />
+      </el-form-item>
+
+      <el-form-item :label="$t('communitySpaceManage.adminName')" prop="adminName">
+        <el-input v-model="form.adminName" :placeholder="$t('communitySpaceManage.adminName')" />
+      </el-form-item>
+
+      <el-form-item :label="$t('communitySpaceManage.tel')" prop="tel">
+        <el-input v-model="form.tel" :placeholder="$t('communitySpaceManage.tel')" />
+      </el-form-item>
+
+      <el-form-item :label="$t('communitySpaceManage.state')" prop="state">
+        <el-select v-model="form.state" style="width:100%">
+          <el-option :label="$t('communitySpaceManage.status1001')" value="1001" />
+          <el-option :label="$t('communitySpaceManage.status2002')" value="2002" />
+        </el-select>
+      </el-form-item>
+    </el-form>
+
+    <div slot="footer" class="dialog-footer">
+      <el-button @click="visible = false">
+        {{ $t('communitySpaceManage.cancel') }}
+      </el-button>
+      <el-button type="primary" @click="submitForm">
+        {{ $t('communitySpaceManage.save') }}
+      </el-button>
+    </div>
+  </el-dialog>
+</template>
+
+<script>
+import { saveCommunitySpace } from '@/api/community/communitySpaceManageApi'
+
+export default {
+  name: 'AddCommunitySpace',
+  data() {
+    return {
+      visible: false,
+      form: {
+        venueId: '',
+        name: '',
+        feeMoney: '',
+        startTime: '00:00',
+        endTime: '23:59',
+        adminName: '',
+        tel: '',
+        state: '1001'
+      },
+      rules: {
+        name: [
+          { required: true, message: this.$t('communitySpaceManage.selectSpace'), trigger: 'blur' }
+        ],
+        feeMoney: [
+          { required: true, message: this.$t('communitySpaceManage.feeMoney'), trigger: 'blur' }
+        ],
+        adminName: [
+          { required: true, message: this.$t('communitySpaceManage.adminName'), trigger: 'blur' }
+        ],
+        tel: [
+          { required: true, message: this.$t('communitySpaceManage.tel'), trigger: 'blur' }
+        ],
+        state: [
+          { required: true, message: this.$t('communitySpaceManage.selectStatus'), trigger: 'change' }
+        ]
+      }
+    }
+  },
+  methods: {
+    open(venueId) {
+      this.form.venueId = venueId
+      this.visible = true
+    },
+
+    resetForm() {
+      this.$refs.form.resetFields()
+    },
+
+    submitForm() {
+      this.$refs.form.validate(async valid => {
+        if (valid) {
+          try {
+            await saveCommunitySpace(this.form)
+            this.$message.success(this.$t('common.operationSuccess'))
+            this.visible = false
+            this.$emit('success')
+          } catch (error) {
+            console.error('添加场地失败:', error)
+          }
+        }
+      })
+    }
+  }
+}
+</script>

@@ -1,0 +1,58 @@
+export const messages = {
+  en: {
+    machineTypeTree: {
+      addParent: 'Add Parent Category',
+      addChild: 'Add Child Category',
+      edit: 'Edit',
+      delete: 'Delete',
+      detail: 'Details',
+      machineTypeName: 'Equipment Type Name',
+      machineTypeCode: 'Category Code',
+      status: 'Status',
+      enable: 'Enable',
+      disable: 'Disable',
+      importanceLevel: 'Importance Level',
+      seq: 'Sort Value',
+      unit: 'Unit',
+      warrantyDeadline: 'Warranty Deadline',
+      remark: 'Remark',
+      requiredPlaceholder: 'Required, please enter {field}',
+      optionalPlaceholder: 'Optional, please enter {field}',
+      requiredMessage: '{field} is required',
+      maxLengthMessage: 'Cannot exceed {length} characters',
+      selectTypeFirst: 'Please select equipment category first',
+      confirmOperation: 'Please confirm your operation',
+      confirmDelete: 'Confirm to delete equipment type?',
+      cancelDelete: 'Cancel',
+      confirmDeleteBtn: 'Confirm Delete'
+    }
+  },
+  zh: {
+    machineTypeTree: {
+      addParent: '添加一级分类',
+      addChild: '添加子级分类',
+      edit: '修改',
+      delete: '删除',
+      detail: '详情',
+      machineTypeName: '设备类型名称',
+      machineTypeCode: '分类编码',
+      status: '启用状态',
+      enable: '启用',
+      disable: '停用',
+      importanceLevel: '重要等级',
+      seq: '排序值',
+      unit: '单位',
+      warrantyDeadline: '保修截止日期',
+      remark: '备注',
+      requiredPlaceholder: '必填，请填写{field}',
+      optionalPlaceholder: '选填，请填写{field}',
+      requiredMessage: '{field}不能为空',
+      maxLengthMessage: '{field}不能超过{length}个字符',
+      selectTypeFirst: '请先选择设备分类',
+      confirmOperation: '请确认您的操作',
+      confirmDelete: '确定删除设备类型?',
+      cancelDelete: '点错了',
+      confirmDeleteBtn: '确认删除'
+    }
+  }
+}

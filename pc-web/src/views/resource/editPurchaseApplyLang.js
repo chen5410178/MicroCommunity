@@ -1,0 +1,62 @@
+export const messages = {
+  en: {
+    editPurchaseApply: {
+      title: 'Edit Purchase Apply',
+      back: 'Back',
+      contactPerson: 'Contact Person',
+      contactPersonPlaceholder: 'Required, please enter contact person',
+      contactPhone: 'Contact Phone',
+      contactPhonePlaceholder: 'Required, please enter contact phone',
+      applyDescription: 'Apply Description',
+      applyDescriptionPlaceholder: 'Required, please enter apply description',
+      purchaseItems: 'Purchase Items',
+      select: 'Select',
+      itemType: 'Item Type',
+      itemName: 'Item Name(Code)',
+      itemSpec: 'Item Specification',
+      price: 'Price',
+      selectPrice: 'Select Price',
+      itemStock: 'Item Stock',
+      applyQuantity: 'Apply Quantity',
+      applyQuantityPlaceholder: 'Required, please enter apply quantity',
+      remark: 'Remark',
+      remarkPlaceholder: 'Optional, please enter remark',
+      operation: 'Operation',
+      remove: 'Remove',
+      submit: 'Submit',
+      noItemsSelected: 'No items selected',
+      updateSuccess: 'Update success',
+      updateFailed: 'Update failed'
+    }  
+  },
+  zh: {
+    editPurchaseApply: {
+      title: '编辑采购申请',
+      back: '返回',
+      contactPerson: '联系人',
+      contactPersonPlaceholder: '必填，请填写联系人',
+      contactPhone: '联系电话',
+      contactPhonePlaceholder: '必填，请填写联系电话',
+      applyDescription: '申请说明',
+      applyDescriptionPlaceholder: '必填，请填写申请说明',
+      purchaseItems: '采购物品',
+      select: '选择',
+      itemType: '物品类型',
+      itemName: '物品名称(编码)',
+      itemSpec: '物品规格',
+      price: '价格',
+      selectPrice: '请选择价格',
+      itemStock: '物品库存',
+      applyQuantity: '申请数量',
+      applyQuantityPlaceholder: '必填，请填写申请数量',
+      remark: '备注',
+      remarkPlaceholder: '选填，请填写备注',
+      operation: '操作',
+      remove: '移除',
+      submit: '提交',
+      noItemsSelected: '未选择采购物品',
+      updateSuccess: '修改成功',
+      updateFailed: '修改失败'
+    }
+  }
+}

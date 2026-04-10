@@ -1,0 +1,62 @@
+export const messages = {
+  en: {
+    carDetailApplyParkingSpace: {
+      applyParkingSpace: 'Apply Parking Space',
+      applyId: 'Apply ID',
+      carNum: 'Car Number',
+      parkingSpace: 'Parking Space',
+      none: 'None',
+      carBrand: 'Car Brand',
+      carType: 'Car Type',
+      color: 'Color',
+      startTime: 'Start Time',
+      endTime: 'End Time',
+      applicant: 'Applicant',
+      phone: 'Phone',
+      auditResult: 'Audit Result',
+      operation: 'Operation',
+      audit: 'Audit',
+      edit: 'Edit',
+      delete: 'Delete',
+      pendingReview: 'Pending Review',
+      pendingPayment: 'Pending Payment',
+      completed: 'Completed',
+      auditFailed: 'Audit Failed',
+      abnormalStatus: 'Abnormal Status',
+      familyCar: 'Family Car',
+      bus: 'Bus',
+      truck: 'Truck',
+      abnormalVehicle: 'Abnormal Vehicle'
+    }
+  },
+  zh: {
+    carDetailApplyParkingSpace: {
+      applyParkingSpace: '申请车位',
+      applyId: '申请ID',
+      carNum: '车牌号',
+      parkingSpace: '停车位',
+      none: '无',
+      carBrand: '汽车品牌',
+      carType: '车辆类型',
+      color: '颜色',
+      startTime: '起租时间',
+      endTime: '结租时间',
+      applicant: '申请人',
+      phone: '手机号',
+      auditResult: '审核结果',
+      operation: '操作',
+      audit: '审核',
+      edit: '修改',
+      delete: '删除',
+      pendingReview: '待审核',
+      pendingPayment: '待缴费',
+      completed: '完成',
+      auditFailed: '审核失败',
+      abnormalStatus: '状态异常',
+      familyCar: '家用小汽车',
+      bus: '客车',
+      truck: '货车',
+      abnormalVehicle: '异常车辆'
+    }
+  }
+}

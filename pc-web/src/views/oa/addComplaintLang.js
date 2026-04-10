@@ -1,0 +1,54 @@
+export const messages = {
+  en: {
+    addComplaint: {
+      title: 'Register Complaint',
+      type: 'Type',
+      typePlaceholder: 'Required, please select type',
+      room: 'Room',
+      roomPlaceholder: 'Required, please select room',
+      contact: 'Contact Person',
+      contactPlaceholder: 'Required, please enter contact person',
+      phone: 'Phone Number',
+      phonePlaceholder: 'Required, please enter phone number',
+      content: 'Content',
+      contentPlaceholder: 'Required, please enter content',
+      register: 'Register',
+      typeRequired: 'Complaint type is required',
+      contactRequired: 'Contact person is required',
+      contactMaxLength: 'Contact person cannot exceed 200 characters',
+      phoneRequired: 'Phone number is required',
+      phoneFormat: 'Invalid phone number format',
+      contentRequired: 'Content is required',
+      contentMaxLength: 'Content cannot exceed 4000 characters',
+      saveSuccess: 'Complaint registered successfully',
+      saveError: 'Failed to register complaint',
+      fetchTypesError: 'Failed to fetch complaint types'
+    }
+  },
+  zh: {
+    addComplaint: {
+      title: '登记投诉',
+      type: '类型',
+      typePlaceholder: '必填，请选择类型',
+      room: '房屋',
+      roomPlaceholder: '必填，请选择房屋',
+      contact: '联系人',
+      contactPlaceholder: '必填，请填写联系人',
+      phone: '联系电话',
+      phonePlaceholder: '必填，请填写联系电话',
+      content: '内容',
+      contentPlaceholder: '必填，请填写内容',
+      register: '登记',
+      typeRequired: '投诉类型不能为空',
+      contactRequired: '联系人不能为空',
+      contactMaxLength: '联系人不能大于200位',
+      phoneRequired: '联系电话不能为空',
+      phoneFormat: '联系电话格式错误',
+      contentRequired: '内容不能为空',
+      contentMaxLength: '内容超过4000位',
+      saveSuccess: '添加成功',
+      saveError: '添加失败',
+      fetchTypesError: '获取投诉类型失败'
+    }
+  }
+}

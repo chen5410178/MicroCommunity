@@ -1,0 +1,60 @@
+export const messages = {
+  en: {
+    aRoomDetailCarFee: {
+      selectCar: 'Select Car',
+      feeItem: 'Fee Item',
+      feeFlag: 'Fee Flag',
+      feeType: 'Fee Type',
+      amount: 'Amount',
+      createTime: 'Create Time',
+      timeRange: 'Time Range',
+      description: 'Description',
+      state: 'Status',
+      operation: 'Operation',
+      preDegrees: 'Previous Degrees',
+      curDegrees: 'Current Degrees',
+      unitPrice: 'Unit Price',
+      additionalFee: 'Additional Fee',
+      algorithm: 'Algorithm',
+      usage: 'Usage',
+      fixedFee: 'Fixed Fee',
+      note1: 'Note: The end time "-" means the charging time has not arrived or the charging has ended',
+      note2: 'Note: The amount -1 generally means an error in the fee formula setting, please check',
+      totalArrears: 'Total Arrears',
+      parkingLot: ' Parking Lot ',
+      parkingSpace: ' Parking Space',
+      owner: 'Owner',
+      phone: 'Phone',
+      noParkingSpace: 'No parking space'
+    }
+  },
+  zh: {
+    aRoomDetailCarFee: {
+      selectCar: '选择车辆',
+      feeItem: '费用项目',
+      feeFlag: '费用标识',
+      feeType: '费用类型',
+      amount: '应收金额',
+      createTime: '建账时间',
+      timeRange: '应收时间段',
+      description: '说明',
+      state: '状态',
+      operation: '操作',
+      preDegrees: '上期度数',
+      curDegrees: '本期度数',
+      unitPrice: '单价',
+      additionalFee: '附加费',
+      algorithm: '算法',
+      usage: '用量',
+      fixedFee: '固定费',
+      note1: '注意： 应收结束时间 "-" 表示未到应收时间 或 收费已结束',
+      note2: '注意： 应收金额 为-1 一般为费用项公式设置出错请检查',
+      totalArrears: '欠费小计',
+      parkingLot: '停车场',
+      parkingSpace: '停车位',
+      owner: '业主',
+      phone: '电话',
+      noParkingSpace: '没有车位'
+    }
+  }
+}

@@ -1,0 +1,60 @@
+export const messages = {
+  en: {
+    integralDetail: {
+      all: 'All',
+      personal: 'Personal',
+      merchant: 'Merchant',
+      searchTitle: 'Search Conditions',
+      accountPlaceholder: 'Please enter account',
+      typePlaceholder: 'Please select type',
+      objectTypePlaceholder: 'Please select object type',
+      orderIdPlaceholder: 'Please enter order ID',
+      transferIn: 'Transfer In',
+      transferOut: 'Transfer Out',
+      user: 'User',
+      tableTitle: 'Points Transaction',
+      id: 'ID',
+      accountName: 'Account Name',
+      accountId: 'Account ID',
+      type: 'Type',
+      relatedAccount: 'Related Account',
+      points: 'Points',
+      objectType: 'Object Type',
+      objectId: 'Object ID',
+      phone: 'Phone',
+      orderId: 'Order ID',
+      transactionTime: 'Transaction Time',
+      remark: 'Remark',
+      fetchError: 'Failed to fetch points transaction data'
+    }
+  },
+  zh: {
+    integralDetail: {
+      all: '全部',
+      personal: '个人',
+      merchant: '商户',
+      searchTitle: '查询条件',
+      accountPlaceholder: '请填写账户',
+      typePlaceholder: '请选择类型',
+      objectTypePlaceholder: '请选择对象类型',
+      orderIdPlaceholder: '请选择交易单号',
+      transferIn: '转入',
+      transferOut: '转出',
+      user: '用户',
+      tableTitle: '积分交易',
+      id: '编号',
+      accountName: '账户名称',
+      accountId: '账户编号',
+      type: '类型',
+      relatedAccount: '关联账户',
+      points: '积分数',
+      objectType: '对象类型',
+      objectId: '对象ID',
+      phone: '手机号',
+      orderId: '交易单号',
+      transactionTime: '交易时间',
+      remark: '备注',
+      fetchError: '获取积分交易数据失败'
+    }
+  }
+}

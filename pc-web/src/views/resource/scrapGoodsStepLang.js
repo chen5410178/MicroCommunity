@@ -1,0 +1,70 @@
+export const messages = {
+  en: {
+    scrapGoodsStep: {
+      lossDescription: 'Loss Description',
+      requiredRemark: 'Required, please fill in the loss description',
+      submit: 'Submit',
+      selectGoodsFirst: 'Please select goods first',
+      requiredQuantity: 'Please fill in the quantity',
+      stockNotEnough: ', stock is not enough',
+      requiredUsageType: 'Please select goods usage type',
+      requiredNote: 'Please fill in the note',
+      submitSuccess: 'Submit successfully',
+      submitFailed: 'Submit failed'
+    },
+    viewResourceMyGoodsInfo: {
+      goodsInfo: 'Goods Information',
+      back: 'Back',
+      selectGoods: 'Select Goods',
+      goodsName: 'Goods Name',
+      goodsCode: 'Goods Code',
+      goodsType: 'Goods Type',
+      isFixedGoods: 'Is Fixed Goods',
+      goodsStock: 'Goods Stock',
+      miniStock: 'Mini Stock',
+      lossQuantity: 'Loss Quantity',
+      usageType: 'Usage Type',
+      selectUsageType: 'Please select usage type',
+      scrapRecycle: 'Scrap Recycle',
+      publicLoss: 'Public Loss',
+      remark: 'Remark',
+      requiredRemark: 'Required, please fill in the remark',
+      operation: 'Operation',
+      remove: 'Remove'
+    },
+  },
+  zh: {
+    scrapGoodsStep: {
+      lossDescription: '损耗说明',
+      requiredRemark: '必填，请填写损耗说明',
+      submit: '提交',
+      selectGoodsFirst: '请先选择物品',
+      requiredQuantity: '请填写数量',
+      stockNotEnough: '，库存不足',
+      requiredUsageType: '请选择物品使用类型',
+      requiredNote: '请填写备注',
+      submitSuccess: '提交成功',
+      submitFailed: '提交失败'
+    },
+    viewResourceMyGoodsInfo: {
+      goodsInfo: '物品信息',
+      back: '返回',
+      selectGoods: '选择物品',
+      goodsName: '物品名称',
+      goodsCode: '物品编码',
+      goodsType: '物品类型',
+      isFixedGoods: '是否是固定物品',
+      goodsStock: '物品库存',
+      miniStock: '物品最小计量总数',
+      lossQuantity: '损耗数量',
+      usageType: '物品使用类型',
+      selectUsageType: '请选择物品使用类型',
+      scrapRecycle: '报废回收',
+      publicLoss: '公用损耗',
+      remark: '备注',
+      requiredRemark: '必填，请填写备注',
+      operation: '操作',
+      remove: '移除'
+    },
+  }
+}

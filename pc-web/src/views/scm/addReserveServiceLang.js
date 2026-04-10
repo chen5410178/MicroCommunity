@@ -1,0 +1,82 @@
+export const messages = {
+  en: {
+    addReserveService: {
+      title: 'Add Service',
+      name: 'Name',
+      namePlaceholder: 'Required, please enter name',
+      params: 'Parameters',
+      paramsPlaceholder: 'Required, please select parameters',
+      price: 'Service Fee',
+      pricePlaceholder: 'Required, please enter service fee',
+      sort: 'Sort',
+      sortPlaceholder: 'Required, please enter sort order',
+      startDate: 'Start Date',
+      startDatePlaceholder: 'Required, please select start date',
+      endDate: 'End Date',
+      endDatePlaceholder: 'Required, please select end date',
+      coverImage: 'Service Cover',
+      state: 'Status',
+      statePlaceholder: 'Required, please select status',
+      stateOff: 'Off Shelf',
+      stateOn: 'On Shelf',
+      goodsDesc: 'Service Description',
+      goodsDescPlaceholder: 'Required, please enter service description',
+      content: 'Service Details',
+      saveSuccess: 'Service saved successfully',
+      saveFailed: 'Failed to save service',
+      nameRequired: 'Name is required',
+      paramsRequired: 'Parameters is required',
+      priceRequired: 'Service fee is required',
+      sortRequired: 'Sort order is required',
+      startDateRequired: 'Start date is required',
+      endDateRequired: 'End date is required',
+      coverImageRequired: 'Service cover is required',
+      stateRequired: 'Status is required',
+      goodsDescRequired: 'Service description is required'
+    },
+    uploadImage: {
+      fileSizeLimit: 'Image size cannot exceed 2MB',
+      uploadFailed: 'Image upload failed'
+    }
+  },
+  zh: {
+    addReserveService: {
+      title: '添加服务',
+      name: '名称',
+      namePlaceholder: '必填，请填写名称',
+      params: '参数',
+      paramsPlaceholder: '必填，请选择参数',
+      price: '上门费',
+      pricePlaceholder: '必填，请填写上门费',
+      sort: '排序',
+      sortPlaceholder: '必填，请填写排序',
+      startDate: '开始时间',
+      startDatePlaceholder: '必填，请填写开始时间',
+      endDate: '结束时间',
+      endDatePlaceholder: '必填，请填写结束时间',
+      coverImage: '服务封面',
+      state: '状态',
+      statePlaceholder: '必填，请选择状态',
+      stateOff: '未上架',
+      stateOn: '上架',
+      goodsDesc: '商品简介',
+      goodsDescPlaceholder: '必填，请填写商品简介',
+      content: '商品详情',
+      saveSuccess: '服务保存成功',
+      saveFailed: '服务保存失败',
+      nameRequired: '名称不能为空',
+      paramsRequired: '参数不能为空',
+      priceRequired: '上门费不能为空',
+      sortRequired: '排序不能为空',
+      startDateRequired: '开始时间不能为空',
+      endDateRequired: '结束时间不能为空',
+      coverImageRequired: '服务封面不能为空',
+      stateRequired: '状态不能为空',
+      goodsDescRequired: '商品简介不能为空'
+    },
+    uploadImage: {
+      fileSizeLimit: '图片大小不能超过2MB',
+      uploadFailed: '图片上传失败'
+    }
+  }
+}

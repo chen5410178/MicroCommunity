@@ -101,12 +101,10 @@ public class PcUserLoginCmd extends Cmd {
         Assert.hasKeyAndValue(reqJson, "username", "用户登录，未包含username节点，请检查");
         Assert.hasKeyAndValue(reqJson, "passwd", "用户登录，未包含passwd节点，请检查");
 
-        AuthenticationFactory.checkLoginErrorCount(reqJson.getString("username"));
+        // AuthenticationFactory.checkLoginErrorCount(reqJson.getString("username"));
 
-        String appId = CmdContextUtils.getAppId(cmdDataFlowContext);
-        if(AppDto.PROPERTY_APP.equals(appId)){
-            reqJson.put("passwd", AuthenticationFactory.passwdMd5(reqJson.getString("passwd")));
-        }
+        reqJson.put("passwd", AuthenticationFactory.passwdMd5(reqJson.getString("passwd")));
+
 
     }
 
@@ -153,13 +151,13 @@ public class PcUserLoginCmd extends Cmd {
         }
         JSONArray data = new JSONArray();
         JSONObject userInfo = null;
-        for(UserDto aUserDto: userDtos) {
+        for (UserDto aUserDto : userDtos) {
             try {
                 Map userMap = new HashMap();
                 userMap.put(CommonConstant.LOGIN_USER_ID, aUserDto.getUserId());
                 userMap.put(CommonConstant.LOGIN_USER_NAME, aUserDto.getUserName());
                 String token = AuthenticationFactory.createAndSaveToken(userMap);
-                userInfo= BeanConvertUtil.beanCovertJson(aUserDto);
+                userInfo = BeanConvertUtil.beanCovertJson(aUserDto);
                 userInfo.remove("userPwd");
                 userInfo.put("token", token);
                 data.add(userInfo);

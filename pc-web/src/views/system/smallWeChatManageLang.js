@@ -1,0 +1,62 @@
+export const messages = {
+  en: {
+    smallWeChatManage: {
+      title: 'My Mini Programs',
+      name: 'Name',
+      appSecret: 'App Secret',
+      remarks: 'Description',
+      addTitle: 'Add Mini Program',
+      editTitle: 'Edit Mini Program',
+      deleteTitle: 'Confirm Operation',
+      deleteConfirm: 'Are you sure to delete this mini program?',
+      namePlaceholder: 'Required, please enter name',
+      appIdPlaceholder: 'Required, please enter APPID',
+      appSecretPlaceholder: 'Required, please enter app secret',
+      remarksPlaceholder: 'Optional, please enter description',
+      nameRequired: 'Name is required',
+      nameMaxLength: 'Name cannot exceed 100 characters',
+      appIdRequired: 'APPID is required',
+      appIdMaxLength: 'APPID cannot exceed 100 characters',
+      appSecretRequired: 'App secret is required',
+      appSecretMaxLength: 'App secret cannot exceed 200 characters',
+      wechatIdRequired: 'WeChat ID is required',
+      addSuccess: 'Add mini program successfully',
+      addFailed: 'Failed to add mini program',
+      editSuccess: 'Edit mini program successfully',
+      editFailed: 'Failed to edit mini program',
+      deleteSuccess: 'Delete mini program successfully',
+      deleteFailed: 'Failed to delete mini program',
+      fetchError: 'Failed to fetch mini program list'
+    }
+  },
+  zh: {
+    smallWeChatManage: {
+      title: '我的小程序',
+      name: '名称',
+      appSecret: '应用密钥',
+      remarks: '描述',
+      addTitle: '添加',
+      editTitle: '修改',
+      deleteTitle: '请确认您的操作',
+      deleteConfirm: '确定删除小程序管理吗?',
+      namePlaceholder: '必填，请填写名称',
+      appIdPlaceholder: '必填，请填写APPID',
+      appSecretPlaceholder: '必填，请填写应用密钥',
+      remarksPlaceholder: '选填，请填写描述信息',
+      nameRequired: '名称不能为空',
+      nameMaxLength: '名称不能超过100位',
+      appIdRequired: 'APPID不能为空',
+      appIdMaxLength: 'APPID不能超过100位',
+      appSecretRequired: '应用密钥不能为空',
+      appSecretMaxLength: '应用密钥不能超过200个字符',
+      wechatIdRequired: '编码不能为空',
+      addSuccess: '添加成功',
+      addFailed: '添加失败',
+      editSuccess: '修改成功',
+      editFailed: '修改失败',
+      deleteSuccess: '删除成功',
+      deleteFailed: '删除失败',
+      fetchError: '获取小程序列表失败'
+    }
+  }
+}

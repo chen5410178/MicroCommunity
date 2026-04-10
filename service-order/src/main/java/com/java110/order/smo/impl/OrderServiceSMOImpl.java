@@ -20,7 +20,6 @@ import com.java110.utils.cache.MappingCache;
 import com.java110.utils.constant.*;
 import com.java110.utils.exception.*;
 import com.java110.utils.factory.ApplicationContextFactory;
-import com.java110.utils.kafka.KafkaFactory;
 import com.java110.utils.log.LoggerEngine;
 import com.java110.utils.util.DateUtil;
 import com.java110.utils.util.ServiceBusinessUtil;
@@ -255,9 +254,7 @@ public class OrderServiceSMOImpl extends AbstractOrderServiceSMOImpl implements 
             ServiceBusiness serviceBusiness = ServiceBusinessUtil.getServiceBusiness(completedBusiness.get("business_type_cd").toString());
             long startTime = DateUtil.getCurrentDate().getTime();
             //发起撤单
-            KafkaFactory.sendKafkaMessage(serviceBusiness.getMessageTopic(), "",
-                    OrderDataFlowContextFactory.getDeleteInstanceTableJson(dataFlow, completedBusiness).toJSONString());
-            //saveLogMessage(OrderDataFlowContextFactory.getDeleteInstanceTableJson(dataFlow,completedBusiness,appRoute.getAppService()),null);
+              //saveLogMessage(OrderDataFlowContextFactory.getDeleteInstanceTableJson(dataFlow,completedBusiness,appRoute.getAppService()),null);
         }
     }
 
@@ -422,9 +419,7 @@ public class OrderServiceSMOImpl extends AbstractOrderServiceSMOImpl implements 
         }
         try {
             ServiceBusiness serviceBusiness = ServiceBusinessUtil.getServiceBusiness(dataFlow.getBusinessTypeCd());
-            KafkaFactory.sendKafkaMessage(serviceBusiness.getMessageTopic(), "",
-                    OrderDataFlowContextFactory.getBusinessTableDataInfoToInstanceTableJson(dataFlow).toJSONString());
-        } catch (Exception e) {
+         } catch (Exception e) {
 
         }
 
@@ -581,8 +576,6 @@ public class OrderServiceSMOImpl extends AbstractOrderServiceSMOImpl implements 
 
         ServiceBusiness serviceBusiness = ServiceBusinessUtil.getServiceBusiness(dataFlow.getBusinessTypeCd());
         //拼装报文通知业务系统
-        KafkaFactory.sendKafkaMessage(serviceBusiness.getMessageTopic(), "",
-                OrderDataFlowContextFactory.getNotifyBusinessSuccessJson(dataFlow).toJSONString());
 
         /*saveLogMessage(dataFlow,LogAgent.createLogMessage(dataFlow.getRequestCurrentHeaders(),OrderDataFlowContextFactory.getNotifyBusinessSuccessJson(dataFlow).toJSONString()),
                 LogAgent.createLogMessage(dataFlow.getResponseCurrentHeaders(),ResponseConstant.RESULT_CODE_SUCCESS),
@@ -600,8 +593,7 @@ public class OrderServiceSMOImpl extends AbstractOrderServiceSMOImpl implements 
         ServiceBusiness serviceBusiness = ServiceBusinessUtil.getServiceBusiness(dataFlow.getBusinessTypeCd());
 
         //拼装报文通知业务系统
-        KafkaFactory.sendKafkaMessage(serviceBusiness.getMessageTopic(), "",
-                OrderDataFlowContextFactory.getNotifyBusinessErrorJson(dataFlow).toJSONString());
+
         /*saveLogMessage(dataFlow,LogAgent.createLogMessage(dataFlow.getRequestCurrentHeaders(),OrderDataFlowContextFactory.getNotifyBusinessErrorJson(dataFlow).toJSONString()),
                 LogAgent.createLogMessage(dataFlow.getResponseCurrentHeaders(),ResponseConstant.RESULT_CODE_ERROR),
                 DateUtil.getCurrentDate().getTime() - startTime);*/
@@ -645,8 +637,7 @@ public class OrderServiceSMOImpl extends AbstractOrderServiceSMOImpl implements 
         try {
             for (Business business : asynchronousBusinesses) {
                 serviceBusiness = ServiceBusinessUtil.getServiceBusiness(business.getBusinessTypeCd());
-                KafkaFactory.sendKafkaMessage(serviceBusiness.getMessageTopic(), "",
-                        OrderDataFlowContextFactory.getRequestBusinessJson(dataFlow, business).toJSONString());
+
             }
         } catch (Exception e) {
             throw new BusinessException(ResponseConstant.RESULT_CODE_INNER_ERROR, e.getMessage());
@@ -688,7 +679,7 @@ public class OrderServiceSMOImpl extends AbstractOrderServiceSMOImpl implements 
                 JSONObject log = new JSONObject();
                 log.put("request", requestJson);
                 log.put("response", responseJson);
-                KafkaFactory.sendKafkaMessage(KafkaConstant.TOPIC_LOG_NAME, "", log.toJSONString());
+
             }
         } catch (Exception e) {
             logger.error("报错日志出错了，", e);
@@ -715,7 +706,7 @@ public class OrderServiceSMOImpl extends AbstractOrderServiceSMOImpl implements 
                 }
                 costDate.put("costDates", costDates);
 
-                KafkaFactory.sendKafkaMessage(KafkaConstant.TOPIC_COST_TIME_LOG_NAME, "", costDate.toJSONString());
+
             }
         } catch (Exception e) {
             logger.error("报错日志出错了，", e);

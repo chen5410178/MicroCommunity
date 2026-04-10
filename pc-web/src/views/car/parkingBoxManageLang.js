@@ -1,0 +1,122 @@
+export const messages = {
+  en: {
+    parkingBoxManage: {
+      searchTitle: 'Search Conditions',
+      boxIdPlaceholder: 'Please enter booth number',
+      boxNamePlaceholder: 'Please enter booth name',
+      tempCarInPlaceholder: 'Please select temporary car entry',
+      yes: 'Yes',
+      no: 'No',
+      searchBtn: 'Search',
+      resetBtn: 'Reset',
+      listTitle: 'Booth Information',
+      boxId: 'Booth Number',
+      boxName: 'Booth Name',
+      parkingLot: 'Parking Lot',
+      tempCarIn: 'Temporary Car Entry',
+      tempAuth: 'Temporary Car Audit',
+      fee: 'Chargeable',
+      blueCarIn: 'Already Present',
+      yelowCarIn: 'Not Present',
+      remark: 'Remark',
+      operation: 'Operation',
+      console: 'Console',
+      dataSource: 'Data comes from IoT system',
+      pagination: 'Pagination'
+    },
+    addParkingBox: {
+      title: 'Add Booth',
+      boothName: 'Booth Name',
+      parkingLot: 'Parking Lot',
+      tempCarIn: 'Temporary Car Entry',
+      tempAuth: 'Temporary Car Audit',
+      fee: 'Chargeable',
+      blueCarIn: 'Already Present',
+      yelowCarIn: 'Not Present',
+      remark: 'Remark',
+      required: 'Required',
+      optional: 'Optional',
+      save: 'Save',
+      cancel: 'Cancel'
+    },
+    editParkingBox: {
+      title: 'Edit Booth',
+      boothName: 'Booth Name',
+      parkingLot: 'Parking Lot',
+      tempCarIn: 'Temporary Car Entry',
+      tempAuth: 'Temporary Car Audit',
+      fee: 'Chargeable',
+      blueCarIn: 'Already Present',
+      yelowCarIn: 'Not Present',
+      remark: 'Remark',
+      save: 'Save',
+      cancel: 'Cancel'
+    },
+    deleteParkingBox: {
+      title: 'Confirm Operation',
+      confirmDelete: 'Confirm delete booth?',
+      cancel: 'Cancel',
+      confirm: 'Confirm Delete'
+    }
+  },
+  zh: {
+    parkingBoxManage: {
+      searchTitle: '查询条件',
+      boxIdPlaceholder: '请输入岗亭编号',
+      boxNamePlaceholder: '请输入岗亭名称',
+      tempCarInPlaceholder: '请选择临时车进场',
+      yes: '是',
+      no: '否',
+      searchBtn: '查询',
+      resetBtn: '重置',
+      listTitle: '岗亭信息',
+      boxId: '岗亭编号',
+      boxName: '岗亭名称',
+      parkingLot: '停车场',
+      tempCarIn: '临时车进场',
+      tempAuth: '临时车审核',
+      fee: '是否收费',
+      blueCarIn: '已在场',
+      yelowCarIn: '未在场',
+      remark: '备注',
+      operation: '操作',
+      console: '控制台',
+      dataSource: '数据来源于物联网系统，请到物联网系统管理数据',
+      pagination: '分页'
+    },
+    addParkingBox: {
+      title: '添加岗亭',
+      boothName: '岗亭名称',
+      parkingLot: '停车场',
+      tempCarIn: '临时车进场',
+      tempAuth: '临时车审核',
+      fee: '是否收费',
+      blueCarIn: '已在场',
+      yelowCarIn: '未在场',
+      remark: '备注',
+      required: '必填',
+      optional: '选填',
+      save: '保存',
+      cancel: '取消'
+    },
+    editParkingBox: {
+      title: '修改岗亭',
+      boothName: '岗亭名称',
+      parkingLot: '停车场',
+      tempCarIn: '临时车进场',
+      tempAuth: '临时车审核',
+      fee: '是否收费',
+      blueCarIn: '已在场',
+      yelowCarIn: '未在场',
+      remark: '备注',
+      save: '保存',
+      cancel: '取消'
+    },
+    deleteParkingBox: {
+      title: '请确认您的操作',
+      confirmDelete: '确定删除岗亭?',
+      cancel: '点错了',
+      confirm: '确认删除'
+    }
+  }
+}

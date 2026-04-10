@@ -22,7 +22,6 @@ import com.java110.vo.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.kafka.listener.ListenerUtils;
 
 import java.util.ArrayList;
 import java.util.List;

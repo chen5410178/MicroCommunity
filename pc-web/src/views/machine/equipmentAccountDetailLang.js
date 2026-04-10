@@ -1,0 +1,62 @@
+export const messages = {
+  en: {
+    equipmentAccountDetail: {
+      title: 'Equipment Details',
+      back: 'Back',
+      print: 'Print',
+      machineName: 'Equipment Name',
+      machineCode: 'Equipment Code',
+      levelName: 'Importance Level',
+      stateName: 'Usage Status',
+      brand: 'Equipment Brand',
+      model: 'Equipment Model',
+      locationDetail: 'Location Details',
+      firstEnableTime: 'First Enable Time',
+      warrantyDeadline: 'Warranty Deadline',
+      usefulLife: 'Useful Life (Years)',
+      purchasePrice: 'Purchase Price',
+      netWorth: 'Net Worth',
+      useUserName: 'User',
+      chargeUseName: 'Responsible Person',
+      remark: 'Remark',
+      logTitle: 'Equipment Logs',
+      serialNumber: 'No.',
+      operatingCode: 'Operation Code',
+      operatingDescriptor: 'Operation Description',
+      createTime: 'Operation Time',
+      yuan: 'Yuan',
+      illegalOperation: 'Illegal operation',
+      dataError: 'Data error'
+    }
+  },
+  zh: {
+    equipmentAccountDetail: {
+      title: '设备详情',
+      back: '返回',
+      print: '打印',
+      machineName: '设备名称',
+      machineCode: '设备编码',
+      levelName: '重要等级',
+      stateName: '使用状态',
+      brand: '设备品牌',
+      model: '设备型号',
+      locationDetail: '位置详情',
+      firstEnableTime: '首次启用时间',
+      warrantyDeadline: '保修截止日期',
+      usefulLife: '使用年限(年)',
+      purchasePrice: '采购价格',
+      netWorth: '资产净值',
+      useUserName: '使用人',
+      chargeUseName: '责任人',
+      remark: '备注',
+      logTitle: '设备日志',
+      serialNumber: '序号',
+      operatingCode: '操作编码',
+      operatingDescriptor: '操作描述',
+      createTime: '操作时间',
+      yuan: '元',
+      illegalOperation: '非法操作',
+      dataError: '数据异常'
+    }
+  }
+}
