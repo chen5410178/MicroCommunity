@@ -53,6 +53,8 @@ public class PayFeePo implements Serializable {
 
     private String feeRemark;
 
+    private String feeTime;
+
 
     public String getFeeId() {
         return feeId;
@@ -280,5 +282,13 @@ public class PayFeePo implements Serializable {
 
     public void setFeeRemark(String feeRemark) {
         this.feeRemark = feeRemark;
+    }
+
+    public String getFeeTime() {
+        return feeTime;
+    }
+
+    public void setFeeTime(String feeTime) {
+        this.feeTime = feeTime;
     }
 }

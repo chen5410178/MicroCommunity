@@ -1,4 +1,4 @@
-﻿<template>
+﻿﻿<template>
   <div class="report-fee-summary-container animated fadeInRight">
     <el-row class="flex justify-start" :gutter="20">
       <el-col :span="3" class="padding-r-0">
@@ -13,39 +13,14 @@
             <el-row :gutter="20">
               <el-col :span="4">
                 <el-date-picker v-model="reportFeeSummaryInfo.conditions.startDate" type="date"
-                  :placeholder="$t('reportFeeSummary.selectStartDate')" style="width: 100%"
+                  :placeholder="$t('reportFeeSummary.selectStartDate')" value-format="yyyy-MM-dd" style="width: 100%"
                   @change="handleDateChange" />
               </el-col>
               <el-col :span="4">
                 <el-date-picker v-model="reportFeeSummaryInfo.conditions.endDate" type="date"
-                  :placeholder="$t('reportFeeSummary.selectEndDate')" style="width: 100%" @change="handleDateChange" />
+                  :placeholder="$t('reportFeeSummary.selectEndDate')" value-format="yyyy-MM-dd" style="width: 100%" @change="handleDateChange" />
               </el-col>
-              <el-col :span="4">
-                <el-input v-model.trim="reportFeeSummaryInfo.conditions.objName"
-                  :placeholder="$t('reportFeeSummary.inputRoomNumber')" clearable />
-              </el-col>
-              <el-col :span="4">
-                <el-input v-model.trim="reportFeeSummaryInfo.conditions.ownerName"
-                  :placeholder="$t('reportFeeSummary.inputOwnerName')" clearable />
-              </el-col>
-              <el-col :span="4">
-                <el-input v-model.trim="reportFeeSummaryInfo.conditions.link"
-                  :placeholder="$t('reportFeeSummary.inputOwnerPhone')" clearable />
-              </el-col>
-              <el-col :span="4">
-                <el-button type="primary" @click="_queryMethod">
-                  <i class="el-icon-search"></i>
-                  {{ $t('common.search') }}
-                </el-button>
-                <el-button @click="_resetMethod">
-                  <i class="el-icon-refresh"></i>
-                  {{ $t('common.reset') }}
-                </el-button>
-              </el-col>
-            </el-row>
-
-            <el-row :gutter="20" class="margin-top">
-              <el-col :span="4">
+         <el-col :span="4">
                 <el-select v-model="reportFeeSummaryInfo.conditions.feeTypeCd"
                   :placeholder="$t('reportFeeSummary.selectFeeType')" style="width: 100%" clearable>
                   <el-option v-for="(item, index) in reportFeeSummaryInfo.feeTypeCds" :key="index" :label="item.name"
@@ -59,7 +34,20 @@
                     :value="item.communityId" />
                 </el-select>
               </el-col>
+     
+              <el-col :span="4">
+                <el-button type="primary" @click="_queryMethod">
+                  <i class="el-icon-search"></i>
+                  {{ $t('common.search') }}
+                </el-button>
+                <el-button @click="_resetMethod">
+                  <i class="el-icon-refresh"></i>
+                  {{ $t('common.reset') }}
+                </el-button>
+              </el-col>
             </el-row>
+
+
 
             <el-row v-show="reportFeeSummaryInfo.moreCondition" class="margin-top">
               <el-col :span="24">
@@ -246,14 +234,52 @@ export default {
           params.configIds = this.reportFeeSummaryInfo.configIds.join(',');
         }
 
-        const { data } = await queryReportFeeSummary(params)
-        this.reportFeeSummaryInfo.fees = data
+        // 定义需要查询的字段类型
+        const queryTypes = [
+          'roomCount',
+          'feeRoomCount',
+          'oweRoomCount',
+          'hisOweFee',
+          'curOweFee',
+          'curReceivableFee',
+          'hisReceivedFee',
+          'preReceivedFee',
+          'receivedFee'
+        ]
 
-        // Notify child components
-        this.$refs.floorFeeSummary.notify(params)
-        this.$refs.configFeeSummary.notify(params)
+        // 合并结果的对象
+        const mergedResult = {}
+
+        // 串行查询每个字段
+        for (const queryType of queryTypes) {
+          try {
+            const queryParams = { ...params, queryType }
+            const { data } = await queryReportFeeSummary(queryParams)
+            if (data && data.length > 0 && data[0]) {
+              // 将返回的数据合并到结果对象中
+              Object.assign(mergedResult, data[0])
+            }
+          } catch (error) {
+            console.error(`Failed to query ${queryType}:`, error)
+            // 如果某个字段查询失败，设置为默认值
+            const fieldName = queryType === 'roomCount' || queryType === 'feeRoomCount' || queryType === 'oweRoomCount' ? queryType : queryType
+            mergedResult[fieldName] = queryType.includes('Count') ? 0 : 0.00
+          }
+        }
+
+        // 将合并后的结果放入数组中（因为表格期望数组格式）
+        this.reportFeeSummaryInfo.fees = [mergedResult]
+
+        // 通知子组件查询（子组件内部自己查询）
+        if (this.$refs.floorFeeSummary) {
+          this.$refs.floorFeeSummary.notify(params)
+        }
+        if (this.$refs.configFeeSummary) {
+          this.$refs.configFeeSummary.notify(params)
+        }
       } catch (error) {
         console.error('Failed to query fee summary:', error)
+        this.$message.error(this.$t('reportFeeSummary.queryFailed') || '查询失败，请稍后重试')
       }
     },
     async _loadStaffCommunitys() {
