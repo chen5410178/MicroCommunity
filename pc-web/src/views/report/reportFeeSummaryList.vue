@@ -12,13 +12,13 @@
           <div class="text item">
             <el-row :gutter="20">
               <el-col :span="4">
-                <el-date-picker v-model="reportFeeSummaryInfo.conditions.startDate" type="date"
-                  :placeholder="$t('reportFeeSummary.selectStartDate')" value-format="yyyy-MM-dd" style="width: 100%"
-                  @change="handleDateChange" />
+                <el-date-picker v-model="reportFeeSummaryInfo.conditions.startMonth" type="month"
+                  :placeholder="$t('reportFeeSummary.selectStartDate')" value-format="yyyy-MM" style="width: 100%"
+                  @change="handleMonthChange" />
               </el-col>
               <el-col :span="4">
-                <el-date-picker v-model="reportFeeSummaryInfo.conditions.endDate" type="date"
-                  :placeholder="$t('reportFeeSummary.selectEndDate')" value-format="yyyy-MM-dd" style="width: 100%" @change="handleDateChange" />
+                <el-date-picker v-model="reportFeeSummaryInfo.conditions.endMonth" type="month"
+                  :placeholder="$t('reportFeeSummary.selectEndDate')" value-format="yyyy-MM" style="width: 100%" @change="handleMonthChange" />
               </el-col>
          <el-col :span="4">
                 <el-select v-model="reportFeeSummaryInfo.conditions.feeTypeCd"
@@ -169,6 +169,8 @@ export default {
           objName: '',
           startDate: '',
           endDate: '',
+          startMonth: '',
+          endMonth: '',
           configId: '',
           feeTypeCd: '',
           ownerName: '',
@@ -200,22 +202,36 @@ export default {
       const now = new Date()
       const year = now.getFullYear()
       const month = now.getMonth() + 1
-      const lastDay = new Date(year, month, 0).getDate()
+      const monthStr = month.toString().padStart(2, '0')
 
-      this.reportFeeSummaryInfo.conditions.startDate = `${year}-${month.toString().padStart(2, '0')}-01`
-      this.reportFeeSummaryInfo.conditions.endDate = `${year}-${month.toString().padStart(2, '0')}-${lastDay}`
+      this.reportFeeSummaryInfo.conditions.startMonth = `${year}-${monthStr}`
+      this.reportFeeSummaryInfo.conditions.endMonth = `${year}-${monthStr}`
+
+      this._convertMonthToDate()
     },
-    handleDateChange() {
-      if (this.reportFeeSummaryInfo.conditions.startDate && this.reportFeeSummaryInfo.conditions.endDate) {
-        const start = new Date(this.reportFeeSummaryInfo.conditions.startDate)
-        const end = new Date(this.reportFeeSummaryInfo.conditions.endDate)
+    handleMonthChange() {
+      if (this.reportFeeSummaryInfo.conditions.startMonth && this.reportFeeSummaryInfo.conditions.endMonth) {
+        const start = new Date(this.reportFeeSummaryInfo.conditions.startMonth)
+        const end = new Date(this.reportFeeSummaryInfo.conditions.endMonth)
 
         if (start > end) {
           this.$message.error(this.$t('reportFeeSummary.dateError'))
-          this.reportFeeSummaryInfo.conditions.endDate = ''
+          this.reportFeeSummaryInfo.conditions.endMonth = ''
         }
       }
+      this._convertMonthToDate()
     },
+    _convertMonthToDate() {
+      if (this.reportFeeSummaryInfo.conditions.startMonth) {
+        this.reportFeeSummaryInfo.conditions.startDate = `${this.reportFeeSummaryInfo.conditions.startMonth}-01`
+      }
+      if (this.reportFeeSummaryInfo.conditions.endMonth) {
+        const [year, month] = this.reportFeeSummaryInfo.conditions.endMonth.split('-').map(Number)
+        const lastDay = new Date(year, month, 0).getDate()
+        this.reportFeeSummaryInfo.conditions.endDate = `${year}-${month.toString().padStart(2, '0')}-${lastDay}`
+      }
+    },
+    handleDateChange() {},
     async getFeeTypeDict() {
       try {
         this.reportFeeSummaryInfo.feeTypeCds = await getDict('pay_fee_config', 'fee_type_cd')
