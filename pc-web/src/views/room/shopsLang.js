@@ -59,7 +59,21 @@ export const messages = {
       leaseEndRequired: 'Lease end date is required',
       phoneFormatError: 'Invalid phone format',
       rentShop:'rent shop',
-      sellShop:'sell shop'
+      sellShop:'sell shop',
+      shopLocation: 'Shop Location',
+      location: 'Location',
+      locationName: 'Location Name',
+      parentLocation: 'Parent Location',
+      seq: 'Sequence',
+      addLocation: 'Add Location',
+      editLocation: 'Edit Location',
+      locationNameRequired: 'Location name is required',
+      shopArea: 'Shop Area',
+      editShop: 'Edit Shop',
+      deleteConfirmMsg: 'Are you sure you want to delete this shop?',
+      locationRequired: 'Please select location',
+      search: 'Search',
+      reset: 'Reset'
     }
   },
   zh: {
@@ -122,7 +136,21 @@ export const messages = {
       leaseEndRequired: '截租时间不能为空',
       phoneFormatError: '手机号格式错误',
       rentShop:'出租商铺',
-      sellShop:'出售商铺'
+      sellShop:'出售商铺',
+      shopLocation: '商铺位置',
+      location: '位置',
+      locationName: '位置名称',
+      parentLocation: '上级位置',
+      seq: '排序',
+      addLocation: '添加位置',
+      editLocation: '修改位置',
+      locationNameRequired: '位置名称不能为空',
+      shopArea: '商铺面积',
+      editShop: '修改商铺',
+      deleteConfirmMsg: '确定要删除此商铺吗？',
+      locationRequired: '请选择位置',
+      search: '查询',
+      reset: '重置'
     }
   }
 }

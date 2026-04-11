@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="buildingShopServiceDaoImpl">
+
+    <insert id="saveBuildingShopInfo" parameterType="Map">
+        insert into building_shop(shop_id, shop_num, location_id, owner_id, owner_name, built_up_area, shop_area, remark, state, community_id, link, shop_rent, status_cd)
+        values (#{shopId}, #{shopNum}, #{locationId}, #{ownerId}, #{ownerName}, #{builtUpArea}, #{shopArea}, #{remark}, #{state}, #{communityId}, #{link}, #{shopRent}, #{statusCd})
+    </insert>
+
+    <select id="queryBuildingShops" parameterType="Map" resultType="Map">
+        select t.shop_id shopId, t.shop_num shopNum, t.location_id locationId, t.owner_id ownerId,
+               t.owner_name ownerName, t.built_up_area builtUpArea, t.shop_area shopArea, t.remark,
+               t.state, t.community_id communityId, t.link, t.shop_rent shopRent, t.status_cd statusCd
+        from building_shop t
+        where 1 = 1 and t.status_cd = '0'
+        <if test="shopId != null and shopId != ''">
+            and t.shop_id = #{shopId}
+        </if>
+        <if test="shopIds != null and shopIds.length > 0">
+            and t.shop_id in
+            <foreach collection="shopIds" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        <if test="shopNum != null and shopNum != ''">
+            and t.shop_num like concat('%', #{shopNum}, '%')
+        </if>
+        <if test="locationId != null and locationId != ''">
+            and t.location_id = #{locationId}
+        </if>
+        <if test="locationIds != null and locationIds.length > 0">
+            and t.location_id in
+            <foreach collection="locationIds" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        <if test="ownerId != null and ownerId != ''">
+            and t.owner_id = #{ownerId}
+        </if>
+        <if test="ownerName != null and ownerName != ''">
+            and t.owner_name like concat('%', #{ownerName}, '%')
+        </if>
+        <if test="state != null and state != ''">
+            and t.state = #{state}
+        </if>
+        <if test="states != null and states.length > 0">
+            and t.state in
+            <foreach collection="states" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        <if test="communityId != null and communityId != ''">
+            and t.community_id = #{communityId}
+        </if>
+        order by t.seq asc, t.create_time desc
+        <if test="page != -1 and page != null">
+            limit #{page}, #{row}
+        </if>
+    </select>
+
+    <select id="queryBuildingShopsCount" parameterType="Map" resultType="Map">
+        select count(1) count
+        from building_shop t
+        where 1 = 1 and t.status_cd = '0'
+        <if test="shopId != null and shopId != ''">
+            and t.shop_id = #{shopId}
+        </if>
+        <if test="shopNum != null and shopNum != ''">
+            and t.shop_num like concat('%', #{shopNum}, '%')
+        </if>
+        <if test="locationId != null and locationId != ''">
+            and t.location_id = #{locationId}
+        </if>
+        <if test="ownerId != null and ownerId != ''">
+            and t.owner_id = #{ownerId}
+        </if>
+        <if test="state != null and state != ''">
+            and t.state = #{state}
+        </if>
+        <if test="communityId != null and communityId != ''">
+            and t.community_id = #{communityId}
+        </if>
+    </select>
+
+    <update id="updateBuildingShopInfo" parameterType="Map">
+        update building_shop t set t.status_cd = #{statusCd}
+        <if test="shopNum != null and shopNum != ''">
+            , t.shop_num = #{shopNum}
+        </if>
+        <if test="locationId != null and locationId != ''">
+            , t.location_id = #{locationId}
+        </if>
+        <if test="ownerId != null and ownerId != ''">
+            , t.owner_id = #{ownerId}
+        </if>
+        <if test="ownerName != null and ownerName != ''">
+            , t.owner_name = #{ownerName}
+        </if>
+        <if test="builtUpArea != null and builtUpArea != ''">
+            , t.built_up_area = #{builtUpArea}
+        </if>
+        <if test="shopArea != null and shopArea != ''">
+            , t.shop_area = #{shopArea}
+        </if>
+        <if test="remark != null and remark != ''">
+            , t.remark = #{remark}
+        </if>
+        <if test="state != null and state != ''">
+            , t.state = #{state}
+        </if>
+        <if test="link != null and link != ''">
+            , t.link = #{link}
+        </if>
+        <if test="shopRent != null and shopRent != ''">
+            , t.shop_rent = #{shopRent}
+        </if>
+        where 1 = 1
+        <if test="shopId != null and shopId != ''">
+            and t.shop_id = #{shopId}
+        </if>
+    </update>
+
+</mapper>

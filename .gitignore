@@ -72,3 +72,4 @@ $RECYCLE.BIN/
 # web
 dist/
 node_modules/
+.txcode
