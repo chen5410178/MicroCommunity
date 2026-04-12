@@ -890,7 +890,7 @@
         <foreach collection="objIds" item="item" index="index" open="(" close=")" separator=",">
             #{item}
         </foreach>
-        group by t.fee_type_cd,t.payer_obj_id,t.fee_name
+        group by t.fee_type_cd,t.payer_obj_id,pfc.fee_name
 
     </select>
 
