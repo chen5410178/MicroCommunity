@@ -14,4 +14,6 @@ public interface IShopLocationInnerServiceSMO {
     int queryShopLocationsCount(ShopLocationDto shopLocationDto);
 
     List<ShopLocationDto> queryShopLocations(ShopLocationDto shopLocationDto);
+
+    List<ShopLocationDto> getShopLocationTree(String communityId);
 }

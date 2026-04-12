@@ -37,7 +37,6 @@ public class DeleteBuildingShopCmd extends Cmd {
         if (flag < 1) {
             throw new CmdException("删除商铺失败");
         }
-        ResponseEntity<String> responseEntity = new ResponseEntity<>(JSONObject.toJSONString(ResultVo.success()), HttpStatus.OK);
-        cmdDataFlowContext.setResponseEntity(responseEntity);
+        cmdDataFlowContext.setResponseEntity(ResultVo.success());
     }
 }

@@ -1,6 +1,7 @@
 <template>
   <div class="shop-location-tree">
     <el-tree
+      v-if="treeData.length > 0"
       ref="tree"
       :data="treeData"
       node-key="locationId"
@@ -13,6 +14,9 @@
         <span>{{ node.label }}</span>
       </span>
     </el-tree>
+    <div v-else-if="!loading" class="no-data">
+      {{ $t('room.floorUnitTree.noData') }}
+    </div>
   </div>
 </template>
 
@@ -24,6 +28,7 @@ export default {
   name: 'ShopLocationTree',
   data() {
     return {
+      loading: false,
       treeData: [],
       defaultProps: {
         children: 'children',
@@ -42,13 +47,15 @@ export default {
       return Promise.resolve(this.treeData)
     },
     async loadTreeData() {
+      this.loading = true
       try {
-        const res = await listShopLocations({ page: 1, row: 1000, communityId: getCommunityId() })
-        if (res.code === 0) {
-          this.treeData = res.data || []
-        }
+        const communityId = getCommunityId()
+        const res = await listShopLocations({ page: 1, row: 1000, communityId: communityId })
+        this.treeData =  res.data 
       } catch (error) {
         console.error(error)
+      } finally {
+        this.loading = false
       }
     },
     handleNodeClick(data) {

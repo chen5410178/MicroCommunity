@@ -38,12 +38,6 @@ public class UpdateBuildingShopCmd extends Cmd {
         if (reqJson.containsKey("locationId")) {
             businessBuildingShop.put("locationId", reqJson.getString("locationId"));
         }
-        if (reqJson.containsKey("ownerId")) {
-            businessBuildingShop.put("ownerId", reqJson.getString("ownerId"));
-        }
-        if (reqJson.containsKey("ownerName")) {
-            businessBuildingShop.put("ownerName", reqJson.getString("ownerName"));
-        }
         if (reqJson.containsKey("builtUpArea")) {
             businessBuildingShop.put("builtUpArea", reqJson.getString("builtUpArea"));
         }
@@ -56,9 +50,6 @@ public class UpdateBuildingShopCmd extends Cmd {
         if (reqJson.containsKey("state")) {
             businessBuildingShop.put("state", reqJson.getString("state"));
         }
-        if (reqJson.containsKey("link")) {
-            businessBuildingShop.put("link", reqJson.getString("link"));
-        }
         if (reqJson.containsKey("shopRent")) {
             businessBuildingShop.put("shopRent", reqJson.getString("shopRent"));
         }
@@ -67,7 +58,6 @@ public class UpdateBuildingShopCmd extends Cmd {
         if (flag < 1) {
             throw new CmdException("修改商铺失败");
         }
-        ResponseEntity<String> responseEntity = new ResponseEntity<>(JSONObject.toJSONString(ResultVo.success()), HttpStatus.OK);
-        cmdDataFlowContext.setResponseEntity(responseEntity);
+        cmdDataFlowContext.setResponseEntity(ResultVo.success());
     }
 }

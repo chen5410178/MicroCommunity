@@ -39,21 +39,17 @@ public class SaveBuildingShopCmd extends Cmd {
         businessBuildingShop.put("shopId", shopId);
         businessBuildingShop.put("shopNum", reqJson.getString("shopNum"));
         businessBuildingShop.put("locationId", reqJson.getString("locationId"));
-        businessBuildingShop.put("ownerId", reqJson.getString("ownerId"));
-        businessBuildingShop.put("ownerName", reqJson.getString("ownerName"));
         businessBuildingShop.put("builtUpArea", reqJson.getString("builtUpArea"));
         businessBuildingShop.put("shopArea", reqJson.getString("shopArea"));
         businessBuildingShop.put("remark", reqJson.getString("remark"));
         businessBuildingShop.put("state", reqJson.getString("state") == null ? "2008" : reqJson.getString("state"));
         businessBuildingShop.put("communityId", reqJson.getString("communityId"));
-        businessBuildingShop.put("link", reqJson.getString("link"));
         businessBuildingShop.put("shopRent", reqJson.getString("shopRent") == null ? "0.00" : reqJson.getString("shopRent"));
         BuildingShopPo buildingShopPo = BeanConvertUtil.covertBean(businessBuildingShop, BuildingShopPo.class);
         int flag = buildingShopV1InnerServiceSMOImpl.saveBuildingShop(buildingShopPo);
         if (flag < 1) {
             throw new CmdException("保存商铺失败");
         }
-        ResponseEntity<String> responseEntity = new ResponseEntity<>(JSONObject.toJSONString(ResultVo.success()), HttpStatus.OK);
-        cmdDataFlowContext.setResponseEntity(responseEntity);
+        cmdDataFlowContext.setResponseEntity(ResultVo.success());
     }
 }

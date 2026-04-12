@@ -7,6 +7,7 @@ public class BuildingShopPo implements Serializable {
     private String shopId;
     private String shopNum;
     private String locationId;
+    private String locationName;
     private String ownerId;
     private String ownerName;
     private String builtUpArea;
@@ -40,6 +41,14 @@ public class BuildingShopPo implements Serializable {
 
     public void setLocationId(String locationId) {
         this.locationId = locationId;
+    }
+
+    public String getLocationName() {
+        return locationName;
+    }
+
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
     }
 
     public String getOwnerId() {

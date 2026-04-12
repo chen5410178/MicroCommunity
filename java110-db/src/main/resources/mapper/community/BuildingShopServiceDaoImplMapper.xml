@@ -4,14 +4,14 @@
 <mapper namespace="buildingShopServiceDaoImpl">
 
     <insert id="saveBuildingShopInfo" parameterType="Map">
-        insert into building_shop(shop_id, shop_num, location_id, owner_id, owner_name, built_up_area, shop_area, remark, state, community_id, link, shop_rent, status_cd)
-        values (#{shopId}, #{shopNum}, #{locationId}, #{ownerId}, #{ownerName}, #{builtUpArea}, #{shopArea}, #{remark}, #{state}, #{communityId}, #{link}, #{shopRent}, #{statusCd})
+        insert into building_shop(shop_id, shop_num, location_id, location_name, built_up_area, shop_area, remark, state, community_id, shop_rent, status_cd)
+        values (#{shopId}, #{shopNum}, #{locationId}, #{locationName}, #{builtUpArea}, #{shopArea}, #{remark}, #{state}, #{communityId}, #{shopRent}, #{statusCd})
     </insert>
 
     <select id="queryBuildingShops" parameterType="Map" resultType="Map">
-        select t.shop_id shopId, t.shop_num shopNum, t.location_id locationId, t.owner_id ownerId,
-               t.owner_name ownerName, t.built_up_area builtUpArea, t.shop_area shopArea, t.remark,
-               t.state, t.community_id communityId, t.link, t.shop_rent shopRent, t.status_cd statusCd
+        select t.shop_id shopId, t.shop_num shopNum, t.location_id locationId, t.location_name locationName,
+               t.built_up_area builtUpArea, t.shop_area shopArea, t.remark,
+               t.state, t.community_id communityId, t.shop_rent shopRent, t.status_cd statusCd
         from building_shop t
         where 1 = 1 and t.status_cd = '0'
         <if test="shopId != null and shopId != ''">
@@ -53,7 +53,7 @@
         <if test="communityId != null and communityId != ''">
             and t.community_id = #{communityId}
         </if>
-        order by t.seq asc, t.create_time desc
+        order by t.create_time desc
         <if test="page != -1 and page != null">
             limit #{page}, #{row}
         </if>
@@ -91,11 +91,8 @@
         <if test="locationId != null and locationId != ''">
             , t.location_id = #{locationId}
         </if>
-        <if test="ownerId != null and ownerId != ''">
-            , t.owner_id = #{ownerId}
-        </if>
-        <if test="ownerName != null and ownerName != ''">
-            , t.owner_name = #{ownerName}
+        <if test="locationName != null and locationName != ''">
+            , t.location_name = #{locationName}
         </if>
         <if test="builtUpArea != null and builtUpArea != ''">
             , t.built_up_area = #{builtUpArea}
@@ -108,9 +105,6 @@
         </if>
         <if test="state != null and state != ''">
             , t.state = #{state}
-        </if>
-        <if test="link != null and link != ''">
-            , t.link = #{link}
         </if>
         <if test="shopRent != null and shopRent != ''">
             , t.shop_rent = #{shopRent}

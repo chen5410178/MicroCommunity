@@ -472,6 +472,16 @@ const routes = [
         component: () => import('@/views/room/shopsList.vue')
       },
       {
+        path: '/views/room/shopBindOwner',
+        name: '/views/room/shopBindOwner',
+        component: () => import('@/views/room/shopBindOwner.vue')
+      },
+      {
+        path: '/views/room/shopUnbindOwner',
+        name: '/views/room/shopUnbindOwner',
+        component: () => import('@/views/room/shopUnbindOwner.vue')
+      },
+      {
         path: '/pages/property/listOwner',
         name: '/pages/property/listOwner',
         component: () => import('@/views/owner/listOwner.vue')

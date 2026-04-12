@@ -6,6 +6,7 @@ import com.java110.core.annotation.Java110Transactional;
 import com.java110.core.context.ICmdDataFlowContext;
 import com.java110.core.event.cmd.Cmd;
 import com.java110.core.event.cmd.CmdEvent;
+import com.java110.dto.shop.BuildingShopOwnerDto;
 import com.java110.intf.community.IBuildingShopOwnerInnerServiceSMO;
 import com.java110.po.shop.BuildingShopOwnerPo;
 import com.java110.utils.exception.CmdException;
@@ -16,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
+
 @Java110Cmd(serviceCode = "shop.deleteBuildingShopOwner")
 public class DeleteBuildingShopOwnerCmd extends Cmd {
 
@@ -24,20 +27,39 @@ public class DeleteBuildingShopOwnerCmd extends Cmd {
 
     @Override
     public void validate(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) {
-        Assert.jsonObjectHaveKey(reqJson, "shopOwnerId", "shopOwnerId不能为空");
+        if (!reqJson.containsKey("shopOwnerId")) {
+            Assert.jsonObjectHaveKey(reqJson, "shopId", "shopId不能为空");
+            Assert.jsonObjectHaveKey(reqJson, "ownerId", "ownerId不能为空");
+        }
     }
 
     @Override
     @Java110Transactional
     public void doCmd(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) throws CmdException {
+        String shopOwnerId = reqJson.getString("shopOwnerId");
+        if (shopOwnerId == null || shopOwnerId.isEmpty()) {
+            BuildingShopOwnerDto queryDto = new BuildingShopOwnerDto();
+            queryDto.setShopId(reqJson.getString("shopId"));
+            queryDto.setOwnerId(reqJson.getString("ownerId"));
+            queryDto.setStatusCd("0");
+            ResultVo resultVo = buildingShopOwnerInnerServiceSMOImpl.listBuildingShopOwners(queryDto);
+            List<BuildingShopOwnerDto> shopOwners = (List<BuildingShopOwnerDto>) resultVo.getData();
+            if (shopOwners != null && !shopOwners.isEmpty()) {
+                shopOwnerId = shopOwners.get(0).getShopOwnerId();
+            }
+        }
+
+        if (shopOwnerId == null || shopOwnerId.isEmpty()) {
+            throw new CmdException("未找到商铺业主记录");
+        }
+
         JSONObject businessBuildingShopOwner = new JSONObject();
-        businessBuildingShopOwner.put("shopOwnerId", reqJson.getString("shopOwnerId"));
+        businessBuildingShopOwner.put("shopOwnerId", shopOwnerId);
         BuildingShopOwnerPo buildingShopOwnerPo = BeanConvertUtil.covertBean(businessBuildingShopOwner, BuildingShopOwnerPo.class);
         int flag = buildingShopOwnerInnerServiceSMOImpl.deleteBuildingShopOwner(buildingShopOwnerPo);
         if (flag < 1) {
             throw new CmdException("删除商铺租赁失败");
         }
-        ResponseEntity<String> responseEntity = new ResponseEntity<>(JSONObject.toJSONString(ResultVo.success()), HttpStatus.OK);
-        cmdDataFlowContext.setResponseEntity(responseEntity);
+        cmdDataFlowContext.setResponseEntity(ResultVo.success());
     }
 }
