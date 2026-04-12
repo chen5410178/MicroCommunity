@@ -6,7 +6,9 @@ import com.java110.core.annotation.Java110Transactional;
 import com.java110.core.context.ICmdDataFlowContext;
 import com.java110.core.event.cmd.Cmd;
 import com.java110.core.event.cmd.CmdEvent;
+import com.java110.intf.community.IBuildingShopOwnerInnerServiceSMO;
 import com.java110.intf.community.IBuildingShopV1InnerServiceSMO;
+import com.java110.po.shop.BuildingShopOwnerPo;
 import com.java110.po.shop.BuildingShopPo;
 import com.java110.utils.exception.CmdException;
 import com.java110.utils.util.Assert;
@@ -19,6 +21,9 @@ import org.springframework.http.ResponseEntity;
 public class DeleteBuildingShopCmd extends Cmd {
 
     @Autowired
+    private IBuildingShopOwnerInnerServiceSMO buildingShopOwnerInnerServiceSMOImpl;
+
+    @Autowired
     private IBuildingShopV1InnerServiceSMO buildingShopV1InnerServiceSMOImpl;
 
     @Override
@@ -29,8 +34,17 @@ public class DeleteBuildingShopCmd extends Cmd {
     @Override
     @Java110Transactional
     public void doCmd(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) throws CmdException {
+        String shopId = reqJson.getString("shopId");
+
+        // 删除商铺业主关联
+        JSONObject businessBuildingShopOwner = new JSONObject();
+        businessBuildingShopOwner.put("shopId", shopId);
+        BuildingShopOwnerPo buildingShopOwnerPo = JSONObject.parseObject(businessBuildingShopOwner.toJSONString(), BuildingShopOwnerPo.class);
+        buildingShopOwnerInnerServiceSMOImpl.deleteBuildingShopOwner(buildingShopOwnerPo);
+
+        // 删除商铺
         JSONObject businessBuildingShop = new JSONObject();
-        businessBuildingShop.put("shopId", reqJson.getString("shopId"));
+        businessBuildingShop.put("shopId", shopId);
         businessBuildingShop.put("statusCd", "1");
         BuildingShopPo buildingShopPo = JSONObject.parseObject(businessBuildingShop.toJSONString(), BuildingShopPo.class);
         int flag = buildingShopV1InnerServiceSMOImpl.deleteBuildingShop(buildingShopPo);

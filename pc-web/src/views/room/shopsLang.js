@@ -1,12 +1,21 @@
 export const messages = {
   en: {
     shops: {
+      floorUnitTree: {
+        all: 'All',
+        noData: 'No locations'
+      },
       queryCondition: 'Query Conditions',
+      ownerNamePlaceholder: 'Owner/Tenant Name',
+      linkPlaceholder: 'Contact Number',
+      rentStartPlaceholder: 'Start Date',
+      rentEndPlaceholder: 'End Date',
+      rentTime: 'Rent Date',
       shopInfo: 'Shop Information',
       shopId: 'Shop ID',
       shopIdPlaceholder: 'Please enter shop ID',
       shopNumber: 'Shop Number',
-      shopNumberPlaceholder: 'Please enter shop number (format: Building-Shop)',
+      shopNumberPlaceholder: 'Please enter shop number',
       state: 'Status',
       statePlaceholder: 'Please select status',
       rented: 'Rented',
@@ -99,6 +108,7 @@ export const messages = {
       rentShop: 'Rent Shop',
       sellShop: 'Sell Shop',
       leaseType: 'Lease Type',
+      leasePeriod: 'Lease Period',
       leaseTypePlaceholder: 'Please select lease type',
       selectOwner: 'Select Owner',
       startTimePlaceholder: 'Select start time',
@@ -113,12 +123,21 @@ export const messages = {
   },
   zh: {
     shops: {
+      floorUnitTree: {
+        all: '全部',
+        noData: '暂无位置'
+      },
       queryCondition: '查询条件',
+      ownerNamePlaceholder: '业主/租方名称',
+      linkPlaceholder: '联系电话',
+      rentStartPlaceholder: '开始日期',
+      rentEndPlaceholder: '结束日期',
+      rentTime: '出租时间',
       shopInfo: '商铺信息',
       shopId: '商铺ID',
       shopIdPlaceholder: '请填写商铺ID',
       shopNumber: '商铺编号',
-      shopNumberPlaceholder: '商铺编号(格式:楼栋-商铺)',
+      shopNumberPlaceholder: '请输入商铺编号',
       state: '状态',
       statePlaceholder: '请选择状态',
       rented: '已出租',
@@ -133,7 +152,7 @@ export const messages = {
       roomArea: '室内面积',
       startTime: '起租时间',
       endTime: '截租时间',
-      rent: '出租',
+      rent: '租金',
       sell: '出售',
       feeCoefficient: '算费系数',
       operation: '操作',
@@ -211,6 +230,7 @@ export const messages = {
       rentShop: '出租商铺',
       sellShop: '出售商铺',
       leaseType: '租赁类型',
+      leasePeriod: '租期',
       leaseTypePlaceholder: '请选择租赁类型',
       selectOwner: '选择业主',
       startTimePlaceholder: '请选择开始时间',

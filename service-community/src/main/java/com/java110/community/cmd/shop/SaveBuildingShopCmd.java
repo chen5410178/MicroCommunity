@@ -14,7 +14,6 @@ import com.java110.utils.util.Assert;
 import com.java110.utils.util.BeanConvertUtil;
 import com.java110.vo.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @Java110Cmd(serviceCode = "shop.saveBuildingShop")
@@ -27,6 +26,7 @@ public class SaveBuildingShopCmd extends Cmd {
     public void validate(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) {
         Assert.jsonObjectHaveKey(reqJson, "shopNum", "shopNum不能为空");
         Assert.jsonObjectHaveKey(reqJson, "locationId", "locationId不能为空");
+        Assert.jsonObjectHaveKey(reqJson, "locationName", "locationName不能为空");
         Assert.jsonObjectHaveKey(reqJson, "communityId", "communityId不能为空");
         Assert.jsonObjectHaveKey(reqJson, "builtUpArea", "builtUpArea不能为空");
     }
@@ -39,6 +39,7 @@ public class SaveBuildingShopCmd extends Cmd {
         businessBuildingShop.put("shopId", shopId);
         businessBuildingShop.put("shopNum", reqJson.getString("shopNum"));
         businessBuildingShop.put("locationId", reqJson.getString("locationId"));
+        businessBuildingShop.put("locationName", reqJson.getString("locationName"));
         businessBuildingShop.put("builtUpArea", reqJson.getString("builtUpArea"));
         businessBuildingShop.put("shopArea", reqJson.getString("shopArea"));
         businessBuildingShop.put("remark", reqJson.getString("remark"));

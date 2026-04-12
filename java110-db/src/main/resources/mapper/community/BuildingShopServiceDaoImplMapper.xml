@@ -11,8 +11,11 @@
     <select id="queryBuildingShops" parameterType="Map" resultType="Map">
         select t.shop_id shopId, t.shop_num shopNum, t.location_id locationId, t.location_name locationName,
                t.built_up_area builtUpArea, t.shop_area shopArea, t.remark,
-               t.state, t.community_id communityId, t.shop_rent shopRent, t.status_cd statusCd
+               t.state, t.community_id communityId, t.shop_rent shopRent, t.status_cd statusCd,
+               o.owner_id ownerId, o.owner_name ownerName, o.link, o.start_time startTime, o.end_time endTime,
+               t.create_time createTime
         from building_shop t
+        left join building_shop_owner o on t.shop_id = o.shop_id and o.status_cd = '0'
         where 1 = 1 and t.status_cd = '0'
         <if test="shopId != null and shopId != ''">
             and t.shop_id = #{shopId}
@@ -36,10 +39,19 @@
             </foreach>
         </if>
         <if test="ownerId != null and ownerId != ''">
-            and t.owner_id = #{ownerId}
+            and (t.owner_id = #{ownerId} or o.owner_id = #{ownerId})
         </if>
         <if test="ownerName != null and ownerName != ''">
-            and t.owner_name like concat('%', #{ownerName}, '%')
+            and (t.owner_name like concat('%', #{ownerName}, '%') or o.owner_name like concat('%', #{ownerName}, '%'))
+        </if>
+        <if test="link != null and link != ''">
+            and o.link like concat('%', #{link}, '%')
+        </if>
+        <if test="rentTimeStart != null and rentTimeStart != ''">
+            and o.create_time >= #{rentTimeStart}
+        </if>
+        <if test="rentTimeEnd != null and rentTimeEnd != ''">
+            and o.create_time &lt;= #{rentTimeEnd}
         </if>
         <if test="state != null and state != ''">
             and t.state = #{state}
@@ -62,6 +74,7 @@
     <select id="queryBuildingShopsCount" parameterType="Map" resultType="Map">
         select count(1) count
         from building_shop t
+        left join building_shop_owner o on t.shop_id = o.shop_id and o.status_cd = '0'
         where 1 = 1 and t.status_cd = '0'
         <if test="shopId != null and shopId != ''">
             and t.shop_id = #{shopId}
@@ -74,6 +87,18 @@
         </if>
         <if test="ownerId != null and ownerId != ''">
             and t.owner_id = #{ownerId}
+        </if>
+        <if test="ownerName != null and ownerName != ''">
+            and o.owner_name like concat('%', #{ownerName}, '%')
+        </if>
+        <if test="link != null and link != ''">
+            and o.link like concat('%', #{link}, '%')
+        </if>
+        <if test="rentTimeStart != null and rentTimeStart != ''">
+            and o.create_time >= #{rentTimeStart}
+        </if>
+        <if test="rentTimeEnd != null and rentTimeEnd != ''">
+            and o.create_time &lt;= #{rentTimeEnd}
         </if>
         <if test="state != null and state != ''">
             and t.state = #{state}

@@ -108,6 +108,7 @@ export default {
     handleChooseOwner(owner) {
       this.shopBindOwnerInfo.ownerName = owner.name
       this.shopBindOwnerInfo.ownerId = owner.ownerId
+      this.shopBindOwnerInfo.link = owner.link
     },
     _openChooseOwner() {
       this.$refs.searchOwnerRef.open()
@@ -157,6 +158,8 @@ export default {
         const data = {
           shopId: this.shopBindOwnerInfo.shopId,
           ownerId: this.shopBindOwnerInfo.ownerId,
+          ownerName: this.shopBindOwnerInfo.ownerName,
+          link: this.shopBindOwnerInfo.link,
           state: state,
           startTime: this.shopBindOwnerInfo.startTime,
           endTime: this.shopBindOwnerInfo.endTime || '2050-01-01',

@@ -69,9 +69,9 @@ export default {
     }
   },
   methods: {
-    open() {
+    open(locationPath) {
       this.form.locationId = this.locationId
-      this.form.locationName = this.locationName
+      this.form.locationName = locationPath || this.locationName
       this.visible = true
     },
     handleClose() {

@@ -1,5 +1,8 @@
 <template>
   <div class="shop-location-tree">
+    <div v-if="treeData.length > 0" class="tree-all" :class="{ active: !currentSelectedId }" @click="handleAllClick">
+      <span>{{ $t('shops.floorUnitTree.all') }}</span>
+    </div>
     <el-tree
       v-if="treeData.length > 0"
       ref="tree"
@@ -15,7 +18,7 @@
       </span>
     </el-tree>
     <div v-else-if="!loading" class="no-data">
-      {{ $t('room.floorUnitTree.noData') }}
+      {{ $t('shops.floorUnitTree.noData') }}
     </div>
   </div>
 </template>
@@ -30,6 +33,7 @@ export default {
     return {
       loading: false,
       treeData: [],
+      currentSelectedId: '',
       defaultProps: {
         children: 'children',
         label: 'locationName'
@@ -46,6 +50,28 @@ export default {
     getLocations() {
       return Promise.resolve(this.treeData)
     },
+    getFullPath(locationId) {
+      var fullPath = ''
+      var node = this.findNode(this.treeData, locationId)
+      if (node) {
+        fullPath = node.locationName || ''
+      }
+      return fullPath
+    },
+    findNode(nodes, locationId) {
+      for (var i = 0; i < nodes.length; i++) {
+        if (nodes[i].locationId === locationId) {
+          return nodes[i]
+        }
+        if (nodes[i].children && nodes[i].children.length > 0) {
+          var found = this.findNode(nodes[i].children, locationId)
+          if (found) {
+            return found
+          }
+        }
+      }
+      return null
+    },
     async loadTreeData() {
       this.loading = true
       try {
@@ -59,7 +85,12 @@ export default {
       }
     },
     handleNodeClick(data) {
+      this.currentSelectedId = data.locationId
       this.$emit('select', data)
+    },
+    handleAllClick() {
+      this.currentSelectedId = ''
+      this.$emit('select', { locationId: '', locationName: '', parentId: '-1' })
     },
     open() {
       this.loadTreeData()
@@ -71,6 +102,21 @@ export default {
 <style scoped>
 .shop-location-tree {
   min-height: 200px;
+}
+.tree-all {
+  padding: 8px 10px;
+  cursor: pointer;
+  color: #606266;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+.tree-all:hover {
+  background-color: #f5f7fa;
+}
+.tree-all.active {
+  color: #409eff;
+  background-color: #ecf5ff;
 }
 .custom-tree-node {
   display: flex;

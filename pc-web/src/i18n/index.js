@@ -31,6 +31,7 @@ import { messages as cityAreaMessages } from '../views/community/cityAreaLang'
 import { messages as merchantManageMessages } from '../views/mall/merchantManageLang'
 import { messages as shopManageMessages } from '../views/mall/shopManageLang'
 import { messages as shopCommunityMessages } from '../views/mall/shopCommunityLang'
+import { messages as shopDetailMessages } from '../views/shop/shopDetailLang'
 import { messages as systemUserMessages } from '../views/staff/systemUserLang'
 import { messages as systemUserDetailMessages } from '../views/staff/systemUserDetailLang'
 import { messages as storeStaffMessages } from '../views/staff/storeStaffLang'
@@ -179,6 +180,7 @@ const messages = {
     ...merchantManageMessages.en,
     ...shopManageMessages.en,
     ...shopCommunityMessages.en,
+    ...shopDetailMessages.en,
     ...systemUserMessages.en,
     ...systemUserDetailMessages.en,
     ...storeStaffMessages.en,
@@ -320,6 +322,7 @@ const messages = {
     ...merchantManageMessages.zh,
     ...shopManageMessages.zh,
     ...shopCommunityMessages.zh,
+    ...shopDetailMessages.zh,
     ...systemUserMessages.zh,
     ...systemUserDetailMessages.zh,
     ...storeStaffMessages.zh,

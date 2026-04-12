@@ -13,6 +13,7 @@ public class BuildingShopDto extends PageDto implements Serializable {
     private String shopId;
     private String shopNum;
     private String locationId;
+    private String locationName;
     private String ownerId;
     private String ownerName;
     private String builtUpArea;
@@ -22,7 +23,12 @@ public class BuildingShopDto extends PageDto implements Serializable {
     private String communityId;
     private String link;
     private String shopRent;
+    private String startTime;
+    private String endTime;
     private String statusCd = "0";
+    private String createTime;
+    private String rentTimeStart;
+    private String rentTimeEnd;
 
     public String getShopId() {
         return shopId;
@@ -46,6 +52,14 @@ public class BuildingShopDto extends PageDto implements Serializable {
 
     public void setLocationId(String locationId) {
         this.locationId = locationId;
+    }
+
+    public String getLocationName() {
+        return locationName;
+    }
+
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
     }
 
     public String getOwnerId() {
@@ -120,11 +134,51 @@ public class BuildingShopDto extends PageDto implements Serializable {
         this.shopRent = shopRent;
     }
 
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
     public String getStatusCd() {
         return statusCd;
     }
 
     public void setStatusCd(String statusCd) {
         this.statusCd = statusCd;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getRentTimeStart() {
+        return rentTimeStart;
+    }
+
+    public void setRentTimeStart(String rentTimeStart) {
+        this.rentTimeStart = rentTimeStart;
+    }
+
+    public String getRentTimeEnd() {
+        return rentTimeEnd;
+    }
+
+    public void setRentTimeEnd(String rentTimeEnd) {
+        this.rentTimeEnd = rentTimeEnd;
     }
 }

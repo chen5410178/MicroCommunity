@@ -652,6 +652,11 @@ const routes = [
       ...communityRouter,
       ...workRouter,
       ...feeRouter,
+      {
+        path: '/views/shop/shopDetail',
+        name: '/views/shop/shopDetail',
+        component: () => import('@/views/shop/shopDetail.vue')
+      },
       // 其他子路由可以在这里添加
     ]
   },

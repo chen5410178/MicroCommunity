@@ -8,7 +8,9 @@ import com.java110.core.event.cmd.Cmd;
 import com.java110.core.event.cmd.CmdEvent;
 import com.java110.core.factory.GenerateCodeFactory;
 import com.java110.intf.community.IBuildingShopOwnerInnerServiceSMO;
+import com.java110.intf.community.IBuildingShopV1InnerServiceSMO;
 import com.java110.po.shop.BuildingShopOwnerPo;
+import com.java110.po.shop.BuildingShopPo;
 import com.java110.utils.exception.CmdException;
 import com.java110.utils.util.Assert;
 import com.java110.utils.util.BeanConvertUtil;
@@ -22,6 +24,9 @@ public class SaveBuildingShopOwnerCmd extends Cmd {
 
     @Autowired
     private IBuildingShopOwnerInnerServiceSMO buildingShopOwnerInnerServiceSMOImpl;
+
+    @Autowired
+    private IBuildingShopV1InnerServiceSMO buildingShopV1InnerServiceSMOImpl;
 
     @Override
     public void validate(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) {
@@ -48,6 +53,16 @@ public class SaveBuildingShopOwnerCmd extends Cmd {
         if (flag < 1) {
             throw new CmdException("保存商铺租赁失败");
         }
+
+        JSONObject businessBuildingShop = new JSONObject();
+        businessBuildingShop.put("shopId", reqJson.getString("shopId"));
+        businessBuildingShop.put("state", reqJson.getString("state"));
+        BuildingShopPo buildingShopPo = BeanConvertUtil.covertBean(businessBuildingShop, BuildingShopPo.class);
+        int updateFlag = buildingShopV1InnerServiceSMOImpl.updateBuildingShop(buildingShopPo);
+        if (updateFlag < 1) {
+            throw new CmdException("更新商铺状态失败");
+        }
+
         cmdDataFlowContext.setResponseEntity(ResultVo.success());
     }
 }

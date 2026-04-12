@@ -32,7 +32,7 @@
 
       <div class="content-panel" :style="{ width: 'calc(100% - ' + (treeWidth + 10) + 'px)' }">
         <el-card class="ibox">
-          <div slot="header">{{ $t('shops.queryCondition') }}</div>
+          <div slot="header" class="flex justify-content">{{ $t('shops.queryCondition') }}</div>
           <el-form :inline="true" class="text-left">
             <el-form-item>
               <el-input v-model.trim="queryParams.shopNum" :placeholder="$t('shops.shopNumberPlaceholder')" size="small" clearable @keyup.enter.native="handleQuery"></el-input>
@@ -45,6 +45,24 @@
               </el-select>
             </el-form-item>
             <el-form-item>
+              <el-input v-model.trim="queryParams.ownerName" :placeholder="$t('shops.ownerNamePlaceholder')" size="small" clearable @keyup.enter.native="handleQuery"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-input v-model.trim="queryParams.link" :placeholder="$t('shops.linkPlaceholder')" size="small" clearable @keyup.enter.native="handleQuery"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-date-picker
+                v-model="queryParams.rentTime"
+                type="daterange"
+                range-separator="~"
+                :start-placeholder="$t('shops.rentStartPlaceholder')"
+                :end-placeholder="$t('shops.rentEndPlaceholder')"
+                size="small"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                style="width: 240px"
+              ></el-date-picker>
+            </el-form-item>
+            <el-form-item>
               <el-button type="primary" size="small" @click="handleQuery">{{ $t('common.search') }}</el-button>
               <el-button size="small" @click="handleReset">{{ $t('common.reset') }}</el-button>
             </el-form-item>
@@ -54,12 +72,16 @@
         <el-card class="margin-top">
           <el-table :data="shopsData" border stripe v-loading="loading">
             <el-table-column prop="shopNum" :label="$t('shops.shopNumber')" width="120" fixed="left" align="center">
-              <template slot-scope="scope"><div class="hc-td">{{ scope.row.shopNum }}</div></template>
+              <template slot-scope="scope">
+                <div class="hc-td">
+                  <a target="_blank" :href="'/#/views/shop/shopDetail?shopId=' + scope.row.shopId">{{ scope.row.shopNum }}</a>
+                </div>
+              </template>
             </el-table-column>
-            <el-table-column prop="locationName" :label="$t('shops.location')" width="150" align="center">
+            <el-table-column prop="locationName" :label="$t('shops.location')"  align="center">
               <template slot-scope="scope"><div class="hc-td">{{ scope.row.locationName }}</div></template>
             </el-table-column>
-            <el-table-column :label="$t('shops.owner')" width="150" align="center">
+            <el-table-column :label="$t('shops.owner')" align="center">
               <template slot-scope="scope">
                 <div v-if="scope.row.ownerName" class="hc-td">
                   <a target="_blank" :href="'/#/views/owner/ownerDetail?ownerId=' + scope.row.ownerId">{{ scope.row.ownerName }}</a>
@@ -67,7 +89,7 @@
                 <div v-else class="hc-td textAuto">-</div>
               </template>
             </el-table-column>
-            <el-table-column prop="link" :label="$t('shops.contactNumber')" width="120" align="center">
+            <el-table-column prop="link" :label="$t('shops.contactNumber')"  align="center">
               <template slot-scope="scope"><div class="hc-td">{{ scope.row.link || '-' }}</div></template>
             </el-table-column>
             <el-table-column :label="$t('shops.builtUpArea')" width="120" align="center">
@@ -75,6 +97,20 @@
             </el-table-column>
             <el-table-column :label="$t('shops.shopArea')" width="120" align="center">
               <template slot-scope="scope"><div class="hc-td">{{ scope.row.shopArea || '-' }}{{ scope.row.shopArea ? $t('shops.squareMeter') : '' }}</div></template>
+            </el-table-column>
+            <el-table-column prop="shopRent" :label="$t('shops.rent')" width="100" align="center">
+              <template slot-scope="scope"><div class="hc-td">{{ scope.row.shopRent || '-' }}</div></template>
+            </el-table-column>
+            <el-table-column :label="$t('shops.leasePeriod')" width="180" align="center">
+              <template slot-scope="scope">
+                <div v-if="scope.row.startTime || scope.row.endTime" class="hc-td">
+                  {{ scope.row.startTime || '-' }} ~ {{ scope.row.endTime || '-' }}
+                </div>
+                <div v-else class="hc-td textAuto">-</div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="createTime" :label="$t('shops.rentTime')" width="160" align="center">
+              <template slot-scope="scope"><div class="hc-td">{{ scope.row.createTime || '-' }}</div></template>
             </el-table-column>
             <el-table-column :label="$t('shops.state')" width="100" align="center">
               <template slot-scope="scope">
@@ -149,7 +185,7 @@ export default {
       startX: 0,
       startWidth: 0,
       selectedLocation: { locationId: '', locationName: '', parentId: '', seq: 0, remark: '' },
-      queryParams: { shopNum: '', state: '', locationId: '', page: 1, row: 10 },
+      queryParams: { shopNum: '', state: '', ownerName: '', link: '', rentTime: '', locationId: '', page: 1, row: 10 },
       shopsData: [],
       pagination: { current: 1, size: 10, total: 0 }
     }
@@ -189,7 +225,7 @@ export default {
       this.loadData()
     },
     handleQuery() { this.queryParams.page = 1; this.loadData() },
-    handleReset() { this.queryParams = { shopNum: '', state: '', locationId: '', page: 1, row: 10 }; this.loadData() },
+    handleReset() { this.queryParams = { shopNum: '', state: '', ownerName: '', link: '', rentTime: '', locationId: '', page: 1, row: 10 }; this.loadData() },
     handleSizeChange(size) { this.queryParams.row = size; this.loadData() },
     handleCurrentChange(page) { this.queryParams.page = page; this.loadData() },
     handleAddLocation() { this.$refs.addLocationRef.open() },
@@ -210,7 +246,32 @@ export default {
       this.selectedLocation = { locationId: '', locationName: '', parentId: '', seq: 0, remark: '' }
       this.loadData()
     },
-    handleAddShop() { this.$refs.addShopRef.open() },
+    handleAddShop() {
+      var locationPath = ''
+      if (this.selectedLocation.locationId && this.$refs.locationTree) {
+        var node = this.$refs.locationTree.findNode(this.$refs.locationTree.treeData, this.selectedLocation.locationId)
+        if (node) {
+          locationPath = this.getFullPath(this.$refs.locationTree.treeData, node)
+        }
+      }
+      this.$refs.addShopRef.open(locationPath)
+    },
+    getFullPath(nodes, targetNode, parentPath) {
+      parentPath = parentPath || ''
+      for (var i = 0; i < nodes.length; i++) {
+        var currentPath = parentPath ? parentPath + '-' + nodes[i].locationName : nodes[i].locationName
+        if (nodes[i].locationId === targetNode.locationId) {
+          return currentPath
+        }
+        if (nodes[i].children && nodes[i].children.length > 0) {
+          var found = this.getFullPath(nodes[i].children, targetNode, currentPath)
+          if (found) {
+            return found
+          }
+        }
+      }
+      return ''
+    },
     handleEditShop(row) { this.$refs.editShopRef.open(row) },
     handleDeleteShop(row) { this.$refs.delShopRef.open(row) },
     toShopBindOwner(row) {
