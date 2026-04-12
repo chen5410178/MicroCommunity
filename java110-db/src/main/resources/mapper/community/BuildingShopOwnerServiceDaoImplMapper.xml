@@ -1,5 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<mapper configurationType="map" xmlns="http://mybatis.org/schema/mybatis-3.1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dd="http://www.java110.org/schema/date-dd" xmlns:ma="http://www.java110.org/schema/ma" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="buildingShopOwnerServiceDaoImplMapper">
     <resultMap id="resultMap" type="com.java110.dto.shop.BuildingShopOwnerDto">
         <id column="shop_owner_id" jdbcType="VARCHAR" property="shopOwnerId"/>
         <result column="shop_id" jdbcType="VARCHAR" property="shopId"/>

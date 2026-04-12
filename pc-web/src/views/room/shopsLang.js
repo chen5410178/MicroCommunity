@@ -73,7 +73,12 @@ export const messages = {
       deleteConfirmMsg: 'Are you sure you want to delete this shop?',
       locationRequired: 'Please select location',
       search: 'Search',
-      reset: 'Reset'
+      reset: 'Reset',
+      topLevel: 'Top Level',
+      addChildLocation: 'Add Child Location',
+      deleteLocation: 'Delete Location',
+      deleteLocationConfirmMsg: 'Are you sure you want to delete this location?',
+      pleaseSelectLocation: 'Please select a location first'
     }
   },
   zh: {
@@ -150,7 +155,12 @@ export const messages = {
       deleteConfirmMsg: '确定要删除此商铺吗？',
       locationRequired: '请选择位置',
       search: '查询',
-      reset: '重置'
+      reset: '重置',
+      topLevel: '顶级',
+      addChildLocation: '添加下级位置',
+      deleteLocation: '删除位置',
+      deleteLocationConfirmMsg: '确定要删除此位置吗？',
+      pleaseSelectLocation: '请先选择一个位置'
     }
   }
 }

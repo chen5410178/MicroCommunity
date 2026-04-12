@@ -1,8 +1,6 @@
 import request from '@/utils/request'
+import {getCommunityId} from '@/api/community/communityApi'
 
-export function getCommunityId() {
-  return localStorage.getItem('communityId')
-}
 
 export function listShopLocations(params) {
   return request({

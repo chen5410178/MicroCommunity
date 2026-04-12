@@ -1,100 +1,133 @@
 <template>
   <div class="shops-container">
-    <el-row :gutter="20">
-      <el-col :span="6">
-        <el-card class="location-card">
-          <div slot="header" class="flex justify-between">
-            <span>{{ $t('shops.shopLocation') }}</span>
-            <el-button type="text" size="mini" @click="openAddLocation">{{ $t('common.add') }}</el-button>
-          </div>
-          <shop-location-tree ref="locationTree" @select="onLocationSelect"></shop-location-tree>
-        </el-card>
-      </el-col>
+    <div class="bg-white padding-sm text-left">
+      <el-button type="primary" size="small" @click="openAddLocation">
+        <i class="el-icon-plus"></i>{{ $t('shops.addLocation') }}
+      </el-button>
+      <el-button type="primary" size="small" @click="openEditLocation" v-if="selectedLocation.locationId">
+        <i class="el-icon-edit"></i>{{ $t('shops.editLocation') }}
+      </el-button>
+      <el-button type="primary" size="small" @click="openDeleteLocation" v-if="selectedLocation.locationId">
+        <i class="el-icon-close"></i>{{ $t('shops.deleteLocation') }}
+      </el-button>
+      <el-button type="primary" size="small" class="margin-left-sm" @click="openAddChildLocation" v-if="selectedLocation.locationId">
+        <i class="el-icon-plus"></i>{{ $t('shops.addChildLocation') }}
+      </el-button>
+      <el-button type="primary" size="small" class="margin-left-sm" @click="openAddShop" v-if="hasPrivilege('502020082453087940')">
+        <i class="el-icon-plus"></i>
+        <span>{{ $t('shops.addShop') }}</span>
+      </el-button>
+    </div>
 
-      <el-col :span="18">
-        <el-card>
-          <div slot="header" class="flex justify-between">
+    <div class="resizable-layout margin-top-sm">
+      <div class="tree-panel" :style="{ width: treeWidth + 'px' }">
+        <shop-location-tree ref="locationTree" @select="onLocationSelect"></shop-location-tree>
+      </div>
+
+      <div class="resize-handle" @mousedown="startResize" @mouseover="showResizeCursor" @mouseleave="hideResizeCursor">
+        <div class="resize-line"></div>
+      </div>
+
+      <div class="content-panel" :style="{ width: 'calc(100% - ' + (treeWidth + 10) + 'px)' }">
+        <el-card class="ibox">
+          <div slot="header" class="clearfix flex justify-between">
             <span>{{ $t('shops.queryCondition') }}</span>
           </div>
-          <el-form :inline="true" :model="queryParams" class="demo-form-inline text-left">
+          <el-form :inline="true" class="text-left">
             <el-form-item>
               <el-input v-model.trim="queryParams.shopNum" :placeholder="$t('shops.shopNumberPlaceholder')"
-                clearable></el-input>
+                size="small" clearable></el-input>
             </el-form-item>
             <el-form-item>
               <el-select v-model="queryParams.state" :placeholder="$t('shops.statePlaceholder')" clearable
-                style="width: 100%">
+                size="small" style="width: 100%">
                 <el-option :label="$t('shops.idle')" value="2008"></el-option>
                 <el-option :label="$t('shops.rented')" value="2006"></el-option>
                 <el-option :label="$t('shops.sold')" value="2007"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="handleQuery">{{ $t('common.search') }}</el-button>
-              <el-button @click="handleReset">{{ $t('common.reset') }}</el-button>
+              <el-button type="primary" size="small" @click="handleQuery">{{ $t('common.search') }}</el-button>
+              <el-button size="small" @click="handleReset">{{ $t('common.reset') }}</el-button>
             </el-form-item>
           </el-form>
         </el-card>
 
-        <el-card style="margin-top: 20px">
-          <div slot="header" class="flex justify-between">
-            <span>{{ $t('shops.shopInfo') }}</span>
-            <el-button type="primary" size="small" style="float: right" @click="openAddShop">
-              {{ $t('shops.addShop') }}
-            </el-button>
+        <el-card>
+          <div class="border-radius">
+            <el-table :data="shopsData" border stripe v-loading="loading">
+              <el-table-column prop="shopNum" :label="$t('shops.shopNumber')" width="120" fixed="left" align="center">
+                <template slot-scope="scope">
+                  <div class="hc-td">{{ scope.row.shopNum }}</div>
+                </template>
+              </el-table-column>
+              <el-table-column prop="locationName" :label="$t('shops.location')" width="150" align="center">
+                <template slot-scope="scope">
+                  <div class="hc-td">{{ scope.row.locationName }}</div>
+                </template>
+              </el-table-column>
+              <el-table-column :label="$t('shops.owner')" width="150" align="center">
+                <template slot-scope="scope">
+                  <div v-if="scope.row.ownerName" class="hc-td">
+                    <a target="_blank" :href="'/#/views/owner/ownerDetail?ownerId=' + scope.row.ownerId">
+                      {{ scope.row.ownerName }}
+                    </a>
+                  </div>
+                  <div v-else class="hc-td textAuto">-</div>
+                </template>
+              </el-table-column>
+              <el-table-column prop="link" :label="$t('shops.contactNumber')" width="120" align="center">
+                <template slot-scope="scope">
+                  <div class="hc-td">{{ scope.row.link || '-' }}</div>
+                </template>
+              </el-table-column>
+              <el-table-column :label="$t('shops.builtUpArea')" width="120" align="center">
+                <template slot-scope="scope">
+                  <div class="hc-td">
+                    {{ scope.row.builtUpArea }}{{ $t('shops.squareMeter') }}
+                  </div>
+                </template>
+              </el-table-column>
+              <el-table-column :label="$t('shops.shopArea')" width="120" align="center">
+                <template slot-scope="scope">
+                  <div class="hc-td">
+                    {{ scope.row.shopArea || '-' }}{{ scope.row.shopArea ? $t('shops.squareMeter') : '' }}
+                  </div>
+                </template>
+              </el-table-column>
+              <el-table-column :label="$t('shops.state')" width="100" align="center">
+                <template slot-scope="scope">
+                  <div class="hc-td">
+                    <el-tag v-if="scope.row.state === '2008'" type="success" size="mini">{{ $t('shops.idle') }}</el-tag>
+                    <el-tag v-else-if="scope.row.state === '2006'" type="warning" size="mini">{{ $t('shops.rented') }}</el-tag>
+                    <el-tag v-else-if="scope.row.state === '2007'" type="info" size="mini">{{ $t('shops.sold') }}</el-tag>
+                    <span v-else>-</span>
+                  </div>
+                </template>
+              </el-table-column>
+              <el-table-column :label="$t('shops.operation')" fixed="right" width="180" align="center">
+                <template slot-scope="scope">
+                  <el-button size="mini" type="primary" @click="openEditShop(scope.row)">
+                    {{ $t('shops.edit') }}
+                  </el-button>
+                  <el-button size="mini" type="danger" @click="openDeleteShop(scope.row)">
+                    {{ $t('shops.delete') }}
+                  </el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+
+            <el-row class="margin-top">
+              <el-col :span="12" class="float-right">
+                <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
+                  :current-page="pagination.current" :page-sizes="[10, 20, 30, 50]" :page-size="pagination.size"
+                  layout="total, sizes, prev, pager, next, jumper" :total="pagination.total"></el-pagination>
+              </el-col>
+            </el-row>
           </div>
-
-          <el-table :data="shopsData" border style="width: 100%" v-loading="loading">
-            <el-table-column prop="shopNum" :label="$t('shops.shopNumber')" align="center" />
-            <el-table-column prop="locationName" :label="$t('shops.location')" align="center" />
-            <el-table-column :label="$t('shops.owner')" align="center">
-              <template slot-scope="scope">
-                <span v-if="scope.row.ownerName">{{ scope.row.ownerName }}</span>
-                <span v-else>-</span>
-              </template>
-            </el-table-column>
-            <el-table-column prop="link" :label="$t('shops.contactNumber')" align="center">
-              <template slot-scope="scope">
-                {{ scope.row.link || '-' }}
-              </template>
-            </el-table-column>
-            <el-table-column :label="$t('shops.builtUpArea')" align="center">
-              <template slot-scope="scope">
-                {{ scope.row.builtUpArea }}{{ $t('shops.squareMeter') }}
-              </template>
-            </el-table-column>
-            <el-table-column :label="$t('shops.shopArea')" align="center">
-              <template slot-scope="scope">
-                {{ scope.row.shopArea || '-' }}{{ scope.row.shopArea ? $t('shops.squareMeter') : '' }}
-              </template>
-            </el-table-column>
-            <el-table-column :label="$t('shops.state')" align="center">
-              <template slot-scope="scope">
-                <el-tag v-if="scope.row.state === '2008'" type="success">{{ $t('shops.idle') }}</el-tag>
-                <el-tag v-else-if="scope.row.state === '2006'" type="warning">{{ $t('shops.rented') }}</el-tag>
-                <el-tag v-else-if="scope.row.state === '2007'" type="info">{{ $t('shops.sold') }}</el-tag>
-                <span v-else>-</span>
-              </template>
-            </el-table-column>
-            <el-table-column :label="$t('shops.operation')" align="center" fixed="right" width="200">
-              <template slot-scope="scope">
-                <el-button size="mini" type="primary" @click="openEditShop(scope.row)">
-                  {{ $t('shops.edit') }}
-                </el-button>
-                <el-button size="mini" type="danger" @click="openDeleteShop(scope.row)">
-                  {{ $t('shops.delete') }}
-                </el-button>
-              </template>
-            </el-table-column>
-          </el-table>
-
-          <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-            :current-page="pagination.current" :page-sizes="[10, 20, 30, 50]" :page-size="pagination.size"
-            layout="total, sizes, prev, pager, next, jumper" :total="pagination.total" style="margin-top: 20px">
-          </el-pagination>
         </el-card>
-      </el-col>
-    </el-row>
+      </div>
+    </div>
 
     <el-dialog :title="locationDialogTitle" :visible.sync="locationDialogVisible" width="500px" @close="onLocationDialogClose">
       <el-form :model="locationForm" :rules="locationRules" ref="locationFormRef" label-width="100px">
@@ -102,7 +135,7 @@
           <el-input v-model="locationForm.locationName"></el-input>
         </el-form-item>
         <el-form-item :label="$t('shops.parentLocation')" prop="parentId">
-          <el-input v-model="locationForm.parentId" readonly></el-input>
+          <el-input :value="parentLocationName" readonly></el-input>
         </el-form-item>
         <el-form-item :label="$t('shops.seq')" prop="seq">
           <el-input-number v-model="locationForm.seq" :min="1" :max="100"></el-input-number>
@@ -114,6 +147,14 @@
       <span slot="footer">
         <el-button @click="locationDialogVisible = false">{{ $t('common.cancel') }}</el-button>
         <el-button type="primary" @click="saveLocation">{{ $t('common.submit') }}</el-button>
+      </span>
+    </el-dialog>
+
+    <el-dialog :title="$t('shops.confirmDelete')" :visible.sync="deleteLocationDialogVisible" width="400px">
+      <span>{{ $t('shops.deleteLocationConfirmMsg') }}</span>
+      <span slot="footer">
+        <el-button @click="deleteLocationDialogVisible = false">{{ $t('common.cancel') }}</el-button>
+        <el-button type="danger" @click="confirmDeleteLocation">{{ $t('common.confirm') }}</el-button>
       </span>
     </el-dialog>
 
@@ -161,8 +202,10 @@
 
 <script>
 import { listBuildingShops, saveBuildingShop, updateBuildingShop, deleteBuildingShop } from '@/api/room/buildingShopApi'
-import { saveShopLocation, updateShopLocation } from '@/api/room/shopLocationApi'
+import { saveShopLocation, updateShopLocation, deleteShopLocation } from '@/api/room/shopLocationApi'
 import ShopLocationTree from '@/components/room/ShopLocationTree'
+import {getCommunityId} from '@/api/community/communityApi'
+
 
 export default {
   name: 'ShopsList',
@@ -172,10 +215,22 @@ export default {
   data() {
     return {
       loading: false,
+      treeWidth: 300,
+      minTreeWidth: 200,
+      maxTreeWidth: 600,
+      isResizing: false,
+      startX: 0,
+      startWidth: 0,
+      selectedLocation: {
+        locationId: '',
+        locationName: '',
+        parentId: ''
+      },
       queryParams: {
         shopNum: '',
         state: '',
         locationId: '',
+        communityId:getCommunityId(),
         page: 1,
         row: 10
       },
@@ -215,20 +270,42 @@ export default {
       },
       locationOptions: [],
       deleteDialogVisible: false,
-      deleteShopId: ''
+      deleteShopId: '',
+      deleteLocationDialogVisible: false
     }
+  },
+  computed: {
+    parentLocationName() {
+      if (!this.locationForm.parentId || this.locationForm.parentId === '-1') {
+        return this.$t('shops.topLevel')
+      }
+      return this.selectedLocation.locationName || ''
+    }
+  },
+  mounted() {
+    this.restoreTreeWidth()
+    document.addEventListener('mousemove', this.onMouseMove)
+    document.addEventListener('mouseup', this.onMouseUp)
+  },
+  beforeDestroy() {
+    document.removeEventListener('mousemove', this.onMouseMove)
+    document.removeEventListener('mouseup', this.onMouseUp)
   },
   created() {
     this.loadData()
     this.loadLocationOptions()
   },
   methods: {
+    hasPrivilege() {
+      return true
+    },
     loadData() {
       this.loading = true
       listBuildingShops(this.queryParams)
         .then(res => {
-          this.shopsData = res.data
-          this.pagination.total = res.total
+          const data = res.data || res
+          this.shopsData = Array.isArray(data) ? data : (data.data || [])
+          this.pagination.total = data.total || (Array.isArray(data.data) ? data.data.length : 0)
         })
         .catch(error => {
           console.error(error)
@@ -257,6 +334,11 @@ export default {
       return result
     },
     onLocationSelect(data) {
+      this.selectedLocation = {
+        locationId: data.locationId || '',
+        locationName: data.locationName || '',
+        parentId: data.parentId || '-1'
+      }
       this.queryParams.locationId = data.locationId || ''
       this.loadData()
     },
@@ -288,6 +370,52 @@ export default {
         locationId: '',
         locationName: '',
         parentId: '-1',
+        seq: 1,
+        remark: ''
+      }
+      this.locationDialogVisible = true
+    },
+    openEditLocation() {
+      if (!this.selectedLocation.locationId) {
+        this.$message.warning(this.$t('shops.pleaseSelectLocation'))
+        return
+      }
+      this.locationDialogTitle = this.$t('shops.editLocation')
+      this.locationForm = {
+        locationId: this.selectedLocation.locationId,
+        locationName: this.selectedLocation.locationName,
+        parentId: this.selectedLocation.parentId,
+        seq: this.selectedLocation.seq || 1,
+        remark: this.selectedLocation.remark || ''
+      }
+      this.locationDialogVisible = true
+    },
+    openDeleteLocation() {
+      if (!this.selectedLocation.locationId) {
+        this.$message.warning(this.$t('shops.pleaseSelectLocation'))
+        return
+      }
+      this.deleteLocationDialogVisible = true
+    },
+    confirmDeleteLocation() {
+      deleteShopLocation(this.selectedLocation.locationId).then(() => {
+        this.$message.success(this.$t('common.operationSuccess'))
+        this.deleteLocationDialogVisible = false
+        this.selectedLocation = { locationId: '', locationName: '', parentId: '' }
+        this.$refs.locationTree.loadData()
+        this.loadData()
+      })
+    },
+    openAddChildLocation() {
+      if (!this.selectedLocation.locationId) {
+        this.$message.warning(this.$t('shops.pleaseSelectLocation'))
+        return
+      }
+      this.locationDialogTitle = this.$t('shops.addChildLocation')
+      this.locationForm = {
+        locationId: '',
+        locationName: '',
+        parentId: this.selectedLocation.locationId,
         seq: 1,
         remark: ''
       }
@@ -374,6 +502,52 @@ export default {
         this.deleteDialogVisible = false
         this.loadData()
       })
+    },
+    restoreTreeWidth() {
+      const savedWidth = localStorage.getItem('shopsListTreeWidth')
+      if (savedWidth) {
+        const width = parseInt(savedWidth)
+        if (width >= this.minTreeWidth && width <= this.maxTreeWidth) {
+          this.treeWidth = width
+        }
+      }
+    },
+    saveTreeWidth() {
+      localStorage.setItem('shopsListTreeWidth', this.treeWidth.toString())
+    },
+    startResize(event) {
+      event.preventDefault()
+      this.isResizing = true
+      this.startX = event.clientX
+      this.startWidth = this.treeWidth
+      document.body.style.cursor = 'col-resize'
+      document.body.style.userSelect = 'none'
+    },
+    onMouseMove(event) {
+      if (!this.isResizing) return
+      const deltaX = event.clientX - this.startX
+      const newWidth = this.startWidth + deltaX
+      if (newWidth >= this.minTreeWidth && newWidth <= this.maxTreeWidth) {
+        this.treeWidth = newWidth
+      }
+    },
+    onMouseUp() {
+      if (this.isResizing) {
+        this.isResizing = false
+        this.saveTreeWidth()
+        document.body.style.cursor = ''
+        document.body.style.userSelect = ''
+      }
+    },
+    showResizeCursor() {
+      if (!this.isResizing) {
+        document.body.style.cursor = 'col-resize'
+      }
+    },
+    hideResizeCursor() {
+      if (!this.isResizing) {
+        document.body.style.cursor = ''
+      }
     }
   }
 }
@@ -381,17 +555,97 @@ export default {
 
 <style scoped>
 .shops-container {
-  padding: 20px;
+  padding: 15px;
+  height: calc(100vh - 120px);
+  overflow: hidden;
 }
 
-.location-card {
-  height: calc(100vh - 140px);
+.resizable-layout {
+  display: flex;
+  height: 100%;
+  position: relative;
+}
+
+.tree-panel {
+  background: #fff;
+  border-radius: 4px;
+  padding: 10px;
+  overflow-y: auto;
+  border: 1px solid #e4e7ed;
+  min-height: 450px;
+}
+
+.content-panel {
   overflow-y: auto;
 }
 
-.clearfix:after {
-  content: "";
-  display: table;
-  clear: both;
+.resize-handle {
+  width: 10px;
+  cursor: col-resize;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.resize-handle:hover .resize-line {
+  background-color: #409eff;
+}
+
+.resize-line {
+  width: 2px;
+  height: 30px;
+  background-color: #dcdfe6;
+  border-radius: 1px;
+  transition: background-color 0.2s;
+}
+
+.bg-white {
+  background-color: #fff;
+}
+
+.padding-sm {
+  padding: 10px;
+}
+
+.margin-left-sm {
+  margin-left: 10px;
+}
+
+.margin-top-sm {
+  margin-top: 10px;
+}
+
+.margin-top {
+  margin-top: 15px;
+}
+
+.ibox {
+  margin-bottom: 15px;
+}
+
+.border-radius {
+  border-radius: 4px;
+}
+
+.hc-td {
+  padding: 5px;
+  text-align: center;
+}
+
+.textAuto {
+  text-align: center;
+}
+
+.float-right {
+  float: right;
+}
+
+.tree-panel * {
+  user-select: none;
+}
+
+.resizable-layout.resizing * {
+  user-select: none !important;
 }
 </style>
