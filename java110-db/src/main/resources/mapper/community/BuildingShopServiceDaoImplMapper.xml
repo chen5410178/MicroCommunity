@@ -39,10 +39,10 @@
             </foreach>
         </if>
         <if test="ownerId != null and ownerId != ''">
-            and (t.owner_id = #{ownerId} or o.owner_id = #{ownerId})
+            and o.owner_id = #{ownerId}
         </if>
         <if test="ownerName != null and ownerName != ''">
-            and (t.owner_name like concat('%', #{ownerName}, '%') or o.owner_name like concat('%', #{ownerName}, '%'))
+            and o.owner_name like concat('%', #{ownerName}, '%')
         </if>
         <if test="link != null and link != ''">
             and o.link like concat('%', #{link}, '%')
@@ -86,7 +86,7 @@
             and t.location_id = #{locationId}
         </if>
         <if test="ownerId != null and ownerId != ''">
-            and t.owner_id = #{ownerId}
+            and o.owner_id = #{ownerId}
         </if>
         <if test="ownerName != null and ownerName != ''">
             and o.owner_name like concat('%', #{ownerName}, '%')
