@@ -625,34 +625,35 @@
     <!-- 查询业主费用明细表 -->
     <select id="getOwnerFeeSummary" parameterType="Map" resultType="Map">
         select
-        a.owner_id ownerId,GROUP_CONCAT(a.obj_name) objName,a.fee_type_cd feeTypeCd,
-        (
-        select ifnull(sum(t.receivable_amount),0.0) hisOweFee
-        from pay_fee_detail_month t
-        where 1=1
-        and t.status_cd = '0'
-        and t.detail_id = '-1'
-        and t.community_id= a.community_id
-        and t.owner_id = a.owner_id
-        and t.fee_type_cd = a.fee_type_cd
-        and t.cur_month_time &lt; #{endDate}
-        ) oweFee,
-        (
-        select ifnull(sum(t.received_amount),0.0) receivedFee
-        from pay_fee_detail_month t
-        where t.owner_id = a.owner_id
-        and t.status_cd = '0'
-        and t.community_id= a.community_id
-        and t.fee_type_cd = a.fee_type_cd
-        and t.pay_fee_time &gt; #{startDate}
-        and t.pay_fee_time &lt; #{endDate}
-        ) receivedFee
-        from pay_fee_detail_month a
-        where a.owner_id in
+        br.owner_id ownerId,GROUP_CONCAT(br.room_name) objName,t.fee_type_cd feeTypeCd,
+        ifnull(sum(t.owe_amount),0.0) oweFee,
+        ifnull((
+            select sum(pfd.received_amount)
+            from pay_fee_detail pfd
+            where pfd.fee_id = t.fee_id
+            and pfd.status_cd = '0'
+            and pfd.state in ('1400','1000','1200')
+            <if test="startDate != null and startDate != ''">
+                and pfd.create_time &gt;= #{startDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                and pfd.create_time &lt;= #{endDate}
+            </if>
+        ),0.0) receivedFee
+        from pay_fee t
+        inner join building_room br on t.payer_obj_id = br.room_id and br.status_cd = '0'
+        where t.status_cd = '0'
+        and t.payer_obj_type = '3333'
+        and t.state = '2008001'
+        and t.community_id = #{communityId}
+        and br.owner_id in
         <foreach collection="ownerIds" item="item" index="index" open="(" close=")" separator=",">
             #{item}
         </foreach>
-        group by a.owner_id,a.fee_type_cd,a.community_id
+        <if test="endDate != null and endDate != ''">
+            and t.fee_time &lt;= #{endDate}
+        </if>
+        group by br.owner_id,t.fee_type_cd,t.fee_id
     </select>
 
     <!-- 优惠费用-->
@@ -869,24 +870,27 @@
         </foreach>
         -->
     <select id="getObjOweFee" parameterType="Map" resultType="Map">
-        select t.fee_type_cd feeTypeCd,t.obj_id payerObjId,t.fee_name feeName,
-        min(t.cur_month_time) endTime,max(t.cur_month_time) deadlineTime,max(t.deadline_time) maxDeadLineTime,
-        sum(t.receivable_amount) amountOwed
-        from pay_fee_detail_month t
+        select t.fee_type_cd feeTypeCd,t.payer_obj_id payerObjId,pfc.fee_name feeName,
+        min(t.start_time) endTime,max(t.end_time) deadlineTime,max(t.end_time) maxDeadLineTime,
+        sum(t.owe_amount) amountOwed
+        from pay_fee t
+        left join pay_fee_config pfc on t.config_id = pfc.config_id and pfc.status_cd = '0'
         where t.status_cd = '0'
-        and t.detail_id ='-1'
+        and t.payer_obj_type = '3333'
+        and t.state = '2008001'
         and t.community_id = #{communityId}
+        and t.owe_amount > 0
         <if test="startDate != null and startDate != ''">
-            and t.cur_month_time &gt;= #{startDate}
+            and t.fee_time &gt;= #{startDate}
         </if>
         <if test="endDate != null and endDate != ''">
-            and t.cur_month_time &lt; #{endDate}
+            and t.fee_time &lt;= #{endDate}
         </if>
-        and t.obj_id in
+        and t.payer_obj_id in
         <foreach collection="objIds" item="item" index="index" open="(" close=")" separator=",">
             #{item}
         </foreach>
-        group by t.fee_type_cd,t.obj_id,t.fee_name
+        group by t.fee_type_cd,t.payer_obj_id,t.fee_name
 
     </select>
 

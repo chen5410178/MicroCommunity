@@ -26,7 +26,7 @@ export function listShops(params) {
 export function saveShopCreateFee(data) {
   return new Promise((resolve, reject) => {
     request({
-      url: '/shop.saveShopCreateFee',
+      url: '/fee.saveShopCreateFee',
       method: 'post',
       data: {
         ...data,

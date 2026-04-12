@@ -36,9 +36,7 @@
               </el-input>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row :gutter="20">
-          <el-col :span="4">
+            <el-col :span="4">
             <el-form-item>
               <el-button type="primary" @click="queryMethod">查询</el-button>
               <el-button @click="resetMethod">重置</el-button>

@@ -11,7 +11,9 @@ import com.java110.dto.owner.OwnerCarDto;
 import com.java110.dto.parking.ParkingSpaceDto;
 import com.java110.dto.room.RoomAttrDto;
 import com.java110.dto.room.RoomDto;
+import com.java110.dto.shop.BuildingShopDto;
 import com.java110.fee.bill.IFeeFormula;
+import com.java110.intf.community.IBuildingShopInnerServiceSMO;
 import com.java110.intf.community.ICommunityInnerServiceSMO;
 import com.java110.intf.community.IParkingSpaceInnerServiceSMO;
 import com.java110.intf.community.IRoomInnerServiceSMO;
@@ -54,6 +56,9 @@ public class FeeFormulaCustomImpl implements IFeeFormula {
     @Autowired
     private ICommunityInnerServiceSMO communityInnerServiceSMOImpl;
 
+    @Autowired
+    private IBuildingShopInnerServiceSMO buildingShopInnerServiceSMOImpl;
+
     @Override
     public FeeAmountDto computeFeeAmount(FeeConfigDto feeConfigDto, String ruleId, String payerObjId, String payerObjType, int cycle, double amountValue) {
         FeeAmountDto amount = null;
@@ -66,6 +71,8 @@ public class FeeFormulaCustomImpl implements IFeeFormula {
         } else if (FeeDto.PAYER_OBJ_TYPE_CONTRACT.equals(payerObjType)) {
             amount = computeContractAmount(feeConfigDto, payerObjId, payerObjType, cycle, monthFlag);
 
+        } else if (FeeDto.PAYER_OBJ_TYPE_SHOP.equals(payerObjType)) {
+            amount = computeShopAmount(feeConfigDto, payerObjId, payerObjType, cycle, monthFlag);
         }
         return amount;
     }
@@ -308,6 +315,75 @@ public class FeeFormulaCustomImpl implements IFeeFormula {
             total = total.add(computeRoomCustomizeFormula(feeConfigDto, contractRoomDto));
         }
         return total;
+    }
+
+    private FeeAmountDto computeShopAmount(FeeConfigDto feeConfigDto, String payerObjId, String payerObjType, int cycle, String monthFlag) {
+        BuildingShopDto shopDto = new BuildingShopDto();
+        shopDto.setShopId(payerObjId);
+        shopDto.setCommunityId(feeConfigDto.getCommunityId());
+        List<BuildingShopDto> shopDtos = buildingShopInnerServiceSMOImpl.queryBuildingShops(shopDto);
+        Assert.listOnlyOne(shopDtos, "未查到商铺信息，shopId=" + payerObjId);
+
+        BigDecimal feePrice = computeShopCustomizeFormula(feeConfigDto, shopDtos.get(0));
+        BigDecimal cycleDec = new BigDecimal(cycle);
+
+        if ("2".equals(monthFlag)) {
+            feePrice = feePrice.setScale(FeeConfigConstant.FEE_SCALE, BigDecimal.ROUND_HALF_UP);
+            double tAmount = MoneyUtil.computePriceScale(
+                    feePrice.doubleValue(),
+                    feeConfigDto.getScale(),
+                    Integer.parseInt(feeConfigDto.getDecimalPlace())
+            );
+            feePrice = new BigDecimal(tAmount + "");
+        }
+
+        BigDecimal feeTotalPrice = feePrice.multiply(cycleDec).setScale(FeeConfigConstant.FEE_SCALE, BigDecimal.ROUND_HALF_UP);
+        String remark = "公式：" + feeConfigDto.getComputingFormulaText();
+        return new FeeAmountDto(feeTotalPrice.doubleValue(), remark);
+    }
+
+    private BigDecimal computeShopCustomizeFormula(FeeConfigDto feeConfigDto, BuildingShopDto shopDto) {
+        String value = feeConfigDto.getComputingFormulaText();
+
+        if (StringUtil.isEmpty(value)) {
+            return new BigDecimal(0);
+        }
+
+        value = value.replace("\n", "")
+                .replace("\r", "")
+                .trim();
+
+        if (value.contains("C")) {
+            CommunityDto communityDto = new CommunityDto();
+            communityDto.setCommunityId(feeConfigDto.getCommunityId());
+            List<CommunityDto> communityDtos = communityInnerServiceSMOImpl.queryCommunitys(communityDto);
+            if (ListUtil.isNull(communityDtos)) {
+                value = value.replace("C", "0");
+            } else {
+                value = value.replace("C", communityDtos.get(0).getCommunityArea());
+            }
+        }
+        if (value.contains("R")) {
+            value = value.replace("R", shopDto.getBuiltUpArea() != null ? shopDto.getBuiltUpArea() : "0");
+        }
+
+        ScriptEngineManager manager = new ScriptEngineManager();
+        ScriptEngine engine = manager.getEngineByName("JavaScript");
+        BigDecimal valueObj = null;
+        logger.debug("商铺计算公式为：{}", value);
+        try {
+            value = engine.eval(value).toString();
+            valueObj = new BigDecimal(Double.parseDouble(value));
+        } catch (Exception e) {
+            logger.error("商铺公式计算异常，公式为【" + feeConfigDto.getComputingFormulaText() + "】,计算 【" + value + "】异常", e);
+            valueObj = new BigDecimal(0);
+        }
+
+        if (valueObj.doubleValue() < 0) {
+            return new BigDecimal(0);
+        }
+
+        return valueObj;
     }
 
 

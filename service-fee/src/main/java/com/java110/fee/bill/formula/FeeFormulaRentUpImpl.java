@@ -6,12 +6,15 @@ import com.java110.dto.fee.FeeAmountDto;
 import com.java110.dto.fee.FeeConfigDto;
 import com.java110.dto.fee.FeeDto;
 import com.java110.dto.room.RoomDto;
+import com.java110.dto.shop.BuildingShopDto;
 import com.java110.fee.bill.IFeeFormula;
+import com.java110.intf.community.IBuildingShopInnerServiceSMO;
 import com.java110.intf.community.IParkingSpaceInnerServiceSMO;
 import com.java110.intf.community.IRoomInnerServiceSMO;
 import com.java110.intf.store.IContractRoomInnerServiceSMO;
 import com.java110.intf.user.IOwnerCarInnerServiceSMO;
 import com.java110.utils.constant.FeeConfigConstant;
+import com.java110.utils.util.Assert;
 import com.java110.utils.util.ListUtil;
 import com.java110.utils.util.MoneyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +41,9 @@ public class FeeFormulaRentUpImpl implements IFeeFormula {
     @Autowired
     private IContractRoomInnerServiceSMO contractRoomInnerServiceSMOImpl;
 
+    @Autowired
+    private IBuildingShopInnerServiceSMO buildingShopInnerServiceSMOImpl;
+
     @Override
     public FeeAmountDto computeFeeAmount(FeeConfigDto feeConfigDto,String ruleId, String payerObjId, String payerObjType, int cycle,double amountValue) {
         FeeAmountDto amount = null;
@@ -50,6 +56,8 @@ public class FeeFormulaRentUpImpl implements IFeeFormula {
         } else if (FeeDto.PAYER_OBJ_TYPE_CONTRACT.equals(payerObjType)) {
             amount = computeContractAmount(feeConfigDto, payerObjId, payerObjType, cycle, monthFlag);
 
+        } else if (FeeDto.PAYER_OBJ_TYPE_SHOP.equals(payerObjType)) {
+            amount = computeShopAmount(feeConfigDto, payerObjId, payerObjType, cycle, monthFlag);
         }
         return amount;
     }
@@ -120,6 +128,32 @@ public class FeeFormulaRentUpImpl implements IFeeFormula {
         
         feeTotalPrice = feeTotalPrice.multiply(cycle).setScale(FeeConfigConstant.FEE_SCALE, BigDecimal.ROUND_HALF_UP);
         String remark = "合同租金：" + roomRent.doubleValue();
+        return new FeeAmountDto(feeTotalPrice.doubleValue(), remark);
+    }
+
+    private FeeAmountDto computeShopAmount(FeeConfigDto feeConfigDto, String payerObjId, String payerObjType, int cycleValue, String monthFlag) {
+        BuildingShopDto shopDto = new BuildingShopDto();
+        shopDto.setShopId(payerObjId);
+        shopDto.setCommunityId(feeConfigDto.getCommunityId());
+        List<BuildingShopDto> shopDtos = buildingShopInnerServiceSMOImpl.queryBuildingShops(shopDto);
+        Assert.listOnlyOne(shopDtos, "未查到商铺信息，shopId=" + payerObjId);
+
+        BigDecimal additionalAmount = new BigDecimal(Double.parseDouble(shopDtos.get(0).getShopRent()));
+        BigDecimal cycle = new BigDecimal(cycleValue);
+
+        BigDecimal feeTotalPrice = additionalAmount;
+        if ("2".equals(monthFlag)) {
+            feeTotalPrice = feeTotalPrice.setScale(FeeConfigConstant.FEE_SCALE, BigDecimal.ROUND_HALF_UP);
+            double tAmount = MoneyUtil.computePriceScale(
+                    feeTotalPrice.doubleValue(),
+                    feeConfigDto.getScale(),
+                    Integer.parseInt(feeConfigDto.getDecimalPlace())
+            );
+            feeTotalPrice = new BigDecimal(tAmount + "");
+        }
+
+        feeTotalPrice = feeTotalPrice.multiply(cycle).setScale(FeeConfigConstant.FEE_SCALE, BigDecimal.ROUND_HALF_UP);
+        String remark = "商铺租金：" + shopDtos.get(0).getShopRent();
         return new FeeAmountDto(feeTotalPrice.doubleValue(), remark);
     }
 

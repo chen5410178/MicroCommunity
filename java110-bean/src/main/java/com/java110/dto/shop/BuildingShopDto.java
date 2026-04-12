@@ -29,6 +29,8 @@ public class BuildingShopDto extends PageDto implements Serializable {
     private String createTime;
     private String rentTimeStart;
     private String rentTimeEnd;
+    private String floorArea;
+    private String unitArea;
 
     public String getShopId() {
         return shopId;

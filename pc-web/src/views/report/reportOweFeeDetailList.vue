@@ -1,137 +1,94 @@
 <template>
   <div class="report-owe-fee-detail-container animated fadeInRight">
-    <el-row :gutter="20">
-      <el-col :span="3">
-        <select-community-floor ref="selectCommunityFloor" />
-      </el-col>
-      <el-col :span="21">
+    <el-row>
+      <el-col :span="24">
         <el-card>
           <div slot="header" class="flex justify-between">
             <span>{{ $t('reportOweFeeDetail.searchCondition') }}</span>
           </div>
           <el-form :inline="true" :model="reportOweFeeDetailInfo.conditions" class="search-form text-left">
-            <el-form-item >
-              <el-select v-model="reportOweFeeDetailInfo.conditions.feeTypeCd"
-                :placeholder="$t('reportOweFeeDetail.selectFeeType')" style="width:100%">
-                <el-option v-for="(item, index) in reportOweFeeDetailInfo.feeTypeCds" :key="index" :label="item.name"
-                  :value="item.statusCd">
-                </el-option>
-              </el-select>
-            </el-form-item>
-
-            <el-form-item >
-              <el-input v-model="reportOweFeeDetailInfo.conditions.objNameLike"
-                :placeholder="$t('reportOweFeeDetail.inputRoomNum')">
+            <el-form-item>
+              <el-input v-model="reportOweFeeDetailInfo.conditions.objName"
+                :placeholder="$t('reportOweFeeDetail.inputRoomNum')" clearable>
               </el-input>
             </el-form-item>
 
-            <el-form-item >
-              <el-date-picker v-model="reportOweFeeDetailInfo.conditions.startTime" type="date"
+            <el-form-item>
+              <el-input v-model="reportOweFeeDetailInfo.conditions.ownerName"
+                :placeholder="$t('reportOweFeeDetail.inputOwnerName')" clearable>
+              </el-input>
+            </el-form-item>
+
+            <el-form-item>
+              <el-input v-model="reportOweFeeDetailInfo.conditions.link"
+                :placeholder="$t('reportOweFeeDetail.inputPhone')" clearable>
+              </el-input>
+            </el-form-item>
+
+            <el-form-item>
+              <el-date-picker v-model="reportOweFeeDetailInfo.conditions.startDate" type="date"
                 :placeholder="$t('reportOweFeeDetail.selectStartTime')">
               </el-date-picker>
             </el-form-item>
 
-            <el-form-item >
-              <el-date-picker v-model="reportOweFeeDetailInfo.conditions.endTime" type="date"
+            <el-form-item>
+              <el-date-picker v-model="reportOweFeeDetailInfo.conditions.endDate" type="date"
                 :placeholder="$t('reportOweFeeDetail.selectEndTime')">
               </el-date-picker>
             </el-form-item>
 
-            <el-form-item v-if="reportOweFeeDetailInfo.communitys.length > 1"
-              >
-              <el-select v-model="reportOweFeeDetailInfo.conditions.communityId" @change="_changCommunity"
-                :placeholder="$t('reportOweFeeDetail.selectCommunity')" style="width:100%">
-                <el-option v-for="(item, index) in reportOweFeeDetailInfo.communitys" :key="index" :label="item.name"
-                  :value="item.communityId">
-                </el-option>
-              </el-select>
+            <el-form-item>
+              <el-button type="primary" @click="_qureyDataReportOweDetailStatistics">
+                <i class="el-icon-search"></i>
+                {{ $t('reportOweFeeDetail.search') }}
+              </el-button>
+              <el-button @click="_resetDataReportOweDetailStatistics" style="margin-left: 10px;">
+                <i class="el-icon-refresh"></i>
+                {{ $t('reportOweFeeDetail.reset') }}
+              </el-button>
             </el-form-item>
 
-            <el-form-item>
-              <el-button type="primary" @click="_queryMethod">{{ $t('reportOweFeeDetail.search') }}</el-button>
-              <el-button @click="_resetMethod" style="margin-left: 10px;">{{ $t('reportOweFeeDetail.reset')
-                }}</el-button>
-            </el-form-item>
-            <el-form-item >
-              <el-input v-model="reportOweFeeDetailInfo.conditions.ownerNameLike"
-                :placeholder="$t('reportOweFeeDetail.inputOwnerName')">
-              </el-input>
+            <el-form-item style="float: right;">
+              <el-button type="primary" @click="_exportReportOweDetailExcel">
+                <i class="el-icon-download"></i>
+                {{ $t('reportOweFeeDetail.export') }}
+              </el-button>
             </el-form-item>
           </el-form>
         </el-card>
 
         <el-card style="margin-top: 20px;">
           <div slot="header" class="flex justify-between">
-            <div>
-              <span>{{ $t('reportOweFeeDetail.oweFeeDetail') }}</span>
-              <el-tooltip class="item" effect="dark" :content="$t('reportOweFeeDetail.tooltip')" placement="top">
-                <i class="el-icon-info" style="margin-left: 10px; cursor: pointer;"></i>
-              </el-tooltip>
-              <span style="font-size: 12px; margin-left: 10px;">({{ $t('reportOweFeeDetail.updateDaily') }})</span>
-            </div>
-            <el-button type="primary" size="small" style="float: right;" @click="_exportExcel">
-              <i class="el-icon-download"></i>
-              {{ $t('reportOweFeeDetail.export') }}
-            </el-button>
+            <span>{{ $t('reportOweFeeDetail.oweFeeDetail') }}</span>
           </div>
 
           <el-table :data="reportOweFeeDetailInfo.fees" border style="width: 100%" v-loading="loading">
-            <el-table-column prop="index" :label="$t('reportOweFeeDetail.feeNum')" width="80" align="center">
+            <el-table-column prop="roomName" :label="$t('reportOweFeeDetail.room')" align="center" />
+            <el-table-column prop="ownerName" :label="$t('reportOweFeeDetail.owner')" align="center" />
+            <el-table-column prop="oweFee" :label="$t('reportOweFeeDetail.oweAmount')" align="center" />
+            <el-table-column v-for="(item, index) in reportOweFeeDetailInfo.feeTypeCds" :key="index"
+              :label="item.name" align="center">
               <template slot-scope="scope">
-                {{ scope.$index + 1 }}
+                <div v-if="scope.row['oweFee' + item.statusCd]">
+                  <div v-for="(feeItem, fIndex) in scope.row['oweFee' + item.statusCd]" :key="fIndex">
+                    {{ feeItem.feeName }}({{ feeItem.endTime }}~{{ feeItem.deadlineTime }})={{ feeItem.amountOwed }}
+                  </div>
+                </div>
+                <div v-else>
+                  0
+                </div>
               </template>
-            </el-table-column>
-            <el-table-column prop="objName" :label="$t('reportOweFeeDetail.roomNum')" align="center">
-            </el-table-column>
-            <el-table-column prop="ownerName" :label="$t('reportOweFeeDetail.owner')" align="center">
-            </el-table-column>
-            <el-table-column prop="ownerTel" :label="$t('reportOweFeeDetail.ownerTel')" align="center">
-            </el-table-column>
-            <el-table-column prop="builtUpArea" :label="$t('reportOweFeeDetail.area')" align="center">
-            </el-table-column>
-            <el-table-column prop="feeName" :label="$t('reportOweFeeDetail.feeItem')" align="center">
-            </el-table-column>
-            <el-table-column prop="startTime" :label="$t('reportOweFeeDetail.startTime')" align="center">
-            </el-table-column>
-            <el-table-column prop="endTime" :label="$t('reportOweFeeDetail.endTime')" align="center">
-            </el-table-column>
-            <el-table-column prop="oweDay" :label="$t('reportOweFeeDetail.oweDays')" align="center">
-            </el-table-column>
-            <el-table-column prop="oweAmount" :label="$t('reportOweFeeDetail.oweAmount')" align="center">
             </el-table-column>
           </el-table>
 
-          <div class="summary">
-            <div class="summary-item">
-              <span class="label">{{ $t('reportOweFeeDetail.subtotal') }}</span>
-              <span class="value">
-                {{ $t('reportOweFeeDetail.owe') }}: {{ reportOweFeeDetailInfo.totalPreferentialAmount }} {{
-                  $t('reportOweFeeDetail.yuan') }}
-              </span>
-            </div>
-            <div class="summary-item">
-              <span class="label">{{ $t('reportOweFeeDetail.total') }}</span>
-              <span class="value">
-                {{ $t('reportOweFeeDetail.owe') }}: {{ reportOweFeeDetailInfo.allOweAmount }} {{
-                  $t('reportOweFeeDetail.yuan') }}
-              </span>
-            </div>
-          </div>
-
-          <div class="footer">
-            <div class="text-left table-desc">
-              <p>{{ $t('reportOweFeeDetail.feeStartTimeDesc') }}</p>
-              <p>{{ $t('reportOweFeeDetail.oweDaysDesc1') }}</p>
-              <p>{{ $t('reportOweFeeDetail.oweDaysDesc2') }}</p>
-              <p>{{ $t('reportOweFeeDetail.oweAmountDesc') }}</p>
-            </div>
-            <div class="footer-right">
+          <el-row class="margin-top">
+            <el-col :span="24" class="text-right">
               <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
                 :current-page="page.current" :page-sizes="[10, 20, 30, 50]" :page-size="page.size"
                 layout="total, sizes, prev, pager, next, jumper" :total="page.total">
               </el-pagination>
-            </div>
-          </div>
+            </el-col>
+          </el-row>
         </el-card>
       </el-col>
     </el-row>
@@ -141,43 +98,24 @@
 <script>
 import { getDict } from '@/api/community/communityApi'
 import { getCommunityId } from '@/api/community/communityApi'
-import SelectCommunityFloor from '@/components/report/selectCommunityFloor'
-
-import { queryOweFeeDetail, exportData } from '@/api/report/reportOweFeeDetailApi'
-import { searchFloors } from '@/api/room/searchFloorApi'
-import {
-  listMyEnteredCommunitys
-} from '@/api/report/dataReportApi'
+import { queryOweDetailStatistics, exportData } from '@/api/report/dataReportApi'
 
 export default {
   name: 'ReportOweFeeDetailList',
-  components: {
-    SelectCommunityFloor
-  },
+  components: {},
   data() {
     return {
       loading: false,
       reportOweFeeDetailInfo: {
         fees: [],
-        floors: [],
-        total: 0,
-        records: 1,
         feeTypeCds: [],
-        communitys: [],
-        totalPreferentialAmount: 0.0,
-        allOweAmount: 0.0,
         conditions: {
-          floorId: '',
-          floorName: '',
-          roomNum: '',
-          objNameLike: '',
-          feeTypeCd: '',
-          startTime: '',
-          endTime: '',
-          communityId: '',
-          ownerNameLike: '',
-          page: 1,
-          row: 10
+          objName: '',
+          ownerName: '',
+          link: '',
+          startDate: '',
+          endDate: '',
+          communityId: ''
         }
       },
       page: {
@@ -189,57 +127,39 @@ export default {
   },
   created() {
     this.initData()
-    setTimeout(() => {
-      this.$refs.selectCommunityFloor.open({
-        callBack: (floor) => {
-          this.reportOweFeeDetailInfo.conditions.floorId = floor.floorId
-            this._listFees()
-        }
-      })
-    }, 500)
   },
   methods: {
     async initData() {
       this.reportOweFeeDetailInfo.conditions.communityId = getCommunityId()
       await this.getDictData()
-      await this._listFloors()
-      await this._listFees()
-      await this._loadStaffCommunitys()
+      await this._loadDataReportOweDetailStatisticsData()
     },
 
     async getDictData() {
       try {
-        const data = await getDict('pay_fee_config', 'fee_type_cd')
+        const data = await getDict('pay_fee_config', 'fee_type_cd_show')
         this.reportOweFeeDetailInfo.feeTypeCds = data
       } catch (error) {
         console.error('获取字典数据失败:', error)
       }
     },
 
-    async _listFees() {
+    async _loadDataReportOweDetailStatisticsData() {
       this.loading = true
       try {
         const params = {
-          ...this.reportOweFeeDetailInfo.conditions,
+          communityId: this.reportOweFeeDetailInfo.conditions.communityId,
+          startDate: this.reportOweFeeDetailInfo.conditions.startDate,
+          endDate: this.reportOweFeeDetailInfo.conditions.endDate,
+          objName: this.reportOweFeeDetailInfo.conditions.objName,
+          ownerName: this.reportOweFeeDetailInfo.conditions.ownerName,
+          link: this.reportOweFeeDetailInfo.conditions.link,
           page: this.page.current,
           row: this.page.size
         }
-        const { data, total } = await queryOweFeeDetail(params)
+        const { data, records } = await queryOweDetailStatistics(params)
         this.reportOweFeeDetailInfo.fees = data
-        this.page.total = total
-
-        // 计算小计
-        let _totalPreferentialAmount = 0.0
-        data.forEach(item => {
-          _totalPreferentialAmount += parseFloat(item.oweAmount)
-        })
-        this.reportOweFeeDetailInfo.totalPreferentialAmount = _totalPreferentialAmount.toFixed(2)
-
-        if (data.length > 0) {
-          this.reportOweFeeDetailInfo.allOweAmount = data[0].allOweAmount
-        } else {
-          this.reportOweFeeDetailInfo.allOweAmount = 0.0.toFixed(2)
-        }
+        this.page.total = records
       } catch (error) {
         console.error('获取欠费明细失败:', error)
       } finally {
@@ -247,76 +167,32 @@ export default {
       }
     },
 
-    async _listFloors() {
-      try {
-        const params = {
-          page: 1,
-          row: 100,
-          communityId: this.reportOweFeeDetailInfo.conditions.communityId
-        }
-        const { apiFloorDataVoList } = await searchFloors(params)
-        this.reportOweFeeDetailInfo.floors = apiFloorDataVoList
-      } catch (error) {
-        console.error('获取楼层列表失败:', error)
-      }
-    },
-
-    async _loadStaffCommunitys() {
-      try {
-        const params = {
-          _uid: '123mlkdinkldldijdhuudjdjkkd',
-          page: 1,
-          row: 100
-        }
-        const data = await listMyEnteredCommunitys(params)
-        this.reportOweFeeDetailInfo.communitys = data.communitys
-      } catch (error) {
-        console.error('获取小区列表失败:', error)
-      }
-    },
-
-    _queryMethod() {
+    _qureyDataReportOweDetailStatistics() {
       this.page.current = 1
-      this._listFees()
+      this._loadDataReportOweDetailStatisticsData()
     },
 
-    _resetMethod() {
-      this.reportOweFeeDetailInfo.conditions = {
-        floorId: '',
-        floorName: '',
-        roomNum: '',
-        objNameLike: '',
-        feeTypeCd: '',
-        startTime: '',
-        endTime: '',
-        communityId: this.reportOweFeeDetailInfo.conditions.communityId,
-        ownerNameLike: '',
-        page: 1,
-        row: 10
-      }
-      this._listFees()
+    _resetDataReportOweDetailStatistics() {
+      this.reportOweFeeDetailInfo.conditions.objName = ''
+      this.reportOweFeeDetailInfo.conditions.ownerName = ''
+      this.reportOweFeeDetailInfo.conditions.link = ''
+      this._qureyDataReportOweDetailStatistics()
     },
 
-    swatchFloor(floorId) {
-      this.reportOweFeeDetailInfo.conditions.floorId = floorId
-      this._listFees()
-    },
-
-    _changCommunity() {
-      this.reportOweFeeDetailInfo.conditions.floorId = ''
-      this._listFloors()
-      this._listFees()
-    },
-
-    async _exportExcel() {
+    async _exportReportOweDetailExcel() {
       try {
         const params = {
-          ...this.reportOweFeeDetailInfo.conditions,
-          pagePath: 'reportOweFeeDetail'
+          communityId: this.reportOweFeeDetailInfo.conditions.communityId,
+          startDate: this.reportOweFeeDetailInfo.conditions.startDate,
+          endDate: this.reportOweFeeDetailInfo.conditions.endDate,
+          objName: this.reportOweFeeDetailInfo.conditions.objName,
+          ownerName: this.reportOweFeeDetailInfo.conditions.ownerName,
+          link: this.reportOweFeeDetailInfo.conditions.link,
+          pagePath: 'dataReportOweDetailStatistics'
         }
-        const { code, msg } = await exportData(params)
-        this.$message.success(msg)
-        if (code === 0) {
+        const res = await exportData(params)
+        this.$message.success(res.msg)
+        if (res.code === 0) {
           this.$router.push('/pages/property/downloadTempFile?tab=下载中心')
         }
       } catch (error) {
@@ -326,12 +202,12 @@ export default {
 
     handleSizeChange(val) {
       this.page.size = val
-      this._listFees()
+      this._loadDataReportOweDetailStatisticsData()
     },
 
     handleCurrentChange(val) {
       this.page.current = val
-      this._listFees()
+      this._loadDataReportOweDetailStatisticsData()
     }
   }
 }
@@ -341,75 +217,18 @@ export default {
 .report-owe-fee-detail-container {
   padding: 20px;
 
-  .floor-list-card {
-    height: 100%;
-
-    .floor-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-
-      .floor-item {
-        padding: 10px;
-        margin-bottom: 5px;
-        cursor: pointer;
-        border-radius: 4px;
-        text-align: center;
-
-        &:hover {
-          background-color: #f5f7fa;
-        }
-
-        &.active {
-          background-color: #409eff;
-          color: white;
-        }
-      }
-    }
-  }
-
   .search-form {
-
     .el-form-item {
       margin-right: 20px;
     }
   }
 
-  .summary {
-    padding: 10px;
-    border-radius: 4px;
-
-    .summary-item {
-      display: flex;
-      align-items: center;
-      margin-bottom: 5px;
-
-      .label {
-        font-weight: bold;
-        margin-right: 10px;
-        width: 60px;
-      }
-    }
+  .margin-top {
+    margin-top: 20px;
   }
 
-  .footer {
-    display: flex;
-    justify-content: space-between;
-
-    .footer-left {
-      width: 60%;
-      font-size: 12px;
-      color: #666;
-
-      p {
-        margin: 5px 0;
-      }
-    }
-
-    .footer-right {
-      width: 40%;
-      text-align: right;
-    }
+  .text-right {
+    text-align: right;
   }
 }
 </style>
