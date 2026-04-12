@@ -36,6 +36,7 @@ import { messages as prePayFeeOrderMessages } from '../views/fee/prePayFeeOrderL
 import { messages as prePayFeeDeductionDetailMessages } from '../views/fee/prePayFeeDeductionDetailLang'
 import { messages as refundPrePayFeeMessages } from '../views/fee/refundPrePayFeeLang'
 import { messages as wirteRuleFeeRemarkMessages } from '../views/fee/wirteRuleFeeRemarkLang'
+import { messages as shopCreateFeeMessages } from '../views/fee/shopCreateFeeLang'
 
 export const messages = {
     en: {
@@ -77,6 +78,7 @@ export const messages = {
         ...prePayFeeDeductionDetailMessages.en,
         ...refundPrePayFeeMessages.en,
         ...wirteRuleFeeRemarkMessages.en,
+        ...shopCreateFeeMessages.en,
     },
     zh: {
         ...contractCreateFeeMessages.zh,
@@ -117,5 +119,6 @@ export const messages = {
         ...prePayFeeDeductionDetailMessages.zh,
         ...refundPrePayFeeMessages.zh,
         ...wirteRuleFeeRemarkMessages.zh,
+        ...shopCreateFeeMessages.zh,
     }
 }

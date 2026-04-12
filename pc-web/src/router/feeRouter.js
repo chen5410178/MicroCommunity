@@ -166,4 +166,14 @@ export default [
         name: '/views/fee/wirteRuleFeeRemark',
         component: () => import('@/views/fee/wirteRuleFeeRemarkList.vue')
     },
+    {
+        path: '/pages/property/shopCreateFee',
+        name: '/pages/property/shopCreateFee',
+        component: () => import('@/views/fee/shopCreateFeeList.vue')
+    },
+    {
+        path: '/pages/fee/shopCreatePayFee',
+        name: '/pages/fee/shopCreatePayFee',
+        component: () => import('@/views/fee/shopCreatePayFeeList.vue')
+    },
 ]
