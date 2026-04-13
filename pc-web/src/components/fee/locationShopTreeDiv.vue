@@ -48,6 +48,16 @@ export default {
       if (lastSelected) {
         try {
           this.lastSelected = JSON.parse(lastSelected)
+          this.$emit('selectShop', {
+          shopId:  this.lastSelected.shopId,
+          shopName:  this.lastSelected.shopName,
+          shopNum:  this.lastSelected.shopNum,
+          ownerId:  this.lastSelected.ownerId,
+          ownerName:  this.lastSelected.ownerName,
+          builtUpArea:  this.lastSelected.builtUpArea,
+          locationId:  this.lastSelected.locationId,
+          locationName:  this.lastSelected.locationName
+        })
         } catch (error) {
           console.error('解析lastSelectedShop失败:', error)
           localStorage.removeItem('lastSelectedShop')
@@ -78,114 +88,46 @@ export default {
 
       this.treeData = locations.map(location => processLocation(location))
       this.$nextTick(() => {
-        if (this.lastSelected && this.lastSelected.locationId && this.lastSelected.shopId) {
-          this.expandAndSelectLastShop()
-        } else {
           this.expandAndSelectFirstShop()
-        }
       })
     },
-    async expandAndSelectLastShop() {
-      if (!this.lastSelected || !this.lastSelected.locationId || !this.lastSelected.shopId) {
-        this.expandAndSelectFirstShop()
-        return
-      }
 
-      const treeRef = this.$refs.tree
-      if (!treeRef || !treeRef.store) {
-        setTimeout(() => this.expandAndSelectLastShop(), 100)
-        return
-      }
-
-      try {
-        const locationNode = this.findLocationNode(this.treeData, this.lastSelected.locationId)
-        if (!locationNode) {
-          console.warn('未找到对应的位置:', this.lastSelected.locationId)
-          this.expandAndSelectFirstShop()
-          return
-        }
-
-        var locationTreeNode = treeRef.store.nodesMap[locationNode.id]
-        if (locationTreeNode) {
-          locationTreeNode.expanded = true
-        }
-
-        await this.loadShops(locationNode, { data: locationNode })
-
-        this.$nextTick(() => {
-          if (this.lastSelected.shopId) {
-            this.selectSpecificShop(this.lastSelected.shopId)
-          }
-        })
-
-        this.isInitialized = true
-      } catch (error) {
-        console.error('展开上次选择的商铺失败:', error)
-        this.expandAndSelectFirstShop()
-      }
-    },
-    findLocationNode(nodes, locationId) {
-      for (var i = 0; i < nodes.length; i++) {
-        if (nodes[i].locationId === locationId) {
-          return nodes[i]
-        }
-        if (nodes[i].children && nodes[i].children.length > 0) {
-          var found = this.findLocationNode(nodes[i].children, locationId)
-          if (found) return found
-        }
-      }
-      return null
-    },
-    selectSpecificShop(shopId) {
-      const treeRef = this.$refs.tree
-      if (!treeRef) return
-
-      const shopNodeId = `shop_${shopId}`
-      const shopTreeNode = treeRef.store.nodesMap[shopNodeId]
-
-      if (shopTreeNode) {
-        treeRef.setCurrentKey(shopNodeId)
-        this.$emit('selectShop', {
-          shopId: shopId,
-          shopName: this.lastSelected.shopName || '',
-          shopNum: this.lastSelected.shopNum || '',
-          ownerId: this.lastSelected.ownerId || '',
-          ownerName: this.lastSelected.ownerName || '',
-          builtUpArea: this.lastSelected.builtUpArea || '',
-          locationId: this.lastSelected.locationId || '',
-          locationName: this.lastSelected.locationName || ''
-        })
-      } else {
-        setTimeout(() => this.selectSpecificShop(shopId), 200)
-      }
-    },
     async expandAndSelectFirstShop() {
       if (!this.treeData.length) return
 
-      const firstLocation = this.treeData[0]
-      const treeRef = this.$refs.tree
-      if (!treeRef || !treeRef.store) return
+      const path = this.findDeepestLeafPath(this.treeData)
+      if (!path || path.length === 0) return
 
-      var firstNode = treeRef.store.nodesMap[firstLocation.id]
-      if (firstNode) {
-        firstNode.expanded = true
-      }
+      const lastNode = path[path.length - 1]
+   
+      console.log('Expanding path to first shop:', lastNode)
 
-      await this.loadShops(firstLocation, { data: firstLocation })
-      this.isInitialized = true
+      await this.loadShops(lastNode, { data: lastNode })
+      this.$nextTick(() => {
+        this.selectFirstShop()
+      })
     },
+    findDeepestLeafPath(nodes, currentPath) {
+      currentPath = currentPath || []
+      for (var i = 0; i < nodes.length; i++) {
+        var node = nodes[i]
+        var path = currentPath.concat([node])
+        if (!node.children || node.children.length === 0) {
+          return path
+        }
+        var childPath = this.findDeepestLeafPath(node.children, path)
+        if (childPath && childPath.length > 0) {
+          return childPath
+        }
+      }
+      return []
+    },
+
     async handleNodeClick(data, node) {
       if (data.isLocation) {
-        if (!node.expanded) {
-          if (!data.children || data.children.length === 0) {
             await this.loadShops(data, node)
-          }
-          node.expanded = true
-        } else {
-          node.expanded = false
-        }
       } else if (data.isShop) {
-        var selectedData = {
+        let selectedData = {
           shopId: data.shopId,
           shopName: data.shopName,
           shopNum: data.shopNum,
@@ -233,12 +175,6 @@ export default {
           isShop: true
         }))
         this.$set(node.data, 'children', shopNodes)
-        this.$nextTick(() => {
-          var treeRef = this.$refs.tree
-          if (treeRef) {
-            treeRef.updateKeyChildren(locationData.id, shopNodes)
-          }
-        })
       } catch (error) {
         console.error('Failed to load shops:', error)
         this.$message.error(this.$t('shopTree.loadShopError'))
