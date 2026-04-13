@@ -100,31 +100,6 @@ export default [
         component: () => import('@/views/oa/editOwnerVotingList.vue')
     },
     {
-        path: '/pages/examine/examineProjectManage',
-        name: '/pages/examine/examineProjectManage',
-        component: () => import('@/views/oa/examineProjectManageList.vue')
-    },
-    {
-        path: '/pages/examine/examineStaffManage',
-        name: '/pages/examine/examineStaffManage',
-        component: () => import('@/views/oa/examineStaffManageList.vue')
-    },
-    {
-        path: '/views/oa/addExamineStaff',
-        name: '/views/oa/addExamineStaff',
-        component: () => import('@/views/oa/addExamineStaffList.vue')
-    },
-    {
-        path: '/views/oa/editExamineStaff',
-        name: '/views/oa/editExamineStaff',
-        component: () => import('@/views/oa/editExamineStaffList.vue')
-    },
-    {
-        path: '/pages/examine/examineStaffValue',
-        name: '/pages/examine/examineStaffValue',
-        component: () => import('@/views/oa/examineStaffValueList.vue')
-    },
-    {
         path: '/pages/property/oaWorkflowManage',
         name: '/pages/property/oaWorkflowManage',
         component: () => import('@/views/oa/oaWorkflowManageList.vue')

@@ -109,7 +109,6 @@ import { messages as communitySpaceManageMessages } from '../views/community/com
 import { messages as reportCommunitySpaceMessages } from '../views/community/reportCommunitySpaceLang'
 import { messages as communitySpacePersonManageMessages } from '../views/community/communitySpacePersonManageLang'
 import { messages as communitySpaceConfirmMessages } from '../views/community/communitySpaceConfirmLang'
-import { messages as ownerCommitteeManageMessages } from '../views/owner/ownerCommitteeManageLang'
 import { messages as addOwnerCommitteeMessages } from '../views/owner/addOwnerCommitteeLang'
 import { messages as editOwnerCommitteeMessages } from '../views/owner/editOwnerCommitteeLang'
 import { messages as ownerCommitteeDetailMessages } from '../views/owner/ownerCommitteeDetailLang'
@@ -257,7 +256,6 @@ const messages = {
     ...reportCommunitySpaceMessages.en,
     ...communitySpacePersonManageMessages.en,
     ...communitySpaceConfirmMessages.en,
-    ...ownerCommitteeManageMessages.en,
     ...addOwnerCommitteeMessages.en,
     ...editOwnerCommitteeMessages.en,
     ...ownerCommitteeDetailMessages.en,
@@ -399,7 +397,6 @@ const messages = {
     ...reportCommunitySpaceMessages.zh,
     ...communitySpacePersonManageMessages.zh,
     ...communitySpaceConfirmMessages.zh,
-    ...ownerCommitteeManageMessages.zh,
     ...addOwnerCommitteeMessages.zh,
     ...editOwnerCommitteeMessages.zh,
     ...ownerCommitteeDetailMessages.zh,

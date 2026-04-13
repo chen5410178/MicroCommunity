@@ -21,11 +21,6 @@ import { messages as ownerVotingMessages } from '../views/oa/ownerVotingLang'
 import { messages as addOwnerVotingMessages } from '../views/oa/addOwnerVotingLang'
 import { messages as editOwnerVotingMessages } from '../views/oa/editOwnerVotingLang'
 import { messages as printOwnerVotingMessages } from '../views/oa/printOwnerVotingLang'
-import { messages as examineProjectManageMessages } from '../views/oa/examineProjectManageLang'
-import { messages as examineStaffManageMessages } from '../views/oa/examineStaffManageLang'
-import { messages as addExamineStaffMessages } from '../views/oa/addExamineStaffLang'
-import { messages as editExamineStaffMessages } from '../views/oa/editExamineStaffLang'
-import { messages as examineStaffValueMessages } from '../views/oa/examineStaffValueLang'
 import { messages as oaWorkflowManageMessages } from '../views/oa/oaWorkflowManageLang'
 import { messages as newOaWorkflowManageMessages } from '../views/oa/newOaWorkflowManageLang'
 import { messages as newOaWorkflowDoingMessages } from '../views/oa/newOaWorkflowDoingLang'
@@ -84,11 +79,6 @@ export const messages ={
         ...addOwnerVotingMessages.en,
         ...editOwnerVotingMessages.en,
         ...printOwnerVotingMessages.en,
-        ...examineProjectManageMessages.en,
-        ...examineStaffManageMessages.en,
-        ...addExamineStaffMessages.en,
-        ...editExamineStaffMessages.en,
-        ...examineStaffValueMessages.en,
         ...oaWorkflowManageMessages.en,
         ...newOaWorkflowManageMessages.en,
         ...newOaWorkflowDoingMessages.en,
@@ -144,11 +134,6 @@ export const messages ={
         ...addOwnerVotingMessages.zh,
         ...editOwnerVotingMessages.zh,
         ...printOwnerVotingMessages.zh,
-        ...examineProjectManageMessages.zh,
-        ...examineStaffManageMessages.zh,
-        ...addExamineStaffMessages.zh,
-        ...editExamineStaffMessages.zh,
-        ...examineStaffValueMessages.zh,
         ...oaWorkflowManageMessages.zh,
         ...newOaWorkflowManageMessages.zh,
         ...newOaWorkflowDoingMessages.zh,

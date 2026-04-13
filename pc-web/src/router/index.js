@@ -526,11 +526,7 @@ const routes = [
         name: '/pages/property/communitySpaceConfirm',
         component: () => import('@/views/community/communitySpaceConfirmList.vue')
       },
-      {
-        path: '/pages/owner/ownerCommitteeManage',
-        name: '/pages/owner/ownerCommitteeManage',
-        component: () => import('@/views/owner/ownerCommitteeManageList.vue')
-      },
+
       {
         path: '/views/owner/addOwnerCommittee',
         name: '/views/owner/addOwnerCommittee',
