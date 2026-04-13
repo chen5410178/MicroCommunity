@@ -12,7 +12,7 @@
       <span slot-scope="{ node, data }" class="custom-tree-node">
         <span>
           <i :class="data.icon" style="margin-right: 5px"></i>
-          {{ node.label }}
+          {{ data.locationName }}
         </span>
       </span>
     </el-tree>
@@ -31,11 +31,10 @@ export default {
       treeData: [],
       defaultProps: {
         children: 'children',
-        label: 'text'
+        label: 'locationName'
       },
       communityId: '',
-      lastSelected: {},
-      isInitialized: false
+      lastSelected: {}
     }
   },
   created() {
@@ -60,7 +59,6 @@ export default {
         locationId: location.locationId,
         locationName: location.locationName,
         icon: '/img/location.png',
-        text: location.locationName,
         isLocation: true,
         children: (location.children && location.children.length > 0)
           ? location.children.map(child => processLocation(child))
@@ -68,23 +66,6 @@ export default {
       })
 
       this.treeData = locations.map(location => processLocation(location))
-      this.$nextTick(() => {
-        this.expandAndSelectFirstShop()
-      })
-    },
-    async expandAndSelectFirstShop() {
-      if (!this.treeData.length) return
-
-      const firstLocation = this.treeData[0]
-      const treeRef = this.$refs.tree
-      if (treeRef && treeRef.store) {
-        const locationNode = treeRef.store.nodesMap[firstLocation.id]
-        if (locationNode) {
-          locationNode.expanded = true
-        }
-      }
-      await this.loadShops(firstLocation, { data: firstLocation })
-      this.isInitialized = true
     },
     async handleNodeClick(data, node) {
       if (data.isLocation) {
@@ -136,25 +117,11 @@ export default {
           ownerName: shop.ownerName || '',
           builtUpArea: shop.builtUpArea || '',
           locationId: shop.locationId,
-          locationName: shop.locationName,
+          locationName: shop.ownerName ? shop.shopNum + '(' + shop.ownerName + ')' : shop.shopNum,
           icon: '/img/shop.png',
-          text: shop.ownerName ? `${shop.shopNum}(${shop.ownerName})` : shop.shopNum,
           isShop: true
         }))
         this.$set(node.data, 'children', shopNodes)
-
-        if (!this.isInitialized && shopNodes.length > 0) {
-          this.$emit('selectShop', {
-            shopId: shopNodes[0].shopId,
-            shopName: shopNodes[0].shopName,
-            shopNum: shopNodes[0].shopNum,
-            ownerId: shopNodes[0].ownerId,
-            ownerName: shopNodes[0].ownerName,
-            builtUpArea: shopNodes[0].builtUpArea,
-            locationId: shopNodes[0].locationId,
-            locationName: shopNodes[0].locationName
-          })
-        }
       } catch (error) {
         console.error('Failed to load shops:', error)
         this.$message.error(this.$t('shopTree.loadShopError'))

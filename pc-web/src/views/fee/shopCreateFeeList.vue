@@ -44,14 +44,13 @@
               <simplify-shop-fee v-if="shopCreateFeeInfo._currentTab === 'simplifyShopFee'" ref="simplifyShopFee"
                 :key="'simplifyShopFee' + shopCreateFeeInfo.shopId"></simplify-shop-fee>
             </el-tab-pane>
-            <el-tab-pane v-if="shopCreateFeeInfo.ownerId" :label="$t('shopCreateFee.paymentHistory')"
-              name="simplifyShopHisFee">
-              <simplify-shop-his-fee v-if="shopCreateFeeInfo._currentTab === 'simplifyShopHisFee'" ref="simplifyShopHisFee"
-                :key="'simplifyShopHisFee' + shopCreateFeeInfo.shopId"></simplify-shop-his-fee>
+            <el-tab-pane :label="$t('shopCreateFee.paymentHistory')" name="simplifyHisFee">
+              <simplify-his-fee v-if="shopCreateFeeInfo._currentTab === 'simplifyHisFee'" ref="simplifyHisFee"
+                :key="'simplifyHisFee' + shopCreateFeeInfo.shopId"></simplify-his-fee>
             </el-tab-pane>
-            <el-tab-pane :label="$t('shopCreateFee.prePayFee')" name="simplifyShopPrePayFee">
-              <simplify-shop-pre-pay-fee v-if="shopCreateFeeInfo._currentTab === 'simplifyShopPrePayFee'" ref="simplifyShopPrePayFee"
-                :key="'simplifyShopPrePayFee' + shopCreateFeeInfo.shopId"></simplify-shop-pre-pay-fee>
+            <el-tab-pane :label="$t('shopCreateFee.prePayFee')" name="prePayFeeDetail">
+              <pre-pay-fee-detail v-if="shopCreateFeeInfo._currentTab === 'prePayFeeDetail'" ref="prePayFeeDetail"
+                :key="'prePayFeeDetail' + shopCreateFeeInfo.shopId"></pre-pay-fee-detail>
             </el-tab-pane>
 
             <el-tab-pane :label="$t('shopCreateFee.setFee')" name="feeDetailShopFeeRule">
@@ -80,9 +79,9 @@
 <script>
 import LocationShopTreeDiv from '@/components/fee/locationShopTreeDiv'
 import SimplifyShopFee from '@/components/fee/simplifyShopFee'
-import SimplifyShopHisFee from '@/components/fee/simplifyShopHisFee'
-import SimplifyShopPrePayFee from '@/components/fee/simplifyShopPrePayFee'
 import SimplifyShopOwnerShops from '@/components/fee/simplifyShopOwnerShops'
+import SimplifyHisFee from '@/components/fee/simplifyHisFee'
+import PrePayFeeDetail from '@/components/fee/prePayFeeDetail'
 import CarDetailOwner from '@/components/fee/carDetailOwner'
 import SimplifyFeeReceipt from '@/components/fee/simplifyFeeReceipt'
 import FeeDetailShopFeeRule from '@/components/fee/feeDetailShopFeeRule'
@@ -94,9 +93,9 @@ export default {
   components: {
     LocationShopTreeDiv,
     SimplifyShopFee,
-    SimplifyShopHisFee,
-    SimplifyShopPrePayFee,
     SimplifyShopOwnerShops,
+    SimplifyHisFee,
+    PrePayFeeDetail,
     CarDetailOwner,
     SimplifyFeeReceipt,
     FeeDetailShopFeeRule
