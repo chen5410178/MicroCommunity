@@ -29,377 +29,445 @@ const routes = [
       {
         path: '/views/index/index',
         name: '/views/index/index',
-        component: () => import('@/views/index/index.vue')
+        component: () => import('@/views/index/index.vue'),
+        meta: { title: '首页' }
       },
 
       {
         path: '/pages/frame/changeStaffPwd',
         name: '/pages/frame/changeStaffPwd',
-        component: () => import('@/views/user/login/updatePwd.vue')
+        component: () => import('@/views/user/login/updatePwd.vue'),
+        meta: { title: '修改密码' }
       },
 
       {
 
         path: '/pages/frame/orgManage',
         name: '/pages/frame/orgManage',
-        component: () => import('@/views/org/orgList.vue')
+        component: () => import('@/views/org/orgList.vue'),
+        meta: { title: '组织信息' }
       },
 
       {
         path: '/pages/frame/staff',
         name: '/pages/frame/staff',
-        component: () => import('@/views/staff/staffList.vue')
+        component: () => import('@/views/staff/staffList.vue'),
+        meta: { title: '员工信息' }
       },
       {
         path: '/views/staff/addStaff',
         name: '/views/staff/addStaff',
-        component: () => import('@/views/staff/addStaff.vue')
+        component: () => import('@/views/staff/addStaff.vue'),
+        meta: { title: '添加员工' }
       },
       {
         path: '/pages/frame/role',
         name: '/pages/frame/role',
-        component: () => import('@/views/role/roleList.vue')
+        component: () => import('@/views/role/roleList.vue'),
+        meta: { title: '角色权限' }
       },
 
 
       {
         path: '/views/staff/staffDetail',
         name: '/views/staff/staffDetail',
-        component: () => import('@/views/staff/staffDetailList.vue')
+        component: () => import('@/views/staff/staffDetailList.vue'),
+        meta: { title: '员工详情' }
       },
 
 
       {
         path: '/pages/log/mqttLog',
         name: '/pages/log/mqttLog',
-        component: () => import('@/views/log/mqttLogList.vue')
+        component: () => import('@/views/log/mqttLogList.vue'),
+        meta: { title: 'MQTT日志' }
       },
       {
         path: '/pages/frame/systemInfoManage',
         name: '/pages/frame/systemInfoManage',
-        component: () => import('@/views/system/systemInfoManageList.vue')
+        component: () => import('@/views/system/systemInfoManageList.vue'),
+        meta: { title: '系统配置' }
       },
       {
         path: '/pages/frame/registerProtocol',
         name: '/pages/frame/registerProtocol',
-        component: () => import('@/views/system/registerProtocolList.vue')
+        component: () => import('@/views/system/registerProtocolList.vue'),
+        meta: { title: '注册协议' }
       },
 
       {
         path: '/views/report/reportCustomComponentRelManage',
         name: '/views/report/reportCustomComponentRelManage',
-        component: () => import('@/views/report/reportCustomComponentRelManageList.vue')
+        component: () => import('@/views/report/reportCustomComponentRelManageList.vue'),
+        meta: { title: '自定义报表组件' }
       },
       {
         path: '/views/report/componentConditionManage',
         name: '/views/report/componentConditionManage',
-        component: () => import('@/views/report/componentConditionManageList.vue')
+        component: () => import('@/views/report/componentConditionManageList.vue'),
+        meta: { title: '组件条件' }
       },
       {
         path: '/views/report/reportCustomComponentFooterManage',
         name: '/views/report/reportCustomComponentFooterManage',
-        component: () => import('@/views/report/reportCustomComponentFooterManageList.vue')
+        component: () => import('@/views/report/reportCustomComponentFooterManageList.vue'),
+        meta: { title: '报表页脚' }
       },
 
       {
         path: '/pages/common/communityManage',
         name: '/pages/common/communityManage',
-        component: () => import('@/views/community/communityManageList.vue')
+        component: () => import('@/views/community/communityManageList.vue'),
+        meta: { title: '小区信息' }
       },
       {
         path: '/pages/admin/propertyCompanyManage',
         name: '/pages/admin/propertyCompanyManage',
-        component: () => import('@/views/store/propertyCompanyManageList.vue')
+        component: () => import('@/views/store/propertyCompanyManageList.vue'),
+        meta: { title: '物业公司' }
       },
       {
         path: '/views/community/propertyCommunity',
         name: '/views/community/propertyCommunity',
-        component: () => import('@/views/community/propertyCommunityList.vue')
+        component: () => import('@/views/community/propertyCommunityList.vue'),
+        meta: { title: '物业小区' }
       },
       {
         path: '/pages/community/cityArea',
         name: '/pages/community/cityArea',
-        component: () => import('@/views/community/cityAreaList.vue')
+        component: () => import('@/views/community/cityAreaList.vue'),
+        meta: { title: '地区' }
       },
       {
         path: '/pages/admin/merchantManage',
         name: '/pages/admin/merchantManage',
-        component: () => import('@/views/mall/merchantManageList.vue')
+        component: () => import('@/views/mall/merchantManageList.vue'),
+        meta: { title: '周边商家' }
       },
       {
         path: '/pages/admin/shopManage',
         name: '/views/mall/shopManage',
-        component: () => import('@/views/mall/shopManageList.vue')
+        component: () => import('@/views/mall/shopManageList.vue'),
+        meta: { title: '店铺信息' }
       },
       {
         path: '/pages/admin/shopCommunity',
         name: '/pages/admin/shopCommunity',
-        component: () => import('@/views/mall/shopCommunityList.vue')
+        component: () => import('@/views/mall/shopCommunityList.vue'),
+        meta: { title: '小区店铺' }
       },
       {
         path: '/pages/staff/systemUser',
         name: '/pages/staff/systemUser',
-        component: () => import('@/views/staff/systemUserList.vue')
+        component: () => import('@/views/staff/systemUserList.vue'),
+        meta: { title: '物业用户' }
       },
       {
         path: '/views/staff/systemUserDetail',
         name: '/views/staff/systemUserDetail',
-        component: () => import('@/views/staff/systemUserDetailList.vue')
+        component: () => import('@/views/staff/systemUserDetailList.vue'),
+        meta: { title: '用户详情' }
       },
       {
         path: '/pages/staff/storeStaff',
         name: '/pages/staff/storeStaff',
-        component: () => import('@/views/staff/storeStaffList.vue')
+        component: () => import('@/views/staff/storeStaffList.vue'),
+        meta: { title: '物业员工' }
       },
       {
         path: '/views/staff/adminStaffDetail',
         name: '/views/staff/adminStaffDetail',
-        component: () => import('@/views/staff/adminStaffDetail.vue')
+        component: () => import('@/views/staff/adminStaffDetail.vue'),
+        meta: { title: '员工详情' }
       },
       {
         path: '/pages/community/adminRoom',
         name: '/pages/community/adminRoom',
-        component: () => import('@/views/community/adminRoomList.vue')
+        component: () => import('@/views/community/adminRoomList.vue'),
+        meta: { title: '小区房屋' }
       },
       {
         path: '/pages/owner/adminOwner',
         name: '/pages/owner/adminOwner',
-        component: () => import('@/views/owner/adminOwnerList.vue')
+        component: () => import('@/views/owner/adminOwnerList.vue'),
+        meta: { title: '小区业主' }
       },
-
       {
         path: '/pages/owner/adminAuthOwner',
         name: '/pages/owner/adminAuthOwner',
-        component: () => import('@/views/owner/adminAuthOwnerList.vue')
+        component: () => import('@/views/owner/adminAuthOwnerList.vue'),
+        meta: { title: '业主认证' }
       },
       {
         path: '/pages/owner/adminAccount',
         name: '/pages/owner/adminAccount',
-        component: () => import('@/views/account/adminAccountList.vue')
+        component: () => import('@/views/account/adminAccountList.vue'),
+        meta: { title: '业主账户' }
       },
       {
         path: '/views/account/adminAccountDetail',
         name: '/views/account/adminAccountDetail',
-        component: () => import('@/views/account/adminAccountDetailList.vue')
+        component: () => import('@/views/account/adminAccountDetailList.vue'),
+        meta: { title: '账户详情' }
       },
       {
         path: '/pages/fee/adminFeeConfig',
         name: '/pages/fee/adminFeeConfig',
-        component: () => import('@/views/fee/adminFeeConfigList.vue')
+        component: () => import('@/views/fee/adminFeeConfigList.vue'),
+        meta: { title: '小区费用项' }
       },
-
       {
         path: '/pages/fee/adminRoomFee',
         name: '/pages/fee/adminRoomFee',
-        component: () => import('@/views/fee/adminRoomFeeList.vue')
+        component: () => import('@/views/fee/adminRoomFeeList.vue'),
+        meta: { title: '房屋费用' }
       },
       {
         path: '/pages/work/adminRepair',
         name: '/pages/work/adminRepair',
-        component: () => import('@/views/work/adminRepairList.vue')
+        component: () => import('@/views/work/adminRepairList.vue'),
+        meta: { title: '小区报修' }
       },
       {
         path: '/views/work/adminRepairDetail',
         name: '/views/work/adminRepairDetail',
-        component: () => import('@/views/work/adminRepairDetailList.vue')
+        component: () => import('@/views/work/adminRepairDetailList.vue'),
+        meta: { title: '报修详情' }
       },
 
       {
         path: '/pages/complaint/adminComplaint',
         name: '/pages/complaint/adminComplaint',
-        component: () => import('@/views/complaint/adminComplaintList.vue')
+        component: () => import('@/views/complaint/adminComplaintList.vue'),
+        meta: { title: '小区投诉' }
       },
       {
         path: '/views/complaint/adminComplaintDetail',
         name: '/views/complaint/adminComplaintDetail',
-        component: () => import('@/views/complaint/adminComplaintDetailList.vue')
+        component: () => import('@/views/complaint/adminComplaintDetailList.vue'),
+        meta: { title: '投诉详情' }
       },
       {
         path: '/pages/oa/adminWorkPool',
         name: '/pages/oa/adminWorkPool',
-        component: () => import('@/views/work/adminWorkPoolList.vue')
+        component: () => import('@/views/work/adminWorkPoolList.vue'),
+        meta: { title: '小区工作单' }
       },
       {
         path: '/views/work/adminWorkDetail',
         name: '/views/work/adminWorkDetail',
-        component: () => import('@/views/work/adminWorkDetailList.vue')
+        component: () => import('@/views/work/adminWorkDetailList.vue'),
+        meta: { title: '工单详情' }
       },
       {
         path: '/pages/iot/aAccessControl',
         name: '/pages/iot/aAccessControl',
-        component: () => import('@/views/iot/aAccessControlList.vue')
+        component: () => import('@/views/iot/aAccessControlList.vue'),
+        meta: { title: '小区门禁' }
       },
       {
         path: '/pages/iot/adminBarrier',
         name: '/pages/iot/adminBarrier',
-        component: () => import('@/views/iot/adminBarrierList.vue')
+        component: () => import('@/views/iot/adminBarrierList.vue'),
+        meta: { title: '道闸相机' }
       },
-
       {
         path: '/pages/iot/adminMeter',
         name: '/pages/iot/adminMeter',
-        component: () => import('@/views/iot/adminMeterList.vue')
+        component: () => import('@/views/iot/adminMeterList.vue'),
+        meta: { title: '水电表' }
       },
       {
         path: '/pages/iot/adminInout',
         name: '/pages/iot/adminInout',
-        component: () => import('@/views/iot/adminInoutList.vue')
+        component: () => import('@/views/iot/adminInoutList.vue'),
+        meta: { title: '门禁出入' }
       },
-
       {
         path: '/pages/iot/adminChargeOrder',
         name: '/pages/iot/adminChargeOrder',
-        component: () => import('@/views/iot/adminChargeOrderList.vue')
+        component: () => import('@/views/iot/adminChargeOrderList.vue'),
+        meta: { title: '充电订单' }
       },
       {
         path: '/pages/iot/adminMeterRecharge',
         name: '/pages/iot/adminMeterRecharge',
-        component: () => import('@/views/iot/adminMeterRechargeList.vue')
+        component: () => import('@/views/iot/adminMeterRechargeList.vue'),
+        meta: { title: '水电充值' }
       },
       {
         path: '/pages/report/operationalAnalysis',
         name: '/pages/report/operationalAnalysis',
-        component: () => import('@/views/report/operationalAnalysisList.vue')
+        component: () => import('@/views/report/operationalAnalysisList.vue'),
+        meta: { title: '运营分析' }
       },
       {
         path: '/pages/report/communityFeeSummary',
         name: '/pages/report/communityFeeSummary',
-        component: () => import('@/views/report/communityFeeSummaryList.vue')
+        component: () => import('@/views/report/communityFeeSummaryList.vue'),
+        meta: { title: '小区费用汇总' }
       },
       {
         path: '/pages/fee/adminPayFeeDetail',
         name: '/pages/fee/adminPayFeeDetail',
-        component: () => import('@/views/fee/adminPayFeeDetailList.vue')
+        component: () => import('@/views/fee/adminPayFeeDetailList.vue'),
+        meta: { title: '缴费记录' }
       },
       {
         path: '/pages/fee/adminOweFeeDetail',
         name: '/pages/fee/adminOweFeeDetail',
-        component: () => import('@/views/fee/adminOweFeeDetailList.vue')
+        component: () => import('@/views/fee/adminOweFeeDetailList.vue'),
+        meta: { title: '小区欠费' }
       },
       {
         path: '/pages/admin/orderManage',
         name: '/pages/admin/orderManage',
-        component: () => import('@/views/admin/orderManageList.vue')
+        component: () => import('@/views/admin/orderManageList.vue'),
+        meta: { title: '受理单' }
       },
       {
         path: '/pages/frame/userLogin',
         name: '/pages/frame/userLogin',
-        component: () => import('@/views/user/userLoginList.vue')
+        component: () => import('@/views/user/userLoginList.vue'),
+        meta: { title: '登录日志' }
       },
       {
         path: '/pages/admin/productSj',
         name: '/pages/admin/productSj',
-        component: () => import('@/views/mall/productSjList.vue')
+        component: () => import('@/views/mall/productSjList.vue'),
+        meta: { title: '上架商品' }
       },
       {
         path: '/pages/admin/housekeepingSjServ',
         name: '/pages/admin/housekeepingSjServ',
-        component: () => import('@/views/mall/housekeepingSjServList.vue')
+        component: () => import('@/views/mall/housekeepingSjServList.vue'),
+        meta: { title: '上架服务' }
       },
       {
         path: '/pages/admin/storeOrderCartManage',
         name: '/pages/admin/storeOrderCartManage',
-        component: () => import('@/views/mall/storeOrderCartManageList.vue')
+        component: () => import('@/views/mall/storeOrderCartManageList.vue'),
+        meta: { title: '商城订单' }
       },
       {
         path: '/pages/admin/storeOrderCartReturn',
         name: '/pages/admin/storeOrderCartReturn',
-        component: () => import('@/views/mall/storeOrderCartReturnList.vue')
+        component: () => import('@/views/mall/storeOrderCartReturnList.vue'),
+        meta: { title: '退货订单' }
       },
       {
         path: '/pages/admin/userIntegral',
         name: '/pages/admin/userIntegral',
-        component: () => import('@/views/mall/userIntegralList.vue')
+        component: () => import('@/views/mall/userIntegralList.vue'),
+        meta: { title: '用户积分' }
       },
       {
         path: '/pages/admin/integralDetail',
         name: '/pages/admin/integralDetail',
-        component: () => import('@/views/mall/integralDetailList.vue')
+        component: () => import('@/views/mall/integralDetailList.vue'),
+        meta: { title: '积分交易' }
       },
       {
         path: '/pages/admin/marketSmsManage',
         name: '/pages/admin/marketSmsManage',
-        component: () => import('@/views/market/marketSmsManageList.vue')
+        component: () => import('@/views/market/marketSmsManageList.vue'),
+        meta: { title: '营销配置' }
       },
       {
         path: '/pages/admin/marketWay',
         name: '/pages/admin/marketWay',
-        component: () => import('@/views/market/marketWayList.vue')
+        component: () => import('@/views/market/marketWayList.vue'),
+        meta: { title: '营销方式' }
       },
       {
         path: '/views/market/marketGoodsItemManage',
         name: '/views/market/marketGoodsItemManage',
-        component: () => import('@/views/market/marketGoodsItemManageList.vue')
+        component: () => import('@/views/market/marketGoodsItemManageList.vue'),
+        meta: { title: '商品管理' }
       },
       {
         path: '/pages/admin/marketRule',
         name: '/pages/admin/marketRule',
-        component: () => import('@/views/market/marketRuleList.vue')
+        component: () => import('@/views/market/marketRuleList.vue'),
+        meta: { title: '营销规则' }
       },
       {
         path: '/pages/admin/marketBlacklistManage',
         name: '/pages/admin/marketBlacklistManage',
-        component: () => import('@/views/market/marketBlacklistManageList.vue')
+        component: () => import('@/views/market/marketBlacklistManageList.vue'),
+        meta: { title: '营销黑名单' }
       },
       {
         path: '/pages/admin/marketLog',
         name: '/pages/admin/marketLog',
-        component: () => import('@/views/market/marketLogList.vue')
+        component: () => import('@/views/market/marketLogList.vue'),
+        meta: { title: '营销记录' }
       },
       {
         path: '/pages/property/advertManage',
         name: '/pages/property/advertManage',
-        component: () => import('@/views/admin/advertManageList.vue')
+        component: () => import('@/views/admin/advertManageList.vue'),
+        meta: { title: '发布广告' }
       },
       {
         path: '/pages/admin/convenienceMenusManage',
         name: '/pages/admin/convenienceMenusManage',
-        component: () => import('@/views/mall/convenienceMenusManageList.vue')
+        component: () => import('@/views/mall/convenienceMenusManageList.vue'),
+        meta: { title: '便民菜单' }
       },
       {
         path: '/pages/admin/storeInfoManage',
         name: '/pages/admin/storeInfoManage',
-        component: () => import('@/views/mall/storeInfoManageList.vue')
+        component: () => import('@/views/mall/storeInfoManageList.vue'),
+        meta: { title: '店铺信息' }
       },
       {
         path: '/pages/proxy/junkRequirementManage',
         name: '/pages/proxy/junkRequirementManage',
-        component: () => import('@/views/mall/junkRequirementManageList.vue')
+        component: () => import('@/views/mall/junkRequirementManageList.vue'),
+        meta: { title: '需求管理' }
       },
       {
         path: '/pages/admin/couponPoolManage',
         name: '/pages/admin/couponPoolManage',
-        component: () => import('@/views/account/couponPoolManageList.vue')
+        component: () => import('@/views/account/couponPoolManageList.vue'),
+        meta: { title: '制作优惠券' }
       },
       {
         path: '/pages/admin/couponDetailManage',
         name: '/pages/admin/couponDetailManage',
-        component: () => import('@/views/account/couponDetailManageList.vue')
+        component: () => import('@/views/account/couponDetailManageList.vue'),
+        meta: { title: '购买记录' }
       },
       {
         path: '/pages/scm/supplierTypeManage',
         name: '/pages/scm/supplierTypeManage',
-        component: () => import('@/views/scm/supplierTypeManageList.vue')
+        component: () => import('@/views/scm/supplierTypeManageList.vue'),
+        meta: { title: '供应商类型' }
       },
       {
         path: '/pages/scm/supplierManage',
         name: '/pages/scm/supplierManage',
-        component: () => import('@/views/scm/supplierManageList.vue')
+        component: () => import('@/views/scm/supplierManageList.vue'),
+        meta: { title: '供应商管理' }
       },
       {
         path: '/pages/scm/supplierCoupon',
         name: '/pages/scm/supplierCoupon',
-        component: () => import('@/views/scm/supplierCouponList.vue')
+        component: () => import('@/views/scm/supplierCouponList.vue'),
+        meta: { title: '供应商优惠券' }
       },
       {
         path: '/pages/scm/supplierCouponBuy',
         name: '/pages/scm/supplierCouponBuy',
-        component: () => import('@/views/scm/supplierCouponBuyList.vue')
+        component: () => import('@/views/scm/supplierCouponBuyList.vue'),
+        meta: { title: '优惠券购买' }
       },
       {
         path: '/pages/staff/aStaff',
         name: '/pages/staff/aStaff',
-        component: () => import('@/views/staff/aStaffList.vue')
+        component: () => import('@/views/staff/aStaffList.vue'),
+        meta: { title: '运营员工' }
       },
       {
         path: '/views/staff/aStaffDetail',
@@ -409,229 +477,274 @@ const routes = [
       {
         path: '/pages/staff/aStaffCommunity',
         name: '/pages/staff/aStaffCommunity',
-        component: () => import('@/views/staff/aStaffCommunityList.vue')
+        component: () => import('@/views/staff/aStaffCommunityList.vue'),
+        meta: { title: '员工小区' }
       },
       {
         path: '/pages/community/communityWechat',
         name: '/pages/community/communityWechat',
-        component: () => import('@/views/community/communityWechatList.vue')
+        component: () => import('@/views/community/communityWechatList.vue'),
+        meta: { title: '小区公众号' }
       },
       {
         path: '/pages/community/communityMini',
         name: '/pages/community/communityMini',
-        component: () => import('@/views/community/communityMiniList.vue')
+        component: () => import('@/views/community/communityMiniList.vue'),
+        meta: { title: '小区小程序' }
       },
       {
         path: '/pages/fee/communityPayment',
         name: '/pages/fee/communityPayment',
-        component: () => import('@/views/fee/communityPaymentList.vue')
+        component: () => import('@/views/fee/communityPaymentList.vue'),
+        meta: { title: '小区支付' }
       },
       {
         path: '/pages/common/enterCommunity',
         name: '/pages/common/enterCommunity',
-        component: () => import('@/views/community/enterCommunityList.vue')
+        component: () => import('@/views/community/enterCommunityList.vue'),
+        meta: { title: '我的小区' }
       },
       {
         path: '/pages/property/roomRenovationManage',
         name: '/pages/property/roomRenovationManage',
-        component: () => import('@/views/community/roomRenovationManageList.vue')
+        component: () => import('@/views/community/roomRenovationManageList.vue'),
+        meta: { title: '房屋装修' }
       },
       {
         path: '/pages/property/feeConfigManage',
         name: '/pages/property/feeConfigManage',
-        component: () => import('@/views/fee/feeConfigManageList.vue')
+        component: () => import('@/views/fee/feeConfigManageList.vue'),
+        meta: { title: '费用项设置' }
       },
       {
         path: '/views/fee/payFeeConfigDiscountManage',
         name: '/views/fee/payFeeConfigDiscountManage',
-        component: () => import('@/views/fee/payFeeConfigDiscountManageList.vue')
+        component: () => import('@/views/fee/payFeeConfigDiscountManageList.vue'),
+        meta: { title: '费用折扣' }
       },
       {
         path: '/pages/property/room',
         name: '/pages/property/room',
-        component: () => import('@/views/room/roomList.vue')
+        component: () => import('@/views/room/roomList.vue'),
+        meta: { title: '房屋管理' }
       },
       {
         path: '/views/room/addRoomView',
         name: '/views/room/addRoomView',
-        component: () => import('@/views/room/addRoomViewList.vue')
+        component: () => import('@/views/room/addRoomViewList.vue'),
+        meta: { title: '添加房屋' }
       },
       {
         path: '/views/owner/roomBindOwner',
         name: '/views/owner/roomBindOwner',
-        component: () => import('@/views/owner/roomBindOwnerList.vue')
+        component: () => import('@/views/owner/roomBindOwnerList.vue'),
+        meta: { title: '房间绑定业主' }
       },
       {
         path: '/views/owner/deleteOwnerRoom',
         name: '/views/owner/deleteOwnerRoom',
-        component: () => import('@/views/owner/deleteOwnerRoomList.vue')
+        component: () => import('@/views/owner/deleteOwnerRoomList.vue'),
+        meta: { title: '删除业主房间' }
       },
       {
         path: '/pages/property/shops',
         name: '/pages/property/shops',
-        component: () => import('@/views/room/shopsList.vue')
+        component: () => import('@/views/room/shopsList.vue'),
+        meta: { title: '商铺管理' }
       },
       {
         path: '/views/room/shopBindOwner',
         name: '/views/room/shopBindOwner',
-        component: () => import('@/views/room/shopBindOwner.vue')
+        component: () => import('@/views/room/shopBindOwner.vue'),
+        meta: { title: '商铺绑定业主' }
       },
       {
         path: '/views/room/shopUnbindOwner',
         name: '/views/room/shopUnbindOwner',
-        component: () => import('@/views/room/shopUnbindOwner.vue')
+        component: () => import('@/views/room/shopUnbindOwner.vue'),
+        meta: { title: '商铺解绑业主' }
       },
       {
         path: '/pages/property/listOwner',
         name: '/pages/property/listOwner',
-        component: () => import('@/views/owner/listOwner.vue')
+        component: () => import('@/views/owner/listOwner.vue'),
+        meta: { title: '业主信息' }
       },
       {
         path: '/views/owner/ownerBindRoom',
         name: '/views/owner/ownerBindRoom',
-        component: () => import('@/views/owner/ownerBindRoom.vue')
+        component: () => import('@/views/owner/ownerBindRoom.vue'),
+        meta: { title: '业主绑定房间' }
       },
       {
         path: '/pages/property/auditAuthOwner',
         name: '/pages/property/auditAuthOwner',
-        component: () => import('@/views/owner/auditAuthOwnerList.vue')
+        component: () => import('@/views/owner/auditAuthOwnerList.vue'),
+        meta: { title: '业主认证' }
       },
       {
         path: '/pages/property/accountManage',
         name: '/pages/property/accountManage',
-        component: () => import('@/views/account/accountManageList.vue')
+        component: () => import('@/views/account/accountManageList.vue'),
+        meta: { title: '业主账户' }
       },
       {
         path: '/views/account/accountDetailManage',
         name: '/views/account/accountDetailManage',
-        component: () => import('@/views/account/accountDetailManageList.vue')
+        component: () => import('@/views/account/accountDetailManageList.vue'),
+        meta: { title: '账户明细' }
       },
       {
         path: '/pages/property/communitySpaceManage',
         name: '/pages/property/communitySpaceManage',
-        component: () => import('@/views/community/communitySpaceManageList.vue')
+        component: () => import('@/views/community/communitySpaceManageList.vue'),
+        meta: { title: '场地管理' }
       },
       {
         path: '/pages/property/reportCommunitySpace',
         name: '/pages/property/reportCommunitySpace',
-        component: () => import('@/views/community/reportCommunitySpaceList.vue')
+        component: () => import('@/views/community/reportCommunitySpaceList.vue'),
+        meta: { title: '场地预约' }
       },
       {
         path: '/pages/property/communitySpacePersonManage',
         name: '/pages/property/communitySpacePersonManage',
-        component: () => import('@/views/community/communitySpacePersonManageList.vue')
+        component: () => import('@/views/community/communitySpacePersonManageList.vue'),
+        meta: { title: '场地预约订单' }
       },
       {
         path: '/pages/property/communitySpaceConfirm',
         name: '/pages/property/communitySpaceConfirm',
-        component: () => import('@/views/community/communitySpaceConfirmList.vue')
+        component: () => import('@/views/community/communitySpaceConfirmList.vue'),
+        meta: { title: '预约核销' }
       },
 
       {
         path: '/views/owner/addOwnerCommittee',
         name: '/views/owner/addOwnerCommittee',
-        component: () => import('@/views/owner/addOwnerCommitteeList.vue')
+        component: () => import('@/views/owner/addOwnerCommitteeList.vue'),
+        meta: { title: '添加业委会' }
       },
       {
         path: '/views/owner/editOwnerCommittee',
         name: '/views/owner/editOwnerCommittee',
-        component: () => import('@/views/owner/editOwnerCommitteeList.vue')
+        component: () => import('@/views/owner/editOwnerCommitteeList.vue'),
+        meta: { title: '编辑业委会' }
       },
       {
         path: '/views/owner/ownerCommitteeDetail',
         name: '/views/owner/ownerCommitteeDetail',
-        component: () => import('@/views/owner/ownerCommitteeDetailList.vue')
+        component: () => import('@/views/owner/ownerCommitteeDetailList.vue'),
+        meta: { title: '业委会详情' }
       },
       {
         path: '/pages/fee/ownerInvoice',
         name: '/pages/fee/ownerInvoice',
-        component: () => import('@/views/fee/ownerInvoiceList.vue')
+        component: () => import('@/views/fee/ownerInvoiceList.vue'),
+        meta: { title: '发票抬头' }
       },
       {
         path: '/views/fee/addOwnerInvoice',
         name: '/views/fee/addOwnerInvoice',
-        component: () => import('@/views/fee/addOwnerInvoiceList.vue')
+        component: () => import('@/views/fee/addOwnerInvoiceList.vue'),
+        meta: { title: '添加发票抬头' }
       },
       {
         path: '/pages/fee/invoiceApply',
         name: '/pages/fee/invoiceApply',
-        component: () => import('@/views/fee/invoiceApplyList.vue')
+        component: () => import('@/views/fee/invoiceApplyList.vue'),
+        meta: { title: '发票' }
       },
       {
         path: '/views/fee/ownerApplyInvoice',
         name: '/views/fee/ownerApplyInvoice',
-        component: () => import('@/views/fee/ownerApplyInvoiceList.vue')
+        component: () => import('@/views/fee/ownerApplyInvoiceList.vue'),
+        meta: { title: '申请发票' }
       },
       {
         path: '/views/fee/invoiceApplyDetail',
         name: '/views/fee/invoiceApplyDetail',
-        component: () => import('@/views/fee/invoiceApplyDetailList.vue')
+        component: () => import('@/views/fee/invoiceApplyDetailList.vue'),
+        meta: { title: '发票详情' }
       },
       {
         path: '/views/fee/feeConfigDetail',
         name: '/views/fee/feeConfigDetail',
-        component: () => import('@/views/fee/feeConfigDetailList.vue')
+        component: () => import('@/views/fee/feeConfigDetailList.vue'),
+        meta: { title: '费用项详情' }
       },
 
       {
         path: '/pages/property/carCreateFee',
         name: '/pages/property/carCreateFee',
-        component: () => import('@/views/fee/carCreateFeeList.vue')
+        component: () => import('@/views/fee/carCreateFeeList.vue'),
+        meta: { title: '车辆收费' }
       },
       {
         path: '/views/fee/listCarFee',
         name: '/views/fee/listCarFee',
-        component: () => import('@/views/fee/listCarFeeList.vue')
+        component: () => import('@/views/fee/listCarFeeList.vue'),
+        meta: { title: '车辆费用' }
       },
       {
         path: '/pages/work/repairSetting',
         name: '/pages/work/repairSetting',
-        component: () => import('@/views/work/repairSettingList.vue')
+        component: () => import('@/views/work/repairSettingList.vue'),
+        meta: { title: '报修设置' }
       },
       {
         path: '/views/work/repairTypeUser',
         name: '/views/work/repairTypeUser',
-        component: () => import('@/views/work/repairTypeUserList.vue')
+        component: () => import('@/views/work/repairTypeUserList.vue'),
+        meta: { title: '维修人员' }
       },
       {
         path: '/pages/property/ownerRepairManage',
         name: '/pages/property/ownerRepairManage',
-        component: () => import('@/views/work/ownerRepairManageList.vue')
+        component: () => import('@/views/work/ownerRepairManageList.vue'),
+        meta: { title: '电话报修' }
       },
       {
         path: '/pages/property/repairPoolManage',
         name: '/pages/property/repairPoolManage',
-        component: () => import('@/views/work/repairPoolManageList.vue')
+        component: () => import('@/views/work/repairPoolManageList.vue'),
+        meta: { title: '工单池' }
       },
       {
         path: '/views/work/repairDetail',
         name: '/views/work/repairDetail',
-        component: () => import('@/views/work/repairDetailList.vue')
+        component: () => import('@/views/work/repairDetailList.vue'),
+        meta: { title: '报修详情' }
       },
       {
         path: '/pages/property/repairDispatchManage',
         name: '/pages/property/repairDispatchManage',
-        component: () => import('@/views/work/repairDispatchManageList.vue')
+        component: () => import('@/views/work/repairDispatchManageList.vue'),
+        meta: { title: '报修待办' }
       },
       {
         path: '/pages/property/myRepairDispatchManage',
         name: '/pages/property/myRepairDispatchManage',
-        component: () => import('@/views/work/myRepairDispatchManageList.vue')
+        component: () => import('@/views/work/myRepairDispatchManageList.vue'),
+        meta: { title: '报修已办' }
       },
       {
         path: '/pages/property/repairReturnVisit',
         name: '/pages/property/repairReturnVisit',
-        component: () => import('@/views/work/repairReturnVisitList.vue')
+        component: () => import('@/views/work/repairReturnVisitList.vue'),
+        meta: { title: '报修回访' }
       },
       {
         path: '/pages/property/repairForceFinishManage',
         name: '/pages/property/repairForceFinishManage',
-        component: () => import('@/views/work/repairForceFinishManageList.vue')
+        component: () => import('@/views/work/repairForceFinishManageList.vue'),
+        meta: { title: '强制回单' }
       },
       {
         path: '/pages/property/locationManage',
         name: '/pages/property/locationManage',
-        component: () => import('@/views/community/locationManageList.vue')
+        component: () => import('@/views/community/locationManageList.vue'),
+        meta: { title: '设备位置' }
       },
 
       ...inspectionRouter,
@@ -651,7 +764,8 @@ const routes = [
       {
         path: '/views/shop/shopDetail',
         name: '/views/shop/shopDetail',
-        component: () => import('@/views/shop/shopDetail.vue')
+        component: () => import('@/views/shop/shopDetail.vue'),
+        meta: { title: '店铺详情' }
       },
       // 其他子路由可以在这里添加
     ]

@@ -4,7 +4,6 @@ import { messages as publicWeChatManageMessages } from '../views/system/publicWe
 import { messages as smallWeChatManageMessages } from '../views/system/smallWeChatManageLang'
 import { messages as paymentPoolMessages } from '../views/system/paymentPoolLang'
 import { messages as operateDataLogMessages } from '../views/system/operateDataLogLang'
-import { messages as historyFeeDetailImportMessages } from '../views/system/historyFeeDetailImportLang'
 import { messages as feePrintSpecManageMessages } from '../views/system/feePrintSpecManageLang'
 import { messages as feePrintPageManageMessages } from '../views/system/feePrintPageManageLang'
 import { messages as downloadTempFileMessages } from '../views/system/downloadTempFileLang'
@@ -21,7 +20,6 @@ export const messages = {
         ...smallWeChatManageMessages.en,
         ...paymentPoolMessages.en,
         ...operateDataLogMessages.en,
-        ...historyFeeDetailImportMessages.en,
         ...feePrintSpecManageMessages.en,
         ...feePrintPageManageMessages.en,
         ...downloadTempFileMessages.en,
@@ -37,7 +35,6 @@ export const messages = {
         ...smallWeChatManageMessages.zh,
         ...paymentPoolMessages.zh,
         ...operateDataLogMessages.zh,
-        ...historyFeeDetailImportMessages.zh,
         ...feePrintSpecManageMessages.zh,
         ...feePrintPageManageMessages.zh,
         ...downloadTempFileMessages.zh,

@@ -94,7 +94,8 @@ export const messages = {
       fetchError: '获取数据失败',
       deleteError: '删除失败',
       submitError: '提交失败',
-      moreCommunity:'更多小区'
+      moreCommunity:'更多小区',
+      closeAllTabs: '关闭所有'
     }
   }
 } 

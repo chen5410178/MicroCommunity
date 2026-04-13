@@ -69,6 +69,22 @@
 
       <!-- 主要内容区 -->
       <el-main class="app-main">
+        <div class="tabs-wrap" v-if="visitedTabs.length > 0">
+          <div class="tabs-list">
+            <div
+              v-for="tab in visitedTabs"
+              :key="tab.path"
+              :class="['tabs-item', { active: $route.path === tab.path }]"
+              @click="goTab(tab)"
+            >
+              <span class="tabs-item-title">{{ tab.titleKey ? $t(tab.titleKey) : tab.title }}</span>
+              <i class="el-icon-close tabs-item-close" @click.stop="removeTab(tab)" v-if="visitedTabs.length > 1"></i>
+            </div>
+          </div>
+          <el-button type="text" size="mini" class="tabs-close-all" @click="closeAllTabs">
+            {{ $t('layout.closeAllTabs') }}
+          </el-button>
+        </div>
         <router-view />
       </el-main>
     </el-container>
@@ -116,7 +132,8 @@ export default {
         companyName: '',
         logoUrl: '',
         version: ''
-      }
+      },
+      visitedTabs: []
     }
   },
   created() {
@@ -129,6 +146,20 @@ export default {
     this.curCommunityName = getCommunityName()
     this.loadCommunity()
     initSystem()
+  },
+  watch: {
+    $route: {
+      handler(route) {
+        if (!route.path || route.path === '/views/user/login' || route.path === '/login') return
+        var path = route.path
+        var exists = this.visitedTabs.some(function(t) { return t.path === path })
+        if (!exists) {
+          var info = this.getTabTitle(path, route.meta || {})
+          if (info) this.visitedTabs.push({ path: path, title: info.title, titleKey: info.titleKey })
+        }
+      },
+      immediate: true
+    }
   },
   components: {
     moreCommunity,
@@ -321,6 +352,31 @@ export default {
     _closeSubMenu(){
       this.subMenus = []
       this.curMenuName = ''
+    },
+    getTabTitle(path, meta) {
+      if (path === '/views/index/index' || path === '/') {
+        return { titleKey: 'layout.home' }
+      }
+      var m = meta || {}
+      if (m.title) return { title: m.title }
+      if (m.titleKey) return { titleKey: m.titleKey }
+      return null
+    },
+    goTab(tab) {
+      if (this.$route.path === tab.path) return
+      this.$router.push(tab.path).catch(function() {})
+    },
+    removeTab(tab) {
+      var list = this.visitedTabs.filter(function(t) { return t.path !== tab.path })
+      this.visitedTabs = list
+      if (this.$route.path === tab.path) {
+        var next = list.length ? list[list.length - 1] : { path: '/views/index/index' }
+        this.$router.push(next.path).catch(function() {})
+      }
+    },
+    closeAllTabs() {
+      this.visitedTabs = []
+      this.$router.push('/views/index/index').catch(function() {})
     }
 
   }
@@ -397,6 +453,65 @@ export default {
   background-color: #f5f7fa;
   height: calc(100vh - 60px);
   padding: 0px;
+}
+
+.tabs-wrap {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  background: #fff;
+  border-bottom: 1px solid #ebeef5;
+  gap: 8px;
+}
+.tabs-list {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+}
+.tabs-item {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  font-size: 13px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #606266;
+  background: #f4f4f5;
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tabs-item:hover {
+  color: #409EFF;
+  background: #ecf5ff;
+}
+.tabs-item.active {
+  color: #409EFF;
+  background: #ecf5ff;
+  font-weight: 500;
+}
+.tabs-item-title {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tabs-item-close {
+  margin-left: 6px;
+  font-size: 12px;
+  opacity: 0.7;
+}
+.tabs-item-close:hover {
+  opacity: 1;
+  color: #f56c6c;
+}
+.tabs-close-all {
+  flex-shrink: 0;
+  padding: 4px 8px;
 }
 
 :deep(.el-menu--horizontal) {
