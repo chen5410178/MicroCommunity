@@ -41,32 +41,32 @@
 
           <el-tabs v-model="shopCreateFeeInfo._currentTab" @tab-click="changeTab(shopCreateFeeInfo._currentTab)">
             <el-tab-pane :label="$t('shopCreateFee.shopFee')" name="simplifyShopFee">
-              <simplify-shop-fee v-if="shopCreateFeeInfo._currentTab === 'simplifyShopFee'" ref="simplifyShopFee"
+              <simplify-shop-fee v-show="shopCreateFeeInfo._currentTab === 'simplifyShopFee'" ref="simplifyShopFee"
                 :key="'simplifyShopFee' + shopCreateFeeInfo.shopId"></simplify-shop-fee>
             </el-tab-pane>
             <el-tab-pane :label="$t('shopCreateFee.paymentHistory')" name="simplifyHisFee">
-              <simplify-his-fee v-if="shopCreateFeeInfo._currentTab === 'simplifyHisFee'" ref="simplifyHisFee"
+              <simplify-his-fee v-show="shopCreateFeeInfo._currentTab === 'simplifyHisFee'" ref="simplifyHisFee"
                 :key="'simplifyHisFee' + shopCreateFeeInfo.shopId"></simplify-his-fee>
             </el-tab-pane>
             <el-tab-pane :label="$t('shopCreateFee.prePayFee')" name="prePayFeeDetail">
-              <pre-pay-fee-detail v-if="shopCreateFeeInfo._currentTab === 'prePayFeeDetail'" ref="prePayFeeDetail"
+              <pre-pay-fee-detail v-show="shopCreateFeeInfo._currentTab === 'prePayFeeDetail'" ref="prePayFeeDetail"
                 :key="'prePayFeeDetail' + shopCreateFeeInfo.shopId"></pre-pay-fee-detail>
             </el-tab-pane>
 
             <el-tab-pane :label="$t('shopCreateFee.setFee')" name="feeDetailShopFeeRule">
-              <fee-detail-shop-fee-rule v-if="shopCreateFeeInfo._currentTab === 'feeDetailShopFeeRule'"
+              <fee-detail-shop-fee-rule v-show="shopCreateFeeInfo._currentTab === 'feeDetailShopFeeRule'"
                 ref="feeDetailShopFeeRule" :key="'feeDetailShopFeeRule' + shopCreateFeeInfo.shopId"></fee-detail-shop-fee-rule>
             </el-tab-pane>
             <el-tab-pane v-if="shopCreateFeeInfo.ownerId" :label="$t('shopCreateFee.ownerShops')" name="simplifyShopOwnerShops">
-              <simplify-shop-owner-shops v-if="shopCreateFeeInfo._currentTab === 'simplifyShopOwnerShops'"
+              <simplify-shop-owner-shops v-show="shopCreateFeeInfo._currentTab === 'simplifyShopOwnerShops'"
                 ref="simplifyShopOwnerShops" :key="'simplifyShopOwnerShops' + shopCreateFeeInfo.shopId"></simplify-shop-owner-shops>
             </el-tab-pane>
             <el-tab-pane v-if="shopCreateFeeInfo.ownerId" :label="$t('shopCreateFee.owner')" name="carDetailOwner">
-              <car-detail-owner v-if="shopCreateFeeInfo._currentTab === 'carDetailOwner'" ref="carDetailOwner"
+              <car-detail-owner v-show="shopCreateFeeInfo._currentTab === 'carDetailOwner'" ref="carDetailOwner"
                 :key="'carDetailOwner' + shopCreateFeeInfo.shopId"></car-detail-owner>
             </el-tab-pane>
             <el-tab-pane :label="$t('shopCreateFee.receiptReprint')" name="simplifyFeeReceipt">
-              <simplify-fee-receipt v-if="shopCreateFeeInfo._currentTab === 'simplifyFeeReceipt'"
+              <simplify-fee-receipt v-show="shopCreateFeeInfo._currentTab === 'simplifyFeeReceipt'"
                 ref="simplifyFeeReceipt" :key="'simplifyFeeReceipt' + shopCreateFeeInfo.shopId"></simplify-fee-receipt>
             </el-tab-pane>
           </el-tabs>

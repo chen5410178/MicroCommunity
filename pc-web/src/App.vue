@@ -1,12 +1,29 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <keep-alive :include="keepAliveComponents">
+      <router-view></router-view>
+    </keep-alive>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  computed: {
+    keepAliveComponents() {
+      const routes = this.$router.options.routes || []
+      const names = []
+      routes.forEach(route => {
+        if (route.meta && route.meta.keepAlive && route.name) {
+          names.push(route.name)
+        }
+        if (route.meta && route.meta.keepAliveInclude) {
+          names.push(...route.meta.keepAliveInclude)
+        }
+      })
+      return names
+    }
+  }
 }
 </script>
 

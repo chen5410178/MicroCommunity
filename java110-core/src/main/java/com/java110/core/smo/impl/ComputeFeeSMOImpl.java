@@ -20,9 +20,9 @@ import com.java110.dto.parking.ParkingSpaceDto;
 import com.java110.dto.report.ReportCarDto;
 import com.java110.dto.report.ReportFeeDto;
 import com.java110.dto.report.ReportRoomDto;
-import com.java110.intf.community.ICommunityInnerServiceSMO;
-import com.java110.intf.community.IParkingSpaceInnerServiceSMO;
-import com.java110.intf.community.IRoomInnerServiceSMO;
+import com.java110.dto.shop.BuildingShopDto;
+import com.java110.dto.shop.BuildingShopOwnerDto;
+import com.java110.intf.community.*;
 import com.java110.intf.fee.IFeeAttrInnerServiceSMO;
 import com.java110.intf.fee.IFeeInnerServiceSMO;
 import com.java110.intf.fee.ITempCarFeeConfigAttrInnerServiceSMO;
@@ -34,6 +34,7 @@ import com.java110.intf.user.IOwnerInnerServiceSMO;
 import com.java110.po.fee.FeeReceiptDetailPo;
 import com.java110.utils.constant.FeeConfigConstant;
 import com.java110.utils.constant.ResponseConstant;
+import com.java110.utils.exception.CmdException;
 import com.java110.utils.exception.ListenerExecuteException;
 import com.java110.utils.util.*;
 import org.slf4j.Logger;
@@ -94,6 +95,13 @@ public class ComputeFeeSMOImpl implements IComputeFeeSMO {
 
     @Autowired(required = false)
     private ITempCarFeeConfigAttrInnerServiceSMO tempCarFeeConfigAttrInnerServiceSMOImpl;
+
+    @Autowired
+    private IBuildingShopInnerServiceSMO buildingShopInnerServiceSMOImpl;
+
+    @Autowired
+    private IBuildingShopOwnerInnerServiceSMO buildingShopOwnerInnerServiceSMOImpl;
+
 
     @Autowired
     private Java110Properties java110Properties;
@@ -504,6 +512,16 @@ public class ComputeFeeSMOImpl implements IComputeFeeSMO {
             }
             objName = contractDtos.get(0).getContractCode();
 
+        } else if (FeeDto.PAYER_OBJ_TYPE_SHOP.equals(feeDto.getPayerObjType())) {
+            BuildingShopDto buildingShopDto = new BuildingShopDto();
+            buildingShopDto.setShopId(feeDto.getPayerObjId());
+            buildingShopDto.setCommunityId(feeDto.getCommunityId());
+            List<BuildingShopDto> buildingShopDtos = buildingShopInnerServiceSMOImpl.queryBuildingShops(buildingShopDto);
+            if (buildingShopDtos == null || buildingShopDtos.size() < 1) { //数据有问题
+                return objName;
+            }
+            objName = buildingShopDtos.get(0).getLocationName() + "-" + buildingShopDtos.get(0).getShopNum();
+
         }
         return objName;
     }
@@ -545,7 +563,7 @@ public class ComputeFeeSMOImpl implements IComputeFeeSMO {
 
             Assert.listOnlyOne(ownerCarDtos, "车辆不存在");
             ownerDto = new OwnerDto();
-            ownerDto.setOwnerId(ownerCarDtos.get(0).getOwnerId());
+            ownerDto.setMemberId(ownerCarDtos.get(0).getOwnerId());
             ownerDto.setCommunityId(feeDto.getCommunityId());
             List<OwnerDto> ownerDtos = ownerInnerServiceSMOImpl.queryOwners(ownerDto);
             Assert.listOnlyOne(ownerDtos, "业主不存在");
@@ -560,7 +578,28 @@ public class ComputeFeeSMOImpl implements IComputeFeeSMO {
 
             Assert.listOnlyOne(contractDtos, "合同不存在");
             ownerDto = new OwnerDto();
-            ownerDto.setOwnerId(contractDtos.get(0).getObjId());
+            ownerDto.setMemberId(contractDtos.get(0).getObjId());
+            ownerDto.setCommunityId(feeDto.getCommunityId());
+            List<OwnerDto> ownerDtos = ownerInnerServiceSMOImpl.queryOwners(ownerDto);
+            Assert.listOnlyOne(ownerDtos, "业主不存在");
+            return ownerDtos.get(0);
+        }
+        if (FeeDto.PAYER_OBJ_TYPE_SHOP.equals(feeDto.getPayerObjType())) {
+            BuildingShopDto shopDto = new BuildingShopDto();
+            shopDto.setShopId(feeDto.getPayerObjId());
+            shopDto.setCommunityId(feeDto.getCommunityId());
+            List<BuildingShopDto> shopDtos = buildingShopInnerServiceSMOImpl.queryBuildingShops(shopDto);
+            if (ListUtil.isNull(shopDtos)) {
+                throw new CmdException("商铺不存在");
+            }
+            BuildingShopOwnerDto shopOwnerDto = new BuildingShopOwnerDto();
+            shopOwnerDto.setShopId(shopDtos.get(0).getShopId());
+            List<BuildingShopOwnerDto> shopOwnerDtos = buildingShopOwnerInnerServiceSMOImpl.queryBuildingShopOwners(shopOwnerDto);
+            if (ListUtil.isNull(shopOwnerDtos)) {
+                return null;
+            }
+            ownerDto = new OwnerDto();
+            ownerDto.setMemberId(shopOwnerDtos.get(0).getOwnerId());
             ownerDto.setCommunityId(feeDto.getCommunityId());
             List<OwnerDto> ownerDtos = ownerInnerServiceSMOImpl.queryOwners(ownerDto);
             Assert.listOnlyOne(ownerDtos, "业主不存在");
@@ -1726,7 +1765,7 @@ public class ComputeFeeSMOImpl implements IComputeFeeSMO {
             targetEndDate = getTargetEndTime(round * paymentCycle, startDate, false);//目标结束时间
 
             //todo 如果 是预付费 到了 预付期 产生下个周期的费用
-            if("1200".equals(feeDto.getPaymentCd())) {
+            if ("1200".equals(feeDto.getPaymentCd())) {
                 if (DateUtil.getFormatTimeStringB(targetEndDate).equals(DateUtil.getFormatTimeStringB(endDate))
                         && DateUtil.getCurrentDate().getTime() > preEndTime.getTime()
                 ) {

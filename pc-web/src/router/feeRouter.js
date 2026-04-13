@@ -194,7 +194,11 @@ export default [
     },
     {
         path: '/pages/property/shopCreateFee',
-        meta: { title: '商铺收费' },
+        meta: { 
+            title: '商铺收费', 
+            keepAlive: true,
+            keepAliveInclude: ['LocationShopTreeDiv', 'PrePayFeeDetailList']
+        },
         name: '/pages/property/shopCreateFee',
         component: () => import('@/views/fee/shopCreateFeeList.vue')
     },
