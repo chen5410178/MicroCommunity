@@ -2,7 +2,7 @@
   <div class="app-container">
     <div class="resizable-layout">
       <div class="tree-panel" :style="{ width: treeWidth + 'px' }">
-        <shop-tree-div ref="shopTreeDiv" @selectShop="handleSelectShop"></shop-tree-div>
+        <location-shop-tree-div ref="shopTreeDiv" @selectShop="handleSelectShop"></location-shop-tree-div>
       </div>
 
       <div class="resize-handle" @mousedown="startResize" @mouseover="showResizeCursor" @mouseleave="hideResizeCursor">
@@ -53,10 +53,7 @@
               <simplify-shop-pre-pay-fee v-if="shopCreateFeeInfo._currentTab === 'simplifyShopPrePayFee'" ref="simplifyShopPrePayFee"
                 :key="'simplifyShopPrePayFee' + shopCreateFeeInfo.shopId"></simplify-shop-pre-pay-fee>
             </el-tab-pane>
-            <el-tab-pane :label="$t('shopCreateFee.billingRules')" name="feeDetailFeeRule">
-              <fee-detail-fee-rule v-if="shopCreateFeeInfo._currentTab === 'feeDetailFeeRule'" ref="feeDetailFeeRule"
-                :key="'feeDetailFeeRule' + shopCreateFeeInfo.shopId"></fee-detail-fee-rule>
-            </el-tab-pane>
+
             <el-tab-pane :label="$t('shopCreateFee.setFee')" name="feeDetailShopFeeRule">
               <fee-detail-shop-fee-rule v-if="shopCreateFeeInfo._currentTab === 'feeDetailShopFeeRule'"
                 ref="feeDetailShopFeeRule" :key="'feeDetailShopFeeRule' + shopCreateFeeInfo.shopId"></fee-detail-shop-fee-rule>
@@ -65,9 +62,9 @@
               <simplify-shop-owner-shops v-if="shopCreateFeeInfo._currentTab === 'simplifyShopOwnerShops'"
                 ref="simplifyShopOwnerShops" :key="'simplifyShopOwnerShops' + shopCreateFeeInfo.shopId"></simplify-shop-owner-shops>
             </el-tab-pane>
-            <el-tab-pane v-if="shopCreateFeeInfo.ownerId" :label="$t('shopCreateFee.owner')" name="simplifyShopOwner">
-              <simplify-shop-owner v-if="shopCreateFeeInfo._currentTab === 'simplifyShopOwner'" ref="simplifyShopOwner"
-                :key="'simplifyShopOwner' + shopCreateFeeInfo.shopId"></simplify-shop-owner>
+            <el-tab-pane v-if="shopCreateFeeInfo.ownerId" :label="$t('shopCreateFee.owner')" name="carDetailOwner">
+              <car-detail-owner v-if="shopCreateFeeInfo._currentTab === 'carDetailOwner'" ref="carDetailOwner"
+                :key="'carDetailOwner' + shopCreateFeeInfo.shopId"></car-detail-owner>
             </el-tab-pane>
             <el-tab-pane :label="$t('shopCreateFee.receiptReprint')" name="simplifyFeeReceipt">
               <simplify-fee-receipt v-if="shopCreateFeeInfo._currentTab === 'simplifyFeeReceipt'"
@@ -81,13 +78,12 @@
 </template>
 
 <script>
-import ShopTreeDiv from '@/components/fee/shopTreeDiv'
+import LocationShopTreeDiv from '@/components/fee/locationShopTreeDiv'
 import SimplifyShopFee from '@/components/fee/simplifyShopFee'
 import SimplifyShopHisFee from '@/components/fee/simplifyShopHisFee'
 import SimplifyShopPrePayFee from '@/components/fee/simplifyShopPrePayFee'
 import SimplifyShopOwnerShops from '@/components/fee/simplifyShopOwnerShops'
-import SimplifyShopOwner from '@/components/fee/simplifyShopOwner'
-import FeeDetailFeeRule from '@/components/fee/feeDetailFeeRule'
+import CarDetailOwner from '@/components/fee/carDetailOwner'
 import SimplifyFeeReceipt from '@/components/fee/simplifyFeeReceipt'
 import FeeDetailShopFeeRule from '@/components/fee/feeDetailShopFeeRule'
 import { getCommunityId } from '@/api/community/communityApi'
@@ -96,13 +92,12 @@ import { listShops } from '@/api/shop/shopCreateFeeApi'
 export default {
   name: 'ShopCreateFeeList',
   components: {
-    ShopTreeDiv,
+    LocationShopTreeDiv,
     SimplifyShopFee,
     SimplifyShopHisFee,
     SimplifyShopPrePayFee,
     SimplifyShopOwnerShops,
-    SimplifyShopOwner,
-    FeeDetailFeeRule,
+    CarDetailOwner,
     SimplifyFeeReceipt,
     FeeDetailShopFeeRule
   },

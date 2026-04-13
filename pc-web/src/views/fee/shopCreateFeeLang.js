@@ -14,7 +14,9 @@ export const messages = {
       shopNumPlaceholder: 'Please enter shop number',
       selectLocationFirst: 'Please select a location first',
       query: 'Query',
-      reset: 'Reset'
+      reset: 'Reset',
+      loadLocationError: 'Failed to load locations',
+      loadShopError: 'Failed to load shops'
     },
     shopCreatePayFee: {
       title: 'Shop Batch Create Fee',
@@ -175,7 +177,9 @@ export const messages = {
       shopNumPlaceholder: '请输入商铺编号',
       selectLocationFirst: '请先选择位置',
       query: '查询',
-      reset: '重置'
+      reset: '重置',
+      loadLocationError: '加载位置失败',
+      loadShopError: '加载商铺失败'
     },
     shopCreatePayFee: {
       title: '商铺批量创建费用',
