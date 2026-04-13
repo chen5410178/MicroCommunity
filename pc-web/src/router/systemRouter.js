@@ -47,12 +47,7 @@ export default [
         name: '/pages/log/operateDataLog',
         component: () => import('@/views/system/operateDataLogList.vue')
     },
-    {
-        path: '/pages/property/historyFeeDetailImport',
-        meta: { title: '历史费用导入' },
-        name: '/pages/property/historyFeeDetailImport',
-        component: () => import('@/views/system/historyFeeDetailImportList.vue')
-    },
+
     {
         path: '/pages/property/feePrintSpecManage',
         meta: { title: '打印规格' },
