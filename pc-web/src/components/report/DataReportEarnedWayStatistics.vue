@@ -1,6 +1,6 @@
 <template>
   <div class="margin-top-sm">
-    <el-row class="margin-top-lg">
+    <el-row >
       <el-col :span="4">
         <el-date-picker v-model="dataReportEarnedWayStatisticsInfo.startDate" type="date"
           :placeholder="$t('dataReport.startDate')" style="width: 100%" />

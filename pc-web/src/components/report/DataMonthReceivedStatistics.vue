@@ -120,6 +120,7 @@ export default {
       this.endDate = param.endDate
       this.communityId = param.communityId
       this._loadMonthReceivedFloors()
+      this._loadDataMonthReceivedStatisticsData()
     },
     async _initMethod() {
       try {

@@ -51,7 +51,7 @@
             <el-table-column prop="objName" :label="$t('dataReport.room')" align="center" />
             <el-table-column :label="$t('dataReport.owner')" align="center">
               <template slot-scope="scope">
-                {{ scope.row.ownerName }}({{ scope.row.link }})
+                {{ scope.row.ownerName }}
               </template>
             </el-table-column>
             <el-table-column prop="feeName" :label="$t('dataReport.feeName')" align="center" />
@@ -118,6 +118,7 @@ export default {
       this.endDate = param.endDate
       this.communityId = param.communityId
       this._loadMonthOweFloors()
+      this._loadDataMonthOweStatisticsData()
     },
     async _initMethod() {
       try {
