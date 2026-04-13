@@ -237,9 +237,9 @@
           <el-tab-pane :label="$t('simplifyAcceptance.complaintOrder')" name="simplifyOwnerComplaint">
             <simplify-owner-complaint ref="simplifyOwnerComplaint"></simplify-owner-complaint>
           </el-tab-pane>
-          <el-tab-pane :label="$t('simplifyAcceptance.ownerSync')" name="simplifyOwnerAccessContol">
+          <!-- <el-tab-pane :label="$t('simplifyAcceptance.ownerSync')" name="simplifyOwnerAccessContol">
             <simplify-owner-access-contol ref="simplifyOwnerAccessContol"></simplify-owner-access-contol>
-          </el-tab-pane>
+          </el-tab-pane> -->
           <el-tab-pane :label="$t('simplifyAcceptance.vehicleSync')" name="simplifyOwnerTransactionCar">
             <simplify-owner-transaction-car ref="simplifyOwnerTransactionCar"></simplify-owner-transaction-car>
           </el-tab-pane>
@@ -283,7 +283,7 @@ import SimplifyOwnerMember from '@/components/simplify/simplifyOwnerMember'
 import SimplifyOwnerCar from '@/components/simplify/simplifyOwnerCar'
 import SimplifyOwnerRepair from '@/components/simplify/simplifyOwnerRepair'
 import SimplifyOwnerComplaint from '@/components/simplify/simplifyOwnerComplaint'
-import SimplifyOwnerAccessContol from '@/components/simplify/simplifyOwnerAccessContol'
+// import SimplifyOwnerAccessContol from '@/components/simplify/simplifyOwnerAccessContol'
 import SimplifyOwnerTransactionCar from '@/components/simplify/simplifyOwnerTransactionCar'
 import SimplifyFeeReceipt from '@/components/fee/simplifyFeeReceipt'
 import SimplifyShopsHireLog from '@/components/simplify/simplifyShopsHireLog'
@@ -315,7 +315,7 @@ export default {
     SimplifyOwnerCar,
     SimplifyOwnerRepair,
     SimplifyOwnerComplaint,
-    SimplifyOwnerAccessContol,
+   // SimplifyOwnerAccessContol,
     SimplifyOwnerTransactionCar,
     SimplifyFeeReceipt,
     SimplifyShopsHireLog,

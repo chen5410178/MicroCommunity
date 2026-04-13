@@ -2,7 +2,7 @@
   <div>
     <el-row class="margin-top-lg">
       <el-col :span="4">
-        <el-select v-model="simplifyOwnerShopFeeInfo.shopId" @change="handleShopChange" clearable
+        <el-select v-model="simplifyOwnerShopFeeInfo.shopId" @change="handleShopChange"
           :placeholder="$t('simplifyOwnerShopFee.selectShop')" size="small">
           <el-option v-for="shop in shopList" :key="shop.shopId"
             :label="shop.shopNum + ' - ' + shop.locationName"
@@ -33,7 +33,13 @@
           <el-option :label="$t('simplifyOwnerShopFee.feeEnd')" value="2009001"></el-option>
         </el-select>
       </el-col>
-      <el-col :span="14" class="text-right">
+      <el-col :span="2">
+        <el-button type="primary" size="small"
+          @click="queryFeeList">
+          {{ $t('common.query') }}
+        </el-button>
+      </el-col>
+      <el-col :span="11" class="text-right">
         <el-button type="primary" size="small" v-if="hasPrivilege('502020082314267912')"
           @click="openBatchPayShopFeeModal">
           <i class="el-icon-plus"></i>
@@ -95,6 +101,17 @@
                 <td class="text-center">
                   <el-button class="btn-link" type="text" v-if="feeSub.state != '2009001' && hasPrivilege('502020082314267912')" @click="payFee(feeSub)">{{ $t('simplifyOwnerShopFee.payment') }}</el-button>
                   <el-button class="btn-link" type="text" @click="payFeeHis(feeSub)">{{ $t('simplifyOwnerShopFee.paymentHistory') }}</el-button>
+                  <el-dropdown v-if="hasPrivilege('502020090604200029') || hasPrivilege('502021070488970005') || hasPrivilege('502020090427190001')">
+                    <span class="el-dropdown-link">{{ $t('simplifyOwnerShopFee.moreOperations') }}<i class="el-icon-arrow-down el-icon--right"></i></span>
+                    <el-dropdown-menu slot="dropdown">
+                      <el-dropdown-item v-if="hasPrivilege('502020090604200029')" @click.native="deleteFee(feeSub)">{{ $t('simplifyOwnerShopFee.cancelFee') }}</el-dropdown-item>
+                      <el-dropdown-item v-if="feeSub.state != '2009001' && hasPrivilege('502020090427190001')" @click.native="editFee(feeSub)">{{ $t('simplifyOwnerShopFee.feeChange') }}</el-dropdown-item>
+                      <el-dropdown-item v-if="feeSub.state != '2009001' && hasPrivilege('502020090427190001')" @click.native="splitFee(feeSub)">{{ $t('simplifyOwnerShopFee.splitFee') }}</el-dropdown-item>
+                      <el-dropdown-item>
+                        <a target="_blank" :href="'/#/views/fee/feeDetail?feeId=' + feeSub.feeId">{{ $t('simplifyOwnerShopFee.details') }}</a>
+                      </el-dropdown-item>
+                    </el-dropdown-menu>
+                  </el-dropdown>
                 </td>
               </tr>
             </template>
@@ -118,6 +135,8 @@
     </el-row>
     <delete-fee ref="deleteFee" @success="handleNotify"></delete-fee>
     <edit-fee ref="editFee" @success="handleNotify"></edit-fee>
+    <finish-fee ref="finishFee" @success="handleNotify"></finish-fee>
+    <split-fee ref="splitFee" @success="handleNotify"></split-fee>
   </div>
 </template>
 
@@ -129,12 +148,16 @@ import { listOwnerShops } from '@/api/shop/shopCreateFeeApi'
 import { dateFormat } from '@/utils/dateUtil'
 import DeleteFee from '@/components/fee/deleteFee'
 import EditFee from '@/components/fee/editFee'
+import FinishFee from '@/components/fee/finishFee'
+import SplitFee from '@/components/fee/splitFee'
 
 export default {
   name: 'SimplifyOwnerShopFee',
   components: {
     DeleteFee,
-    EditFee
+    EditFee,
+    FinishFee,
+    SplitFee
   },
   data() {
     return {
@@ -176,14 +199,10 @@ export default {
       this.clearInfo()
       this.simplifyOwnerShopFeeInfo.ownerId = param.ownerId
       this.simplifyOwnerShopFeeInfo.ownerName = param.ownerName
-      this.simplifyOwnerShopFeeInfo.shopId = param.shopId || ''
-      this.simplifyOwnerShopFeeInfo.shopName = param.shopName || ''
-      this.simplifyOwnerShopFeeInfo.shopNum = param.shopNum || ''
-      this.simplifyOwnerShopFeeInfo.builtUpArea = param.builtUpArea || ''
       this.loadOwnerShops()
-      if (param.shopId) {
-        this.listSimplifyShopFee(1, this.pageSize)
-      }
+    },
+    queryFeeList() {
+      this.listSimplifyShopFee(1, this.pageSize)
     },
     loadOwnerShops() {
       var that = this
@@ -196,13 +215,20 @@ export default {
 
       listOwnerShops(params).then(function(res) {
         that.shopList = res.data || []
+        if (that.shopList.length > 0) {
+          var firstShop = that.shopList[0]
+          that.simplifyOwnerShopFeeInfo.shopId = firstShop.shopId
+          that.simplifyOwnerShopFeeInfo.shopName = firstShop.locationName
+          that.simplifyOwnerShopFeeInfo.shopNum = firstShop.shopNum
+          that.simplifyOwnerShopFeeInfo.builtUpArea = firstShop.builtUpArea
+          that.listSimplifyShopFee(1, that.pageSize)
+        }
       }).catch(function(error) {
         console.error('Failed to load owner shops:', error)
       })
     },
     handleShopChange(shopId) {
       this.simplifyOwnerShopFeeInfo.configId = ''
-      this.$emit('notifyShop', { shopId: shopId })
       if (!shopId) {
         this.simplifyOwnerShopFeeInfo.fees = []
         this.simplifyOwnerShopFeeInfo.totalAmount = 0
@@ -344,6 +370,15 @@ export default {
     editFee(fee) {
       this.$refs.editFee.open(fee)
     },
+    splitFee(fee) {
+      this.$refs.splitFee.open(fee)
+    },
+    deleteFee(fee) {
+      this.$refs.deleteFee.open({
+        communityId: getCommunityId(),
+        feeId: fee.feeId
+      })
+    },
     payFeeHis(fee) {
       fee.builtUpArea = this.simplifyOwnerShopFeeInfo.builtUpArea
       this.$router.push({
@@ -422,17 +457,7 @@ export default {
       var num = parseFloat(amount)
       return isNaN(num) ? '0.00' : num.toFixed(2)
     },
-    hasPrivilege(privilegeCode) {
-      if (this.$store && this.$store.state && this.$store.state.userInfo && this.$store.state.userInfo.privileges) {
-        var privileges = this.$store.state.userInfo.privileges
-        for (var i = 0; i < privileges.length; i++) {
-          if (privileges[i] === privilegeCode) {
-            return true
-          }
-        }
-      }
-      return false
-    }
+
   }
 }
 </script>

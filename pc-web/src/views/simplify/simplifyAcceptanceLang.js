@@ -333,7 +333,6 @@ export const messages = {
       subtotalOweFee: '欠费合计'
     },
     simplifyOwnerShopFee: {
-      selectShop: '请选择商铺',
       selectFeeType: '请选择费用类型',
       selectFeeItem: '请选择费用项',
       selectStatus: '请选择状态',
@@ -352,6 +351,11 @@ export const messages = {
       operation: '操作',
       payment: '缴费',
       paymentHistory: '缴费历史',
+      moreOperations: '更多操作',
+      cancelFee: '取消费用',
+      feeChange: '费用变更',
+      splitFee: '拆费',
+      details: '详情',
       note1: '注意：应收结束时间 "-" 表示未到应收时间或收费已结束',
       note2: '注意：应收金额为-1一般为费用项公式设置出错请检查',
       arrearsSubtotal: '欠费小计'

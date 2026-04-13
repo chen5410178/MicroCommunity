@@ -24,18 +24,6 @@
           {{ scope.row.oweFee || '0.00' }}
         </template>
       </el-table-column>
-      <el-table-column :label="$t('simplifyOwnerShops.operation')" align="center">
-        <template slot-scope="scope">
-          <el-button-group v-if="simplifyOwnerShopsInfo.currentShopId != scope.row.shopId">
-            <el-button size="mini" @click="_toChooseShop(scope.row)">
-              {{ $t('simplifyOwnerShops.choose') }}
-            </el-button>
-          </el-button-group>
-          <div v-else>
-            {{ $t('simplifyOwnerShops.currentShop') }}
-          </div>
-        </template>
-      </el-table-column>
     </el-table>
     <el-row>
       <el-col :span="16"></el-col>
