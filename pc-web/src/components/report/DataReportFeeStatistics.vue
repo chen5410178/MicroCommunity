@@ -1,6 +1,6 @@
 <template>
-  <div class="margin-top">
-    <el-row>
+  <div class="margin-top-sm">
+    <el-row :gutter="20">
       <el-col :span="3" class="padding-r-0">
         <el-card class="border-radius">
           <div class="treeview attendance-staff" style="height: 650px;">
@@ -17,14 +17,28 @@
       </el-col>
       <el-col :span="21">
         <el-row>
-          <el-col :span="24" class="text-right">
+          <el-col :span="4">
+            <el-date-picker v-model="dataReportFeeStatisticsInfo.startDate" type="date"
+              :placeholder="$t('dataReport.startDate')" style="width: 100%" />
+          </el-col>
+          <el-col :span="4">
+            <el-date-picker v-model="dataReportFeeStatisticsInfo.endDate" type="date"
+              :placeholder="$t('dataReport.endDate')" style="width: 100%" />
+          </el-col>
+          <el-col :span="4">
+            <el-button type="primary" size="small" @click="_qureyDataReportFeeStatistics">
+              <i class="el-icon-search"></i>
+              {{ $t('dataReport.search') }}
+            </el-button>
+          </el-col>
+          <el-col :span="8" class="text-right">
             <el-button type="primary" size="small" @click="_exportReportFeeExcel">
               <i class="el-icon-download"></i>
               <span>{{ $t('dataReport.export') }}</span>
             </el-button>
           </el-col>
         </el-row>
-        <div class="margin-top">
+        <div class="margin-top-sm">
           <el-table :data="dataReportFeeStatisticsInfo.fees" border style="width: 100%">
             <el-table-column prop="floorNum" :label="$t('dataReport.building')" align="center" />
             <el-table-column prop="roomCount" :label="$t('dataReport.roomCount')" align="center" />
@@ -75,21 +89,30 @@ export default {
         fees: [],
         feeTypeCds: [],
         floors: [],
-        feeTypeCd: ''
+        feeTypeCd: '',
+        startDate: '',
+        endDate: ''
       },
-      startDate: '',
-      endDate: '',
-      communityId: '',
+      communityId: ''
     }
   },
   created() {
   },
   methods: {
-    open(param){
-      this.startDate = param.startDate
-      this.endDate = param.endDate
+    open(param) {
       this.communityId = param.communityId
+      const now = new Date()
+      const startDate = new Date(now.getFullYear(), now.getMonth(), 1)
+      const endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0)
+      this.dataReportFeeStatisticsInfo.startDate = this._formatDate(startDate)
+      this.dataReportFeeStatisticsInfo.endDate = this._formatDate(endDate)
       this._initMethod()
+    },
+    _formatDate(date) {
+      const year = date.getFullYear()
+      const month = String(date.getMonth() + 1).padStart(2, '0')
+      const day = String(date.getDate()).padStart(2, '0')
+      return year + '-' + month + '-' + day
     },
     async _initMethod() {
       try {
@@ -132,8 +155,8 @@ export default {
       try {
         const params = {
           communityId: this.communityId,
-          startDate: this.startDate,
-          endDate: this.endDate,
+          startDate: this.dataReportFeeStatisticsInfo.startDate,
+          endDate: this.dataReportFeeStatisticsInfo.endDate,
           feeTypeCd: this.dataReportFeeStatisticsInfo.feeTypeCd,
           floorIds: _floorIds
         }
@@ -145,6 +168,10 @@ export default {
         console.error('Failed to load data:', error)
       }
     },
+    _qureyDataReportFeeStatistics() {
+      this.dataReportFeeStatisticsInfo.fees = []
+      this._loadFloors()
+    },
     async _exportReportFeeExcel() {
       try {
         const _floorIds = this.dataReportFeeStatisticsInfo.floors.map(item => item.floorId)
@@ -155,8 +182,8 @@ export default {
 
         const params = {
           communityId: this.communityId,
-          startDate: this.startDate,
-          endDate: this.endDate,
+          startDate: this.dataReportFeeStatisticsInfo.startDate,
+          endDate: this.dataReportFeeStatisticsInfo.endDate,
           feeTypeCd: this.dataReportFeeStatisticsInfo.feeTypeCd,
           floorIds: _floorIds.join(','),
           pagePath: 'dataReportFeeStatistics'

@@ -1,19 +1,27 @@
 <template>
-  <div class="margin-top">
+  <div class="margin-top-sm">
     <el-row class="margin-top-lg">
-      <el-col :span="4">
+      <el-col :span="3">
+        <el-date-picker v-model="dataReportOweDetailStatisticsInfo.startDate" type="date"
+          :placeholder="$t('dataReport.startDate')" style="width: 100%" />
+      </el-col>
+      <el-col :span="3">
+        <el-date-picker v-model="dataReportOweDetailStatisticsInfo.endDate" type="date"
+          :placeholder="$t('dataReport.endDate')" style="width: 100%" />
+      </el-col>
+      <el-col :span="3">
         <el-input v-model="dataReportOweDetailStatisticsInfo.objName" :placeholder="$t('dataReport.roomNumber')"
           clearable />
       </el-col>
-      <el-col :span="4">
+      <el-col :span="3">
         <el-input v-model="dataReportOweDetailStatisticsInfo.ownerName" :placeholder="$t('dataReport.ownerName')"
           clearable />
       </el-col>
-      <el-col :span="4">
+      <el-col :span="3">
         <el-input v-model="dataReportOweDetailStatisticsInfo.link" :placeholder="$t('dataReport.phoneNumber')"
           clearable />
       </el-col>
-      <el-col :span="4">
+      <el-col :span="3">
         <el-button type="primary" size="small" @click="_qureyDataReportOweDetailStatistics">
           <i class="el-icon-search"></i>
           {{ $t('dataReport.search') }}
@@ -23,7 +31,7 @@
           {{ $t('dataReport.reset') }}
         </el-button>
       </el-col>
-      <el-col :span="8" class="text-right">
+      <el-col :span="6" class="text-right">
         <el-button type="primary" size="small" @click="_exportReportOweDetailExcel">
           <i class="el-icon-download"></i>
           <span>{{ $t('dataReport.export') }}</span>
@@ -31,7 +39,7 @@
       </el-col>
     </el-row>
 
-    <div class="margin-top">
+    <div class="margin-top-sm">
       <el-table :data="dataReportOweDetailStatisticsInfo.fees" border style="width: 100%">
         <el-table-column prop="roomName" :label="$t('dataReport.room')" align="center" />
         <el-table-column prop="ownerName" :label="$t('dataReport.owner')" align="center" />
@@ -77,10 +85,10 @@ export default {
         objName: '',
         ownerName: '',
         link: '',
-        feeAmount: '0'
+        feeAmount: '0',
+        startDate: '',
+        endDate: ''
       },
-      startDate: '',
-      endDate: '',
       communityId: '',
       page: {
         current: 1,
@@ -93,11 +101,20 @@ export default {
     this._initMethod()
   },
   methods: {
-    open(param){
-      this.startDate = param.startDate
-      this.endDate = param.endDate
+    open(param) {
       this.communityId = param.communityId
+      const now = new Date()
+      const startDate = new Date(now.getFullYear(), now.getMonth(), 1)
+      const endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0)
+      this.dataReportOweDetailStatisticsInfo.startDate = this._formatDate(startDate)
+      this.dataReportOweDetailStatisticsInfo.endDate = this._formatDate(endDate)
       this._loadDataReportOweDetailStatisticsData(this.page.current, this.page.size)
+    },
+    _formatDate(date) {
+      const year = date.getFullYear()
+      const month = String(date.getMonth() + 1).padStart(2, '0')
+      const day = String(date.getDate()).padStart(2, '0')
+      return year + '-' + month + '-' + day
     },
     async _initMethod() {
       try {
@@ -111,8 +128,8 @@ export default {
       try {
         const params = {
           communityId: this.communityId,
-          startDate: this.startDate,
-          endDate: this.endDate,
+          startDate: this.dataReportOweDetailStatisticsInfo.startDate,
+          endDate: this.dataReportOweDetailStatisticsInfo.endDate,
           objName: this.dataReportOweDetailStatisticsInfo.objName,
           ownerName: this.dataReportOweDetailStatisticsInfo.ownerName,
           link: this.dataReportOweDetailStatisticsInfo.link,
@@ -134,12 +151,22 @@ export default {
         console.error('Failed to load data:', error)
       }
     },
+    _qureyDataReportOweDetailStatistics() {
+      this.page.current = 1
+      this._loadDataReportOweDetailStatisticsData(this.page.current, this.page.size)
+    },
+    _resetDataReportOweDetailStatistics() {
+      this.dataReportOweDetailStatisticsInfo.objName = ''
+      this.dataReportOweDetailStatisticsInfo.ownerName = ''
+      this.dataReportOweDetailStatisticsInfo.link = ''
+      this._qureyDataReportOweDetailStatistics()
+    },
     async _exportReportOweDetailExcel() {
       try {
         const params = {
           communityId: this.communityId,
-          startDate: this.startDate,
-          endDate: this.endDate,
+          startDate: this.dataReportOweDetailStatisticsInfo.startDate,
+          endDate: this.dataReportOweDetailStatisticsInfo.endDate,
           objName: this.dataReportOweDetailStatisticsInfo.objName,
           ownerName: this.dataReportOweDetailStatisticsInfo.ownerName,
           link: this.dataReportOweDetailStatisticsInfo.link,
@@ -153,16 +180,6 @@ export default {
       } catch (error) {
         console.error('Export failed:', error)
       }
-    },
-    _qureyDataReportOweDetailStatistics() {
-      this.page.current = 1
-      this._loadDataReportOweDetailStatisticsData(this.page.current, this.page.size)
-    },
-    _resetDataReportOweDetailStatistics() {
-      this.dataReportOweDetailStatisticsInfo.objName = ''
-      this.dataReportOweDetailStatisticsInfo.ownerName = ''
-      this.dataReportOweDetailStatisticsInfo.link = ''
-      this._qureyDataReportOweDetailStatistics()
     },
     handleSizeChange(val) {
       this.page.size = val

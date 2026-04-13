@@ -1,25 +1,33 @@
 <template>
-  <div class="margin-top">
+  <div class="margin-top-sm">
     <el-row class="margin-top-lg">
-      <el-col :span="4">
+      <el-col :span="3">
+        <el-date-picker v-model="dataReportEarnedDetailStatisticsInfo.startDate" type="date"
+          :placeholder="$t('dataReport.startDate')" style="width: 100%" />
+      </el-col>
+      <el-col :span="3">
+        <el-date-picker v-model="dataReportEarnedDetailStatisticsInfo.endDate" type="date"
+          :placeholder="$t('dataReport.endDate')" style="width: 100%" />
+      </el-col>
+      <el-col :span="3">
         <el-input v-model="dataReportEarnedDetailStatisticsInfo.objName" :placeholder="$t('dataReport.roomNumber')"
           clearable />
       </el-col>
-      <el-col :span="4">
+      <el-col :span="3">
         <el-input v-model="dataReportEarnedDetailStatisticsInfo.ownerName" :placeholder="$t('dataReport.ownerName')"
           clearable />
       </el-col>
-      <el-col :span="4">
+      <el-col :span="3">
         <el-input v-model="dataReportEarnedDetailStatisticsInfo.link" :placeholder="$t('dataReport.phoneNumber')"
           clearable />
       </el-col>
-      <el-col :span="4">
+      <el-col :span="3">
         <el-button type="primary" size="small" @click="_qureyDataReportEarnedDetailStatistics">
           <i class="el-icon-search"></i>
           {{ $t('dataReport.search') }}
         </el-button>
       </el-col>
-      <el-col :span="8" class="text-right">
+      <el-col :span="6" class="text-right">
         <el-button type="primary" size="small" @click="_exportReportEarnedDetailExcel">
           <i class="el-icon-download"></i>
           <span>{{ $t('dataReport.export') }}</span>
@@ -27,7 +35,7 @@
       </el-col>
     </el-row>
 
-    <div class="margin-top">
+    <div class="margin-top-sm">
       <el-table :data="dataReportEarnedDetailStatisticsInfo.fees" border style="width: 100%">
         <el-table-column prop="roomName" :label="$t('dataReport.room')" align="center" />
         <el-table-column :label="$t('dataReport.owner')" align="center">
@@ -81,10 +89,10 @@ export default {
         objName: '',
         ownerName: '',
         link: '',
-        feeAmount: '0'
+        feeAmount: '0',
+        startDate: '',
+        endDate: ''
       },
-      startDate: '',
-      endDate: '',
       communityId: '',
       page: {
         current: 1,
@@ -98,10 +106,19 @@ export default {
   },
   methods: {
     open(_param) {
-      this.startDate = _param.startDate
-      this.endDate = _param.endDate
       this.communityId = _param.communityId
+      const now = new Date()
+      const startDate = new Date(now.getFullYear(), now.getMonth(), 1)
+      const endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0)
+      this.dataReportEarnedDetailStatisticsInfo.startDate = this._formatDate(startDate)
+      this.dataReportEarnedDetailStatisticsInfo.endDate = this._formatDate(endDate)
       this._loadDataReportEarnedDetailStatisticsData(this.page.current, this.page.size)
+    },
+    _formatDate(date) {
+      const year = date.getFullYear()
+      const month = String(date.getMonth() + 1).padStart(2, '0')
+      const day = String(date.getDate()).padStart(2, '0')
+      return year + '-' + month + '-' + day
     },
     async _initMethod() {
       try {
@@ -115,8 +132,8 @@ export default {
       try {
         const params = {
           communityId: this.communityId,
-          startDate: this.startDate,
-          endDate: this.endDate,
+          startDate: this.dataReportEarnedDetailStatisticsInfo.startDate,
+          endDate: this.dataReportEarnedDetailStatisticsInfo.endDate,
           objName: this.dataReportEarnedDetailStatisticsInfo.objName,
           ownerName: this.dataReportEarnedDetailStatisticsInfo.ownerName,
           link: this.dataReportEarnedDetailStatisticsInfo.link,
@@ -130,12 +147,16 @@ export default {
         console.error('Failed to load data:', error)
       }
     },
+    _qureyDataReportEarnedDetailStatistics() {
+      this.page.current = 1
+      this._loadDataReportEarnedDetailStatisticsData(this.page.current, this.page.size)
+    },
     async _exportReportEarnedDetailExcel() {
       try {
         const params = {
           communityId: this.communityId,
-          startDate: this.startDate,
-          endDate: this.endDate,
+          startDate: this.dataReportEarnedDetailStatisticsInfo.startDate,
+          endDate: this.dataReportEarnedDetailStatisticsInfo.endDate,
           objName: this.dataReportEarnedDetailStatisticsInfo.objName,
           ownerName: this.dataReportEarnedDetailStatisticsInfo.ownerName,
           link: this.dataReportEarnedDetailStatisticsInfo.link,
@@ -149,10 +170,6 @@ export default {
       } catch (error) {
         console.error('Export failed:', error)
       }
-    },
-    _qureyDataReportEarnedDetailStatistics() {
-      this.page.current = 1
-      this._loadDataReportEarnedDetailStatisticsData(this.page.current, this.page.size)
     },
     handleSizeChange(val) {
       this.page.size = val

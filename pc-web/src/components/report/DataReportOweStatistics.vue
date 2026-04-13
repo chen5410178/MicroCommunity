@@ -1,12 +1,28 @@
 <template>
-  <div class="margin-top">
-    <div class="text-right">
-      <el-button type="primary" size="small" @click="_exportReportOweExcel">
-        <i class="el-icon-download"></i>
-        <span>{{ $t('dataReport.export') }}</span>
-      </el-button>
-    </div>
-    <div class="margin-top">
+  <div class="margin-top-sm">
+    <el-row class="margin-top-lg">
+      <el-col :span="4">
+        <el-date-picker v-model="dataReportOweStatisticsInfo.startDate" type="date"
+          :placeholder="$t('dataReport.startDate')" style="width: 100%" />
+      </el-col>
+      <el-col :span="4">
+        <el-date-picker v-model="dataReportOweStatisticsInfo.endDate" type="date"
+          :placeholder="$t('dataReport.endDate')" style="width: 100%" />
+      </el-col>
+      <el-col :span="4">
+        <el-button type="primary" size="small" @click="_qureyDataReportOweStatistics">
+          <i class="el-icon-search"></i>
+          {{ $t('dataReport.search') }}
+        </el-button>
+      </el-col>
+      <el-col :span="8" class="text-right">
+        <el-button type="primary" size="small" @click="_exportReportOweExcel">
+          <i class="el-icon-download"></i>
+          <span>{{ $t('dataReport.export') }}</span>
+        </el-button>
+      </el-col>
+    </el-row>
+    <div class="margin-top-sm">
       <el-table :data="dataReportOweStatisticsInfo.fees" border style="width: 100%">
         <el-table-column prop="floorNum" :label="$t('dataReport.building')" align="center" />
         <el-table-column prop="oweFee" :label="$t('dataReport.oweFee')" align="center" />
@@ -45,10 +61,10 @@ export default {
       dataReportOweStatisticsInfo: {
         fees: [],
         feeTypeCds: [],
-        feeAmount: '0'
+        feeAmount: '0',
+        startDate: '',
+        endDate: ''
       },
-      startDate: '',
-      endDate: '',
       communityId: '',
       page: {
         current: 1,
@@ -61,11 +77,20 @@ export default {
     this._initMethod()
   },
   methods: {
-    open(param){
-      this.startDate = param.startDate
-      this.endDate = param.endDate
+    open(param) {
       this.communityId = param.communityId
+      const now = new Date()
+      const startDate = new Date(now.getFullYear(), now.getMonth(), 1)
+      const endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0)
+      this.dataReportOweStatisticsInfo.startDate = this._formatDate(startDate)
+      this.dataReportOweStatisticsInfo.endDate = this._formatDate(endDate)
       this._loadDataReportOweStatisticsData(this.page.current, this.page.size)
+    },
+    _formatDate(date) {
+      const year = date.getFullYear()
+      const month = String(date.getMonth() + 1).padStart(2, '0')
+      const day = String(date.getDate()).padStart(2, '0')
+      return year + '-' + month + '-' + day
     },
     async _initMethod() {
       try {
@@ -79,8 +104,8 @@ export default {
       try {
         const params = {
           communityId: this.communityId,
-          startDate: this.startDate,
-          endDate: this.endDate,
+          startDate: this.dataReportOweStatisticsInfo.startDate,
+          endDate: this.dataReportOweStatisticsInfo.endDate,
           page: _page,
           row: _row
         }
@@ -99,12 +124,16 @@ export default {
         console.error('Failed to load data:', error)
       }
     },
+    _qureyDataReportOweStatistics() {
+      this.page.current = 1
+      this._loadDataReportOweStatisticsData(this.page.current, this.page.size)
+    },
     async _exportReportOweExcel() {
       try {
         const params = {
           communityId: this.communityId,
-          startDate: this.startDate,
-          endDate: this.endDate,
+          startDate: this.dataReportOweStatisticsInfo.startDate,
+          endDate: this.dataReportOweStatisticsInfo.endDate,
           pagePath: 'dataReportOweStatistics'
         }
         const res = await exportData(params)

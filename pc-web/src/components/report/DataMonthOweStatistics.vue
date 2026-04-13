@@ -1,6 +1,6 @@
 <template>
-  <div class="margin-top">
-    <el-row>
+  <div class="margin-top-sm">
+    <el-row :gutter="20">
       <el-col :span="3" class="padding-r-0">
         <el-card class="border-radius">
           <div class="treeview attendance-staff" style="height: 650px;">
@@ -46,7 +46,7 @@
           </el-col>
         </el-row>
 
-        <div class="margin-top">
+        <div class="margin-top-sm">
           <el-table :data="dataMonthOweStatisticsInfo.fees" border style="width: 100%">
             <el-table-column prop="objName" :label="$t('dataReport.room')" align="center" />
             <el-table-column :label="$t('dataReport.owner')" align="center">
@@ -113,7 +113,7 @@ export default {
     this._initMethod()
   },
   methods: {
-    open(param){
+    open(param) {
       this.startDate = param.startDate
       this.endDate = param.endDate
       this.communityId = param.communityId
@@ -124,11 +124,20 @@ export default {
         const data = await getDict('pay_fee_config', 'fee_type_cd_show')
         this.dataMonthOweStatisticsInfo.feeTypeCds = data
         this.dataMonthOweStatisticsInfo.feeTypeCd = data[0].statusCd
-        this.dataMonthOweStatisticsInfo.feeStartDate = this.startDate
-        this.dataMonthOweStatisticsInfo.feeEndDate = this.endDate
+        const now = new Date()
+        const startDate = new Date(now.getFullYear(), now.getMonth(), 1)
+        const endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0)
+        this.dataMonthOweStatisticsInfo.feeStartDate = this._formatDate(startDate)
+        this.dataMonthOweStatisticsInfo.feeEndDate = this._formatDate(endDate)
       } catch (error) {
         console.error('Failed to load dictionary:', error)
       }
+    },
+    _formatDate(date) {
+      const year = date.getFullYear()
+      const month = String(date.getMonth() + 1).padStart(2, '0')
+      const day = String(date.getDate()).padStart(2, '0')
+      return year + '-' + month + '-' + day
     },
     async _loadMonthOweFloors() {
       try {
