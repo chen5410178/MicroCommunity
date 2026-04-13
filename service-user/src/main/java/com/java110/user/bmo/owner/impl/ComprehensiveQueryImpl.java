@@ -7,9 +7,13 @@ import com.java110.dto.contract.ContractDto;
 import com.java110.dto.owner.OwnerCarDto;
 import com.java110.dto.owner.OwnerDto;
 import com.java110.dto.owner.OwnerRoomRelDto;
+import com.java110.dto.shop.BuildingShopDto;
+import com.java110.dto.shop.BuildingShopOwnerDto;
 import com.java110.intf.acct.IAccountInnerServiceSMO;
 import com.java110.intf.common.IFileInnerServiceSMO;
 import com.java110.intf.common.IFileRelInnerServiceSMO;
+import com.java110.intf.community.IBuildingShopInnerServiceSMO;
+import com.java110.intf.community.IBuildingShopOwnerInnerServiceSMO;
 import com.java110.intf.community.IMenuInnerServiceSMO;
 import com.java110.intf.community.IRoomInnerServiceSMO;
 import com.java110.intf.store.IContractInnerServiceSMO;
@@ -69,6 +73,12 @@ public class ComprehensiveQueryImpl implements IComprehensiveQuery {
 
     @Autowired
     private IAccountInnerServiceSMO accountInnerServiceSMOImpl;
+
+    @Autowired
+    private IBuildingShopInnerServiceSMO buildingShopInnerServiceSMOImpl;
+
+    @Autowired
+    private IBuildingShopOwnerInnerServiceSMO buildingShopOwnerInnerServiceSMOImpl;
 
     @Override
     public ResponseEntity<String> query(String communityId, String searchValue, String searchType, String userId, String storeId) {
@@ -474,31 +484,30 @@ public class ComprehensiveQueryImpl implements IComprehensiveQuery {
      */
     private OwnerDto queryByShops(String communityId, String searchValue, String userId) {
 
-        if (!searchValue.contains("-")) {
-            throw new IllegalArgumentException("查询内容格式错误，请输入 楼栋-商铺 如 1-1");
+
+
+        BuildingShopDto buildingShopDto = new BuildingShopDto();
+        buildingShopDto.setShopNum(searchValue);
+        buildingShopDto.setCommunityId(communityId);
+        List<BuildingShopDto> buildingShopDtos = buildingShopInnerServiceSMOImpl.queryBuildingShops(buildingShopDto);
+       if(ListUtil.isNull(buildingShopDtos)){
+           throw new IllegalArgumentException("未找到商铺");
+       }
+
+        BuildingShopOwnerDto buildingShopOwnerDto = new BuildingShopOwnerDto();
+        buildingShopOwnerDto.setShopId(buildingShopDtos.get(0).getShopId());
+        buildingShopOwnerDto.setCommunityId(buildingShopDtos.get(0).getCommunityId());
+       List<BuildingShopOwnerDto> buildingShopOwnerDtos =  buildingShopOwnerInnerServiceSMOImpl.queryBuildingShopOwners(buildingShopOwnerDto);
+        if(ListUtil.isNull(buildingShopOwnerDtos)){
+            throw new IllegalArgumentException("商铺未找到业主或者租客");
         }
-
-        String[] values = searchValue.split("-", 3);
-
-        if (values.length != 2) {
-            throw new IllegalArgumentException("查询内容格式错误，请输入 楼栋-商铺 如 1-1");
-        }
-
-        RoomDto roomDto = new RoomDto();
-        roomDto.setFloorNum(values[0]);
-        roomDto.setUnitNum("0");
-        roomDto.setRoomNum(values[1]);
-        roomDto.setCommunityId(communityId);
-
-        List<RoomDto> roomDtos = roomInnerServiceSMOImpl.queryRooms(roomDto);
-        Assert.listOnlyOne(roomDtos, "未找到房屋信息");
 
         OwnerDto ownerDto = new OwnerDto();
         ownerDto.setCommunityId(communityId);
-        ownerDto.setRoomId(roomDtos.get(0).getRoomId());
+        ownerDto.setMemberId(buildingShopOwnerDtos.get(0).getOwnerId());
         ownerDto.setOwnerTypeCd(OwnerDto.OWNER_TYPE_CD_OWNER);
         List<OwnerDto> ownerDtos = ownerInnerServiceSMOImpl.queryOwners(ownerDto);
-        Assert.listOnlyOne(ownerDtos, "未找到业主信息");
+        Assert.listOnlyOne(ownerDtos, "未找到业主信息或者查询到多条，请换其他条件查询");
         //查询是否有脱敏权限
         List<Map> mark = getPrivilegeOwnerList("/roomCreateFee", userId);
         List<OwnerDto> ownerDtoList = new ArrayList<>();
@@ -517,11 +526,26 @@ public class ComprehensiveQueryImpl implements IComprehensiveQuery {
             owner.setLink(link);
             ownerDtoList.add(owner);
         }
-
         OwnerDto resOwnerDto = ownerDtoList.get(0);
+        OwnerRoomRelDto ownerRoomRelDto = new OwnerRoomRelDto();
+        ownerRoomRelDto.setOwnerId(ownerDtoList.get(0).getOwnerId());
+        List<OwnerRoomRelDto> ownerRoomRelDtos = ownerRoomRelInnerServiceSMOImpl.queryOwnerRoomRels(ownerRoomRelDto);
 
+        //没有房屋
+        if (ownerRoomRelDtos == null || ownerRoomRelDtos.size() < 1) {
+            return resOwnerDto;
+        }
+        List<String> roomIds = new ArrayList<>();
+        for (OwnerRoomRelDto tmpOwnerRoomRelDto : ownerRoomRelDtos) {
+            roomIds.add(tmpOwnerRoomRelDto.getRoomId());
+        }
+
+
+        RoomDto roomDto = new RoomDto();
+        roomDto.setRoomIds(roomIds.toArray(new String[roomIds.size()]));
+        roomDto.setCommunityId(communityId);
+        List<RoomDto> roomDtos = roomInnerServiceSMOImpl.queryRooms(roomDto);
         resOwnerDto.setRooms(roomDtos);
-
         return resOwnerDto;
     }
 

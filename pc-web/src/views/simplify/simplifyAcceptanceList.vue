@@ -112,19 +112,13 @@
               </div>
             </el-col>
 
-            <el-col :span="6" v-if="simplifyAcceptanceInfo.roomType == '1010301'">
+            <el-col :span="6" >
               <div class="form-group">
                 <label class="col-form-label">{{ $t('simplifyAcceptance.houseNumber') }}</label>
                 <label>
                   {{ simplifyAcceptanceInfo.floorNum }}-{{ simplifyAcceptanceInfo.unitNum }}-{{
                     simplifyAcceptanceInfo.roomNum }}
                 </label>
-              </div>
-            </el-col>
-            <el-col :span="6" v-else>
-              <div class="form-group">
-                <label class="col-form-label">{{ $t('simplifyAcceptance.shopNumber') }}</label>
-                <label>{{ simplifyAcceptanceInfo.floorNum }}-{{ simplifyAcceptanceInfo.roomNum }}</label>
               </div>
             </el-col>
             <el-col :span="6">
