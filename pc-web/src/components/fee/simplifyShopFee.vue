@@ -396,7 +396,8 @@ export default {
         path: '/views/fee/batchPayFeeOrder',
         query: {
           payerObjType: '4444',
-          payerObjId: this.simplifyShopFeeInfo.shopId
+          payerObjId: this.simplifyShopFeeInfo.shopId,
+          ownerId: this.simplifyShopFeeInfo.ownerId
         }
       })
     }

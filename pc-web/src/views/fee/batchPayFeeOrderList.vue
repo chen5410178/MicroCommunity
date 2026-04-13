@@ -193,11 +193,6 @@ export default {
     const payerObjType = this.$route.query.payerObjType
     const payerObjId = this.$route.query.payerObjId
     
-    if (!ownerId) {
-      this.$message.error('非法操作')
-      this.$router.go(-1)
-      return
-    }
     
     this.batchPayFeeOrderInfo.ownerId = ownerId
     this.batchPayFeeOrderInfo.payerObjType = payerObjType
