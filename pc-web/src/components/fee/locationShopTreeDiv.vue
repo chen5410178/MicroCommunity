@@ -88,7 +88,10 @@ export default {
 
       this.treeData = locations.map(location => processLocation(location))
       this.$nextTick(() => {
-          this.expandAndSelectFirstShop()
+        if (this.treeData.length === 0) {
+          this.$emit('treeEmpty')
+        }
+        this.expandAndSelectFirstShop()
       })
     },
 

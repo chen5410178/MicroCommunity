@@ -1,8 +1,13 @@
 <template>
   <div class="app-container">
     <div class="resizable-layout">
+      <el-card v-if="isTreeEmpty" class="empty-page">
+        <i class="el-icon-document"></i>
+        <span>请添加商铺</span>
+      </el-card>
+      <template v-else>
       <div class="tree-panel" :style="{ width: treeWidth + 'px' }">
-        <location-shop-tree-div ref="shopTreeDiv" @selectShop="handleSelectShop"></location-shop-tree-div>
+        <location-shop-tree-div ref="shopTreeDiv" @selectShop="handleSelectShop" @treeEmpty="handleTreeEmpty"></location-shop-tree-div>
       </div>
 
       <div class="resize-handle" @mousedown="startResize" @mouseover="showResizeCursor" @mouseleave="hideResizeCursor">
@@ -73,6 +78,7 @@
         </el-card>
         <do-import-shop-create-fee ref="doImportShopCreateFee"></do-import-shop-create-fee>
       </div>
+      </template>
     </div>
   </div>
 </template>
@@ -126,7 +132,8 @@ export default {
       maxTreeWidth: 600,
       isResizing: false,
       startX: 0,
-      startWidth: 0
+      startWidth: 0,
+      isTreeEmpty: false
     }
   },
   created() {
@@ -142,6 +149,9 @@ export default {
     document.removeEventListener('mouseup', this.onMouseUp)
   },
   methods: {
+    handleTreeEmpty() {
+      this.isTreeEmpty = true
+    },
     handleSelectShop(param) {
       this.shopCreateFeeInfo.ownerName = ''
       this.shopCreateFeeInfo.ownerId = param.ownerId || ''
@@ -283,6 +293,22 @@ export default {
   display: flex;
   flex-direction: row;
   height: 100%;
+}
+
+.empty-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  color: #909399;
+  font-size: 16px;
+
+  i {
+    font-size: 64px;
+    margin-bottom: 20px;
+  }
 }
 
 .tree-panel {

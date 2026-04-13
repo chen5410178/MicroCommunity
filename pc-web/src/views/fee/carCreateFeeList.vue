@@ -1,10 +1,10 @@
 <template>
   <div class="car-create-fee-container">
     <div class="main-card">
-      <div v-if="carCreateFeeInfo.cars.length === 0" class="empty-page">
+      <el-card v-if="carCreateFeeInfo.cars.length === 0" class="empty-page">
         <i class="el-icon-document"></i>
         <span>请先添加车辆</span>
-      </div>
+      </el-card>
       <el-row v-else :gutter="20">
         <el-col :span="4" class="left-panel">
           <el-card class="car-list-card">

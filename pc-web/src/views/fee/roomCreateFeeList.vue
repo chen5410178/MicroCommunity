@@ -2,8 +2,13 @@
   <div class="app-container">
     <div class="resizable-layout">
       <!-- 左侧树形组件 -->
+      <el-card v-if="isTreeEmpty" class="empty-page">
+        <i class="el-icon-document"></i>
+        <span>请添加房屋</span>
+      </el-card>
+      <template v-else>
       <div class="tree-panel" :style="{ width: treeWidth + 'px' }">
-        <room-tree-div ref="roomTreeDiv" @selectRoom="handleSelectRoom"></room-tree-div>
+        <room-tree-div ref="roomTreeDiv" @selectRoom="handleSelectRoom" @treeEmpty="handleTreeEmpty"></room-tree-div>
       </div>
 
       <!-- 拖拽分隔线 -->
@@ -110,6 +115,7 @@
           </el-tabs>
         </el-card>
       </div>
+      </template>
     </div>
 
     <export-fee-import-excel ref="exportFeeImportExcel"></export-fee-import-excel>
@@ -183,7 +189,8 @@ export default {
       maxTreeWidth: 600, // 最大宽度
       isResizing: false,
       startX: 0,
-      startWidth: 0
+      startWidth: 0,
+      isTreeEmpty: false
     }
   },
   created() {
@@ -203,6 +210,9 @@ export default {
     document.removeEventListener('mouseup', this.onMouseUp)
   },
   methods: {
+    handleTreeEmpty() {
+      this.isTreeEmpty = true
+    },
     initRoomTree() {
       // this.$refs.roomTreeDiv.initRoomTreeDiv({
       //   callName: 'roomCreateFee'
@@ -398,6 +408,22 @@ export default {
   display: flex;
   flex-direction: row;
   height: 100%;
+}
+
+.empty-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  color: #909399;
+  font-size: 16px;
+
+  i {
+    font-size: 64px;
+    margin-bottom: 20px;
+  }
 }
 
 .tree-panel {

@@ -86,6 +86,9 @@ export default {
 
       this.treeData = Object.values(floorMap)
       this.$nextTick(() => {
+        if (this.treeData.length === 0) {
+          this.$emit('treeEmpty')
+        }
         // 如果有上次选择的房屋，则展开并选择；否则选择第一个房屋
         if (this.lastSelected && this.lastSelected.floorId && this.lastSelected.unitId) {
           this.expandAndSelectLastRoom()

@@ -3,16 +3,7 @@
     <el-row class="margin-top">
       <el-col :span="22" class="text-right"></el-col>
       <el-col :span="2" class="text-right">
-        <el-button
-          type="primary"
-          size="small"
-          style="margin-left:10px"
-          v-if="hasPrivilege('502020082314267912') && simplifyOwnerRoomsInfo.ownerId"
-          @click="_openSimplifyOwnerRoomsBatchPayFeeModal()"
-        >
-          <i class="el-icon-plus"></i>
-          <span>{{ $t('simplifyOwnerRooms.batchPay') }}</span>
-        </el-button>
+       
       </el-col>
     </el-row>
     <div>
