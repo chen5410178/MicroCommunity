@@ -208,11 +208,15 @@
           <el-tab-pane :label="$t('simplifyAcceptance.paymentHistory')" name="simplifyHisFee">
             <simplify-his-fee ref="simplifyHisFee"></simplify-his-fee>
           </el-tab-pane>
+                <el-tab-pane :label="$t('simplifyAcceptance.shopFee')" name="simplifyOwnerShopFee">
+            <simplify-owner-shop-fee ref="simplifyOwnerShopFee" @notifyShop="handleNotifyShop"></simplify-owner-shop-fee>
+          </el-tab-pane>
           <el-tab-pane :label="$t('simplifyAcceptance.house')" name="simplifyOwnerRooms">
             <simplify-owner-rooms ref="simplifyOwnerRooms"></simplify-owner-rooms>
           </el-tab-pane>
-          <el-tab-pane :label="$t('simplifyAcceptance.contract')" name="simplifyContract">
-            <simplify-contract ref="simplifyContract"></simplify-contract>
+    
+          <el-tab-pane :label="$t('simplifyAcceptance.ownerShops')" name="simplifyOwnerShops">
+            <simplify-owner-shops ref="simplifyOwnerShops" @notifyShop="handleNotifyShop"></simplify-owner-shops>
           </el-tab-pane>
           <el-tab-pane :label="$t('simplifyAcceptance.familyMember')" name="simplifyOwnerMember">
             <simplify-owner-member ref="simplifyOwnerMember"></simplify-owner-member>
@@ -273,10 +277,10 @@ import SimplifyRoomFee from '@/components/fee/simplifyRoomFee'
 import SimplifyCarFee from '@/components/simplify/simplifyCarFee'
 import SimplifyHisFee from '@/components/fee/simplifyHisFee'
 import SimplifyOwnerRooms from '@/components/fee/simplifyOwnerRooms'
-import SimplifyContract from '@/components/simplify/simplifyContract'
+import SimplifyOwnerShopFee from '@/components/simplify/simplifyOwnerShopFee'
+import SimplifyOwnerShops from '@/components/simplify/simplifyOwnerShops'
 import SimplifyOwnerMember from '@/components/simplify/simplifyOwnerMember'
 import SimplifyOwnerCar from '@/components/simplify/simplifyOwnerCar'
-import SimplifyCallable from '@/components/fee/simplifyCallable'
 import SimplifyOwnerRepair from '@/components/simplify/simplifyOwnerRepair'
 import SimplifyOwnerComplaint from '@/components/simplify/simplifyOwnerComplaint'
 import SimplifyOwnerAccessContol from '@/components/simplify/simplifyOwnerAccessContol'
@@ -284,6 +288,7 @@ import SimplifyOwnerTransactionCar from '@/components/simplify/simplifyOwnerTran
 import SimplifyFeeReceipt from '@/components/fee/simplifyFeeReceipt'
 import SimplifyShopsHireLog from '@/components/simplify/simplifyShopsHireLog'
 import SimplifyMeterWaterLog from '@/components/fee/simplifyMeterWaterLog'
+import SimplifyCallable from '@/components/fee/simplifyCallable'
 import DeleteFee from '@/components/fee/deleteFee'
 import EditFee from '@/components/fee/editFee'
 import FinishFee from '@/components/fee/finishFee'
@@ -304,10 +309,10 @@ export default {
     SimplifyCarFee,
     SimplifyHisFee,
     SimplifyOwnerRooms,
-    SimplifyContract,
+    SimplifyOwnerShopFee,
+    SimplifyOwnerShops,
     SimplifyOwnerMember,
     SimplifyOwnerCar,
-    SimplifyCallable,
     SimplifyOwnerRepair,
     SimplifyOwnerComplaint,
     SimplifyOwnerAccessContol,
@@ -315,6 +320,7 @@ export default {
     SimplifyFeeReceipt,
     SimplifyShopsHireLog,
     SimplifyMeterWaterLog,
+    SimplifyCallable,
     DeleteFee,
     EditFee,
     FinishFee,
@@ -363,7 +369,9 @@ export default {
         roomRent: '',
         acctAmount: '',
         depositAmount: '0',
-        timer: {}
+        timer: {},
+        selectedShopId: '',
+        shopList: []
       },
       communityId: ''
     }
@@ -516,6 +524,10 @@ export default {
     changeTab(tab) {
       this.simplifyAcceptanceInfo._currentTab = tab
       setTimeout(() => {
+        if (tab === 'simplifyNotepad') {
+          this._toSimplifyNotepadPage()
+          return
+        }
         if (this.$refs[tab]) {
           if (tab === 'ownerDetailAccount' || tab === 'ownerDetailAccountReceipt') {
             this.$refs[tab].open(this.simplifyAcceptanceInfo.ownerId, this.simplifyAcceptanceInfo.ownerName, this.simplifyAcceptanceInfo.roomId)
@@ -672,6 +684,9 @@ export default {
       } catch (error) {
         console.error('请求失败:', error)
       }
+    },
+    handleNotifyShop(shop) {
+      this.simplifyAcceptanceInfo.selectedShopId = shop.shopId
     }
   }
 }
