@@ -1,7 +1,11 @@
 <template>
   <div class="car-create-fee-container">
     <div class="main-card">
-      <el-row :gutter="20">
+      <div v-if="carCreateFeeInfo.cars.length === 0" class="empty-page">
+        <i class="el-icon-document"></i>
+        <span>请先添加车辆</span>
+      </div>
+      <el-row v-else :gutter="20">
         <el-col :span="4" class="left-panel">
           <el-card class="car-list-card">
             <div class="car-list-wrapper">
@@ -300,6 +304,21 @@ export default {
 
   .main-card {
     min-height: 800px;
+  }
+
+  .empty-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 800px;
+    color: #909399;
+    font-size: 16px;
+
+    i {
+      font-size: 64px;
+      margin-bottom: 20px;
+    }
   }
 
   .left-panel {

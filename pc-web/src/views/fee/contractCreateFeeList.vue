@@ -1,7 +1,11 @@
 <template>
   <div class="contract-create-fee-container">
     <div class="main-card">
-      <el-row :gutter="20">
+      <el-card v-if="contractCreateFeeInfo.contracts.length === 0" class="empty-page">
+        <i class="el-icon-document"></i>
+        <span>请先添加合同</span>
+      </el-card>
+      <el-row v-else :gutter="20">
         <el-col :span="4" class="left-panel">
           <el-card class="contract-list-card">
             <div class="contract-list-wrapper">
@@ -19,14 +23,7 @@
           <el-card>
             <div slot="header" class="card-header">
               <span>{{ contractCreateFeeInfo.contractCode }}</span>
-              <div class="header-tools">
-              
-                <el-button v-if="hasPrivilege('502022073007100003')" type="warning" size="small"
-                  @click="_openBatchCreate">
-                  <i class="el-icon-coin"></i>
-                  {{ $t('contractCreateFee.batchCreate') }}
-                </el-button>
-              </div>
+        
             </div>
 
             <div class="search-section">
@@ -298,6 +295,21 @@ export default {
 
   .main-card {
     min-height: 800px;
+  }
+
+  .empty-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 800px;
+    color: #909399;
+    font-size: 16px;
+
+    i {
+      font-size: 64px;
+      margin-bottom: 20px;
+    }
   }
 
   .left-panel {
