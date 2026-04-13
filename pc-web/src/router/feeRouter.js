@@ -202,10 +202,4 @@ export default [
         name: '/pages/property/shopCreateFee',
         component: () => import('@/views/fee/shopCreateFeeList.vue')
     },
-    {
-        path: '/pages/fee/shopCreatePayFee',
-        meta: { title: '商铺缴费' },
-        name: '/pages/fee/shopCreatePayFee',
-        component: () => import('@/views/fee/shopCreatePayFeeList.vue')
-    },
 ]

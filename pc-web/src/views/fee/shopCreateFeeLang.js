@@ -11,6 +11,7 @@ export const messages = {
       owner: 'Owner',
       receiptReprint: 'Receipt Reprint',
       batchCreate: 'Batch Create',
+      customImport: 'Custom Import',
       shopNumPlaceholder: 'Please enter shop number',
       selectLocationFirst: 'Please select a location first',
       query: 'Query',
@@ -160,6 +161,18 @@ export const messages = {
       change: 'Edit',
       manualFinish: 'Manual Finish',
       cancel: 'Cancel'
+    },
+    doImportShopCreateFee: {
+      title: 'Import Shop Create Fee',
+      template: 'Template',
+      downloadTemplate: 'Download Template',
+      selectFile: 'Select File',
+      clickUpload: 'Click Upload',
+      fileTip: 'Only .xls/.xlsx files, max 2MB',
+      validate: {
+        invalidFileType: 'Invalid file type, only .xls/.xlsx allowed',
+        fileTooLarge: 'File too large, max 2MB'
+      }
     }
   },
   zh: {
@@ -174,6 +187,7 @@ export const messages = {
       owner: '业主信息',
       receiptReprint: '补打收据',
       batchCreate: '批量创建',
+      customImport: '自定义导入',
       shopNumPlaceholder: '请输入商铺编号',
       selectLocationFirst: '请先选择位置',
       query: '查询',
@@ -323,6 +337,18 @@ export const messages = {
       change: '编辑',
       manualFinish: '手动终止',
       cancel: '取消'
+    },
+    doImportShopCreateFee: {
+      title: '导入商铺创建费用',
+      template: '模版',
+      downloadTemplate: '下载模版',
+      selectFile: '选择文件',
+      clickUpload: '点击上传',
+      fileTip: '只能上传xls/xlsx文件，且不超过2MB',
+      validate: {
+        invalidFileType: '文件格式不正确，仅支持xls/xlsx',
+        fileTooLarge: '文件大小不能超过2MB'
+      }
     }
   }
 }

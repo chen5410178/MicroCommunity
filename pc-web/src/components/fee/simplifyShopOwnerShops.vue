@@ -1,19 +1,6 @@
 <template>
   <div>
-    <el-row class="margin-top">
-      <el-col :span="22" class="text-right"></el-col>
-      <el-col :span="2" class="text-right">
-        <el-button
-          type="primary"
-          size="small"
-          v-if="simplifyShopOwnerShopsInfo.ownerId"
-          @click="_openBatchPayShopFeeModal()"
-        >
-          <i class="el-icon-plus"></i>
-          <span>{{ $t('simplifyShopOwnerShops.batchPay') }}</span>
-        </el-button>
-      </el-col>
-    </el-row>
+ 
     <div>
       <el-table
         :data="simplifyShopOwnerShopsInfo.shops"

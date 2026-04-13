@@ -14,9 +14,9 @@
           <div slot="header" class="flex justify-between">
             <span>{{ shopCreateFeeInfo.shopName }}</span>
             <div class="header-tools">
-              <el-button size="small" @click="_toBatchCreateFee">
+              <el-button size="small" @click="_openDoCreateShopFee">
                 <i class="el-icon-plus"></i>
-                {{ $t('shopCreateFee.batchCreate') }}
+                {{ $t('shopCreateFee.customImport') }}
               </el-button>
             </div>
           </div>
@@ -71,6 +71,7 @@
             </el-tab-pane>
           </el-tabs>
         </el-card>
+        <do-import-shop-create-fee ref="doImportShopCreateFee"></do-import-shop-create-fee>
       </div>
     </div>
   </div>
@@ -85,6 +86,7 @@ import PrePayFeeDetail from '@/components/fee/prePayFeeDetail'
 import CarDetailOwner from '@/components/fee/carDetailOwner'
 import SimplifyFeeReceipt from '@/components/fee/simplifyFeeReceipt'
 import FeeDetailShopFeeRule from '@/components/fee/feeDetailShopFeeRule'
+import DoImportShopCreateFee from '@/components/fee/doImportShopCreateFee'
 import { getCommunityId } from '@/api/community/communityApi'
 import { listShops } from '@/api/shop/shopCreateFeeApi'
 
@@ -98,7 +100,8 @@ export default {
     PrePayFeeDetail,
     CarDetailOwner,
     SimplifyFeeReceipt,
-    FeeDetailShopFeeRule
+    FeeDetailShopFeeRule,
+    DoImportShopCreateFee
   },
   data() {
     return {
@@ -211,6 +214,9 @@ export default {
     },
     _toBatchCreateFee() {
       this.$router.push('/pages/fee/shopCreatePayFee')
+    },
+    _openDoCreateShopFee() {
+      this.$refs.doImportShopCreateFee.open()
     },
     restoreTreeWidth() {
       const savedWidth = localStorage.getItem('shopCreateFeeTreeWidth')

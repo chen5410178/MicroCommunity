@@ -6,12 +6,16 @@ public class ImportCustomCreateFeeDto implements Serializable {
 
     public static final String TYPE_ROOM = "1001";
     public static final String TYPE_CAR = "2002";
+    public static final String TYPE_SHOP = "4444";
 
     private String payObjId;
     private String floorNum;
     private String unitNum;
     private String roomNum;
     private String carNum;
+    private String shopNum;
+    private String locationId;
+    private String locationName;
 
     private String objName;
     private String objType;
@@ -181,5 +185,29 @@ public class ImportCustomCreateFeeDto implements Serializable {
 
     public void setEndTime(String endTime) {
         this.endTime = endTime;
+    }
+
+    public String getShopNum() {
+        return shopNum;
+    }
+
+    public void setShopNum(String shopNum) {
+        this.shopNum = shopNum;
+    }
+
+    public String getLocationId() {
+        return locationId;
+    }
+
+    public void setLocationId(String locationId) {
+        this.locationId = locationId;
+    }
+
+    public String getLocationName() {
+        return locationName;
+    }
+
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
     }
 }
