@@ -631,7 +631,7 @@
     <select id="getOwnerFeeSummary" parameterType="Map" resultType="Map">
         select
             t.owner_id ownerId,
-            GROUP_CONCAT(DISTINCT t.room_name) objName,
+            GROUP_CONCAT(DISTINCT t.payer_obj_name) objName,
             t.fee_type_cd feeTypeCd,
             ifnull(sum(t.owe_amount), 0.0) oweFee,
             ifnull(sum(pfd.received_amount), 0.0) receivedFee
@@ -650,7 +650,7 @@
         and t.payer_obj_type = '3333'
         and t.state = '2008001'
         and t.community_id = #{communityId}
-        and br.owner_id in
+        and t.owner_id in
         <foreach collection="ownerIds" item="item" index="index" open="(" close=")" separator=",">
             #{item}
         </foreach>
