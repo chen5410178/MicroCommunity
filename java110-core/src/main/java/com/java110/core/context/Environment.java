@@ -94,6 +94,13 @@ public class Environment {
             throw new IllegalArgumentException("为了保证体验 此功能演示环境不开放");
         }
     }
+    public static boolean isDev(){
+        String env = MappingCache.getValue(MappingConstant.ENV_DOMAIN,"HC_ENV");
+        if ("DEV".equals(env) || "TEST".equals(env)) {
+            return true;
+        }
+        return false;
+    }
 
 
     /**

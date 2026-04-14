@@ -3,6 +3,7 @@ package com.java110.user.cmd.owner;
 import com.alibaba.fastjson.JSONObject;
 import com.java110.core.annotation.Java110Cmd;
 import com.java110.core.context.CmdContextUtils;
+import com.java110.core.context.Environment;
 import com.java110.core.context.ICmdDataFlowContext;
 import com.java110.core.event.cmd.Cmd;
 import com.java110.core.event.cmd.CmdEvent;
@@ -18,6 +19,7 @@ import com.java110.intf.user.IWechatSubscribeV1InnerServiceSMO;
 import com.java110.po.owner.OwnerAppUserPo;
 import com.java110.po.user.UserAttrPo;
 import com.java110.utils.cache.CommonCache;
+import com.java110.utils.cache.MappingCache;
 import com.java110.utils.exception.CmdException;
 import com.java110.utils.util.Assert;
 import com.java110.utils.util.BeanConvertUtil;
@@ -61,18 +63,12 @@ public class RefreshAppUserBindingOwnerOpenIdCmd extends Cmd {
         //todo 刷user_attr 中的openId
         freshUserToken(reqJson, userId);
 
-        SmallWeChatDto smallWeChatDto = new SmallWeChatDto();
-        smallWeChatDto.setObjId(reqJson.getString("communityId"));
-        smallWeChatDto.setWeChatType(reqJson.getString("wechatType"));
-        List<SmallWeChatDto> smallWeChatDtos = smallWeChatInnerServiceSMOImpl.querySmallWeChats(smallWeChatDto);
-        if (ListUtil.isNull(smallWeChatDtos)) {
-            throw new CmdException("未配置微信信息");
-        }
+        SmallWeChatDto smallWeChatDto = getCommunitySmallWechat(reqJson);
 
         OwnerAppUserDto ownerAppUserDto = new OwnerAppUserDto();
         ownerAppUserDto.setUserId(userId);
         ownerAppUserDto.setCommunityId(reqJson.getString("communityId"));
-        if (SmallWeChatDto.WECHAT_TYPE_PUBLIC.equals(smallWeChatDtos.get(0).getWechatType())) {
+        if (SmallWeChatDto.WECHAT_TYPE_PUBLIC.equals(smallWeChatDto.getWechatType())) {
             ownerAppUserDto.setAppType(OwnerAppUserDto.APP_TYPE_WECHAT);
         } else {
             ownerAppUserDto.setAppType(OwnerAppUserDto.APP_TYPE_WECHAT_MINA);
@@ -131,6 +127,27 @@ public class RefreshAppUserBindingOwnerOpenIdCmd extends Cmd {
         wechatOwnerAppUserPo.setAppUserId(wechatOwnerAppUserDtos.get(0).getAppUserId());
         ownerAppUserV1InnerServiceSMOImpl.updateOwnerAppUser(wechatOwnerAppUserPo);
 
+    }
+
+    private SmallWeChatDto getCommunitySmallWechat(JSONObject reqJson) {
+        SmallWeChatDto smallWeChatDto = new SmallWeChatDto();
+        if(Environment.isDev()){
+            String appId = MappingCache.getValue("MALL_WECHAT", "wechatAppId");
+            String appSecret = MappingCache.getValue("MALL_WECHAT", "wechatAppSecret");
+            smallWeChatDto.setAppId(appId);
+            smallWeChatDto.setAppSecret(appSecret);
+            smallWeChatDto.setMchId("1");
+            smallWeChatDto.setPayPassword("1");
+            smallWeChatDto.setWechatType(SmallWeChatDto.WECHAT_TYPE_PUBLIC);
+            return smallWeChatDto;
+        }
+        smallWeChatDto.setObjId(reqJson.getString("communityId"));
+        smallWeChatDto.setWeChatType(reqJson.getString("wechatType"));
+        List<SmallWeChatDto> smallWeChatDtos = smallWeChatInnerServiceSMOImpl.querySmallWeChats(smallWeChatDto);
+        if (ListUtil.isNull(smallWeChatDtos)) {
+            throw new CmdException("未配置微信信息");
+        }
+        return smallWeChatDtos.get(0);
     }
 
     private void freshUserToken(JSONObject reqJson, String userId) {
