@@ -593,60 +593,59 @@
     </select>
 
     <select id="getObjFeeSummary" parameterType="Map" resultType="Map">
-        select
-        t.payer_obj_id objId,t.fee_type_cd feeTypeCd,
-        ifnull(sum(t.owe_amount),0.0) oweFee,
-        ifnull((
-            select sum(pfd.received_amount)
-            from pay_fee_detail pfd
-            where pfd.fee_id = t.fee_id
-            and pfd.status_cd = '0'
-            and pfd.state in ('1400','1000','1200')
+        SELECT
+            t.payer_obj_id objId,
+            t.fee_type_cd feeTypeCd,
+            IFNULL(SUM(t.owe_amount), 0.0) oweFee,
+            IFNULL(SUM(pfd.received_amount), 0.0) receivedFee
+        FROM pay_fee t
+        LEFT JOIN pay_fee_detail pfd
+            ON pfd.fee_id = t.fee_id
+            AND pfd.status_cd = '0'
+            AND pfd.state IN ('1400','1000','1200')
             <if test="startDate != null and startDate != ''">
                 and pfd.create_time &gt;= #{startDate}
             </if>
             <if test="endDate != null and endDate != ''">
-                and pfd.create_time &lt;= #{endDate}
+                and pfd.create_time &lt; #{endDate}
             </if>
-        ),0.0) receivedFee
-        from pay_fee t
-        where t.status_cd = '0'
-        and t.payer_obj_type = '3333'
-        and t.state = '2008001'
+        WHERE t.status_cd = '0'
+        AND t.payer_obj_type = '3333'
+        AND t.state = '2008001'
         and t.community_id = #{communityId}
         <if test="startDate != null and startDate != ''">
             and t.fee_time &gt;= #{startDate}
         </if>
         <if test="endDate != null and endDate != ''">
-            and t.fee_time &lt;= #{endDate}
+            and t.fee_time &lt; #{endDate}
         </if>
         and t.payer_obj_id in
         <foreach collection="objIds" item="item" index="index" open="(" close=")" separator=",">
             #{item}
         </foreach>
-        group by t.payer_obj_id,t.fee_type_cd,t.fee_id
+        GROUP BY t.payer_obj_id, t.fee_type_cd
+
     </select>
 
     <!-- 查询业主费用明细表 -->
     <select id="getOwnerFeeSummary" parameterType="Map" resultType="Map">
         select
-        br.owner_id ownerId,GROUP_CONCAT(br.room_name) objName,t.fee_type_cd feeTypeCd,
-        ifnull(sum(t.owe_amount),0.0) oweFee,
-        ifnull((
-            select sum(pfd.received_amount)
-            from pay_fee_detail pfd
-            where pfd.fee_id = t.fee_id
+            t.owner_id ownerId,
+            GROUP_CONCAT(DISTINCT t.room_name) objName,
+            t.fee_type_cd feeTypeCd,
+            ifnull(sum(t.owe_amount), 0.0) oweFee,
+            ifnull(sum(pfd.received_amount), 0.0) receivedFee
+        from pay_fee t
+        inner join building_room br on t.payer_obj_id = br.room_id and br.status_cd = '0'
+            left join pay_fee_detail pfd on pfd.fee_id = t.fee_id
             and pfd.status_cd = '0'
             and pfd.state in ('1400','1000','1200')
             <if test="startDate != null and startDate != ''">
                 and pfd.create_time &gt;= #{startDate}
             </if>
             <if test="endDate != null and endDate != ''">
-                and pfd.create_time &lt;= #{endDate}
+                and pfd.create_time &lt; #{endDate}
             </if>
-        ),0.0) receivedFee
-        from pay_fee t
-        inner join building_room br on t.payer_obj_id = br.room_id and br.status_cd = '0'
         where t.status_cd = '0'
         and t.payer_obj_type = '3333'
         and t.state = '2008001'
@@ -655,10 +654,13 @@
         <foreach collection="ownerIds" item="item" index="index" open="(" close=")" separator=",">
             #{item}
         </foreach>
-        <if test="endDate != null and endDate != ''">
-            and t.fee_time &lt;= #{endDate}
+        <if test="startDate != null and startDate != ''">
+            and t.fee_time &gt;= #{startDate}
         </if>
-        group by br.owner_id,t.fee_type_cd,t.fee_id
+        <if test="endDate != null and endDate != ''">
+            and t.fee_time &lt; #{endDate}
+        </if>
+        group by t.owner_id, t.fee_type_cd
     </select>
 
     <!-- 优惠费用-->

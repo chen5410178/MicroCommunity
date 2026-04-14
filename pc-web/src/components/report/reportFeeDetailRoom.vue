@@ -8,13 +8,13 @@
         <el-row :gutter="20">
           <el-col :span="4">
             <el-form-item>
-              <el-date-picker v-model="conditions.startDate" type="date" placeholder="开始日期" style="width:100%">
+              <el-date-picker v-model="conditions.startDate" type="date" value-format="yyyy-MM-dd" placeholder="开始日期" style="width:100%">
               </el-date-picker>
             </el-form-item>
           </el-col>
           <el-col :span="4">
             <el-form-item>
-              <el-date-picker v-model="conditions.endDate" type="date" placeholder="结束日期" style="width:100%">
+              <el-date-picker v-model="conditions.endDate" type="date" value-format="yyyy-MM-dd" placeholder="结束日期" style="width:100%">
               </el-date-picker>
             </el-form-item>
           </el-col>
