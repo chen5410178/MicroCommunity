@@ -127,19 +127,20 @@ public class QueryFeeDataReportCmd extends Cmd {
 
 
 
-        // todo 查询 充电金额
-        double chargeFee = feeStatisticsImpl.getChargeFee(queryStatisticsDto);
-        data = new JSONObject();
-        data.put("name","充电金额");
-        data.put("value", MoneyUtil.computePriceScale(chargeFee));
-        datas.add(data);
-
-        // todo 查询 月卡金额
-        double chargeMonthOrderMoney = orderStatisticsImpl.getChargeMonthOrderCount(queryStatisticsDto);
-        data = new JSONObject();
-        data.put("name","月卡实收");
-        data.put("value", MoneyUtil.computePriceScale(chargeMonthOrderMoney));
-        datas.add(data);
+        // todo 查询 充电金额 这里注释 这个需要查询物联网才对
+       // double chargeFee = feeStatisticsImpl.getChargeFee(queryStatisticsDto);
+//        data = new JSONObject();
+//        data.put("name","充电金额");
+//        // data.put("value", MoneyUtil.computePriceScale(chargeFee));
+//        data.put("value","0");
+//        datas.add(data);
+//
+//        // todo 查询 月卡金额
+//        //double chargeMonthOrderMoney = orderStatisticsImpl.getChargeMonthOrderCount(queryStatisticsDto);
+//        data = new JSONObject();
+//        data.put("name","月卡实收");
+//        data.put("value", "0");
+//        datas.add(data);
 
 
         context.setResponseEntity(ResultVo.createResponseEntity(datas));
