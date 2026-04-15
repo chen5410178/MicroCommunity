@@ -72,7 +72,9 @@ public class RulePayFeePaymentBusiness implements IPaymentBusiness {
         saveFees.put("money", paramOut.getAmount());
         saveFees.put("communityId", reqJson.getString("communityId"));
         saveFees.put("receivedAmount", paramOut.getAmount());
-        saveFees.put("communityId", reqJson.getString("communityId"));
+        saveFees.put("ruleId", reqJson.getString("ruleId"));
+        saveFees.put("cycles", reqJson.getString("cycles"));
+        saveFees.put("payerObjId", reqJson.getString("payerObjId"));
         CommonCache.setValue("RULE_PAY_FEE_" + orderId, saveFees.toJSONString(), CommonCache.PAY_DEFAULT_EXPIRE_TIME);
         return paymentOrderDto;
     }
