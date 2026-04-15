@@ -301,6 +301,8 @@ export default {
           this.$refs[tab].open({
             ownerId: this.roomCreateFeeInfo.ownerId,
             ownerName: this.roomCreateFeeInfo.ownerName,
+            payerObjId: this.roomCreateFeeInfo.roomId,
+            payerObjName: this.roomCreateFeeInfo.roomName,
             roomId: this.roomCreateFeeInfo.roomId,
             roomName: this.roomCreateFeeInfo.roomName
           })
