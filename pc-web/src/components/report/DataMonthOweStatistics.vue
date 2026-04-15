@@ -26,11 +26,11 @@
           </el-col>
           <el-col :span="4">
             <el-date-picker v-model="dataMonthOweStatisticsInfo.feeStartDate" type="date"
-              :placeholder="$t('dataReport.feeStartDate')" style="width: 100%" />
+              :placeholder="$t('dataReport.feeStartDate')" value-format="yyyy-MM-dd" style="width: 100%" />
           </el-col>
           <el-col :span="4">
             <el-date-picker v-model="dataMonthOweStatisticsInfo.feeEndDate" type="date"
-              :placeholder="$t('dataReport.feeEndDate')" style="width: 100%" />
+              :placeholder="$t('dataReport.feeEndDate')" value-format="yyyy-MM-dd" style="width: 100%" />
           </el-col>
           <el-col :span="4">
             <el-button type="primary" size="small" @click="_qureyDataMonthOweStatistics">

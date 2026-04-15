@@ -1,13 +1,11 @@
 <template>
     <div class="pre-pay-fee-order-container">
-      <el-row :gutter="20">
-        <el-col :span="24">
-          <el-form :inline="true" class="search-form">
+          <el-form :inline="true" class="search-form text-left">
             <el-form-item>
-              <el-input v-model="prePayFeeOrderInfo.conditions.queryStartTime" :placeholder="$t('reportPayFeeDetail.selectStartTime')" class="preStartTime" clearable></el-input>
+              <el-date-picker v-model="prePayFeeOrderInfo.conditions.queryStartTime" :placeholder="$t('reportPayFeeDetail.selectStartTime')" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" class="preStartTime" clearable></el-date-picker>
             </el-form-item>
             <el-form-item>
-              <el-input v-model="prePayFeeOrderInfo.conditions.queryEndTime" :placeholder="$t('reportPayFeeDetail.selectEndTime')" class="preEndTime" clearable></el-input>
+              <el-date-picker v-model="prePayFeeOrderInfo.conditions.queryEndTime" :placeholder="$t('reportPayFeeDetail.selectEndTime')" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" class="preEndTime" clearable></el-date-picker>
             </el-form-item>
             <el-form-item>
               <el-select v-model="prePayFeeOrderInfo.conditions.primeRate" :placeholder="$t('reportPayFeeDetail.selectPrimeRate')" style="width: 100%;" clearable>
@@ -22,8 +20,6 @@
               <el-button type="info" @click="_resetPreMethod" class="reset-btn">{{ $t('reportPayFeeDetail.reset') }}</el-button>
             </el-form-item>
           </el-form>
-        </el-col>
-      </el-row>
   
       <el-row :gutter="20">
         <el-col :span="24">

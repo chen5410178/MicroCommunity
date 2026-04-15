@@ -6,10 +6,10 @@
           <div>
             <span>{{ $t('dataReport.timeRange') }}：</span>
             <el-date-picker v-model="dataReportInfo.conditions.startDate" type="date"
-              :placeholder="$t('dataReport.startDate')" style="width: 150px" @change="_changeDate" />
+              :placeholder="$t('dataReport.startDate')" value-format="yyyy-MM-dd" style="width: 150px" @change="_changeDate" />
             <span>{{ $t('dataReport.to') }}：</span>
             <el-date-picker v-model="dataReportInfo.conditions.endDate" type="date"
-              :placeholder="$t('dataReport.endDate')" style="width: 150px" @change="_changeDate" />
+              :placeholder="$t('dataReport.endDate')" value-format="yyyy-MM-dd" style="width: 150px" @change="_changeDate" />
           </div>
           <div v-if="dataReportInfo.communitys.length > 1" style="margin-left: 20px">
             <el-select v-model="dataReportInfo.conditions.communityId" :placeholder="$t('dataReport.selectCommunity')"

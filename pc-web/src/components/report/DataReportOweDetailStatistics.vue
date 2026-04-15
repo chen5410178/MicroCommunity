@@ -3,11 +3,11 @@
     <el-row >
       <el-col :span="3">
         <el-date-picker v-model="dataReportOweDetailStatisticsInfo.startDate" type="date"
-          :placeholder="$t('dataReport.startDate')" style="width: 100%" />
+          :placeholder="$t('dataReport.startDate')" value-format="yyyy-MM-dd" style="width: 100%" />
       </el-col>
       <el-col :span="3">
         <el-date-picker v-model="dataReportOweDetailStatisticsInfo.endDate" type="date"
-          :placeholder="$t('dataReport.endDate')" style="width: 100%" />
+          :placeholder="$t('dataReport.endDate')" value-format="yyyy-MM-dd" style="width: 100%" />
       </el-col>
       <el-col :span="3">
         <el-input v-model="dataReportOweDetailStatisticsInfo.objName" :placeholder="$t('dataReport.roomNumber')"

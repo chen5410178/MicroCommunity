@@ -1,15 +1,13 @@
 <template>
   <div class="pay-fee-order-container">
-    <el-row :gutter="20">
-      <el-col :span="24">
-        <el-form :inline="true" class="search-form">
+        <el-form :inline="true" class="text-left">
           <el-form-item>
-            <el-input v-model="payFeeOrderInfo.conditions.startTime"
-              :placeholder="$t('reportPayFeeDetail.selectStartTime')" class="startTime" clearable></el-input>
+            <el-date-picker v-model="payFeeOrderInfo.conditions.startTime"
+              :placeholder="$t('reportPayFeeDetail.selectStartTime')" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" class="startTime" clearable></el-date-picker>
           </el-form-item>
           <el-form-item>
-            <el-input v-model="payFeeOrderInfo.conditions.endTime" :placeholder="$t('reportPayFeeDetail.selectEndTime')"
-              class="endTime" clearable></el-input>
+            <el-date-picker v-model="payFeeOrderInfo.conditions.endTime" :placeholder="$t('reportPayFeeDetail.selectEndTime')"
+              type="datetime" value-format="yyyy-MM-dd HH:mm:ss" class="endTime" clearable></el-date-picker>
           </el-form-item>
           <el-form-item>
             <el-select v-model="payFeeOrderInfo.conditions.primeRate"
@@ -37,12 +35,11 @@
             <el-button type="primary" @click="_queryMethod">{{ $t('reportPayFeeDetail.search') }}</el-button>
             <el-button type="info" @click="_resetMethod" class="reset-btn">{{ $t('reportPayFeeDetail.reset')
               }}</el-button>
-            <el-button type="primary" size="small" @click="_exportPayFeeOrder">{{ $t('reportPayFeeDetail.export')
+            <el-button type="primary"  @click="_exportPayFeeOrder">{{ $t('reportPayFeeDetail.export')
               }}</el-button>
           </el-form-item>
         </el-form>
-      </el-col>
-    </el-row>
+
 
     <el-row :gutter="20">
       <el-col :span="24">
@@ -122,7 +119,7 @@
       <el-col :span="24">
         <div class="summary">
           <el-row>
-            <el-col :span="2">{{ $t('reportPayFeeDetail.subtotal') }}</el-col>
+            <el-col :span="1">{{ $t('reportPayFeeDetail.subtotal') }}</el-col>
             <el-col :span="2">{{ $t('reportPayFeeDetail.receivable') }}: {{ payFeeOrderInfo.totalReceivableAmount
               }}</el-col>
             <el-col :span="2">{{ $t('reportPayFeeDetail.received') }}: {{ payFeeOrderInfo.totalReceivedAmount
@@ -135,7 +132,7 @@
             <el-col :span="2">{{ $t('reportPayFeeDetail.lateFee') }}: {{ payFeeOrderInfo.totalLateFee }}</el-col>
           </el-row>
           <el-row>
-            <el-col :span="2">{{ $t('reportPayFeeDetail.total') }}</el-col>
+            <el-col :span="1">{{ $t('reportPayFeeDetail.total') }}</el-col>
             <el-col :span="2">{{ $t('reportPayFeeDetail.receivable') }}: {{ payFeeOrderInfo.allReceivableAmount
               }}</el-col>
             <el-col :span="2">{{ $t('reportPayFeeDetail.received') }}: {{ payFeeOrderInfo.allReceivedAmount }}</el-col>
@@ -307,10 +304,10 @@ export default {
 
   .summary {
     margin-top: 20px;
-
+  text-align: left;
+    font-size: 13px;
+    color: #606266;
     .el-row {
-      margin-bottom: 10px;
-
       .el-col {
         padding: 5px;
       }
@@ -319,7 +316,9 @@ export default {
 
   .notes {
     margin-top: 10px;
-
+  text-align: left;
+    font-size: 13px;
+    color: #606266;
     div {
       margin-bottom: 5px;
     }
