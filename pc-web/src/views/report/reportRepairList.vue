@@ -15,20 +15,20 @@
             <el-row :gutter="20">
               <el-col :span="4">
                 <el-date-picker v-model="reportRepairInfo.conditions.beginStartTime" type="date"
-                  :placeholder="$t('reportRepair.beginStartTimePlaceholder')" style="width: 100%;" />
+                  :placeholder="$t('reportRepair.beginStartTimePlaceholder')" value-format="yyyy-MM-dd" style="width: 100%;" />
               </el-col>
               <el-col :span="4">
                 <el-date-picker v-model="reportRepairInfo.conditions.beginEndTime" type="date"
-                  :placeholder="$t('reportRepair.beginEndTimePlaceholder')" style="width: 100%;"
+                  :placeholder="$t('reportRepair.beginEndTimePlaceholder')" value-format="yyyy-MM-dd" style="width: 100%;"
                   @change="validateBeginTime" />
               </el-col>
               <el-col :span="4">
                 <el-date-picker v-model="reportRepairInfo.conditions.finishStartTime" type="date"
-                  :placeholder="$t('reportRepair.finishStartTimePlaceholder')" style="width: 100%;" />
+                  :placeholder="$t('reportRepair.finishStartTimePlaceholder')" value-format="yyyy-MM-dd" style="width: 100%;" />
               </el-col>
               <el-col :span="4">
                 <el-date-picker v-model="reportRepairInfo.conditions.finishEndTime" type="date"
-                  :placeholder="$t('reportRepair.finishEndTimePlaceholder')" style="width: 100%;"
+                  :placeholder="$t('reportRepair.finishEndTimePlaceholder')" value-format="yyyy-MM-dd" style="width: 100%;"
                   @change="validateFinishTime" />
               </el-col>
               <el-col :span="4" v-if="reportRepairInfo.communitys.length > 1">

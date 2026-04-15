@@ -20,8 +20,7 @@
               <el-select v-model="conditions.unitId" :placeholder="$t('reportPayFeeDeposit.search.unit')"
                 class="search-item" style="width:100%">
                 <el-option :label="$t('reportPayFeeDeposit.search.unitPlaceholder')" value=""></el-option>
-                <el-option v-for="(unit, index) in roomUnits" :key="index"
-                  :label="unit.unitNum" :value="unit.unitId">
+                <el-option v-for="(unit, index) in roomUnits" :key="index" :label="unit.unitNum" :value="unit.unitId">
                 </el-option>
               </el-select>
             </el-col>
@@ -31,15 +30,19 @@
               </el-input>
             </el-col>
             <el-col :span="4">
-              <el-input v-model="conditions.feeId" :placeholder="$t('reportPayFeeDeposit.search.feeId')"
-                class="search-item">
-              </el-input>
-            </el-col>
-            <el-col :span="4">
               <el-select v-model="conditions.configId" :placeholder="$t('reportPayFeeDeposit.search.feeName')"
                 class="search-item" style="width:100%">
                 <el-option :label="$t('reportPayFeeDeposit.search.feeNamePlaceholder')" value=""></el-option>
-                <el-option v-for="(item, index) in feeConfigs" :key="index" :label="item.feeName" :value="item.configId">
+                <el-option v-for="(item, index) in feeConfigs" :key="index" :label="item.feeName"
+                  :value="item.configId">
+                </el-option>
+              </el-select>
+            </el-col>
+            <el-col :span="4">
+              <el-select v-model="conditions.state" :placeholder="$t('reportPayFeeDeposit.search.state')"
+                class="search-item" style="width:100%">
+                <el-option :label="$t('reportPayFeeDeposit.search.statePlaceholder')" value=""></el-option>
+                <el-option v-for="(item, index) in states" :key="index" :label="item.name" :value="item.statusCd">
                 </el-option>
               </el-select>
             </el-col>
@@ -54,29 +57,25 @@
               </el-button>
             </el-col>
           </el-row>
-          <el-row :gutter="20" >
-            <el-col :span="4">
-              <el-select v-model="conditions.state" :placeholder="$t('reportPayFeeDeposit.search.state')"
-                class="search-item" style="width:100%">
-                <el-option :label="$t('reportPayFeeDeposit.search.statePlaceholder')" value=""></el-option>
-                <el-option v-for="(item, index) in states" :key="index" :label="item.name" :value="item.statusCd">
-                </el-option>
-              </el-select>
-            </el-col>
+          <el-row :gutter="20">
+
             <el-col :span="4">
               <el-select v-model="conditions.payerObjType" :placeholder="$t('reportPayFeeDeposit.search.payerObjType')"
                 class="search-item" style="width:100%">
                 <el-option :label="$t('reportPayFeeDeposit.search.payerObjTypePlaceholder')" value=""></el-option>
-                <el-option v-for="(item, index) in payerObjTypes" :key="index" :label="item.name" :value="item.statusCd">
+                <el-option v-for="(item, index) in payerObjTypes" :key="index" :label="item.name"
+                  :value="item.statusCd">
                 </el-option>
               </el-select>
             </el-col>
             <el-col :span="4">
-              <el-date-picker v-model="conditions.startTime" type="datetime" value-format="yyyy-MM-dd HH:mm:ss"                :placeholder="$t('reportPayFeeDeposit.search.startTime')" style="width:100%" >
+              <el-date-picker v-model="conditions.startTime" type="datetime" value-format="yyyy-MM-dd HH:mm:ss"
+                :placeholder="$t('reportPayFeeDeposit.search.startTime')" style="width:100%">
               </el-date-picker>
             </el-col>
             <el-col :span="4">
-              <el-date-picker v-model="conditions.endTime" type="datetime" value-format="yyyy-MM-dd HH:mm:ss"                :placeholder="$t('reportPayFeeDeposit.search.endTime')" style="width:100%" >
+              <el-date-picker v-model="conditions.endTime" type="datetime" value-format="yyyy-MM-dd HH:mm:ss"
+                :placeholder="$t('reportPayFeeDeposit.search.endTime')" style="width:100%">
               </el-date-picker>
             </el-col>
             <el-col :span="4">
@@ -152,7 +151,7 @@
         :total="total" style="margin-top: 20px;">
       </el-pagination>
       <el-row :gutter="20" style="margin-top: 20px;">
-        <el-col :span="2">
+        <el-col :span="1">
           <div>
             <b>{{ $t('reportPayFeeDeposit.table.subtotal') }}</b>
           </div>
@@ -429,6 +428,9 @@ export default {
 
   .table-card {
     margin-bottom: 20px;
+    text-align: left;
+    font-size: 13px;
+    color: #606266;
   }
 }
 </style>

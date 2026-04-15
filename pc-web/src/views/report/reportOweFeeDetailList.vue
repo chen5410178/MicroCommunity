@@ -27,13 +27,13 @@
 
             <el-form-item>
               <el-date-picker v-model="reportOweFeeDetailInfo.conditions.startDate" type="date"
-                :placeholder="$t('reportOweFeeDetail.selectStartTime')">
+                :placeholder="$t('reportOweFeeDetail.selectStartTime')" value-format="yyyy-MM-dd">
               </el-date-picker>
             </el-form-item>
 
             <el-form-item>
               <el-date-picker v-model="reportOweFeeDetailInfo.conditions.endDate" type="date"
-                :placeholder="$t('reportOweFeeDetail.selectEndTime')">
+                :placeholder="$t('reportOweFeeDetail.selectEndTime')" value-format="yyyy-MM-dd">
               </el-date-picker>
             </el-form-item>
 
