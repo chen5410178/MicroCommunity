@@ -148,6 +148,7 @@ import { messages as systemI18n } from './systemI18n'
 import { messages as communityI18n } from './communityI18n'
 import { messages as workI18n } from './workI18n'
 import { messages as feeI18n } from './feeI18n'
+import { menuMessages } from './menuLang'
 
 Vue.use(VueI18n)
 
@@ -293,6 +294,7 @@ const messages = {
     ...communityI18n.en,
     ...workI18n.en,
     ...feeI18n.en,
+    ...menuMessages.en,
   },
   zh: {
     ...loginMessages.zh,
@@ -432,6 +434,7 @@ const messages = {
     ...communityI18n.zh,
     ...workI18n.zh,
     ...feeI18n.zh,
+    ...menuMessages.zh,
   }
 }
 

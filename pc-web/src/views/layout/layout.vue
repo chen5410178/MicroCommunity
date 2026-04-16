@@ -8,11 +8,21 @@
           text-color="#fff" active-text-color="#409EFF">
           <template v-for="(item, index) in catalogs">
             <el-menu-item :index="item.caId" v-if="!item.privId || hasPrivilege(item.privId)" :key="index"
-              @click="_changeMenuCatalog(item, true)">{{ item.name }}</el-menu-item>
+              @click="_changeMenuCatalog(item, true)">{{ $t('menu.' + item.name) }}</el-menu-item>
           </template>
         </el-menu>
       </div>
       <div class="header-right">
+        <el-dropdown @command="handleSwitchLang" class="margin-right">
+          <span class="lang-info">
+            <i class="el-icon-language"></i>
+            {{ currentLangLabel }}
+          </span>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item command="zh">中文</el-dropdown-item>
+            <el-dropdown-item command="en">English</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
         <el-dropdown @command="changeCommunity" v-if="storeInfo.storeTypeCd == '800900000003'" class="margin-right">
           <span class="user-info">
             {{ curCommunityName }}
@@ -47,18 +57,18 @@
               <template v-for="(menu, index) in menuTree">
                 <li :key="index" v-if="menu.childs && menu.childs.length > 0" :class="{ active: menu.active }"
                   @click="switchMenu(menu)">
-                  <i class="fa " v-bind:class="menu.icon"></i><span class="margin-left-xs">{{ menu.name }}</span>
+                  <i class="fa " v-bind:class="menu.icon"></i><span class="margin-left-xs">{{ $t('menu.' + menu.name) }}</span>
                 </li>
               </template>
             </ul>
           </div>
           <div class="vc-menu-sub" v-if="subMenus && subMenus.length > 0">
             <ul>
-              <li class="title">{{ curMenuName }}</li>
+              <li class="title">{{ $t('menu.' + curMenuName) }}</li>
               <template v-for="(subMenu, index) in subMenus">
                 <li :key="index" v-if="subMenu.isShow == 'Y'" :class="{ active: subMenu.active }"
                   v-on:click="_gotoPage(subMenu.href, subMenu.name)">
-                  {{ subMenu.name }}
+                  {{ $t('menu.' + subMenu.name) }}
                 </li>
               </template>
               <li class="sub-footer" @click="_closeSubMenu()"><i class="fa fa-dedent"></i></li>
@@ -166,6 +176,11 @@ export default {
     viewMenuUserList,
     searchCommunityDataList
   },
+  computed: {
+    currentLangLabel() {
+      return this.$i18n.locale === 'zh' ? this.$t('layout.chinese') : this.$t('layout.english')
+    }
+  },
   methods: {
     async getSystemInfo() {
       const { data } = await listSystemInfo({ page: 1, row: 1 });
@@ -241,10 +256,6 @@ export default {
         localStorage.removeItem('token')
         localStorage.clear();
         this.$router.push('/login')
-      } else if (command === 'zh' || command === 'en') {
-        // 切换语言
-        this.$i18n.locale = command
-        localStorage.setItem('language', command)
       }
     },
     changeCommunity(community) {
@@ -274,7 +285,6 @@ export default {
       this.menuId = _menu.id;
       this.menuTree = this.refreshMenuActive(this.menuTree, _menu.id);
       this.subMenus = _menu.childs;
-      console.log(this.subMenus)
       this.curMenuName = _menu.name;
 
       if (!_menu.childs || _menu.childs.length < 1) {
@@ -377,6 +387,10 @@ export default {
     closeAllTabs() {
       this.visitedTabs = []
       this.$router.push('/views/index/index').catch(function() {})
+    },
+    handleSwitchLang(command) {
+      this.$i18n.locale = command
+      localStorage.setItem('language', command)
     }
 
   }

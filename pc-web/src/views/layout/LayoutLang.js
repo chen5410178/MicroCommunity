@@ -1,6 +1,9 @@
 export const messages = {
   en: {
     layout: {
+      switchLanguage: 'Switch Language',
+      chinese: 'Chinese',
+      english: 'English',
       home: 'Home',
       businessManagement: 'Business Management',
       propertyManagement: 'Property',
@@ -50,6 +53,9 @@ export const messages = {
   },
   zh: {
     layout: {
+      switchLanguage: '切换语言',
+      chinese: '中文',
+      english: '英文',
       home: '首页',
       businessManagement: '业务管理',
       propertyManagement: '物业管理',
