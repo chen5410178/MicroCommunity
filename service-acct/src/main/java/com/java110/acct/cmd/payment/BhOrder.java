@@ -327,6 +327,7 @@ public class BhOrder {
             System.out.println("paymentOrderDto================================================================================"+aa);
             System.out.println("================================================================================");
 
+
             logger.debug(">>>>>>>>>>>>>>>>支付业务下单返回,{}", JSONObject.toJSONString(paymentOrderDto));
 
             // 3.0 如果支付金额为0 直接调用 支付完通知接口

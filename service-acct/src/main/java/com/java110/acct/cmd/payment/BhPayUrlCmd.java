@@ -246,6 +246,7 @@ public class BhPayUrlCmd extends Cmd {
             return;
         }
 
+
         CommunitySettingDto communitySettingDto = new CommunitySettingDto();
         communitySettingDto.setSettingType(settingType);
         communitySettingDto.setCommunityId(communityId);
