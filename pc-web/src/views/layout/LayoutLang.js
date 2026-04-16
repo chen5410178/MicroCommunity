@@ -48,7 +48,8 @@ export const messages = {
       fetchError: 'Failed to fetch data',
       deleteError: 'Failed to delete',
       submitError: 'Failed to submit',
-      moreCommunity:'More Community'
+      moreCommunity:'More Community',
+      closeAllTabs: 'Close All'
     }
   },
   zh: {

@@ -73,7 +73,7 @@ export default {
           const group = {
             id: `g_${item.gId}`,
             gId: item.gId,
-            text: item.gName,
+            text: this.$t('menu.' + item.gName),
             children: this.formatMenuData(item.gId)
           }
           groups.push(group)
@@ -93,7 +93,7 @@ export default {
             const menu = {
               id: `m_${item.mId}`,
               mId: item.mId,
-              text: item.mName,
+              text: this.$t('menu.' + item.mName),
               children: this.formatPrivilegeData(item.mId)
             }
             menus.push(menu)
@@ -108,7 +108,7 @@ export default {
           const node = {
             id: `p_${item.pId}`,
             pId: item.pId,
-            text: item.pName
+            text: this.$t('menu.' + item.pName)
           }
           if (item.pgId) {
             this.checkedKeys.push(`p_${item.pId}`)
