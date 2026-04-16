@@ -312,6 +312,7 @@ public class ImportRoomFeeImpl implements IImportRoomFee {
             payFeePo.setBatchId(batchId);
             payFeePo.setStartTime(importCarFee.getCreateTime());
            // payFeePo.setStartTime(DateUtil.getNow(DateUtil.DATE_FORMATE_STRING_A));
+            payFeePo.setFeeTime(DateUtil.getFormatTimeStringB(DateUtil.getDateFromStringA(importCarFee.getCreateTime())));
 
             payFeePos.add(payFeePo);
 
@@ -493,6 +494,7 @@ public class ImportRoomFeeImpl implements IImportRoomFee {
             payFeePo.setStartTime(importCarFee.getCreateTime());
             payFeePo.setBatchId(batchId);
             //payFeePo.setStartTime(DateUtil.getNow(DateUtil.DATE_FORMATE_STRING_A));
+            payFeePo.setFeeTime(DateUtil.getFormatTimeStringB(DateUtil.getDateFromStringA(importCarFee.getCreateTime())));
 
             payFeePos.add(payFeePo);
 

@@ -1,0 +1,140 @@
+export const messages = {
+  en: {
+    reportPayFeeDeposit: {
+      search: {
+        title: 'Search Conditions',
+        floorName: 'Please select building',
+        choose: 'Choose',
+        unit: 'Unit',
+        unitPlaceholder: 'Please select unit',
+        roomNum: 'Please fill in room number',
+        feeId: 'Please enter fee ID',
+        feeName: 'Fee item name',
+        feeNamePlaceholder: 'Please select fee item name',
+        search: 'Search',
+        reset: 'Reset',
+        state: 'Payment status',
+        statePlaceholder: 'Please select payment status',
+        payerObjType: 'Payment object type',
+        payerObjTypePlaceholder: 'Please select payment object type',
+        startTime: 'Please select fee creation start time',
+        endTime: 'Please select fee creation end time',
+        detailState: 'Refund status',
+        detailStatePlaceholder: 'Please select refund status'
+      },
+      table: {
+        title: 'Deposit Report',
+        tooltip: 'Payment records of deposit type',
+        export: 'Export',
+        feeId: 'Fee ID',
+        roomNum: 'Room number',
+        owner: 'Owner',
+        feeType: 'Fee type',
+        feeName: 'Fee item',
+        startTime: 'Fee start time',
+        endTime: 'Fee end time',
+        createTime: 'Creation time',
+        payerObjType: 'Payment object type',
+        payerObjId: 'Payer ID',
+        amount: 'Receivable amount',
+        state: 'Status',
+        detailState: 'Refund status',
+        operation: 'Operation',
+        detail: 'Detail',
+        unpaid: 'Unpaid',
+        subtotal: 'Subtotal',
+        total: 'Total',
+        paid: 'Paid',
+        refunded: 'Refunded',
+        refundInProgress: 'Refund in progress',
+        refundFailed: 'Refund failed',
+        yuan: 'Yuan'
+      }
+    },
+    searchFloor: {
+      title: 'Building Selection',
+      floorId: 'Please enter building ID',
+      floorName: 'Please enter building name',
+      floorNum: 'Please enter building number',
+      search: 'Search',
+      reset: 'Reset',
+      table: {
+        floorId: 'Building ID',
+        floorName: 'Name',
+        floorNum: 'Number',
+        userName: 'Creator',
+        operation: 'Operation',
+        choose: 'Choose'
+      }
+    }
+  },
+  zh: {
+    reportPayFeeDeposit: {
+      search: {
+        title: '查询条件',
+        floorName: '请选择楼栋',
+        choose: '选择',
+        unit: '单元',
+        unitPlaceholder: '请选择单元',
+        roomNum: '请填写房屋编号',
+        feeId: '请输入费用ID',
+        feeName: '费用项名称',
+        feeNamePlaceholder: '请选择费用项名称',
+        search: '查询',
+        reset: '重置',
+        state: '收费状态',
+        statePlaceholder: '请选择收费状态',
+        payerObjType: '收费对象类型',
+        payerObjTypePlaceholder: '请选择收费对象类型',
+        startTime: '请选择费用创建开始时间',
+        endTime: '请选择费用创建结束时间',
+        detailState: '退费状态',
+        detailStatePlaceholder: '请选择退费状态'
+      },
+      table: {
+        title: '押金报表',
+        tooltip: '押金类记录的收费情况',
+        export: '导出',
+        feeId: '费用ID',
+        roomNum: '房号',
+        owner: '业主',
+        feeType: '费用类型',
+        feeName: '费用项',
+        startTime: '费用开始时间',
+        endTime: '费用结束时间',
+        createTime: '创建时间',
+        payerObjType: '付费对象类型',
+        payerObjId: '付款方ID',
+        amount: '应收金额',
+        state: '状态',
+        detailState: '退费状态',
+        operation: '操作',
+        detail: '详情',
+        unpaid: '未缴费',
+        subtotal: '小计',
+        total: '大计',
+        paid: '已收费',
+        refunded: '已退费',
+        refundInProgress: '退费中',
+        refundFailed: '退费失败',
+        yuan: '元'
+      }
+    },
+    searchFloor: {
+      title: '小区楼栋',
+      floorId: '请输入楼栋ID',
+      floorName: '请输入楼栋名称',
+      floorNum: '请输入楼栋编号',
+      search: '查询',
+      reset: '重置',
+      table: {
+        floorId: '楼栋ID',
+        floorName: '名称',
+        floorNum: '编号',
+        userName: '创建人',
+        operation: '操作',
+        choose: '选择'
+      }
+    }
+  }
+}

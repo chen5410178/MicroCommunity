@@ -93,13 +93,8 @@ public class QueryOweFeeImpl implements IQueryOweFee {
                 if (!StringUtil.isEmpty(tmpFeeDto.getSquarePrice())) {
                     tmpFeeDto.setSquarePrice(Double.parseDouble(tmpFeeDto.getSquarePrice()) + "");
                 }
-                //当月，当月就取开始时间，这里先按开始时间计算，这样因为合理，也可以按创建时间来计算
-                if (FeeDto.DEDUCT_FROM_CURRENT_MONTH.equals(tmpFeeDto.getDeductFrom())) {
-                    tmpFeeDto.setYearMonth(DateUtil.getFormatTimeStringQ(tmpFeeDto.getStartTime()));
-                }else if(FeeDto.DEDUCT_FROM_NEXT_MONTH.equals(tmpFeeDto.getDeductFrom())){
-                    tmpFeeDto.setYearMonth(DateUtil.getFormatTimeStringQ(DateUtil.getNextMonthDate(tmpFeeDto.getStartTime(), 1)));
-                } else {
-                    tmpFeeDto.setYearMonth(DateUtil.getFormatTimeStringQ(DateUtil.getNextMonthDate(tmpFeeDto.getStartTime(), -1)));
+                if (tmpFeeDto.getFeeTime() != null) {
+                    tmpFeeDto.setYearMonth(DateUtil.getFormatTimeStringQ(tmpFeeDto.getFeeTime()));
                 }
                 tmpFeeDto.setVal(val);
                 if (Double.parseDouble(tmpFeeDto.getOweAmount()) != 0) {

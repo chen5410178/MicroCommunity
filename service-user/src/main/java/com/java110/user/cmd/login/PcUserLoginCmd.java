@@ -3,6 +3,7 @@ package com.java110.user.cmd.login;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.java110.core.annotation.Java110Cmd;
+import com.java110.core.cache.Java110RedisConfig;
 import com.java110.core.context.CmdContextUtils;
 import com.java110.core.context.ICmdDataFlowContext;
 import com.java110.core.event.cmd.Cmd;
@@ -19,16 +20,14 @@ import com.java110.intf.store.IStoreInnerServiceSMO;
 import com.java110.intf.user.IUserInnerServiceSMO;
 import com.java110.intf.user.IUserLoginInnerServiceSMO;
 import com.java110.po.user.UserLoginPo;
+import com.java110.utils.cache.CommonCache;
 import com.java110.utils.cache.MappingCache;
 import com.java110.utils.constant.CommonConstant;
 import com.java110.utils.constant.MappingConstant;
 import com.java110.utils.constant.ResponseConstant;
 import com.java110.utils.exception.CmdException;
 import com.java110.utils.exception.SMOException;
-import com.java110.utils.util.Assert;
-import com.java110.utils.util.BeanConvertUtil;
-import com.java110.utils.util.DateUtil;
-import com.java110.utils.util.ListUtil;
+import com.java110.utils.util.*;
 import com.java110.vo.ResultVo;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,12 +100,10 @@ public class PcUserLoginCmd extends Cmd {
         Assert.hasKeyAndValue(reqJson, "username", "用户登录，未包含username节点，请检查");
         Assert.hasKeyAndValue(reqJson, "passwd", "用户登录，未包含passwd节点，请检查");
 
-        AuthenticationFactory.checkLoginErrorCount(reqJson.getString("username"));
+        // AuthenticationFactory.checkLoginErrorCount(reqJson.getString("username"));
 
-        String appId = CmdContextUtils.getAppId(cmdDataFlowContext);
-        if(AppDto.PROPERTY_APP.equals(appId)){
-            reqJson.put("passwd", AuthenticationFactory.passwdMd5(reqJson.getString("passwd")));
-        }
+        reqJson.put("passwd", AuthenticationFactory.passwdMd5(reqJson.getString("passwd")));
+
 
     }
 
@@ -153,13 +150,13 @@ public class PcUserLoginCmd extends Cmd {
         }
         JSONArray data = new JSONArray();
         JSONObject userInfo = null;
-        for(UserDto aUserDto: userDtos) {
+        for (UserDto aUserDto : userDtos) {
             try {
                 Map userMap = new HashMap();
                 userMap.put(CommonConstant.LOGIN_USER_ID, aUserDto.getUserId());
                 userMap.put(CommonConstant.LOGIN_USER_NAME, aUserDto.getUserName());
                 String token = AuthenticationFactory.createAndSaveToken(userMap);
-                userInfo= BeanConvertUtil.beanCovertJson(aUserDto);
+                userInfo = BeanConvertUtil.beanCovertJson(aUserDto);
                 userInfo.remove("userPwd");
                 userInfo.put("token", token);
                 data.add(userInfo);
@@ -181,9 +178,31 @@ public class PcUserLoginCmd extends Cmd {
         userLoginPo.setUserName(userInfo.getString("userName"));
         userLoginInnerServiceSMOImpl.saveUserLogin(userLoginPo);
 
+        clearUserCache(userInfo);
+
 
         responseEntity = ResultVo.createResponseEntity(data);
         cmdDataFlowContext.setResponseEntity(responseEntity);
+    }
+
+    /**
+     * 清理用户缓存
+     *
+     * @param userInfo
+     */
+    private void clearUserCache(JSONObject userInfo) {
+        //员工商户缓存 getStoreInfo
+        String storeId = "";
+
+        String storeInfo = CommonCache.getValue("getStoreInfo" + Java110RedisConfig.GET_STORE_INFO_EXPIRE_TIME_KEY + "::" + userInfo.getString("userId"));
+        if (!StringUtil.isEmpty(storeInfo)) {
+            CommonCache.removeValue("getStoreInfo" + Java110RedisConfig.GET_STORE_INFO_EXPIRE_TIME_KEY + "::" + userInfo.getString("userId"));
+            JSONObject storeObj = JSONObject.parseObject(storeInfo);
+            storeId = storeObj.getJSONObject("msg").getString("storeId");
+            CommonCache.removeValue("getStoreEnterCommunitys" + Java110RedisConfig.GET_STORE_ENTER_COMMUNITYS_EXPIRE_TIME_KEY + "::" + storeId);
+        }
+        //员工权限
+        CommonCache.removeValue("getUserPrivileges" + Java110RedisConfig.DEFAULT_EXPIRE_TIME_KEY + "::" + userInfo.getString("userId"));
     }
 
 }

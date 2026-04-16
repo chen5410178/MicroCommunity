@@ -310,6 +310,14 @@ public class CycleConvertOnceFeeImpl implements ICycleConvertOnceFee {
         payFeePo.setOweAmount(feeAmountDto.getAmount() + "");
         payFeePo.setRemark(feeAmountDto.getRemark());
         payFeePo.setFeeRemark(tmpPayFeeRulePo.getFeeRemark());
+        Date feeTime = startTime;
+        String deductFrom = feeConfigDto.getDeductFrom();
+        if (FeeDto.DEDUCT_FROM_NEXT_MONTH.equals(deductFrom)) {
+            feeTime = DateUtil.getNextMonthDate(startTime, 1);
+        } else if (FeeDto.DEDUCT_FROM_HISTORY_MONTH.equals(deductFrom)) {
+            feeTime = DateUtil.getNextMonthDate(startTime, -1);
+        }
+        payFeePo.setFeeTime(DateUtil.getFormatTimeStringB(feeTime));
 
 
         //todo 生成ruleBill 数据

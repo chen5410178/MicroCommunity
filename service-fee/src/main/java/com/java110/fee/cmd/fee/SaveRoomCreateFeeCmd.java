@@ -249,6 +249,7 @@ public class SaveRoomCreateFeeCmd extends Cmd {
         payFeeRulePo.setFeeFlag(feeConfigDtos.get(0).getFeeFlag());
         payFeeRulePo.setStartTime(time);
         payFeeRulePo.setEndTime(time);
+        payFeeRulePo.setDeductFrom(feeConfigDtos.get(0).getDeductFrom());
         payFeeRulePo.setState(FeeDto.STATE_DOING);
 //        if (FeeDto.FEE_FLAG_CYCLE.equals(feeConfigDtos.get(0).getFeeFlag())) {
 //            payFeeRulePo.setState(FeeDto.STATE_FINISH);

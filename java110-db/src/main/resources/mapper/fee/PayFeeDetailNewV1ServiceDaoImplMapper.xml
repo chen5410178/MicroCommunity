@@ -8,14 +8,14 @@
         insert into pay_fee_detail(
         prime_rate,detail_id,receivable_amount,cycles,remark,start_time,received_amount,state,end_time,community_id,
         fee_id,b_id,payable_amount,pay_order_id,cashier_id,cashier_name,open_invoice,
-        acct_amount,discount_amount,deduction_amount,late_amount,gift_amount
+        acct_amount,discount_amount,deduction_amount,late_amount,gift_amount,fee_time,fee_start_time,fee_end_time
         <if test="createTime != null">
             ,create_time
         </if>
         ) values (
         #{primeRate},#{detailId},#{receivableAmount},#{cycles},#{remark},#{startTime},#{receivedAmount},#{state},#{endTime},#{communityId},
         #{feeId},#{bId},#{payableAmount},#{payOrderId},#{cashierId},#{cashierName},#{openInvoice},
-        #{acctAmount},#{discountAmount},#{deductionAmount},#{lateAmount},#{giftAmount}
+        #{acctAmount},#{discountAmount},#{deductionAmount},#{lateAmount},#{giftAmount},#{feeTime},#{feeStartTime},#{feeEndTime}
         <if test="createTime != null">
             ,#{createTime}
         </if>
@@ -31,7 +31,7 @@
         feeId,t.payable_amount,t.payable_amount payableAmount,t.pay_order_id payOrderId,t.cashier_id
         cashierId,t.cashier_name cashierName,t.open_invoice openInvoice,t.acct_amount acctAmount, t.discount_amount discountAmount,
         t.deduction_amount deductionAmount, t.late_amount lateAmount,
-        t.gift_amount giftAmount
+        t.gift_amount giftAmount, t.fee_time feeTime, t.fee_start_time feeStartTime, t.fee_end_time feeEndTime
         from pay_fee_detail t
         where 1 =1
         <if test="primeRate !=null and primeRate != ''">
@@ -85,6 +85,15 @@
         <if test="openInvoice !=null and openInvoice != ''">
             and t.open_invoice= #{openInvoice}
         </if>
+        <if test="feeTime !=null and feeTime != ''">
+            and t.fee_time= #{feeTime}
+        </if>
+        <if test="feeStartTime !=null and feeStartTime != ''">
+            and t.fee_start_time= #{feeStartTime}
+        </if>
+        <if test="feeEndTime !=null and feeEndTime != ''">
+            and t.fee_end_time= #{feeEndTime}
+        </if>
         order by t.create_time desc
         <if test="page != -1 and page != null ">
             limit #{page}, #{row}
@@ -135,6 +144,15 @@
         </if>
         <if test="openInvoice !=null and openInvoice != ''">
             , t.open_invoice= #{openInvoice}
+        </if>
+        <if test="feeTime !=null and feeTime != ''">
+            , t.fee_time= #{feeTime}
+        </if>
+        <if test="feeStartTime !=null and feeStartTime != ''">
+            , t.fee_start_time= #{feeStartTime}
+        </if>
+        <if test="feeEndTime !=null and feeEndTime != ''">
+            , t.fee_end_time= #{feeEndTime}
         </if>
         where 1=1
         <if test="detailId !=null and detailId != ''">
@@ -203,6 +221,15 @@
         </if>
         <if test="openInvoice !=null and openInvoice != ''">
             and t.open_invoice= #{openInvoice}
+        </if>
+        <if test="feeTime !=null and feeTime != ''">
+            and t.fee_time= #{feeTime}
+        </if>
+        <if test="feeStartTime !=null and feeStartTime != ''">
+            and t.fee_start_time= #{feeStartTime}
+        </if>
+        <if test="feeEndTime !=null and feeEndTime != ''">
+            and t.fee_end_time= #{feeEndTime}
         </if>
     </select>
 
@@ -341,7 +368,8 @@
         pfd.community_id communityId,pfd.fee_id
         feeId,pfd.payable_amount payableAmount,pfd.pay_order_id payOrderId,pfd.cashier_id
         cashierId,pfd.cashier_name cashierName,pfd.open_invoice openInvoice,pfd.acct_amount acctAmount, pfd.discount_amount discountAmount,
-        pfd.deduction_amount deductionAmount, pfd.late_amount lateAmount,pfd.gift_amount giftAmount
+        pfd.deduction_amount deductionAmount, pfd.late_amount lateAmount,pfd.gift_amount giftAmount,
+        pfd.fee_time feeTime,pfd.fee_start_time feeStartTime,pfd.fee_end_time feeEndTime
         FROM pay_fee_detail pfd
         left join pay_fee pf on pf.`fee_id` = pfd.`fee_id` AND pf.`status_cd` = '0'
         left join pay_fee_config pfc on pf.config_id = pfc.config_id and pfc.status_cd = '0'

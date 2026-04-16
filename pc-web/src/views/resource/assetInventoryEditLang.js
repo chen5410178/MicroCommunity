@@ -1,0 +1,62 @@
+export const messages = {
+  en: {
+    assetInventoryEdit: {
+      title: 'Inventory Edit',
+      inventoryInfo: 'Inventory Information',
+      inventoryName: 'Inventory Name',
+      inventoryPerson: 'Inventory Person',
+      warehouse: 'Warehouse',
+      inventoryDate: 'Inventory Date',
+      remark: 'Remark',
+      inventoryProducts: 'Inventory Products',
+      products: 'Products',
+      productType: 'Product Type',
+      productName: 'Product Name',
+      specification: 'Specification',
+      productCode: 'Product Code',
+      isFixed: 'Is Fixed',
+      referencePrice: 'Reference Price',
+      stock: 'Stock',
+      afterInventoryQty: 'After Inventory Qty',
+      requiredQty: 'Required Qty',
+      optionalRemark: 'Optional Remark',
+      selectPrice: 'Select Price',
+      selectWarehouseFirst: 'Please select warehouse first',
+      selectProductsFirst: 'Please select products first',
+      fillQty: 'Please fill quantity',
+      submitError: 'Submit failed',
+      fetchError: 'Failed to get inventory info',
+      fetchProductError: 'Failed to get product list'
+    }
+  },
+  zh: {
+    assetInventoryEdit: {
+      title: '盘点编辑',
+      inventoryInfo: '盘点信息',
+      inventoryName: '盘点名称',
+      inventoryPerson: '盘点人',
+      warehouse: '选择仓库',
+      inventoryDate: '盘点日期',
+      remark: '盘点说明',
+      inventoryProducts: '盘点商品',
+      products: '商品',
+      productType: '物品类型',
+      productName: '物品名称',
+      specification: '物品规格',
+      productCode: '物品编码',
+      isFixed: '是否是固定物品',
+      referencePrice: '参考价格',
+      stock: '物品库存',
+      afterInventoryQty: '盘点后数量',
+      requiredQty: '必填，请填盘点后数量',
+      optionalRemark: '选填，请填写备注',
+      selectPrice: '请选择价格',
+      selectWarehouseFirst: '请先选择仓库',
+      selectProductsFirst: '请选择商品',
+      fillQty: '请填写数量',
+      submitError: '提交失败',
+      fetchError: '获取盘点信息失败',
+      fetchProductError: '获取商品列表失败'
+    }
+  }
+}

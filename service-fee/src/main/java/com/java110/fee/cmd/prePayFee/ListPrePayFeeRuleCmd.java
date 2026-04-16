@@ -14,7 +14,11 @@ import com.java110.dto.owner.OwnerRoomRelDto;
 import com.java110.dto.payFee.PayFeeRuleDto;
 import com.java110.dto.prePayFee.PrePayFeeDto;
 import com.java110.dto.room.RoomDto;
+import com.java110.dto.shop.BuildingShopDto;
+import com.java110.dto.shop.BuildingShopOwnerDto;
 import com.java110.fee.bill.IComputeBillPrice;
+import com.java110.intf.community.IBuildingShopInnerServiceSMO;
+import com.java110.intf.community.IBuildingShopOwnerInnerServiceSMO;
 import com.java110.intf.community.IRoomV1InnerServiceSMO;
 import com.java110.intf.fee.IPayFeeRuleV1InnerServiceSMO;
 import com.java110.intf.fee.IPrePayFeeV1InnerServiceSMO;
@@ -60,6 +64,12 @@ public class ListPrePayFeeRuleCmd extends Cmd {
     @Autowired
     private IContractInnerServiceSMO contractInnerServiceSMOImpl;
 
+    @Autowired
+    private IBuildingShopInnerServiceSMO buildingShopInnerServiceSMOImpl;
+
+    @Autowired
+    private IBuildingShopOwnerInnerServiceSMO buildingShopOwnerInnerServiceSMOImpl;
+
     @Override
     public void validate(CmdEvent event, ICmdDataFlowContext context, JSONObject reqJson) throws CmdException, ParseException {
         Assert.hasKeyAndValue(reqJson, "payerObjId", "未包含费用对象");
@@ -94,6 +104,7 @@ public class ListPrePayFeeRuleCmd extends Cmd {
         computeRoomInfo(paramOut, reqJson.getString("payerObjId"), reqJson.getString("payerObjType"), reqJson.getString("communityId"));
         computeCarInfo(paramOut, reqJson.getString("payerObjId"), reqJson.getString("payerObjType"), reqJson.getString("communityId"));
         computeContractInfo(paramOut, reqJson.getString("payerObjId"), reqJson.getString("payerObjType"), reqJson.getString("communityId"));
+        computeShopInfo(paramOut, reqJson.getString("payerObjId"), reqJson.getString("payerObjType"), reqJson.getString("communityId"));
 
         context.setResponseEntity(ResultVo.createResponseEntity(paramOut));
 
@@ -198,6 +209,42 @@ public class ListPrePayFeeRuleCmd extends Cmd {
 
         OwnerDto ownerDto = new OwnerDto();
         ownerDto.setMemberId(contractDtos.get(0).getObjId());
+        ownerDto.setCommunityId(communityId);
+        List<OwnerDto> ownerDtos = ownerV1InnerServiceSMOImpl.queryOwners(ownerDto);
+        if (ListUtil.isNull(ownerDtos)) {
+            return;
+        }
+        paramOut.put("ownerName", ownerDtos.get(0).getName());
+        paramOut.put("ownerTel", ownerDtos.get(0).getLink());
+        paramOut.put("ownerId", ownerDtos.get(0).getMemberId());
+
+    }
+
+    private void computeShopInfo(JSONObject paramOut, String payerObjId, String payerObjType, String communityId) {
+
+        if (!FeeDto.PAYER_OBJ_TYPE_SHOP.equals(payerObjType)) {
+            return;
+        }
+        BuildingShopDto shopDto = new BuildingShopDto();
+        shopDto.setShopId(payerObjId);
+        shopDto.setCommunityId(communityId);
+        List<BuildingShopDto> shopDtos = buildingShopInnerServiceSMOImpl.queryBuildingShops(shopDto);
+        if (ListUtil.isNull(shopDtos)) {
+            throw new CmdException("商铺不存在");
+        }
+        paramOut.put("payerObjName", shopDtos.get(0).getLocationName()+"-"+shopDtos.get(0).getShopNum());
+        paramOut.put("buildUpArea", shopDtos.get(0).getBuiltUpArea());
+        paramOut.put("roomArea", shopDtos.get(0).getShopArea());
+
+        BuildingShopOwnerDto shopOwnerDto = new BuildingShopOwnerDto();
+        shopOwnerDto.setShopId(shopDtos.get(0).getShopId());
+        List<BuildingShopOwnerDto> shopOwnerDtos = buildingShopOwnerInnerServiceSMOImpl.queryBuildingShopOwners(shopOwnerDto);
+        if (ListUtil.isNull(shopOwnerDtos)) {
+            return;
+        }
+
+        OwnerDto ownerDto = new OwnerDto();
+        ownerDto.setMemberId(shopOwnerDtos.get(0).getOwnerId());
         ownerDto.setCommunityId(communityId);
         List<OwnerDto> ownerDtos = ownerV1InnerServiceSMOImpl.queryOwners(ownerDto);
         if (ListUtil.isNull(ownerDtos)) {

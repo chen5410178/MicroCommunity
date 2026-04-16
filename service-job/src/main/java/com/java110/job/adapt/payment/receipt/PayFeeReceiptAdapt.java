@@ -121,7 +121,7 @@ public class PayFeeReceiptAdapt extends DatabusAdaptImpl {
     private void doPayFeeDetail(Business business, JSONObject businessPayFeeDetail) {
         //查询缴费明细
         PayFeeDetailPo payFeeDetailPo = BeanConvertUtil.covertBean(businessPayFeeDetail, PayFeeDetailPo.class);
-        generatorFeeReceiptInnerServiceSMOImpl.generator(payFeeDetailPo);
+        //generatorFeeReceiptInnerServiceSMOImpl.generator(payFeeDetailPo);
 
         //todo 是否配置了自动打印功能 如果配置了自动打印功能 自动打印
         autoPrintReceipt(payFeeDetailPo.getDetailId(), payFeeDetailPo.getCommunityId());

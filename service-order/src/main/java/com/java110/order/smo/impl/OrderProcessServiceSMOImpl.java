@@ -24,7 +24,6 @@ import com.java110.utils.exception.NoSupportException;
 import com.java110.utils.exception.OrdersException;
 import com.java110.utils.exception.RuleException;
 import com.java110.utils.exception.SMOException;
-import com.java110.utils.kafka.KafkaFactory;
 import com.java110.utils.log.LoggerEngine;
 import com.java110.utils.util.DateUtil;
 import com.java110.utils.util.ServiceBusinessUtil;
@@ -208,9 +207,7 @@ public class OrderProcessServiceSMOImpl extends AbstractOrderServiceSMOImpl impl
             ServiceBusiness serviceBusiness = ServiceBusinessUtil.getServiceBusiness(completedBusiness.get("business_type_cd").toString());
             long startTime = DateUtil.getCurrentDate().getTime();
             //发起撤单
-            KafkaFactory.sendKafkaMessage(serviceBusiness.getMessageTopic(), "",
-                    OrderDataFlowContextFactory.getDeleteInstanceTableJson(dataFlow, completedBusiness).toJSONString());
-            //saveLogMessage(OrderDataFlowContextFactory.getDeleteInstanceTableJson(dataFlow,completedBusiness,appRoute.getAppService()),null);
+          //saveLogMessage(OrderDataFlowContextFactory.getDeleteInstanceTableJson(dataFlow,completedBusiness,appRoute.getAppService()),null);
         }
     }
 

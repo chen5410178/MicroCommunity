@@ -10,7 +10,6 @@ import com.java110.job.adapt.hcGov.asyn.BaseHcGovSendAsyn;
 import com.java110.po.hcGovTranslate.HcGovTranslatePo;
 import com.java110.po.hcGovTranslate.HcGovTranslateDetailPo;
 import com.java110.utils.cache.MappingCache;
-import com.java110.utils.kafka.KafkaFactory;
 import com.java110.utils.util.Assert;
 import com.java110.utils.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,7 +104,6 @@ public class BaseHcGovSendAsynImpl implements BaseHcGovSendAsyn {
     public void sendKafka(String topic, JSONObject massage, String communityId, String objId, String secure) {
         try {
             if ("TRUE".equals(MappingCache.getValue(HcGovConstant.GOV_DOMAIN, HcGovConstant.GOV_SWITCH))) {
-                KafkaFactory.sendKafkaMessage(topic, massage.toJSONString());
                 saveHcGovLog(massage, communityId, topic, objId, secure);
             }
         } catch (Exception e) {

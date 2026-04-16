@@ -7,10 +7,10 @@
     <insert id="saveBusinessFeeInfo" parameterType="Map">
         insert into business_pay_fee(amount, operate, income_obj_id, fee_type_cd, start_time, end_time, community_id,
                                      b_id, fee_id, user_id, payer_obj_id, fee_flag, state, config_id, payer_obj_type,
-                                     batch_id)
+                                     batch_id, fee_time)
         values (#{amount}, #{operate}, #{incomeObjId}, #{feeTypeCd}, #{startTime}, #{endTime}, #{communityId}, #{bId},
                 #{feeId}, #{userId}, #{payerObjId},
-                #{feeFlag}, #{state}, #{configId}, #{payerObjType}, #{batchId})
+                #{feeFlag}, #{state}, #{configId}, #{payerObjType}, #{batchId}, #{feeTime})
     </insert>
 
     <!-- 查询费用信息（Business） add by wuxw 2018-07-03 -->
@@ -69,10 +69,10 @@
     <!-- 保存费用信息至 instance表中 add by wuxw 2018-07-03 -->
     <insert id="saveFeeInfoInstance" parameterType="Map">
         insert into pay_fee(
-        amount,income_obj_id,fee_type_cd,start_time,status_cd,end_time,community_id,b_id,fee_id,user_id,payer_obj_id,fee_flag,state,config_id,payer_obj_type,batch_id
+        amount,income_obj_id,fee_type_cd,start_time,status_cd,end_time,community_id,b_id,fee_id,user_id,payer_obj_id,fee_flag,state,config_id,payer_obj_type,batch_id,fee_time
         ) select
         t.amount,t.income_obj_id,t.fee_type_cd,t.start_time,'0',t.end_time,t.community_id,t.b_id,t.fee_id,t.user_id,t.payer_obj_id
-        ,t.fee_flag,t.state,t.config_id,t.payer_obj_type,t.batch_id
+        ,t.fee_flag,t.state,t.config_id,t.payer_obj_type,t.batch_id,t.fee_time
         from business_pay_fee t where 1=1
         <if test="amount !=null and amount != ''">
             and t.amount= #{amount}
@@ -135,7 +135,7 @@
         pfc.pay_online payOnline,pfc.scale,pfc.decimal_place decimalPlace,pfc.units,pfc.prepayment_period
         prepaymentPeriod,pfc.deduct_from deductFrom,pfc.ft_id ftId,t.payer_obj_name payerObjName,t.owner_id ownerId,
         t.owner_name ownerName, t.receivable_amount receivableAmount,
-        t.owe_amount oweAmount,t.rule_id ruleId,t.remark,ft.ft_name ftName,t.fee_remark feeRemark
+        t.owe_amount oweAmount,t.rule_id ruleId,t.remark,ft.ft_name ftName,t.fee_remark feeRemark, t.fee_time feeTime
         from pay_fee t
         INNER join pay_fee_config pfc on t.config_id = pfc.config_id and pfc.status_cd = '0'
         left join fee_type ft on pfc.ft_id = ft.ft_id and ft.status_cd = '0'
@@ -273,6 +273,9 @@
         </if>
         <if test="oweAmount !=null and oweAmount != ''">
             , t.owe_amount = #{oweAmount}
+        </if>
+        <if test="feeTime !=null and feeTime != ''">
+            , t.fee_time = #{feeTime}
         </if>
         where 1=1
         <if test="bId !=null and bId != ''">
@@ -771,13 +774,13 @@
     <insert id="insertFees" parameterType="Map">
         insert into pay_fee (amount,status_cd,income_obj_id,fee_type_cd,start_time,end_time,community_id,b_id,fee_id,
         user_id,payer_obj_id,fee_flag,state,config_id,payer_obj_type,batch_id,payer_obj_name,owner_id,owner_name,
-        receivable_amount,owe_amount,rule_id,remark,fee_remark)
+        receivable_amount,owe_amount,rule_id,remark,fee_remark,fee_time)
         VALUES
         <foreach collection="payFeePos" item="item" separator=",">
             (#{item.amount},'0',#{item.incomeObjId},#{item.feeTypeCd},#{item.startTime},#{item.endTime},#{item.communityId},
             '-1',#{item.feeId},#{item.userId},#{item.payerObjId},#{item.feeFlag},#{item.state},#{item.configId},#{item.payerObjType},#{item.batchId},
             #{item.payerObjName},#{item.ownerId},#{item.ownerName},
-            #{item.receivableAmount},#{item.oweAmount},#{item.ruleId},#{item.remark},#{item.feeRemark})
+            #{item.receivableAmount},#{item.oweAmount},#{item.ruleId},#{item.remark},#{item.feeRemark},#{item.feeTime})
         </foreach>
     </insert>
 

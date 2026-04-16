@@ -142,11 +142,11 @@ public class QueryOrderDataReportCmd extends Cmd {
         datas.add(data);
 
         // todo 查询 充电订单
-        double chargeMachineOrderCount = orderStatisticsImpl.getChargeMachineOrderCount(queryStatisticsDto);
-        data = new JSONObject();
-        data.put("name","充电订单");
-        data.put("value", chargeMachineOrderCount);
-        datas.add(data);
+//        double chargeMachineOrderCount = orderStatisticsImpl.getChargeMachineOrderCount(queryStatisticsDto);
+//        data = new JSONObject();
+//        data.put("name","充电订单");
+//        data.put("value", chargeMachineOrderCount);
+//        datas.add(data);
 
 
 

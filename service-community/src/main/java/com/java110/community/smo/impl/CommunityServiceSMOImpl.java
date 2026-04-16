@@ -3,11 +3,9 @@ package com.java110.community.smo.impl;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.java110.utils.cache.MappingCache;
-import com.java110.utils.constant.KafkaConstant;
 import com.java110.utils.constant.MappingConstant;
 import com.java110.utils.constant.ResponseConstant;
 import com.java110.utils.exception.SMOException;
-import com.java110.utils.kafka.KafkaFactory;
 import com.java110.utils.util.Assert;
 import com.java110.utils.util.DateUtil;
 import com.java110.core.base.smo.BaseServiceSMO;
@@ -75,7 +73,7 @@ public class CommunityServiceSMOImpl extends BaseServiceSMO implements ICommunit
         try {
             if (MappingConstant.VALUE_ON.equals(MappingCache.getValue(MappingConstant.DOMAIN_SYSTEM_SWITCH,MappingConstant.KEY_LOG_ON_OFF))) {
                 for (DataFlowLog dataFlowLog : businessServiceDataFlow.getLogDatas()) {
-                    KafkaFactory.sendKafkaMessage(KafkaConstant.TOPIC_LOG_NAME, "", JSONObject.toJSONString(dataFlowLog));
+                    logger.info("日志数据: {}", JSONObject.toJSONString(dataFlowLog));
                 }
             }
         } catch (Exception e) {
@@ -103,7 +101,7 @@ public class CommunityServiceSMOImpl extends BaseServiceSMO implements ICommunit
                 }
                 costDate.put("costDates", costDates);
 
-                KafkaFactory.sendKafkaMessage(KafkaConstant.TOPIC_COST_TIME_LOG_NAME, "", costDate.toJSONString());
+                logger.info("耗时日志数据: {}", costDate.toJSONString());
             }
         } catch (Exception e) {
             logger.error("报错日志出错了，", e);

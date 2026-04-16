@@ -234,6 +234,8 @@ public class BatchPayFeeImpl implements IBatchPayFee {
         payFeeDetailPo.setLateAmount(lateAmount + "");
         payFeeDetailPo.setGiftAmount("0");
 
+        payFeeDetailPo.setFeeTime(feeDtos.get(0).getFeeTime());
+
 
         //todo 缓存收据编号
         CommonCache.setValue(payFeeDetailPo.getDetailId() + CommonCache.RECEIPT_CODE, receiptCode, CommonCache.DEFAULT_EXPIRETIME_TWO_MIN);
@@ -344,10 +346,14 @@ public class BatchPayFeeImpl implements IBatchPayFee {
 
         JSONObject maxObj = null;
         Date maxDate = null;
-
+        String endTime = null;
         for (Object obj : payFees) {
             JSONObject jsonObj = (JSONObject) obj;
-            Date currentDate = DateUtil.getDateFromStringA(jsonObj.getString("endTime"));
+            endTime = jsonObj.getString("endTime");
+            if(!endTime.contains(":")){
+                endTime += " 00:00:00";
+            }
+            Date currentDate = DateUtil.getDateFromStringA(endTime);
 
             if (maxDate == null || currentDate.after(maxDate)) {
                 maxDate = currentDate;

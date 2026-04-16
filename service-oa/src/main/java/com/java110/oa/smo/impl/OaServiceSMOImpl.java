@@ -1,20 +1,15 @@
 package com.java110.oa.smo.impl;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.java110.core.base.smo.BaseServiceSMO;
 import com.java110.core.context.BusinessServiceDataFlow;
 import com.java110.core.event.service.BusinessServiceDataFlowEventPublishing;
 import com.java110.core.factory.DataFlowFactory;
-import com.java110.dto.system.DataFlowLinksCost;
-import com.java110.dto.system.DataFlowLog;
 import com.java110.oa.smo.IOaServiceSMO;
 import com.java110.utils.cache.MappingCache;
-import com.java110.utils.constant.KafkaConstant;
 import com.java110.utils.constant.MappingConstant;
 import com.java110.utils.constant.ResponseConstant;
 import com.java110.utils.exception.SMOException;
-import com.java110.utils.kafka.KafkaFactory;
 import com.java110.utils.util.Assert;
 import com.java110.utils.util.DateUtil;
 import org.slf4j.Logger;
@@ -23,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * 用户服务信息管理业务信息实现
@@ -71,39 +65,17 @@ public class OaServiceSMOImpl extends BaseServiceSMO implements IOaServiceSMO {
      * @param businessServiceDataFlow
      */
     private void saveLogMessage(BusinessServiceDataFlow businessServiceDataFlow) {
-
         try {
             if (MappingConstant.VALUE_ON.equals(MappingCache.getValue(MappingConstant.DOMAIN_SYSTEM_SWITCH,MappingConstant.KEY_LOG_ON_OFF))) {
-                for (DataFlowLog dataFlowLog : businessServiceDataFlow.getLogDatas()) {
-                    KafkaFactory.sendKafkaMessage(KafkaConstant.TOPIC_LOG_NAME, "", JSONObject.toJSONString(dataFlowLog));
-                }
             }
         } catch (Exception e) {
             logger.error("报错日志出错了，", e);
         }
     }
 
-    /**
-     * 保存耗时信息
-     *
-     * @param businessServiceDataFlow
-     */
     private void saveCostTimeLogMessage(BusinessServiceDataFlow businessServiceDataFlow) {
         try {
             if (MappingConstant.VALUE_ON.equals(MappingCache.getValue(MappingConstant.DOMAIN_SYSTEM_SWITCH,MappingConstant.KEY_COST_TIME_ON_OFF))) {
-                List<DataFlowLinksCost> dataFlowLinksCosts = businessServiceDataFlow.getLinksCostDates();
-                JSONObject costDate = new JSONObject();
-                JSONArray costDates = new JSONArray();
-                JSONObject newObj = null;
-                for (DataFlowLinksCost dataFlowLinksCost : dataFlowLinksCosts) {
-                    newObj = JSONObject.parseObject(JSONObject.toJSONString(dataFlowLinksCost));
-                    newObj.put("dataFlowId", businessServiceDataFlow.getDataFlowId());
-                    newObj.put("transactionId", businessServiceDataFlow.getTransactionId());
-                    costDates.add(newObj);
-                }
-                costDate.put("costDates", costDates);
-
-                KafkaFactory.sendKafkaMessage(KafkaConstant.TOPIC_COST_TIME_LOG_NAME, "", costDate.toJSONString());
             }
         } catch (Exception e) {
             logger.error("报错日志出错了，", e);

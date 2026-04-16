@@ -214,6 +214,9 @@ public class ImportRoomHistoryFeeDetailQueueDataAdapt extends DefaultImportData 
         payFeeDetailPo.setFeeId(tmpFeeDto.getFeeId());
         payFeeDetailPo.setStartTime(importRoomFee.getStartTime());
         payFeeDetailPo.setEndTime(importRoomFee.getEndTime());
+        if (tmpFeeDto.getFeeTime() != null) {
+            payFeeDetailPo.setFeeTime(DateUtil.getFormatTimeStringB(tmpFeeDto.getFeeTime()));
+        }
         payFeeDetailPo.setDetailId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_detailId));
         payFeeDetailPo.setRemark(importRoomFee.getRemark());
         payFeeDetailPo.setCreateTime(importRoomFee.getCreateTime());

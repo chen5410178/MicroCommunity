@@ -1,0 +1,60 @@
+export const messages = {
+  en: {
+    repairReturnVisit: {
+      queryTitle: 'Query Conditions',
+      listTitle: 'Repair Return Visit',
+      repairId: 'Work Order No.',
+      location: 'Location',
+      repairType: 'Repair Type',
+      repairName: 'Repair Person',
+      contact: 'Contact',
+      appointmentTime: 'Appointment Time',
+      operation: 'Operation',
+      visit: 'Visit',
+      detail: 'Detail',
+      repairIdPlaceholder: 'Please enter work order number',
+      repairTypePlaceholder: 'Please select repair type',
+      repairNamePlaceholder: 'Please enter repair person',
+      telPlaceholder: 'Please enter repair phone',
+      statePlaceholder: 'Please select visit status',
+      waiting: 'Pending Visit',
+      finish: 'Visited',
+      satisfaction: 'Satisfaction',
+      visitContent: 'Visit Content',
+      satisfied: 'Satisfied',
+      unsatisfied: 'Unsatisfied',
+      satisfactionRequired: 'Please select satisfaction',
+      visitContentRequired: 'Please enter visit content',
+      visitContentMaxLength: 'The length of visit content cannot exceed 1000 characters'
+    }
+  },
+  zh: {
+    repairReturnVisit: {
+      queryTitle: '查询条件',
+      listTitle: '报修回访',
+      repairId: '工单编码',
+      location: '位置',
+      repairType: '报修类型',
+      repairName: '报修人',
+      contact: '联系方式',
+      appointmentTime: '预约时间',
+      operation: '操作',
+      visit: '回访',
+      detail: '详情',
+      repairIdPlaceholder: '请输入工单编号',
+      repairTypePlaceholder: '请选择报修类型',
+      repairNamePlaceholder: '请输入报修人',
+      telPlaceholder: '请输入报修电话',
+      statePlaceholder: '请选择回访状态',
+      waiting: '待回访',
+      finish: '已回访',
+      satisfaction: '满意度',
+      visitContent: '回访内容',
+      satisfied: '满意',
+      unsatisfied: '不满意',
+      satisfactionRequired: '请选择满意度',
+      visitContentRequired: '请输入回访内容',
+      visitContentMaxLength: '回访内容长度不能超过1000个字符'
+    }
+  }
+}

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="buildingShopOwnerServiceDaoImplMapper">
+    <resultMap id="resultMap" type="com.java110.dto.shop.BuildingShopOwnerDto">
+        <id column="shop_owner_id" jdbcType="VARCHAR" property="shopOwnerId"/>
+        <result column="shop_id" jdbcType="VARCHAR" property="shopId"/>
+        <result column="owner_id" jdbcType="VARCHAR" property="ownerId"/>
+        <result column="owner_name" jdbcType="VARCHAR" property="ownerName"/>
+        <result column="link" jdbcType="VARCHAR" property="link"/>
+        <result column="state" jdbcType="VARCHAR" property="state"/>
+        <result column="start_time" jdbcType="TIMESTAMP" property="startTime"/>
+        <result column="end_time" jdbcType="TIMESTAMP" property="endTime"/>
+        <result column="community_id" jdbcType="VARCHAR" property="communityId"/>
+        <result column="status_cd" jdbcType="VARCHAR" property="statusCd"/>
+        <result column="shop_num" jdbcType="VARCHAR" property="shopNum"/>
+        <result column="location_id" jdbcType="VARCHAR" property="locationId"/>
+        <result column="location_name" jdbcType="VARCHAR" property="locationName"/>
+    </resultMap>
+
+    <sql id="select">
+        sl.shop_owner_id,
+        sl.shop_id,
+        sl.owner_id,
+        sl.owner_name,
+        sl.link,
+        sl.state,
+        sl.start_time,
+        sl.end_time,
+        sl.community_id,
+        sl.status_cd,
+        bs.shop_num,
+        bs.location_id,
+        sls.location_name
+    </sql>
+
+    <select id="queryBuildingShopOwners" parameterType="map" resultMap="resultMap">
+        SELECT <include refid="select"/>
+        FROM building_shop_owner sl
+        LEFT JOIN building_shop bs ON sl.shop_id = bs.shop_id
+        LEFT JOIN shop_location sls ON bs.location_id = sls.location_id
+        <where>
+            <if test="shopOwnerId != null and shopOwnerId != ''">
+                AND sl.shop_owner_id = #{shopOwnerId}
+            </if>
+            <if test="shopId != null and shopId != ''">
+                AND sl.shop_id = #{shopId}
+            </if>
+            <if test="ownerId != null and ownerId != ''">
+                AND sl.owner_id = #{ownerId}
+            </if>
+            <if test="ownerName != null and ownerName != ''">
+                AND sl.owner_name LIKE '%${ownerName}%'
+            </if>
+            <if test="link != null and link != ''">
+                AND sl.link = #{link}
+            </if>
+            <if test="state != null and state != ''">
+                AND sl.state = #{state}
+            </if>
+            <if test="communityId != null and communityId != ''">
+                AND sl.community_id = #{communityId}
+            </if>
+            <if test="shopNum != null and shopNum != ''">
+                AND bs.shop_num LIKE '%${shopNum}%'
+            </if>
+            <if test="locationId != null and locationId != ''">
+                AND bs.location_id = #{locationId}
+            </if>
+            AND sl.status_cd = '0'
+        </where>
+        <if test="orderByClause != null and orderByClause != ''">
+            ORDER BY ${orderByClause}
+        </if>
+        <if test="limitClause != null and limitClause != ''">
+            ${limitClause}
+        </if>
+    </select>
+
+    <select id="queryBuildingShopOwnersCount" parameterType="map" resultType="int">
+        SELECT COUNT(1) FROM building_shop_owner sl
+        LEFT JOIN building_shop bs ON sl.shop_id = bs.shop_id
+        LEFT JOIN shop_location sls ON bs.location_id = sls.location_id
+        <where>
+            <if test="shopOwnerId != null and shopOwnerId != ''">
+                AND sl.shop_owner_id = #{shopOwnerId}
+            </if>
+            <if test="shopId != null and shopId != ''">
+                AND sl.shop_id = #{shopId}
+            </if>
+            <if test="ownerId != null and ownerId != ''">
+                AND sl.owner_id = #{ownerId}
+            </if>
+            <if test="ownerName != null and ownerName != ''">
+                AND sl.owner_name LIKE '%${ownerName}%'
+            </if>
+            <if test="link != null and link != ''">
+                AND sl.link = #{link}
+            </if>
+            <if test="state != null and state != ''">
+                AND sl.state = #{state}
+            </if>
+            <if test="communityId != null and communityId != ''">
+                AND sl.community_id = #{communityId}
+            </if>
+            <if test="shopNum != null and shopNum != ''">
+                AND bs.shop_num LIKE '%${shopNum}%'
+            </if>
+            <if test="locationId != null and locationId != ''">
+                AND bs.location_id = #{locationId}
+            </if>
+            AND sl.status_cd = '0'
+        </where>
+    </select>
+
+    <insert id="saveBuildingShopOwner" parameterType="com.java110.po.shop.BuildingShopOwnerPo">
+        INSERT INTO building_shop_owner (
+            shop_owner_id,
+            shop_id,
+            owner_id,
+            owner_name,
+            link,
+            state,
+            start_time,
+            end_time,
+            community_id,
+            status_cd
+        ) VALUES (
+            #{shopOwnerId},
+            #{shopId},
+            #{ownerId},
+            #{ownerName},
+            #{link},
+            #{state},
+            #{startTime},
+            #{endTime},
+            #{communityId},
+            #{statusCd}
+        )
+    </insert>
+
+    <update id="updateBuildingShopOwner" parameterType="com.java110.po.shop.BuildingShopOwnerPo">
+        UPDATE building_shop_owner
+        <set>
+            <if test="shopId != null and shopId != ''">
+                shop_id = #{shopId},
+            </if>
+            <if test="ownerId != null and ownerId != ''">
+                owner_id = #{ownerId},
+            </if>
+            <if test="ownerName != null and ownerName != ''">
+                owner_name = #{ownerName},
+            </if>
+            <if test="link != null and link != ''">
+                link = #{link},
+            </if>
+            <if test="state != null and state != ''">
+                state = #{state},
+            </if>
+            <if test="startTime != null">
+                start_time = #{startTime},
+            </if>
+            <if test="endTime != null">
+                end_time = #{endTime},
+            </if>
+        </set>
+        WHERE shop_owner_id = #{shopOwnerId} AND status_cd = '0'
+    </update>
+
+    <update id="deleteBuildingShopOwner" parameterType="map">
+        UPDATE building_shop_owner
+        SET status_cd = '1'
+        WHERE shop_owner_id = #{shopOwnerId} AND status_cd = '0'
+    </update>
+
+</mapper>

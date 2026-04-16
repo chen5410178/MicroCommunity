@@ -135,13 +135,8 @@ public class ListFeeCmd extends Cmd {
                 if (FeeDto.PAYER_OBJ_TYPE_CAR.equals(payerObjType)) {
                     apiFeeDataVo.setCarTypeCd("1001");
                 }
-                //当月，当月就取开始时间，这里先按开始时间计算，这样因为合理，也可以按创建时间来计算
-                if (FeeDto.DEDUCT_FROM_CURRENT_MONTH.equals(apiFeeDataVo.getDeductFrom())) {
-                    apiFeeDataVo.setYearMonth(DateUtil.getFormatTimeStringQ(DateUtil.getDateFromStringA(apiFeeDataVo.getStartTime())));
-                } else if(FeeDto.DEDUCT_FROM_NEXT_MONTH.equals(apiFeeDataVo.getDeductFrom())){
-                    apiFeeDataVo.setYearMonth(DateUtil.getFormatTimeStringQ(DateUtil.getNextMonthDate(apiFeeDataVo.getStartTime(), 1)));
-                } else {
-                    apiFeeDataVo.setYearMonth(DateUtil.getFormatTimeStringQ(DateUtil.getNextMonthDate(apiFeeDataVo.getStartTime(), -1)));
+                if (!StringUtil.isEmpty(apiFeeDataVo.getFeeTime())) {
+                    apiFeeDataVo.setYearMonth(DateUtil.getFormatTimeStringQ(DateUtil.getDateFromStringB(apiFeeDataVo.getFeeTime())));
                 }
                 fees.add(apiFeeDataVo);
             }

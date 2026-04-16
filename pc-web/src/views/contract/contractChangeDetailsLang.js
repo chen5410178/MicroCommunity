@@ -1,0 +1,60 @@
+export const messages = {
+  en: {
+    contractChangeDetails: {
+      contract: 'Contract',
+      afterChange: 'After Change',
+      beforeChange: 'Before Change',
+      contractName: 'Contract Name',
+      contractCode: 'Contract Code',
+      contractType: 'Contract Type',
+      partyA: 'Party A',
+      partyAContacts: 'Party A Contacts',
+      partyALink: 'Party A Phone',
+      partyB: 'Party B',
+      partyBContacts: 'Party B Contacts',
+      partyBLink: 'Party B Phone',
+      operator: 'Operator',
+      operatorLink: 'Operator Phone',
+      amount: 'Amount',
+      startTime: 'Start Time',
+      endTime: 'End Time',
+      signingTime: 'Signing Time',
+      workflow: 'Workflow',
+      serialNumber: 'No.',
+      handler: 'Handler',
+      status: 'Status',
+      processTime: 'Process Time',
+      timeConsuming: 'Time Consuming',
+      opinion: 'Opinion'
+    }
+  },
+  zh: {
+    contractChangeDetails: {
+      contract: '合同',
+      afterChange: '变更后',
+      beforeChange: '变更前',
+      contractName: '合同名称',
+      contractCode: '合同编号',
+      contractType: '合同类型',
+      partyA: '甲方',
+      partyAContacts: '甲方联系人',
+      partyALink: '甲方联系电话',
+      partyB: '乙方',
+      partyBContacts: '乙方联系人',
+      partyBLink: '乙方联系电话',
+      operator: '经办人',
+      operatorLink: '联系电话',
+      amount: '合同金额',
+      startTime: '开始时间',
+      endTime: '结束时间',
+      signingTime: '签订时间',
+      workflow: '工单流转',
+      serialNumber: '序号',
+      handler: '处理人',
+      status: '状态',
+      processTime: '处理时间',
+      timeConsuming: '耗时',
+      opinion: '意见'
+    }
+  }
+}

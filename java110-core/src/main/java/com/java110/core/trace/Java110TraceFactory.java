@@ -7,7 +7,6 @@ import com.java110.dto.trace.*;
 import com.java110.utils.constant.CommonConstant;
 import com.java110.utils.constant.EnvironmentConstant;
 import com.java110.utils.factory.ApplicationContextFactory;
-import com.java110.utils.kafka.KafkaFactory;
 import com.java110.utils.util.DateUtil;
 import org.slf4j.Logger;
 import org.springframework.core.env.Environment;
@@ -219,7 +218,6 @@ public class Java110TraceFactory {
         }
 
         try {
-            KafkaFactory.sendKafkaMessage(LOG_TRACE_TOPIC, JSONObject.toJSONString(traceDto));
         } catch (Exception e) {
             logger.error("发送log trace  异常", e);
         }

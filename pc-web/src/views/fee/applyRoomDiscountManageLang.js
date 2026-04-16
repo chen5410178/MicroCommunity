@@ -1,0 +1,338 @@
+export const messages = {
+  en: {
+    applyRoomDiscount: {
+      search: {
+        title: 'Search Conditions',
+        roomName: 'Please enter room name (Building-Unit-Room)',
+        applyType: 'Please select application type',
+        state: 'Please select status'
+      },
+      list: {
+        title: 'Discount Application'
+      },
+      table: {
+        roomName: 'Room (Building-Unit-Room)',
+        discountId: 'Discount ID',
+        discountName: 'Discount Name',
+        applyType: 'Application Type',
+        createUser: 'Applicant',
+        createUserTel: 'Applicant Phone',
+        startTime: 'Start Time',
+        endTime: 'End Time',
+        state: 'Status',
+        createTime: 'Create Time',
+        inUse: 'Usage Status',
+        returnType: 'Return Type',
+        returnAmount: 'Return Amount'
+      },
+      button: {
+        discountType: 'Discount Type',
+        phoneApply: 'Phone Application',
+        export: 'Export',
+        check: 'Check',
+        record: 'Record',
+        review: 'Review',
+        edit: 'Edit',
+        delete: 'Delete'
+      },
+      status: {
+        notUsed: 'Not Used',
+        used: 'Used',
+        checkPass: 'Check Passed',
+        checkReject: 'Check Rejected',
+        reviewPass: 'Review Passed',
+        reviewReject: 'Review Rejected'
+      },
+      returnType: {
+        account: 'Account Balance',
+        discount: 'Discount'
+      },
+      discountType: {
+        discount: 'Discount (Need Application)'
+      },
+      returnWay: {
+        discount: 'Enjoy Payment Discount',
+        account: 'Refund to Balance Account'
+      },
+      add: {
+        title: 'Phone Application',
+        room: 'Room',
+        roomPlaceholder: 'Required, please fill in room (Building-Unit-Room)',
+        applyType: 'Application Type',
+        applyTypePlaceholder: 'Required, please select application type',
+        feeItem: 'Fee Item',
+        feeItemPlaceholder: 'Please select fee item',
+        createUser: 'Applicant',
+        createUserPlaceholder: 'Required, please fill in applicant',
+        createUserTel: 'Applicant Phone',
+        createUserTelPlaceholder: 'Required, please fill in applicant phone',
+        startTime: 'Start Time',
+        startTimePlaceholder: 'Required, please fill in start time',
+        endTime: 'End Time',
+        endTimePlaceholder: 'Required, please fill in end time',
+        createRemark: 'Application Description',
+        createRemarkPlaceholder: 'Required, please fill in application description',
+        images: 'Image Materials'
+      },
+      edit: {
+        title: 'Check Room',
+        startTime: 'Start Time',
+        startTimePlaceholder: 'Required, please fill in start time',
+        endTime: 'End Time',
+        endTimePlaceholder: 'Required, please fill in end time',
+        state: 'Check Status',
+        statePlaceholder: 'Required, please select status',
+        createRemark: 'Application Description',
+        checkRemark: 'Check Description',
+        checkRemarkPlaceholder: 'Required, please fill in check description',
+        images: 'Image Materials'
+      },
+      editRecord: {
+        title: 'Edit Discount Application',
+        ardId: 'Application ID',
+        roomName: 'Room (Building-Unit-Room)',
+        applyTypeName: 'Application Type',
+        createUserName: 'Applicant',
+        createUserTel: 'Applicant Phone',
+        startTime: 'Start Time',
+        startTimePlaceholder: 'Required, please fill in start time',
+        endTime: 'End Time',
+        endTimePlaceholder: 'Required, please fill in end time',
+        stateName: 'Status'
+      },
+      review: {
+        title: 'Review',
+        discountType: 'Discount Type',
+        discountTypePlaceholder: 'Required, please select discount type',
+        discountName: 'Discount Name',
+        discountNamePlaceholder: 'Required, please select discount name',
+        returnWay: 'Return Way',
+        returnWayPlaceholder: 'Please select return way',
+        paymentRecords: 'Payment Records',
+        refundAmount: 'Return Amount',
+        refundAmountPlaceholder: 'Required, please fill in return amount',
+        startTime: 'Start Time',
+        startTimePlaceholder: 'Required, please fill in start time',
+        endTime: 'End Time',
+        endTimePlaceholder: 'Required, please fill in end time',
+        state: 'Review Status',
+        statePlaceholder: 'Required, please select status',
+        createRemark: 'Application Remark',
+        checkRemark: 'Check Remark',
+        reviewRemark: 'Review Remark',
+        reviewRemarkPlaceholder: 'Required, please fill in review description',
+        images: 'Image Materials'
+      },
+      delete: {
+        title: 'Please confirm your operation',
+        confirmText: 'Confirm to delete the room discount application?'
+      },
+      validate: {
+        roomRequired: 'Room cannot be empty',
+        roomFormat: 'Room format error',
+        roomNotFound: 'Room not found',
+        applyTypeRequired: 'Application type cannot be empty',
+        feeIdRequired: 'Fee item cannot be empty',
+        createUserRequired: 'Applicant cannot be empty',
+        createUserFormat: 'Applicant format error',
+        createUserTelRequired: 'Applicant phone cannot be empty',
+        createUserTelFormat: 'Applicant phone format error',
+        startTimeRequired: 'Start time cannot be empty',
+        endTimeRequired: 'End time cannot be empty',
+        dateInvalid: 'End time must be greater than start time',
+        createRemarkRequired: 'Application description cannot be empty',
+        createRemarkFormat: 'Application description too long',
+        checkRemarkRequired: 'Check description cannot be empty',
+        checkRemarkFormat: 'Check description too long',
+        reviewRemarkRequired: 'Review description cannot be empty',
+        reviewRemarkFormat: 'Review description too long',
+        stateRequired: 'Status cannot be empty',
+        ardIdRequired: 'Application ID cannot be empty',
+        discountIdRequired: 'Discount name cannot be empty',
+        discountTypeRequired: 'Discount type cannot be empty',
+        returnWayRequired: 'Return way cannot be empty',
+        refundAmountRequired: 'Return amount cannot be empty',
+        refundAmountFormat: 'Return amount format error'
+      },
+      message: {
+        saveSuccess: 'Application successful',
+        saveFailed: 'Application failed',
+        updateSuccess: 'Update successful',
+        updateFailed: 'Update failed',
+        reviewSuccess: 'Review successful',
+        reviewFailed: 'Review failed',
+        deleteSuccess: 'Delete successful',
+        deleteFailed: 'Delete failed',
+        fetchError: 'Failed to get data'
+      }
+    }
+  },
+  zh: {
+    applyRoomDiscount: {
+      search: {
+        title: '查询条件',
+        roomName: '请输入房屋名称(楼栋-单元-房屋)',
+        applyType: '请选择申请类型',
+        state: '请选择状态'
+      },
+      list: {
+        title: '优惠申请'
+      },
+      table: {
+        roomName: '房屋(楼栋-单元-房屋)',
+        discountId: '折扣ID',
+        discountName: '折扣名称',
+        applyType: '申请类型',
+        createUser: '申请人',
+        createUserTel: '申请电话',
+        startTime: '开始时间',
+        endTime: '结束时间',
+        state: '状态',
+        createTime: '创建时间',
+        inUse: '使用状态',
+        returnType: '返还类型',
+        returnAmount: '返还金额'
+      },
+      button: {
+        discountType: '优惠类型',
+        phoneApply: '电话申请',
+        export: '导出',
+        check: '验房',
+        record: '跟踪记录',
+        review: '审核',
+        edit: '修改',
+        delete: '删除'
+      },
+      status: {
+        notUsed: '未使用',
+        used: '已使用',
+        checkPass: '验房通过',
+        checkReject: '验房不通过',
+        reviewPass: '审批通过',
+        reviewReject: '审批不通过'
+      },
+      returnType: {
+        account: '账户余额',
+        discount: '折扣'
+      },
+      discountType: {
+        discount: '优惠(需要申请)'
+      },
+      returnWay: {
+        discount: '享受缴纳折扣',
+        account: '预缴金额返还至余额账户'
+      },
+      add: {
+        title: '电话申请',
+        room: '房屋',
+        roomPlaceholder: '必填，请填写房屋 楼栋-单元-房屋',
+        applyType: '申请类型',
+        applyTypePlaceholder: '必填，请选择申请类型',
+        feeItem: '费用项目',
+        feeItemPlaceholder: '请选择费用项目',
+        createUser: '申请人',
+        createUserPlaceholder: '必填，请填写申请人',
+        createUserTel: '申请电话',
+        createUserTelPlaceholder: '必填，请填写申请电话',
+        startTime: '开始时间',
+        startTimePlaceholder: '必填，请填写开始时间',
+        endTime: '结束时间',
+        endTimePlaceholder: '必填，请填写结束时间',
+        createRemark: '申请说明',
+        createRemarkPlaceholder: '必填，请填写申请说明',
+        images: '图片材料'
+      },
+      edit: {
+        title: '验房',
+        startTime: '开始时间',
+        startTimePlaceholder: '必填，请填写开始时间',
+        endTime: '结束时间',
+        endTimePlaceholder: '必填，请填写结束时间',
+        state: '验房状态',
+        statePlaceholder: '必填，请选择状态',
+        createRemark: '申请说明',
+        checkRemark: '验房说明',
+        checkRemarkPlaceholder: '必填，请填写验房说明',
+        images: '图片资料'
+      },
+      editRecord: {
+        title: '修改优惠申请',
+        ardId: '申请ID',
+        roomName: '房屋(楼栋-单元-房屋)',
+        applyTypeName: '申请类型',
+        createUserName: '申请人',
+        createUserTel: '申请电话',
+        startTime: '开始时间',
+        startTimePlaceholder: '必填，请填写开始时间',
+        endTime: '结束时间',
+        endTimePlaceholder: '必填，请填写结束时间',
+        stateName: '状态'
+      },
+      review: {
+        title: '审批',
+        discountType: '折扣类型',
+        discountTypePlaceholder: '必填，请选择折扣类型',
+        discountName: '折扣名称',
+        discountNamePlaceholder: '必填，请选择折扣名称',
+        returnWay: '返还方式',
+        returnWayPlaceholder: '请选择返还方式',
+        paymentRecords: '缴费记录',
+        refundAmount: '返还金额',
+        refundAmountPlaceholder: '必填，请填写返还金额',
+        startTime: '开始时间',
+        startTimePlaceholder: '必填，请填写开始时间',
+        endTime: '结束时间',
+        endTimePlaceholder: '必填，请填写结束时间',
+        state: '审批状态',
+        statePlaceholder: '必填，请选择状态',
+        createRemark: '申请备注',
+        checkRemark: '验房备注',
+        reviewRemark: '审批备注',
+        reviewRemarkPlaceholder: '必填，请填写审批说明',
+        images: '图片资料'
+      },
+      delete: {
+        title: '请确认您的操作',
+        confirmText: '确定删除房屋折扣申请?'
+      },
+      validate: {
+        roomRequired: '房屋不能为空',
+        roomFormat: '房屋格式错误',
+        roomNotFound: '未找到房屋',
+        applyTypeRequired: '申请类型不能为空',
+        feeIdRequired: '费用项不能为空',
+        createUserRequired: '申请人不能为空',
+        createUserFormat: '申请人错误',
+        createUserTelRequired: '申请电话不能为空',
+        createUserTelFormat: '申请电话错误',
+        startTimeRequired: '开始时间不能为空',
+        endTimeRequired: '结束时间不能为空',
+        dateInvalid: '结束时间必须大于开始时间',
+        createRemarkRequired: '申请说明不能为空',
+        createRemarkFormat: '申请说明过长',
+        checkRemarkRequired: '验房说明不能为空',
+        checkRemarkFormat: '验房说明过长',
+        reviewRemarkRequired: '审批说明不能为空',
+        reviewRemarkFormat: '审批说明过长',
+        stateRequired: '状态不能为空',
+        ardIdRequired: '申请ID不能为空',
+        discountIdRequired: '折扣名称不能为空',
+        discountTypeRequired: '折扣类型不能为空',
+        returnWayRequired: '返还方式不能为空',
+        refundAmountRequired: '返还金额不能为空',
+        refundAmountFormat: '返还金额格式错误'
+      },
+      message: {
+        saveSuccess: '申请成功',
+        saveFailed: '申请失败',
+        updateSuccess: '修改成功',
+        updateFailed: '修改失败',
+        reviewSuccess: '审批成功',
+        reviewFailed: '审批失败',
+        deleteSuccess: '删除成功',
+        deleteFailed: '删除失败',
+        fetchError: '获取数据失败'
+      }
+    }
+  }
+}

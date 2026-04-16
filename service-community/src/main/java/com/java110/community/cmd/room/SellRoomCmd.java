@@ -24,7 +24,6 @@ import com.java110.utils.util.BeanConvertUtil;
 import com.java110.utils.util.DateUtil;
 import com.java110.utils.util.ListUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.kafka.listener.ListenerUtils;
 
 import java.text.ParseException;
 import java.util.List;

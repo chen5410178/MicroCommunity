@@ -24,6 +24,7 @@ public class FeeDto extends PageDto implements Serializable {
     public static final String PAYER_OBJ_TYPE_CONTRACT = "7777";//是合同
     public static final String PAYER_OBJ_TYPE_CAR = "6666";//是车位
     public static final String PAYER_OBJ_TYPE_RENTING = "9999";//房源ID
+    public static final String PAYER_OBJ_TYPE_SHOP = "4444";//商铺
 
     public static final String FEE_FLAG_ONCE = "2006012";//一次性费用
     public static final String FEE_FLAG_CYCLE = "1003006";//周期性费用
@@ -146,6 +147,8 @@ public class FeeDto extends PageDto implements Serializable {
     private String offlinePayFeeSwitch;
 
     private String deductFrom;
+
+    private Date feeTime;
 
     private String rateCycle;
 
@@ -738,6 +741,15 @@ public class FeeDto extends PageDto implements Serializable {
     public String getDeductFrom() { return deductFrom; }
 
     public void setDeductFrom(String deductFrom) { this.deductFrom = deductFrom; }
+
+    public Date getFeeTime() {
+        return feeTime;
+    }
+
+    public void setFeeTime(Date feeTime) {
+        this.feeTime = feeTime;
+    }
+
     public String getCustEndTime() {
         return custEndTime;
     }

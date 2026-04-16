@@ -1,0 +1,116 @@
+export const messages = {
+  en: {
+    resourceSupplierManage: {
+      searchTitle: 'Search Conditions',
+      supplierNo: 'Supplier No',
+      supplierName: 'Supplier Name',
+      phone: 'Phone',
+      search: 'Search',
+      reset: 'Reset',
+      supplier: 'Supplier',
+      add: 'Add',
+      no: 'No',
+      name: 'Name',
+      address: 'Address',
+      contact: 'Contact',
+      contactName: 'Contact Name',
+      bank: 'Bank',
+      account: 'Account',
+      remark: 'Remark',
+      operation: 'Operation',
+      edit: 'Edit',
+      delete: 'Delete'
+    },
+    addResourceSupplier: {
+      title: 'Add Supplier',
+      supplierName: 'Supplier Name',
+      supplierAddress: 'Supplier Address',
+      supplierContact: 'Supplier Contact',
+      contactName: 'Contact Name',
+      bank: 'Bank',
+      bankAccount: 'Bank Account',
+      remark: 'Remark',
+      required: 'Required',
+      optional: 'Optional',
+      save: 'Save',
+      cancel: 'Cancel'
+    },
+    editResourceSupplier: {
+      title: 'Edit Supplier',
+      supplierName: 'Supplier Name',
+      supplierAddress: 'Supplier Address',
+      supplierContact: 'Supplier Contact',
+      contactName: 'Contact Name',
+      bank: 'Bank',
+      bankAccount: 'Bank Account',
+      remark: 'Remark',
+      required: 'Required',
+      optional: 'Optional',
+      save: 'Save',
+      cancel: 'Cancel'
+    },
+    deleteResourceSupplier: {
+      title: 'Confirm Operation',
+      confirmDelete: 'Confirm to delete supplier',
+      cancel: 'Cancel',
+      confirm: 'Confirm'
+    }
+  },
+  zh: {
+    resourceSupplierManage: {
+      searchTitle: '查询条件',
+      supplierNo: '供应商编号',
+      supplierName: '供应商名称',
+      phone: '手机号',
+      search: '查询',
+      reset: '重置',
+      supplier: '供应商',
+      add: '添加',
+      no: '编号',
+      name: '名称',
+      address: '地址',
+      contact: '联系方式',
+      contactName: '联系人姓名',
+      bank: '开户行',
+      account: '账号',
+      remark: '备注',
+      operation: '操作',
+      edit: '修改',
+      delete: '删除'
+    },
+    addResourceSupplier: {
+      title: '添加供应商',
+      supplierName: '供应商名称',
+      supplierAddress: '供应商地址',
+      supplierContact: '供应商联系方式',
+      contactName: '联系人姓名',
+      bank: '开户行',
+      bankAccount: '开户行账号',
+      remark: '备注',
+      required: '必填',
+      optional: '选填',
+      save: '保存',
+      cancel: '取消'
+    },
+    editResourceSupplier: {
+      title: '修改供应商',
+      supplierName: '供应商名称',
+      supplierAddress: '供应商地址',
+      supplierContact: '供应商联系方式',
+      contactName: '联系人姓名',
+      bank: '开户行',
+      bankAccount: '开户行账号',
+      remark: '备注',
+      required: '必填',
+      optional: '选填',
+      save: '保存',
+      cancel: '取消'
+    },
+    deleteResourceSupplier: {
+      title: '请确认您的操作',
+      confirmDelete: '确定删除供应商',
+      cancel: '点错了',
+      confirm: '确认删除'
+    }
+  }
+}

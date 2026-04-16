@@ -1,0 +1,60 @@
+export const messages = {
+  en: {
+    supplierManage: {
+      searchCondition: 'Search Condition',
+      moreCondition: 'More',
+      hide: 'Hide',
+      supplierInfo: 'Supplier Information',
+      add: 'Add',
+      supplierType: 'Supplier Type',
+      supplierName: 'Supplier Name',
+      contactPerson: 'Contact Person',
+      contactTel: 'Contact Number',
+      startTime: 'Start Time',
+      endTime: 'End Time',
+      createTime: 'Create Time',
+      remark: 'Remark',
+      operation: 'Operation',
+      edit: 'Edit',
+      config: 'Configure',
+      delete: 'Delete',
+      query: 'Search',
+      confirmDelete: 'Confirm Delete',
+      deleteTip: 'Are you sure to delete this supplier?',
+      cancel: 'Cancel',
+      confirm: 'Confirm',
+      pleaseSelect: 'Please select',
+      requiredField: 'Required field',
+      template:'Template'
+    }
+  },
+  zh: {
+    supplierManage: {
+      searchCondition: '查询条件',
+      moreCondition: '更多',
+      hide: '隐藏',
+      supplierInfo: '供应商信息',
+      add: '添加',
+      supplierType: '供应商类型',
+      supplierName: '供应商名称',
+      contactPerson: '联系人',
+      contactTel: '联系电话',
+      startTime: '开始时间',
+      endTime: '结束时间',
+      createTime: '创建时间',
+      remark: '备注',
+      operation: '操作',
+      edit: '修改',
+      config: '配置',
+      delete: '删除',
+      query: '查询',
+      confirmDelete: '确认删除',
+      deleteTip: '确定删除供应商吗？',
+      cancel: '取消',
+      confirm: '确认',
+      pleaseSelect: '请选择',
+      requiredField: '必填项',
+      template:'模版'
+    }
+  }
+}

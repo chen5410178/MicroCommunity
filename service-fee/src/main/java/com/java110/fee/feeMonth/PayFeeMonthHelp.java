@@ -145,12 +145,8 @@ public class PayFeeMonthHelp implements IPayFeeMonthHelp {
         }
 
         String yearMonth = "";
-        if (FeeDto.DEDUCT_FROM_CURRENT_MONTH.equals(feeDto.getDeductFrom())) {
-            yearMonth = DateUtil.getFormatTimeStringQ(feeDto.getStartTime());
-        }else if(FeeDto.DEDUCT_FROM_NEXT_MONTH.equals(feeDto.getDeductFrom())){
-            yearMonth = DateUtil.getFormatTimeStringQ(DateUtil.getNextMonthDate(feeDto.getStartTime(), 1));
-        }  else {
-            yearMonth = DateUtil.getFormatTimeStringQ(DateUtil.getNextMonthDate(feeDto.getStartTime(), -1));
+        if (feeDto.getFeeTime() != null) {
+            yearMonth = DateUtil.getFormatTimeStringQ(feeDto.getFeeTime());
         }
 
         int feeYear = Integer.parseInt(yearMonth.split("-")[0]);

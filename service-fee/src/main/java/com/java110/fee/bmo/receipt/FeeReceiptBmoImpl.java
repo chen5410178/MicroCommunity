@@ -160,14 +160,9 @@ public class FeeReceiptBmoImpl implements IFeeReceiptBmo {
         feeReceiptDetailPo.setAcctAmount(payFeeDetailPo.getAcctAmount());
 
         // Initialize fields that might not be set by freshFeeReceiptDetail
-        //当月，当月就取开始时间，这里先按开始时间计算，这样因为合理，也可以按创建时间来计算
         String feeMonth = "";
-        if (FeeDto.DEDUCT_FROM_CURRENT_MONTH.equals(feeDto.getDeductFrom())) {
-            feeMonth = DateUtil.getFormatTimeStringQ(feeDto.getStartTime());
-        } else if (FeeDto.DEDUCT_FROM_NEXT_MONTH.equals(feeDto.getDeductFrom())) {
-            feeMonth = DateUtil.getFormatTimeStringQ(DateUtil.getNextMonthDate(feeDto.getStartTime(), 1));
-        } else {
-            feeMonth = DateUtil.getFormatTimeStringQ(DateUtil.getNextMonthDate(feeDto.getStartTime(), -1));
+        if (feeDto.getFeeTime() != null) {
+            feeMonth = DateUtil.getFormatTimeStringQ(feeDto.getFeeTime());
         }
         feeReceiptDetailPo.setFeeMonth(feeMonth);
         feeReceiptDetailPo.setPrintCount("0");

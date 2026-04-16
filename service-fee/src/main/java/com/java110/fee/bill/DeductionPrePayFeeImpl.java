@@ -10,6 +10,7 @@ import com.java110.fee.bmo.fee.IFinishFeeNotify;
 import com.java110.fee.bmo.fee.IGeneratorPayFeeOrder;
 import com.java110.intf.fee.*;
 import com.java110.intf.store.IStoreUserV1InnerServiceSMO;
+import com.java110.intf.fee.IFeeInnerServiceSMO;
 import com.java110.po.fee.PayFeeDetailPo;
 import com.java110.po.fee.PayFeePo;
 import com.java110.po.prePayFee.PrePayFeePo;
@@ -51,6 +52,9 @@ public class DeductionPrePayFeeImpl implements IDeductionPrePayFee {
 
     @Autowired
     private IGeneratorPayFeeOrder generatorPayFeeOrderImpl;
+
+    @Autowired
+    private IFeeInnerServiceSMO feeInnerServiceSMOImpl;
 
     @Override
     public int deductionPrePayFee(String ppfId) {
@@ -175,6 +179,13 @@ public class DeductionPrePayFeeImpl implements IDeductionPrePayFee {
         payFeeDetailPo.setDeductionAmount("0");
         payFeeDetailPo.setLateAmount("0");
         payFeeDetailPo.setGiftAmount("0");
+        FeeDto feeDto = new FeeDto();
+        feeDto.setFeeId(tPayFeeDto.getFeeId());
+        feeDto.setCommunityId(tPayFeeDto.getCommunityId());
+        List<FeeDto> feeDtos = feeInnerServiceSMOImpl.queryFees(feeDto);
+        if (!ListUtil.isNull(feeDtos) && feeDtos.get(0).getFeeTime() != null) {
+            payFeeDetailPo.setFeeTime(DateUtil.getFormatTimeStringB(feeDtos.get(0).getFeeTime()));
+        }
 
         CommonCache.setValue(payFeeDetailPo.getDetailId() + CommonCache.RECEIPT_CODE, receiptCode, CommonCache.DEFAULT_EXPIRETIME_TWO_MIN);
         int flag = payFeeDetailNewV1InnerServiceSMOImpl.savePayFeeDetailNew(payFeeDetailPo);

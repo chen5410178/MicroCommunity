@@ -1,0 +1,82 @@
+export const messages = {
+  en: {
+    org: {
+      queryConditions: 'Query Conditions',
+      search: 'Search',
+      reset: 'Reset',
+      staffNamePlaceholder: 'Please enter staff name',
+      relatedStaff: 'Related Staff',
+      addRelatedStaff: 'Add Related Staff',
+      name: 'Name',
+      staffId: 'Staff ID',
+      phone: 'Phone',
+      email: 'Email',
+      address: 'Address',
+      gender: 'Gender',
+      operation: 'Operation',
+      delete: 'Delete',
+      details: 'Details',
+      confirmDelete: 'Confirm Delete',
+      cancel: 'Cancel',
+      addOrg: 'Add Organization',
+      editOrg: 'Edit Organization',
+      orgName: 'Organization Name',
+      parentOrg: 'Parent Organization',
+      description: 'Description',
+      save: 'Save',
+      confirmYourAction: 'Please confirm your action',
+      confirmDeleteOrg: 'Are you sure to delete this organization?',
+      confirmDeleteOrgRel: 'Are you sure to delete this organization relationship?',
+      staffTitle: 'Staff',
+      selectOrgFirst: 'Please select an organization first',
+      topOrg: 'The top organization cannot be modified',
+      staff: {
+        name: 'Name',
+        phone: 'Phone',
+        staffId: 'Staff ID'
+      },
+      submit: 'Submit',
+      close: 'Close'
+    }
+  },
+  zh: {
+    org: {
+      queryConditions: '查询条件',
+      search: '查询',
+      reset: '重置',
+      staffNamePlaceholder: '请填写员工名称',
+      relatedStaff: '关联员工',
+      addRelatedStaff: '关联员工',
+      name: '名称',
+      staffId: '员工编号',
+      phone: '手机号',
+      email: '邮箱',
+      address: '地址',
+      gender: '性别',
+      operation: '操作',
+      delete: '删除',
+      details: '详情',
+      confirmDelete: '确认删除',
+      cancel: '取消',
+      addOrg: '添加组织',
+      editOrg: '修改组织',
+      orgName: '组织名称',
+      parentOrg: '上级组织',
+      description: '描述',
+      save: '保存',
+      confirmYourAction: '请确认您的操作',
+      confirmDeleteOrg: '确定删除组织管理',
+      confirmDeleteOrgRel: '确定删除组织关系',
+      staffTitle: '员工',
+      selectOrgFirst: '请先选择一个组织',
+      topOrg: '一级组织不能修改',
+      staff: {
+        name: '员工名称',
+        phone: '员工电话',
+        staffId: '员工编号'
+      },
+      submit: '提交',
+      close: '关闭'
+    }
+  }
+}

@@ -4,34 +4,41 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.java110.acct.payment.IPaymentBusiness;
 import com.java110.core.context.ICmdDataFlowContext;
-import com.java110.core.factory.CallApiServiceFactory;
-import com.java110.core.factory.CommunitySettingFactory;
 import com.java110.core.factory.GenerateCodeFactory;
 import com.java110.core.log.LoggerFactory;
-import com.java110.core.smo.IComputeFeeSMO;
 import com.java110.dto.account.AccountDto;
 import com.java110.dto.community.CommunityDto;
-import com.java110.dto.fee.FeeAttrDto;
-import com.java110.dto.fee.FeeDto;
-import com.java110.dto.owner.OwnerDto;
+import com.java110.dto.fee.*;
 import com.java110.dto.payment.PaymentOrderDto;
+import com.java110.dto.user.UserDto;
 import com.java110.intf.acct.IAccountInnerServiceSMO;
 import com.java110.intf.community.ICommunityV1InnerServiceSMO;
-import com.java110.intf.fee.IFeeInnerServiceSMO;
+import com.java110.intf.fee.IBatchPayFeeInnerServiceSMO;
+import com.java110.intf.fee.IFeeReceiptInnerServiceSMO;
+import com.java110.intf.fee.IPayFeeDetailV1InnerServiceSMO;
+import com.java110.intf.fee.IPayFeeV1InnerServiceSMO;
 import com.java110.intf.user.IOwnerV1InnerServiceSMO;
+import com.java110.intf.user.IUserV1InnerServiceSMO;
+import com.java110.po.fee.PayFeeDetailPo;
+import com.java110.po.fee.PayFeePo;
 import com.java110.utils.cache.CommonCache;
-import com.java110.utils.cache.MappingCache;
-import com.java110.utils.util.*;
+import com.java110.utils.exception.CmdException;
+import com.java110.utils.lock.DistributedLock;
+import com.java110.utils.util.Assert;
+import com.java110.utils.util.DateUtil;
+import com.java110.utils.util.ListUtil;
+import com.java110.utils.util.StringUtil;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
- * 欠费缴费
+ * 批量缴费 （专供手机端使用）
  */
 @Service("oweFee")
 public class OweFeePaymentBusiness implements IPaymentBusiness {
@@ -55,10 +62,8 @@ public class OweFeePaymentBusiness implements IPaymentBusiness {
     public static final String OFFLINE_PAY_FEE_SWITCH = "OFFLINE_PAY_FEE_SWITCH";
 
     @Autowired
-    private IFeeInnerServiceSMO feeInnerServiceSMOImpl;
+    private IPayFeeV1InnerServiceSMO payFeeV1InnerServiceSMOImpl;
 
-    @Autowired
-    private IComputeFeeSMO computeFeeSMOImpl;
 
     @Autowired
     private ICommunityV1InnerServiceSMO communityV1InnerServiceSMOImpl;
@@ -70,78 +75,94 @@ public class OweFeePaymentBusiness implements IPaymentBusiness {
     private IOwnerV1InnerServiceSMO ownerV1InnerServiceSMOImpl;
 
 
+    @Autowired
+    private IUserV1InnerServiceSMO userV1InnerServiceSMOImpl;
+
+    @Autowired
+    private IBatchPayFeeInnerServiceSMO batchPayFeeInnerServiceSMOImpl;
+
+
     @Override
     public PaymentOrderDto unified(ICmdDataFlowContext context, JSONObject reqJson) {
-        String userId = context.getReqHeaders().get("user-id");
 
-
-        String ownerId = reqJson.getString("ownerId");
-        String roomId = reqJson.getString("roomId");
-
-        if (StringUtil.isEmpty(ownerId) && StringUtil.isEmpty(roomId)) {
-            throw new IllegalArgumentException("参数错误未包含业主或者房屋编号");
+        Assert.jsonObjectHaveKey(reqJson, "communityId", "请求报文中未包含communityId节点");
+        Assert.jsonObjectHaveKey(reqJson, "cashierUserId", "请求报文中未包含cashierUserId节点");
+        if (!reqJson.containsKey("feeConfigs")) {
+            throw new CmdException("未包含费用");
+        }
+        JSONArray feeConfigs = reqJson.getJSONArray("feeConfigs");
+        if (ListUtil.isNull(feeConfigs)) {
+            throw new CmdException("未包含费用项");
+        }
+        JSONObject paramInObj = null;
+        for (int feeIndex = 0; feeIndex < feeConfigs.size(); feeIndex++) {
+            paramInObj = feeConfigs.getJSONObject(feeIndex);
+            Assert.hasKeyAndValue(paramInObj, "payFees", "未包含缴费费用");
         }
 
-        String payObjType = "3333";
-        if (reqJson.containsKey("payObjType")) {
-            payObjType = reqJson.getString("payObjType");
+        UserDto userDto = new UserDto();
+        userDto.setUserId(reqJson.getString("cashierUserId"));
+        List<UserDto> userDtos = userV1InnerServiceSMOImpl.queryUsers(userDto);
+        if (ListUtil.isNull(userDtos)) {
+            throw new CmdException("缴费用户不存在");
         }
-
-        FeeDto feeDto = new FeeDto();
-        if (!StringUtil.isEmpty(ownerId)) {
-            feeDto.setOwnerId(ownerId);
-        } else {
-            feeDto.setPayerObjId(roomId);
-            feeDto.setPayerObjType(payObjType);
-        }
-        feeDto.setCommunityId(reqJson.getString("communityId"));
-
-
-        //查询费用信息arrearsEndTime
-        //feeDto.setArrearsEndTime(DateUtil.getCurrentDate());
-        feeDto.setState(FeeDto.STATE_DOING);
-        List<FeeDto> feeDtos = feeInnerServiceSMOImpl.queryFees(feeDto);
-
-        if (ListUtil.isNull(feeDtos)) {
-            throw new IllegalArgumentException("未包含欠费费用");
-        }
-
-        String val = CommunitySettingFactory.getValue(feeDtos.get(0).getCommunityId(), TOTAL_FEE_PRICE);
-        if (StringUtil.isEmpty(val)) {
-            val = MappingCache.getValue(DOMAIN_COMMON, TOTAL_FEE_PRICE);
-        }
-        List<FeeDto> tmpFeeDtos = new ArrayList<>();
-        double money = 0.0;
-        BigDecimal tmpMoney = new BigDecimal(money);
-        BigDecimal feeTotalPrice = null;
-        for (FeeDto tmpFeeDto : feeDtos) {
-            try {
-                //todo 前端是否选择了
-                if (!hasInSelectFees(tmpFeeDto, reqJson)) {
-                    continue;
-                }
-                computeFeeSMOImpl.computeEveryOweFee(tmpFeeDto);//计算欠费金额
-                //如果金额为0 就排除
-                //if (tmpFeeDto.getFeePrice() > 0 && tmpFeeDto.getEndTime().getTime() <= DateUtil.getCurrentDate().getTime()) {
-                tmpFeeDto.setVal(val);
-                //todo  考虑 负数金额 可能用于红冲
-                if (tmpFeeDto.getFeeTotalPrice() != 0 && "Y".equals(tmpFeeDto.getPayOnline())) {
-                    tmpFeeDtos.add(tmpFeeDto);
-                    //todo 处理小数点
-                    tmpFeeDto.setFeeTotalPrice(MoneyUtil.computePriceScale(tmpFeeDto.getFeeTotalPrice(), tmpFeeDto.getScale(), Integer.parseInt(tmpFeeDto.getDecimalPlace())));
-                    feeTotalPrice = new BigDecimal(tmpFeeDto.getFeeTotalPrice());
-                    tmpMoney = tmpMoney.add(feeTotalPrice);
-                }
-            } catch (Exception e) {
-                logger.error("可能费用资料有问题导致算费失败", e);
+        JSONArray payFees = null;
+        JSONObject feeObj = null;
+        String feeId = "";
+        JSONObject feeConfigObj = null;
+        List<String> feeIds = null;
+        BigDecimal oweAmount = new BigDecimal("0");
+        BigDecimal disAmount = new BigDecimal("0");
+        String feeName = reqJson.getString("feeName");
+        JSONArray selectedDiscountIds = null;
+        for (int configIndex = 0; configIndex < feeConfigs.size(); configIndex++) {
+            feeConfigObj = feeConfigs.getJSONObject(configIndex);
+            if (!feeConfigObj.containsKey("payFees")) {
+                continue;
             }
+            payFees = feeConfigObj.getJSONArray("payFees");
+            if (ListUtil.isNull(payFees)) {
+                continue;
+            }
+
+            feeIds = new ArrayList<>();
+            for (int feeIndex = 0; feeIndex < payFees.size(); feeIndex++) {
+                feeIds.add(payFees.getJSONObject(feeIndex).getString("feeId"));
+            }
+
+            // 计算费用
+            PayFeeDto feeDto = new PayFeeDto();
+            feeDto.setFeeIds(feeIds.toArray(new String[feeIds.size()]));
+            feeDto.setCommunityId(reqJson.getString("communityId"));
+            feeDto.setOwnerId(reqJson.getString("ownerId"));
+            feeDto.setState(FeeDto.STATE_DOING);
+            List<PayFeeDto> feeDtos = payFeeV1InnerServiceSMOImpl.queryPayFees(feeDto);
+            if (ListUtil.isNull(feeDtos)) {
+                throw new CmdException("费用不存在");
+            }
+
+            feeName = getFeeName(feeDtos.get(0)) + "-" + feeName;
+
+
+            for (PayFeeDto payFeeDto : feeDtos) {
+                oweAmount = oweAmount.add(new BigDecimal(payFeeDto.getOweAmount()));
+            }
+
+            List<ComputeDiscountDto> computeDiscountDtos = payFeeV1InnerServiceSMOImpl.computeDiscount(feeDtos);
+            selectedDiscountIds = new JSONArray();
+            for (ComputeDiscountDto computeDiscountDto : computeDiscountDtos) {
+                if (computeDiscountDto.getDiscountPrice() != 0) {
+                    disAmount = disAmount.add(new BigDecimal(computeDiscountDto.getDiscountPrice() + ""));
+                    selectedDiscountIds.add(computeDiscountDto.getDiscountId());
+                }
+            }
+            feeConfigObj.put("discountAmount", disAmount.doubleValue());
+            feeConfigObj.put("selectedDiscountIds", selectedDiscountIds);
+
         }
-
-        String feeName = getFeeName(tmpFeeDtos.get(0));
-
         String orderId = GenerateCodeFactory.getOId();
-
-        money = tmpMoney.setScale(2, BigDecimal.ROUND_HALF_EVEN).doubleValue();
+        BigDecimal moneyDec = oweAmount.add(disAmount);
+        double money = moneyDec.setScale(2, BigDecimal.ROUND_HALF_EVEN).doubleValue();
 
         //todo 支持账户扣款
         money = ifHasAccount(reqJson, money);
@@ -149,18 +170,17 @@ public class OweFeePaymentBusiness implements IPaymentBusiness {
         PaymentOrderDto paymentOrderDto = new PaymentOrderDto();
         paymentOrderDto.setOrderId(orderId);
         paymentOrderDto.setMoney(money);
-        paymentOrderDto.setName(feeName + "欠费费用");
-        paymentOrderDto.setUserId(userId);
+        paymentOrderDto.setName(feeName);
+        paymentOrderDto.setUserId(userDtos.get(0).getUserId());
         paymentOrderDto.setCycles("1");
 
 
         JSONObject saveFees = new JSONObject();
         saveFees.put("orderId", orderId);
-        saveFees.put("userId", userId);
+        saveFees.put("userId", userDtos.get(0).getUserId());
         saveFees.put("money", money);
-        saveFees.put("roomId", roomId);
         saveFees.put("communityId", reqJson.getString("communityId"));
-        saveFees.put("fees", tmpFeeDtos);
+        saveFees.put("feeConfigs", feeConfigs);
         if (reqJson.containsKey("acctId")) {
             saveFees.put("accountAmount", reqJson.getDoubleValue("accountAmount"));
             saveFees.put("acctId", reqJson.getString("acctId"));
@@ -169,66 +189,34 @@ public class OweFeePaymentBusiness implements IPaymentBusiness {
         return paymentOrderDto;
     }
 
-
-    /**
-     * 判断是否是 选择的费用交费
-     *
-     * @param tmpFeeDto
-     * @param reqJson
-     * @return
-     */
-    private boolean hasInSelectFees(FeeDto tmpFeeDto, JSONObject reqJson) {
-
-        if (!reqJson.containsKey("feeIds")) {
-            return true;
-        }
-
-        JSONArray feeIds = reqJson.getJSONArray("feeIds");
-        if (ListUtil.isNull(feeIds)) {
-            return true;
-        }
-        boolean hasIn = false;
-        for (int feeIndex = 0; feeIndex < feeIds.size(); feeIndex++) {
-            if (tmpFeeDto.getFeeId().equals(feeIds.getString(feeIndex))) {
-                hasIn = true;
-            }
-        }
-
-        return hasIn;
-    }
-
     @Override
     public void notifyPayment(PaymentOrderDto paymentOrderDto, JSONObject reqJson) {
+
+        UserDto userDto = new UserDto();
+        userDto.setUserId(paymentOrderDto.getUserId());
+        List<UserDto> userDtos = userV1InnerServiceSMOImpl.queryUsers(userDto);
+        if (ListUtil.isNull(userDtos)) {
+            throw new CmdException("缴费人员不存在");
+        }
 
         String order = CommonCache.getAndRemoveValue(FeeDto.REDIS_PAY_OWE_FEE + paymentOrderDto.getOrderId());
 
         JSONObject paramIn = JSONObject.parseObject(order);
-        paramIn.put("oId", paymentOrderDto.getOrderId());
-        freshFees(paramIn);
-        JSONObject paramOut = CallApiServiceFactory.postForApi(paymentOrderDto.getAppId(), paramIn, "fee.payOweFee", JSONObject.class, paramIn.getString("userId"));
 
+
+        String communityId = paramIn.getString("communityId");
+        String primeRate = "5";
+        String remark = "线上公众号支付";
+        String acctId = paramIn.getString("acctId");
+        String payOrderId = paramIn.getString("payOrderId");
+        String amount = paramIn.getString("money");
+        JSONArray feeConfigs = reqJson.getJSONArray("feeConfigs");
+
+        batchPayFeeInnerServiceSMOImpl.batchPayFee(new BatchPayFeeDto(communityId, primeRate, remark, acctId, payOrderId, userDtos.get(0), feeConfigs));
     }
 
 
-    private void freshFees(JSONObject paramIn) {
-        if (!paramIn.containsKey("fees")) {
-            return;
-        }
-
-        JSONArray fees = paramIn.getJSONArray("fees");
-        JSONObject fee = null;
-        for (int feeIndex = 0; feeIndex < fees.size(); feeIndex++) {
-            fee = fees.getJSONObject(feeIndex);
-            if (fee.containsKey("deadlineTime")) {
-                fee.put("startTime", DateUtil.getFormatTimeString(fee.getDate("endTime"), DateUtil.DATE_FORMATE_STRING_A));
-                fee.put("endTime", DateUtil.getFormatTimeString(fee.getDate("deadlineTime"), DateUtil.DATE_FORMATE_STRING_A));
-                fee.put("receivedAmount", fee.getString("feeTotalPrice"));
-                fee.put("state", "");
-            }
-        }
-    }
-
-    private String getFeeName(FeeDto feeDto) {
+    private String getFeeName(PayFeeDto feeDto) {
         //查询小区名称
         CommunityDto communityDto = new CommunityDto();
         communityDto.setCommunityId(feeDto.getCommunityId());
@@ -236,18 +224,8 @@ public class OweFeePaymentBusiness implements IPaymentBusiness {
 
         Assert.listOnlyOne(communityDtos, "小区不存在");
 
-        List<FeeAttrDto> feeAttrDtos = feeDto.getFeeAttrDtos();
-        if (feeAttrDtos == null || feeAttrDtos.size() < 1) {
-            return communityDtos.get(0).getName() + "-" + feeDto.getFeeName();
-        }
 
-        for (FeeAttrDto feeAttrDto : feeAttrDtos) {
-            if (FeeAttrDto.SPEC_CD_PAY_OBJECT_NAME.equals(feeAttrDto.getSpecCd())) {
-                return communityDtos.get(0).getName() + "-" + feeAttrDto.getValue() + "-" + feeDto.getFeeName();
-            }
-        }
-
-        return communityDtos.get(0).getName() + "-" + feeDto.getFeeName();
+        return communityDtos.get(0).getName() + "-" + feeDto.getPayerObjName();
     }
 
     private double ifHasAccount(JSONObject reqJson, double money) {
@@ -283,5 +261,27 @@ public class OweFeePaymentBusiness implements IPaymentBusiness {
         accountAmountDec = new BigDecimal(money).subtract(accountAmountDec).setScale(2, BigDecimal.ROUND_HALF_UP);
         return accountAmountDec.doubleValue();
     }
+
+    private String getFeeIdWithMaxEndTime(JSONArray payFees) {
+        if (payFees == null || payFees.isEmpty()) {
+            return "-1";
+        }
+
+        JSONObject maxObj = null;
+        Date maxDate = null;
+
+        for (Object obj : payFees) {
+            JSONObject jsonObj = (JSONObject) obj;
+            Date currentDate = DateUtil.getDateFromStringA(jsonObj.getString("endTime"));
+
+            if (maxDate == null || currentDate.after(maxDate)) {
+                maxDate = currentDate;
+                maxObj = jsonObj;
+            }
+        }
+
+        return maxObj.getString("feeId");
+    }
+
 
 }

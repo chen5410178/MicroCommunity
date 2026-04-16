@@ -29,6 +29,7 @@ import com.java110.po.fee.PayFeePo;
 import com.java110.utils.util.Assert;
 import com.java110.utils.util.DateUtil;
 import com.java110.utils.util.ListUtil;
+import com.java110.utils.util.StringUtil;
 import com.java110.vo.ResultVo;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -235,6 +236,9 @@ public class PreStoreMeterPaymentBusiness implements IPaymentBusiness {
         payFeeDetailPo.setGiftAmount("0");
         payFeeDetailPo.setDiscountAmount("0");
         payFeeDetailPo.setLateAmount("0");
+        if (!StringUtil.isEmpty(payFeePo.getFeeTime())) {
+            payFeeDetailPo.setFeeTime(payFeePo.getFeeTime());
+        }
         payFeeDetailPo.setCashierName("手机缴费");
         payFeeDetailPo.setCashierId("-1");
 

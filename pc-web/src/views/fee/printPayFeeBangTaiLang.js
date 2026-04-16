@@ -1,0 +1,60 @@
+export const messages = {
+  en: {
+    printPayFeeBangTai: {
+      applyForm: 'Application Form',
+      receiptForm: 'Receipt Form',
+      receiptNum: 'Receipt No.',
+      owner: 'Owner: ',
+      paymentTime: 'Payment Time: ',
+      serialNum: 'No.',
+      feeItem: 'Fee Item',
+      houseCar: 'House/Car',
+      feeRange: 'Fee Range',
+      cycle: 'Cycle',
+      unitPrice: 'Unit Price/Fixed Fee',
+      areaUsage: 'Area/Usage',
+      paymentMethod: 'Payment Method',
+      amount: 'Amount',
+      discountAmount: 'Discount Amount',
+      remark: 'Remark',
+      to: ' to ',
+      none: 'None',
+      capitalRMB: 'Capital RMB',
+      departmentHead: 'Department Head',
+      handler: 'Handler',
+      financialCollection: 'Financial Collection',
+      customerConfirmation: 'Customer Confirmation',
+      print: 'Print',
+      cancel: 'Cancel'
+    }
+  },
+  zh: {
+    printPayFeeBangTai: {
+      applyForm: '申请单',
+      receiptForm: '收据单',
+      receiptNum: '单号',
+      owner: '业主：',
+      paymentTime: '缴费时间：',
+      serialNum: '编号',
+      feeItem: '收费项目',
+      houseCar: '房屋/车辆',
+      feeRange: '收费范围',
+      cycle: '周期',
+      unitPrice: '单价/固定费',
+      areaUsage: '面积/用量',
+      paymentMethod: '支付方式',
+      amount: '金额',
+      discountAmount: '优惠金额',
+      remark: '备注',
+      to: '至',
+      none: '无',
+      capitalRMB: '大写人民币',
+      departmentHead: '部门负责人',
+      handler: '经办人',
+      financialCollection: '财务收款',
+      customerConfirmation: '客户确认',
+      print: '打印',
+      cancel: '取消'
+    }
+  }
+}

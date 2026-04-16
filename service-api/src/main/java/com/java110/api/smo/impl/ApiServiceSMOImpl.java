@@ -23,12 +23,10 @@ import com.java110.po.log.TransactionLogPo;
 import com.java110.utils.cache.AppRouteCache;
 import com.java110.utils.cache.MappingCache;
 import com.java110.utils.constant.CommonConstant;
-import com.java110.utils.constant.KafkaConstant;
 import com.java110.utils.constant.MappingConstant;
 import com.java110.utils.constant.ResponseConstant;
 import com.java110.utils.exception.*;
 import com.java110.utils.factory.ApplicationContextFactory;
-import com.java110.utils.kafka.KafkaFactory;
 import com.java110.utils.log.LoggerEngine;
 import com.java110.utils.util.BootReplaceUtil;
 import com.java110.utils.util.DateUtil;
@@ -671,7 +669,7 @@ public class ApiServiceSMOImpl extends LoggerEngine implements IApiServiceSMO {
                 JSONObject log = new JSONObject();
                 log.put("request", requestJson);
                 log.put("response", responseJson);
-                KafkaFactory.sendKafkaMessage(KafkaConstant.TOPIC_LOG_NAME, "", log.toJSONString());
+                logger.info("日志数据: {}", log.toJSONString());
             }
         } catch (Exception e) {
             logger.error("报错日志出错了，", e);
@@ -698,7 +696,7 @@ public class ApiServiceSMOImpl extends LoggerEngine implements IApiServiceSMO {
                 }
                 costDate.put("costDates", costDates);
 
-                KafkaFactory.sendKafkaMessage(KafkaConstant.TOPIC_COST_TIME_LOG_NAME, "", costDate.toJSONString());
+                logger.info("耗时日志数据: {}", costDate.toJSONString());
             }
         } catch (Exception e) {
             logger.error("报错日志出错了，", e);

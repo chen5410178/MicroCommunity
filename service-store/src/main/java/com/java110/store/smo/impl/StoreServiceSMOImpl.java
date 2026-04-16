@@ -3,11 +3,9 @@ package com.java110.store.smo.impl;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.java110.utils.cache.MappingCache;
-import com.java110.utils.constant.KafkaConstant;
 import com.java110.utils.constant.MappingConstant;
 import com.java110.utils.constant.ResponseConstant;
 import com.java110.utils.exception.SMOException;
-import com.java110.utils.kafka.KafkaFactory;
 import com.java110.utils.util.Assert;
 import com.java110.utils.util.DateUtil;
 import com.java110.core.base.smo.BaseServiceSMO;
@@ -75,7 +73,6 @@ public class StoreServiceSMOImpl extends BaseServiceSMO implements IStoreService
         try {
             if (MappingConstant.VALUE_ON.equals(MappingCache.getValue(MappingConstant.DOMAIN_SYSTEM_SWITCH,MappingConstant.KEY_LOG_ON_OFF))) {
                 for (DataFlowLog dataFlowLog : businessServiceDataFlow.getLogDatas()) {
-                    KafkaFactory.sendKafkaMessage(KafkaConstant.TOPIC_LOG_NAME, "", JSONObject.toJSONString(dataFlowLog));
                 }
             }
         } catch (Exception e) {
@@ -103,7 +100,6 @@ public class StoreServiceSMOImpl extends BaseServiceSMO implements IStoreService
                 }
                 costDate.put("costDates", costDates);
 
-                KafkaFactory.sendKafkaMessage(KafkaConstant.TOPIC_COST_TIME_LOG_NAME, "", costDate.toJSONString());
             }
         } catch (Exception e) {
             logger.error("报错日志出错了，", e);

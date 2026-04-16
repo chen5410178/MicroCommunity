@@ -1,0 +1,90 @@
+export const messages = {
+  en: {
+    communitySpacePersonManage: {
+      searchConditions: 'Search Conditions',
+      more: 'More',
+      hide: 'Hide',
+      appointmentTimePlaceholder: 'Please select appointment time',
+      appointmentPersonPlaceholder: 'Please select appointment person',
+      appointmentTelPlaceholder: 'Please select appointment phone',
+      search: 'Search',
+      reset: 'Reset',
+      statePlaceholder: 'Please select state',
+      spacePlaceholder: 'Please select appointment space',
+      appointmentOrder: 'Appointment Order',
+      orderId: 'Order ID',
+      venue: 'Venue',
+      space: 'Space',
+      appointmentPerson: 'Appointment Person',
+      appointmentTel: 'Appointment Phone',
+      appointmentDate: 'Appointment Date',
+      appointmentTime: 'Appointment Time',
+      receivableAmount: 'Receivable Amount',
+      receivedAmount: 'Received Amount',
+      payWay: 'Payment Method',
+      state: 'State',
+      createTime: 'Create Time',
+      remark: 'Remark',
+      operation: 'Operation',
+      cancelAppointment: 'Cancel Appointment',
+      stateOptions: {
+        S: 'Appointment Success',
+        F: 'Appointment Failed',
+        W: 'Pending Review',
+        P: 'Pending Payment'
+      },
+      stateWaitConfirm: 'Pending Confirm',
+      stateConfirm: 'Confirmed'
+    },
+    deleteCommunitySpacePerson: {
+      confirmTitle: 'Please confirm your operation!',
+      confirmContent: 'Confirm to cancel the site reservation? If it is an online reservation, it will be automatically refunded to the reservation account',
+      cancel: 'Cancel',
+      confirmCancel: 'Confirm Cancel'
+    },
+  },
+  zh: {
+    communitySpacePersonManage: {
+      searchConditions: '查询条件',
+      more: '更多',
+      hide: '隐藏',
+      appointmentTimePlaceholder: '请选择预约时间',
+      appointmentPersonPlaceholder: '请选择预约人',
+      appointmentTelPlaceholder: '请选择预约电话',
+      search: '查询',
+      reset: '重置',
+      statePlaceholder: '请选择状态',
+      spacePlaceholder: '请选择预约场地',
+      appointmentOrder: '预约订单',
+      orderId: '订单编号',
+      venue: '场馆',
+      space: '场地',
+      appointmentPerson: '预约人',
+      appointmentTel: '预约电话',
+      appointmentDate: '预约日期',
+      appointmentTime: '预约时间',
+      receivableAmount: '应收金额',
+      receivedAmount: '实收金额',
+      payWay: '支付方式',
+      state: '状态',
+      createTime: '创建时间',
+      remark: '备注',
+      operation: '操作',
+      cancelAppointment: '取消预约',
+      stateOptions: {
+        S: '预约成功',
+        F: '预约失败',
+        W: '待审核',
+        P: '待支付'
+      },
+      stateWaitConfirm: '待核销',
+      stateConfirm: '已核销'
+    },
+    deleteCommunitySpacePerson: {
+      confirmTitle: '请确认您的操作！',
+      confirmContent: '确定取消场地预约，如果是线上预约，自动会退款到预约人账户',
+      cancel: '点错了',
+      confirmCancel: '确认取消'
+    },
+  }
+}

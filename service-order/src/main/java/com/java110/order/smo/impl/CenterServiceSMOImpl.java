@@ -11,7 +11,6 @@ import com.java110.utils.cache.MappingCache;
 import com.java110.utils.constant.*;
 import com.java110.utils.exception.*;
 import com.java110.utils.factory.ApplicationContextFactory;
-import com.java110.utils.kafka.KafkaFactory;
 import com.java110.utils.log.LoggerEngine;
 import com.java110.utils.util.*;
 import com.java110.core.client.RestTemplate;
@@ -685,8 +684,7 @@ public class CenterServiceSMOImpl extends LoggerEngine implements ICenterService
                 if(completedBusiness.get("business_type_cd").equals(appRoute.getAppService().getBusinessTypeCd())){
                     long startTime = DateUtil.getCurrentDate().getTime();
                     //发起撤单
-                    KafkaFactory.sendKafkaMessage(appRoute.getAppService().getMessageQueueName(),"",
-                            DataFlowFactory.getDeleteInstanceTableJson(dataFlow,completedBusiness,appRoute.getAppService()).toJSONString());
+
                     //saveLogMessage(DataFlowFactory.getDeleteInstanceTableJson(dataFlow,completedBusiness,appRoute.getAppService()),null);
 
                     saveLogMessage(dataFlow,LogAgent.createLogMessage(dataFlow.getRequestCurrentHeaders(),DataFlowFactory.getDeleteInstanceTableJson(dataFlow,completedBusiness,appRoute.getAppService()).toJSONString()),
@@ -843,9 +841,7 @@ public class CenterServiceSMOImpl extends LoggerEngine implements ICenterService
             return ;
         }
         try {
-            KafkaFactory.sendKafkaMessage(DataFlowFactory.getService(dataFlow, dataFlow.getCurrentBusiness().getServiceCode()).getMessageQueueName(), "",
-                    DataFlowFactory.getBusinessTableDataInfoToInstanceTableJson(dataFlow, dataFlow.getCurrentBusiness()).toJSONString());
-        }catch (Exception e){
+                    }catch (Exception e){
 
         }
 
@@ -981,8 +977,6 @@ public class CenterServiceSMOImpl extends LoggerEngine implements ICenterService
 
         long startTime = DateUtil.getCurrentDate().getTime();
         //拼装报文通知业务系统
-        KafkaFactory.sendKafkaMessage(
-                DataFlowFactory.getService(dataFlow,dataFlow.getBusinesses().get(0).getServiceCode()).getMessageQueueName(),"",DataFlowFactory.getNotifyBusinessSuccessJson(dataFlow).toJSONString());
 
         saveLogMessage(dataFlow,LogAgent.createLogMessage(dataFlow.getRequestCurrentHeaders(),DataFlowFactory.getNotifyBusinessSuccessJson(dataFlow).toJSONString()),
                 LogAgent.createLogMessage(dataFlow.getResponseCurrentHeaders(),ResponseConstant.RESULT_CODE_SUCCESS),
@@ -997,9 +991,7 @@ public class CenterServiceSMOImpl extends LoggerEngine implements ICenterService
     private void notifyBusinessSystemErrorMessage(DataFlow dataFlow) throws Exception{
         long startTime = DateUtil.getCurrentDate().getTime();
         //拼装报文通知业务系统
-        KafkaFactory.sendKafkaMessage(
-                DataFlowFactory.getService(dataFlow,dataFlow.getBusinesses().get(0).getServiceCode()).getMessageQueueName(),"",
-                DataFlowFactory.getNotifyBusinessErrorJson(dataFlow).toJSONString());
+
         saveLogMessage(dataFlow,LogAgent.createLogMessage(dataFlow.getRequestCurrentHeaders(),DataFlowFactory.getNotifyBusinessErrorJson(dataFlow).toJSONString()),
                 LogAgent.createLogMessage(dataFlow.getResponseCurrentHeaders(),ResponseConstant.RESULT_CODE_ERROR),
                 DateUtil.getCurrentDate().getTime() - startTime);
@@ -1262,8 +1254,7 @@ public class CenterServiceSMOImpl extends LoggerEngine implements ICenterService
         try {
             for (AppBusiness business : asynchronousBusinesses) {
                 dataFlow.setCurrentBusiness(business);
-                KafkaFactory.sendKafkaMessage(DataFlowFactory.getService(dataFlow, business.getServiceCode()).getMessageQueueName(), "",
-                        DataFlowFactory.getRequestBusinessJson(dataFlow,business).toJSONString());
+
             }
         }catch (Exception e){
             throw new BusinessException(ResponseConstant.RESULT_CODE_INNER_ERROR,e.getMessage());
@@ -1308,7 +1299,7 @@ public class CenterServiceSMOImpl extends LoggerEngine implements ICenterService
                 JSONObject log = new JSONObject();
                 log.put("request",requestJson);
                 log.put("response",responseJson);
-                KafkaFactory.sendKafkaMessage(KafkaConstant.TOPIC_LOG_NAME,"",log.toJSONString());
+
             }
         }catch (Exception e){
             logger.error("报错日志出错了，",e);
@@ -1334,7 +1325,6 @@ public class CenterServiceSMOImpl extends LoggerEngine implements ICenterService
                 }
                 costDate.put("costDates",costDates);
 
-                KafkaFactory.sendKafkaMessage(KafkaConstant.TOPIC_COST_TIME_LOG_NAME,"",costDate.toJSONString());
             }
         }catch (Exception e){
             logger.error("报错日志出错了，",e);

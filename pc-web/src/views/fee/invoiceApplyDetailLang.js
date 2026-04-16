@@ -1,0 +1,90 @@
+export const messages = {
+  en: {
+    invoiceApplyDetail: {
+      title: 'Invoice Details',
+      back: 'Back',
+      applyId: 'Apply ID:',
+      invoiceType: 'Invoice Type:',
+      personal: 'Personal',
+      company: 'Company',
+      ownerName: 'Owner Name:',
+      createUserName: 'Applicant:',
+      invoiceName: 'Invoice Title:',
+      invoiceNum: 'Taxpayer ID:',
+      invoiceAddress: 'Address/Phone:',
+      invoiceAmount: 'Apply Amount:',
+      stateName: 'Status:',
+      createTime: 'Apply Time:',
+      invoiceCode: 'Invoice Code:',
+      feeTab: 'Fee Details',
+      eventTab: 'Audit Records',
+      imageTab: 'View Invoice',
+      notUploaded: 'Not uploaded',
+      noInvoice: 'No Invoice',
+      downloadInvoice: 'Download Invoice',
+      fetchError: 'Failed to fetch invoice details'
+    },
+    invoiceApplyDetailFee: {
+      type: 'Type',
+      name: 'Name',
+      amount: 'Amount',
+      payTime: 'Pay Time',
+      remark: 'Remark',
+      paymentId: 'Payment ID',
+      feeType: 'Fee',
+      accountType: 'Account',
+      fetchError: 'Failed to fetch fee details'
+    },
+    invoiceApplyDetailEvent: {
+      type: 'Type',
+      operator: 'Operator',
+      remark: 'Remark',
+      time: 'Time',
+      fetchError: 'Failed to fetch audit records'
+    },
+  },
+  zh: {
+    invoiceApplyDetail: {
+      title: '发票详情',
+      back: '返回',
+      applyId: '编号：',
+      invoiceType: '发票类型：',
+      personal: '个人',
+      company: '企业',
+      ownerName: '业主名称：',
+      createUserName: '申请人：',
+      invoiceName: '发票名头：',
+      invoiceNum: '纳税人识别号：',
+      invoiceAddress: '地址、电话：',
+      invoiceAmount: '申请金额：',
+      stateName: '审核状态：',
+      createTime: '申请时间：',
+      invoiceCode: '发票编号：',
+      feeTab: '开票明细',
+      eventTab: '审核记录',
+      imageTab: '查看发票',
+      notUploaded: '未上传',
+      noInvoice: '没有发票',
+      downloadInvoice: '下载发票',
+      fetchError: '获取发票详情失败'
+    },
+    invoiceApplyDetailFee: {
+      type: '类型',
+      name: '名称',
+      amount: '金额',
+      payTime: '缴费时间',
+      remark: '备注',
+      paymentId: '缴费ID',
+      feeType: '费用',
+      accountType: '账户',
+      fetchError: '获取费用明细失败'
+    },
+    invoiceApplyDetailEvent: {
+      type: '类型',
+      operator: '操作人',
+      remark: '说明',
+      time: '时间',
+      fetchError: '获取审核记录失败'
+    },
+  }
+}

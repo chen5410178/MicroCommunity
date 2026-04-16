@@ -219,9 +219,14 @@ public class ServiceCodeConstant {
 
 
     /**
-     * 修改商品目录
+     * 删除商品目录
      */
     public static final String SERVICE_CODE_DELETE_SHOP_CATALOG = "delete.shop.catalog";
+
+    /**
+     * 保存商铺费用
+     */
+    public static final String SERVICE_CODE_SAVE_SHOP_CREATE_FEE = "fee.saveShopCreateFee";
 
     /**
      * 保存评论

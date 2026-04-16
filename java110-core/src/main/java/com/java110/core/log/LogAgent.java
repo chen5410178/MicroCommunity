@@ -4,10 +4,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONPath;
 import com.java110.utils.cache.MappingCache;
-import com.java110.utils.constant.KafkaConstant;
 import com.java110.utils.constant.MappingConstant;
 import com.java110.utils.constant.ResponseConstant;
-import com.java110.utils.kafka.KafkaFactory;
 import com.java110.utils.log.LoggerEngine;
 import com.java110.utils.util.Assert;
 import com.java110.core.context.DataFlow;
@@ -36,7 +34,6 @@ public class LogAgent extends LoggerEngine{
     public static boolean sendLog(TransactionLog transactionLog){
         if(MappingConstant.VALUE_ON.equals(MappingCache.getValue(MappingConstant.DOMAIN_SYSTEM_SWITCH,MappingConstant.KEY_LOG_ON_OFF))) {
             try {
-                KafkaFactory.sendKafkaMessage(KafkaConstant.TOPIC_LOG_NAME, "", transactionLog.toString());
             }catch (Exception e){
                 logger.error("保存日志失败："+transactionLog.toString(),e);
                 return false;
@@ -113,7 +110,6 @@ public class LogAgent extends LoggerEngine{
         }
         //如果有xml交互，则扩展
 
-        //兼容kafka 传递消息
         if(ResponseConstant.RESULT_CODE_SUCCESS.equals(body)){
             logStatus = LOG_STATUS_S;
         }

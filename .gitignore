@@ -26,6 +26,51 @@ hs_err_pid*
 
 .idea
 logs
+log
 *.iml
 
 *target/
+
+# Maven
+.mvn/
+mvnw
+mvnw.cmd
+
+# Eclipse
+.classpath
+.project
+.settings/
+.metadata
+bin/
+tmp/
+
+# IntelliJ IDEA
+*.iws
+*.ipr
+out/
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/nbdist/
+/.nb-gradle/
+build/
+
+# VS Code
+.vscode/
+
+# Spring Boot
+*.log
+*.tmp
+
+# OS
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# web
+dist/
+node_modules/
+.txcode
+nul
