@@ -15,10 +15,13 @@ import com.java110.intf.community.IRoomInnerServiceSMO;
 import com.java110.intf.store.IComplaintTypeUserV1InnerServiceSMO;
 import com.java110.intf.store.IComplaintV1InnerServiceSMO;
 import com.java110.intf.user.IOwnerV1InnerServiceSMO;
+import com.java110.utils.cache.MappingCache;
+import com.java110.utils.constant.MappingConstant;
 import com.java110.utils.exception.CmdException;
 import com.java110.utils.util.Assert;
 import com.java110.utils.util.BeanConvertUtil;
 import com.java110.utils.util.ListUtil;
+import com.java110.utils.util.StringUtil;
 import com.java110.vo.ResultVo;
 import com.java110.vo.api.junkRequirement.PhotoVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -129,6 +132,9 @@ public class QueryUserComplaintsCmd extends Cmd {
     private void refreshPhotos(List<ComplaintDto> complaints) {
         List<PhotoVo> photoVos = null;
         PhotoVo photoVo = null;
+        String imgUrl = MappingCache.getValue(MappingConstant.FILE_DOMAIN,"IMG_PATH");
+        imgUrl += (!StringUtil.isEmpty(imgUrl) && imgUrl.endsWith("/") ? "" : "/");
+        String img = "";
         for (ComplaintDto complaintDataVo : complaints) {
             FileRelDto fileRelDto = new FileRelDto();
             fileRelDto.setObjId(complaintDataVo.getComplaintId());
@@ -137,7 +143,11 @@ public class QueryUserComplaintsCmd extends Cmd {
             photoVos = new ArrayList<>();
             for (FileRelDto tmpFileRelDto : fileRelDtos) {
                 photoVo = new PhotoVo();
-                photoVo.setUrl(tmpFileRelDto.getFileRealName());
+                img = tmpFileRelDto.getFileRealName();
+                if(!StringUtil.isEmpty(img) && !img.startsWith("http")){
+                    img = imgUrl +img;
+                }
+                photoVo.setUrl(img);
                 photoVos.add(photoVo);
             }
             complaintDataVo.setPhotos(photoVos);
