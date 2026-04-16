@@ -87,7 +87,7 @@
               :class="['tabs-item', { active: $route.path === tab.path }]"
               @click="goTab(tab)"
             >
-              <span class="tabs-item-title">{{ tab.titleKey ? $t(tab.titleKey) : tab.title }}</span>
+              <span class="tabs-item-title">{{ $t('menu.'+tab.title) }}</span>
               <i class="el-icon-close tabs-item-close" @click.stop="removeTab(tab)" v-if="visitedTabs.length > 1"></i>
             </div>
           </div>
