@@ -36,6 +36,19 @@ export const messages = {
         ...integralRuleMessages.zh,
         ...integralGiftDetailManageMessages.zh,
         ...communityIntegralMessages.zh,
-        ...goldMessages.zh,
+...goldMessages.zh,
+    },
+    'zh-TW': {
+        ...couponMarketMessages['zh-TW'],
+        ...couponPropertyPoolManageMessages['zh-TW'],
+        ...couponRuleMessages['zh-TW'],
+        ...couponPropertyPoolDetailMessages['zh-TW'],
+        ...couponPropertyUserManageMessages['zh-TW'],
+        ...couponPropertyUserDetailMessages['zh-TW'],
+        ...integralConfigManageMessages['zh-TW'],
+        ...integralRuleMessages['zh-TW'],
+        ...integralGiftDetailManageMessages['zh-TW'],
+        ...communityIntegralMessages['zh-TW'],
+        ...goldMessages['zh-TW'],
     }
 }

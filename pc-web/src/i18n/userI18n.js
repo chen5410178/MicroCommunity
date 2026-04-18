@@ -41,6 +41,21 @@ export const messages = {
         ...workflowSettingManageMessages.zh,
         ...ownerDetailMessages.zh,
         ...auditAuthOwnerUndoMessages.zh,
-        ...scheduleClassesStaffManageMessages.zh,
+...scheduleClassesStaffManageMessages.zh,
+    },
+    'zh-TW': {
+        ...staffCommunityMessages['zh-TW'],
+        ...staffAppAuthManageMessages['zh-TW'],
+        ...dataPrivilegeManageMessages['zh-TW'],
+        ...classesManageMessages['zh-TW'],
+        ...scheduleClassesMessages['zh-TW'],
+        ...addScheduleClassesMessages['zh-TW'],
+        ...editScheduleClassesMessages['zh-TW'],
+        ...scheduleClassesPageMessages['zh-TW'],
+        ...workflowManageMessages['zh-TW'],
+        ...workflowSettingManageMessages['zh-TW'],
+        ...ownerDetailMessages['zh-TW'],
+        ...auditAuthOwnerUndoMessages['zh-TW'],
+        ...scheduleClassesStaffManageMessages['zh-TW'],
     }
 }

@@ -30,7 +30,19 @@ export const messages ={
         ...machineTranslateManageMessages.zh,   
         ...accessControlInoutMessages.zh, 
         ...machinePrinterManageMessages.zh,
-        ...printerRuleMessages.zh,
+...printerRuleMessages.zh,
         ...videoControlMessages.zh,
+    },
+    'zh-TW': {
+        ...machineTypeTreeManageMessages['zh-TW'],
+        ...equipmentAccountMessages['zh-TW'],
+        ...addEquipmentAccountMessages['zh-TW'],
+        ...editEquipmentAccountMessages['zh-TW'],
+        ...equipmentAccountDetailMessages['zh-TW'],
+        ...machineTranslateManageMessages['zh-TW'],
+        ...accessControlInoutMessages['zh-TW'],
+        ...machinePrinterManageMessages['zh-TW'],
+        ...printerRuleMessages['zh-TW'],
+        ...videoControlMessages['zh-TW'],
     }
 }

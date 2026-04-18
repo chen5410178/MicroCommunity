@@ -96,5 +96,54 @@ export const messages = {
       },
       fetchError: '获取制度分类列表失败'
     }
+  },
+  'zh-TW': {
+    regulationCategories: {
+      search: {
+        title: '查詢條件',
+        categoryName: '分類名稱',
+        parentId: '父分類ID',
+        sortOrder: '排序序號',
+        placeholder: '請輸入制度分類名稱'
+      },
+      list: {
+        title: '制度分類'
+      },
+      dialog: {
+        addTitle: '添加制度分類',
+        editTitle: '編輯制度分類',
+        delTitle: '刪除制度分類',
+        cancel: '取消',
+        confirm: '確定'
+      },
+      form: {
+        categoryId: '分類ID',
+        categoryName: '分類名稱',
+        parentId: '父分類ID',
+        sortOrder: '排序序號',
+      },
+      table: {
+        categoryId: '分類ID',
+        categoryName: '分類名稱',
+        parentId: '父分類ID',
+        sortOrder: '排序序號',
+      },
+      validate: {
+        categoryId: '請輸入分類ID',
+        categoryName: '請輸入分類名稱',
+        sortOrder: '請輸入排序序號',
+      },
+      add: {
+        success: '添加制度分類成功'
+      },
+      edit: {
+        success: '編輯制度分類成功'
+      },
+      delete: {
+        success: '刪除制度分類成功',
+        confirm: '確認刪除該制度分類嗎？'
+      },
+      fetchError: '獲取制度分類列表失敗'
+    }
   }
 }

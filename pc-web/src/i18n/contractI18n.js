@@ -57,6 +57,26 @@ export const messages ={
         ...contractApplyAuditHistoryOrdersMessages.zh,
         ...contractChangeAuditHistoryOrdersMessages.zh,
         ...contractDetailChangeMessages.zh,
-        ...contractApplyDetailMessages.zh,
-}
+...contractApplyDetailMessages.zh,
+    },
+    'zh-TW': {
+        ...contractTypeManageMessages['zh-TW'],
+        ...contractTypeSpecManageMessages['zh-TW'],
+        ...contractPartyaManageMessages['zh-TW'],
+        ...newContractManageMessages['zh-TW'],
+        ...printContractMessages['zh-TW'],
+        ...addContractMessages['zh-TW'],
+        ...contractManageMessages['zh-TW'],
+        ...contractChangeManageMessages['zh-TW'],
+        ...contractChangeDetailMessages['zh-TW'],
+        ...expirationContractManageMessages['zh-TW'],
+        ...contractDetailMessages['zh-TW'],
+        ...contractChangeDetailsMessages['zh-TW'],
+        ...contractApplyAuditOrdersMessages['zh-TW'],
+        ...contractChangeAuditOrdersMessages['zh-TW'],
+        ...contractApplyAuditHistoryOrdersMessages['zh-TW'],
+        ...contractChangeAuditHistoryOrdersMessages['zh-TW'],
+        ...contractDetailChangeMessages['zh-TW'],
+        ...contractApplyDetailMessages['zh-TW'],
+    }
 }

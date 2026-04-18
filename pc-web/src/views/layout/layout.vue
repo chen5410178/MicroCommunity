@@ -20,6 +20,7 @@
           </span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item command="zh">中文</el-dropdown-item>
+            <el-dropdown-item command="zh-TW">繁體中文</el-dropdown-item>
             <el-dropdown-item command="en">English</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -177,7 +178,9 @@ export default {
   },
   computed: {
     currentLangLabel() {
-      return this.$i18n.locale === 'zh' ? this.$t('layout.chinese') : this.$t('layout.english')
+      if (this.$i18n.locale === 'zh') return this.$t('layout.chinese')
+      if (this.$i18n.locale === 'zh-TW') return '繁體中文'
+      return this.$t('layout.english')
     }
   },
   methods: {

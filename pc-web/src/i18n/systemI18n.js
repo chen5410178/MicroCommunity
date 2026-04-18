@@ -41,6 +41,21 @@ export const messages = {
         ...assetImportLogMessages.zh,
         ...assetImportLogDetailMessages.zh,
         ...payFeeQrcodeMessages.zh,
-        ...menuUserManageMessages.zh,
+...menuUserManageMessages.zh,
+    },
+    'zh-TW': {
+        ...communitySettingManageMessages['zh-TW'],
+        ...storeInfoManageMessages['zh-TW'],
+        ...publicWeChatManageMessages['zh-TW'],
+        ...smallWeChatManageMessages['zh-TW'],
+        ...paymentPoolMessages['zh-TW'],
+        ...operateDataLogMessages['zh-TW'],
+        ...feePrintSpecManageMessages['zh-TW'],
+        ...feePrintPageManageMessages['zh-TW'],
+        ...downloadTempFileMessages['zh-TW'],
+        ...assetImportLogMessages['zh-TW'],
+        ...assetImportLogDetailMessages['zh-TW'],
+        ...payFeeQrcodeMessages['zh-TW'],
+        ...menuUserManageMessages['zh-TW'],
     }
 }

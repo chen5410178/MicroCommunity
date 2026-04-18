@@ -26,6 +26,16 @@ export const messages = {
         ...itemReleaseDetailMessages.en,
         ...printRepairDetailMessages.en,
         ...finishRepairMessages.en,
-        ...addRoomRepairMessages.en,
+...addRoomRepairMessages.en,
+    },
+    'zh-TW': {
+        ...itemReleaseTypeManageMessages['zh-TW'],
+        ...itemReleaseManageMessages['zh-TW'],
+        ...addItemReleaseViewMessages['zh-TW'],
+        ...editItemReleaseViewMessages['zh-TW'],
+        ...itemReleaseDetailMessages['zh-TW'],
+        ...printRepairDetailMessages['zh-TW'],
+        ...finishRepairMessages['zh-TW'],
+        ...addRoomRepairMessages['zh-TW'],
     }
 }
