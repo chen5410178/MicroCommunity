@@ -100,9 +100,62 @@ export const messages = {
       integralRuleConfig: '积分标准',
       integralRuleFee: '缴费时间',
       
+// Messages
+      fetchError: '獲取數據失敗',
+      selectRuleFirst: '請先選擇規則'
+    }
+  },
+  'zh-TW': {
+    integralRule: {
+      addTitle: '添加積分規則',
+      editTitle: '編輯積分規則',
+      deleteTitle: '刪除積分規則',
+      deleteConfirm: '確定刪除該積分規則嗎？',
+      ruleName: '規則名稱',
+      ruleNamePlaceholder: '請輸入規則名稱',
+      ruleNameRequired: '規則名稱不能為空',
+      ruleNameMaxLength: '規則名稱不能超過64個字符',
+      remark: '備註',
+      remarkPlaceholder: '請輸入備註',
+      remarkRequired: '備註不能為空',
+      remarkMaxLength: '備註不能超過512個字符',
+      ruleIdRequired: '規則ID不能為空',
+      selectRule: '請先選擇規則',
+      
+      // Config related
+      addConfigTitle: '添加積分標準',
+      configId: '配置ID',
+      configName: '配置名稱',
+      configPlaceholder: '請選擇配置',
+      configRequired: '配置不能為空',
+      deleteConfigConfirm: '確定刪除該配置嗎？',
+      computingFormula: '計算公式',
+      squarePrice: '單價',
+      additionalAmount: '固定積分',
+      scale: '進位',
+      
+      // Fee related
+      addFeeTitle: '添加繳費時間',
+      editFeeTitle: '編輯繳費時間',
+      feeId: '費用ID',
+      payTimeRange: '繳費時間範圍',
+      payStartTime: '開始時間',
+      payStartTimePlaceholder: '選擇開始時間',
+      payStartTimeRequired: '開始時間不能為空',
+      payEndTime: '結束時間',
+      payEndTimePlaceholder: '選擇結束時間',
+      payEndTimeRequired: '結束時間不能為空',
+      payEndTimeAfterStart: '結束時間必須晚於開始時間',
+      deleteFeeConfirm: '確定刪除該繳費時間嗎？',
+      feeIdRequired: '費用ID不能為空',
+      
+      // Tab names
+      integralRuleConfig: '積分標準',
+      integralRuleFee: '繳費時間',
+      
       // Messages
-      fetchError: '获取数据失败',
-      selectRuleFirst: '请先选择规则'
+      fetchError: '獲取數據失敗',
+      selectRuleFirst: '請先選擇規則'
     }
   }
 }

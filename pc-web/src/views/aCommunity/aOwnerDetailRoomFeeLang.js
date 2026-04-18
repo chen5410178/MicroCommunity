@@ -54,5 +54,33 @@ export const messages = {
       note1: '注意：应收结束时间 "-" 表示未到应收时间或收费已结束',
       note2: '应收金额为-1 一般为费用项公式设置出错请检查'
     }
+  },
+  'zh-TW': {
+    aOwnerDetailRoomFee: {
+      room: '房屋',
+      feeItem: '費用項目',
+      feeFlag: '費用標識',
+      feeType: '費用類型',
+      amountReceivable: '應收金額',
+      accountTime: '建帳時間',
+      receivablePeriod: '應收時間段',
+      description: '說明',
+      status: '狀態',
+      operation: '操作',
+      selectStatus: '請選擇狀態',
+      valid: '有效',
+      chargeEnd: '收費結束',
+      lastDegree: '上期度數',
+      currentDegree: '本期度數',
+      unitPrice: '單價',
+      additionalFee: '附加費',
+      usage: '用量',
+      algorithm: '算法',
+      feeBasedOnActual: '費用根據實際情況而定',
+      fixedFee: '固定費',
+      arrearsSubtotal: '欠費小計：',
+      note1: '注意：應收結束時間 "-" 表示未到應收時間或收費已結束',
+      note2: '應收金額為-1 一般為費用項公式設置出錯請檢查'
+    }
   }
 }

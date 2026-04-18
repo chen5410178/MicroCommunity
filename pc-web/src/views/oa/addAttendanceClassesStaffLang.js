@@ -31,8 +31,26 @@ export const messages = {
       imageSizeLimit: '图片大小不能超过2MB',
       uploadFailed: '上传失败'
     },
-    orgTree: {
+orgTree: {
       loadFailed: '加载组织树失败'
+    }
+  },
+  'zh-TW': {
+    addAttendanceClassesStaff: {
+      title: '添加考勤班次員工',
+      staffName: '員工名稱',
+      staffNamePlaceholder: '必填，請選擇員工',
+      staffNameRequired: '員工名稱不能為空',
+      attendanceFace: '考勤人臉',
+      submitSuccess: '添加成功',
+      submitFailed: '添加失敗'
+    },
+    uploadImage: {
+      imageSizeLimit: '圖片大小不能超過2MB',
+      uploadFailed: '上傳失敗'
+    },
+    orgTree: {
+      loadFailed: '載入組織樹失敗'
     }
   }
 }

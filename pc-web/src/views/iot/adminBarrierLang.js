@@ -53,8 +53,38 @@ export const messages = {
         heartbeatTime: '心跳时间',
         createTime: '创建时间'
       },
-      direction: {
+direction: {
         in: '进',
+        out: '出'
+      }
+    }
+  },
+  'zh-TW': {
+    adminBarrier: {
+      allCommunities: '全部小區',
+      search: {
+        title: '查詢條件',
+        machineCode: '請輸入設備編碼',
+        machineName: '請輸入設備名稱'
+      },
+      list: {
+        title: '道閘設備'
+      },
+      table: {
+        communityName: '小區名稱',
+        machineCode: '設備編碼',
+        machineName: '設備名稱',
+        machineIp: '設備IP',
+        direction: '設備方向',
+        implBeanName: '道閘廠家',
+        boxName: '崗亭',
+        stateName: '狀態',
+        monitorName: '監控',
+        heartbeatTime: '心跳時間',
+        createTime: '創建時間'
+      },
+      direction: {
+        in: '進',
         out: '出'
       }
     }

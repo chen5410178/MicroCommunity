@@ -112,7 +112,7 @@ export const messages = {
         title: '确认操作',
         confirmText: '确认删除该活动吗？'
       },
-      validate: {
+validate: {
         titleRequired: '标题不能为空',
         titleMaxLength: '标题不能超过200个字符',
         typeCdRequired: '类型不能为空',
@@ -122,6 +122,69 @@ export const messages = {
         endTimeRequired: '结束时间不能为空',
         activitiesIdRequired: '活动ID不能为空',
         imageSize: '图片大小不能超过2MB'
+      }
+    }
+  },
+  'zh-TW': {
+    activitiesManage: {
+      search: {
+        title: '查詢條件',
+        activitiesId: '請輸入活動ID',
+        titlePlaceholder: '請輸入標題',
+        typeCd: '請選擇活動類型',
+        staffName: '請輸入發布人名稱'
+      },
+      list: {
+        title: '活動列表'
+      },
+      table: {
+        activitiesId: '活動ID',
+        title: '標題',
+        typeCd: '類型',
+        startTime: '開始時間',
+        endTime: '結束時間',
+        userName: '發布人'
+      },
+      add: {
+        title: '添加活動',
+        titlePlaceholder: '必填，請輸入標題',
+        typeCd: '類型',
+        startTime: '開始時間',
+        endTime: '結束時間',
+        typeCdPlaceholder: '必填，請選擇類型',
+        isMoreCommunity: '多小區',
+        isMoreCommunityPlaceholder: '請選擇是否多小區',
+        headerImg: '頭部照片(800*595)',
+        startTimePlaceholder: '必填，請輸入開始時間',
+        endTimePlaceholder: '必填，請輸入結束時間',
+        context: '內容'
+      },
+      edit: {
+        title: '編輯活動',
+        titlePlaceholder: '必填，請輸入標題',
+        typeCd: '類型',
+        typeCdPlaceholder: '必填，請選擇類型',
+        headerImg: '頭部照片(800*595)',
+        startTimePlaceholder: '必填，請輸入開始時間',
+        endTimePlaceholder: '必填，請輸入結束時間',
+        startTime: '開始時間',
+        endTime: '結束時間',
+        context: '內容'
+      },
+      delete: {
+        title: '確認操作',
+        confirmText: '確認刪除該活動嗎？'
+      },
+      validate: {
+        titleRequired: '標題不能為空',
+        titleMaxLength: '標題不能超過200個字符',
+        typeCdRequired: '類型不能為空',
+        headerImgRequired: '頭部照片不能為空',
+        contextRequired: '內容不能為空',
+        startTimeRequired: '開始時間不能為空',
+        endTimeRequired: '結束時間不能為空',
+        activitiesIdRequired: '活動ID不能為空',
+        imageSize: '圖片大小不能超過2MB'
       }
     }
   }

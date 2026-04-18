@@ -26,7 +26,7 @@ export const messages = {
       abnormalCar: 'Abnormal Car'
     }
   },
-  zh: {
+zh: {
     carDetailApply: {
       applyId: '申请ID',
       carNum: '车牌号',
@@ -51,6 +51,33 @@ export const messages = {
       bus: '客车',
       truck: '货车',
       abnormalCar: '异常车辆'
+    }
+  },
+  'zh-TW': {
+    carDetailApply: {
+      applyId: '申請ID',
+      carNum: '車牌號',
+      parkingSpace: '停車位',
+      parkingLot: '停車場',
+      space: '停車位',
+      none: '無',
+      carBrand: '汽車品牌',
+      carType: '車輛類型',
+      color: '顏色',
+      startTime: '起租時間',
+      endTime: '結租時間',
+      applicant: '申請人',
+      phone: '手機號',
+      result: '審核結果',
+      pendingReview: '待審核',
+      pendingPayment: '待繳費',
+      completed: '完成',
+      reviewFailed: '審核失敗',
+      abnormalStatus: '狀態異常',
+      familyCar: '家用小汽車',
+      bus: '客車',
+      truck: '貨車',
+      abnormalCar: '異常車輛'
     }
   }
 }

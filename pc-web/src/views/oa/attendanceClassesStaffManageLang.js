@@ -45,8 +45,33 @@ export const messages = {
         success: '删除成功',
         error: '删除失败'
       },
-      fetchError: '获取考勤员工数据失败',
+fetchError: '获取考勤员工数据失败',
       fetchClassError: '获取考勤班次数据失败'
+    }
+  },
+  'zh-TW': {
+    attendanceClassesStaffManage: {
+      search: {
+        title: '查詢條件',
+        staffName: '請輸入員工姓名'
+      },
+      list: {
+        title: '考勤員工列表'
+      },
+      table: {
+        face: '人臉',
+        staffId: '員工編號',
+        staffName: '員工名稱',
+        createTime: '創建時間'
+      },
+      delete: {
+        title: '確認操作',
+        confirmText: '確定刪除該考勤員工嗎？',
+        success: '刪除成功',
+        error: '刪除失敗'
+      },
+      fetchError: '獲取考勤員工數據失敗',
+      fetchClassError: '獲取考勤班次數據失敗'
     }
   }
 }

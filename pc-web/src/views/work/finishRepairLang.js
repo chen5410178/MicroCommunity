@@ -117,7 +117,68 @@ export const messages = {
         subCategoryRequired: '二级分类不能为空',
         goodsRequired: '商品不能为空',
         priceRequired: '商品价格不能为空',
-        goodsNameRequired: '商品名不能为空'
+goodsNameRequired: '商品名不能为空'
+      }
+    }
+  },
+  'zh-TW': {
+    finishRepair: {
+      title: '報修結單',
+      materialUsage: '是否用料',
+      selectMaterialUsage: '請選擇是否用料',
+      repairType: '維修類型',
+      selectRepairType: '請選擇維修類型',
+      selectGoods: '選擇商品',
+      usedGoods: '使用商品',
+      category: '分類',
+      goods: '商品',
+      price: '價格',
+      quantity: '數量',
+      unit: '單位',
+      spec: '規格',
+      operation: '操作',
+      totalAmount: '商品總金額',
+      paymentMethod: '支付方式',
+      selectPaymentMethod: '請選擇支付方式',
+      suggestion: '處理意見',
+      inputSuggestion: '必填，請填寫處理意見',
+      beforeRepairPhoto: '維修前圖片',
+      afterRepairPhoto: '維修後圖片',
+      validate: {
+        repairIdRequired: '報修單不能為空',
+        maintenanceTypeRequired: '維修類型不能為空',
+        contextRequired: '處理意見不能為空',
+        beforePhotoRequired: '維修前圖片不能為空',
+        afterPhotoRequired: '維修後圖片不能為空',
+        goodsRequired: '請選擇商品',
+        paymentMethodRequired: '請選擇支付方式'
+      },
+      submitSuccess: '提交成功',
+      submitError: '提交失敗'
+    },
+    chooseSingleResource: {
+      title: '選擇物品',
+      goodsType: '商品類型',
+      selectGoodsType: '請選擇商品類型',
+      goodsName: '商品名',
+      inputGoodsName: '必填，請填寫商品名',
+      subCategory: '二級分類',
+      selectSubCategory: '請選擇二級類型',
+      goods: '商品',
+      selectGoods: '請選擇商品',
+      goodsPrice: '商品價格',
+      customPrice: '自定義價格',
+      inputPrice: '必填，請填寫自定義價格',
+      priceRange: '價格範圍',
+      spec: '規格',
+      quantity: '商品數量',
+      custom: '自定義',
+      validate: {
+        goodsTypeRequired: '商品類型不能為空',
+        subCategoryRequired: '二級分類不能為空',
+        goodsRequired: '商品不能為空',
+        priceRequired: '商品價格不能為空',
+        goodsNameRequired: '商品名不能為空'
       }
     }
   }

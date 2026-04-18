@@ -99,7 +99,59 @@ export const messages = {
         editFailed: '修改失败',
         deleteSuccess: '删除成功',
         deleteFailed: '删除失败',
-        fetchError: '获取数据失败'
+fetchError: '获取数据失败'
+      }
+    }
+  },
+  'zh-TW': {
+    maintainanceStandard: {
+      search: {
+        title: '查詢條件',
+        standardName: '請選擇保養項目'
+      },
+      list: {
+        title: '保養標準'
+      },
+      table: {
+        standardName: '保養標準',
+        itemCount: '檢查項',
+        item: '檢查項',
+        remark: '備註',
+        createTime: '創建時間'
+      },
+      form: {
+        standardName: '保養項目',
+        remark: '備註'
+      },
+      placeholder: {
+        standardName: '必填，請填寫保養項目',
+        remark: '必填，請填寫備註'
+      },
+      rules: {
+        standardName: '保養項目不能為空',
+        standardNameMax: '保養項目不能超過256個字符',
+        remark: '備註不能為空',
+        remarkMax: '備註不能超過512個字符',
+        standardId: '編號不能為空'
+      },
+      add: {
+        title: '添加保養標準'
+      },
+      edit: {
+        title: '修改保養標準'
+      },
+      delete: {
+        title: '確認操作',
+        confirmText: '確定刪除保養標準?'
+      },
+      message: {
+        addSuccess: '添加成功',
+        addFailed: '添加失敗',
+        editSuccess: '修改成功',
+        editFailed: '修改失敗',
+        deleteSuccess: '刪除成功',
+        deleteFailed: '刪除失敗',
+        fetchError: '獲取數據失敗'
       }
     }
   }

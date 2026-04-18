@@ -90,11 +90,60 @@ export const messages = {
       addContent: '添加',
       deleteContent: '删除'
     },
-    uploadFile: {
+uploadFile: {
       upload: '上传附件',
       sizeLimit: '文件大小不能超过20MB',
       success: '文件上传成功',
       failed: '文件上传失败'
+    },
+  },
+  'zh-TW': {
+    addWork: {
+      title: '發起工作單',
+      workName: '標題',
+      workNamePlaceholder: '必填，請填寫標題',
+      workType: '工作單類型',
+      workTypePlaceholder: '必填，請選擇工作單類型',
+      processor: '處理人',
+      cc: '抄送人',
+      choose: '選擇',
+      workCycle: '工作單標識',
+      workCyclePlaceholder: '必填，請選擇工作單標識',
+      onceWork: '一次性工單',
+      periodWork: '週期性工單',
+      attachment: '附件',
+      startTime: '開始時間',
+      startTimePlaceholder: '必填，請填寫開始時間',
+      endTime: '結束時間',
+      endTimePlaceholder: '必填，請填寫結束時間',
+      period: '週期',
+      periodPlaceholder: '必填，請選擇任務週期',
+      monthDay: '月/天',
+      week: '按週',
+      hours: '工作單',
+      hoursPlaceholder: '必填，請輸入小時數',
+      hoursUnit: '小時內完成',
+      month: '月',
+      monthUnit: '月',
+      day: '日',
+      dayUnit: '日',
+      monday: '星期一',
+      tuesday: '星期二',
+      wednesday: '星期三',
+      thursday: '星期四',
+      friday: '星期五',
+      saturday: '星期六',
+      sunday: '星期日',
+      content: '內容',
+      contentPlaceholder: '必填，請輸入內容',
+      addContent: '添加',
+      deleteContent: '刪除'
+    },
+    uploadFile: {
+      upload: '上傳附件',
+      sizeLimit: '文件大小不能超過20MB',
+      success: '文件上傳成功',
+      failed: '文件上傳失敗'
     },
   }
 }

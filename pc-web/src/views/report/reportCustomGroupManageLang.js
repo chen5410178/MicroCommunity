@@ -86,7 +86,52 @@ export const messages = {
         remarkRequired: '描述不能为空',
         remarkMaxLength: '描述不能超过512个字符'
       },
-      fetchError: '获取报表组数据失败'
+fetchError: '獲取報表組數據失敗'
+    }
+  },
+  'zh-TW': {
+    reportCustomGroupManage: {
+      search: {
+        title: '查詢條件',
+        groupId: '請輸入組ID',
+        name: '請輸入組名稱',
+        url: '請輸入組URL'
+      },
+      list: {
+        title: '報表組信息'
+      },
+      table: {
+        groupId: '組ID',
+        name: '組名稱',
+        url: '組URL',
+        remark: '描述'
+      },
+      add: {
+        namePlaceholder: '必填，請填寫組名稱',
+        urlPlaceholder: '必填，請填寫組URL',
+        remarkPlaceholder: '必填，請填寫描述',
+        success: '添加報表組成功'
+      },
+      edit: {
+        namePlaceholder: '必填，請填寫組名稱',
+        urlPlaceholder: '必填，請填寫組URL',
+        remarkPlaceholder: '必填，請填寫描述',
+        success: '更新報表組成功'
+      },
+      delete: {
+        confirmText: '確定刪除該報表組嗎？',
+        success: '刪除報表組成功'
+      },
+      validate: {
+        groupIdRequired: '組ID不能為空',
+        nameRequired: '組名稱不能為空',
+        nameMaxLength: '組名稱不能超過128個字符',
+        urlRequired: '組URL不能為空',
+        urlMaxLength: '組URL不能超過512個字符',
+        remarkRequired: '描述不能為空',
+        remarkMaxLength: '描述不能超過512個字符'
+      },
+      fetchError: '獲取報表組數據失敗'
     }
   }
 }

@@ -68,5 +68,40 @@ export const messages = {
       deleteError: '删除失败',
       submitError: '提交失败'
     }
+  },
+  'zh-TW': {
+    machine: {
+      searchCondition: '查詢條件',
+      machineManagement: '設備管理',
+      machineList: '設備列表',
+      machineAdd: '添加設備',
+      machineEdit: '編輯設備',
+      machineCode: '設備編碼',
+      machineName: '設備名稱',
+      machineIp: '設備IP',
+      machineMac: '設備MAC',
+      implBean: '門禁廠家',
+      heartbeatTime: '心跳時間',
+      status: '狀態',
+      location: '位置',
+      inUse: '在用',
+      invalid: '失效',
+      remark: '備註',
+      operation: '操作',
+      edit: '編輯',
+      delete: '刪除',
+      cancel: '取消',
+      confirm: '確定',
+      search: '查詢',
+      required: '此字段為必填項',
+      addSuccess: '添加成功',
+      editSuccess: '編輯成功',
+      deleteSuccess: '刪除成功',
+      deleteConfirm: '確定要刪除此項嗎？',
+      tip: '提示',
+      fetchError: '獲取數據失敗',
+      deleteError: '刪除失敗',
+      submitError: '提交失敗'
+    }
   }
-} 
+}

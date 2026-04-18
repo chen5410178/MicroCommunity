@@ -31,7 +31,7 @@ export const messages = {
       arrearsSubtotal: 'Arrears Subtotal'
     }
   },
-  zh: {
+zh: {
     contractDetailFee: {
       feeItem: '费用项目',
       feeFlag: '费用标识',
@@ -61,6 +61,38 @@ export const messages = {
       note1: '注意：应收结束时间 "-" 表示未到应收时间或收费已结束',
       note2: '应收金额为-1一般为费用项公式设置出错请检查',
       arrearsSubtotal: '欠费小计'
+    }
+  },
+  'zh-TW': {
+    contractDetailFee: {
+      feeItem: '費用項目',
+      feeFlag: '費用標識',
+      feeType: '費用類型',
+      receivableAmount: '應收金額',
+      accountingTime: '建帳時間',
+      receivablePeriod: '應收時間段',
+      description: '說明',
+      status: '狀態',
+      operation: '操作',
+      temporaryFee: '臨時收費',
+      createFee: '創建費用',
+      payArrears: '欠費繳費',
+      payment: '繳費',
+      paymentHistory: '繳費歷史',
+      cancel: '取消',
+      end: '結束',
+      change: '變更',
+      previousReading: '上期度數',
+      currentReading: '本期度數',
+      unitPrice: '單價',
+      surcharge: '附加費',
+      usage: '用量',
+      algorithm: '算法',
+      fixedFee: '固定費',
+      feeBasedOnActual: '費用根據實際情況而定',
+      note1: '注意：應收結束時間 "-" 表示未到應收時間或收費已結束',
+      note2: '應收金額為-1一般為費用項公式設置出錯請檢查',
+      arrearsSubtotal: '欠費小計'
     }
   }
 }

@@ -124,7 +124,71 @@ export const messages = {
         flowIdRequired: '工作流ID不能为空'
       },
       fetchError: '获取流程列表失败',
-      deployError: '发布流程失败'
+deployError: '发布流程失败'
+    }
+  },
+  'zh-TW': {
+    oaWorkflowManage: {
+      search: {
+        title: '查詢條件',
+        flowNamePlaceholder: '請輸入流程名稱',
+        flowTypePlaceholder: '請選擇流程類型',
+        selectAll: '全部'
+      },
+      list: {
+        title: '流程實例',
+        addWorkflow: '新建流程'
+      },
+      table: {
+        flowId: '工作流ID',
+        flowName: '流程名稱',
+        flowType: '流程類型',
+        normalFlow: '普通流程',
+        unknown: '未知',
+        modelId: '模型ID',
+        state: '狀態',
+        deployed: '已部署',
+        pendingDeploy: '待部署',
+        describle: '描述',
+        createTime: '創建時間',
+        workflow: '流程',
+        designForm: '設計表單',
+        deploy: '發布'
+      },
+      add: {
+        title: '新建流程',
+        flowName: '流程名稱',
+        flowNamePlaceholder: '必填，請填寫流程名稱',
+        flowType: '流程類型',
+        flowTypePlaceholder: '必填，請選擇流程類型',
+        describle: '備註',
+        describlePlaceholder: '選填，請填寫備註',
+        success: '添加成功',
+        error: '添加失敗'
+      },
+      edit: {
+        title: '修改流程',
+        flowName: '流程名稱',
+        flowNamePlaceholder: '必填，請填寫流程名稱',
+        describle: '備註',
+        describlePlaceholder: '選填，請填寫備註',
+        success: '修改成功',
+        error: '修改失敗'
+      },
+      delete: {
+        title: '請確認您的操作',
+        confirmText: '確定刪除流程實例',
+        success: '刪除成功',
+        error: '刪除失敗'
+      },
+      validate: {
+        flowNameRequired: '流程名稱不能為空',
+        flowNameMaxLength: '流程名稱超過64位',
+        flowTypeRequired: '流程類型不能為空',
+        flowIdRequired: '工作流ID不能為空'
+      },
+      fetchError: '獲取流程列表失敗',
+      deployError: '發布流程失敗'
     }
   }
 }

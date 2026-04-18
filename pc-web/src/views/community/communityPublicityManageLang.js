@@ -28,7 +28,23 @@ export const messages = {
       deleteTitle: '确认删除',
       deleteConfirm: '确定要删除这条小区公示吗？',
       deleteSuccess: '删除成功',
-      deleteError: '删除失败'
+deleteError: '删除失败'
+    }
+  },
+  'zh-TW': {
+    communityPublicityManage: {
+      searchTitle: '查詢條件',
+      titlePlaceholder: '請輸入公示標題',
+      tableTitle: '小區公示列表',
+      headerImg: '頭部照片',
+      title: '公示標題',
+      pubType: '公示類型',
+      createTime: '公示時間',
+      publisher: '發布人',
+      deleteTitle: '確認刪除',
+      deleteConfirm: '確定要刪除這條小區公示嗎？',
+      deleteSuccess: '刪除成功',
+      deleteError: '刪除失敗'
     }
   }
 }

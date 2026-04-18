@@ -98,7 +98,58 @@ export const messages = {
         reviewFailed: '审核失败',
         completed: '处理完成'
       },
-      fetchError: '获取旧货需求失败'
+fetchError: '获取旧货需求失败'
+    },
+  },
+  'zh-TW': {
+    junkRequirement: {
+      search: {
+        title: '查詢條件',
+        classification: '請選擇類別',
+        publishUserName: '請輸入發佈人',
+        publishUserLink: '請輸入聯繫方式',
+        state: '請選擇狀態'
+      },
+      list: {
+        title: '舊貨信息'
+      },
+      table: {
+        junkRequirementId: '編碼',
+        classification: '類別',
+        referencePrice: '參考價格',
+        publishUserName: '發佈人',
+        publishUserLink: '聯繫方式',
+        state: '狀態'
+      },
+      edit: {
+        title: '修改舊貨',
+        classification: '類別',
+        context: '內容',
+        referencePrice: '參考價格',
+        publishUserName: '發佈人',
+        publishUserLink: '聯繫方式',
+        state: '狀態',
+        stateRequired: '狀態不能為空',
+        success: '審核成功',
+        error: '審核失敗'
+      },
+      delete: {
+        title: '請確認您的操作',
+        confirm: '確定刪除舊貨嗎？',
+        success: '刪除成功',
+        error: '刪除失敗'
+      },
+      classification: {
+        furniture: '家具',
+        appliance: '電器'
+      },
+      state: {
+        unreviewed: '未審核',
+        reviewed: '審核通過',
+        reviewFailed: '審核失敗',
+        completed: '處理完成'
+      },
+      fetchError: '獲取舊貨需求失敗'
     },
   }
 }

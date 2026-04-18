@@ -20,7 +20,19 @@ export const messages = {
       operation: '操作',
       refresh: '刷新',
       unit: '位',
-      fetchError: '获取车位数据失败'
+fetchError: '获取车位数据失败'
+    }
+  },
+  'zh-TW': {
+    remainingParkingSpace: {
+      title: '剩餘車位',
+      total: '總車位數',
+      freeCount: '剩餘車位數',
+      createTime: '採集時間',
+      operation: '操作',
+      refresh: '刷新',
+      unit: '位',
+      fetchError: '獲取車位數據失敗'
     }
   }
 }

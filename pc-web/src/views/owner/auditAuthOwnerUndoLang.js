@@ -54,7 +54,36 @@ export const messages = {
         requiredRemark: '必填，请填写工单说明',
         submit: '提交',
         submitSuccess: '提交成功',
-        submitFailed: '提交失败：'
+submitFailed: '提交失败：'
+      }
+    },
+    'zh-TW': {
+      auditAuthOwnerUndo: {
+        title: '認證審核',
+        back: '返回',
+        roomNumber: '房屋編號：',
+        roomArea: '房屋面積：',
+        roomType: '房屋類型：',
+        roomStatus: '房屋狀態：',
+        owner: '業主：',
+        ownerPhone: '業主電話：',
+        authPerson: '認證人員：',
+        housePersonnel: '房屋人員',
+        ownerFace: '業主人臉',
+        name: '姓名',
+        contact: '聯繫方式',
+        address: '家庭住址',
+        idCard: '身份證',
+        audit: '審核',
+        action: '動作',
+        selectAudit: '請審核',
+        agree: '同意',
+        reject: '拒絕',
+        auditRemark: '審核說明',
+        requiredRemark: '必填，請填寫工單說明',
+        submit: '提交',
+        submitSuccess: '提交成功',
+        submitFailed: '提交失敗：'
       }
     }
   }

@@ -64,6 +64,40 @@ export const messages = {
       thursday: '星期四',
       friday: '星期五',
       saturday: '星期六',
+sunday: '星期日'
+    }
+  },
+  'zh-TW': {
+    addInspectionPlan: {
+      title: '添加計劃',
+      planName: '計劃名稱',
+      inspectionRoute: '巡檢路線',
+      inspectionPeriod: '巡檢週期',
+      taskAdvance: '任務提前',
+      minutesGenerate: '分鐘生成',
+      month: '月',
+      day: '日',
+      week: '週',
+      startDate: '開始日期',
+      endDate: '結束日期',
+      startTime: '開始時間',
+      endTime: '結束時間',
+      signMethod: '簽到方式',
+      allowRecheck: '允許補檢',
+      selectStaff: '選擇員工',
+      save: '保存',
+      back: '返回',
+      required: '必填',
+      monthlyDaily: '月/天',
+      weekly: '按週',
+      notAllowed: '不允許補檢',
+      allowed: '允許補檢',
+      monday: '星期一',
+      tuesday: '星期二',
+      wednesday: '星期三',
+      thursday: '星期四',
+      friday: '星期五',
+      saturday: '星期六',
       sunday: '星期日'
     }
   }

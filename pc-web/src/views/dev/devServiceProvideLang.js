@@ -114,7 +114,66 @@ export const messages = {
     serviceProvideRemarkView: {
       title: '开发服务提供',
       description: '描述',
-      optional: '选填'
+optional: '选填'
+    }
+  },
+  'zh-TW': {
+    devServiceProvide: {
+      prevStep: '上一步',
+      nextStep: '下一步',
+      finish: '完成',
+      stepTitles: ['選擇服務', '開發服務實現', '備註信息']
+    },
+    viewServiceInfo: {
+      title: '服務信息',
+      selectService: '選擇服務',
+      addService: '添加服務',
+      serviceId: '服務ID',
+      name: '服務名稱',
+      serviceCode: '服務編碼',
+      messageQueue: '消息隊列',
+      isInstance: '是否實例',
+      url: '調用地址',
+      method: '調用方式',
+      timeout: '超時時間',
+      retryCount: '重試次數'
+    },
+    addService: {
+      title: '添加服務',
+      name: '服務名稱',
+      serviceCode: '服務編碼',
+      url: '調用地址',
+      method: '調用方式',
+      timeout: '超時時間',
+      retryCount: '重試次數',
+      save: '保存',
+      cancel: '取消',
+      required: '必填'
+    },
+    chooseService: {
+      title: '選擇服務',
+      search: '查詢',
+      name: '服務名稱',
+      serviceCode: '服務編碼',
+      method: '調用方式',
+      operation: '操作',
+      select: '選擇'
+    },
+    devServiceProvideView: {
+      title: '開發服務',
+      implMethod: '實現方式',
+      params: '參數',
+      sql: 'SQL',
+      template: '輸出模板',
+      proc: '存儲過程',
+      javaScript: 'JavaScript',
+      required: '必填',
+      optional: '選填'
+    },
+    serviceProvideRemarkView: {
+      title: '開發服務提供',
+      description: '描述',
+      optional: '選填'
     }
   }
 }

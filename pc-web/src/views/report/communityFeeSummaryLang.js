@@ -66,7 +66,42 @@ export const messages = {
         feeRate: '当期实收/当期应收=收费率',
         clearRate: '欠费追回/(欠费追回+历史欠费)=清缴率'
       },
-      fetchError: '获取费用汇总数据失败'
+fetchError: '获取费用汇总数据失败'
+    }
+  },
+  'zh-TW': {
+    communityFeeSummary: {
+      search: {
+        title: '查詢條件',
+        startDate: '開始時間',
+        endDate: '結束時間',
+        feeType: '費用大類',
+        selectFeeType: '請選擇費用大類',
+        allCommunities: '全部小區'
+      },
+      table: {
+        title: '費用匯總表',
+        tooltip: '以月份為維度，進行費用情況匯總',
+        updateDaily: '按天更新',
+        totalRooms: '總戶數',
+        feeRooms: '收費戶',
+        oweRooms: '欠費戶',
+        oweFeeFormula: '歷史欠費+當期欠費=欠費',
+        hisOweFee: '歷史欠費',
+        curOweFee: '當期欠費',
+        totalOweFee: '總欠費',
+        receivedFeeFormula: '欠費追回+當期部分+預交=實繳',
+        hisReceivedFee: '欠費追回',
+        curPartialFee: '當期部分',
+        preReceivedFee: '預交',
+        totalReceivedFee: '實繳',
+        curReceivableFee: '當期應收',
+        curReceivedFee: '當期實收',
+        roomFeeRate: '已交戶/收費戶=戶收費率',
+        feeRate: '當期實收/當期應收=收費率',
+        clearRate: '欠費追回/(欠費追回+歷史欠費)=清繳率'
+      },
+      fetchError: '獲取費用匯總數據失敗'
     }
   }
 }

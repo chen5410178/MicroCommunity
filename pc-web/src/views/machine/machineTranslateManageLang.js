@@ -151,7 +151,85 @@ export const messages = {
       message: {
         addSuccess: '添加成功',
         resyncSuccess: '重新同步成功',
-        fetchError: '获取数据失败'
+fetchError: '获取数据失败'
+      }
+    }
+  },
+  'zh-TW': {
+    machineTranslateManage: {
+      search: {
+        title: '查詢條件',
+        typeCd: '請選擇對象類型',
+        selectType: '請選擇對象類型',
+        objId: '請輸入對象ID',
+        objName: '請輸入對象名稱'
+      },
+      list: {
+        title: '物聯網同步'
+      },
+      table: {
+        objId: '對象ID',
+        typeCd: '對象類型',
+        objName: '對象名稱',
+        machineCmd: '指令',
+        state: '狀態',
+        remark: '說明',
+        updateTime: '同步時間',
+        operation: '操作'
+      },
+      button: {
+        resync: '重新同步'
+      },
+      state: {
+        notSync: '未同步',
+        synced: '已同步'
+      },
+      type: {
+        owner: '業主',
+        community: '小區',
+        keyInfo: '鑰匙信息',
+        visitorInfo: '訪客信息',
+        staffFace: '員工人臉',
+        carInfo: '車輛信息',
+        deviceInfo: '設備信息'
+      },
+      add: {
+        title: '添加設備同步',
+        machineCode: '設備編碼',
+        machineCodePlaceholder: '必填，請填寫設備編碼',
+        machineId: '設備ID',
+        machineIdPlaceholder: '必填，請填寫設備ID',
+        typeCd: '對象類型',
+        typeCdPlaceholder: '必填，請選擇對象類型',
+        objName: '對象名稱',
+        objNamePlaceholder: '必填，請填寫對象名稱',
+        objId: '對象ID',
+        objIdPlaceholder: '必填，請填寫對象ID',
+        state: '狀態',
+        statePlaceholder: '必填，請選擇狀態'
+      },
+      edit: {
+        title: '重新同步',
+        machineCode: '設備編碼',
+        machineId: '設備ID',
+        typeCd: '對象類型',
+        objName: '對象名稱',
+        objId: '對象ID'
+      },
+      validate: {
+        machineCodeRequired: '設備編碼不能為空',
+        machineCodeMaxLength: '設備編碼不能超過30位',
+        machineIdRequired: '設備ID不能為空',
+        typeCdRequired: '對象類型不能為空',
+        objNameRequired: '對象名稱不能為空',
+        objIdRequired: '對象ID不能為空',
+        objIdNumber: '對象ID必須為數字',
+        stateRequired: '狀態不能為空'
+      },
+      message: {
+        addSuccess: '添加成功',
+        resyncSuccess: '重新同步成功',
+        fetchError: '獲取數據失敗'
       }
     }
   }

@@ -110,7 +110,64 @@ export const messages = {
       title: '请确认您的操作',
       confirmDelete: '确定删除供应商',
       cancel: '点错了',
-      confirm: '确认删除'
+confirm: '确认删除'
+    }
+  },
+  'zh-TW': {
+    resourceSupplierManage: {
+      searchTitle: '查詢條件',
+      supplierNo: '供應商編號',
+      supplierName: '供應商名稱',
+      phone: '手機號',
+      search: '查詢',
+      reset: '重置',
+      supplier: '供應商',
+      add: '添加',
+      no: '編號',
+      name: '名稱',
+      address: '地址',
+      contact: '聯繫方式',
+      contactName: '聯繫人姓名',
+      bank: '開戶行',
+      account: '賬號',
+      remark: '備註',
+      operation: '操作',
+      edit: '修改',
+      delete: '刪除'
+    },
+    addResourceSupplier: {
+      title: '添加供應商',
+      supplierName: '供應商名稱',
+      supplierAddress: '供應商地址',
+      supplierContact: '供應商聯繫方式',
+      contactName: '聯繫人姓名',
+      bank: '開戶行',
+      bankAccount: '開戶行賬號',
+      remark: '備註',
+      required: '必填',
+      optional: '選填',
+      save: '保存',
+      cancel: '取消'
+    },
+    editResourceSupplier: {
+      title: '修改供應商',
+      supplierName: '供應商名稱',
+      supplierAddress: '供應商地址',
+      supplierContact: '供應商聯繫方式',
+      contactName: '聯繫人姓名',
+      bank: '開戶行',
+      bankAccount: '開戶行賬號',
+      remark: '備註',
+      required: '必填',
+      optional: '選填',
+      save: '保存',
+      cancel: '取消'
+    },
+    deleteResourceSupplier: {
+      title: '請確認您的操作',
+      confirmDelete: '確定刪除供應商',
+      cancel: '點錯了',
+      confirm: '確認刪除'
     }
   }
 }

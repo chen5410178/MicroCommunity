@@ -99,9 +99,62 @@ export const messages = {
       edit: {
         title: '修改供应商类型'
       },
+delete: {
+        title: '刪除確認',
+        confirm: '確定刪除該供應商類型嗎？'
+      }
+    }
+  },
+  'zh-TW': {
+    supplierTypeManage: {
+      search: {
+        title: '查詢條件',
+        typeCd: '請輸入類型編碼',
+        typeName: '請輸入類型名稱'
+      },
+      list: {
+        title: '供應商類型'
+      },
+      table: {
+        typeCd: '類型編碼',
+        typeName: '類型名稱',
+        createTime: '創建時間',
+        remark: '備註'
+      },
+      form: {
+        typeCd: '類型編碼',
+        typeName: '類型名稱',
+        remark: '備註'
+      },
+      placeholder: {
+        typeCd: '請輸入類型編碼',
+        typeName: '請輸入類型名稱',
+        remark: '請輸入備註'
+      },
+      validate: {
+        typeCdRequired: '類型編碼不能為空',
+        typeCdMaxLength: '類型編碼不能超過32個字符',
+        typeNameRequired: '類型名稱不能為空',
+        typeNameMaxLength: '類型名稱不能超過255個字符',
+        remarkRequired: '備註不能為空',
+        remarkMaxLength: '備註不能超過512個字符',
+        stIdRequired: '編號不能為空'
+      },
+      message: {
+        addSuccess: '添加成功',
+        editSuccess: '修改成功',
+        deleteSuccess: '刪除成功',
+        fetchError: '獲取數據失敗'
+      },
+      add: {
+        title: '添加供應商類型'
+      },
+      edit: {
+        title: '修改供應商類型'
+      },
       delete: {
-        title: '删除确认',
-        confirm: '确定删除该供应商类型吗？'
+        title: '刪除確認',
+        confirm: '確定刪除該供應商類型嗎？'
       }
     }
   }

@@ -109,6 +109,62 @@ export const messages = {
       reject: '拒绝',
       remark: '原因',
       remarkPlaceholder: '必填，请填写原因'
+}
+  },
+  'zh-TW': {
+    returnPayFeeManage: {
+      search: {
+        title: '查詢條件',
+        hide: '隱藏',
+        more: '更多',
+        detailId: '繳費單號',
+        orderType: '選擇費用類型',
+        state: '選擇審核狀態',
+        query: '查詢',
+        reset: '重置',
+        applyPersonName: '請填寫申請人',
+        auditPersonName: '請輸入審核人',
+        payerObjName: '請填寫房屋編號 車輛編號等',
+        startTime: '請輸入申請開始時間',
+        endTime: '請輸入申請結束時間'
+      },
+      list: {
+        title: '退費申請單',
+        export: '導出'
+      },
+      table: {
+        refundOrderId: '退款單號',
+        orderType: '費用類型',
+        payerObjName: '付費對象',
+        ownerName: '業主',
+        feeName: '費用項',
+        timeRange: '時間段',
+        amount: '金額',
+        createTime: '申請時間',
+        reason: '退費原因',
+        applyPersonName: '申請人',
+        state: '審核狀態',
+        auditPersonName: '審核人',
+        retundRemark: '退款情況',
+        operation: '操作',
+        audit: '審核',
+        retryRefund: '重試退款',
+        detail: '詳情'
+      },
+      fetchError: '獲取退費申請列表失敗',
+      auditSuccess: '審核成功',
+      auditError: '審核失敗',
+      refundSubmit: '提交退款',
+      refundError: '退款失敗'
+    },
+    audit: {
+      title: '審核資訊',
+      state: '審核狀態',
+      selectState: '請審核',
+      approve: '同意',
+      reject: '拒絕',
+      remark: '原因',
+      remarkPlaceholder: '必填，請填寫原因'
     }
   }
 }

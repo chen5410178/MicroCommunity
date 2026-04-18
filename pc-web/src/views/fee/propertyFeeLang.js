@@ -131,6 +131,73 @@ export const messages = {
       discountRule: '折扣规则',
       discountAmount: '折扣金额(元)',
       breach: '违约'
+}
+  },
+  'zh-TW': {
+    propertyFee: {
+      title: '管理費管理',
+      feeName: '管理費',
+      paymentHistory: '繳費歷史',
+      selectStartTime: '請選擇開始時間',
+      selectEndTime: '請選擇結束時間',
+      searchNow: '馬上查詢',
+      reset: '重置',
+      paymentId: '繳費ID',
+      cycle: '週期(單位:月)',
+      paymentMethod: '繳費方式',
+      receivableAmount: '應收金額(單位:元)',
+      receivedAmount: '實收金額(單位:元)',
+      paymentTime: '繳費時間',
+      startTime: '繳費起始時間',
+      endTime: '繳費結束時間',
+      cashier: '收銀員',
+      status: '狀態',
+      remark: '備註',
+      operation: '操作',
+      applyRefund: '申請退費',
+      discount: '折扣',
+      viewInFee: '費用中查看',
+      accountDeduction: '帳戶扣款'
+    },
+    viewMainFee: {
+      feeInfo: '費用資訊',
+      feeId: '費用ID',
+      feeFlag: '費用標識',
+      feeType: '費用類型',
+      payerObj: '付費對象',
+      feeItem: '費用項',
+      feeStatus: '費用狀態',
+      startTime: '建帳時間',
+      billingStartTime: '計費開始時間',
+      billingEndTime: '計費結束時間',
+      feeAmount: '費用金額(單位:元)',
+      batch: '批次',
+      area: '面積(㎡)',
+      unitPrice: '單價(元/㎡)',
+      additionalFee: '附加費(元)',
+      fixedFee: '固定費(元)'
+    },
+    returnPayFee: {
+      fillRefundReason: '填寫退費原因',
+      paymentId: '繳費',
+      cycle: '週期',
+      receivableAmount: '應收金額',
+      receivedAmount: '實收金額',
+      paymentTime: '繳費時間',
+      refundReason: '退費原因',
+      enterRefundReason: '請輸入退費原因',
+      submitRefund: '提交退費申請',
+      refundReasonRequired: '退費原因不能為空',
+      refundReasonTooLong: '退費原因不能超過200位'
+    },
+    viewFeeDetailDiscount: {
+      discount: '折扣',
+      discountName: '折扣名稱',
+      discountType: '折扣類型',
+      ruleName: '規則名稱',
+      discountRule: '折扣規則',
+      discountAmount: '折扣金額(元)',
+      breach: '違約'
     }
   }
 }

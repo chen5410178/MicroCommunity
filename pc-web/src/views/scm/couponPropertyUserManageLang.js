@@ -78,7 +78,48 @@ export const messages = {
         unused: '未使用',
         used: '已使用'
       },
-      fetchError: '获取优惠券数据失败'
+fetchError: '獲取優惠券數據失敗'
+    }
+  },
+  'zh-TW': {
+    couponPropertyUserManage: {
+      search: {
+        title: '查詢條件',
+        couponId: '優惠券編號',
+        couponName: '優惠券名稱',
+        validityDay: '有效期',
+        userName: '用戶名稱',
+        tel: '手機號',
+        toType: '用途',
+        selectToType: '選擇用途',
+        shopping: '購物',
+        payment: '繳費',
+        repair: '維修劵',
+        parking: '停車劵',
+        state: '狀態',
+        selectState: '請選擇狀態',
+        unused: '未使用',
+        used: '已使用'
+      },
+      list: {
+        title: '業主優惠券'
+      },
+      table: {
+        couponId: '編號',
+        couponName: '優惠券名稱',
+        value: '面值',
+        validityDay: '有效期',
+        userName: '用戶名稱',
+        tel: '手機號',
+        toType: '用途',
+        quantity: '數量',
+        sheet: '張',
+        state: '狀態',
+        startTime: '生效時間',
+        unused: '未使用',
+        used: '已使用'
+      },
+      fetchError: '獲取優惠券數據失敗'
     }
   }
 }

@@ -54,7 +54,36 @@ export const messages = {
       addOption: '增加选项',
       removeOption: '删除选项',
       placeholderSeq: '必填，请填写顺序',
-      seqMustNumber: '顺序必须是数字'
+seqMustNumber: '顺序必须是数字'
+    }
+  },
+  'zh-TW': {
+    inspectionItemTitleManage: {
+      searchTitle: '查詢條件',
+      listTitle: '巡檢項',
+      placeholderTitleId: '請輸入題目ID',
+      placeholderItemTitle: '請輸入問題名稱',
+      placeholderTitleType: '請選擇題目類型',
+      selectTitleType: '請選擇題目類型',
+      singleChoice: '單選',
+      multipleChoice: '多選',
+      shortAnswer: '簡答題',
+      titleId: '題目ID',
+      title: '題目',
+      titleType: '題目類型',
+      seq: '順序',
+      createTime: '創建時間',
+      operation: '操作',
+      addTitle: '添加題目',
+      editTitle: '修改題目',
+      confirmDelete: '確定刪除題目？',
+      placeholderItemTitleRequired: '必填，請填寫題目',
+      placeholderTitleTypeRequired: '必填，請選擇題目類型',
+      option: '選項',
+      addOption: '增加選項',
+      removeOption: '刪除選項',
+      placeholderSeq: '必填，請填寫順序',
+      seqMustNumber: '順序必須是數字'
     }
   }
 }

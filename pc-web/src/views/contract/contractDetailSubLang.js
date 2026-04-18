@@ -15,7 +15,7 @@ export const messages = {
       view: 'View'
     }
   },
-  zh: {
+zh: {
     contractDetailSub: {
       contractName: '合同名称',
       contractCode: '合同编号',
@@ -27,6 +27,22 @@ export const messages = {
       validityPeriod: '有效期',
       draftTime: '起草时间',
       status: '状态',
+      operation: '操作',
+      view: '查看'
+    }
+  },
+  'zh-TW': {
+    contractDetailSub: {
+      contractName: '合同名稱',
+      contractCode: '合同編號',
+      parentContractCode: '父合同編號',
+      contractType: '合同類型',
+      operator: '經辦人',
+      contractAmount: '合同金額',
+      contractPartyB: '合同乙方',
+      validityPeriod: '有效期',
+      draftTime: '起草時間',
+      status: '狀態',
       operation: '操作',
       view: '查看'
     }

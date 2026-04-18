@@ -110,8 +110,66 @@ export const messages = {
         payTime: '缴费时间',
         startTime: '缴费起始时间',
         endTime: '缴费结束时间',
-        status: '状态',
-        remark: '备注'
+status: '狀態',
+        remark: '備註'
+      }
+    }
+  },
+  'zh-TW': {
+    reportHuaning: {
+      search: {
+        title: '查詢條件',
+        feeType: '請選擇收費類型',
+        floor: '請選擇樓棟'
+      },
+      tab: {
+        oweFee: '未收情況表',
+        oweFeeDetail: '未收明細表',
+        payFee: '當月收費情況表'
+      }
+    },
+    reportHuaningOweFee: {
+      table: {
+        floorNum: '樓棟號',
+        totalOweAmount: '總未收金額(截止{date})',
+        oweAmount: '未收金額',
+        preYearOweAmount: '年前未收金額'
+      }
+    },
+    reportHuaningPayFee: {
+      table: {
+        floorNum: '樓棟號',
+        monthlyReceivable: '每月應收',
+        monthReceived: '月實收',
+        monthReceivedPart1: '月實收中屬於{year}年1-{month}月部分',
+        monthReceivedPart2: '月實收中屬於{year}年{month}月部分',
+        monthReceivedPart3: '月實收中屬於{nextMonth}起預收部分',
+        monthReceivedPart4: '月實收中屬於{year}年前部分'
+      }
+    },
+    reportHuaningOweFeeDetail: {
+      table: {
+        roomNum: '房號',
+        area: '面積',
+        fee: '費用',
+        startTime: '費用開始時間',
+        endTime: '費用截止時間',
+        totalOweAmount: '總未收金額',
+        oweAmount: '未收金額',
+        preYearOweAmount: '年前未收金額'
+      }
+    },
+    viewFeeDetail: {
+      title: '年繳費歷史',
+      table: {
+        cycle: '週期(單位:月)',
+        receivableAmount: '應收金額(單位:元)',
+        receivedAmount: '實收金額(單位:元)',
+        payTime: '繳費時間',
+        startTime: '繳費起始時間',
+        endTime: '繳費結束時間',
+        status: '狀態',
+        remark: '備註'
       }
     }
   }

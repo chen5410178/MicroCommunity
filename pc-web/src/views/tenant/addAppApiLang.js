@@ -43,7 +43,28 @@ export const messages = {
 
         apiCode: '接口编码',
 
-        apiName: '接口名称',
+apiName: '接口名称',
+      }
+    },
+    'zh-TW': {
+      addAppApi: {
+        title: '新增應用API',
+        appName:'應用名稱',
+        appId: 'app id',
+        remark: '備註',
+        description: {
+          label: '描述',
+          placeholder: '請輸入描述（可選）'
+        },
+        submit: '提交',
+        success: 'API添加成功！',
+        selectApiTitle: '選擇接口',
+        interfaceName: { label: '接口名稱' },
+        interfaceCode: { label: '接口編碼' },
+        seq: { label: '順序' },
+        apiId: '接口ID',
+        apiCode: '接口編碼',
+        apiName: '接口名稱',
       }
     }
   }

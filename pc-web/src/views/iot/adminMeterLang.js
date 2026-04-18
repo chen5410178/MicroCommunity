@@ -66,11 +66,48 @@ export const messages = {
         recharge: '充值模式',
         reading: '抄表模式'
       },
-      community: {
+community: {
         all: '全部小区',
         fetchError: '加载小区失败'
       },
       fetchError: '加载水电表数据失败'
+    }
+  },
+  'zh-TW': {
+    adminMeter: {
+      search: {
+        title: '查詢條件',
+        machineName: '請輸入名稱',
+        address: '請輸入表號',
+        machineModel: '請選擇模式',
+        roomName: '請輸入房屋編號(樓棟-單元-房屋)'
+      },
+      table: {
+        title: '智慧水電表',
+        machineId: '編號',
+        communityName: '小區名稱',
+        machineName: '名稱',
+        address: '表號',
+        meterType: '錶類型',
+        machineModel: '模式',
+        roomName: '房屋',
+        implBeanName: '設備廠家',
+        degree: '當前度數',
+        curDegrees: '剩餘金額',
+        curReadingTime: '讀表時間',
+        stateName: '狀態',
+        heartbeatTime: '心跳時間',
+        readlingTime: '每月{day}日{hour}時抄表'
+      },
+      model: {
+        recharge: '儲值模式',
+        reading: '抄表模式'
+      },
+      community: {
+        all: '全部小區',
+        fetchError: '載入小區失敗'
+      },
+      fetchError: '載入水電表數據失敗'
     }
   }
 }

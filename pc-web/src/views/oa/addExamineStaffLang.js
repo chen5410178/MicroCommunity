@@ -30,9 +30,27 @@ export const messages = {
       staffIntroduction: '员工简介',
       staffIntroductionPlaceholder: '必填，请输入员工简介'
     },
-    uploadImage: {
+uploadImage: {
       imageSizeLimit: '图片大小不能超过2MB',
       uploadFailed: '上传失败'
+    }
+  },
+  'zh-TW': {
+    addExamineStaff: {
+      title: '添加考核員工',
+      staffName: '員工名稱',
+      staffNamePlaceholder: '必填，請填寫員工名稱',
+      select: '選擇',
+      projects: '考核項目',
+      staffAvatar: '員工頭像',
+      staffPost: '員工崗位',
+      staffPostPlaceholder: '必填，請填寫員工崗位',
+      staffIntroduction: '員工簡介',
+      staffIntroductionPlaceholder: '必填，請輸入員工簡介'
+    },
+    uploadImage: {
+      imageSizeLimit: '圖片大小不能超過2MB',
+      uploadFailed: '上傳失敗'
     }
   }
 }

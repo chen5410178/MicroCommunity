@@ -56,7 +56,37 @@ export const messages = {
       fillQty: '请填写数量',
       submitError: '提交失败',
       fetchError: '获取盘点信息失败',
-      fetchProductError: '获取商品列表失败'
+fetchProductError: '获取商品列表失败'
+    }
+  },
+  'zh-TW': {
+    assetInventoryEdit: {
+      title: '盤點編輯',
+      inventoryInfo: '盤點信息',
+      inventoryName: '盤點名稱',
+      inventoryPerson: '盤點人',
+      warehouse: '選擇倉庫',
+      inventoryDate: '盤點日期',
+      remark: '盤點說明',
+      inventoryProducts: '盤點商品',
+      products: '商品',
+      productType: '物品類型',
+      productName: '物品名稱',
+      specification: '物品規格',
+      productCode: '物品編碼',
+      isFixed: '是否是固定物品',
+      referencePrice: '參考價格',
+      stock: '物品庫存',
+      afterInventoryQty: '盤點後數量',
+      requiredQty: '必填，請填盤點後數量',
+      optionalRemark: '選填，請填寫備註',
+      selectPrice: '請選擇價格',
+      selectWarehouseFirst: '請先選擇倉庫',
+      selectProductsFirst: '請選擇商品',
+      fillQty: '請填寫數量',
+      submitError: '提交失敗',
+      fetchError: '獲取盤點信息失敗',
+      fetchProductError: '獲取商品列表失敗'
     }
   }
 }

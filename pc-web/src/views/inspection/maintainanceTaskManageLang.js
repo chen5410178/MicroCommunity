@@ -157,8 +157,89 @@ export const messages = {
       noLocation: '暂无位置信息'
     },
     viewImage: {
-      noImage: '暂无图片',
+noImage: '暂无图片',
       loadError: '图片加载失败'
+    }
+  },
+  'zh-TW': {
+    maintainanceTaskManage: {
+      searchTitle: '查詢條件',
+      listTitle: '保養任務',
+      planUserNamePlaceholder: '請輸入執行人',
+      startTimePlaceholder: '請輸入實際保養開始時間',
+      endTimePlaceholder: '請輸入實際保養結束時間',
+      planNamePlaceholder: '請輸入保養計劃名稱',
+      statePlaceholder: '請選擇保養狀態',
+      search: '查詢',
+      reset: '重設',
+      taskId: '任務編號',
+      planName: '保養計劃',
+      timeRange: '開始/結束時間',
+      actInsTime: '實際保養時間',
+      originalPlanUser: '計劃保養人',
+      currentPlanUser: '當前保養人',
+      transferDesc: '轉移描述',
+      state: '保養狀態',
+      operation: '操作',
+      transfer: '流轉',
+      detail: '詳情',
+      delete: '刪除',
+      tip: '保養任務是根據保養計劃，自動生成，如果沒有生成 請確認是否開啟了定時任務(並等待30分鐘左右)，或者保養計劃是否設置正確',
+      fetchError: '獲取保養任務失敗'
+    },
+    maintainanceTaskTransfer: {
+      title: '流轉',
+      transferTarget: '流轉對象',
+      transferDesc: '流轉說明',
+      transferDescPlaceholder: '必填，請填寫轉贈說明',
+      staffRequired: '請選擇員工',
+      descRequired: '說明不能為空',
+      descMaxLength: '說明太長',
+      sameUserError: '不能流轉給當前保養人',
+      cancel: '取消',
+      submit: '提交',
+      success: '流轉成功',
+      error: '流轉失敗'
+    },
+    maintainanceTaskDetail: {
+      title: '任務詳情',
+      machineName: '設備名稱',
+      standardName: '保養標準',
+      planUserName: '計劃保養人',
+      actUserName: '實際保養人',
+      stateName: '任務狀態',
+      description: '保養情況',
+      photos: '保養照片',
+      createTime: '創建時間',
+      viewDetail: '詳情',
+      fetchError: '獲取任務詳情失敗',
+      timeRange: '開始/結束時間',
+      actInsTime: '實際保養時間',
+      planName: '保養計劃',
+    },
+    deleteMaintainanceTask: {
+      title: '確認操作',
+      confirmText: '確定刪除保養任務？',
+      cancel: '點錯了',
+      confirm: '確認刪除',
+      success: '刪除成功',
+      error: '刪除失敗'
+    },
+    chooseOrgTree2: {
+      placeholder: '必填，請填寫關聯組織',
+      title: '選擇組織',
+      cancel: '取消',
+      confirm: '確定'
+    },
+    staffSelect2: {
+      placeholder: '必填，請選擇員工'
+    },
+    viewMap: {
+      noLocation: '暫無位置信息'
+    },
+    viewImage: {
+      noImage: '暫無圖片',
+      loadError: '圖片加載失敗'
     }
   }
 }

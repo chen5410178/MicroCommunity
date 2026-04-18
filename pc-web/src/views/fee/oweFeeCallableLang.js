@@ -101,6 +101,58 @@ export const messages = {
       },
       fetchError: '获取数据失败',
       selectRoomFirst: '请先选择房屋'
+}
+  },
+  'zh-TW': {
+    oweFeeCallable: {
+      search: {
+        title: '查詢條件',
+        ownerName: '業主名稱',
+        ownerNamePlaceholder: '請輸入業主名稱',
+        feeName: '費用名稱',
+        feeNamePlaceholder: '請輸入費用名稱',
+        callableWay: '催繳方式',
+        callableWayPlaceholder: '請選擇催繳方式',
+        staffName: '催繳人',
+        staffNamePlaceholder: '請輸入催繳人',
+        state: '狀態',
+        statePlaceholder: '請選擇狀態'
+      },
+      list: {
+        title: '催繳記錄',
+        register: '登記',
+        call: '催繳'
+      },
+      table: {
+        id: '編號',
+        ownerName: '業主名稱',
+        payerObjName: '付費對象',
+        feeName: '費用名稱',
+        amountdOwed: '催繳金額',
+        timeRange: '欠費時間段',
+        callableWayName: '催繳方式',
+        staffName: '催繳人',
+        stateName: '狀態',
+        remark: '說明',
+        createTime: '創建時間'
+      },
+      write: {
+        title: '催繳登記',
+        roomName: '登記房屋',
+        feeName: '催繳費用',
+        remark: '催繳說明',
+        remarkPlaceholder: '請輸入備註',
+        success: '登記成功',
+        error: '登記失敗'
+      },
+      delete: {
+        title: '刪除確認',
+        confirm: '確定刪除欠費催繳記錄嗎？',
+        success: '刪除成功',
+        error: '刪除失敗'
+      },
+      fetchError: '獲取數據失敗',
+      selectRoomFirst: '請先選擇房屋'
     }
   }
 }

@@ -50,7 +50,34 @@ export const messages = {
       paidAmount: '实收金额',
       payTime: '支付时间',
       loadParkingAreaError: '加载停车区域失败',
-      queryError: '查询失败'
+queryError: '查询失败'
+    }
+  },
+  'zh-TW': {
+    tempCarPayment: {
+      searchTitle: '查詢條件',
+      inParkingTitle: '在場車輛',
+      carNumPlaceholder: '請輸入車牌號',
+      carStatusPlaceholder: '請選擇車輛狀態',
+      selectCarStatus: '請選擇車輛狀態',
+      inStatus: '進場狀態',
+      paidStatus: '支付完成',
+      outStatus: '離場狀態',
+      repayStatus: '支付超時重新支付',
+      entryStartTime: '進場開始時間',
+      entryEndTime: '進場結束時間',
+      search: '查詢',
+      reset: '重設',
+      inoutId: '進出廠編號',
+      carStatus: '車輛狀態',
+      carNum: '車牌號',
+      inTime: '進場時間',
+      payType: '收費類型',
+      payableAmount: '應收金額',
+      paidAmount: '實收金額',
+      payTime: '支付時間',
+      loadParkingAreaError: '加載停車區域失敗',
+      queryError: '查詢失敗'
     }
   }
 }

@@ -163,6 +163,89 @@ export const messages = {
         deleteFailed: '删除失败',
         fetchError: '获取数据失败'
       }
+}
+  },
+  'zh-TW': {
+    payFeeQrcode: {
+      search: {
+        title: '查詢條件',
+        qrcodeName: '二維碼名稱'
+      },
+      list: {
+        title: '支付二維碼列表'
+      },
+      table: {
+        qrcodeName: '名稱',
+        queryWay: '查詢方式',
+        smsValidate: '驗證',
+        customFee: '自定義繳費',
+        feeType: '展示費用',
+        state: '狀態',
+        createStaffName: '創建人',
+        createTime: '創建時間'
+      },
+      queryWay: {
+        byPhone: '按業主手機號',
+        byHouse: '按房屋',
+        byBoth: '按房屋或者業主手機號'
+      },
+      feeType: {
+        owner: '業主費用',
+        house: '房屋費用'
+      },
+      operation: {
+        viewQrcode: '二維碼'
+      },
+      form: {
+        qrcodeName: '名稱',
+        queryWay: '查詢方式',
+        smsValidate: '驗證',
+        customFee: '自定義繳費',
+        preFee: '預交費',
+        content: '提示內容'
+      },
+      placeholder: {
+        qrcodeName: '請輸入名稱',
+        queryWay: '請選擇查詢方式',
+        smsValidate: '請選擇驗證',
+        customFee: '請選擇自定義繳費',
+        preFee: '請選擇預交費',
+        content: '請輸入提示內容'
+      },
+      rules: {
+        qrcodeName: '名稱不能為空',
+        qrcodeNameMax: '名稱不能超過128個字元',
+        queryWay: '請選擇查詢方式',
+        smsValidate: '請選擇驗證',
+        customFee: '請選擇自定義繳費',
+        preFee: '請選擇預交費',
+        content: '提示內容不能為空',
+        contentMax: '提示內容不能超過512個字元',
+        pfqId: '編號不能為空'
+      },
+      add: {
+        title: '添加支付二維碼'
+      },
+      edit: {
+        title: '修改支付二維碼'
+      },
+      delete: {
+        title: '刪除確認',
+        confirmText: '確定刪除該支付二維碼嗎？'
+      },
+      view: {
+        title: '支付二維碼',
+        tip: '請截圖貼在收銀台'
+      },
+      message: {
+        addSuccess: '添加成功',
+        addFailed: '添加失敗',
+        editSuccess: '修改成功',
+        editFailed: '修改失敗',
+        deleteSuccess: '刪除成功',
+        deleteFailed: '刪除失敗',
+        fetchError: '獲取數據失敗'
+      }
     }
   }
 }

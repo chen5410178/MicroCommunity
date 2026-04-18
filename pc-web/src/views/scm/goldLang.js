@@ -119,8 +119,70 @@ export const messages = {
       bankName: '开户行',
       applicationNote: '申请说明',
       required: '必填',
+submitSuccess: '提交成功',
+      submitFailed: '提交失敗'
+    }
+  },
+  'zh-TW': {
+    gold: {
+      title: '小區金幣',
+      withdraw: '提現',
+      transactionDetails: '交易明細',
+      goldWithdrawal: '金幣提現'
+    },
+    goldInfo: {
+      accountId: '帳戶ID：',
+      accountName: '帳戶名稱：',
+      accountBalance: '帳戶餘額：',
+      communityName: '小區名稱：'
+    },
+    goldDetail: {
+      id: '編號',
+      goldAccount: '金幣帳戶',
+      type: '類型',
+      transferIn: '轉入',
+      transferOut: '轉出',
+      communityName: '小區名稱',
+      communityId: '小區編號',
+      transactionAmount: '交易金額',
+      currentAmount: '當前金額',
+      transactionNo: '交易單號',
+      remark: '備註',
+      time: '時間'
+    },
+    applyWithholdGold: {
+      id: '編號',
+      goldId: '金幣ID',
+      accountName: '帳戶名稱',
+      communityId: '小區編號',
+      withdrawAmount: '提現金額',
+      applicant: '申請人',
+      applicantPhone: '申請人電話',
+      bankAccount: '銀行帳戶',
+      bankName: '開戶行',
+      applicationNote: '申請說明',
+      status: '狀態',
+      reviewNote: '審核說明'
+    },
+    deleteApplyWithholdGold: {
+      confirmTitle: '請確認您的操作!',
+      confirmText: '確定刪除金幣提現',
+      deleteSuccess: '刪除成功',
+      deleteFailed: '刪除失敗'
+    },
+    withholdGold: {
+      applyWithdraw: '申請提現',
+      goldAmount: '金幣金額',
+      withdrawAmount: '提現金額',
+      applicant: '申請人',
+      applicantPhone: '申請人電話',
+      bankAccount: '銀行帳戶',
+      accountName: '帳號名稱',
+      bankName: '開戶行',
+      applicationNote: '申請說明',
+      required: '必填',
       submitSuccess: '提交成功',
-      submitFailed: '提交失败'
+      submitFailed: '提交失敗'
     }
   }
 }

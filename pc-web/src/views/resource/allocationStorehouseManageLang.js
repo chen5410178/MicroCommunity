@@ -100,7 +100,59 @@ export const messages = {
       confirmCancel: '确定取消调拨？',
       cancel: '点错了',
       confirm: '确认取消',
-      deleteError: '取消调拨失败'
+deleteError: '取消调拨失败'
+    }
+  },
+  'zh-TW': {
+    allocationStorehouseManage: {
+      search: {
+        title: '查詢條件',
+        startUserName: '請輸入申請人姓名',
+        applyType: '請選擇類型',
+        startTime: '請選擇調撥開始時間',
+        endTime: '請選擇調撥結束時間'
+      },
+      list: {
+        title: '調撥記錄',
+        allocation: '調撥'
+      },
+      table: {
+        applyId: '編號',
+        applyCount: '調撥/退還',
+        startUserName: '申請人',
+        stateName: '狀態',
+        applyTypeName: '類型',
+        createTime: '時間'
+      },
+      operation: {
+        cancel: '取消調撥',
+        detail: '詳情',
+        flowChart: '流程圖'
+      }
+    },
+    allocationStorehouse: {
+      title: '申請調撥',
+      sourceWarehouse: '源倉庫',
+      targetWarehouse: '目標倉庫',
+      itemName: '物品名稱',
+      stock: '庫存',
+      allocationCount: '調撥數量',
+      remark: '備註',
+      requiredSourceWarehouse: '必填，請選擇源倉庫',
+      requiredTargetWarehouse: '必填，請選擇目標倉庫',
+      requiredItemName: '必填，請填寫物品名稱',
+      requiredStock: '必填，請填寫庫存',
+      requiredAllocationCount: '必填，請填寫調撥數量',
+      requiredRemark: '必填，請填寫備註',
+      positiveNumber: '必須為正整數',
+      remarkTooLong: '備註太長'
+    },
+    deleteStorehouseManage: {
+      title: '請確認您的操作',
+      confirmCancel: '確定取消調撥？',
+      cancel: '點錯了',
+      confirm: '確認取消',
+      deleteError: '取消調撥失敗'
     }
   }
 }

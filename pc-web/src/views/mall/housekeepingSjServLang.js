@@ -80,7 +80,49 @@ export const messages = {
         onShelf: '上架'
       },
       fetchError: '获取服务列表失败',
-      fetchTypeError: '获取服务类型失败'
+fetchTypeError: '获取服务类型失败'
+    }
+  },
+  'zh-TW': {
+    housekeepingSjServ: {
+      search: {
+        title: '查詢條件',
+        servName: '請輸入服務名稱',
+        hktId: '請選擇服務類型'
+      },
+      list: {
+        title: '上架服務',
+        today: '今日上架',
+        all: '所有上架'
+      },
+      table: {
+        servId: '服務編號',
+        servName: '服務名稱',
+        servDesc: '服務描述',
+        hktName: '服務類型',
+        repairWay: '派單方式',
+        returnVisitFlag: '回訪方式',
+        sales: '銷量',
+        defaultFee: '默認費用',
+        sort: '排序',
+        state: '上架狀態'
+      },
+      repairWay: {
+        grab: '搶單',
+        assign: '指派',
+        roundRobin: '輪訓'
+      },
+      returnVisit: {
+        none: '都不回訪',
+        ratedNoVisit: '已評價不回訪',
+        allVisit: '都回訪'
+      },
+      state: {
+        notOnShelf: '未上架',
+        onShelf: '上架'
+      },
+      fetchError: '獲取服務列表失敗',
+      fetchTypeError: '獲取服務類型失敗'
     }
   }
 }

@@ -69,9 +69,47 @@ export const messages = {
         qrcode: '二维码开门',
         password: '密码开门'
       },
-      state: {
+state: {
         success: '开门成功',
         fail: '开门失败'
+      }
+    }
+  },
+  'zh-TW':{
+    accessControlInout: {
+      search: {
+        title: '查詢條件',
+        machine: '請選擇門禁',
+        name: '請填寫用戶名稱',
+        tel: '請填寫手機號',
+        state: '請選擇開門狀態',
+        startTime: '請輸入開始時間',
+        endTime: '請輸入結束時間'
+      },
+      table: {
+        title: '進出記錄',
+        face: '人臉',
+        id: '編號',
+        machineName: '設備名稱',
+        machineCode: '設備編碼',
+        userName: '用戶名稱',
+        openType: '開門方式',
+        tel: '手機號',
+        idCard: '用戶身份證',
+        similar: '相似度',
+        state: '開門狀態',
+        createTime: '開門時間'
+      },
+      openType: {
+        all: '全部',
+        face: '人臉開門',
+        key: '鑰匙開門',
+        qrcode: '二維碼開門',
+        password: '密碼開門'
+      },
+      state: {
+        success: '開門成功',
+        fail: '開門失敗'
       }
     }
   }

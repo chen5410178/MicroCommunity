@@ -48,9 +48,36 @@ export const messages = {
         heartbeatTime: '心跳时间',
         monitorName: '监控'
       },
-      allCommunities: '全部小区',
+allCommunities: '全部小区',
       fetchError: '获取充电桩列表失败',
       fetchCommunityError: '获取小区列表失败'
+    }
+  },
+  'zh-TW': {
+    adminChargeMachine: {
+      search: {
+        title: '查詢條件',
+        machineName: '請輸入設備名稱',
+        machineCode: '請輸入設備編號'
+      },
+      list: {
+        title: '充電樁列表'
+      },
+      table: {
+        communityName: '小區名稱',
+        machineName: '設備名稱',
+        machineCode: '設備編號',
+        factoryName: '廠家',
+        portCount: '插槽/樁個數',
+        ruleName: '充電規則',
+        chargeTypeName: '充電類型',
+        stateName: '狀態',
+        heartbeatTime: '心跳時間',
+        monitorName: '監控'
+      },
+      allCommunities: '全部小區',
+      fetchError: '獲取充電樁列表失敗',
+      fetchCommunityError: '獲取小區列表失敗'
     }
   }
 }

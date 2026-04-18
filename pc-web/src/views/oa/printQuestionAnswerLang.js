@@ -42,5 +42,27 @@ export const messages = {
         person: '人'
       }
     }
+  },
+  'zh-TW': {
+    printQuestionAnswer: {
+      table: {
+        name: '名稱',
+        type: '類型',
+        options: '選項',
+        selectCount: '選擇人數'
+      },
+      type: {
+        single: '單選',
+        multiple: '多選',
+        shortAnswer: '簡答'
+      },
+      label: {
+        total: '總數',
+        submitted: '已提交'
+      },
+      unit: {
+        person: '人'
+      }
+    }
   }
 }

@@ -117,6 +117,66 @@ export const messages = {
         title: '请确认您的操作',
         confirmText: '确定删除费用折扣'
       }
+}
+  },
+  'zh-TW': {
+    feeDiscountManage: {
+      search: {
+        title: '查詢條件',
+        discountId: '請輸入折扣ID',
+        discountName: '請輸入折扣名稱',
+        discountType: '請選擇折扣類型',
+        ruleName: '請輸入規則名稱'
+      },
+      list: {
+        title: '折扣資訊'
+      },
+      table: {
+        discountId: '折扣ID',
+        discountName: '折扣名稱',
+        discountType: '折扣類型',
+        ruleName: '規則名稱',
+        rule: '規則',
+        createTime: '創建時間',
+        operation: '操作'
+      },
+      add: {
+        title: '添加折扣',
+        discountName: '折扣名稱',
+        discountNamePlaceholder: '必填，請填寫折扣名稱',
+        discountNameRequired: '折扣名稱不能為空',
+        discountNameMaxLength: '折扣名稱不能超過256位',
+        discountType: '折扣類型',
+        discountTypePlaceholder: '必填，請選擇折扣類型',
+        discountTypeRequired: '折扣類型不能為空',
+        rule: '規則',
+        rulePlaceholder: '必填，請選擇規則',
+        ruleRequired: '規則不能為空',
+        discountDesc: '描述',
+        discountDescPlaceholder: '可選，請填寫描述',
+        specValueRequired: '{specName}不能為空'
+      },
+      edit: {
+        title: '修改折扣',
+        discountName: '折扣名稱',
+        discountNamePlaceholder: '必填，請填寫折扣名稱',
+        discountNameRequired: '折扣名稱不能為空',
+        discountNameMaxLength: '折扣名稱不能超過256位',
+        discountType: '折扣類型',
+        discountTypePlaceholder: '必填，請選擇折扣類型',
+        discountTypeRequired: '折扣類型不能為空',
+        rule: '規則',
+        rulePlaceholder: '必填，請選擇規則',
+        ruleRequired: '規則不能為空',
+        discountDesc: '描述',
+        discountDescPlaceholder: '可選，請填寫描述',
+        discountIdRequired: '折扣ID不能為空',
+        specValueRequired: '{specName}不能為空'
+      },
+      delete: {
+        title: '請確認您的操作',
+        confirmText: '確定刪除費用折扣'
+      }
     }
   }
 }

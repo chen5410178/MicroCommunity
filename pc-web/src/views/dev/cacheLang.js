@@ -78,5 +78,49 @@ export const messages = {
       },
       fetchError: '获取刷新缓存列表失败'
     }
+  },
+  'zh-TW': {
+    cache: {
+      flush:'刷新',
+      list: {
+        title: '刷新緩存'
+      },
+      dialog: {
+        addTitle: '添加刷新緩存',
+        editTitle: '編輯刷新緩存',
+        delTitle: '刪除刷新緩存',
+        cancel: '取消',
+        confirm: '確定'
+      },
+      table: {
+        cacheCode: '緩存編碼',
+        serviceCode: '服務編碼',
+        name: '名稱',
+        seq: '順序',
+        group: '組',
+        createTime: '創建時間',
+        url: '地址',
+      },
+      validate: {
+        cacheCode: '請輸入緩存編碼 開始於1001',
+        serviceCode: '請輸入調用服務編碼 對應 c_service',
+        name: '請輸入前台顯示名稱',
+        seq: '請輸入列順序',
+        group: '請輸入組，緩存屬於哪個組',
+        createTime: '請輸入創建時間',
+        url: '請輸入地址',
+      },
+      add: {
+        success: '添加刷新緩存成功'
+      },
+      edit: {
+        success: '編輯刷新緩存成功'
+      },
+      delete: {
+        success: '刪除刷新緩存成功',
+        confirm: '確認刪除該刷新緩存嗎？'
+      },
+      fetchError: '獲取刷新緩存列表失敗'
+    }
   }
 }

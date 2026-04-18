@@ -54,7 +54,36 @@ export const messages = {
       btn: {
         detail: '账户明细'
       },
-      allCommunities: '全部小区'
+allCommunities: '全部小区'
+    }
+  },
+  'zh-TW': {
+    adminAccount: {
+      search: {
+        title: '查詢條件',
+        acctType: '請選擇賬戶類型',
+        ownerName: '請輸入賬戶名稱',
+        idCard: '請輸入身份證號',
+        link: '請輸入聯繫方式'
+      },
+      list: {
+        title: '業主賬戶'
+      },
+      table: {
+        acctId: '賬戶編號',
+        acctName: '賬戶名稱',
+        idCard: '身份證號',
+        link: '手機號',
+        acctTypeName: '賬戶類型',
+        amount: '賬戶金額',
+        roomName: '扣款房號',
+        createTime: '創建時間',
+        noRoom: '無'
+      },
+      btn: {
+        detail: '賬戶明細'
+      },
+      allCommunities: '全部小區'
     }
   }
 }

@@ -113,10 +113,70 @@ export const messages = {
         hour: '小时',
         min: '分'
       },
-      action: {
+action: {
         out: '出场'
       },
       fetchError: '获取进出记录失败'
+    }
+  },
+  'zh-TW': {
+    adminCarInout: {
+      search: {
+        title: '查詢條件',
+        carNum: '請輸入車牌號',
+        state: '請選擇車輛狀態',
+        startTime: '請選擇開始時間',
+        endTime: '請選擇結束時間',
+        carType: '請選擇車牌類型'
+      },
+      list: {
+        title: '進出記錄'
+      },
+      table: {
+        photo: '進場圖',
+        communityName: '小區名稱',
+        ciId: '進出廠編號',
+        state: '車輛狀態',
+        carNum: '車牌號',
+        paNum: '停車場',
+        feeName: '計費規則',
+        carTypeName: '車牌類型',
+        inTime: '進場時間',
+        outTime: '出廠時間',
+        parkingTime: '停車時間',
+        charge: '收費金額',
+        remark: '說明'
+      },
+      state: {
+        select: '請選擇車輛狀態',
+        inStatus: '進場狀態',
+        paid: '支付完成',
+        outStatus: '離場狀態',
+        repay: '支付超時重新支付',
+        in: '進場',
+        out: '出廠'
+      },
+      carType: {
+        select: '請選擇車牌類型',
+        temp: '臨時車',
+        sale: '出售車輛',
+        monthly: '月租車',
+        white: '白名單',
+        black: '黑名單',
+        internal: '內部車',
+        free: '免費車'
+      },
+      community: {
+        all: '全部小區'
+      },
+      time: {
+        hour: '小時',
+        min: '分'
+      },
+      action: {
+        out: '出廠'
+      },
+      fetchError: '獲取進出記錄失敗'
     }
   }
 }

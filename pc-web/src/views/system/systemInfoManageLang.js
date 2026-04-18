@@ -77,5 +77,44 @@ export const messages = {
       staff: '员工',
       roomPlaceholder: '请输入房屋编号 楼栋-单元-房屋 如1-1-1'
     }
+  },
+  'zh-TW': {
+    systemInfo: {
+      title: '系統配置',
+      editTitle: '修改系統配置',
+      systemTitle: '標題名稱',
+      subSystemTitle: '副標題',
+      systemSimpleTitle: '簡寫名稱',
+      companyName: '公司名稱',
+      logoUrl: 'logo地址',
+      imgUrl: '靜態url',
+      defaultCommunityId: '默認小區編號',
+      ownerTitle: '業主標題',
+      propertyTitle: '物業手機標題',
+      qqMapKey: 'QQ地圖key',
+      mallUrl: '商城地址',
+      required: '{field}不能為空',
+      maxLength: '{field}不能超過{length}個字符',
+      fetchError: '獲取系統信息失敗'
+    },
+    searchCommunityData: {
+      title: '搜尋',
+      placeholder: '請輸入房屋編號，業主名稱，車輛編號或者家庭成員名稱等',
+      callInNumber: '通話中號碼',
+      noData: '抱歉，沒有數據',
+      inputTip: '請輸入查詢條件',
+      telNotConnected: '未連接固定電話',
+      noCallInNumber: '座機未返回通話中號碼',
+      roomInfo: '房屋信息',
+      ownerInfo: '業主信息',
+      ownerMember: '業主成員',
+      communityCar: '小區車輛',
+      memberCar: '成員車輛',
+      contract: '合同',
+      repairOrder: '報修工單',
+      visitor: '訪客',
+      staff: '員工',
+      roomPlaceholder: '請輸入房屋編號 樓棟-單元-房屋 如1-1-1'
+    }
   }
 }

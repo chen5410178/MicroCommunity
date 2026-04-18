@@ -44,5 +44,28 @@ export const messages = {
     time: '时间',
     fetchError: '获取调拨信息失败'
     }
+  },
+  'zh-TW': {
+    printAllocationStorehouse:{
+    title: '調撥倉庫列印',
+    applyId: '申請單號',
+    startUserName: '申請人',
+    createTime: '申請時間',
+    number: '編號',
+    resName: '調撥物品',
+    resType: '物品類型',
+    specName: '物品規格',
+    resCode: '物品編碼',
+    isFixedName: '固定物品',
+    source: '來源',
+    targetStorehouse: '目標倉庫',
+    originalStock: '原庫存',
+    allocationQuantity: '調撥數量',
+    remark: '備註',
+    storeManagerSign: '倉庫管理員簽字',
+    allocationStaffSign: '調撥人員簽字',
+    time: '時間',
+    fetchError: '獲取調撥信息失敗'
+    }
   }
 }

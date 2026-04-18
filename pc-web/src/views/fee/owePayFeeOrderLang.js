@@ -83,6 +83,49 @@ export const messages = {
       validityDate: '有效期至：',
       selectEndTime: '必填，请填写截止时间',
       selectEndTimeTip: '请选择截止时间'
+}
+  },
+  'zh-TW': {
+    owePayFeeOrder: {
+      printNotice1: '催繳單1',
+      printNotice2: '催繳單2',
+      payerObj: '收費對象',
+      feeType: '費用類型',
+      feeItem: '費用項目',
+      feeFlag: '費用標識',
+      feeId: '費用ID',
+      startTime: '計費起始時間',
+      endTime: '計費結束時間',
+      oweAmount: '欠費金額',
+      paymentAmount: '繳費金額',
+      yuan: '元',
+      scanPay: '掃碼收費',
+      pay: '繳費',
+      paymentConfirm: '收費確認',
+      room: '房屋：',
+      amount: '金額：',
+      paymentMethod: '支付方式：',
+      selectPaymentMethod: '必填，請選擇支付方式',
+      remark: '備註：',
+      inputRemark: '可填，請填寫備註',
+      authCode: '授權碼：',
+      scanCodeTip: '請用掃碼槍掃碼',
+      confirmPayment: '確定收費',
+      paymentTip: '繳費提示',
+      paymentSuccess: '繳費成功',
+      mergePrint: '合併列印',
+      printReceipt: '列印收據',
+      illegalOperation: '非法操作',
+      noOweData: '目前沒有欠費資料',
+      noSelectedFee: '未選擇費用',
+      noSelectedFeeItem: '未選中要繳費的項目',
+      selectPaymentMethodTip: '請選擇支付方式'
+    },
+    printOwnFee: {
+      printTitle: '列印催繳單',
+      validityDate: '有效期至：',
+      selectEndTime: '必填，請填寫截止時間',
+      selectEndTimeTip: '請選擇截止時間'
     }
   }
 }

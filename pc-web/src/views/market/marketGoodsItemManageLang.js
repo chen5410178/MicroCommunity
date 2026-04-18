@@ -38,7 +38,28 @@ export const messages = {
         shopName: '商铺名称',
         sort: '排序'
       },
-      fetchError: '获取营销商品失败'
+fetchError: '获取营销商品失败'
+    }
+  },
+  'zh-TW': {
+    marketGoodsItem: {
+      search: {
+        title: '查詢條件',
+        prodName: '請輸入商品名稱'
+      },
+      list: {
+        title: '營銷商品'
+      },
+      table: {
+        picUrl: '圖片',
+        prodName: '商品名稱',
+        prodDesc: '商品名稱',
+        picLink: '訪問地址',
+        price: '金額',
+        shopName: '商鋪名稱',
+        sort: '排序'
+      },
+      fetchError: '獲取營銷商品失敗'
     }
   }
 }

@@ -14,5 +14,13 @@ export const messages = {
       votedCount: '已投票',
       person: '人'
     }
+  },
+  'zh-TW': {
+    printOwnerVoting: {
+      room: '房間',
+      totalVotes: '投票總數',
+      votedCount: '已投票',
+      person: '人'
+    }
   }
-}
+};

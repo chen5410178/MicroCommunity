@@ -142,8 +142,82 @@ export const messages = {
         remarkMaxLength: '原因内容不能超过200字'
       },
       placeholder: {
-        state: '请审核',
+state: '请审核',
         remark: '请填写原因(必填)'
+      }
+    }
+  },
+  'zh-TW': {
+    payFeeBatch: {
+      search: {
+        title: '查詢條件',
+        batchId: '請輸入批次號',
+        state: '請選擇狀態',
+        createUserName: '請填寫創建員工'
+      },
+      list: {
+        title: '取消費用'
+      },
+      table: {
+        batchId: '批次號',
+        createUserName: '員工',
+        createTime: '時間',
+        remark: '取消原因',
+        noRemark: '無',
+        stateName: '審核狀態',
+        msg: '審核意見',
+        operation: '操作'
+      },
+      state: {
+        normal: '正常',
+        applyCancel: '申請取消',
+        auditPass: '審核通過',
+        auditFail: '審核失敗'
+      },
+      button: {
+        applyCancel: '申請取消',
+        audit: '審核'
+      },
+      message: {
+        auditSuccess: '審核成功'
+      }
+    },
+    applyDeleteFeeBatch: {
+      title: '費用取消申請',
+      form: {
+        batchId: '批次號',
+        createUserName: '員工',
+        createTime: '創建時間',
+        remark: '取消原因'
+      },
+      rules: {
+        remarkRequired: '取消原因不能為空'
+      },
+      placeholder: {
+        remark: '請填寫取消原因'
+      },
+      message: {
+        success: '取消申請提交成功'
+      }
+    },
+    audit: {
+      title: '審核資訊',
+      form: {
+        state: '審核狀態',
+        remark: '原因'
+      },
+      state: {
+        agree: '同意',
+        reject: '拒絕'
+      },
+      rules: {
+        stateRequired: '審核狀態不能為空',
+        remarkRequired: '原因內容不能為空',
+        remarkMaxLength: '原因內容不能超過200字'
+      },
+      placeholder: {
+        state: '請審核',
+        remark: '請填寫原因(必填)'
       }
     }
   }

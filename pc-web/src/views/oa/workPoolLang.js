@@ -70,7 +70,44 @@ export const messages = {
         completed: '处理完成',
         timeout: '超时工作单'
       },
-      fetchError: '获取工作单列表失败'
+fetchError: '获取工作单列表失败'
+    }
+  },
+  'zh-TW': {
+    workPool: {
+      search: {
+        title: '查詢條件',
+        workName: '請輸入工單名稱',
+        createUser: '請輸入發起人',
+        staffName: '請輸入處理人',
+        startTime: '請輸入開始時間',
+        endTime: '請輸入結束時間'
+      },
+      list: {
+        title: '工作單池'
+      },
+      table: {
+        id: '編號',
+        workName: '工單名稱',
+        typeName: '類型名稱',
+        workCycle: '標識',
+        once: '一次性工單',
+        cycle: '周期性工單',
+        createUser: '發起人',
+        staffName: '處理人',
+        timeRange: '時間段',
+        status: '狀態',
+        createTime: '創建時間',
+        finishTime: '完成時間',
+        timeout: '超時'
+      },
+      state: {
+        all: '全部',
+        pending: '待處理',
+        completed: '處理完成',
+        timeout: '超時工作單'
+      },
+      fetchError: '獲取工作單列表失敗'
     }
   }
 }

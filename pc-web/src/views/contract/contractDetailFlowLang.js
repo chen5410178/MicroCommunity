@@ -9,7 +9,7 @@ export const messages = {
       opinion: 'Opinion'
     }
   },
-  zh: {
+zh: {
     contractDetailFlow: {
       serialNumber: '序号',
       processor: '处理人',
@@ -17,6 +17,16 @@ export const messages = {
       processTime: '处理时间',
       timeConsuming: '耗时',
       opinion: '意见'
+    }
+  },
+  'zh-TW': {
+    contractDetailFlow: {
+      serialNumber: '序號',
+      processor: '處理人',
+      status: '狀態',
+      processTime: '處理時間',
+      timeConsuming: '耗時',
+      opinion: '意見'
     }
   }
 }

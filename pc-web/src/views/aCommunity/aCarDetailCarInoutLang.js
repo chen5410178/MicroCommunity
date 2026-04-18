@@ -19,7 +19,7 @@ export const messages = {
       minute: 'min'
     }
   },
-  zh: {
+zh: {
     aCarDetailCarInout: {
       entryImage: '进场图',
       inoutNumber: '进出场编号',
@@ -36,6 +36,26 @@ export const messages = {
       entry: '进场',
       exit: '出场',
       hour: '小时',
+      minute: '分'
+    }
+  },
+  'zh-TW': {
+    aCarDetailCarInout: {
+      entryImage: '進場圖',
+      inoutNumber: '進出场編號',
+      vehicleStatus: '車輛狀態',
+      plateNumber: '車牌號',
+      parkingLot: '停車場',
+      billingRule: '計費規則',
+      plateType: '車牌類型',
+      entryTime: '進場時間',
+      exitTime: '出场時間',
+      parkingTime: '停車時間',
+      chargeAmount: '收費金額',
+      remark: '說明',
+      entry: '進場',
+      exit: '出场',
+      hour: '小時',
       minute: '分'
     }
   }

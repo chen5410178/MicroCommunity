@@ -38,7 +38,28 @@ export const messages = {
       status: '状态',
       operation: '操作',
       process: '办理',
-      detail: '详情'
+detail: '详情'
+    }
+  },
+  'zh-TW': {
+    visitUndo: {
+      title: '訪客待辦單',
+      back: '返回',
+      refresh: '刷新',
+      visitorId: '訪客ID',
+      visitor: '訪客',
+      male: '男',
+      female: '女',
+      ownerName: '業主姓名',
+      visitReason: '來訪事由/類型',
+      carNumber: '車牌號',
+      entourageCount: '隨行人數',
+      createTime: '創建時間',
+      visitTime: '來訪/離開時間',
+      status: '狀態',
+      operation: '操作',
+      process: '辦理',
+      detail: '詳情'
     }
   }
 }

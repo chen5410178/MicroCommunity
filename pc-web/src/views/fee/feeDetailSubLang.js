@@ -29,6 +29,22 @@ export const messages = {
     },
     feeDetailSubDemo: {
       openComponent: '打开费用子详情组件'
+}
+  },
+  'zh-TW': {
+    feeDetailSub: {
+      split: '拆分',
+      parentFeeId: '父費用ID',
+      childFeeId: '子費用ID',
+      feeName: '費用名稱',
+      feeObject: '費用對象',
+      billingPeriod: '計費時間段',
+      splitTime: '拆分時間',
+      operation: '操作',
+      restoreMerge: '恢復合併'
+    },
+    feeDetailSubDemo: {
+      openComponent: '打開費用子詳情組件'
     }
   }
 }

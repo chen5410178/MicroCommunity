@@ -29,6 +29,22 @@ export const messages = {
       amount: '金额',
       amountInWords: '大写人民币（元）',
       noData: '当前没有缴费通知数据'
+}
+  },
+  'zh-TW': {
+    printOweFee: {
+      paymentNotice: '繳費通知單',
+      owner: '業主',
+      printTime: '列印時間',
+      chargeObject: '收費對象',
+      itemName: '項目名稱',
+      feePeriod: '費用期間',
+      unit: '單位',
+      areaUsage: '面積/用量',
+      unitPrice: '單價',
+      amount: '金額',
+      amountInWords: '大寫人民幣（元）',
+      noData: '目前沒有繳費通知資料'
     }
   }
 }

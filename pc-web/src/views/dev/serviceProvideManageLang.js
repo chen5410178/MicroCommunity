@@ -50,7 +50,34 @@ export const messages = {
       options: {
         proc: '存储过程方式'
       },
-      fetchError: '获取服务提供列表失败'
+fetchError: '获取服务提供列表失败'
+    }
+  },
+  'zh-TW': {
+    serviceProvideManage: {
+      search: {
+        title: '查詢條件',
+        serviceCode: '請輸入服務編碼',
+        name: '請輸入服務名稱',
+        queryModel: '請選擇實現方式'
+      },
+      list: {
+        title: '服務提供信息',
+        developService: '開發服務'
+      },
+      table: {
+        provideId: '提供ID',
+        name: '服務名稱',
+        serviceCode: '服務編碼',
+        params: '參數',
+        queryModel: '實現方式',
+        operation: '操作',
+        remark: '備註'
+      },
+      options: {
+        proc: '存儲過程方式'
+      },
+      fetchError: '獲取服務提供列表失敗'
     }
   }
 }

@@ -82,7 +82,50 @@ export const messages = {
       contentRequired: '内容不能为空',
       contentMaxLength: '内容不能超过256字符',
       typePlaceholder: '请选择反馈类型',
-      contentPlaceholder: '请填写内容'
+contentPlaceholder: '请填写内容'
+    }
+  },
+  'zh-TW': {
+    simplifyNotepadManage: {
+      title: '業主反饋',
+      back: '返回',
+      register: '登記',
+      type: '類型',
+      room: '房屋',
+      contact: '聯繫人',
+      phone: '聯繫電話',
+      status: '狀態',
+      recordTime: '記錄時間',
+      registrant: '登記人',
+      content: '登記內容',
+      operation: '操作',
+      completed: '完成',
+      following: '跟進中',
+      transferred: '已轉報修單',
+      follow: '跟進',
+      progress: '進度',
+      transferRepair: '轉報修單',
+      repairDetail: '報修詳情',
+      edit: '修改',
+      delete: '刪除',
+      tip: '溫馨提示：請到業務受理頁面登記'
+    },
+    addNotepad: {
+      title: '登記',
+      room: '房屋',
+      contact: '聯繫人',
+      phone: '聯繫電話',
+      type: '類型',
+      content: '內容',
+      roomRequired: '房屋不能為空',
+      contactRequired: '聯繫人不能為空',
+      phoneRequired: '聯繫電話不能為空',
+      phoneFormat: '聯繫電話格式錯誤',
+      typeRequired: '類型不能為空',
+      contentRequired: '內容不能為空',
+      contentMaxLength: '內容不能超過256字符',
+      typePlaceholder: '請選擇反饋類型',
+      contentPlaceholder: '請填寫內容'
     }
   }
 }

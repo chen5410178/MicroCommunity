@@ -58,7 +58,38 @@ export const messages = {
         C: '处理人已办理',
         CC: '抄送人已办理'
       },
-      fetchError: '获取工单扣款数据失败'
+fetchError: '获取工单扣款数据失败'
+    }
+  },
+  'zh-TW': {
+    workDeduction: {
+      search: {
+        title: '查詢條件',
+        staffNameLike: '請輸入處理人',
+        deductionPersonNameLike: '請輸入扣款人'
+      },
+      list: {
+        title: '工單扣款'
+      },
+      table: {
+        staffName: '員工名稱',
+        timeRange: '時間段',
+        content: '內容',
+        finishTime: '完成時間',
+        state: '狀態',
+        remark: '說明',
+        score: '評分',
+        deductionMoney: '扣款金額',
+        deductionReason: '扣款說明',
+        deductionPersonName: '扣款人',
+        createTime: '時間'
+      },
+      state: {
+        W: '待處理',
+        C: '處理人已辦理',
+        CC: '抄送人已辦理'
+      },
+      fetchError: '獲取工單扣款數據失敗'
     }
   }
 }

@@ -171,10 +171,99 @@ export const messages = {
       },
       fetchError: '获取支付数据失败'
     },
-    uploadFile: {
+uploadFile: {
       sizeLimit: '文件大小不能超过20MB',
       success: '文件上传成功',
       error: '文件上传失败'
+    }
+  },
+  'zh-TW': {
+    paymentPool: {
+      search: {
+        title: '查詢條件',
+        paymentName: '支付名稱',
+        paymentType: '支付廠家',
+        state: '狀態',
+        allStatus: '全部狀態',
+        enable: '啟用',
+        disable: '停用'
+      },
+      list: {
+        title: '支付配置'
+      },
+      table: {
+        paymentName: '名稱',
+        paymentType: '支付廠家',
+        payRange: '支付範圍',
+        communityFee: '小區費用',
+        tempCarFee: '臨時停車費',
+        specifiedFee: '指定費用項',
+        state: '狀態',
+        createTime: '創建時間',
+        remark: '使用說明',
+        enable: '啟用',
+        disable: '停用'
+      },
+      add: {
+        title: '添加支付',
+        paymentName: '名稱',
+        paymentNamePlaceholder: '必填，請填寫名稱',
+        paymentType: '支付廠家',
+        paymentTypePlaceholder: '必填，請選擇支付廠家',
+        certFile: '商戶證書(.p12)',
+        payRange: '支付範圍',
+        payRangePlaceholder: '必填，請選擇支付範圍',
+        communityFee: '小區費用',
+        tempCarFee: '臨時停車費',
+        specifiedFee: '指定費用項',
+        feeItems: '費用項',
+        remark: '使用說明',
+        remarkPlaceholder: '選填，請填寫使用說明',
+        success: '添加支付成功',
+        error: '添加支付失敗'
+      },
+      edit: {
+        title: '修改支付',
+        paymentName: '名稱',
+        paymentNamePlaceholder: '必填，請填寫名稱',
+        paymentType: '支付廠家',
+        paymentTypePlaceholder: '必填，請選擇支付廠家',
+        certFile: '商戶證書(.p12)',
+        currentCert: '當前證書',
+        payRange: '支付範圍',
+        payRangePlaceholder: '必填，請選擇支付範圍',
+        communityFee: '小區費用',
+        tempCarFee: '臨時停車費',
+        specifiedFee: '指定費用項',
+        feeItems: '費用項',
+        state: '狀態',
+        statePlaceholder: '必填，請選擇狀態',
+        enable: '啟用',
+        disable: '停用',
+        remark: '使用說明',
+        remarkPlaceholder: '選填，請填寫使用說明',
+        success: '修改支付成功',
+        error: '修改支付失敗'
+      },
+      delete: {
+        title: '刪除確認',
+        confirmText: '確定刪除該支付配置嗎？',
+        success: '刪除支付成功',
+        error: '刪除支付失敗'
+      },
+      validate: {
+        paymentNameRequired: '名稱不能為空',
+        paymentNameMaxLength: '名稱不能超過64個字符',
+        paymentTypeRequired: '支付廠家不能為空',
+        payTypeRequired: '支付範圍不能為空',
+        stateRequired: '狀態不能為空'
+      },
+      fetchError: '獲取支付數據失敗'
+    },
+    uploadFile: {
+      sizeLimit: '文件大小不能超過20MB',
+      success: '文件上傳成功',
+      error: '文件上傳失敗'
     }
   }
 }

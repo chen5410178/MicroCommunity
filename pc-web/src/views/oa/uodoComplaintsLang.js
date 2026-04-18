@@ -54,7 +54,36 @@ export const messages = {
       cancel: '取消',
       submit: '提交',
       success: '办理成功',
-      error: '办理投诉失败'
+error: '办理投诉失败'
+    }
+  },
+  'zh-TW': {
+    uodoComplaints: {
+      title: '待辦投訴單',
+      back: '返回',
+      refresh: '刷新',
+      orderNumber: '訂單編號',
+      complaintType: '投訴類型',
+      house: '房屋',
+      complainant: '投訴人',
+      complaintPhone: '投訴電話',
+      complaintStatus: '投訴狀態',
+      createTime: '創建時間',
+      operation: '操作',
+      process: '辦理',
+      detail: '詳情',
+      fetchError: '獲取投訴數據失敗'
+    },
+    doingComplaint: {
+      title: '辦理投訴',
+      description: '說明',
+      required: '必填，請填寫回復內容',
+      maxLength: '回復內容超過500個字',
+      placeholder: '必填，請填寫回復內容',
+      cancel: '取消',
+      submit: '提交',
+      success: '辦理成功',
+      error: '辦理投訴失敗'
     }
   }
 }

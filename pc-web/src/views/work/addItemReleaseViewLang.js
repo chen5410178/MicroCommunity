@@ -77,7 +77,48 @@ export const messages = {
         passTime: '通行时间不能为空',
         itemsRequired: '至少需要一个放行物品',
         itemInfoRequired: '物品名称和数量不能为空',
-        approverRequired: '审批人不能为空'
+approverRequired: '审批人不能为空'
+      }
+    },
+  },
+  'zh-TW': {
+    addItemReleaseView: {
+      title: '申請放行',
+      releaseType: '放行類型',
+      requiredSelectReleaseType: '必填，請選擇放行類型',
+      applyCompany: '申請單位',
+      requiredApplyCompany: '必填，請填寫申請單位',
+      applyPerson: '申請人',
+      requiredApplyPerson: '必填，請填寫申請人',
+      idCard: '身份證',
+      requiredIdCard: '必填，請填寫身份證',
+      phone: '手機號',
+      requiredPhone: '必填，請填寫手機號',
+      passTime: '通行時間',
+      requiredPassTime: '必填，請填寫通行時間',
+      carNum: '車牌號',
+      optionalCarNum: '選填，請填寫車牌號',
+      remark: '備註',
+      optionalRemark: '選填，請填寫備註',
+      releaseItems: '放行物品',
+      addItem: '添加物品',
+      itemName: '物品名稱',
+      requiredItemName: '必填，請填寫物品名稱',
+      itemAmount: '物品數量',
+      requiredItemAmount: '必填，請填寫數量',
+      approverInfo: '審批人信息',
+      approver: '審批人',
+      requiredApprover: '必填，請選擇審批人',
+      validate: {
+        releaseType: '放行類型不能為空',
+        applyCompany: '申請單位不能為空',
+        applyPerson: '申請人不能為空',
+        idCard: '身份證不能為空',
+        phone: '手機號不能為空',
+        passTime: '通行時間不能為空',
+        itemsRequired: '至少需要一個放行物品',
+        itemInfoRequired: '物品名稱和數量不能為空',
+        approverRequired: '審批人不能為空'
       }
     },
   }

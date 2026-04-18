@@ -92,7 +92,55 @@ export const messages = {
         success: '删除项目成功',
         confirm: '确认删除该项目吗？'
       },
-      fetchError: '获取项目列表失败'
+fetchError: '获取项目列表失败'
+    }
+  },
+  'zh-TW': {
+    project: {
+      search: {
+        title: '查詢條件',
+        placeholder: '請輸入項目名稱'
+      },
+      list: {
+        title: '項目列表'
+      },
+      dialog: {
+        addTitle: '添加項目',
+        editTitle: '編輯項目',
+        delTitle: '刪除項目',
+        cancel: '取消',
+        confirm: '確定'
+      },
+      form: {
+        projectName: '項目名稱',
+        personName: '聯繫人',
+        personLink: '聯繫電話',
+        remark: '備註'
+      },
+      table: {
+        projectId: '項目ID',
+        projectName: '項目名稱',
+        personName: '聯繫人',
+        personLink: '聯繫電話',
+        createTime: '創建時間',
+        remark: '備註'
+      },
+      validate: {
+        projectName: '請輸入項目名稱',
+        personName: '請輸入聯繫人',
+        personLink: '請輸入聯繫電話'
+      },
+      add: {
+        success: '添加項目成功'
+      },
+      edit: {
+        success: '編輯項目成功'
+      },
+      delete: {
+        success: '刪除項目成功',
+        confirm: '確認刪除該項目嗎？'
+      },
+      fetchError: '獲取項目列表失敗'
     }
   }
-} 
+}

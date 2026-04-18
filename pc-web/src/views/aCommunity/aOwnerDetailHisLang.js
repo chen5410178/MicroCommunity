@@ -28,5 +28,20 @@ export const messages = {
       modifyNew: '修改(新)',
       modifyOld: '修改(旧)'
     }
+  },
+  'zh-TW': {
+    aOwnerDetailHis: {
+      action: '動作',
+      operator: '操作人',
+      operateTime: '操作時間',
+      name: '姓名',
+      gender: '性別',
+      idCard: '身份證',
+      address: '家庭住址',
+      add: '添加',
+      delete: '刪除',
+      modifyNew: '修改(新)',
+      modifyOld: '修改(舊)'
+    }
   }
 }

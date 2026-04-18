@@ -40,7 +40,7 @@ export const messages = {
         objName: 'Contact',
         link: 'Contact Phone',
         noteType: 'Type',
-        Content: 'Content',
+        content: 'Content',
         selectNoteType: 'Please select feedback type'
       },
       delete: {
@@ -188,5 +188,100 @@ export const messages = {
         contextMaxLength: '报修内容不能超过2000个字符'
       }
     }
+  },
+  'zh-TW': {
+    notepadManage: {
+      search: {
+        title: '查詢條件',
+        noteType: '請選擇反饋類型',
+        roomName: '請選擇房屋',
+        state: '請選擇狀態',
+        createUserName: '請選擇登記人',
+        objName: '請選擇業主名稱'
+      },
+      list: {
+        title: '業主反饋'
+      },
+      table: {
+        noteType: '類型',
+        roomName: '房屋',
+        objName: '聯絡人',
+        link: '聯繫電話',
+        state: '狀態',
+        createTime: '記錄時間',
+        createUserName: '登記人',
+        title: '內容'
+      },
+      state: {
+        following: '跟進中',
+        completed: '完成',
+        transferred: '已轉保修單'
+      },
+      operation: {
+        follow: '跟進',
+        progress: '進度',
+        transfer: '轉保修單',
+        repairDetail: '保修詳情'
+      },
+      tip: '溫馨提示：請到業務受理頁面登記',
+      edit: {
+        title: '修改',
+        roomName: '房屋',
+        objName: '聯絡人',
+        link: '聯繫電話',
+        noteType: '類型',
+        content: '內容',
+        selectNoteType: '請選擇反饋類型'
+      },
+      delete: {
+        title: '請確認您的操作',
+        confirm: '確定刪除記事簿?'
+      },
+      addDetail: {
+        title: '跟進',
+        state: '狀態',
+        content: '跟進內容',
+        selectState: '請選擇狀態',
+        contentPlaceholder: '請填寫跟進內容'
+      },
+      detail: {
+        title: '跟進進度',
+        index: '序號',
+        createUser: '處理人',
+        createTime: '處理時間',
+        content: '處理內容'
+      },
+      ownerRepair: {
+        title: '轉保修單',
+        repairType: '保修類型',
+        repairObjName: '房屋',
+        repairName: '保修人',
+        tel: '聯繫方式',
+        appointmentTime: '預約時間',
+        context: '保修內容',
+        selectRepairType: '請選擇保修類型',
+        repairObjNamePlaceholder: '請填寫房屋',
+        repairNamePlaceholder: '請填寫保修人',
+        telPlaceholder: '請填寫聯繫方式',
+        selectTime: '選擇預約時間',
+        contextPlaceholder: '請填寫保修內容'
+      },
+      validate: {
+        noteType: '類型不能為空',
+        title: '內容不能為空',
+        titleMaxLength: '內容不能超過256個字符',
+        state: '狀態不能為空',
+        content: '內容不能為空',
+        repairType: '保修類型不能為空',
+        repairObjName: '房屋不能為空',
+        repairName: '保修人不能為空',
+        repairNameLength: '保修人名稱必須在2至10字符之間',
+        tel: '聯繫方式不能為空',
+        telFormat: '聯繫方式格式不正確',
+        appointmentTime: '預約時間不能為空',
+        context: '保修內容不能為空',
+        contextMaxLength: '保修內容不能超過2000個字符'
+      }
+    }
   }
-}
+};

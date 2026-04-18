@@ -48,5 +48,30 @@ export const messages = {
       },
       fetchError: '获取积分数据失败'
     }
+  },
+  'zh-TW': {
+    userIntegral: {
+      search: {
+        title: '查詢條件',
+        integralName: '帳戶名稱',
+        integralNamePlaceholder: '請輸入帳戶名稱'
+      },
+      list: {
+        title: '用戶積分'
+      },
+      table: {
+        id: '編號',
+        name: '帳戶名稱',
+        type: '對象類型',
+        userId: '用戶編號',
+        phone: '手機號',
+        amount: '積分數'
+      },
+      type: {
+        personal: '個人',
+        merchant: '商戶'
+      },
+      fetchError: '獲取積分數據失敗'
+    }
   }
 }

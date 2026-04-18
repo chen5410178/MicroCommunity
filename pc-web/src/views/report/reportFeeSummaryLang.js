@@ -71,8 +71,46 @@ export const messages = {
       floorFeeRateStatistics: '楼栋收费率统计',
       configFeeRateStatistics: '费用项收费率统计',
       dateError: '开始日期必须早于结束日期',
-      exportSuccess: '导出成功',
-      exportFailed: '导出失败'
+exportSuccess: '導出成功',
+      exportFailed: '導出失敗'
+    }
+  },
+  'zh-TW': {
+    reportFeeSummary: {
+      queryCondition: '查詢條件',
+      selectStartDate: '請選擇開始日期',
+      selectEndDate: '請選擇結束日期',
+      inputRoomNumber: '請填寫房屋編號',
+      inputOwnerName: '請填寫業主名稱',
+      inputOwnerPhone: '請填寫業主手機號',
+      selectFeeType: '請選擇費用大類',
+      selectCommunity: '請選擇小區',
+      feeSummaryTable: '費用匯總表',
+      updateDaily: '按天更新',
+      totalRooms: '總戶數',
+      chargeRooms: '收費戶',
+      arrearsRooms: '欠費戶',
+      arrearsFormula: '歷史欠費+當期欠費=欠費',
+      historyArrears: '歷史欠費',
+      currentArrears: '當期欠費',
+      totalArrears: '總欠費',
+      actualPaymentFormula: '欠費追回+當期部分+預交=實繳',
+      arrearsRecovery: '欠費追回',
+      currentPartial: '當期部分',
+      advancePayment: '預交',
+      actualPayment: '實繳',
+      currentReceivable: '當期應收',
+      currentActual: '當期實收',
+      roomChargeRate: '戶收費率',
+      chargeRate: '收費率',
+      clearanceRate: '清繳率',
+      floorFeeSummary: '樓棟費用匯總',
+      configFeeSummary: '費用項匯總',
+      floorFeeRateStatistics: '樓棟收費率統計',
+      configFeeRateStatistics: '費用項收費率統計',
+      dateError: '開始日期必須早於結束日期',
+      exportSuccess: '導出成功',
+      exportFailed: '導出失敗'
     }
   }
 }

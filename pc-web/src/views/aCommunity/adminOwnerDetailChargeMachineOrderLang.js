@@ -9,7 +9,7 @@ export const messages = {
       status: 'Status'
     }
   },
-  zh: {
+zh: {
     adminOwnerDetailChargeMachineOrder: {
       machineName: '设备名称',
       orderType: '订单类型',
@@ -17,6 +17,16 @@ export const messages = {
       phone: '手机号',
       createTime: '创建时间',
       status: '状态'
+    }
+  },
+  'zh-TW': {
+    adminOwnerDetailChargeMachineOrder: {
+      machineName: '設備名稱',
+      orderType: '訂單類型',
+      userName: '用戶名稱',
+      phone: '手機號',
+      createTime: '創建時間',
+      status: '狀態'
     }
   }
 }

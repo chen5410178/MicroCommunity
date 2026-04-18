@@ -42,5 +42,27 @@ export const messages = {
       },
       fetchError: '获取商家数据失败'
     }
+  },
+  'zh-TW': {
+    merchantManage: {
+      search: {
+        title: '查詢條件',
+        storeId: '請輸入商家編號',
+        name: '請輸入名稱',
+        tel: '請輸入電話'
+      },
+      list: {
+        title: '商家公司',
+        manage: '管理'
+      },
+      table: {
+        storeId: '編號',
+        name: '名稱',
+        address: '地址',
+        tel: '電話',
+        createTime: '創建時間'
+      },
+      fetchError: '獲取商家數據失敗'
+    }
   }
 }

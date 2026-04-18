@@ -130,5 +130,71 @@ export const messages = {
       fetchError: '获取菜单列表失败',
       privilege:'权限'
     }
+  },
+  'zh-TW': {
+    menu: {
+      search: {
+        title: '查詢條件',
+        name: '菜單名稱',
+        gId: '菜單組',
+        url: '菜單地址',
+        seq: '順序',
+        description: '菜單描述',
+        isShow: '菜單顯示',
+        createTime: '創建時間',
+        placeholder: '請輸入菜單名稱'
+      },
+      list: {
+        title: '菜單列表'
+      },
+      dialog: {
+        addTitle: '添加菜單',
+        editTitle: '編輯菜單',
+        delTitle: '刪除菜單',
+        cancel: '取消',
+        confirm: '確定'
+      },
+      form: {
+        mId: '菜單ID',
+        name: '菜單名稱',
+        gId: '菜單組',
+        url: '菜單地址',
+        seq: '順序',
+        description: '菜單描述',
+        isShow: '菜單顯示',
+        createTime: '創建時間',
+      },
+      table: {
+        mId: '菜單ID',
+        name: '菜單名稱',
+        gId: '菜單組',
+        url: '菜單地址',
+        seq: '順序',
+        description: '菜單描述',
+        isShow: '菜單顯示',
+        createTime: '創建時間',
+      },
+      validate: {
+        mId: '請輸入菜單ID',
+        name: '請輸入菜單名稱',
+        gId: '請輸入菜單組',
+        url: '請輸入菜單地址',
+        seq: '請輸入順序',
+        isShow: '請輸入菜單顯示',
+        createTime: '請輸入創建時間',
+      },
+      add: {
+        success: '添加菜單成功'
+      },
+      edit: {
+        success: '編輯菜單成功'
+      },
+      delete: {
+        success: '刪除菜單成功',
+        confirm: '確認刪除該菜單嗎？'
+      },
+      fetchError: '獲取菜單列表失敗',
+      privilege:'權限'
+    }
   }
 }

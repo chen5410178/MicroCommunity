@@ -56,7 +56,37 @@ export const messages = {
       createTime: '操作时间',
       yuan: '元',
       illegalOperation: '非法操作',
-      dataError: '数据异常'
+dataError: '数据异常'
+    }
+  },
+  'zh-TW': {
+    equipmentAccountDetail: {
+      title: '設備詳情',
+      back: '返回',
+      print: '列印',
+      machineName: '設備名稱',
+      machineCode: '設備編碼',
+      levelName: '重要等級',
+      stateName: '使用狀態',
+      brand: '設備品牌',
+      model: '設備型號',
+      locationDetail: '位置詳情',
+      firstEnableTime: '首次啟用時間',
+      warrantyDeadline: '保修截止日期',
+      usefulLife: '使用年限(年)',
+      purchasePrice: '採購價格',
+      netWorth: '資產淨值',
+      useUserName: '使用人',
+      chargeUseName: '責任人',
+      remark: '備註',
+      logTitle: '設備日誌',
+      serialNumber: '序號',
+      operatingCode: '操作編碼',
+      operatingDescriptor: '操作描述',
+      createTime: '操作時間',
+      yuan: '元',
+      illegalOperation: '非法操作',
+      dataError: '數據異常'
     }
   }
 }

@@ -16,6 +16,16 @@ export const messages = {
       objectType: '对象类型',
       objectName: '对象名称',
       remark: '说明',
+resyncSuccess: '重新同步成功'
+    }
+  },
+  'zh-TW': {
+    editMachineTranslate: {
+      title: '重新同步設備',
+      machineCode: '設備編碼',
+      objectType: '對象類型',
+      objectName: '對象名稱',
+      remark: '說明',
       resyncSuccess: '重新同步成功'
     }
   }

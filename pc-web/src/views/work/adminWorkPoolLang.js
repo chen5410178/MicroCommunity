@@ -78,7 +78,48 @@ export const messages = {
         all: '全部小区',
         fetchError: '加载小区失败'
       },
-      fetchError: '加载工单失败'
+fetchError: '加载工单失败'
+    }
+  },
+  'zh-TW': {
+    adminWorkPool: {
+      search: {
+        title: '查詢條件',
+        workName: '工單名稱',
+        createUser: '發起人',
+        staffName: '處理人',
+        startTime: '開始時間',
+        endTime: '結束時間'
+      },
+      list: {
+        title: '工作單池'
+      },
+      table: {
+        id: '編號',
+        communityName: '小區名稱',
+        workName: '工單名稱',
+        typeName: '類型名稱',
+        workCycle: '標識',
+        createUser: '發起人',
+        staffName: '處理人',
+        timeRange: '時間段',
+        status: '狀態',
+        createTime: '創建時間',
+        finishTime: '完成時間'
+      },
+      status: {
+        timeout: '超時'
+      },
+      workCycle: {
+        once: '一次性工單',
+        periodic: '周期性工單'
+      },
+      community: {
+        title: '小區選擇',
+        all: '全部小區',
+        fetchError: '加載小區失敗'
+      },
+      fetchError: '加載工單失敗'
     }
   }
 }

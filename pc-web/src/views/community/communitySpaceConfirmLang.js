@@ -48,7 +48,33 @@ export const messages = {
       appointmentTimePlaceholder: '请选择预约时间',
       scanTip: '请先扫码',
       writeOffSuccess: '核销成功',
-      writeOffFailed: '核销失败'
+writeOffFailed: '核销失败'
+    }
+  },
+  'zh-TW': {
+    communitySpaceConfirm: {
+      writeOff: '核銷',
+      writeOffPlaceholder: '請掃碼槍掃碼核銷',
+      writeOffResult: '核銷結果',
+      writeOffTime: '核銷時間',
+      space: '場地',
+      appointmentDate: '預約日期',
+      appointmentHours: '預約小時',
+      appointmentPerson: '預約人',
+      appointmentPhone: '預約電話',
+      searchCondition: '查詢條件',
+      search: '查詢',
+      reset: '重置',
+      writeOffOrder: '核銷訂單',
+      venue: '場館',
+      appointmentTime: '預約時間',
+      remark: '備註',
+      personNamePlaceholder: '請輸入預約人',
+      personTelPlaceholder: '請輸入預約電話',
+      appointmentTimePlaceholder: '請選擇預約時間',
+      scanTip: '請先掃碼',
+      writeOffSuccess: '核銷成功',
+      writeOffFailed: '核銷失敗'
     }
   }
 }

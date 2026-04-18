@@ -118,5 +118,65 @@ export const messages = {
       start: '启动',
       stop: '停止'
     }
+  },
+  'zh-TW': {
+    task: {
+      search: {
+        title: '查詢條件',
+        taskName: '任務名稱',
+        templateId: '範本名稱',
+        taskCron: '運行時間',
+        state: '啟停狀態',
+        createTime: '創建時間',
+        placeholder: '請輸入定時任務名稱'
+      },
+      list: {
+        title: '定時任務'
+      },
+      dialog: {
+        addTitle: '添加定時任務',
+        editTitle: '編輯定時任務',
+        delTitle: '刪除定時任務',
+        cancel: '取消',
+        confirm: '確定'
+      },
+      form: {
+        taskId: '任務ID',
+        taskName: '任務名稱',
+        templateId: '範本名稱',
+        taskCron: '運行時間',
+        state: '啟停狀態',
+        createTime: '創建時間',
+      },
+      table: {
+        taskId: '任務ID',
+        taskName: '任務名稱',
+        templateId: '範本名稱',
+        taskCron: '運行時間',
+        state: '啟停狀態',
+        createTime: '創建時間',
+      },
+      validate: {
+        taskId: '請輸入任務ID',
+        taskName: '請輸入任務名稱',
+        templateId: '請輸入範本名稱',
+        taskCron: '請輸入運行時間',
+        state: '請輸入啟停狀態',
+        createTime: '請輸入創建時間',
+      },
+      add: {
+        success: '添加定時任務成功'
+      },
+      edit: {
+        success: '編輯定時任務成功'
+      },
+      delete: {
+        success: '刪除定時任務成功',
+        confirm: '確認刪除該定時任務嗎？'
+      },
+      fetchError: '獲取定時任務列表失敗',
+      start: '啟動',
+      stop: '停止'
+    }
   }
 }

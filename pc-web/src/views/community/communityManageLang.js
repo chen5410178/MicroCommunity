@@ -186,7 +186,102 @@ export const messages = {
       province: '请选择省',
       city: '请选择城市',
       area: '请选择区县',
-      fetchError: '查询地区失败'
+fetchError: '查询地区失败'
+    }
+  },
+  'zh-TW': {
+    communityManage: {
+      search: {
+        title: '查詢條件',
+        communityId: '請輸入小區ID',
+        name: '請輸入小區名稱'
+      },
+      list: {
+        title: '小區信息',
+        addCommunity: '添加小區'
+      },
+      table: {
+        communityId: '小區ID',
+        name: '小區名稱',
+        storeName: '物业公司',
+        nearbyLandmarks: '附近地標',
+        cityCode: '城市編碼',
+        createTime: '創建時間',
+        state: '狀態',
+        syncIot: '同步IOT'
+      }
+    },
+    addCommunity: {
+      title: '添加小區',
+      name: '小區名稱',
+      namePlaceholder: '必填，請填寫小區名稱',
+      area: '小區地區',
+      address: '小區地址',
+      addressPlaceholder: '必填，請填寫小區地址',
+      nearbyLandmarks: '附近地標',
+      nearbyLandmarksPlaceholder: '必填，請填寫附近地標',
+      tel: '客服電話',
+      telPlaceholder: '必填，請填寫客服電話',
+      payFeeMonth: '繳費週期',
+      payFeeMonthPlaceholder: '必填，請填寫繳費週期（月）',
+      feePrice: '每月單價',
+      feePricePlaceholder: '必填，請填寫每月單價（元）',
+      saveSuccess: '小區添加成功',
+      validate: {
+        name: '小區名稱不能為空',
+        cityCode: '城市編碼不能為空',
+        address: '小區地址不能為空',
+        nearbyLandmarks: '附近地標不能為空',
+        tel: '客服電話不能為空'
+      }
+    },
+    editCommunity: {
+      title: '修改小區',
+      name: '小區名稱',
+      namePlaceholder: '必填，請填寫小區名稱',
+      address: '小區地址',
+      addressPlaceholder: '必填，請填寫小區地址',
+      nearbyLandmarks: '附近地標',
+      nearbyLandmarksPlaceholder: '必填，請填寫附近地標',
+      payFeeMonth: '繳費週期',
+      payFeeMonthPlaceholder: '必填，請填寫繳費週期（月）',
+      feePrice: '每月單價',
+      feePricePlaceholder: '必填，請填寫每月單價（元）',
+      tel: '客服電話',
+      telPlaceholder: '必填，請填寫客服電話',
+      saveSuccess: '小區修改成功',
+      validate: {
+        name: '小區名稱不能為空',
+        address: '小區地址不能為空',
+        nearbyLandmarks: '附近地標不能為空',
+        communityId: '小區ID不能為空'
+      }
+    },
+    deleteCommunity: {
+      title: '請確認您的操作',
+      confirmText: '確定刪除小區',
+      cancel: '點錯了',
+      confirm: '確認刪除',
+      deleteSuccess: '小區刪除成功'
+    },
+    communityDataToIot: {
+      title: '請確認您的操作',
+      confirmText: '同步小區中的業主信息(業主關聯的房屋信息)，車輛信息和員工信息',
+      cancel: '點錯了',
+      confirm: '確認同步',
+      syncSuccess: '同步提交成功'
+    },
+    recallAuditFinishCommunity: {
+      title: '請確認您的操作',
+      confirmText: '確定撤回審核',
+      cancel: '點錯了',
+      confirm: '確認撤回'
+    },
+    areaSelect: {
+      province: '請選擇省',
+      city: '請選擇城市',
+      area: '請選擇區縣',
+      fetchError: '查詢地區失敗'
     }
   }
 }

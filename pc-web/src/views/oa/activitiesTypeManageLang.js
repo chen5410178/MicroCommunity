@@ -128,7 +128,73 @@ export const messages = {
         seqNumber: '显示序号不是有效数字',
         defaultShowRequired: '是否显示不能为空'
       },
-      fetchError: '获取数据失败'
+fetchError: '获取数据失败'
+    }
+  },
+  'zh-TW': {
+    activitiesTypeManage: {
+      search: {
+        title: '查詢條件',
+        typeCd: '大類編碼',
+        typeName: '大類名稱',
+        defaultShow: '手機顯示',
+        all: '全部',
+        yes: '是',
+        no: '否'
+      },
+      list: {
+        title: '信息大類'
+      },
+      table: {
+        typeCd: '大類編碼',
+        typeName: '大類名稱',
+        typeDesc: '大類描述',
+        seq: '顯示序號',
+        defaultShow: '手機顯示'
+      },
+      add: {
+        title: '添加大類',
+        typeName: '大類名稱',
+        typeNamePlaceholder: '必填，請填寫大類名稱',
+        typeDesc: '大類描述',
+        typeDescPlaceholder: '選填，請填寫大類描述',
+        seq: '顯示序號',
+        seqPlaceholder: '必填，請填寫顯示序號',
+        defaultShow: '手機顯示',
+        defaultShowPlaceholder: '必填，請選擇是否手機顯示',
+        success: '添加成功',
+        error: '添加失敗'
+      },
+      edit: {
+        title: '修改大類',
+        typeCd: '大類編碼',
+        typeName: '大類名稱',
+        typeNamePlaceholder: '必填，請填寫大類名稱',
+        typeDesc: '大類描述',
+        typeDescPlaceholder: '選填，請填寫大類描述',
+        seq: '顯示序號',
+        seqPlaceholder: '必填，請填寫顯示序號',
+        defaultShow: '手機顯示',
+        defaultShowPlaceholder: '必填，請選擇是否顯示',
+        success: '修改成功',
+        error: '修改失敗'
+      },
+      delete: {
+        title: '刪除確認',
+        confirm: '確定刪除信息大類？',
+        success: '刪除成功',
+        error: '刪除失敗'
+      },
+      validate: {
+        typeCdRequired: '大類編碼不能為空',
+        typeNameRequired: '大類名稱不能為空',
+        typeNameMaxLength: '大類名稱超過100位',
+        typeDescMaxLength: '描述超過500位',
+        seqRequired: '顯示序號不能為空',
+        seqNumber: '顯示序號不是有效數字',
+        defaultShowRequired: '是否顯示不能為空'
+      },
+      fetchError: '獲取數據失敗'
     }
   }
 }

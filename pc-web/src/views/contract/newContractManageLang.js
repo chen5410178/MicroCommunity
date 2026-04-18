@@ -196,7 +196,107 @@ export const messages = {
       uploadError: '上传失败',
       updateSuccess: '修改成功',
       updateError: '修改失败',
-      fetchError: '获取合同数据失败'
+fetchError: '获取合同数据失败'
+    }
+  },
+  'zh-TW': {
+    newContractManage: {
+      search: {
+        title: '查詢條件',
+        contractNamePlaceholder: '請輸入合同名稱',
+        contractCodePlaceholder: '請輸入合同編號',
+        contractTypePlaceholder: '請選擇合同類型'
+      },
+      list: {
+        title: '起草合同信息',
+        draft: '起草',
+        note: '注意：此功能使用前請先到系統管理>流程管理中設置合同申請續簽'
+      },
+      table: {
+        contractName: '合同名稱',
+        contractCode: '合同編號',
+        parentContractCode: '父合同編號',
+        contractType: '合同類型',
+        operator: '經辦人',
+        amount: '合同金額',
+        startTime: '開始時間',
+        endTime: '結束時間',
+        state: '狀態'
+      },
+      edit: {
+        title: '編輯合同',
+        contractName: '合同名稱',
+        contractNamePlaceholder: '必填，請填寫合同名稱',
+        contractCode: '合同編號',
+        contractCodePlaceholder: '必填，請填寫合同編號',
+        contractType: '合同類型',
+        contractTypePlaceholder: '必填，請選擇合同類型',
+        partyA: '甲方',
+        partyAPlaceholder: '必填，請填寫甲方',
+        partyB: '乙方',
+        partyBPlaceholder: '必填，請填寫乙方',
+        aContacts: '甲方聯絡人',
+        aContactsPlaceholder: '必填，請填寫甲方聯絡人',
+        bContacts: '乙方聯絡人',
+        bContactsPlaceholder: '必填，請填寫乙方聯絡人',
+        aLink: '甲方聯繫電話',
+        aLinkPlaceholder: '必填，請填寫甲方聯繫電話',
+        bLink: '乙方聯繫電話',
+        bLinkPlaceholder: '必填，請填寫乙方聯繫電話',
+        operator: '經辦人',
+        operatorPlaceholder: '必填，請填寫經辦人',
+        operatorLink: '聯繫電話',
+        operatorLinkPlaceholder: '必填，請填寫聯繫電話',
+        amount: '合同金額',
+        amountPlaceholder: '選填，請填寫合同金額',
+        startTime: '開始時間',
+        startTimePlaceholder: '必填，請填寫開始時間',
+        endTime: '結束時間',
+        endTimePlaceholder: '必填，請填寫結束時間',
+        signingTime: '簽訂時間',
+        signingTimePlaceholder: '必填，請填寫簽訂時間',
+        contractFile: '合同附件',
+        addFile: '添加附件',
+        upload: '上傳',
+        deleteFile: '刪除',
+        fileIndex: '第{index}個'
+      },
+      delete: {
+        title: '請確認您的操作',
+        confirmText: '確定刪除合同信息',
+        success: '刪除成功',
+        error: '刪除失敗'
+      },
+      validate: {
+        contractNameRequired: '合同名稱不能為空',
+        contractNameMaxLength: '合同名稱不能超過200位',
+        contractCodeRequired: '合同編號不能為空',
+        contractCodeMaxLength: '合同編號錯誤',
+        contractTypeRequired: '合同類型不能為空',
+        partyARequired: '甲方不能為空',
+        partyAMaxLength: '甲方名稱太長',
+        partyBRequired: '乙方不能為空',
+        partyBMaxLength: '乙方名稱太長',
+        aContactsRequired: '甲方聯絡人不能為空',
+        aContactsMaxLength: '甲方聯絡人長度超過64位',
+        bContactsRequired: '乙方聯絡人不能為空',
+        bContactsMaxLength: '乙方聯絡人長度超過64位',
+        aLinkRequired: '甲方聯繫電話不能為空',
+        bLinkRequired: '乙方聯繫電話不能為空',
+        operatorRequired: '經辦人不能為空',
+        operatorMaxLength: '經辦人超過64位',
+        operatorLinkRequired: '聯繫電話不能為空',
+        amountFormat: '合同金額格式錯誤，如1.50',
+        startTimeRequired: '開始時間不能為空',
+        endTimeRequired: '結束時間不能為空',
+        signingTimeRequired: '簽訂時間不能為空',
+        fileTypeError: '操作失敗，請上傳圖片、PDF格式的文件'
+      },
+      uploadSuccess: '上傳成功',
+      uploadError: '上傳失敗',
+      updateSuccess: '修改成功',
+      updateError: '修改失敗',
+      fetchError: '獲取合同數據失敗'
     }
   }
 }

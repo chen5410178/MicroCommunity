@@ -132,5 +132,72 @@ export const messages = {
       },
       fetchError: '获取题目数据失败'
     }
+  },
+  'zh-TW': {
+    questionTitle: {
+      search: {
+        title: '查詢條件',
+        itemTitlePlaceholder: '請輸入問題名稱',
+        titleTypePlaceholder: '請選擇題目類型',
+        pleaseSelect: '請選擇',
+        singleChoice: '單選',
+        multipleChoice: '多選',
+        shortAnswer: '簡答'
+      },
+      list: {
+        title: '問卷題目'
+      },
+      table: {
+        name: '名稱',
+        type: '類型',
+        options: '選項',
+        createTime: '創建時間'
+      },
+      types: {
+        singleChoice: '單選',
+        multipleChoice: '多選',
+        shortAnswer: '簡答'
+      },
+      add: {
+        title: '添加題目',
+        name: '名稱',
+        namePlaceholder: '必填，請填寫名稱',
+        nameRequired: '名稱不能為空',
+        nameTooLong: '名稱太長',
+        type: '類型',
+        typePlaceholder: '必填，請選擇類型',
+        typeRequired: '類型不能為空',
+        option: '選項',
+        optionPlaceholder: '必填，請填寫選項內容',
+        optionRequired: '選項內容不能為空',
+        addOption: '增加選項',
+        removeOption: '刪除選項',
+        pleaseSelect: '請選擇',
+        success: '添加成功'
+      },
+      edit: {
+        title: '修改題目',
+        name: '名稱',
+        namePlaceholder: '必填，請填寫名稱',
+        nameRequired: '名稱不能為空',
+        nameTooLong: '名稱太長',
+        type: '類型',
+        typePlaceholder: '必填，請選擇類型',
+        typeRequired: '類型不能為空',
+        option: '選項',
+        optionPlaceholder: '必填，請填寫選項內容',
+        optionRequired: '選項內容不能為空',
+        addOption: '增加選項',
+        removeOption: '刪除選項',
+        pleaseSelect: '請選擇',
+        success: '修改成功'
+      },
+      delete: {
+        title: '確認操作',
+        confirmMessage: '確定刪除該題目嗎？',
+        success: '刪除成功'
+      },
+      fetchError: '獲取題目數據失敗'
+    }
   }
 }

@@ -122,5 +122,67 @@ export const messages = {
       },
       fetchError: '获取Databus列表失败'
     }
+  },
+  'zh-TW': {
+    businessDatabus: {
+      search: {
+        title: '查詢條件',
+        databusName: '名稱',
+        businessTypeCd: '業務類型',
+        beanName: '適配器',
+        seq: '順序',
+        state: '狀態',
+        createTime: '創建時間',
+        placeholder: '請輸入Databus名稱'
+      },
+      list: {
+        title: 'Databus'
+      },
+      dialog: {
+        addTitle: '添加Databus',
+        editTitle: '編輯Databus',
+        delTitle: '刪除Databus',
+        cancel: '取消',
+        confirm: '確定'
+      },
+      form: {
+        databusId: '編號',
+        databusName: '名稱',
+        businessTypeCd: '業務類型',
+        beanName: '適配器',
+        seq: '順序',
+        state: '狀態',
+        createTime: '創建時間',
+      },
+      table: {
+        databusId: '編號',
+        databusName: '名稱',
+        businessTypeCd: '業務類型',
+        beanName: '適配器',
+        seq: '順序',
+        state: '狀態',
+        createTime: '創建時間',
+      },
+      validate: {
+        databusId: '請輸入編號',
+        databusName: '請輸入名稱',
+        businessTypeCd: '請輸入業務類型',
+        beanName: '請輸入適配器',
+        seq: '請輸入順序',
+        state: '狀態',
+        createTime: '請輸入創建時間',
+      },
+      add: {
+        success: '添加Databus成功'
+      },
+      edit: {
+        success: '編輯Databus成功'
+      },
+      delete: {
+        success: '刪除Databus成功',
+        confirm: '確認刪除該Databus嗎？'
+      },
+      fetchError: '獲取Databus列表失敗'
+    }
   }
 }

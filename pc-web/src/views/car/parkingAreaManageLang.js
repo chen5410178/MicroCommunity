@@ -74,7 +74,46 @@ export const messages = {
       editFailed: '停车场修改失败',
       deleteSuccess: '停车场删除成功',
       deleteFailed: '停车场删除失败',
-      fetchError: '获取停车场数据失败'
+fetchError: '获取停车场数据失败'
+    }
+  },
+  'zh-TW': {
+    parkingAreaManage: {
+      queryTitle: '查詢條件',
+      parkingInfo: '停車場信息',
+      parkingId: '停車場ID',
+      parkingNum: '停車場編碼',
+      parkingType: '停車場類型',
+      inputParkingNum: '請輸入停車場編碼',
+      selectParkingType: '請選擇停車場類型',
+      aboveGround: '地上停車場',
+      underground: '地下停車場',
+      remark: '備註',
+      createTime: '創建時間',
+      operation: '操作',
+      controlPanel: '控制台',
+      addTitle: '添加停車場',
+      editTitle: '修改停車場',
+      deleteTitle: '確認操作',
+      deleteConfirm: '是否確定刪除該停車場？',
+      numRequired: '停車場編碼不能為空',
+      typeRequired: '停車場類型不能為空',
+      remarkPlaceholder: '可選，請填寫備註',
+      attr1: '區域大小',
+      attr1Placeholder: '請輸入區域大小',
+      attr2: '停車類型',
+      selectAttr2: '請選擇停車類型',
+      option1: '標準',
+      option2: 'VIP',
+      column1: '容量',
+      column2: '可用',
+      addSuccess: '停車場添加成功',
+      addFailed: '停車場添加失敗',
+      editSuccess: '停車場修改成功',
+      editFailed: '停車場修改失敗',
+      deleteSuccess: '停車場刪除成功',
+      deleteFailed: '停車場刪除失敗',
+      fetchError: '獲取停車場數據失敗'
     }
   }
 }

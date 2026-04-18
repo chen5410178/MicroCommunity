@@ -62,7 +62,40 @@ export const messages = {
         ownerRoom: '业主房屋',
         contract: '房屋合同'
       },
-      fetchError: '获取房屋数据失败'
+fetchError: '获取房屋数据失败'
+    }
+  },
+  'zh-TW': {
+    adminRoom: {
+      search: {
+        title: '查詢條件',
+        roomNum: '房屋編號 樓棟-單元-房號',
+        ownerName: '業主名稱',
+        ownerTel: '業主電話',
+        state: '請選擇狀態',
+        roomType: '請選擇房屋類型'
+      },
+      list: {
+        title: '小區房屋'
+      },
+      table: {
+        room: '房屋',
+        community: '小區',
+        floor: '樓層',
+        floorUnit: '層',
+        owner: '業主',
+        type: '類型',
+        area: '建築/室內面積',
+        areaUnit: '平方米',
+        rent: '租金',
+        state: '房屋狀態',
+        validDate: '有效期',
+        member: '業主成員',
+        car: '業主車輛',
+        ownerRoom: '業主房屋',
+        contract: '房屋合同'
+      },
+      fetchError: '獲取房屋數據失敗'
     }
   }
 }

@@ -33,6 +33,24 @@ export const messages = {
     },
     feeDetailRoomDemo: {
       openComponent: '打开房屋详情'
+}
+  },
+  'zh-TW': {
+    feeDetailRoom: {
+      roomId: '房屋ID',
+      floor: '樓層',
+      type: '類型',
+      area: '建築/室內面積',
+      rent: '租金',
+      roomStatus: '房屋狀態',
+      roomArrears: '房屋欠費',
+      operation: '操作',
+      businessAcceptance: '業務受理',
+      updateDaily: '按天更新',
+      searchPlaceholder: '請輸入房屋編號 樓棟-單元-房屋 如1-1-1'
+    },
+    feeDetailRoomDemo: {
+      openComponent: '打開房屋詳情'
     }
   }
 }

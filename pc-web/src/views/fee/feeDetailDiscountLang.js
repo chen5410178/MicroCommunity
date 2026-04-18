@@ -39,6 +39,27 @@ export const messages = {
       accountBalance: '账户余额',
       discount: '折扣',
       returnAmount: '返还金额'
+}
+  },
+  'zh-TW': {
+    feeDetailDiscount: {
+      roomName: '房屋(樓棟-單元-房屋)',
+      discountId: '折扣ID',
+      discountName: '折扣名稱',
+      applyType: '申請類型',
+      applicant: '申請人',
+      applicantPhone: '申請電話',
+      startTime: '開始時間',
+      endTime: '結束時間',
+      status: '狀態',
+      createTime: '創建時間',
+      useStatus: '使用狀態',
+      notUsed: '未使用',
+      used: '已使用',
+      returnType: '返還類型',
+      accountBalance: '帳戶餘額',
+      discount: '折扣',
+      returnAmount: '返還金額'
     }
   }
 }

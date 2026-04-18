@@ -133,7 +133,76 @@ export const messages = {
         floorNum: '编号',
         userName: '创建人',
         operation: '操作',
-        choose: '选择'
+choose: '選擇'
+      }
+    }
+  },
+  'zh-TW': {
+    reportPayFeeDeposit: {
+      search: {
+        title: '查詢條件',
+        floorName: '請選擇樓棟',
+        choose: '選擇',
+        unit: '單元',
+        unitPlaceholder: '請選擇單元',
+        roomNum: '請填寫房屋編號',
+        feeId: '請輸入費用ID',
+        feeName: '費用項名稱',
+        feeNamePlaceholder: '請選擇費用項名稱',
+        search: '查詢',
+        reset: '重置',
+        state: '收費狀態',
+        statePlaceholder: '請選擇收費狀態',
+        payerObjType: '收費對象類型',
+        payerObjTypePlaceholder: '請選擇收費對象類型',
+        startTime: '請選擇費用創建開始時間',
+        endTime: '請選擇費用創建結束時間',
+        detailState: '退費狀態',
+        detailStatePlaceholder: '請選擇退費狀態'
+      },
+      table: {
+        title: '押金報表',
+        tooltip: '押金類記錄的收費情況',
+        export: '匯出',
+        feeId: '費用ID',
+        roomNum: '房號',
+        owner: '業主',
+        feeType: '費用類型',
+        feeName: '費用項',
+        startTime: '費用開始時間',
+        endTime: '費用結束時間',
+        createTime: '創建時間',
+        payerObjType: '付費對象類型',
+        payerObjId: '付款方ID',
+        amount: '應收金額',
+        state: '狀態',
+        detailState: '退費狀態',
+        operation: '操作',
+        detail: '詳情',
+        unpaid: '未繳費',
+        subtotal: '小計',
+        total: '大計',
+        paid: '已收費',
+        refunded: '已退費',
+        refundInProgress: '退費中',
+        refundFailed: '退費失敗',
+        yuan: '元'
+      }
+    },
+    searchFloor: {
+      title: '小區樓棟',
+      floorId: '請輸入樓棟ID',
+      floorName: '請輸入樓棟名稱',
+      floorNum: '請輸入樓棟編號',
+      search: '查詢',
+      reset: '重置',
+      table: {
+        floorId: '樓棟ID',
+        floorName: '名稱',
+        floorNum: '編號',
+        userName: '創建人',
+        operation: '操作',
+        choose: '選擇'
       }
     }
   }

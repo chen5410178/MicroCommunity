@@ -98,7 +98,58 @@ export const messages = {
         confirm: '确定删除该营销短信吗？',
         success: '删除成功'
       },
-      fetchError: '获取数据失败'
+fetchError: '获取数据失败'
+    }
+  },
+  'zh-TW': {
+    marketSms: {
+      search: {
+        title: '查詢條件',
+        smsName: '請輸入名稱',
+        smsType: '請選擇類型'
+      },
+      list: {
+        title: '營銷配置'
+      },
+      table: {
+        smsId: '編號',
+        smsName: '名稱',
+        smsType: '設置類型',
+        createTime: '創建時間',
+        remark: '備註'
+      },
+      form: {
+        smsName: '名稱',
+        smsType: '設置類型',
+        remark: '備註'
+      },
+      placeholder: {
+        smsName: '請輸入名稱',
+        smsType: '請選擇設置類型',
+        remark: '請輸入備註'
+      },
+      validate: {
+        smsName: '名稱不能為空',
+        smsNameMax: '名稱不能超過64個字符',
+        smsType: '設置類型不能為空',
+        remark: '備註不能為空',
+        remarkMax: '備註不能超過512個字符',
+        smsId: '編號不能為空'
+      },
+      add: {
+        title: '新增營銷短信',
+        success: '新增成功'
+      },
+      edit: {
+        title: '修改營銷短信',
+        success: '修改成功'
+      },
+      delete: {
+        title: '刪除確認',
+        confirm: '確定刪除該營銷短信嗎？',
+        success: '刪除成功'
+      },
+      fetchError: '獲取數據失敗'
     }
   }
 }

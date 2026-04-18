@@ -178,7 +178,98 @@ export const messages = {
         success: '删除成功',
         error: '删除失败'
       },
-      fetchError: '获取优惠券池数据失败'
+fetchError: '获取优惠券池数据失败'
+    }
+  },
+  'zh-TW': {
+    couponPoolManage: {
+      search: {
+        title: '查詢條件',
+        couponName: '請輸入優惠券名稱',
+        validityDay: '請輸入有效期'
+      },
+      list: {
+        title: '優惠券池信息',
+        create: '製作'
+      },
+      table: {
+        poolId: '優惠券池ID',
+        couponType: '優惠券類型',
+        couponName: '優惠券名稱',
+        actualPrice: '面值',
+        buyPrice: '購買價格',
+        couponStock: '數量',
+        validityDay: '有效期',
+        seq: '排序',
+        operation: '操作',
+        edit: '修改'
+      },
+      add: {
+        title: '添加優惠券池',
+        couponType: '優惠券類型',
+        selectCouponType: '請選擇優惠券類型',
+        couponName: '優惠券名稱',
+        inputCouponName: '必填，請填寫優惠券名稱',
+        actualPrice: '面值',
+        inputActualPrice: '必填，請填寫面值',
+        buyPrice: '購買價格',
+        inputBuyPrice: '必填，請填寫購買價格',
+        couponStock: '數量',
+        inputCouponStock: '必填，請填寫數量',
+        validityDay: '有效期',
+        inputValidityDay: '必填，請填寫有效期',
+        seq: '排序',
+        inputSeq: '必填，請填寫排序',
+        cancel: '取消',
+        save: '保存',
+        success: '添加成功',
+        error: '添加失敗',
+        couponTypeRequired: '優惠券類型不能為空',
+        couponNameRequired: '優惠券名稱不能為空',
+        couponNameMaxLength: '優惠券名稱不能超過64',
+        actualPriceRequired: '面值不能為空',
+        actualPriceMaxLength: '面值不能超過10',
+        buyPriceRequired: '購買價格不能為空',
+        buyPriceMaxLength: '購買價格不能超過10',
+        couponStockRequired: '數量不能為空',
+        couponStockMaxLength: '數量不能超過20',
+        validityDayRequired: '有效期不能為空',
+        validityDayMaxLength: '有效期不能超過20',
+        seqRequired: '排序不能為空',
+        seqMaxLength: '排序不能超過11'
+      },
+      edit: {
+        title: '修改優惠券池',
+        couponType: '優惠券類型',
+        couponName: '優惠券名稱',
+        state: '券狀態',
+        selectState: '請選擇券狀態',
+        stateOff: '下架',
+        stateOn: '正常',
+        actualPrice: '面值',
+        buyPrice: '購買價格',
+        couponStock: '數量',
+        validityDay: '有效期',
+        seq: '排序',
+        cancel: '取消',
+        save: '保存',
+        success: '修改成功',
+        error: '修改失敗',
+        buyPriceRequired: '購買價格不能為空',
+        buyPriceMaxLength: '購買價格不能超過10',
+        couponStockRequired: '數量不能為空',
+        couponStockMaxLength: '數量不能超過20',
+        stateRequired: '券狀態不能為空'
+      },
+      delete: {
+        title: '請確認您的操作',
+        confirm: '確定刪除優惠券',
+        cancel: '點錯了',
+        confirmDelete: '確認刪除',
+        success: '刪除成功',
+        error: '刪除失敗'
+      },
+      fetchError: '獲取優惠券池數據失敗'
     }
   }
 }

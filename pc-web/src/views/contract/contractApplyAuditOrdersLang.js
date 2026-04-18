@@ -43,7 +43,7 @@ export const messages = {
       finish: '结束',
       processEnd: '处理结束'
     },
-    flowAudit: {
+flowAudit: {
       auditInfo: '审核信息',
       auditStatus: '审核状态',
       pleaseAudit: '请审核',
@@ -57,6 +57,36 @@ export const messages = {
       auditStatusRequired: '审核状态不能为空',
       reasonRequired: '原因内容不能为空',
       reasonMaxLength: '原因内容不能超过200字'
+    },
+  },
+  'zh-TW': {
+    contractApplyAuditOrders: {
+      draftPendingList: '起草待辦單',
+      contractCode: '合同編號',
+      contractName: '合同名稱',
+      contractType: '合同類型',
+      contractStatus: '合同狀態',
+      createTime: '創建時間',
+      operation: '操作',
+      view: '查看',
+      audit: '審批',
+      finish: '結束',
+      processEnd: '處理結束'
+    },
+    flowAudit: {
+      auditInfo: '審核信息',
+      auditStatus: '審核狀態',
+      pleaseAudit: '請審核',
+      agree: '同意',
+      reject: '拒絕',
+      reason: '原因',
+      requiredReason: '必填，請填寫原因',
+      staff: '員工',
+      selectNextHandler: '必填，請選擇下一處理人',
+      select: '選擇',
+      auditStatusRequired: '審核狀態不能為空',
+      reasonRequired: '原因內容不能為空',
+      reasonMaxLength: '原因內容不能超過200字'
     },
   }
 }

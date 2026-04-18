@@ -40,7 +40,29 @@ export const messages = {
       fetchError: '获取员工详情失败',
       fetchOrgError: '获取组织信息失败',
       fetchRoleError: '获取角色信息失败',
-      fetchPrivilegeError: '获取权限信息失败'
+fetchPrivilegeError: '获取权限信息失败'
+    }
+  },
+  'zh-TW': {
+    staffDetailInfo: {
+      title: '員工信息',
+      staffId: '編號：',
+      userName: '名稱：',
+      email: '郵箱：',
+      tel: '手機：',
+      sex: '性別：',
+      male: '男',
+      female: '女',
+      address: '住址：',
+      relatedOrg: '關聯組織',
+      relatedRoleCommunity: '關聯角色及小區',
+      staffPrivilege: '員工權限',
+      staffTrack: '員工軌跡',
+      org: '組織',
+      fetchError: '獲取員工詳情失敗',
+      fetchOrgError: '獲取組織信息失敗',
+      fetchRoleError: '獲取角色信息失敗',
+      fetchPrivilegeError: '獲取權限信息失敗'
     }
   }
 }

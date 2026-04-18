@@ -69,7 +69,44 @@ export const messages = {
         addSuccess: '添加成功',
         editSuccess: '修改成功',
         deleteSuccess: '删除成功',
-        fetchError: '获取数据失败'
+fetchError: '获取数据失败'
+      }
+    }
+  },
+  'zh-TW': {
+    publicWeChatManage: {
+      title: '我的公眾號',
+      addTitle: '添加公眾號',
+      editTitle: '修改公眾號',
+      deleteTitle: '請確認您的操作',
+      deleteConfirm: '確定刪除該公眾號嗎？',
+      table: {
+        name: '名稱',
+        appSecret: '應用密鑰',
+        remarks: '描述',
+        operation: '操作'
+      },
+      form: {
+        name: '名稱',
+        appSecret: '應用密鑰',
+        remarks: '描述'
+      },
+      placeholder: {
+        name: '必填，請填寫名稱',
+        appId: '必填，請填寫APPID',
+        appSecret: '必填，請填寫應用密鑰',
+        remarks: '選填，請填寫描述信息'
+      },
+      validate: {
+        nameRequired: '名稱不能為空',
+        appIdRequired: 'APPID不能為空',
+        appSecretRequired: '應用密鑰不能為空'
+      },
+      message: {
+        addSuccess: '添加成功',
+        editSuccess: '修改成功',
+        deleteSuccess: '刪除成功',
+        fetchError: '獲取數據失敗'
       }
     }
   }

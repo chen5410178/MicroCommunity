@@ -140,7 +140,79 @@ export const messages = {
       content: '内容',
       submit: '提交',
       cancel: '取消',
-      placeholder: '必填，请填写回复内容'
+placeholder: '必填，请填写回复内容'
+    }
+  },
+  'zh-TW': {
+    repairDetail: {
+      title: '工單詳情',
+      print: '打印',
+      back: '返回',
+      orderCode: '工單編碼：',
+      repairType: '報修類型：',
+      repairer: '報修人：',
+      contact: '聯繫方式：',
+      location: '位置：',
+      appointmentStart: '預約開始時間：',
+      appointmentEnd: '預約結束時間：',
+      submitDuration: '提單時長：',
+      finishTime: '完成時間：',
+      status: '狀態：',
+      content: '報修內容：',
+      maintenanceType: '維修類型：',
+      materials: '用料：',
+      costDetail: '費用明細：',
+      yuan: '元(單價*數量)',
+      avgScore: '平均分：',
+      comprehensiveScore: '綜合評價得分：',
+      doorSpeedScore: '上門速度評分：',
+      serviceScore: '維修員服務評分：',
+      points: '分',
+      visitSatisfaction: '回訪滿意度：',
+      visitContent: '回訪內容：',
+      orderPhotos: '工單圖片',
+      orderFlow: '工單流轉',
+      orderEvents: '工單事件',
+      repairItems: '維修物品',
+      paidService: '有償服務',
+      freeService: '無償服務',
+      needMaterials: '需要用料',
+      noMaterials: '無需用料',
+      beforeRepairPhotos: '維修前照片',
+      afterRepairPhotos: '維修後照片'
+    },
+    repairDetailResource: {
+      itemCode: '物品資源編號',
+      itemType: '物品資源類型',
+      itemName: '物品資源名稱',
+      specification: '物品資源規格',
+      quantity: '物品使用數量',
+      price: '物品價格',
+      user: '使用人',
+      time: '時間'
+    },
+    repairDetailUser: {
+      serial: '序號',
+      handler: '處理人',
+      status: '狀態',
+      startTime: '處理開始時間',
+      endTime: '處理結束時間',
+      duration: '耗時',
+      opinion: '意見',
+      reply: '回覆'
+    },
+    repairDetailEvent: {
+      eventType: '事件類型',
+      staff: '員工',
+      description: '事件說明',
+      createTime: '創建時間'
+    },
+    replyRepairAppraise: {
+      title: '回覆評價',
+      content: '內容',
+      submit: '提交',
+      cancel: '取消',
+      placeholder: '必填，請填寫回覆內容'
     }
   }
 }

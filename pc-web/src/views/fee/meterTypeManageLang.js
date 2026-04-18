@@ -65,6 +65,40 @@ export const messages = {
       deleteSuccess: '删除成功',
       deleteFailed: '删除失败',
       fetchError: '获取数据失败'
+}
+  },
+  'zh-TW': {
+    meterTypeManage: {
+      title: '抄表類型管理',
+      typeId: '抄表類型ID',
+      typeName: '名稱',
+      ratio: '倍率',
+      remark: '說明',
+      createTime: '創建時間',
+      operation: '操作',
+      tip: '如果一個房屋有多個電錶水錶可以在這裡新建多個 比如電錶1 電錶2',
+      addTitle: '添加抄表類型',
+      editTitle: '修改抄表類型',
+      deleteTitle: '確認操作',
+      deleteConfirm: '確定刪除該抄表類型嗎？',
+      deleteTip: '此操作不可撤銷！',
+      typeNamePlaceholder: '必填，請填寫名稱',
+      ratioPlaceholder: '必填，請填寫倍率（如 1 或 0.1）',
+      remarkPlaceholder: '必填，請填寫說明',
+      typeNameRequired: '名稱不能為空',
+      typeNameMaxLength: '名稱不能超過12個字元',
+      ratioRequired: '倍率不能為空',
+      ratioNumber: '倍率必須為數字',
+      remarkRequired: '說明不能為空',
+      remarkMaxLength: '說明不能超過200個字元',
+      typeIdRequired: '抄表類型ID不能為空',
+      addSuccess: '添加成功',
+      addFailed: '添加失敗',
+      editSuccess: '修改成功',
+      editFailed: '修改失敗',
+      deleteSuccess: '刪除成功',
+      deleteFailed: '刪除失敗',
+      fetchError: '獲取數據失敗'
     }
   }
 }

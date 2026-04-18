@@ -99,6 +99,57 @@ export const messages = {
       cancel: '点错了',
       deleteSuccess: '删除成功',
       deleteError: '删除失败'
+}
+  },
+  'zh-TW': {
+    payFeeConfigDiscountManage: {
+      title: '費用折扣',
+      discountId: '費用折扣ID',
+      feeName: '費用項名稱',
+      discountName: '折扣名稱',
+      rule: '規則',
+      discountType: '折扣類型',
+      discount: '優惠',
+      penalty: '違約',
+      paymentPeriod: '繳費時間段',
+      discountEndTime: '折扣終止時間',
+      operation: '操作',
+      paymentPeriodTip: '繳費時間段：這個約束繳費的時間，也就是前台收銀員操作繳費的時間',
+      discountEndTimeTip: '折扣終止時間：這個表示最大繳費到什麼時候',
+      currentYearTip1: '如果本年度費用不能享受優惠 那麼在折扣設置中規則選擇打折無欠費規則，並且欠費時長為0',
+      currentYearTip2: '這樣所有欠費的費用則不享受優惠，本年度的費用屬於欠費所以不享受優惠',
+      fetchError: '獲取折扣數據失敗'
+    },
+    addPayFeeConfigDiscount: {
+      addTitle: '添加折扣',
+      discountType: '折扣類型',
+      requiredPlaceholder: '必填',
+      selectDiscountType: '請選擇折扣類型',
+      discount: '優惠',
+      penalty: '違約',
+      discountName: '折扣名稱',
+      selectDiscountName: '請選擇折扣名稱',
+      paymentPeriod: '繳費時間段',
+      startTimePlaceholder: '必填，請填寫繳費起始時間',
+      endTimePlaceholder: '必填，請填寫繳費結束時間',
+      paymentPeriodTip: '這段時間內繳費才能享受該優惠',
+      discountEndTime: '折扣終止時間',
+      discountEndTimePlaceholder: '可選，填寫折扣終止時間',
+      discountEndTimeTip: '最大繳費到什麼時候，比如想2024年費用優惠，那麼就填寫2025-01-01',
+      discountTypeRequired: '折扣類型不能為空',
+      discountNameRequired: '折扣名稱不能為空',
+      startTimeRequired: '有效期起始時間不能為空',
+      endTimeRequired: '有效期終止時間不能為空',
+      fetchDiscountsError: '獲取折扣列表失敗',
+      saveSuccess: '添加成功',
+      saveError: '添加失敗'
+    },
+    deletePayFeeConfigDiscount: {
+      title: '確認操作',
+      confirmText: '確定刪除費用折扣嗎？',
+      cancel: '點錯了',
+      deleteSuccess: '刪除成功',
+      deleteError: '刪除失敗'
     }
   }
 }

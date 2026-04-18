@@ -65,6 +65,40 @@ export const messages = {
       requiredRemark: '必填，请填写备注',
       operation: '操作',
       remove: '移除'
+    }
+  },
+  'zh-TW': {
+    scrapGoodsStep: {
+      lossDescription: '損耗說明',
+      requiredRemark: '必填，請填寫損耗說明',
+      submit: '提交',
+      selectGoodsFirst: '請先選擇物品',
+      requiredQuantity: '請填寫數量',
+      stockNotEnough: '，庫存不足',
+      requiredUsageType: '請選擇物品使用類型',
+      requiredNote: '請填寫備註',
+      submitSuccess: '提交成功',
+      submitFailed: '提交失敗'
+    },
+    viewResourceMyGoodsInfo: {
+      goodsInfo: '物品信息',
+      back: '返回',
+      selectGoods: '選擇物品',
+      goodsName: '物品名稱',
+      goodsCode: '物品編碼',
+      goodsType: '物品類型',
+      isFixedGoods: '是否是固定物品',
+      goodsStock: '物品庫存',
+      miniStock: '物品最小計量總數',
+      lossQuantity: '損耗數量',
+      usageType: '物品使用類型',
+      selectUsageType: '請選擇物品使用類型',
+      scrapRecycle: '報廢回收',
+      publicLoss: '公用損耗',
+      remark: '備註',
+      requiredRemark: '必填，請填寫備註',
+      operation: '操作',
+      remove: '移除'
     },
   }
 }

@@ -50,7 +50,34 @@ export const messages = {
       inputCarNum: '选填，请填写车牌号',
       inputRemark: '选填，请填写备注',
       inputItemName: '必填，请填写物品名称',
-      inputItemAmount: '必填，请填写数量'
+inputItemAmount: '必填，请填写数量'
+    }
+  },
+  'zh-TW': {
+    editItemReleaseView: {
+      title: '編輯放行',
+      releaseType: '放行類型',
+      applyCompany: '申請單位',
+      applyPerson: '申請人',
+      idCard: '身份證',
+      phone: '手機號',
+      passTime: '通行時間',
+      carNum: '車牌號',
+      remark: '備註',
+      releaseItems: '放行物品',
+      itemName: '物品名稱',
+      itemAmount: '物品數量',
+      addItem: '添加物品',
+      selectReleaseType: '必填，請選擇放行類型',
+      inputApplyCompany: '必填，請填寫申請單位',
+      inputApplyPerson: '必填，請填寫申請人',
+      inputIdCard: '必填，請填寫身份證',
+      inputPhone: '必填，請填寫手機號',
+      selectPassTime: '必填，請選擇通行時間',
+      inputCarNum: '選填，請填寫車牌號',
+      inputRemark: '選填，請填寫備註',
+      inputItemName: '必填，請填寫物品名稱',
+      inputItemAmount: '必填，請填寫數量'
     }
   }
 }

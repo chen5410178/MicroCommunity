@@ -78,5 +78,45 @@ export const messages = {
       submit: '提交',
       close: '关闭'
     }
+  },
+  'zh-TW': {
+    org: {
+      queryConditions: '查詢條件',
+      search: '查詢',
+      reset: '重置',
+      staffNamePlaceholder: '請填寫員工名稱',
+      relatedStaff: '關聯員工',
+      addRelatedStaff: '關聯員工',
+      name: '名稱',
+      staffId: '員工編號',
+      phone: '手機號',
+      email: '郵箱',
+      address: '地址',
+      gender: '性別',
+      operation: '操作',
+      delete: '刪除',
+      details: '詳情',
+      confirmDelete: '確認刪除',
+      cancel: '取消',
+      addOrg: '添加組織',
+      editOrg: '修改組織',
+      orgName: '組織名稱',
+      parentOrg: '上級組織',
+      description: '描述',
+      save: '保存',
+      confirmYourAction: '請確認您的操作',
+      confirmDeleteOrg: '確定刪除組織管理',
+      confirmDeleteOrgRel: '確定刪除組織關係',
+      staffTitle: '員工',
+      selectOrgFirst: '請先選擇一個組織',
+      topOrg: '一級組織不能修改',
+      staff: {
+        name: '員工名稱',
+        phone: '員工電話',
+        staffId: '員工編號'
+      },
+      submit: '提交',
+      close: '關閉'
+    }
   }
 }

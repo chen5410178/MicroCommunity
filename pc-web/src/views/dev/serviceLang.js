@@ -120,5 +120,66 @@ export const messages = {
       },
       fetchError: '获取服务列表失败'
     }
+  },
+  'zh-TW': {
+    service: {
+      search: {
+        title: '查詢條件',
+        serviceId: '服務ID',
+        serviceCode: '服務編碼',
+        name: '服務名稱',
+        url: '目標地址',
+        method: '調用方式',
+        timeout: '超時時間',
+        retryCount: '重試次數',
+        placeholder: '請輸入服務名稱'
+      },
+      list: {
+        title: '服務列表'
+      },
+      dialog: {
+        addTitle: '添加服務',
+        editTitle: '編輯服務',
+        delTitle: '刪除服務',
+        cancel: '取消',
+        confirm: '確定'
+      },
+      form: {
+        serviceId: '服務ID',
+        serviceCode: '服務編碼',
+        name: '服務名稱',
+        url: '目標地址',
+        method: '調用方式',
+        timeout: '超時時間',
+        retryCount: '重試次數',
+      },
+      table: {
+        serviceId: '服務ID',
+        serviceCode: '服務編碼',
+        name: '服務名稱',
+        url: '目標地址',
+        method: '調用方式',
+        timeout: '超時時間',
+        retryCount: '重試次數',
+      },
+      validate: {
+        serviceId: '請輸入服務ID',
+        serviceCode: '請輸入服務編碼',
+        name: '請輸入服務名稱',
+        timeout: '請輸入超時時間',
+        retryCount: '請輸入重試次數',
+      },
+      add: {
+        success: '添加服務成功'
+      },
+      edit: {
+        success: '編輯服務成功'
+      },
+      delete: {
+        success: '刪除服務成功',
+        confirm: '確認刪除該服務嗎？'
+      },
+      fetchError: '獲取服務列表失敗'
+    }
   }
 }

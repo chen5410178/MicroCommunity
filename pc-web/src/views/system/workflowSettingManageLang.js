@@ -58,7 +58,38 @@ export const messages = {
       invalidOperation: '操作错误'
     },
     orgTree: {
-      fetchError: '获取组织树失败'
+fetchError: '获取组织树失败'
+    }
+  },
+  'zh-TW': {
+    workflowSettingManage: {
+      title: '流程設置',
+      flowName: '流程名稱',
+      flowNamePlaceholder: '必填，請填寫標題',
+      description: '流程說明',
+      descriptionPlaceholder: '選填，請填寫流程說明',
+      submitterEnd: '提交者結束',
+      submitterEndPlaceholder: '必填，請選擇最後環節是否提交者確認',
+      yes: '是',
+      no: '否',
+      flowSteps: '流程步驟',
+      addStep: '添加步驟',
+      step: '第',
+      selectStaff: '選擇員工',
+      normalFlow: '普通流程',
+      countersign: '會簽',
+      deleteStep: '刪除步驟',
+      addStaff: '添加員工',
+      deleteStaff: '刪除員工',
+      instructions: '說明',
+      instruction1: '添加步驟必须要兩步以上，最後一步為固定倉庫管理員',
+      instruction2: '倉庫管理不能參與審核流程',
+      instruction3: '倉庫管理員不能為動態指定人員',
+      instruction4: '必須配置對應的流程',
+      invalidOperation: '操作錯誤'
+    },
+    orgTree: {
+      fetchError: '獲取組織樹失敗'
     }
   }
 }

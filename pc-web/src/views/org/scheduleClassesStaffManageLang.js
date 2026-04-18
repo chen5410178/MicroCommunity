@@ -26,7 +26,22 @@ export const messages = {
       orgInfo: '组织信息',
       staffInfo: '员工信息',
       selectedStaff: '已选员工',
-      staffExists: '员工已选择'
+staffExists: '员工已选择'
+    }
+  },
+  'zh-TW': {
+    scheduleClassesStaffManage: {
+      title: '班次員工管理',
+      staffId: '員工ID',
+      staffName: '員工名稱',
+      createTime: '創建時間',
+      addTitle: '添加班次員工',
+      selectStaffWarning: '請至少選擇一名員工',
+      confirmDeleteStaff: '確定要刪除該班次員工嗎？',
+      orgInfo: '組織信息',
+      staffInfo: '員工信息',
+      selectedStaff: '已選員工',
+      staffExists: '員工已選擇'
     }
   }
 }

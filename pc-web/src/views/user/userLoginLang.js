@@ -42,7 +42,30 @@ export const messages = {
       },
       allStores: '全部',
       fetchError: '获取登录日志失败',
-      storeFetchError: '获取门店列表失败'
+storeFetchError: '获取门店列表失败'
+    }
+  },
+  'zh-TW': {
+    userLogin: {
+      search: {
+        title: '查詢條件',
+        name: '請輸入員工名稱',
+        tel: '請輸入手機號',
+        startTime: '登錄開始時間',
+        endTime: '登錄結束時間'
+      },
+      table: {
+        title: '登錄日誌',
+        loginId: '登錄ID',
+        parentOrgName: '公司',
+        orgName: '部門',
+        userName: '名稱',
+        loginTime: '登錄時間',
+        userId: '員工ID'
+      },
+      allStores: '全部',
+      fetchError: '獲取登錄日誌失敗',
+      storeFetchError: '獲取門店列表失敗'
     }
   }
 }

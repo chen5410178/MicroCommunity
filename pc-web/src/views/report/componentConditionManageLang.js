@@ -57,8 +57,39 @@ export const messages = {
       maxType: '类型不能超过12',
       numberSeq: '序号必须是数字',
       maxRemark: '描述不能超过512',
-      requiredConditionId: '条件ID不能为空',
-      confirmDelete: '确定删除该组件条件吗？'
+requiredConditionId: '條件ID不能為空',
+      confirmDelete: '確定刪除該組件條件嗎？'
+    }
+  },
+  'zh-TW': {
+    componentConditionManage: {
+      condition: '條件',
+      conditionId: '條件ID',
+      name: '名稱',
+      holdpace: '提示',
+      param: '參數',
+      type: '類型',
+      seq: '序號',
+      remark: '描述',
+      text: '文本框',
+      date: '日期',
+      fetchError: '獲組件條件失敗',
+      requiredName: '必填，請填寫名稱',
+      requiredHoldpace: '必填，請填寫提示',
+      requiredParam: '必填，請填寫參數',
+      requiredType: '必填，請選擇類型',
+      requiredSeq: '必填，請填寫序號',
+      optionalRemark: '選填，請填寫描述',
+      requiredComponentId: '組件ID不能為空',
+      maxComponentId: '組件ID不能超過30',
+      maxName: '名稱不能超過64',
+      maxHoldpace: '提示不能超過64',
+      maxParam: '參數不能超過64',
+      maxType: '類型不能超過12',
+      numberSeq: '序號必須是數字',
+      maxRemark: '描述不能超過512',
+      requiredConditionId: '條件ID不能為空',
+      confirmDelete: '確定刪除該組件條件嗎？'
     }
   }
 }

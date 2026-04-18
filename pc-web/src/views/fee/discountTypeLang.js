@@ -86,7 +86,52 @@ export const messages = {
         confirmText: '确定删除该优惠类型吗？',
         success: '删除成功'
       },
-      fetchError: '获取优惠类型失败'
+fetchError: '获取优惠类型失败'
+    },
+  },
+  'zh-TW': {
+    discountType: {
+      search: {
+        title: '查詢條件',
+        applyType: '請輸入類型編碼',
+        typeName: '請輸入類型名稱'
+      },
+      list: {
+        title: '優惠類型'
+      },
+      table: {
+        applyType: '類型編碼',
+        typeName: '類型名稱',
+        typeDesc: '類型描述',
+        createTime: '創建時間'
+      },
+      form: {
+        applyType: '類型編碼',
+        typeName: '類型名稱',
+        typeNamePlaceholder: '必填，請填寫類型名稱',
+        typeDesc: '類型描述',
+        typeDescPlaceholder: '選填，請填寫類型描述'
+      },
+      validate: {
+        applyTypeRequired: '類型編碼不能為空',
+        typeNameRequired: '類型名稱不能為空',
+        typeNameMaxLength: '類型名稱最大長度64',
+        typeDescMaxLength: '類型描述最大長度512'
+      },
+      add: {
+        title: '添加優惠類型',
+        success: '添加成功'
+      },
+      edit: {
+        title: '修改優惠類型',
+        success: '修改成功'
+      },
+      delete: {
+        title: '刪除確認',
+        confirmText: '確定刪除該優惠類型嗎？',
+        success: '刪除成功'
+      },
+      fetchError: '獲取優惠類型失敗'
     },
   }
 }

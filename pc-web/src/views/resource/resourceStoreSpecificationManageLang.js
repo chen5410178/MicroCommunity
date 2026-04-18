@@ -60,7 +60,39 @@ export const messages = {
       confirmDeleteTitle: '请确认您的操作',
       confirmDeleteMsg: '确定删除物品规格',
       cancelDelete: '点错了',
-      confirmDelete: '确认删除'
+confirmDelete: '确认删除'
+    }
+  },
+  'zh-TW': {
+    resourceStoreSpecificationManage: {
+      queryConditions: '查詢條件',
+      more: '更多',
+      hide: '隱藏',
+      selectItemType: '請選擇物品類型',
+      selectSubCategory: '請選擇二級分類',
+      specNamePlaceholder: '請輸入規格名稱',
+      specIdPlaceholder: '請輸入規格編號',
+      query: '查詢',
+      reset: '重置',
+      itemSpecifications: '物品規格',
+      add: '添加',
+      specId: '規格編號',
+      typeName: '類型名稱',
+      specName: '規格名稱',
+      description: '描述',
+      operation: '操作',
+      edit: '修改',
+      delete: '刪除',
+      addSpec: '添加規格',
+      itemType: '商品類型',
+      descriptionPlaceholder: '選填，請填寫描述',
+      save: '保存',
+      cancel: '取消',
+      editItemSpec: '修改物品規格',
+      confirmDeleteTitle: '請確認您的操作',
+      confirmDeleteMsg: '確定刪除物品規格',
+      cancelDelete: '點錯了',
+      confirmDelete: '確認刪除'
     }
   }
 }

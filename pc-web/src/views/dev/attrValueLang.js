@@ -116,5 +116,64 @@ export const messages = {
       },
       fetchError: '获取属性值列表失败'
     }
+  },
+  'zh-TW': {
+    attrValue: {
+      search: {
+        title: '查詢條件',
+        valueId: '值ID',
+        specId: '規格ID',
+        value: '值',
+        valueName: '值名稱',
+        valueShow: '顯示',
+        createTime: '創建時間',
+        placeholder: '請輸入屬性值名稱'
+      },
+      list: {
+        title: '屬性值'
+      },
+      dialog: {
+        addTitle: '添加屬性值',
+        editTitle: '編輯屬性值',
+        delTitle: '刪除屬性值',
+        cancel: '取消',
+        confirm: '確定'
+      },
+      form: {
+        valueId: '值ID',
+        specId: '規格ID',
+        value: '值',
+        valueName: '值名稱',
+        valueShow: '顯示',
+        createTime: '創建時間',
+      },
+      table: {
+        valueId: '值ID',
+        specId: '規格ID',
+        value: '值',
+        valueName: '值名稱',
+        valueShow: '顯示',
+        createTime: '創建時間',
+      },
+      validate: {
+        valueId: '請輸入值ID',
+        specId: '請輸入規格ID',
+        value: '請輸入值',
+        valueName: '請輸入值名稱',
+        valueShow: '請輸入顯示',
+        createTime: '請輸入創建時間',
+      },
+      add: {
+        success: '添加屬性值成功'
+      },
+      edit: {
+        success: '編輯屬性值成功'
+      },
+      delete: {
+        success: '刪除屬性值成功',
+        confirm: '確認刪除該屬性值嗎？'
+      },
+      fetchError: '獲取屬性值列表失敗'
+    }
   }
 }

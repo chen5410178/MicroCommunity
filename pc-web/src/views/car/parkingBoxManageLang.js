@@ -116,7 +116,67 @@ export const messages = {
       title: '请确认您的操作',
       confirmDelete: '确定删除岗亭?',
       cancel: '点错了',
-      confirm: '确认删除'
+confirm: '确认删除'
+    }
+  },
+  'zh-TW': {
+    parkingBoxManage: {
+      searchTitle: '查詢條件',
+      boxIdPlaceholder: '請輸入崗亭編碼',
+      boxNamePlaceholder: '請輸入崗亭名稱',
+      tempCarInPlaceholder: '請選擇臨時車進場',
+      yes: '是',
+      no: '否',
+      searchBtn: '查詢',
+      resetBtn: '重設',
+      listTitle: '崗亭信息',
+      boxId: '崗亭編碼',
+      boxName: '崗亭名稱',
+      parkingLot: '停車場',
+      tempCarIn: '臨時車進場',
+      tempAuth: '臨時車審核',
+      fee: '是否收費',
+      blueCarIn: '已在場',
+      yelowCarIn: '未在場',
+      remark: '備註',
+      operation: '操作',
+      console: '控制台',
+      dataSource: '數據來源於物聯網系統，請到物聯網系統管理數據',
+      pagination: '分頁'
+    },
+    addParkingBox: {
+      title: '添加崗亭',
+      boothName: '崗亭名稱',
+      parkingLot: '停車場',
+      tempCarIn: '臨時車進場',
+      tempAuth: '臨時車審核',
+      fee: '是否收費',
+      blueCarIn: '已在場',
+      yelowCarIn: '未在場',
+      remark: '備註',
+      required: '必填',
+      optional: '選填',
+      save: '保存',
+      cancel: '取消'
+    },
+    editParkingBox: {
+      title: '修改崗亭',
+      boothName: '崗亭名稱',
+      parkingLot: '停車場',
+      tempCarIn: '臨時車進場',
+      tempAuth: '臨時車審核',
+      fee: '是否收費',
+      blueCarIn: '已在場',
+      yelowCarIn: '未在場',
+      remark: '備註',
+      save: '保存',
+      cancel: '取消'
+    },
+    deleteParkingBox: {
+      title: '確認操作',
+      confirmDelete: '確定刪除崗亭?',
+      cancel: '取消',
+      confirm: '確認刪除'
     }
   }
 }

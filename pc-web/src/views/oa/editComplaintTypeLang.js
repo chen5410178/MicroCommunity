@@ -46,7 +46,32 @@ export const messages = {
       loadError: '加载投诉类型详情失败'
     },
     orgTree: {
-      loadError: '加载组织树失败'
+loadError: '加载组织树失败'
+    }
+  },
+  'zh-TW': {
+    editComplaintType: {
+      title: '修改投訴類型',
+      typeName: '類型名稱',
+      typeNamePlaceholder: '必填，請填寫類型名稱',
+      notifyWay: '通知方式',
+      notifyWayPlaceholder: '必填，請選擇通知方式',
+      sms: '短信',
+      wechat: '微信',
+      workLicense: '微信+員工工牌',
+      appraiseReply: '評價回復',
+      appraiseReplyPlaceholder: '必填，請選擇評價回復',
+      autoReply: '自動回復',
+      manualReply: '人工回復',
+      remark: '備註',
+      remarkPlaceholder: '選填，請填寫備註',
+      selectStaff: '選擇員工',
+      saveSuccess: '保存成功',
+      saveError: '保存失敗',
+      loadError: '加載投訴類型詳情失敗'
+    },
+    orgTree: {
+      loadError: '加載組織樹失敗'
     }
   }
 }

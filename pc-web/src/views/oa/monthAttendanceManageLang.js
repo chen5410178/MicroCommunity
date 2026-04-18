@@ -58,7 +58,38 @@ export const messages = {
       fetchError: '获取考勤数据失败',
       fetchClassesError: '获取班次数据失败',
       exportSuccess: '导出成功',
-      exportError: '导出失败'
+exportError: '导出失败'
+    }
+  },
+  'zh-TW': {
+    monthAttendance: {
+      search: {
+        title: '查詢條件',
+        classes: '班次',
+        selectClasses: '請選擇班次',
+        staffName: '員工名稱',
+        inputStaffName: '請輸入員工名稱',
+        date: '打卡時間',
+        selectDate: '請選擇打卡時間'
+      },
+      table: {
+        title: '月考勤',
+        classes: '考勤組',
+        staffName: '員工名稱',
+        clockIn: '正常考勤',
+        late: '遲到',
+        early: '早退',
+        noClockIn: '曠工',
+        free: '免考勤'
+      },
+      work: '上班',
+      offWork: '下班',
+      notTime: '未到時間',
+      noNeed: '無需考勤',
+      fetchError: '獲取考勤數據失敗',
+      fetchClassesError: '獲取班次數據失敗',
+      exportSuccess: '導出成功',
+      exportError: '導出失敗'
     }
   }
 }

@@ -54,7 +54,36 @@ export const messages = {
       orderId: '交易单号',
       transactionTime: '交易时间',
       remark: '备注',
-      fetchError: '获取积分交易数据失败'
+fetchError: '获取积分交易数据失败'
+    }
+  },
+  'zh-TW': {
+    integralDetail: {
+      all: '全部',
+      personal: '個人',
+      merchant: '商戶',
+      searchTitle: '查詢條件',
+      accountPlaceholder: '請填寫帳戶',
+      typePlaceholder: '請選擇類型',
+      objectTypePlaceholder: '請選擇對象類型',
+      orderIdPlaceholder: '請選擇交易單號',
+      transferIn: '轉入',
+      transferOut: '轉出',
+      user: '用戶',
+      tableTitle: '積分交易',
+      id: '編號',
+      accountName: '帳戶名稱',
+      accountId: '帳戶編號',
+      type: '類型',
+      relatedAccount: '關聯帳戶',
+      points: '積分數',
+      objectType: '對象類型',
+      objectId: '對象ID',
+      phone: '手機號',
+      orderId: '交易單號',
+      transactionTime: '交易時間',
+      remark: '備註',
+      fetchError: '獲取積分交易數據失敗'
     }
   }
 }

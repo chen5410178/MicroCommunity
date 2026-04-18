@@ -52,7 +52,35 @@ export const messages = {
       fetchError: '获取员工列表失败'
     },
     storeOrgTree: {
-      fetchError: '获取组织树失败'
+fetchError: '获取组织树失败'
+    }
+  },
+  'zh-TW': {
+    storeStaff: {
+      search: {
+        title: '查詢條件',
+        staffName: '員工名稱',
+        staffNamePlaceholder: '請填寫員工名稱'
+      },
+      list: {
+        title: '員工'
+      },
+      table: {
+        name: '名稱',
+        phone: '手機號',
+        position: '崗位',
+        email: '郵箱',
+        address: '地址',
+        gender: '性別'
+      },
+      gender: {
+        male: '男',
+        female: '女'
+      },
+      fetchError: '獲取員工列表失敗'
+    },
+    storeOrgTree: {
+      fetchError: '獲取組織樹失敗'
     }
   }
 }

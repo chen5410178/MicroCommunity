@@ -28,7 +28,7 @@ export const messages = {
       opinion: 'Opinion'
     }
   },
-  zh: {
+zh: {
     contractChangeDetails: {
       contract: '合同',
       afterChange: '变更后',
@@ -55,6 +55,35 @@ export const messages = {
       processTime: '处理时间',
       timeConsuming: '耗时',
       opinion: '意见'
+    }
+  },
+  'zh-TW': {
+    contractChangeDetails: {
+      contract: '合同',
+      afterChange: '變更後',
+      beforeChange: '變更前',
+      contractName: '合同名稱',
+      contractCode: '合同編號',
+      contractType: '合同類型',
+      partyA: '甲方',
+      partyAContacts: '甲方聯絡人',
+      partyALink: '甲方聯繫電話',
+      partyB: '乙方',
+      partyBContacts: '乙方聯絡人',
+      partyBLink: '乙方聯繫電話',
+      operator: '經辦人',
+      operatorLink: '聯繫電話',
+      amount: '合同金額',
+      startTime: '開始時間',
+      endTime: '結束時間',
+      signingTime: '簽訂時間',
+      workflow: '工單流轉',
+      serialNumber: '序號',
+      handler: '處理人',
+      status: '狀態',
+      processTime: '處理時間',
+      timeConsuming: '耗時',
+      opinion: '意見'
     }
   }
 }

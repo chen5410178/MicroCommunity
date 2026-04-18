@@ -73,7 +73,46 @@ export const messages = {
         confirm: '确认格式化'
       },
       validation: {
-        passwordRequired: '开发者密码不能为空'
+passwordRequired: '开发者密码不能为空'
+      }
+    }
+  },
+  'zh-TW': {
+    initializeCommunityManage: {
+      search: {
+        title: '查詢條件',
+        communityId: '請輸入小區ID',
+        name: '請輸入小區名稱'
+      },
+      list: {
+        title: '初始化小區數據'
+      },
+      table: {
+        communityId: '小區ID',
+        name: '小區名稱',
+        nearbyLandmarks: '附近地標',
+        cityCode: '城市編碼',
+        state: '狀態'
+      },
+      button: {
+        initialize: '格式化'
+      },
+      initializeSuccess: '初始化成功',
+      fetchError: '獲取小區數據失敗'
+    },
+    chooseinitializeCommunity: {
+      dialog: {
+        title: '溫馨提示',
+        warning: '請慎重操作',
+        communityInfo: '此操作將清空所有【{name}】小區數據,小區編碼為【{id}】。謹慎期間，請再次跟相關人員核實確認！',
+        passwordPlaceholder: '請輸入開發者密碼'
+      },
+      button: {
+        cancel: '點錯了',
+        confirm: '確認格式化'
+      },
+      validation: {
+        passwordRequired: '開發者密碼不能為空'
       }
     }
   }

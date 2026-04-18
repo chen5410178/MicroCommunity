@@ -106,13 +106,71 @@ export const messages = {
         successMessage: '{action}成功',
         classes: '班次'
       },
-      validate: {
+validate: {
         nameRequired: '班次名称不能为空',
         nameMaxLength: '班次名称不能超过100个字符',
         remarkRequired: '备注说明不能为空',
         remarkMaxLength: '备注说明不能超过200个字符'
       },
       fetchError: '获取班次数据失败'
+    }
+  },
+  'zh-TW': {
+    classesManage: {
+      search: {
+        title: '查詢條件',
+        namePlaceholder: '請輸入班次名稱'
+      },
+      list: {
+        title: '班次信息'
+      },
+      table: {
+        classesId: '編號',
+        name: '班次名稱',
+        times: '時段',
+        state: '狀態',
+        createTime: '創建時間',
+        remark: '備註說明'
+      },
+      add: {
+        title: '添加班次',
+        name: '班次名稱',
+        namePlaceholder: '請輸入班次名稱',
+        workTime: '工作時間',
+        startTimePlaceholder: '上班時間',
+        endTimePlaceholder: '下班時間',
+        addTime: '增加時段',
+        remark: '備註說明',
+        remarkPlaceholder: '請輸入備註說明'
+      },
+      edit: {
+        title: '修改班次',
+        name: '班次名稱',
+        namePlaceholder: '請輸入班次名稱',
+        workTime: '工作時間',
+        startTimePlaceholder: '上班時間',
+        endTimePlaceholder: '下班時間',
+        addTime: '增加時段',
+        remark: '備註說明',
+        remarkPlaceholder: '請輸入備註說明'
+      },
+      delete: {
+        title: '刪除確認',
+        confirmMessage: '確定刪除該班次嗎?'
+      },
+      state: {
+        title: '狀態確認',
+        confirmMessage: '確定{action}該{name}嗎?',
+        successMessage: '{action}成功',
+        classes: '班次'
+      },
+      validate: {
+        nameRequired: '班次名稱不能為空',
+        nameMaxLength: '班次名稱不能超過100個字符',
+        remarkRequired: '備註說明不能為空',
+        remarkMaxLength: '備註說明不能超過200個字符'
+      },
+      fetchError: '獲取班次數據失敗'
     }
   }
 }

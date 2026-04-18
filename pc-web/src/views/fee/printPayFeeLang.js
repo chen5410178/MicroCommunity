@@ -55,6 +55,35 @@ export const messages = {
       operator: '经办人：',
       financeReceipt: '财务收款：',
       customerConfirm: '客户确认：'
+}
+  },
+  'zh-TW': {
+    printPayFee: {
+      apply: '申請單',
+      receipt: '收據單',
+      refund: '退款單',
+      owner: '業主',
+      receiptNum: '單號',
+      payTime: '繳費時間',
+      serialNumber: '編號',
+      feeItem: '收費項目',
+      houseCar: '房屋/車輛',
+      feeRange: '收費範圍',
+      to: '至',
+      none: '無',
+      unitPrice: '單價',
+      areaUsage: '面積/用量',
+      paymentMethod: '支付方式',
+      receivableActual: '實收',
+      yuan: '元',
+      discountAmount: '優惠金額',
+      remark: '備註',
+      capitalRMB: '大寫人民幣（元）',
+      accountDeduction: '帳戶扣款',
+      departmentHead: '部門負責人：',
+      operator: '經辦人：',
+      financeReceipt: '財務收款：',
+      customerConfirm: '客戶確認：'
     }
   }
 }

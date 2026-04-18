@@ -20,7 +20,7 @@ export const messages = {
       no: 'No'
     }
   },
-  zh: {
+zh: {
     aFeeDetailConfig: {
       feeType: '费用类型',
       feeItem: '收费项目',
@@ -37,6 +37,27 @@ export const messages = {
       accountDeduction: '账户抵扣',
       mobilePayment: '手机缴费',
       decimalPlaces: '保留小数位',
+      yes: '是',
+      no: '否'
+    }
+  },
+  'zh-TW': {
+    aFeeDetailConfig: {
+      feeType: '費用類型',
+      feeItem: '收費項目',
+      feeFlag: '費用標識',
+      billType: '催繳類型',
+      paymentType: '付費類型',
+      prepay: '預付費',
+      postpay: '後付費',
+      paymentCycle: '繳費週期',
+      unit: '單位',
+      formula: '公式',
+      unitPrice: '計費單價',
+      additionalFee: '附加/固定費用',
+      accountDeduction: '帳戶抵扣',
+      mobilePayment: '手機繳費',
+      decimalPlaces: '保留小數位',
       yes: '是',
       no: '否'
     }

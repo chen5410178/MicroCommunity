@@ -50,5 +50,31 @@ export const messages = {
       submitSuccess: '操作成功',
       submitError: '操作失败'
     }
+  },
+  'zh-TW': {
+    resourceEnterManage: {
+      orderId: '單號',
+      itemType: '物品類型',
+      itemName: '物品名稱',
+      itemSpec: '物品規格',
+      itemCode: '物品編碼',
+      itemStock: '物品庫存',
+      referencePrice: '參考單價',
+      applyQuantity: '申請數量',
+      purchaseQuantity: '採購數量',
+      purchaseQuantityPlaceholder: '必填，請填寫採購數量',
+      purchasePrice: '採購單價',
+      purchasePricePlaceholder: '必填，請填寫採購單價',
+      supplier: '供應商',
+      selectSupplier: '請選擇',
+      remark: '備註',
+      remarkPlaceholder: '可填，請填寫備註',
+      submit: '提交',
+      selectItemError: '請選擇入庫物品',
+      purchaseQuantityError: '採購數量未填寫或填寫不正確',
+      purchasePriceError: '單價未填寫或填寫不正確',
+      submitSuccess: '操作成功',
+      submitError: '操作失敗'
+    }
   }
 }

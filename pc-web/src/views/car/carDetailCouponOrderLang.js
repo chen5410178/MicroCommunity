@@ -20,7 +20,19 @@ export const messages = {
       parkingLot: '停车场',
       machine: '道闸',
       verifyTime: '核销时间',
-      remark: '说明'
+remark: '说明'
+    }
+  },
+  'zh-TW': {
+    carDetailCouponOrder: {
+      orderId: '核銷訂單',
+      carNum: '核銷車輛',
+      coupon: '優惠券',
+      shop: '商家舖鋪',
+      parkingLot: '停車場',
+      machine: '道閘',
+      verifyTime: '核銷時間',
+      remark: '說明'
     }
   }
 }

@@ -86,7 +86,51 @@ export const messages = {
         taskState: '任务状态',
         pointState: '巡检点状态',
         createUser: '创建人',
-        inspectionPhotos: '巡检照片'
+inspectionPhotos: '巡检照片'
+      }
+    },
+    'zh-TW': {
+      aInspectionPlanDetail: {
+        title: '巡檢計劃',
+        planName: '計劃名稱',
+        planRoute: '計劃路線',
+        planPeriod: '計劃週期',
+        signType: '簽到方式',
+        dateRange: '日期範圍',
+        timeRange: '時間範圍',
+        taskAdvance: '任務提前(分鐘)',
+        creator: '制定人',
+        createTime: '制定時間',
+        status: '狀態',
+        staff: '巡檢人員',
+        route: '巡檢路線',
+        point: '巡檢點',
+        task: '巡檢任務',
+        detail: '巡檢明細',
+        staffName: '巡檢人員',
+        startTime: '開始時間',
+        endTime: '結束時間',
+        pointId: '巡檢點ID',
+        pointName: '巡檢點名稱',
+        pointType: '巡檢點類型',
+        pointLocation: '巡檢位置',
+        sort: '排序',
+        detailId: '任務詳情ID',
+        staffTime: '巡檢人時間',
+        pointTime: '巡檢點時間',
+        actualTime: '實際巡檢時間',
+        signStatus: '實際簽到狀態',
+        planStaff: '計劃巡檢人',
+        actualStaff: '實際巡檢人',
+        taskStatus: '任務狀態',
+        pointStatus: '巡檢點狀態',
+        inspectionResult: '巡檢情況',
+        photos: '巡檢照片',
+        inspectionMethod: '巡檢方式',
+        taskState: '任務狀態',
+        pointState: '巡檢點狀態',
+        createUser: '創建人',
+        inspectionPhotos: '巡檢照片'
       }
     }
   }

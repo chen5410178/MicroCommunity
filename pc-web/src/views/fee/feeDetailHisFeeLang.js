@@ -36,7 +36,27 @@ export const messages = {
       accountDeduction: '账户扣款'
     },
     feeDetailHisFeeDemo: {
-      openComponent: '打开历史费用详情'
+openComponent: '打开历史费用详情'
+    }
+  },
+  'zh-TW': {
+    feeDetailHisFee: {
+      feeName: '費用項',
+      payerObjName: '收費對象',
+      cycles: '周期(單位:月)',
+      amount: '應收/實收(單位:元)',
+      paymentMethod: '繳費方式',
+      paymentPeriod: '繳費起始段',
+      paymentTime: '繳費時間',
+      cashier: '收銀員',
+      status: '狀態',
+      remark: '備註',
+      operation: '操作',
+      detail: '詳情',
+      accountDeduction: '賬戶扣款'
+    },
+    feeDetailHisFeeDemo: {
+      openComponent: '打開歷史費用詳情'
     }
   }
 }

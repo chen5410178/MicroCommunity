@@ -129,7 +129,73 @@ export const messages = {
       enterActualCycle: '请输入实际周期',
       endTime: '缴费结束时间',
       selectEndTime: '缴费结束时间',
-      enterCustomAmount: '请输入自定义金额'
+enterCustomAmount: '请输入自定义金额'
+    }
+  },
+  'zh-TW': {
+    batchPayFeeOrder: {
+      allSelect: '全部選擇',
+      allCancel: '全部取消',
+      currentSelect: '當前選擇',
+      currentCancel: '當前取消',
+      back: '返回',
+      scanPay: '掃碼收費',
+      submitPay: '提交收費'
+    },
+    batchPayConfirm: {
+      title: '收費確認',
+      feeAmount: '繳費金額：',
+      discountAmount: '優惠金額：',
+      transferAmount: '轉存金額：',
+      transferObject: '轉存對象：',
+      transferFee: '轉存費用：',
+      accountDeduction: '帳戶扣款：',
+      paymentMethod: '支付方式：',
+      remark: '備註：',
+      authCode: '授權碼：',
+      yuan: '元',
+      selectTransferObject: '必填，請選擇轉存對象',
+      selectTransferFee: '必填，請選擇轉存費用',
+      selectDeductionAccount: '請選擇扣款帳戶',
+      selectPaymentMethod: '必填，請選擇支付方式',
+      enterRemark: '請填寫備註',
+      scanCode: '請用掃碼槍掃碼',
+      scanQrCode: '請使用微信/支付寶掃描二維碼完成支付',
+      generatingQrCode: '正在生成支付二維碼...',
+      close: '關閉',
+      confirmPayment: '確定收費',
+      payTip: '繳費提示',
+      paySuccess: '繳費成功',
+      back: '返回',
+      mergePrint: '合併列印',
+      printReceipt: '列印收據'
+    },
+    batchPrePayFeeDialog: {
+      title: '預付款',
+      feeName: '費用名稱',
+      monthPrice: '月單價',
+      description: '說明',
+      receivableAmount: '應收金額',
+      months: '月份',
+      startMonth: '起始月',
+      selectTransferFee: '必填，請選擇轉存費用',
+      selectMonths: '選擇月份',
+      monthsUnit: '個月',
+      cancel: '取消',
+      confirm: '確定'
+    },
+    batchFeeCycle: {
+      paymentCycle: '繳費週期',
+      selectCycleTip: '必填，請選擇繳費週期',
+      default: '默認',
+      customCycle: '自訂義週期',
+      customAmount: '自訂義金額',
+      customEndTime: '自訂義結束時間',
+      actualCycle: '實際週期',
+      enterActualCycle: '請輸入實際週期',
+      endTime: '繳費結束時間',
+      selectEndTime: '繳費結束時間',
+      enterCustomAmount: '請輸入自訂義金額'
     }
   }
 }

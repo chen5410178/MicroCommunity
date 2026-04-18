@@ -107,5 +107,59 @@ export const messages = {
       },
       fetchError: '获取字典列表失败'
     }
+  },
+  'zh-TW': {
+    dict: {
+      search: {
+        title: '查詢條件',
+        name: '名稱',
+        description: '描述',
+        createTime: '創建時間',
+        tableName: '表名',
+        tableColumns: '表字段',
+        placeholder: '請輸入字典名稱'
+      },
+      list: {
+        title: '字典列表'
+      },
+      dialog: {
+        addTitle: '添加字典',
+        editTitle: '編輯字典',
+        delTitle: '刪除字典',
+        cancel: '取消',
+        confirm: '確定'
+      },
+      form: {
+        name: '名稱',
+        description: '描述',
+        createTime: '創建時間',
+        tableName: '表名',
+        tableColumns: '表字段',
+        statusCd: '值',
+      },
+      table: {
+        name: '名稱',
+        description: '描述',
+        createTime: '創建時間',
+        tableName: '表名',
+        tableColumns: '表字段',
+        statusCd: '值',
+      },
+      validate: {
+        name: '請輸入名稱',
+        createTime: '請輸入創建時間',
+      },
+      add: {
+        success: '添加字典成功'
+      },
+      edit: {
+        success: '編輯字典成功'
+      },
+      delete: {
+        success: '刪除字典成功',
+        confirm: '確認刪除該字典嗎？'
+      },
+      fetchError: '獲取字典列表失敗'
+    }
   }
 }

@@ -1,192 +1,305 @@
 export const messages = {
   en: {
     ownerVoting: {
+      title: 'Owner Voting',
       search: {
         title: 'Search Conditions',
-        qaId: 'Please enter voting ID',
-        qaName: 'Please enter voting name'
+        votingName: 'Please enter voting name',
+        state: 'Please select status'
       },
       list: {
-        title: 'Voting Information'
+        title: 'Voting List'
       },
       table: {
-        qaName: 'Voting Name',
-        validity: 'Validity Period',
-        type: 'Type',
-        options: 'Options',
-        voteCount: 'Total Votes/Voted',
-        state: 'Status',
-        createTime: 'Create Time',
-        operation: 'Operation',
-        peopleChose: ' people chose'
-      },
-      type: {
-        single: 'Single Choice',
-        multiple: 'Multiple Choice'
+        votingName: 'Voting Name',
+        votingType: 'Voting Type',
+        votingStartTime: 'Start Time',
+        votingEndTime: 'End Time',
+        stateName: 'Status',
+        createTime: 'Create Time'
       },
       state: {
-        published: 'Published',
-        unpublished: 'Unpublished'
+        drafting: 'Draft',
+        publishing: 'Published',
+        deleted: 'Deleted'
+      },
+      type: {
+        agree: 'Agreement',
+        agreeAndDisagree: 'Agree / Disagree',
+        multi: 'Multiple Choice'
       },
       operation: {
-        result: 'Result',
-        publish: 'Publish'
+        edit: 'Edit',
+        delete: 'Delete',
+        publish: 'Publish',
+        detail: 'Voting Result'
       },
       add: {
         title: 'Add Voting',
-        success: 'Add voting successfully',
-        error: 'Failed to add voting'
+        votingName: 'Voting Name',
+        votingNamePlaceholder: 'Required, please enter voting name',
+        votingType: 'Voting Type',
+        selectVotingType: 'Please select voting type',
+        votingStartTime: 'Start Time',
+        selectStartTime: 'Required, please select start time',
+        votingEndTime: 'End Time',
+        selectEndTime: 'Required, please select end time',
+        votingDesc: 'Voting Description',
+        votingDescPlaceholder: 'Please enter voting description',
+        optionTitle: 'Voting Options',
+        addOption: 'Add Option',
+        optionPlaceholder: 'Please enter option',
+        save: 'Save',
+        cancel: 'Cancel',
+        validate: {
+          votingName: 'Voting name cannot be empty',
+          votingType: 'Voting type cannot be empty',
+          votingStartTime: 'Start time cannot be empty',
+          votingEndTime: 'End time cannot be empty',
+          endTimeAfterStart: 'End time must be later than start time',
+          atLeastOneOption: 'At least one option is required',
+          optionNotEmpty: 'Option cannot be empty'
+        },
+        addSuccess: 'Add successful',
+        addFailed: 'Add failed'
       },
       edit: {
         title: 'Edit Voting',
-        noId: 'No voting ID provided',
-        fetchError: 'Failed to get voting details'
+        save: 'Save',
+        cancel: 'Cancel',
+        updateSuccess: 'Update successful',
+        updateFailed: 'Update failed'
       },
       delete: {
-        title: 'Delete Voting',
+        title: 'Confirm Operation',
         confirm: 'Are you sure to delete this voting?',
-        success: 'Delete voting successfully',
-        error: 'Failed to delete voting'
+        success: 'Delete successful',
+        failed: 'Delete failed'
       },
-      deleteQuestionAnswer: {
-        title: 'Delete Questionnaire',
-        confirm: 'Are you sure to delete this questionnaire?',
-        success: 'Delete questionnaire successfully',
-        error: 'Failed to delete questionnaire'
-      },
-      publish: {
-        title: 'Publish Voting',
-        name: 'Name',
-        tip: 'Tips',
-        tipContent: 'After publishing, it cannot be modified again. Please confirm before publishing!',
-        notifyWay: 'Notification Method',
-        notifyWayPlaceholder: 'Required, please select notification method',
-        sms: 'SMS',
-        wechat: 'WeChat Message',
-        noNotify: 'No Notification',
-        notifyWayRequired: 'Notification method is required',
-        publishBtn: 'Publish',
-        success: 'Publish successfully',
-        error: 'Failed to publish'
-      },
-      form: {
-        qaName: 'Voting Name',
-        qaNamePlaceholder: 'Please enter voting name',
-        type: 'Type',
-        typePlaceholder: 'Please select type',
-        startTime: 'Start Time',
-        startTimePlaceholder: 'Please select start time',
-        endTime: 'End Time',
-        endTimePlaceholder: 'Please select end time',
-        options: 'Options',
-        optionPlaceholder: 'Option {num}',
-        addOption: 'Add Option'
+      detail: {
+        title: 'Voting Result',
+        votingName: 'Voting Name',
+        votingType: 'Voting Type',
+        votingStartTime: 'Start Time',
+        votingEndTime: 'End Time',
+        optionTitle: 'Option',
+        optionValue: 'Votes',
+        optionPercent: 'Percentage',
+        total: 'Total Votes',
+        fetchError: 'Failed to fetch voting result'
       },
       validate: {
-        qaName: 'Voting name is required',
-        type: 'Type is required',
-        startTime: 'Start time is required',
-        endTime: 'End time is required',
-        endTimeAfterStart: 'End time must be after start time',
+        votingName: 'Voting name cannot be empty',
+        votingType: 'Voting type cannot be empty',
+        votingStartTime: 'Start time cannot be empty',
+        votingEndTime: 'End time cannot be empty',
+        endTimeAfterStart: 'End time must be later than start time',
         atLeastOneOption: 'At least one option is required',
         optionNotEmpty: 'Option cannot be empty'
       },
-      fetchError: 'Failed to get voting list'
+      fetchError: 'Failed to fetch voting list'
     }
   },
   zh: {
     ownerVoting: {
+      title: '业主投票',
       search: {
         title: '查询条件',
-        qaId: '请输入投票ID',
-        qaName: '请输入投票名称'
+        votingName: '请输入投票名称',
+        state: '请选择状态'
       },
       list: {
-        title: '投票信息'
+        title: '投票列表'
       },
       table: {
-        qaName: '投票名称',
-        validity: '有效期',
-        type: '类型',
-        options: '选项',
-        voteCount: '总投票/已投票',
-        state: '状态',
-        createTime: '创建时间',
-        operation: '操作',
-        peopleChose: '人选择'
-      },
-      type: {
-        single: '单选',
-        multiple: '多选'
+        votingName: '投票名称',
+        votingType: '投票类型',
+        votingStartTime: '开始时间',
+        votingEndTime: '结束时间',
+        stateName: '状态',
+        createTime: '创建时间'
       },
       state: {
-        published: '已发布',
-        unpublished: '待发布'
+        drafting: '草稿',
+        publishing: '已发布',
+        deleted: '已删除'
+      },
+      type: {
+        agree: '同意',
+        agreeAndDisagree: '同意/反对',
+        multi: '多选'
       },
       operation: {
-        result: '结果',
-        publish: '发布'
+        edit: '修改',
+        delete: '删除',
+        publish: '发布',
+        detail: '投票结果'
       },
       add: {
-        title: '添加投票',
-        success: '添加投票成功',
-        error: '添加投票失败'
+        title: '新增投票',
+        votingName: '投票名称',
+        votingNamePlaceholder: '必填，请填写投票名称',
+        votingType: '投票类型',
+        selectVotingType: '请选择投票类型',
+        votingStartTime: '开始时间',
+        selectStartTime: '必填，请选择开始时间',
+        votingEndTime: '结束时间',
+        selectEndTime: '必填，请选择结束时间',
+        votingDesc: '投票说明',
+        votingDescPlaceholder: '请输入投票说明',
+        optionTitle: '投票选项',
+        addOption: '添加选项',
+        optionPlaceholder: '请输入选项',
+        save: '保存',
+        cancel: '取消',
+        validate: {
+          votingName: '投票名称不能为空',
+          votingType: '投票类型不能为空',
+          votingStartTime: '开始时间不能为空',
+          votingEndTime: '结束时间不能为空',
+          endTimeAfterStart: '结束时间必须晚于开始时间',
+          atLeastOneOption: '至少需要一个选项',
+          optionNotEmpty: '选项不能为空'
+        },
+        addSuccess: '新增成功',
+        addFailed: '新增失败'
       },
       edit: {
-        title: '编辑投票',
-        noId: '未提供投票ID',
-        fetchError: '获取投票详情失败'
+        title: '修改投票',
+        save: '保存',
+        cancel: '取消',
+        updateSuccess: '修改成功',
+        updateFailed: '修改失败'
       },
       delete: {
-        title: '删除投票',
-        confirm: '确定删除该投票吗？',
-        success: '删除投票成功',
-        error: '删除投票失败'
+        title: '请确认您的操作',
+        confirm: '确定删除投票吗？',
+        success: '删除成功',
+        failed: '删除失败'
       },
-      deleteQuestionAnswer: {
-        title: '删除问卷',
-        confirm: '确定删除该问卷吗？',
-        success: '删除问卷成功',
-        error: '删除问卷失败'
-      },
-      publish: {
-        title: '发布投票',
-        name: '名称',
-        tip: '温馨提示',
-        tipContent: '发布后将无法再次修改，请确认无误后再发布！',
-        notifyWay: '通知方式',
-        notifyWayPlaceholder: '必填，请选择通知方式',
-        sms: '短信',
-        wechat: '微信消息',
-        noNotify: '不通知',
-        notifyWayRequired: '通知方式不能为空',
-        publishBtn: '发布',
-        success: '发布成功',
-        error: '发布失败'
-      },
-      form: {
-        qaName: '投票名称',
-        qaNamePlaceholder: '请输入投票名称',
-        type: '类型',
-        typePlaceholder: '请选择类型',
-        startTime: '开始时间',
-        startTimePlaceholder: '请选择开始时间',
-        endTime: '结束时间',
-        endTimePlaceholder: '请选择结束时间',
-        options: '选项',
-        optionPlaceholder: '选项{num}',
-        addOption: '添加选项'
+      detail: {
+        title: '投票结果',
+        votingName: '投票名称',
+        votingType: '投票类型',
+        votingStartTime: '开始时间',
+        votingEndTime: '结束时间',
+        optionTitle: '选项',
+        optionValue: '票数',
+        optionPercent: '占比',
+        total: '总票数',
+        fetchError: '获取投票结果失败'
       },
       validate: {
-        qaName: '投票名称不能为空',
-        type: '类型不能为空',
-        startTime: '开始时间不能为空',
-        endTime: '结束时间不能为空',
+        votingName: '投票名称不能为空',
+        votingType: '投票类型不能为空',
+        votingStartTime: '开始时间不能为空',
+        votingEndTime: '结束时间不能为空',
         endTimeAfterStart: '结束时间必须晚于开始时间',
         atLeastOneOption: '至少需要一个选项',
         optionNotEmpty: '选项不能为空'
       },
       fetchError: '获取投票列表失败'
     }
-  }
-}
+  },
+  'zh-TW': {
+    ownerVoting: {
+      title: '業主投票',
+      search: {
+        title: '查詢條件',
+        votingName: '請輸入投票名稱',
+        state: '請選擇狀態'
+      },
+      list: {
+        title: '投票列表'
+      },
+      table: {
+        votingName: '投票名稱',
+        votingType: '投票類型',
+        votingStartTime: '開始時間',
+        votingEndTime: '結束時間',
+        stateName: '狀態',
+        createTime: '創建時間'
+      },
+      state: {
+        drafting: '草稿',
+        publishing: '已發布',
+        deleted: '已刪除'
+      },
+      type: {
+        agree: '同意',
+        agreeAndDisagree: '同意/反對',
+        multi: '多選'
+      },
+      operation: {
+        edit: '修改',
+        delete: '刪除',
+        publish: '發布',
+        detail: '投票結果'
+      },
+      add: {
+        title: '新增投票',
+        votingName: '投票名稱',
+        votingNamePlaceholder: '必填，請填寫投票名稱',
+        votingType: '投票類型',
+        selectVotingType: '請選擇投票類型',
+        votingStartTime: '開始時間',
+        selectStartTime: '必填，請選擇開始時間',
+        votingEndTime: '結束時間',
+        selectEndTime: '必填，請選擇結束時間',
+        votingDesc: '投票說明',
+        votingDescPlaceholder: '請輸入投票說明',
+        optionTitle: '投票選項',
+        addOption: '添加選項',
+        optionPlaceholder: '請輸入選項',
+        save: '保存',
+        cancel: '取消',
+        validate: {
+          votingName: '投票名稱不能為空',
+          votingType: '投票類型不能為空',
+          votingStartTime: '開始時間不能為空',
+          votingEndTime: '結束時間不能為空',
+          endTimeAfterStart: '結束時間必須晚於開始時間',
+          atLeastOneOption: '至少需要一個選項',
+          optionNotEmpty: '選項不能為空'
+        },
+        addSuccess: '新增成功',
+        addFailed: '新增失敗'
+      },
+      edit: {
+        title: '修改投票',
+        save: '保存',
+        cancel: '取消',
+        updateSuccess: '修改成功',
+        updateFailed: '修改失敗'
+      },
+      delete: {
+        title: '請確認您的操作',
+        confirm: '確定刪除投票嗎？',
+        success: '刪除成功',
+        failed: '刪除失敗'
+      },
+      detail: {
+        title: '投票結果',
+        votingName: '投票名稱',
+        votingType: '投票類型',
+        votingStartTime: '開始時間',
+        votingEndTime: '結束時間',
+        optionTitle: '選項',
+        optionValue: '票數',
+        optionPercent: '佔比',
+        total: '總票數',
+        fetchError: '獲取投票結果失敗'
+      },
+      validate: {
+        votingName: '投票名稱不能為空',
+        votingType: '投票類型不能為空',
+        votingStartTime: '開始時間不能為空',
+        votingEndTime: '結束時間不能為空',
+        endTimeAfterStart: '結束時間必須晚於開始時間',
+        atLeastOneOption: '至少需要一個選項',
+        optionNotEmpty: '選項不能為空'
+      },
+      fetchError: '獲取投票列表失敗'
+    }
+  },
+};

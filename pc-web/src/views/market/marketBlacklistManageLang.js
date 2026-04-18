@@ -88,7 +88,53 @@ export const messages = {
         confirm: '确定删除该营销黑白单吗?',
         success: '删除成功'
       },
-      fetchError: '获取营销黑白单数据失败'
+fetchError: '获取营销黑白单数据失败'
+    }
+  },
+  'zh-TW': {
+    marketBlacklist: {
+      search: {
+        title: '查詢條件',
+        personName: '請輸入用戶名稱',
+        filter: '請輸入過濾條件'
+      },
+      list: {
+        title: '營銷黑白單'
+      },
+      table: {
+        personName: '用戶名稱',
+        filter: '過濾條件',
+        createTime: '創建時間',
+        remark: '備註'
+      },
+      form: {
+        personName: '用戶名稱',
+        filter: '過濾條件',
+        remark: '備註'
+      },
+      validate: {
+        personName: '用戶名稱不能為空',
+        personNameMax: '用戶名稱不能超過64個字符',
+        filter: '過濾條件不能為空',
+        filterMax: '過濾條件不能超過64個字符',
+        remark: '備註不能為空',
+        remarkMax: '備註不能超過512個字符',
+        blId: '編號不能為空'
+      },
+      add: {
+        title: '新增營銷黑白單',
+        success: '新增成功'
+      },
+      edit: {
+        title: '修改營銷黑白單',
+        success: '修改成功'
+      },
+      delete: {
+        title: '刪除確認',
+        confirm: '確定刪除該營銷黑白單嗎?',
+        success: '刪除成功'
+      },
+      fetchError: '獲取營銷黑白單數據失敗'
     }
   }
 }

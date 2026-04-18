@@ -4,9 +4,14 @@ export const messages = {
       relatedFiles: 'Related Files'
     }
   },
-  zh: {
+zh: {
     contractDetailFile: {
       relatedFiles: '相关附件'
+    }
+  },
+  'zh-TW': {
+    contractDetailFile: {
+      relatedFiles: '相關附件'
     }
   }
 }

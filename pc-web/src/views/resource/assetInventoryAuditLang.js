@@ -44,7 +44,31 @@ export const messages = {
       opinionPlaceholder: '必填，请输入审核意见',
       opinionRequired: '审核意见不能为空',
       approve: '审核通过',
-      reject: '审核不通过'
+reject: '审核不通过'
+    }
+  },
+  'zh-TW': {
+    assetInventoryAudit: {
+      inventoryInfo: '盤點信息',
+      inventoryProducts: '盤點商品',
+      auditOpinion: '審核意見',
+      inventoryName: '盤點名稱',
+      inventoryPerson: '盤點人',
+      warehouse: '選擇倉庫',
+      inventoryDate: '盤點日期',
+      remark: '盤點說明',
+      productType: '物品類型',
+      productName: '物品名稱',
+      specification: '物品規格',
+      productCode: '物品編碼',
+      isFixed: '是否是固定物品',
+      referencePrice: '參考價格',
+      originalStock: '原有庫存',
+      afterInventory: '盤點後數量',
+      opinionPlaceholder: '必填，請輸入審核意見',
+      opinionRequired: '審核意見不能為空',
+      approve: '審核通過',
+      reject: '審核不通過'
     }
   }
 }

@@ -26,5 +26,19 @@ export const messages = {
       released: '车位已释放',
       validity: '有效期'
     }
+  },
+  'zh-TW': {
+    aRoomDetailCar: {
+      placeholderCarNum: '請填寫車牌號',
+      carNum: '車牌號',
+      leaseType: '車牌類型',
+      tempCar: '臨時車',
+      carType: '車輛類型',
+      color: '顏色',
+      owner: '業主',
+      parkingSpace: '車位',
+      released: '車位已釋放',
+      validity: '有效期'
+    }
   }
 }

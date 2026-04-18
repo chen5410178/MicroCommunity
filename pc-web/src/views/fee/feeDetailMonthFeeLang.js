@@ -36,7 +36,27 @@ export const messages = {
       fixedFee: '固定费：'
     },
     feeDetailMonthFeeDemo: {
-      openComponent: '打开月度费用详情'
+openComponent: '打开月度费用详情'
+    }
+  },
+  'zh-TW': {
+    feeDetailMonthFee: {
+      feeItem: '費用項目',
+      feeFlag: '費用標識',
+      feeType: '費用類型',
+      chargeYearMonth: '收費年月',
+      receivableAmount: '應收金額',
+      description: '說明',
+      lastDegrees: '上期度數：',
+      currentDegrees: '本期度數：',
+      unitPrice: '單價：',
+      additionalFee: '附加費：',
+      usage: '用量：',
+      algorithm: '算法：',
+      fixedFee: '固定費：'
+    },
+    feeDetailMonthFeeDemo: {
+      openComponent: '打開月度費用詳情'
     }
   }
 }

@@ -74,5 +74,43 @@ export const messages = {
       roomInfo: '房屋信息',
       unit: '单元'
     }
+  },
+  'zh-TW': {
+    editOwnerVoting: {
+      title: '編輯投票',
+      voteName: '投票名稱',
+      voteNamePlaceholder: '必填，請填寫投票名稱',
+      type: '類型',
+      typePlaceholder: '必填，請選擇類型',
+      singleChoice: '單選',
+      multipleChoice: '多選',
+      startTime: '開始時間',
+      startTimePlaceholder: '必填，請選擇開始時間',
+      endTime: '結束時間',
+      endTimePlaceholder: '必填，請選擇結束時間',
+      option: '選項',
+      optionPlaceholder: '必填，請填寫選項內容',
+      addOption: '增加選項',
+      deleteOption: '刪除選項',
+      description: '投票說明',
+      descriptionPlaceholder: '必填，請輸入投票說明',
+      voteRooms: '投票房屋',
+      houseVote: '戶投票',
+      reselect: '重新選擇',
+      validate: {
+        voteNameRequired: '名稱不能為空',
+        voteNameLength: '名稱長度必須在1位至256位',
+        startTimeRequired: '開始時間不能為空',
+        endTimeRequired: '結束時間不能為空'
+      },
+      saveSuccess: '修改成功',
+      saveFailed: '修改失敗'
+    },
+    selectRooms: {
+      title: '選擇房屋',
+      buildingUnit: '樓棟單元',
+      roomInfo: '房屋信息',
+      unit: '單元'
+    }
   }
-}
+};

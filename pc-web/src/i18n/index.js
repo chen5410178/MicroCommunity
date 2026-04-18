@@ -150,6 +150,10 @@ import { messages as workI18n } from './workI18n'
 import { messages as feeI18n } from './feeI18n'
 import { menuMessages } from './menuLang'
 
+import { messages as simplifyAcceptanceMessages } from '../views/simplify/simplifyAcceptanceLang'
+import { messages as simplifyCarFeeMessages } from '../views/simplify/simplifyCarFeeLang'
+import { messages as simplifyContractMessages } from '../views/simplify/simplifyContractLang'
+
 Vue.use(VueI18n)
 
 // 合并所有语言配置
@@ -265,7 +269,7 @@ const messages = {
     ...ownerApplyInvoiceMessages.en,
     ...invoiceApplyDetailMessages.en,
     ...feeConfigDetailMessages.en,
-  
+   
     ...carCreateFeeMessages.en,
     ...listCarFeeMessages.en,
     ...repairSettingMessages.en,
@@ -295,6 +299,9 @@ const messages = {
     ...workI18n.en,
     ...feeI18n.en,
     ...menuMessages.en,
+    ...simplifyAcceptanceMessages.en,
+    ...simplifyCarFeeMessages.en,
+    ...simplifyContractMessages.en,
   },
   zh: {
     ...loginMessages.zh,
@@ -435,6 +442,9 @@ const messages = {
     ...workI18n.zh,
     ...feeI18n.zh,
     ...menuMessages.zh,
+    ...simplifyAcceptanceMessages.zh,
+    ...simplifyCarFeeMessages.zh,
+    ...simplifyContractMessages.zh,
   },
   'zh-TW': {
     ...loginMessages['zh-TW'],
@@ -575,6 +585,9 @@ const messages = {
     ...workI18n['zh-TW'],
     ...feeI18n['zh-TW'],
     ...menuMessages['zh-TW'],
+    ...simplifyAcceptanceMessages['zh-TW'],
+    ...simplifyCarFeeMessages['zh-TW'],
+    ...simplifyContractMessages['zh-TW'],
   }
 }
 

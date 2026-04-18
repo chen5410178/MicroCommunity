@@ -130,5 +130,71 @@ export const messages = {
       exportSuccess: '导出成功',
       exportError: '导出失败'
     }
+  },
+  'zh-TW': {
+    adminPayFeeDetail: {
+      search: {
+        title: '查詢條件',
+        startTime: '繳費開始時間',
+        startTimePlaceholder: '請選擇繳費開始時間',
+        endTime: '繳費結束時間',
+        endTimePlaceholder: '請選擇繳費結束時間',
+        paymentMethod: '支付方式',
+        paymentMethodPlaceholder: '請選擇支付方式',
+        feeStatus: '費用狀態',
+        feeStatusPlaceholder: '請選擇費用狀態',
+        feeType: '費用類型',
+        feeTypePlaceholder: '請選擇費用類型',
+        feeStartTime: '收費開始時間',
+        feeStartTimePlaceholder: '請選擇收費開始時間',
+        feeEndTime: '收費結束時間',
+        feeEndTimePlaceholder: '請選擇收費結束時間',
+        payerObjName: '房屋/車牌號',
+        payerObjNamePlaceholder: '房屋編號或者車牌號'
+      },
+      list: {
+        title: '繳費記錄',
+        tooltip: '所有房屋繳費記錄明細'
+      },
+      table: {
+        orderId: '訂單號',
+        payerInfo: '房號/業主',
+        feeInfo: '費用類型>費用項',
+        feeStatus: '費用狀態',
+        paymentMethod: '支付方式',
+        feePeriod: '繳費時間段',
+        paymentTime: '繳費時間',
+        cashier: '收銀員',
+        payableAmount: '應繳/應收金額(元)',
+        receivedAmount: '實收金額(元)',
+        withholdAmount: '帳戶抵扣(元)',
+        discountAmount: '優惠/減免金額(元)',
+        giftAmount: '贈送金額(元)',
+        lateFee: '滯納金(元)',
+        area: '面積(平方米)',
+        parkingSpace: '車位',
+        remark: '說明'
+      },
+      summary: {
+        subtotal: '小計',
+        total: '大計',
+        receivable: '應收',
+        received: '實收',
+        discount: '優惠',
+        deduction: '減免',
+        gift: '贈送',
+        lateFee: '滯納金',
+        yuan: '元',
+        discountDesc: '優惠金額：打折規則和打折無欠費規則下產生的優惠金額',
+        deductionDesc: '減免金額：減免規則下產生的減免金額',
+        giftDesc: '贈送金額：贈送規則下贈送月份應繳的金額',
+        lateFeeDesc: '滯納金：違約滯納金規則下產生的違約金額，需額外繳納的滯納金'
+      },
+      allCommunities: '全部小區',
+      fetchError: '獲取繳費明細失敗',
+      fetchCommunityError: '獲取小區列表失敗',
+      exportSuccess: '導出成功',
+      exportError: '導出失敗'
+    }
   }
 }

@@ -18,5 +18,15 @@ export const messages = {
       description: '说明',
       syncTime: '同步时间'
     }
+  },
+  'zh-TW': {
+    aOwnerDetailAccessControl: {
+      objectType: '對象類型',
+      objectName: '對象名稱',
+      command: '指令',
+      status: '狀態',
+      description: '說明',
+      syncTime: '同步時間'
+    }
   }
 }

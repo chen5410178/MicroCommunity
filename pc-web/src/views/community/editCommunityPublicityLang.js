@@ -51,7 +51,35 @@ export const messages = {
     uploadImage: {
       message: {
         sizeLimit: '图片大小不能超过2MB',
-        uploadFailed: '图片上传失败'
+uploadFailed: '图片上传失败'
+      }
+    }
+  },
+  'zh-TW': {
+    editCommunityPublicity: {
+      title: '修改公示',
+      publicityTitle: '公示標題',
+      publicityTitlePlaceholder: '必填，請填寫公示標題',
+      publicityType: '公示類型',
+      publicityTypePlaceholder: '必填，請選擇公示類型',
+      headerImage: '頭部照片',
+      activityContent: '活動內容',
+      activityContentPlaceholder: '必填，請輸入活動內容',
+      validate: {
+        titleRequired: '公示標題不能為空',
+        typeRequired: '公示類型不能為空',
+        imageRequired: '頭部照片不能為空',
+        contentRequired: '活動內容不能為空'
+      },
+      message: {
+        updateSuccess: '修改公示成功',
+        updateFailed: '修改公示失敗'
+      }
+    },
+    uploadImage: {
+      message: {
+        sizeLimit: '圖片大小不能超過2MB',
+        uploadFailed: '圖片上傳失敗'
       }
     }
   }

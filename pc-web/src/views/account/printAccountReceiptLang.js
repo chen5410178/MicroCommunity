@@ -39,8 +39,30 @@ export const messages = {
       operator: '经办人',
       financialCollection: '财务收款',
       customerConfirmation: '客户确认',
-      loadError: '加载收据数据失败',
+loadError: '加载收据数据失败',
       loadSpecError: '加载打印规格失败'
+    }
+  },
+  'zh-TW': {
+    printAccountReceipt: {
+      depositSlip: '預存單',
+      receiptNum: '單號',
+      depositTime: '預存時間',
+      number: '編號',
+      accountName: '賬戶名稱',
+      accountType: '賬戶類型',
+      owner: '業主',
+      depositAmount: '預存金額',
+      depositMethod: '預存方式',
+      currentBalance: '當前餘額',
+      remark: '備註',
+      chineseAmount: '大寫人民幣',
+      departmentHead: '部門負責人',
+      operator: '經辦人',
+      financialCollection: '財務收款',
+      customerConfirmation: '客戶確認',
+      loadError: '加載收據數據失敗',
+      loadSpecError: '加載打印規格失敗'
     }
   }
 }

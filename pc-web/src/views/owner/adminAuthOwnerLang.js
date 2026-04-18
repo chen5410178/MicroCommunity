@@ -70,7 +70,44 @@ export const messages = {
         all: '全部小区',
         fetchError: '加载小区列表失败'
       },
-      fetchError: '加载业主认证数据失败'
+fetchError: '加载业主认证数据失败'
+    }
+  },
+  'zh-TW': {
+    adminAuthOwner: {
+      search: {
+        title: '查詢條件',
+        state: '請選擇狀態',
+        appUserName: '請輸入關聯業主名稱',
+        idCard: '請輸入關聯業主身份證',
+        link: '請輸入關聯業主手機號'
+      },
+      list: {
+        title: '業主認證'
+      },
+      table: {
+        communityName: '小區名稱',
+        appUserName: '業主',
+        link: '手機號',
+        roomName: '房屋',
+        ownerTypeCdName: '人員類型',
+        idCard: '身份證',
+        stateName: '狀態',
+        remark: '審核說明',
+        createTime: '申請時間',
+        appTypeName: '手機端類型'
+      },
+      status: {
+        all: '全部',
+        pending: '待審核',
+        success: '審核成功',
+        failed: '審核失敗'
+      },
+      community: {
+        all: '全部小區',
+        fetchError: '載入小區列表失敗'
+      },
+      fetchError: '載入業主認證數據失敗'
     }
   }
 }

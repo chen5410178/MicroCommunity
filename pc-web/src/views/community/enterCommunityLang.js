@@ -61,7 +61,40 @@ export const messages = {
         statusOptions: {
           '1000': '入驻审核',
           '1100': '入驻成功',
-          '1200': '入驻失败'
+'1200': '入驻失败'
+        }
+      }
+    },
+    'zh-TW': {
+      enterCommunity: {
+        myCommunity: '我的小區',
+        commercialProcess: '商用流程',
+        province: '省份',
+        city: '市/州',
+        district: '區/縣',
+        communityName: '小區名稱',
+        communityCode: '小區編碼',
+        servicePhone: '客服電話',
+        area: '面積',
+        startTime: '開始時間',
+        endTime: '結束時間',
+        status: '狀態',
+        operation: '操作',
+        modify: '修改',
+        back: '返回',
+        communityAddress: '小區地址',
+        communityLandmark: '小區地標',
+        cityCode: '城市編碼',
+        xCoordinate: 'X座標',
+        yCoordinate: 'Y座標',
+        serviceQR: '客服二維碼',
+        communityArea: '小區面積',
+        save: '保存',
+        cancel: '取消',
+        statusOptions: {
+          '1000': '入駐審核',
+          '1100': '入駐成功',
+          '1200': '入駐失敗'
         }
       }
     }

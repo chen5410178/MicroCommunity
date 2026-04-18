@@ -53,7 +53,36 @@ export const messages = {
         signTypeName: '巡检方式',
         stateName: '巡检状态',
         operation: '操作',
-        detail: '详情'
+detail: '详情'
+      }
+    }
+  },
+  'zh-TW': {
+    adminInspectionTask: {
+      search: {
+        title: '查詢條件',
+        startTime: '請輸入實際巡檢開始時間',
+        endTime: '請輸入實際巡檢結束時間',
+        state: '請選擇巡檢狀態',
+        button: '查詢'
+      },
+      list: {
+        title: '巡檢任務',
+        tip: '巡檢任務是根據巡檢計劃，每天晚上2點鐘自動生成，如果沒有生成請確認是否開啟了定時任務，或者巡檢計劃是否設置正確'
+      },
+      table: {
+        taskId: '任務編碼',
+        communityName: '小區名稱',
+        inspectionPlanName: '巡檢計劃',
+        planTime: '計劃時間',
+        actInsTime: '實際巡檢時間',
+        originalPlanUserName: '計劃巡檢人',
+        planUserName: '當前巡檢人',
+        transferDesc: '轉移描述',
+        signTypeName: '巡檢方式',
+        stateName: '巡檢狀態',
+        operation: '操作',
+        detail: '詳情'
       }
     }
   }

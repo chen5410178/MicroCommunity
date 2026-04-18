@@ -114,5 +114,63 @@ export const messages = {
       },
       fetchError: '获取合同类型失败'
     }
+  },
+  'zh-TW': {
+    contractTypeManage: {
+      search: {
+        title: '查詢條件',
+        typeNamePlaceholder: '請輸入類型名稱',
+        auditPlaceholder: '請選擇審核狀態'
+      },
+      list: {
+        title: '合同類型',
+        setAudit: '設置審核人員'
+      },
+      table: {
+        typeName: '類型名稱',
+        audit: '是否審核',
+        remark: '描述',
+        createTime: '創建時間',
+        specInfo: '擴展信息',
+        template: '合同模板'
+      },
+      add: {
+        title: '添加合同類型',
+        typeName: '類型名稱',
+        typeNamePlaceholder: '必填，請填寫類型名稱',
+        audit: '是否審核',
+        auditPlaceholder: '請選擇審核狀態',
+        remark: '描述',
+        remarkPlaceholder: '選填，請填寫描述'
+      },
+      edit: {
+        title: '修改合同類型',
+        typeName: '類型名稱',
+        typeNamePlaceholder: '必填，請填寫類型名稱',
+        audit: '是否審核',
+        auditPlaceholder: '請選擇審核狀態',
+        remark: '描述',
+        remarkPlaceholder: '選填，請填寫描述'
+      },
+      delete: {
+        title: '請確認您的操作',
+        confirmText: '確定刪除該合同類型嗎？'
+      },
+      template: {
+        title: '合同模板',
+        content: '模板內容',
+        placeholder: '必填，請輸入合同模板'
+      },
+      validate: {
+        contractTypeIdRequired: '合同類型ID不能為空',
+        typeNameRequired: '類型名稱不能為空',
+        typeNameMaxLength: '類型名稱不能超過64個字符',
+        auditRequired: '審核狀態不能為空',
+        remarkMaxLength: '描述不能超過200個字符',
+        contentRequired: '模板內容必填',
+        contractTypeRequired: '合同類型不能為空'
+      },
+      fetchError: '獲取合同類型失敗'
+    }
   }
 }

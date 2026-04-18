@@ -78,7 +78,48 @@ export const messages = {
         iconRequired: '图标不能为空',
         seqRequired: '列顺序不能为空'
       },
-      fetchError: '获取菜单数据失败'
+fetchError: '获取菜单数据失败'
+    }
+  },
+  'zh-TW': {
+    menuUserManage: {
+      search: {
+        title: '查詢條件',
+        muId: '請輸入編號',
+        name: '請輸入選單',
+        seq: '請輸入列順序'
+      },
+      list: {
+        title: '常用選單'
+      },
+      table: {
+        muId: '編號',
+        name: '選單',
+        icon: '圖示',
+        seq: '順序'
+      },
+      add: {
+        title: '添加選單',
+        menu: '選單',
+        menuPlaceholder: '必填，請選擇選單',
+        icon: '圖示',
+        seq: '列順序',
+        seqPlaceholder: '必填，請填寫列順序',
+        success: '添加成功',
+        error: '添加失敗'
+      },
+      delete: {
+        title: '請確認您的操作',
+        confirm: '確定刪除常用選單?',
+        success: '刪除成功',
+        error: '刪除失敗'
+      },
+      validate: {
+        menuRequired: '選單不能為空',
+        iconRequired: '圖示不能為空',
+        seqRequired: '列順序不能為空'
+      },
+      fetchError: '獲取選單數據失敗'
     }
   }
 }

@@ -65,6 +65,40 @@ export const messages = {
       noFee: '未包含费用',
       submitSuccess: '提交成功',
       submitFailed: '提交失败'
+}
+  },
+  'zh-TW': {
+    printSmallPayFee: {
+      receipt: '繳費收據單',
+      receiptNum: '收據號：',
+      orderNum: '訂單號：',
+      roomNum: '房號',
+      owner: '業主',
+      time: '時間',
+      feeItem: '收費項目',
+      feeRange: '收費範圍',
+      to: '至',
+      unitPrice: '單價/固定費：',
+      areaUsage: '面積/用量：',
+      paymentMethod: '支付方式：',
+      meterReading: '表讀數：',
+      amount: '金額：',
+      refund: '(退費)',
+      discount: '優惠金額：',
+      remark: '備註',
+      total: '總計',
+      issuer: '開票人',
+      print: '列印',
+      cloudPrint: '雲列印',
+      cancel: '取消',
+      submit: '提交',
+      printer: '印表機',
+      printerRequired: '必填，請選擇印表機',
+      quantity: '數量',
+      quantityRequired: '必填，請填寫數量',
+      noFee: '未包含費用',
+      submitSuccess: '提交成功',
+      submitFailed: '提交失敗'
     }
   }
 }

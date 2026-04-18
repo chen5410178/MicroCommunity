@@ -34,7 +34,7 @@ export const messages = {
       back: 'Back'
     }
   },
-  zh: {
+zh: {
     contractApplyDetail: {
       title: '合同信息',
       contractName: '合同名称',
@@ -66,6 +66,41 @@ export const messages = {
       timeConsuming: '耗时',
       opinion: '意见',
       print: '打印',
+      back: '返回'
+    }
+  },
+  'zh-TW': {
+    contractApplyDetail: {
+      title: '合同信息',
+      contractName: '合同名稱',
+      contractCode: '合同編號',
+      contractType: '合同類型',
+      partyA: '甲方',
+      partyAContact: '甲方聯絡人',
+      partyAPhone: '甲方聯繫電話',
+      partyB: '乙方',
+      partyBContact: '乙方聯絡人',
+      partyBPhone: '乙方聯繫電話',
+      operator: '經辦人',
+      phone: '聯繫電話',
+      contractAmount: '合同金額',
+      startTime: '開始時間',
+      endTime: '結束時間',
+      signingTime: '簽訂時間',
+      relatedFiles: '相關附件',
+      relatedRooms: '關聯房屋',
+      room: '房屋',
+      roomCode: '房屋編號',
+      builtUpArea: '建築面積',
+      squareMeter: '平方米',
+      workflowFlow: '工單流轉',
+      serialNumber: '序號',
+      processor: '處理人',
+      status: '狀態',
+      processTime: '處理時間',
+      timeConsuming: '耗時',
+      opinion: '意見',
+      print: '列印',
       back: '返回'
     }
   }

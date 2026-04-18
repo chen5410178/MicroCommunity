@@ -28,7 +28,23 @@ export const messages = {
       endTime: '结束时间',
       giveTime: '赠送时间',
       status: '状态',
-      remark: '说明'
+remark: '说明'
+    }
+  },
+  'zh-TW': {
+    carDetailCoupon: {
+      car: '車輛',
+      coupon: '優惠券',
+      shop: '商家舖鋪',
+      parkingLot: '停車場',
+      giveWay: '贈送方式',
+      couponType: '優惠方式',
+      value: '面值',
+      startTime: '開始時間',
+      endTime: '結束時間',
+      giveTime: '贈送時間',
+      status: '狀態',
+      remark: '說明'
     }
   }
 }

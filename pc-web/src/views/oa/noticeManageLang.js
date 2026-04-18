@@ -74,5 +74,43 @@ export const messages = {
       },
       fetchError: '获取公告数据失败'
     }
+  },
+  'zh-TW': {
+    noticeManage: {
+      search: {
+        title: '查詢條件',
+        noticeTypePlaceholder: '請選擇公告類型',
+        ownerNotice: '業主通知',
+        staffNotice: '員工通知',
+        statePlaceholder: '請選擇狀態',
+        pendingNotice: '待通知',
+        notifying: '通知中',
+        noticeComplete: '通知完成',
+        titlePlaceholder: '請輸入公告標題',
+        startTimePlaceholder: '必填，請填寫開始時間',
+        endTimePlaceholder: '必填，請填寫結束時間'
+      },
+      list: {
+        title: '公告信息'
+      },
+      table: {
+        noticeId: '公告ID',
+        title: '標題',
+        noticeType: '公告類型',
+        startTime: '開始時間',
+        endTime: '結束時間',
+        state: '狀態',
+        noticeRange: '通知範圍'
+      },
+      delete: {
+        title: '請確認您的操作',
+        confirmText: '確定刪除公告？',
+        cancelText: '點錯了',
+        confirmButton: '確認刪除',
+        successMessage: '刪除成功',
+        errorMessage: '刪除失敗'
+      },
+      fetchError: '獲取公告數據失敗'
+    }
   }
 }

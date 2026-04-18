@@ -102,11 +102,66 @@ export const messages = {
         completed: '充电完成',
         failed: '充电失败'
       },
-      community: {
+community: {
         all: '全部小区',
         fetchError: '获取小区列表失败'
       },
       fetchError: '获取充电订单失败'
+    }
+  },
+  'zh-TW': {
+    adminChargeOrder: {
+      search: {
+        title: '查詢條件',
+        orderId: '訂單編號',
+        orderIdPlaceholder: '請輸入訂單編號',
+        personName: '名稱',
+        personNamePlaceholder: '請輸入名稱',
+        personTel: '手機號',
+        personTelPlaceholder: '請輸入手機號',
+        machineName: '充電樁名稱',
+        machineNamePlaceholder: '請輸入充電樁名稱',
+        portName: '插槽',
+        portNamePlaceholder: '請輸入插槽',
+        state: '狀態',
+        statePlaceholder: '請選擇狀態',
+        startTime: '開始時間',
+        startTimePlaceholder: '請選擇開始時間',
+        endTime: '結束時間',
+        endTimePlaceholder: '請選擇結束時間'
+      },
+      table: {
+        title: '充電訂單',
+        orderId: '編號',
+        personName: '名稱',
+        personTel: '手機號',
+        machineName: '充電樁',
+        portName: '插槽',
+        chargeHours: '充電小時',
+        byQuantity: '按量充電',
+        hours: '小時',
+        energy: '充電量',
+        startTime: '開始時間',
+        endTime: '結束時間',
+        acctDetailId: '扣款賬戶',
+        durationPrice: '電費',
+        servicePrice: '服務費',
+        amount: '扣款金額',
+        stateName: '插座狀態',
+        remark: '說明',
+        createTime: '創建時間'
+      },
+      state: {
+        all: '全部狀態',
+        charging: '充電中',
+        completed: '充電完成',
+        failed: '充電失敗'
+      },
+      community: {
+        all: '全部小區',
+        fetchError: '獲取小區列表失敗'
+      },
+      fetchError: '獲取充電訂單失敗'
     }
   }
 }

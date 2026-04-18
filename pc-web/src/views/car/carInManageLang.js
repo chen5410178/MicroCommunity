@@ -66,6 +66,41 @@ export const messages = {
       parkingDuration: '在场时间',
       parkingFee: '停车费用',
       hour: '小时',
+minute: '分'
+    }
+  },
+  'zh-TW': {
+    carInManage: {
+      searchCondition: '查詢條件',
+      inputPlateNumber: '請輸入車牌號',
+      selectVehicleStatus: '請選擇車輛狀態',
+      inStatus: '進場狀態',
+      paymentComplete: '支付完成',
+      exitStatus: '離場狀態',
+      timeoutRepayment: '支付超時重新支付',
+      selectPlateType: '請選擇車牌類型',
+      temporaryVehicle: '臨時車',
+      forSaleVehicle: '出售車輛',
+      monthlyRental: '月租車',
+      whitelist: '白名單',
+      blacklist: '黑名單',
+      internalVehicle: '內部車',
+      freeVehicle: '免費車',
+      enterStartTime: '進場開始時間',
+      enterEndTime: '進場結束時間',
+      search: '查詢',
+      reset: '重設',
+      parkedVehicles: '在場車輛',
+      inoutId: '進出廠ID',
+      vehicleStatus: '車輛狀態',
+      plateNumber: '車牌號',
+      parkingLot: '停車場',
+      billingRule: '計費規則',
+      plateType: '車牌類型',
+      entryTime: '進場時間',
+      parkingDuration: '在場時間',
+      parkingFee: '停車費用',
+      hour: '小時',
       minute: '分'
     }
   }

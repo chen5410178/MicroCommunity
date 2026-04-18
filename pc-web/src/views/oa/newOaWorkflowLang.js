@@ -132,7 +132,75 @@ export const messages = {
       uploadAttachment: '上传附件',
       fileSizeLimit: '文件大小不能超过20MB',
       uploadSuccess: '文件上传成功',
-      uploadFailed: '文件上传失败'
+uploadFailed: '文件上传失败'
+    }
+  },
+  'zh-TW': {
+    newOaWorkflow: {
+      processWorkOrder: '流程工單',
+      draftProcess: '起草流程',
+      processTodo: '流程待辦',
+      processDone: '流程已辦'
+    },
+    newOaWorkflowPool: {
+      searchTitle: '查詢條件',
+      enterApplicant: '請輸入申請人',
+      enterStartTime: '請輸入開始時間',
+      enterEndTime: '請輸入結束時間',
+      processWorkOrder: '流程工單',
+      applicant: '申請人',
+      status: '狀態',
+      createTime: '創建時間',
+      operation: '操作',
+      detail: '詳情',
+      flowChart: '流程圖',
+      stateApply: '申請',
+      statePending: '待審核',
+      stateReturned: '退回',
+      stateDelegate: '委託',
+      stateCompleted: '辦結'
+    },
+    newOaWorkflowUndo: {
+      searchTitle: '查詢條件',
+      enterApplicant: '請輸入申請人',
+      enterStartTime: '請輸入開始時間',
+      enterEndTime: '請輸入結束時間',
+      todoProcess: '待辦流程',
+      applicant: '申請人',
+      status: '狀態',
+      createTime: '創建時間',
+      operation: '操作',
+      process: '辦理',
+      detail: '詳情',
+      edit: '編輯',
+      stateApply: '申請',
+      statePending: '待審核',
+      stateReturned: '退回',
+      stateDelegate: '委託',
+      stateCompleted: '辦結'
+    },
+    newOaWorkflowFinish: {
+      searchTitle: '查詢條件',
+      enterApplicant: '請輸入申請人',
+      enterStartTime: '請輸入開始時間',
+      enterEndTime: '請輸入結束時間',
+      doneProcess: '已辦流程',
+      applicant: '申請人',
+      status: '狀態',
+      createTime: '創建時間',
+      operation: '操作',
+      detail: '詳情',
+      stateApply: '申請',
+      statePending: '待審核',
+      stateReturned: '退回',
+      stateDelegate: '委託',
+      stateCompleted: '辦結'
+    },
+    uploadFile: {
+      uploadAttachment: '上傳附件',
+      fileSizeLimit: '文件大小不能超過20MB',
+      uploadSuccess: '文件上傳成功',
+      uploadFailed: '文件上傳失敗'
     }
   }
 }

@@ -97,7 +97,58 @@ export const messages = {
       },
       delete: {
         title: '删除确认',
-        confirmText: '确定删除该云打印机吗？'
+confirmText: '确定删除该云打印机吗？'
+      }
+    }
+  },
+  'zh-TW': {
+    machinePrinterManage: {
+      search: {
+        title: '查詢條件',
+        machineName: '設備名稱',
+        machineCode: '設備編碼'
+      },
+      list: {
+        title: '雲列印機列表'
+      },
+      table: {
+        machineId: '設備編號',
+        machineName: '設備名稱',
+        machineCode: '設備編碼',
+        implBeanName: '廠家'
+      },
+      form: {
+        machineName: '設備名稱',
+        machineCode: '設備編碼',
+        implBean: '廠家',
+        machineNamePlaceholder: '請輸入設備名稱',
+        machineCodePlaceholder: '請輸入設備編碼',
+        implBeanPlaceholder: '請選擇廠家'
+      },
+      validate: {
+        machineIdRequired: '設備編號不能為空',
+        machineNameRequired: '設備名稱不能為空',
+        machineNameMaxLength: '設備名稱不能超過200個字符',
+        machineCodeRequired: '設備編碼不能為空',
+        machineCodeMaxLength: '設備編碼不能超過30個字符',
+        implBeanRequired: '廠家不能為空',
+        implBeanMaxLength: '廠家不能超過30個字符'
+      },
+      message: {
+        addSuccess: '添加成功',
+        editSuccess: '修改成功',
+        deleteSuccess: '刪除成功',
+        fetchError: '獲取數據失敗'
+      },
+      add: {
+        title: '添加列印機'
+      },
+      edit: {
+        title: '修改列印機'
+      },
+      delete: {
+        title: '刪除確認',
+        confirmText: '確定刪除該雲列印機嗎？'
       }
     }
   }

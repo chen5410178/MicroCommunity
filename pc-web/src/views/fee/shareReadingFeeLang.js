@@ -40,5 +40,26 @@ export const messages = {
       },
       fetchError: '获取公摊费用失败'
     }
+  },
+  'zh-TW': {
+    shareReadingFee: {
+      search: {
+        title: '查詢條件',
+        roomName: '請輸入房屋編號',
+        ownerName: '請輸入業主姓名'
+      },
+      list: {
+        title: '公攤費用'
+      },
+      table: {
+        roomName: '房屋',
+        ownerName: '業主',
+        feeName: '費用名稱',
+        degrees: '公攤度數',
+        amount: '公攤金額',
+        remark: '說明'
+      },
+      fetchError: '獲取公攤費用失敗'
+    }
   }
 }

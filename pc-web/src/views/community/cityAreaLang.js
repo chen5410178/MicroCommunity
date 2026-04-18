@@ -52,7 +52,35 @@ export const messages = {
       areaCodeRequired: '地区编码不能为空',
       areaNamePlaceholder: '必填，请填写地区名称',
       areaCodePlaceholder: '必填，请填写地区编码',
-      parent: '上级'
+parent: '上级'
+    }
+  },
+  'zh-TW': {
+    cityArea: {
+      detailTitle: '地區詳情',
+      areaName: '地區名稱：',
+      areaCode: '地區編碼：',
+      areaLevel: '等級：',
+      province: '省級',
+      city: '市州',
+      district: '區縣',
+      area: '地區',
+      parentAreaCode: '父級編碼：',
+      parentAreaName: '父級名稱：',
+      createTime: '創建時間：',
+      addArea: '添加區域',
+      editArea: '修改區域',
+      confirmOperation: '請確認您的操作！',
+      confirmDeleteArea: '確定刪除該地區？',
+      cancelDelete: '點錯了',
+      confirmDelete: '確認刪除',
+      selectAreaFirst: '請先選擇地區',
+      cannotAddChild: '不能添加子節點',
+      areaNameRequired: '地區名稱不能為空',
+      areaCodeRequired: '地區編碼不能為空',
+      areaNamePlaceholder: '必填，請填寫地區名稱',
+      areaCodePlaceholder: '必填，請填寫地區編碼',
+      parent: '上級'
     }
   }
 }

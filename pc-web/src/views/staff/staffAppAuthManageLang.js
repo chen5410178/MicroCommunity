@@ -42,7 +42,30 @@ export const messages = {
       finishScan: '扫码完成',
       requiredSelect: '必填，请选择认证方式',
       wechat: '微信',
-      qrcodeError: '生成二维码失败'
+qrcodeError: '生成二维码失败'
+    }
+  },
+  'zh-TW': {
+    staffAppAuthManage: {
+      title: '認證信息',
+      staffName: '員工名稱',
+      authType: '認證方式',
+      authName: '認證名稱',
+      authId: '認證ID',
+      authStatus: '認證狀態',
+      authTime: '認證時間',
+      auth: '認證',
+      fetchError: '獲取認證數據失敗'
+    },
+    addStaffAppAuth: {
+      title: '開始認證',
+      authType: '認證方式',
+      qrcode: '二維碼',
+      scanTip: '請用微信掃一掃二維碼認證',
+      finishScan: '掃碼完成',
+      requiredSelect: '必填，請選擇認證方式',
+      wechat: '微信',
+      qrcodeError: '生成二維碼失敗'
     }
   }
 }

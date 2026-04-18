@@ -35,7 +35,25 @@ export const messages = {
       loginFailed: '登录失败，请重试',
       getCaptchaFailed: '获取验证码失败',
       storeName:'公司名称',
+relCdName:'角色'
+    }
+  },
+  'zh-TW': {
+    ...zhLocale,
+    login: {
+      title: 'HC智慧社區',
+      username: '用戶名',
+      password: '密碼',
+      captcha: '驗證碼',
+      login: '登錄',
+      reset: '重置',
+      usernamePlaceholder: '請輸入用戶名',
+      passwordPlaceholder: '請輸入密碼',
+      captchaPlaceholder: '請輸入驗證碼',
+      loginFailed: '登錄失敗，請重試',
+      getCaptchaFailed: '獲取驗證碼失敗',
+      storeName:'公司名稱',
       relCdName:'角色'
     }
   }
-} 
+}

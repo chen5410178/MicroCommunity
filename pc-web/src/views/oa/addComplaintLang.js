@@ -48,7 +48,33 @@ export const messages = {
       contentMaxLength: '内容超过4000位',
       saveSuccess: '添加成功',
       saveError: '添加失败',
-      fetchTypesError: '获取投诉类型失败'
+fetchTypesError: '获取投诉类型失败'
+    }
+  },
+  'zh-TW': {
+    addComplaint: {
+      title: '登記投訴',
+      type: '類型',
+      typePlaceholder: '必填，請選擇類型',
+      room: '房屋',
+      roomPlaceholder: '必填，請選擇房屋',
+      contact: '聯絡人',
+      contactPlaceholder: '必填，請填寫聯絡人',
+      phone: '聯繫電話',
+      phonePlaceholder: '必填，請填寫聯繫電話',
+      content: '內容',
+      contentPlaceholder: '必填，請填寫內容',
+      register: '登記',
+      typeRequired: '投訴類型不能為空',
+      contactRequired: '聯絡人不能為空',
+      contactMaxLength: '聯絡人不能大於200位',
+      phoneRequired: '聯繫電話不能為空',
+      phoneFormat: '聯繫電話格式錯誤',
+      contentRequired: '內容不能為空',
+      contentMaxLength: '內容超過4000位',
+      saveSuccess: '添加成功',
+      saveError: '添加失敗',
+      fetchTypesError: '獲取投訴類型失敗'
     }
   }
 }

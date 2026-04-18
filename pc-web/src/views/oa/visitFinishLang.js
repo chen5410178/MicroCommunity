@@ -44,7 +44,31 @@ export const messages = {
       happyEvent: '喜事',
       funeral: '白事',
       other: '其他',
-      fetchError: '获取访客数据失败'
+fetchError: '获取访客数据失败'
+    }
+  },
+  'zh-TW': {
+    visitFinish: {
+      title: '訪客已辦單',
+      back: '返回',
+      refresh: '刷新',
+      visitorId: '訪客ID',
+      visitor: '訪客',
+      ownerName: '業主姓名',
+      visitReason: '來訪事由/類型',
+      carNumber: '車牌號',
+      entourage: '隨行人數',
+      createTime: '創建時間',
+      visitTime: '來訪/離開時間',
+      status: '狀態',
+      operation: '操作',
+      detail: '詳情',
+      male: '男',
+      female: '女',
+      happyEvent: '喜事',
+      funeral: '白事',
+      other: '其他',
+      fetchError: '獲取訪客數據失敗'
     }
   }
 }

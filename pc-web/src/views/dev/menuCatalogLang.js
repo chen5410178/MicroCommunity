@@ -130,5 +130,71 @@ export const messages = {
       fetchError: '获取菜单目录列表失败',
       menuGropBtn:'菜单组'
     }
+  },
+  'zh-TW': {
+    menuCatalog: {
+      search: {
+        title: '查詢條件',
+        name: '菜單組名稱',
+        icon: '圖標',
+        seq: '順序',
+        storeType: '商戶類型',
+        url: '頁面',
+        isShow: '是否顯示',
+        createTime: '創建時間',
+        placeholder: '請輸入菜單目錄名稱'
+      },
+      list: {
+        title: '菜單目錄'
+      },
+      dialog: {
+        addTitle: '添加菜單目錄',
+        editTitle: '編輯菜單目錄',
+        delTitle: '刪除菜單目錄',
+        cancel: '取消',
+        confirm: '確定'
+      },
+      form: {
+        caId: '目錄名稱',
+        name: '菜單組名稱',
+        icon: '圖標',
+        seq: '順序',
+        storeType: '商戶類型',
+        url: '頁面',
+        isShow: '是否顯示',
+        createTime: '創建時間',
+      },
+      table: {
+        caId: '目錄名稱',
+        name: '菜單組名稱',
+        icon: '圖標',
+        seq: '順序',
+        storeType: '商戶類型',
+        url: '頁面',
+        isShow: '是否顯示',
+        createTime: '創建時間',
+      },
+      validate: {
+        caId: '請輸入目錄名稱',
+        name: '請輸入菜單組名稱',
+        icon: '請輸入圖標',
+        seq: '請輸入順序',
+        url: '請輸入頁面',
+        isShow: '請輸入是否顯示',
+        createTime: '請輸入創建時間',
+      },
+      add: {
+        success: '添加菜單目錄成功'
+      },
+      edit: {
+        success: '編輯菜單目錄成功'
+      },
+      delete: {
+        success: '刪除菜單目錄成功',
+        confirm: '確認刪除該菜單目錄嗎？'
+      },
+      fetchError: '獲取菜單目錄列表失敗',
+      menuGropBtn:'菜單組'
+    }
   }
 }

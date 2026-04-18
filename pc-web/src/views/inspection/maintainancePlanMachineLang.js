@@ -64,7 +64,41 @@ export const messages = {
       cancel: '点错了',
       confirm: '确认删除',
       deleteSuccess: '删除成功',
-      deleteError: '删除设备失败'
+deleteError: '删除设备失败'
+    }
+  },
+  'zh-TW': {
+    maintainancePlanMachine: {
+      title: '保養設備',
+      back: '返回',
+      add: '添加',
+      machineName: '設備名稱',
+      machineId: '設備編號',
+      operation: '操作',
+      delete: '刪除',
+      fetchError: '獲取設備列表失敗'
+    },
+    chooseMaintainancePlanMachine: {
+      title: '選擇設備',
+      machineNamePlaceholder: '輸入設備名稱',
+      search: '查詢',
+      reset: '重設',
+      machineId: '編號',
+      machineName: '設備名稱',
+      cancel: '取消',
+      submit: '提交',
+      selectWarning: '請至少選擇一台設備',
+      addSuccess: '添加成功',
+      addError: '添加設備失敗',
+      fetchError: '獲取設備列表失敗'
+    },
+    deleteMaintainancePlanMachine: {
+      title: '請確認您的操作',
+      confirmText: '確定刪除保養設備?',
+      cancel: '點錯了',
+      confirm: '確認刪除',
+      deleteSuccess: '刪除成功',
+      deleteError: '刪除設備失敗'
     }
   }
 }

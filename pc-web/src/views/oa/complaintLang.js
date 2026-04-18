@@ -156,5 +156,84 @@ export const messages = {
       },
       fetchError: '获取投诉数据失败'
     }
+  },
+  'zh-TW': {
+    complaint: {
+      search: {
+        title: '查詢條件',
+        type: '請選擇類型',
+        room: '樓棟-單元-房屋 如1-1-1',
+        contact: '請輸入聯絡人',
+        phone: '請輸入聯繫電話',
+        id: '請輸入工單編號',
+        startTime: '請選擇開始時間',
+        endTime: '請選擇結束時間'
+      },
+      list: {
+        title: '投訴建議',
+        add: '投訴'
+      },
+      status: {
+        all: '全部',
+        processing: '處理中',
+        completed: '處理完成'
+      },
+      table: {
+        id: '訂單編號',
+        type: '類型',
+        room: '房屋',
+        contact: '聯絡人',
+        phone: '聯繫電話',
+        status: '狀態',
+        handler: '處理人',
+        handlerPhone: '處理人電話',
+        createTime: '創建時間'
+      },
+      edit: {
+        title: '修改信息',
+        type: '類型',
+        contact: '聯絡人',
+        phone: '聯繫電話',
+        content: '內容',
+        typePlaceholder: '必填，請選擇類型',
+        contactPlaceholder: '必填，請填寫聯絡人',
+        phonePlaceholder: '必填，請填寫聯繫電話',
+        contentPlaceholder: '必填，請填寫內容',
+        success: '修改成功'
+      },
+      delete: {
+        title: '請確認您的操作',
+        confirm: '確定刪除投訴建議嗎？',
+        success: '刪除成功'
+      },
+      detail: {
+        title: '詳情',
+        room: '房屋',
+        id: 'ID',
+        type: '類型',
+        contact: '聯絡人',
+        phone: '聯繫電話',
+        status: '狀態',
+        handler: '處理人',
+        handlerPhone: '處理人電話',
+        handlerId: '處理人編號',
+        content: '內容',
+        photos: '圖片',
+        serial: '序號',
+        handleTime: '處理時間',
+        duration: '耗時',
+        comment: '意見'
+      },
+      validate: {
+        type: '投訴類型不能為空',
+        contact: '投訴人不能為空',
+        contactMax: '投訴人不能大於200位',
+        phone: '投訴電話不能為空',
+        phoneFormat: '投訴電話格式錯誤',
+        content: '投訴內容不能為空',
+        contentMax: '投訴狀態超過4000位'
+      },
+      fetchError: '獲取投訴數據失敗'
+    }
   }
-}
+};

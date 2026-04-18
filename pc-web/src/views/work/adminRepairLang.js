@@ -68,7 +68,43 @@ export const messages = {
         withoutMaterial: '无需用料'
       },
       fetchError: '获取报修列表失败',
-      treeFetchError: '获取树形数据失败'
+treeFetchError: '获取树形数据失败'
+    }
+  },
+  'zh-TW': {
+    adminRepair: {
+      search: {
+        title: '查詢條件',
+        repairId: '請輸入工單編號',
+        repairName: '請輸入報修人',
+        tel: '請輸入報修電話'
+      },
+      list: {
+        title: '小區報修'
+      },
+      table: {
+        repairId: '工單編碼',
+        communityName: '小區名稱',
+        repairObjName: '位置',
+        repairTypeName: '報修類型',
+        maintenanceType: '維修類型',
+        repairName: '報修人',
+        tel: '聯繫方式',
+        appointmentTime: '預約時間',
+        createTime: '提交時間',
+        submitHours: '提單時長',
+        finishTime: '完成時間',
+        state: '狀態',
+        timedTask: '定時任務處理'
+      },
+      maintenanceType: {
+        paid: '有償服務',
+        free: '无偿服務',
+        withMaterial: '需要用料',
+        withoutMaterial: '無需用料'
+      },
+      fetchError: '獲取報修列表失敗',
+      treeFetchError: '獲取樹形數據失敗'
     }
   }
 }

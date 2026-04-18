@@ -32,5 +32,22 @@ export const messages = {
       procurement: '采购入库',
       audit: '审批'
     }
+  },
+  'zh-TW': {
+    myAuditOrders: {
+      todoList: '待辦單',
+      back: '返回',
+      refresh: '刷新',
+      orderNumber: '訂單號',
+      orderType: '訂單類型',
+      orderStatus: '訂單狀態',
+      applicant: '申請人',
+      createTime: '創建時間',
+      operation: '操作',
+      view: '查看',
+      edit: '修改',
+      procurement: '採購入庫',
+      audit: '審批'
+    }
   }
 }

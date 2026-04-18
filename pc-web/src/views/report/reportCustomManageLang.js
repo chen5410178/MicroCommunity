@@ -100,7 +100,59 @@ export const messages = {
       title: '请确认您的操作',
       confirmDelete: '确定删除报表',
       cancel: '点错了',
-      confirm: '确认删除'
+confirm: '確認刪除'
+    }
+  },
+  'zh-TW': {
+    reportCustomManage: {
+      searchTitle: '查詢條件',
+      reportTitle: '報表信息',
+      customId: '報表編號',
+      groupId: '報表組',
+      title: '選項標題',
+      seq: '排序',
+      remark: '描述',
+      operation: '操作',
+      search: '查詢',
+      reset: '重置',
+      addReport: '添加報表',
+      relateComponent: '關聯組件',
+      edit: '修改',
+      delete: '刪除',
+      confirmDelete: '確認刪除',
+      cancel: '取消'
+    },
+    addReportCustom: {
+      title: '添加報表',
+      group: '報表組',
+      required: '必填',
+      selectGroup: '請選擇報表組',
+      optionTitle: '選項標題',
+      inputTitle: '請填寫選項標題',
+      sequence: '排序',
+      inputSeq: '請填寫排序',
+      description: '描述',
+      inputDesc: '請填寫描述',
+      save: '保存'
+    },
+    editReportCustom: {
+      title: '修改報表',
+      group: '報表組',
+      required: '必填',
+      selectGroup: '請選擇報表組',
+      optionTitle: '選項標題',
+      inputTitle: '請填寫選項標題',
+      sequence: '排序',
+      inputSeq: '請填寫排序',
+      description: '描述',
+      inputDesc: '請填寫描述',
+      save: '保存'
+    },
+    deleteReportCustom: {
+      title: '請確認您的操作',
+      confirmDelete: '確定刪除報表',
+      cancel: '點錯了',
+      confirm: '確認刪除'
     }
   }
 }

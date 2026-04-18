@@ -126,7 +126,72 @@ export const messages = {
         success: '删除成功',
         error: '删除失败'
       },
-      fetchError: '获取工作单类型失败'
+fetchError: '获取工作单类型失败'
+    }
+  },
+  'zh-TW': {
+    workType: {
+      search: {
+        title: '查詢條件',
+        typeName: '類型名稱'
+      },
+      list: {
+        title: '工作單類型'
+      },
+      table: {
+        typeName: '類型名稱',
+        deduction: '扣款',
+        smsWay: '通知方式',
+        createTime: '創建時間',
+        remark: '備註'
+      },
+      form: {
+        typeName: '類型名稱',
+        deduction: '扣款',
+        smsWay: '通知方式',
+        remark: '備註'
+      },
+      placeholder: {
+        typeName: '請輸入類型名稱',
+        deduction: '請選擇扣款',
+        smsWay: '請選擇通知方式',
+        remark: '選填，請輸入備註'
+      },
+      validate: {
+        typeName: '類型名稱不能為空',
+        typeNameMax: '類型名稱不能超過200個字符',
+        deduction: '扣款不能為空',
+        smsWay: '通知方式不能為空',
+        wtId: '編號不能為空'
+      },
+      tip: {
+        deduction: '選擇扣款後，抄送人會根據任務完成情況，相應的扣款！',
+        wechat: '需要在系統下公眾號中配置公眾號，公眾號為認證過的服務號，並且員工做了員工認證',
+        aliSms: '需要在系統下小區配置中配置阿里云短信信息，模版為工單待處理模版和工單完成模版'
+      },
+      yes: '是',
+      no: '否',
+      wechat: '微信',
+      aliSms: '阿里短信',
+      workLicense: '員工工牌',
+      unknown: '未知',
+      add: {
+        title: '添加工作單類型',
+        success: '添加成功',
+        error: '添加失敗'
+      },
+      edit: {
+        title: '修改工作單類型',
+        success: '修改成功',
+        error: '修改失敗'
+      },
+      delete: {
+        title: '刪除確認',
+        confirm: '確定刪除此工作單類型嗎？',
+        success: '刪除成功',
+        error: '刪除失敗'
+      },
+      fetchError: '獲取工作單類型失敗'
     }
   }
 }

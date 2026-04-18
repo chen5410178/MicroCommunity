@@ -48,5 +48,30 @@ export const messages = {
       success: '删除成功',
       error: '删除失败'
     }
+  },
+  'zh-TW': {
+    complaintType: {
+      title: '投訴類型',
+      add: '添加',
+      typeName: '類型名稱',
+      notifyWay: '通知方式',
+      sms: '短信',
+      wechat: '微信',
+      wechatWorkLicense: '微信+員工工牌',
+      appraiseReply: '評價回復',
+      autoReply: '自動回復',
+      manualReply: '人工回復',
+      handler: '處理人',
+      createTime: '創建時間',
+      fetchError: '獲取投訴類型失敗'
+    },
+    deleteComplaintType: {
+      confirmTitle: '請確認您的操作',
+      confirmText: '確定刪除投訴類型',
+      confirm: '確認刪除',
+      cancel: '點錯了',
+      success: '刪除成功',
+      error: '刪除失敗'
+    }
   }
-}
+};

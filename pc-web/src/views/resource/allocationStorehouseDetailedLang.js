@@ -77,7 +77,48 @@ export const messages = {
         startUserName: '申请人',
         remark: '调拨备注',
         state: '状态',
-        createTime: '时间'
+createTime: '时间'
+      }
+    }
+  },
+  'zh-TW': {
+    allocationStorehouseDetailed: {
+      queryCondition: '查詢條件',
+      allocationDetail: '調撥明細',
+      query: '查詢',
+      reset: '重設',
+      more: '更多',
+      hide: '隱藏',
+      export: '導出',
+      all: '全部',
+      resIdPlaceholder: '請輸入物品ID',
+      resNamePlaceholder: '請輸入物品名稱',
+      resTypePlaceholder: '請選擇物品類型',
+      secondTypePlaceholder: '請選擇二級分類',
+      specPlaceholder: '請選擇物品規格',
+      applyIdPlaceholder: '請輸入調撥申請ID',
+      sourceStorePlaceholder: '必填，請選擇源倉庫',
+      targetStorePlaceholder: '必填，請選擇目標倉庫',
+      startTimePlaceholder: '請選擇開始時間',
+      endTimePlaceholder: '請選擇結束時間',
+      statePlaceholder: '請選擇調撥狀態',
+      exportSuccess: '導出成功',
+      exportError: '導出失敗',
+      table: {
+        applyId: '調撥單號',
+        resId: '物品ID',
+        resType: '物品類型',
+        resName: '物品名稱',
+        specName: '物品規格',
+        isFixedName: '固定物品',
+        originalStock: '被調倉庫原庫存',
+        stock: '調撥數量',
+        shaName: '被調倉庫',
+        shzName: '目標倉庫',
+        startUserName: '申請人',
+        remark: '調撥備註',
+        state: '狀態',
+        createTime: '時間'
       }
     }
   }

@@ -36,7 +36,27 @@ export const messages = {
       hour: '小时',
       minute: '分',
       chargeAmount: '收费金额',
-      remark: '说明'
+remark: '说明'
+    }
+  },
+  'zh-TW': {
+    carDetailCarInout: {
+      entryImage: '進場圖',
+      inoutId: '進出廠編號',
+      carStatus: '車輛狀態',
+      entry: '進場',
+      exit: '出廠',
+      carNum: '車牌號',
+      parkingLot: '停車場',
+      billingRule: '計費規則',
+      carType: '車牌類型',
+      entryTime: '進場時間',
+      exitTime: '出廠時間',
+      parkingTime: '停車時間',
+      hour: '小時',
+      minute: '分',
+      chargeAmount: '收費金額',
+      remark: '說明'
     }
   }
 }

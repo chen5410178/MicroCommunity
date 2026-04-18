@@ -80,7 +80,49 @@ export const messages = {
       startTime: '上班时间',
       startTimePlaceholder: '必填，请填写上班时间',
       endTime: '下班时间',
-      endTimePlaceholder: '必填，请填写下班时间'
+endTimePlaceholder: '必填，请填写下班时间'
+    }
+  },
+  'zh-TW': {
+    addScheduleClasses: {
+      title: '添加排班',
+      name: '排班名稱',
+      namePlaceholder: '必填，請填寫計劃名稱',
+      scheduleType: '排班類型',
+      scheduleTypePlaceholder: '必填，請選擇排班類型',
+      daily: '按日排班',
+      weekly: '按週排班',
+      monthly: '按月排班'
+    },
+    scheduleClassesDay: {
+      scheduleCycle: '排班週期',
+      scheduleCyclePlaceholder: '必填，請選擇排班週期',
+      day: '日',
+      scheduleInfo: '排班信息',
+      rest: '休息'
+    },
+    scheduleClassesWeek: {
+      scheduleCycle: '排班週期',
+      scheduleCyclePlaceholder: '必填，請選擇排班週期',
+      week: '週',
+      scheduleInfo: '排班信息',
+      rest: '休息'
+    },
+    scheduleClassesMonth: {
+      scheduleCycle: '排班週期',
+      scheduleCyclePlaceholder: '必填，請選擇排班週期',
+      month: '月',
+      scheduleInfo: '排班信息',
+      rest: '休息'
+    },
+    editScheduleClassesDay: {
+      title: '修改',
+      status: '狀態',
+      rest: '休息',
+      startTime: '上班時間',
+      startTimePlaceholder: '必填，請填寫上班時間',
+      endTime: '下班時間',
+      endTimePlaceholder: '必填，請填寫下班時間'
     }
   }
 }

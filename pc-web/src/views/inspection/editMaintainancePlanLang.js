@@ -56,7 +56,37 @@ export const messages = {
       fetchStaffError: '获取员工列表失败'
     },
     orgTree: {
-      fetchError: '获取组织树失败'
+fetchError: '获取组织树失败'
+    }
+  },
+  'zh-TW': {
+    editMaintainancePlan: {
+      title: '修改保養計劃',
+      planName: '計劃名稱',
+      planNamePlaceholder: '必填，請填寫計劃名稱',
+      standard: '保養標準',
+      standardPlaceholder: '必填，請選擇保養標準',
+      period: '巡檢週期',
+      periodPlaceholder: '必填，請選擇巡檢週期',
+      month: '月',
+      monthUnit: '月',
+      day: '日',
+      dayUnit: '日',
+      fixedDay: '固定天數',
+      fixedDayPlaceholder: '必填，請填寫多少天後保養一次',
+      startDate: '開始日期',
+      startDatePlaceholder: '必填，請填寫開始日期',
+      endDate: '結束日期',
+      endDatePlaceholder: '必填，請填寫結束日期',
+      selectStaff: '選擇員工',
+      saveSuccess: '保存成功',
+      saveError: '保存失敗',
+      fetchStandardError: '獲取保養標準失敗',
+      fetchPlanError: '獲取保養計劃失敗',
+      fetchStaffError: '獲取員工列表失敗'
+    },
+    orgTree: {
+      fetchError: '獲取組織樹失敗'
     }
   }
 }

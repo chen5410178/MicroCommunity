@@ -37,8 +37,29 @@ export default {
         groupId: '菜单组ID',
         sequence: '排序',
         permission: '权限标识',
-        createTime: '创建时间'
+createTime: '创建时间'
+      }
+    },
+  },
+  'zh-TW': {
+    menu: {
+      groupList: '菜單組列表',
+      menuList: '菜單列表',
+      searchCondition: '查詢條件',
+      placeholder: {
+        menuId: '請輸入菜單ID',
+        menuName: '請輸入菜單名稱',
+        menuUrl: '請輸入菜單URL'
+      },
+      table: {
+        menuId: '菜單ID',
+        menuName: '菜單名稱',
+        menuUrl: '菜單URL',
+        groupId: '菜單組ID',
+        sequence: '排序',
+        permission: '權限標識',
+        createTime: '創建時間'
       }
     },
   }
-} 
+}

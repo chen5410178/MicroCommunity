@@ -84,7 +84,51 @@ export const messages = {
       confirmTitle: '请确认您的操作！',
       confirmContent: '确定取消场地预约，如果是线上预约，自动会退款到预约人账户',
       cancel: '点错了',
-      confirmCancel: '确认取消'
+confirmCancel: '确认取消'
+},
+  },
+  'zh-TW': {
+    communitySpacePersonManage: {
+      searchConditions: '查詢條件',
+      more: '更多',
+      hide: '隱藏',
+      appointmentTimePlaceholder: '請選擇預約時間',
+      appointmentPersonPlaceholder: '請選擇預約人',
+      appointmentTelPlaceholder: '請選擇預約電話',
+      search: '查詢',
+      reset: '重置',
+      statePlaceholder: '請選擇狀態',
+      spacePlaceholder: '請選擇預約場地',
+      appointmentOrder: '預約訂單',
+      orderId: '訂單編號',
+      venue: '館場',
+      space: '場地',
+      appointmentPerson: '預約人',
+      appointmentTel: '預約電話',
+      appointmentDate: '預約日期',
+      appointmentTime: '預約時間',
+      receivableAmount: '應收金額',
+      receivedAmount: '實收金額',
+      payWay: '支付方式',
+      state: '狀態',
+      createTime: '創建時間',
+      remark: '備註',
+      operation: '操作',
+      cancelAppointment: '取消預約',
+      stateOptions: {
+        S: '預約成功',
+        F: '預約失敗',
+        W: '待審核',
+        P: '待支付'
+      },
+      stateWaitConfirm: '待核銷',
+      stateConfirm: '已核銷'
+    },
+    deleteCommunitySpacePerson: {
+      confirmTitle: '請確認您的操作！',
+      confirmContent: '確定取消場地預約，如果是線上預約，自動會退款到預約人賬戶',
+      cancel: '點錯了',
+      confirmCancel: '確認取消'
     },
   }
 }

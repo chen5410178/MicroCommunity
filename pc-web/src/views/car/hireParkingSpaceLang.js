@@ -107,7 +107,62 @@ export const messages = {
       parkingType: '车位类型',
       state: '车位状态',
       area: '面积',
-      loadError: '加载停车位信息失败'
+loadError: '加载停车位信息失败'
+    }
+  },
+  'zh-TW': {
+    hireParkingSpace: {
+      title: '添加車輛',
+      carNum: '車牌號',
+      carNumPlaceholder: '必填，請填寫車牌號',
+      carBrand: '汽車品牌',
+      carBrandPlaceholder: '選填，請填寫汽車品牌',
+      carType: '車類型',
+      carTypePlaceholder: '必填，請選擇車輛類型',
+      carColor: '顏色',
+      carColorPlaceholder: '選填，請填寫顏色',
+      licenseType: '車牌類型',
+      licenseTypePlaceholder: '必填，請選擇車牌類型',
+      monthlyRent: '月租車',
+      saleCar: '出售車輛',
+      internalCar: '內部車',
+      freeCar: '免費車',
+      startTime: '開始時間',
+      startTimePlaceholder: '必填，請填寫開始時間',
+      endTime: '結束時間',
+      endTimePlaceholder: '必填，請填寫結束時間',
+      owner: '業主',
+      ownerPlaceholder: '必填，請選擇業主',
+      parkingSpace: '車位',
+      parkingSpacePlaceholder: '必填，請選擇車位',
+      remark: '備註',
+      remarkPlaceholder: '選填，請填寫備註',
+      validate: {
+        carNum: '車牌號不能為空',
+        carType: '車類型不能為空',
+        licenseType: '車牌類型不能為空',
+        owner: '業主不能為空',
+        parkingSpace: '車位不能為空',
+        dateRange: '請選擇日期範圍',
+        startTime:'開始時間不能為空',
+        endTime:'結束時間不能為空'
+      },
+      saveSuccess: '車輛信息保存成功！',
+      saveError: '車輛信息保存失敗'
+    },
+    searchParkingSpace: {
+      title: '選擇停車位',
+      parkingAreaPlaceholder: '請選擇停車場',
+      numPlaceholder: '請輸入停車位編號',
+      areaNum: '停車場編碼',
+      num: '停車位編碼',
+      type: '停車場類型',
+      ground: '地上停車位',
+      underground: '地下停車位',
+      parkingType: '車位類型',
+      state: '車位狀態',
+      area: '面積',
+      loadError: '加載停車位信息失敗'
     }
   }
 }

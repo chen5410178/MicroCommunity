@@ -98,7 +98,58 @@ export const messages = {
       dispatchFailed: '派单失败',
       returnVisitFailed: '回访失败',
       pauseFailed: '暂停失败',
-      startFailed: '启动失败'
+startFailed: '启动失败'
+    }
+  },
+  'zh-TW': {
+    repairDispatchManage: {
+      searchConditions: '查詢條件',
+      repairBacklog: '報修待辦',
+      placeholder: {
+        repairId: '請輸入工單編號',
+        repairName: '請輸入報修人',
+        tel: '請輸入報修人電話',
+        selectRepairType: '請選擇報修類型',
+        selectStatus: '請選擇報修狀態'
+      },
+      table: {
+        location: '位置',
+        repairType: '報修類型',
+        repairPerson: '報修人',
+        repairPhone: '報修人電話',
+        appointmentTime: '預約時間',
+        status: '狀態',
+        operation: '操作'
+      },
+      transferOrder: '轉單',
+      returnOrder: '退單',
+      complete: '辦結',
+      returnVisit: '回訪',
+      pause: '暫停',
+      start: '啟動',
+      detail: '詳情',
+      scheduledTask: '定時任務處理',
+      dispatchRepair: '報修派單',
+      previousHandler: '上級處理人',
+      requiredPreviousHandler: '必填，請填寫上級處理人',
+      repairMaster: '報修師傅',
+      requiredRepairMaster: '必填，請選擇報修師傅',
+      handlingOpinions: '處理意見',
+      requiredHandlingOpinions: '必填，請填寫處理意見',
+      returnVisitSuggestion: '回訪建議',
+      requiredReturnVisitSuggestion: '必填，請填寫回訪建議',
+      pauseReason: '暫停原因',
+      requiredPauseReason: '必填，請填寫暫停原因',
+      confirmOperation: '確認操作',
+      confirmStartRepair: '確定啟動報修？',
+      cannotTransferToSelf: '不能轉單給自己',
+      fetchRepairListFailed: '獲取報修列表失敗',
+      fetchRepairTypesFailed: '獲取報修類型失敗',
+      fetchRepairMasterFailed: '獲取維修師傅列表失敗',
+      dispatchFailed: '派單失敗',
+      returnVisitFailed: '回訪失敗',
+      pauseFailed: '暫停失敗',
+      startFailed: '啟動失敗'
     }
   }
 }

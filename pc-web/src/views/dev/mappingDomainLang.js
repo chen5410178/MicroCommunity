@@ -112,5 +112,62 @@ export const messages = {
       },
       fetchError: '获取配置项列表失败'
     }
+  },
+  'zh-TW': {
+    mappingDomain: {
+      search: {
+        title: '查詢條件',
+        domain: '域',
+        domainName: '配置項',
+        seq: '排序',
+        remark: '描述',
+        createTime: '創建時間',
+        placeholder: '請輸入配置項名稱'
+      },
+      list: {
+        title: '配置項'
+      },
+      dialog: {
+        addTitle: '添加配置項',
+        editTitle: '編輯配置項',
+        delTitle: '刪除配置項',
+        cancel: '取消',
+        confirm: '確定'
+      },
+      form: {
+        id: 'id',
+        domain: '域',
+        domainName: '配置項',
+        seq: '排序',
+        remark: '描述',
+        createTime: '創建時間',
+      },
+      table: {
+        id: 'id',
+        domain: '域',
+        domainName: '配置項',
+        seq: '排序',
+        remark: '描述',
+        createTime: '創建時間',
+      },
+      validate: {
+        id: '請輸入id',
+        domain: '請輸入域',
+        domainName: '請輸入配置項',
+        seq: '請輸入排序',
+        createTime: '請輸入創建時間',
+      },
+      add: {
+        success: '添加配置項成功'
+      },
+      edit: {
+        success: '編輯配置項成功'
+      },
+      delete: {
+        success: '刪除配置項成功',
+        confirm: '確認刪除該配置項嗎？'
+      },
+      fetchError: '獲取配置項列表失敗'
+    }
   }
 }

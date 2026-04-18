@@ -64,7 +64,41 @@ export const messages = {
         createTime: '创建时间',
         content: '内容'
       },
-      fetchError: '获取投诉列表失败'
+fetchError: '获取投诉列表失败'
+    }
+  },
+  'zh-TW': {
+    adminComplaint: {
+      search: {
+        title: '查詢條件',
+        roomName: '房屋',
+        roomNamePlaceholder: '樓棟-單元-房屋 如1-1-1',
+        complaintName: '聯繫人',
+        complaintNamePlaceholder: '請輸入聯繫人',
+        tel: '聯繫電話',
+        telPlaceholder: '請輸入聯繫電話',
+        complaintId: '工單編號',
+        complaintIdPlaceholder: '請輸入工單編號',
+        startTime: '開始時間',
+        startTimePlaceholder: '請選擇開始時間',
+        endTime: '結束時間',
+        endTimePlaceholder: '請選擇結束時間'
+      },
+      list: {
+        title: '投訴建議'
+      },
+      table: {
+        complaintId: '訂單編號',
+        type: '類型',
+        room: '房屋',
+        contact: '聯繫人',
+        contactTel: '聯繫電話',
+        status: '狀態',
+        handler: '處理人',
+        createTime: '創建時間',
+        content: '內容'
+      },
+      fetchError: '獲取投訴列表失敗'
     }
   }
 }

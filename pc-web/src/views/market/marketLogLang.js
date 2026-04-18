@@ -86,7 +86,52 @@ export const messages = {
         title: '发送内容',
         sendContent: '发送内容'
       },
-      fetchError: '获取营销记录失败'
+fetchError: '获取营销记录失败'
+    }
+  },
+  'zh-TW': {
+    marketLog: {
+      search: {
+        title: '查詢條件',
+        communityName: '小區名稱',
+        sendWay: '營銷方式',
+        businessType: '業務類型',
+        personNameLike: '營銷人',
+        startTime: '開始時間',
+        endTime: '結束時間'
+      },
+      list: {
+        title: '營銷記錄'
+      },
+      table: {
+        logId: '編號',
+        ruleName: '營銷規則',
+        communityName: '小區名稱',
+        personName: '營銷人',
+        personTel: '手機號',
+        openId: 'OpenId',
+        sendWayName: '營銷方式',
+        businessTypeName: '業務類型',
+        createTime: '發送時間',
+        remark: '說明',
+        viewContent: '發送內容'
+      },
+      sendWay: {
+        sms: '短信',
+        wechat: '微信模板消息',
+        other: '其他'
+      },
+      businessType: {
+        accessControl: '門禁',
+        vehicleGate: '車輛道閘',
+        mobilePayment: '手機支付完成',
+        repairOrder: '報修單提交'
+      },
+      viewContent: {
+        title: '發送內容',
+        sendContent: '發送內容'
+      },
+      fetchError: '獲取營銷記錄失敗'
     }
   }
 }

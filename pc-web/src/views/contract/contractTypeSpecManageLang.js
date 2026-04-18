@@ -178,7 +178,98 @@ export const messages = {
         listShowRequired: '查询显示不能为空',
         specCdRequired: '规格不能为空'
       },
-      fetchError: '获取数据失败'
+fetchError: '获取数据失败'
+    }
+  },
+  'zh-TW': {
+    contractTypeSpecManage: {
+      search: {
+        title: '查詢條件',
+        specCd: '規格ID',
+        specName: '規格名稱',
+        specShow: '規格是否顯示',
+        all: '全部',
+        yes: '是',
+        no: '否'
+      },
+      table: {
+        title: '合同擴展信息',
+        specCd: '規格ID',
+        specName: '規格名稱',
+        required: '必填',
+        specShow: '規格是否展示',
+        specValueType: '值類型',
+        specType: '規格類型',
+        listShow: '查詢顯示',
+        operation: '操作'
+      },
+      add: {
+        title: '添加',
+        specName: '規格名稱',
+        specNamePlaceholder: '必填，請填寫規格名稱',
+        specHoldplace: '說明',
+        specHoldplacePlaceholder: '選填，請填寫說明',
+        required: '必填',
+        requiredPlaceholder: '必填，請選擇必填',
+        specShow: '展示',
+        specShowPlaceholder: '必填，請選擇展示',
+        specValueType: '值類型',
+        specValueTypePlaceholder: '必填，請選擇值類型',
+        specType: '規格類型',
+        specTypePlaceholder: '必填，請選擇規格類型',
+        listShow: '查詢顯示',
+        listShowPlaceholder: '必填，請選擇查詢顯示',
+        success: '添加成功',
+        error: '添加失敗'
+      },
+      edit: {
+        title: '修改',
+        specName: '規格名稱',
+        specNamePlaceholder: '必填，請填寫規格名稱',
+        specHoldplace: '說明',
+        specHoldplacePlaceholder: '選填，請填寫說明',
+        required: '必填',
+        requiredPlaceholder: '必填，請選擇必填',
+        specShow: '展示',
+        specShowPlaceholder: '必填，請選擇展示',
+        specValueType: '值類型',
+        specValueTypePlaceholder: '必填，請選擇值類型',
+        specType: '規格類型',
+        specTypePlaceholder: '必填，請選擇規格類型',
+        listShow: '查詢顯示',
+        listShowPlaceholder: '必填，請選擇查詢顯示',
+        success: '修改成功',
+        error: '修改失敗'
+      },
+      delete: {
+        title: '請確認您的操作',
+        confirmText: '確定刪除合同類型屬性?',
+        success: '刪除成功',
+        error: '刪除失敗'
+      },
+      specValueType: {
+        string: '字符串',
+        integer: '整數',
+        amount: '金額',
+        date: '日期',
+        time: '時間'
+      },
+      specType: {
+        input: '文本框',
+        select: '選擇框'
+      },
+      validate: {
+        specNameRequired: '規格名稱不能為空',
+        specNameMaxLength: '規格名稱太長',
+        specHoldplaceMaxLength: '說明不能超過500位',
+        requiredRequired: '必填不能為空',
+        specShowRequired: '展示不能為空',
+        specValueTypeRequired: '值類型不能為空',
+        specTypeRequired: '規格類型不能為空',
+        listShowRequired: '查詢顯示不能為空',
+        specCdRequired: '規格不能為空'
+      },
+      fetchError: '獲取數據失敗'
     }
   }
 }

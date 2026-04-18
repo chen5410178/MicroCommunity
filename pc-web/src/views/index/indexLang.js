@@ -90,5 +90,51 @@ export const messages = {
         boundRoom: '已绑定房屋',
         residentInfo: '住户信息'
       }
+    },
+    'zh-TW': {
+      adminIndex: {
+        home: '首頁',
+        platformData: '平台數據',
+        paymentCount: '繳費數',
+        paymentAmount: '繳費金額',
+        repairCount: '報修單數',
+        communityFeeStats: '小區繳費統計',
+        communityRepairStats: '小區報修統計'
+      },
+      propertyIndex: {
+        home: '首頁',
+        dashboard: '控制台',
+        communityInfo: '小區信息',
+        building: '樓宇',
+        house: '房屋',
+        shop: '商鋪',
+        parkingSpace: '車位',
+        residentReg: '住戶登記',
+        registerResident: '登記住戶',
+        vehicle: '車輛',
+        viewVehicle: '查看車輛',
+        unit: '個',
+        ownerFeedback: '業主反饋',
+        noFeedback: '當前沒有業主反饋內容',
+        feedback: '反饋',
+        completed: '完成',
+        followingUp: '跟進中',
+        transferRepair: '已轉報修單',
+        repairStats: '報修統計',
+        allRepair: '全部報修',
+        toBeDispatched: '待派單',
+        processing: '處理中',
+        processed: '已處理',
+        complaintStats: '投訴統計',
+        allComplaint: '全部投訴',
+        repairInfo: '報修信息',
+        unprocessed: '未處理',
+        residentRegStats: '住戶注冊統計',
+        unregistered: '未注冊',
+        registered: '已注冊',
+        unboundRoom: '未綁定房屋',
+        boundRoom: '已綁定房屋',
+        residentInfo: '住戶信息'
+      }
     }
   }

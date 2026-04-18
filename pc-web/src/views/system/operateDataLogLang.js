@@ -125,7 +125,7 @@ export const messages = {
       modifyNew: '修改(新)',
       modifyOld: '修改(旧)'
     },
-    roomDetailHis: {
+roomDetailHis: {
       operate: '动作',
       userName: '操作人',
       createTime: '操作时间',
@@ -141,6 +141,78 @@ export const messages = {
       modifyOld: '修改(旧)'
     },
 
-  
+   
+  },
+  'zh-TW': {
+    operateDataLog: {
+      search: {
+        title: '查詢條件',
+        logStartTime: '請選擇開始時間',
+        logEndTime: '請選擇結束時間',
+        staffNameLike: '請輸入操作人',
+        feeNameLike: '請輸入費用項名稱',
+        payerObjName: '請輸入房屋名稱，車牌號或者合同編號',
+        ownerNameLike: '請輸入業主名稱',
+        roomName: '請輸入房屋名稱 樓棟-單元-房屋',
+        carNumLike: '請輸入車牌號',
+        contractCode: '請輸入合同編號'
+      }
+    },
+    feeConfigDetailHis: {
+      feeTypeCdName: '費用類型',
+      feeName: '收費項目',
+      feeFlagName: '費用標識',
+      billTypeName: '催繳類型',
+      paymentCd: '付費類型',
+      prePayment: '預付費',
+      postPayment: '後付費',
+      paymentCycle: '繳費週期(單位:月)',
+      validityPeriod: '有效期',
+      squarePrice: '計費單價(單位:元)',
+      additionalAmount: '附加/固定費用(單位:元)',
+      deductFrom: '帳戶抵扣',
+      payOnline: '手機繳費',
+      scale: '進位方式',
+      round: '四捨五入',
+      roundUp: '向上進位',
+      roundDown: '向下進位',
+      decimalPlace: '保留小數',
+      operate: '動作',
+      userName: '操作人',
+      createTime: '操作時間',
+      add: '添加',
+      delete: '刪除',
+      modifyNew: '修改(新)',
+      modifyOld: '修改(舊)'
+    },
+    feeDetailHis: {
+      feeName: '費用項',
+      startTime: '建帳時間',
+      endTime: '計費起始時間',
+      operate: '動作',
+      userName: '操作人',
+      createTime: '操作時間',
+      add: '添加',
+      delete: '刪除',
+      modifyNew: '修改(新)',
+      modifyOld: '修改(舊)'
+    },
+    roomDetailHis: {
+      operate: '動作',
+      userName: '操作人',
+      createTime: '操作時間',
+      roomNum: '房號',
+      layer: '樓層',
+      roomSubTypeName: '類型',
+      area: '建築/室內面積',
+      roomRent: '租金',
+      stateName: '房屋狀態',
+      add: '添加',
+      delete: '刪除',
+      modifyNew: '修改(新)',
+      modifyOld: '修改(舊)'
+    },
+
+   
   },
 }

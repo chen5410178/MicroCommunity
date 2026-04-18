@@ -104,5 +104,58 @@ export const messages = {
         choose: '选择'
       }
     }
+  },
+  'zh-TW': {
+    editQuestionAnswer: {
+      title: '修改問卷',
+      qaName: '問卷名稱',
+      qaNamePlaceholder: '必填，請填寫問卷名稱',
+      startTime: '開始時間',
+      startTimePlaceholder: '必填，請選擇開始時間',
+      endTime: '結束時間',
+      endTimePlaceholder: '必填，請選擇結束時間',
+      content: '問卷說明',
+      contentPlaceholder: '必填，請輸入問卷說明',
+      questionTitle: '問卷題目',
+      chooseTitle: '選擇題目',
+      questionRooms: '問卷房屋',
+      household: '戶',
+      reselect: '重新選擇',
+      save: '保存',
+      cancel: '取消',
+      table: {
+        name: '名稱',
+        type: '類型',
+        options: '選項',
+        actions: '操作',
+        delete: '刪除'
+      },
+      singleChoice: '單選',
+      multipleChoice: '多選',
+      shortAnswer: '簡答',
+      duplicateTitle: '請勿重複選擇題目',
+      validate: {
+        qaName: '問卷名稱不能為空',
+        startTime: '開始時間不能為空',
+        endTime: '結束時間不能為空',
+        timeError: '開始時間必須小於結束時間'
+      },
+      updateSuccess: '修改成功',
+      updateFailed: '修改失敗'
+    },
+    selectRoom: {
+      buildingUnit: '樓棟單元',
+      roomInfo: '房屋信息'
+    },
+    chooseQuestionTitle: {
+      title: '選擇題目',
+      searchPlaceholder: '輸入題目名稱',
+      table: {
+        title: '題目',
+        createTime: '創建時間',
+        actions: '操作',
+        choose: '選擇'
+      }
+    }
   }
-}
+};

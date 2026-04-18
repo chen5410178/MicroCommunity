@@ -4,5 +4,8 @@ export const messages = {
   },
   zh: {
 
+  },
+  'zh-TW': {
+
   }
 }

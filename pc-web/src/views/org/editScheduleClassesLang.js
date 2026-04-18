@@ -60,12 +60,46 @@ export const messages = {
       scheduleInfo: '排班信息',
       rest: '休息'
     },
-    scheduleClassesMonth: {
+scheduleClassesMonth: {
       scheduleCycle: '排班周期',
       scheduleCyclePlaceholder: '必填，请选择排班周期',
       month: '月',
       scheduleInfo: '排班信息',
       rest: '休息'
     },
+  },
+  'zh-TW': {
+    editScheduleClasses: {
+      title: '修改排班',
+      name: '排班名稱',
+      namePlaceholder: '必填，請填寫計劃名稱',
+      scheduleType: '排班類型',
+      scheduleTypePlaceholder: '必填，請選擇排班類型',
+      daySchedule: '按日排班',
+      weekSchedule: '按週排班',
+      monthSchedule: '按月排班',
+      rest: '休息'
+    },
+    scheduleClassesDay: {
+      scheduleCycle: '排班週期',
+      scheduleCyclePlaceholder: '必填，請選擇排班週期',
+      day: '日',
+      scheduleInfo: '排班信息',
+      rest: '休息'
+    },
+    scheduleClassesWeek: {
+      scheduleCycle: '排班週期',
+      scheduleCyclePlaceholder: '必填，請選擇排班週期',
+      week: '週',
+      scheduleInfo: '排班信息',
+      rest: '休息'
+    },
+    scheduleClassesMonth: {
+      scheduleCycle: '排班週期',
+      scheduleCyclePlaceholder: '必填，請選擇排班週期',
+      month: '月',
+      scheduleInfo: '排班信息',
+      rest: '休息'
+    }
   }
 }

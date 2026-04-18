@@ -20,7 +20,19 @@ export const messages = {
       staffId: '员工编号',
       communityId: '小区编号',
       communityName: '小区名称',
-      selectStaffFirst: '请先选择员工'
+selectStaffFirst: '请先选择员工'
+    }
+  },
+  'zh-TW': {
+    aStaffCommunity: {
+      orgPlaceholder: '選擇組織',
+      staffPlaceholder: '填寫員工名稱',
+      linkCommunity: '關聯小區',
+      staffName: '員工名稱',
+      staffId: '員工編號',
+      communityId: '小區編號',
+      communityName: '小區名稱',
+      selectStaffFirst: '請先選擇員工'
     }
   }
 }

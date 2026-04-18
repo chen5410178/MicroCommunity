@@ -16,7 +16,17 @@ export const messages = {
       name: '名称',
       queryMethod: '查询方式',
       description: '描述',
-      fetchError: '获取页脚列表失败'
+fetchError: '獲取頁腳列表失敗'
+    }
+  },
+  'zh-TW': {
+    reportCustomComponentFooterManage: {
+      statistics: '統計',
+      id: 'ID',
+      name: '名稱',
+      queryMethod: '查詢方式',
+      description: '描述',
+      fetchError: '獲取頁腳列表失敗'
     }
   }
 }

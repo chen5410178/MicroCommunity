@@ -42,7 +42,30 @@ export const messages = {
         clockTime: '考勤时间',
         remark: '说明'
       },
-      fetchError: '获取考勤记录失败'
+fetchError: '获取考勤记录失败'
+    }
+  },
+  'zh-TW': {
+    attendanceLogManage: {
+      search: {
+        title: '查詢條件',
+        classesName: '請輸入班組名稱',
+        departmentName: '請輸入部門名稱',
+        date: '請選擇打卡時間',
+        staffName: '請輸入員工名稱'
+      },
+      list: {
+        title: '考勤記錄'
+      },
+      table: {
+        face: '人臉',
+        departmentName: '部門名稱',
+        staffName: '員工名稱',
+        staffId: '員工ID',
+        clockTime: '考勤時間',
+        remark: '說明'
+      },
+      fetchError: '獲取考勤記錄失敗'
     }
   }
 }

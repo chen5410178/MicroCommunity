@@ -80,7 +80,49 @@ export const messages = {
       add: '添加',
       modify: '修改',
       delete: '删除',
-      fetchError: '获取日志失败'
+fetchError: '获取日志失败'
+    }
+  },
+  'zh-TW': {
+    orderManage: {
+      queryCondition: '查詢條件',
+      orderList: '受理單',
+      orderId: '訂單編號',
+      externalId: '外部編號',
+      businessId: '業務編號',
+      startTime: '受理開始時間',
+      endTime: '受理結束時間',
+      operator: '操作人',
+      businessName: '業務名稱',
+      appName: '應用名稱',
+      createTime: '受理時間',
+      action: '受理動作',
+      actionObj: '受理表',
+      status: '狀態',
+      operation: '操作',
+      log: '日誌',
+      noLog: '無日誌',
+      add: '添加',
+      modify: '修改',
+      delete: '刪除',
+      completed: '完成',
+      failed: '失敗',
+      allApps: '全部應用',
+      fetchError: '獲取訂單列表失敗',
+      fetchAppsError: '獲取應用列表失敗'
+    },
+    viewUnItemLog: {
+      title: '受理記錄',
+      serviceName: '受理服務',
+      action: '受理動作',
+      actionObj: '受理表',
+      preValue: '受理前',
+      afterValue: '受理後',
+      logText: '原始記錄',
+      add: '添加',
+      modify: '修改',
+      delete: '刪除',
+      fetchError: '獲取日誌失敗'
     }
   }
 }

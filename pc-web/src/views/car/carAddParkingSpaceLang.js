@@ -70,6 +70,43 @@ export const messages = {
       free: '空闲',
       sold: '已售卖',
       rented: '已出租',
+unknown: '未知'
+    }
+  },
+  'zh-TW': {
+    carAddParkingSpace: {
+      vehicleInfo: '車輛信息',
+      licensePlate: '車牌號',
+      requiredLicensePlate: '必填，請填寫車牌號',
+      startTime: '起租時間',
+      requiredStartTime: '必填，請填寫起租時間',
+      endTime: '結租時間',
+      requiredEndTime: '必填，請填寫結租時間',
+      remark: '備註',
+      remarkPlaceholder: '請填寫備註信息',
+      submit: '提交',
+      parkingSpaceInfo: '停車位信息',
+      parkingSpaceId: '車位ID',
+      number: '編號',
+      parkingLot: '停車場',
+      parkingSpaceStatus: '車位狀態',
+      area: '面積',
+      squareMeters: '平方米',
+      remarks: '備註',
+      selectParkingSpace: '選擇車位',
+      search: '查詢',
+      reset: '重設',
+      parkingLotCode: '停車場編碼',
+      parkingSpaceCode: '停車位編碼',
+      parkingLotType: '停車場類型',
+      parkingSpaceType: '車位類型',
+      operation: '操作',
+      select: '選擇',
+      aboveGround: '地上停車位',
+      underground: '地下停車位',
+      free: '閒暇',
+      sold: '已售賣',
+      rented: '已出租',
       unknown: '未知'
     }
   }

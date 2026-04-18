@@ -74,7 +74,46 @@ export const messages = {
       selectObject: '请选择对象',
       customer: '客户',
       merchant: '商户',
-      staff: '员工'
+staff: '员工'
+    }
+  },
+  'zh-TW': {
+    marketRule: {
+      title: '營銷規則管理',
+      name: '名稱',
+      description: '描述',
+      marketingMethod: '營銷方式',
+      communityAuthorization: '小區授權',
+      targetObject: '作用對象',
+      add: '新增',
+      edit: '修改',
+      delete: '刪除',
+      save: '儲存',
+      cancel: '取消',
+      confirmDelete: '確認刪除',
+      deleteConfirmMessage: '確定刪除營銷規則?',
+      marketingType: '營銷類型',
+      remark: '備註',
+      operation: '操作',
+      communityName: '小區名稱',
+      communityId: '小區編號',
+      objectName: '對象名稱',
+      associateMarketingMethod: '關聯營銷方式',
+      associateCommunity: '關聯小區',
+      associateObject: '關聯對象',
+      text: '文本',
+      image: '圖片',
+      goods: '商品',
+      required: '必填',
+      selectMarketingType: '請選擇營銷類型',
+      selectMarketingText: '請選擇營銷文本',
+      selectMarketingImage: '請選擇營銷圖片',
+      selectMarketingGoods: '請選擇營銷商品',
+      selectCommunity: '請選擇小區',
+      selectObject: '請選擇對象',
+      customer: '客戶',
+      merchant: '商戶',
+      staff: '員工'
     }
   }
 }

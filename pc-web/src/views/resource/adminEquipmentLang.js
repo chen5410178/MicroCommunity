@@ -49,8 +49,35 @@ export const messages = {
         purchasePrice: '采购价格',
         netWorth: '资产净值'
       },
-      statusTip: '设备状态分为：使用中，停用中 等状态',
+statusTip: '设备状态分为：使用中，停用中 等状态',
       fetchError: '获取设备列表失败'
+    }
+  },
+  'zh-TW': {
+    adminEquipment: {
+      search: {
+        title: '查詢條件',
+        machineName: '設備名稱',
+        machineCode: '設備編碼',
+        state: '請選擇狀態',
+        importanceLevel: '請選擇重要等級'
+      },
+      table: {
+        machineName: '設備名稱',
+        machineCode: '設備編碼',
+        brand: '設備品牌',
+        model: '設備型號',
+        locationDetail: '位置詳情',
+        firstEnableTime: '首次啟用時間',
+        warrantyDeadline: '保修截止日期',
+        usefulLife: '使用年限',
+        levelName: '重要等級',
+        stateName: '使用狀態',
+        purchasePrice: '採購價格',
+        netWorth: '資產淨值'
+      },
+      statusTip: '設備狀態分為：使用中，停用中 等狀態',
+      fetchError: '獲取設備列表失敗'
     }
   }
 }

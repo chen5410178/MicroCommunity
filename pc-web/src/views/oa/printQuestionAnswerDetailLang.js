@@ -34,5 +34,23 @@ export const messages = {
       print: '打印',
       cancel: '取消'
     }
+  },
+  'zh-TW': {
+    printQuestionAnswerDetail: {
+      table: {
+        title: '名稱',
+        type: '類型',
+        options: '選項',
+        choices: '選擇'
+      },
+      singleChoice: '單選',
+      multipleChoice: '多選',
+      shortAnswer: '簡答',
+      total: '總數',
+      submitted: '已提交',
+      people: '人',
+      print: '打印',
+      cancel: '取消'
+    }
   }
-}
+};

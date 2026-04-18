@@ -90,5 +90,51 @@ export const messages = {
       maxLength12: '不能超过12个字符',
       maxLength512: '不能超过512个字符'
     }
+  },
+  'zh-TW': {
+    resourceAuditFlow: {
+      searchTitle: '查詢條件',
+      flowNamePlaceholder: '請輸入流程名稱',
+      flowTypePlaceholder: '請選擇流程類型',
+      query: '查詢',
+      reset: '重設',
+      listTitle: '審批流程',
+      add: '添加',
+      flowId: '編號',
+      flowName: '流程名稱',
+      flowType: '流程類型',
+      flowStatus: '流程狀態',
+      createTime: '創建時間',
+      remark: '備註',
+      operations: '操作',
+      setFlow: '設置流程',
+      deployFlow: '部署流程',
+      edit: '修改',
+      delete: '刪除',
+      purchaseFlow: '採購流程',
+      receiveFlow: '領用流程',
+      transferFlow: '調撥流程',
+      deployed: '已部署',
+      notDeployed: '待部署',
+      flowConfigTips: [
+        '流程配置說明：',
+        '1的最後一步必須為倉庫管理員，名稱也必須要叫做倉庫管理員',
+        '2、流程必須為兩步或者兩步以上'
+      ],
+      confirmTitle: '請確認您的操作',
+      confirmDelete: '確定刪除審批流程?',
+      cancel: '點錯了',
+      confirmDeleteBtn: '確認刪除',
+      addTitle: '添加審批流程',
+      editTitle: '修改審批流程',
+      flowNameRequired: '流程名稱不能為空',
+      flowTypeRequired: '流程類型不能為空',
+      remarkPlaceholder: '選填，最多512個字符',
+      save: '保存',
+      requiredField: '必填項',
+      maxLength30: '不能超過30個字符',
+      maxLength12: '不能超過12個字符',
+      maxLength512: '不能超過512個字符'
+    }
   }
 }

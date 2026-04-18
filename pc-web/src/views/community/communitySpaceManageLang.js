@@ -70,7 +70,44 @@ export const messages = {
       confirmDeleteVenue: '确定删除场馆?',
       openTimeTitle: '开放时间',
       venueInfo: '场馆信息',
-      spaceInfo: '场地信息'
+spaceInfo: '场地信息'
+    }
+  },
+  'zh-TW': {
+    communitySpaceManage: {
+      add: '添加',
+      edit: '修改',
+      delete: '删除',
+      venue: '场馆',
+      spaceId: '編號',
+      name: '名稱',
+      startTime: '开场时间',
+      endTime: '关场时间',
+      feeMoney: '每小時費用',
+      adminName: '管理員',
+      tel: '管理員電話',
+      state: '狀態',
+      operation: '操作',
+      openTime: '開放時間',
+      query: '查詢',
+      reset: '重置',
+      addSpace: '添加場地',
+      document: '文檔',
+      venueName: '館場名稱',
+      description: '描述',
+      confirmDelete: '確認刪除',
+      cancel: '取消',
+      save: '保存',
+      selectStatus: '請選擇狀態',
+      selectVenue: '請選擇館場',
+      selectSpace: '請選擇場地',
+      status1001: '可預約',
+      status2002: '不可預約',
+      confirmDeleteSpace: '確定刪除場地?',
+      confirmDeleteVenue: '確定刪除館場?',
+      openTimeTitle: '開放時間',
+      venueInfo: '館場信息',
+      spaceInfo: '場地信息'
     }
   }
 }

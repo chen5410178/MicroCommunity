@@ -67,8 +67,44 @@ export const messages = {
         status: '状态',
         attendanceTime: '打卡时间',
         notCheckIn: '未打卡',
+snapshot: '抓拍'
+    }
+  },
+  'zh-TW': {
+    todayAttendanceManage: {
+      search: {
+        title: '查詢條件',
+        classesName: '請輸入班組名稱',
+        departmentName: '請輸入部門名稱',
+        date: '請選擇打卡時間',
+        staffName: '請輸入員工名稱'
+      },
+      list: {
+        title: '今日考勤'
+      },
+      table: {
+        staffName: '員工名稱',
+        classesName: '考勤班組',
+        attendanceDate: '考勤時間',
+        stateName: '考勤狀態',
+        operation: '操作'
+      },
+      fetchError: '獲取考勤數據失敗'
+    },
+    todayAttendanceDetail: {
+      title: '考勤詳情',
+      table: {
+        name: '名稱',
+        work: '上班',
+        offWork: '下班',
+        attendanceRange: '打卡範圍',
+        lateEarly: '迟到/早退',
+        status: '狀態',
+        attendanceTime: '打卡時間',
+        notCheckIn: '未打卡',
         snapshot: '抓拍'
       }
     }
   }
+}
 }

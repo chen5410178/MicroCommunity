@@ -50,7 +50,34 @@ export const messages = {
       pending: '待审核',
       success: '审核成功',
       failed: '审核失败',
-      fetchError: '获取数据失败'
+fetchError: '获取数据失败'
+    }
+  },
+  'zh-TW': {
+    auditAuthOwner: {
+      searchTitle: '查詢條件',
+      authTitle: '業主房產認證',
+      appUserNamePlaceholder: '請輸入關聯業主名稱',
+      idCardPlaceholder: '請輸入關聯業主身份證',
+      linkPlaceholder: '請輸入關聯業主手機號',
+      communityName: '小區名稱',
+      owner: '業主',
+      phone: '手機號',
+      room: '房屋',
+      ownerType: '人員類型',
+      idCard: '身份證',
+      state: '狀態',
+      remark: '審核說明',
+      createTime: '申請時間',
+      appType: '手機端類型',
+      operation: '操作',
+      audit: '審核',
+      resetPwd: '重置密碼',
+      all: '全部',
+      pending: '待審核',
+      success: '審核成功',
+      failed: '審核失敗',
+      fetchError: '獲取數據失敗'
     }
   }
 }

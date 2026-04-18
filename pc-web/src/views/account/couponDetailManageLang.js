@@ -170,7 +170,94 @@ export const messages = {
         validityDayRequired: '有效期不能为空',
         validityDayNumber: '有效期必须是数字'
       },
-      fetchError: '获取优惠券详情失败'
+fetchError: '获取优惠券详情失败'
+    }
+  },
+  'zh-TW': {
+    couponDetailManage: {
+      search: {
+        title: '查詢條件',
+        poolId: '請輸入優惠券',
+        shopId: '請輸入店鋪ID'
+      },
+      list: {
+        title: '商家購買記錄'
+      },
+      table: {
+        detailId: '商家購買記錄表ID',
+        shopName: '店鋪',
+        couponName: '優惠券名稱',
+        actualPrice: '面值',
+        buyPrice: '購買價格',
+        amount: '付款金額',
+        buyCount: '購買數量',
+        validityDay: '有效期'
+      },
+      add: {
+        title: '添加商家購買記錄表',
+        poolId: '優惠券',
+        poolIdPlaceholder: '必填，請填寫優惠券',
+        shopId: '店鋪',
+        shopIdPlaceholder: '必填，請填寫店鋪ID',
+        couponName: '優惠券名稱',
+        couponNamePlaceholder: '必填，請填寫優惠券名稱',
+        actualPrice: '面值',
+        actualPricePlaceholder: '必填，請填寫面值',
+        buyPrice: '購買價格',
+        buyPricePlaceholder: '必填，請填寫購買價格',
+        amount: '付款金額',
+        amountPlaceholder: '必填，請填寫付款金額',
+        buyCount: '購買數量',
+        buyCountPlaceholder: '必填，請填寫購買數量',
+        validityDay: '有效期',
+        validityDayPlaceholder: '必填，請填寫有效期',
+        success: '添加成功'
+      },
+      edit: {
+        title: '修改商家購買記錄表',
+        poolId: '優惠券',
+        poolIdPlaceholder: '必填，請填寫優惠券',
+        shopId: '店鋪',
+        shopIdPlaceholder: '必填，請填寫店鋪ID',
+        couponName: '優惠券名稱',
+        couponNamePlaceholder: '必填，請填寫優惠券名稱',
+        actualPrice: '面值',
+        actualPricePlaceholder: '必填，請填寫面值',
+        buyPrice: '購買價格',
+        buyPricePlaceholder: '必填，請填寫購買價格',
+        amount: '付款金額',
+        amountPlaceholder: '必填，請填寫付款金額',
+        buyCount: '購買數量',
+        buyCountPlaceholder: '必填，請填寫購買數量',
+        validityDay: '有效期',
+        validityDayPlaceholder: '必填，請填寫有效期',
+        success: '修改成功'
+      },
+      delete: {
+        title: '請確認您的操作',
+        confirm: '確定刪除商家購買記錄',
+        success: '刪除成功'
+      },
+      validate: {
+        detailIdRequired: '記錄ID不能為空',
+        poolIdRequired: '優惠券不能為空',
+        poolIdMaxLength: '優惠券不能超過30',
+        shopIdRequired: '店鋪ID不能為空',
+        shopIdMaxLength: '店鋪ID不能超過30',
+        couponNameRequired: '優惠券名稱不能為空',
+        couponNameMaxLength: '優惠券名稱不能超過64',
+        actualPriceRequired: '面值不能為空',
+        actualPriceNumber: '面值必須是數字',
+        buyPriceRequired: '購買價格不能為空',
+        buyPriceNumber: '購買價格必須是數字',
+        amountRequired: '付款金額不能為空',
+        amountNumber: '付款金額必須是數字',
+        buyCountRequired: '購買數量不能為空',
+        buyCountNumber: '購買數量必須是數字',
+        validityDayRequired: '有效期不能為空',
+        validityDayNumber: '有效期必須是數字'
+      },
+      fetchError: '獲取優惠券詳情失敗'
     }
   }
 }

@@ -165,5 +165,88 @@ export const messages = {
       fetchError: '获取属性列表失败',
       value: '离散值',
     }
+  },
+  'zh-TW': {
+    attrSpec: {
+      search: {
+        title: '查詢條件',
+        domain: '域',
+        specCd: '規格編碼',
+        tableName: '屬性表',
+        specName: '規格名稱',
+        specHoldplace: '說明',
+        required: '是否必填',
+        specShow: '展示',
+        specValueType: '值類型',
+        specType: '規格類型',
+        listShow: '查詢顯示',
+        createTime: '創建時間',
+        placeholder: '請輸入屬性名稱'
+      },
+      list: {
+        title: '屬性列表'
+      },
+      dialog: {
+        addTitle: '添加屬性',
+        editTitle: '編輯屬性',
+        delTitle: '刪除屬性',
+        cancel: '取消',
+        confirm: '確定'
+      },
+      form: {
+        specId: '主鍵ID',
+        domain: '域',
+        specCd: '規格編碼',
+        tableName: '屬性表',
+        specName: '規格名稱',
+        specHoldplace: '說明',
+        required: '是否必填',
+        specShow: '展示',
+        specValueType: '值類型',
+        specType: '規格類型',
+        listShow: '查詢顯示',
+        createTime: '創建時間',
+      },
+      table: {
+        specId: '主鍵ID',
+        domain: '域',
+        specCd: '規格編碼',
+        tableName: '表名',
+        specName: '規格名稱',
+        specHoldplace: '說明',
+        required: '是否必填',
+        specShow: '展示',
+        specValueType: '值類型',
+        specType: '規格類型',
+        listShow: '查詢顯示',
+        createTime: '創建時間',
+      },
+      validate: {
+        specId: '請輸入主鍵ID',
+        domain: '請輸入域',
+        specCd: '請輸入規格編碼',
+        tableName: '請輸入表名',
+        specName: '請輸入規格名稱',
+        specHoldplace: '請輸入說明',
+        required: '請輸入是否必填',
+        specShow: '請輸入展示',
+        specValueType: '請輸入值類型',
+        specType: '請輸入規格類型',
+        listShow: '請輸入查詢顯示',
+        createTime: '請輸入創建時間',
+      },
+      add: {
+        success: '添加屬性成功'
+      },
+      edit: {
+        success: '編輯屬性成功'
+      },
+      delete: {
+        success: '刪除屬性成功',
+        confirm: '確認刪除該屬性嗎？'
+      },
+      fetchError: '獲取屬性列表失敗',
+      value: '離散值',
+    }
   }
 }

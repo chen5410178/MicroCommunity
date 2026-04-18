@@ -74,13 +74,55 @@ export const messages = {
       loadError: '加载楼栋单元失败',
       loadRoomError: '加载房屋信息失败'
     },
-    chooseQuestionTitle: {
+chooseQuestionTitle: {
       title: '选择题目',
       searchPlaceholder: '输入题目名称',
       question: '题目',
       operation: '操作',
       choose: '选择',
       queryError: '查询题目失败'
+    }
+  },
+  'zh-TW': {
+    addQuestionAnswer: {
+      title: '添加問卷',
+      qaName: '問卷名稱',
+      qaNamePlaceholder: '必填，請填寫問卷名稱',
+      startTime: '開始時間',
+      startTimePlaceholder: '必填，請選擇開始時間',
+      endTime: '結束時間',
+      endTimePlaceholder: '必填，請選擇結束時間',
+      content: '問卷說明',
+      contentPlaceholder: '必填，請輸入問卷說明',
+      questionTitle: '問卷題目',
+      chooseTitle: '選擇題目',
+      questionRoom: '問卷房屋',
+      qaNameRequired: '問卷名稱不能為空',
+      startTimeRequired: '開始時間不能為空',
+      endTimeRequired: '結束時間不能為空',
+      timeInvalid: '結束時間必須晚於開始時間',
+      contentRequired: '問卷說明不能為空',
+      titleRequired: '請至少選擇一個題目',
+      roomRequired: '請至少選擇一間房屋',
+      titleExist: '該題目已被選擇',
+      confirmDeleteTitle: '確定刪除該題目嗎？',
+      saveSuccess: '問卷保存成功',
+      saveError: '問卷保存失敗'
+    },
+    selectRoom: {
+      buildingUnit: '樓棟單元',
+      roomInfo: '房屋信息',
+      unit: '單元',
+      loadError: '載入樓棟單元失敗',
+      loadRoomError: '載入房屋信息失敗'
+    },
+    chooseQuestionTitle: {
+      title: '選擇題目',
+      searchPlaceholder: '輸入題目名稱',
+      question: '題目',
+      operation: '操作',
+      choose: '選擇',
+      queryError: '查詢題目失敗'
     }
   }
 }

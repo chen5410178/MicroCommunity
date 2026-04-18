@@ -76,5 +76,44 @@ export const messages = {
       fetchError: '获取订单列表失败',
       fetchShopsError: '获取商铺列表失败'
     }
+  },
+  'zh-TW': {
+    storeOrderCartManage: {
+      search: {
+        title: '查詢條件',
+        cartId: '訂單編號',
+        state: '請選擇狀態',
+        prodName: '請輸入商品名稱',
+        shop: '請選擇商鋪'
+      },
+      list: {
+        title: '訂單信息'
+      },
+      table: {
+        cartId: '訂單號',
+        appName: '平台',
+        shopName: '商鋪',
+        cartType: '類型',
+        service: '服務',
+        goods: '商品',
+        prodName: '名稱',
+        cartNum: '數量',
+        personName: '用戶名稱',
+        payPrice: '支付金額',
+        stateName: '訂單狀態',
+        createTime: '創建時間'
+      },
+      state: {
+        unpurchased: '未購買',
+        waitingDelivery: '待發貨',
+        waitingReceive: '待收貨',
+        waitingComment: '待評價',
+        applyRefund: '申請退款',
+        refundSuccess: '退貨成功',
+        refunded: '已退款'
+      },
+      fetchError: '獲取訂單列表失敗',
+      fetchShopsError: '獲取商鋪列表失敗'
+    }
   }
 }

@@ -18,5 +18,15 @@ export const messages = {
       print: '打印',
       noData: '暂无数据'
     }
+  },
+  'zh-TW': {
+    commonReportTable: {
+      queryConditions: '查詢條件',
+      query: '查詢',
+      reset: '重置',
+      export: '匯出',
+      print: '列印',
+      noData: '暫無數據'
+    }
   }
 }

@@ -24,6 +24,20 @@ export const messages = {
       remark: '说明',
       syncTime: '同步时间',
       operation: '操作',
+resync: '重新同步'
+    }
+  },
+  'zh-TW': {
+    carDetailTransactionCar: {
+      syncId: '同步ID',
+      deviceCode: '設備編碼',
+      objectType: '對象類型',
+      objectName: '對象名稱',
+      command: '指令',
+      status: '狀態',
+      remark: '說明',
+      syncTime: '同步時間',
+      operation: '操作',
       resync: '重新同步'
     }
   }

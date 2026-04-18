@@ -66,7 +66,42 @@ export const messages = {
       chargeUseName: '责任人',
       chargeUseNamePlaceholder: '必填，请选择责任人',
       remark: '备注',
-      remarkPlaceholder: '选填，请填写备注'
+remarkPlaceholder: '选填，请填写备注'
+    }
+  },
+  'zh-TW': {
+    editEquipmentAccount: {
+      title: '修改設備',
+      machineName: '設備名稱',
+      machineNamePlaceholder: '必填，請填寫設備名稱',
+      machineCode: '設備編碼',
+      machineCodePlaceholder: '必填，請填寫設備編碼',
+      importanceLevel: '重要等級',
+      importanceLevelPlaceholder: '必填，請選擇重要等級',
+      state: '使用狀態',
+      statePlaceholder: '必填，請選擇使用狀態',
+      brand: '設備品牌',
+      brandPlaceholder: '選填，請填寫設備品牌',
+      model: '設備型號',
+      modelPlaceholder: '選填，請填寫設備型號',
+      netWorth: '資產淨值',
+      netWorthPlaceholder: '選填，請填寫資產淨值',
+      locationDetail: '位置詳情',
+      locationDetailPlaceholder: '選填，請填寫位置詳情',
+      firstEnableTime: '首次啟用時間',
+      firstEnableTimePlaceholder: '選填，請填寫首次啟用時間',
+      warrantyDeadline: '保修截止日期',
+      warrantyDeadlinePlaceholder: '選填，請填寫保修截止日期',
+      usefulLife: '使用年限(年)',
+      usefulLifePlaceholder: '選填，請填寫使用年限',
+      purchasePrice: '採購價格',
+      purchasePricePlaceholder: '選填，請填寫採購價格',
+      useUserName: '使用人',
+      useUserNamePlaceholder: '必填，請選擇使用人',
+      chargeUseName: '責任人',
+      chargeUseNamePlaceholder: '必填，請選擇責任人',
+      remark: '備註',
+      remarkPlaceholder: '選填，請填寫備註'
     }
   }
 }

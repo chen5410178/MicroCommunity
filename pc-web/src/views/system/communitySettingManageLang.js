@@ -12,5 +12,12 @@ export const messages = {
       settingTips: '温馨提示：填写前后不要有空格',
       saveSuccess: '保存成功'
     }
+  },
+  'zh-TW': {
+    communitySettingManage: {
+      inputPlaceholder: '必填，請輸入{name}',
+      settingTips: '溫馨提示：填寫前後不要有空格',
+      saveSuccess: '保存成功'
+    }
   }
 }

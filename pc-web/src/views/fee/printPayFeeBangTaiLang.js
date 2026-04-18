@@ -55,6 +55,35 @@ export const messages = {
       customerConfirmation: '客户确认',
       print: '打印',
       cancel: '取消'
+}
+  },
+  'zh-TW': {
+    printPayFeeBangTai: {
+      applyForm: '申請單',
+      receiptForm: '收據單',
+      receiptNum: '單號',
+      owner: '業主：',
+      paymentTime: '繳費時間：',
+      serialNum: '編號',
+      feeItem: '收費項目',
+      houseCar: '房屋/車輛',
+      feeRange: '收費範圍',
+      cycle: '週期',
+      unitPrice: '單價/固定費',
+      areaUsage: '面積/用量',
+      paymentMethod: '支付方式',
+      amount: '金額',
+      discountAmount: '優惠金額',
+      remark: '備註',
+      to: '至',
+      none: '無',
+      capitalRMB: '大寫人民幣',
+      departmentHead: '部門負責人',
+      handler: '經辦人',
+      financialCollection: '財務收款',
+      customerConfirmation: '客戶確認',
+      print: '列印',
+      cancel: '取消'
     }
   }
 }

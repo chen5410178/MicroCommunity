@@ -25,7 +25,7 @@ export const messages = {
         needMaterial: 'Need Material',
         noMaterial: 'No Material'
       },
-          closeOrder: {
+      closeOrder: {
         closeOrderInfo: 'Close Order Information',
         closeStatus: 'Close Status',
         selectCloseStatus: 'Please select',
@@ -62,7 +62,7 @@ export const messages = {
         needMaterial: '需要用料',
         noMaterial: '无需用料'
       },
-       closeOrder: {
+      closeOrder: {
         closeOrderInfo: '结单信息',
         closeStatus: '结单状态',
         selectCloseStatus: '请选择',
@@ -71,6 +71,43 @@ export const messages = {
         reason: '原因',
         reasonPlaceholder: '选填，请填写原因',
         processed: '已处理'
+      }
+    },
+    'zh-TW': {
+      myRepairDispatchManage: {
+        queryCondition: '查詢條件',
+        selectMaintenanceType: '請選擇維修類型',
+        inputRepairName: '請輸入報修人',
+        inputRepairTel: '請輸入報修電話',
+        selectRepairType: '請選擇報修類型',
+        selectRepairState: '請選擇報修狀態',
+        inputRepairId: '請輸入工單編號',
+        repairDispatch: '報修已辦',
+        repairId: '工單編號',
+        location: '位置',
+        repairType: '報修類型',
+        maintenanceType: '維修類型',
+        repairPerson: '報修人',
+        contact: '聯繫方式',
+        appointmentTime: '預約時間',
+        state: '狀態',
+        operation: '操作',
+        detail: '詳情',
+        scheduledTask: '定時任務處理',
+        paidService: '有償服務',
+        freeService: '无偿服務',
+        needMaterial: '需要用料',
+        noMaterial: '無需用料'
+      },
+      closeOrder: {
+        closeOrderInfo: '結單信息',
+        closeStatus: '結單狀態',
+        selectCloseStatus: '請選擇',
+        closeOrder: '結單',
+        returnOrder: '退單',
+        reason: '原因',
+        reasonPlaceholder: '選填，請填寫原因',
+        processed: '已處理'
       }
     }
   }

@@ -486,8 +486,253 @@ export const messages = {
       operation: '操作',
       restoreMerge: '恢复合并'
     },
-    feeDetailSubDemo: {
+feeDetailSubDemo: {
       openComponent: '打开费用子详情组件'
+    }
+  },
+  'zh-TW': {
+    feeDetail: {
+      title: '費用信息',
+      feeId: '費用ID：',
+      feeFlag: '費用標識：',
+      feeType: '費用類型：',
+      payerObj: '付費對象：',
+      feeItem: '費用項',
+      feeStatus: '費用狀態：',
+      createTime: '建賬時間：',
+      batchId: '批次：',
+      startTime: '應收開始時間：',
+      endTime: '應收結束時間：',
+      owedAmount: '欠費金額：',
+      paymentRecord: '繳費記錄',
+      monthlyView: '按月展示',
+      relatedRoom: '關聯房屋',
+      relatedCar: '關聯車輛',
+      relatedContract: '關聯合同',
+      modificationRecord: '修改記錄',
+      owner: '業主',
+      sameFeeObj: '同費用對象',
+      relatedMeter: '關聯抄表',
+      relatedImport: '關聯導入',
+      discountApply: '優惠申請',
+      reprintReceipt: '補打收據',
+      feeSplit: '費用拆分',
+      billRule: '賬單規則',
+      feeBill: '費用賬單'
+    },
+    feeDetailHisFee: {
+      feeName: '費用項',
+      payerObjName: '收費對象',
+      cycles: '周期(單位:月)',
+      amount: '應收/實收(單位:元)',
+      paymentMethod: '繳費方式',
+      paymentPeriod: '繳費起始段',
+      paymentTime: '繳費時間',
+      cashier: '收銀員',
+      status: '狀態',
+      remark: '備註',
+      operation: '操作',
+      detail: '詳情',
+      accountDeduction: '賬戶扣款'
+    },
+    feeDetailHisFeeDemo: {
+      openComponent: '打開歷史費用詳情'
+    },
+    feeDetailMonthFee: {
+      feeItem: '費用項目',
+      feeFlag: '費用標識',
+      feeType: '費用類型',
+      chargeYearMonth: '收費年月',
+      receivableAmount: '應收金額',
+      description: '說明',
+      lastDegrees: '上期度數：',
+      currentDegrees: '本期度數：',
+      unitPrice: '單價：',
+      additionalFee: '附加費：',
+      usage: '用量：',
+      algorithm: '算法：',
+      fixedFee: '固定費：'
+    },
+    feeDetailMonthFeeDemo: {
+      openComponent: '打開月度費用詳情'
+    },
+    feeDetailRoom: {
+      roomId: '房屋ID',
+      floor: '樓層',
+      type: '類型',
+      area: '建築/室內面積',
+      rent: '租金',
+      roomStatus: '房屋狀態',
+      roomArrears: '房屋欠費',
+      operation: '操作',
+      businessAcceptance: '業務受理',
+      updateDaily: '按天更新',
+      searchPlaceholder: '請輸入房屋編號 樓棟-單元-房屋 如1-1-1'
+    },
+    feeDetailRoomDemo: {
+      openComponent: '打開房屋詳情'
+    },
+    feeDetailCar: {
+      licensePlate: '車牌號',
+      licenseType: '車牌類型',
+      carType: '車輛類型',
+      color: '顏色',
+      owner: '業主',
+      parkingSpace: '車位',
+      validityPeriod: '有效期',
+      temporaryCar: '臨時車',
+      parkingLot: '車場',
+      spaceReleased: '車位已釋放'
+    },
+    feeDetailCarDemo: {
+      openComponent: '打開車輛詳情'
+    },
+    feeDetailContract: {
+      contractName: '合同名稱',
+      contractCode: '合同編號',
+      parentContractCode: '父合同編號',
+      contractType: '合同類型',
+      operator: '經辦人',
+      contractAmount: '合同金額',
+      startTime: '開始時間',
+      endTime: '結束時間',
+      draftTime: '起草時間',
+      status: '狀態'
+    },
+    feeDetailContractDemo: {
+      openComponent: '打開合同詳情'
+    },
+    feeDetailConfig: {
+      feeType: '費用類型',
+      feeItem: '收費項目',
+      feeFlag: '費用標識',
+      reminderType: '催繳類型',
+      paymentType: '付費類型',
+      paymentCycle: '繳費周期',
+      unit: '單位',
+      formula: '公式',
+      unitPrice: '計費單價',
+      additionalFee: '附加/固定費用',
+      accountDeduction: '賬戶抵扣',
+      mobilePayment: '手機繳費',
+      decimalPlaces: '保留小數位',
+      prepaid: '預付費',
+      postpaid: '後付費',
+      yes: '是',
+      no: '否'
+    },
+    feeDetailConfigDemo: {
+      openComponent: '打開配置詳情'
+    },
+    feeDetailHis: {
+      feeName: '費用項',
+      startTime: '建賬時間',
+      endTime: '計費起始時間',
+      operation: '動作',
+      operator: '操作人',
+      operationTime: '操作時間',
+      add: '添加',
+      delete: '刪除',
+      modifyNew: '修改(新)',
+      modifyOld: '修改(舊)'
+    },
+    feeDetailOwner: {
+      ownerFace: '業主人臉',
+      name: '姓名',
+      gender: '性別',
+      male: '男',
+      female: '女',
+      idCard: '身份證',
+      address: '家庭住址',
+      roomCount: '房屋數',
+      memberCount: '業主成員',
+      carCount: '車輛數',
+      complaintCount: '投訴',
+      repairCount: '報修',
+      oweFee: '欠費',
+      contractCount: '業主合同'
+    },
+    feeDetailMeter: {
+      meterId: '表ID',
+      meterType: '表類型',
+      objName: '對象名稱',
+      preDegrees: '上期度數',
+      curDegrees: '本期度數',
+      preReadingTime: '上期讀表時間',
+      curReadingTime: '本期讀表時間',
+      createTime: '創建時間'
+    },
+    feeDetailImport: {
+      floorNum: '樓棟編號',
+      unitNum: '單元編號',
+      roomNum: '房屋編號',
+      feeName: '費用名稱',
+      startTime: '開始時間',
+      endTime: '結束時間',
+      totalAmount: '總金額',
+      remark: '備註',
+      status: '狀態',
+      importSuccess: '導入成功',
+      importFailed: '導入失敗'
+    },
+    feeDetailDiscount: {
+      roomName: '房屋(樓棟-單元-房屋)',
+      discountId: '折扣ID',
+      discountName: '折扣名稱',
+      applyType: '申請類型',
+      applicant: '申請人',
+      applicantPhone: '申請電話',
+      startTime: '開始時間',
+      endTime: '結束時間',
+      status: '狀態',
+      createTime: '創建時間',
+      useStatus: '使用狀態',
+      notUsed: '未使用',
+      used: '已使用',
+      returnType: '返還類型',
+      accountBalance: '賬戶餘額',
+      discount: '折扣',
+      returnAmount: '返還金額'
+    },
+    feeDetailReceipt: {
+      print: '打印',
+      printSmall: '打印小票',
+      printApply: '申請單',
+      feeType: '費用類型',
+      owner: '業主',
+      feeItem: '費用項目',
+      feePeriod: '收費時間段',
+      totalAmount: '總金額',
+      paymentTime: '繳費時間',
+      receiptId: '收據ID',
+      yuan: '元',
+      selectPrintReceipt: '請選擇打印收據',
+      selectPrintApply: '請選擇'
+    },
+    mergeFee: {
+      confirmOperation: '請確認您的操作!',
+      mergeDescription: '合併拆分費用，合併後，將結束拆分後的費用，啟用原費用',
+      cancel: '點錯了',
+      confirmMerge: '確認合併',
+      mergeSuccess: '合併成功，請到業務受理查看合併後費用'
+    },
+    mergeFeeDemo: {
+      openComponent: '打開合併費用組件',
+      mergeSuccess: '合併操作成功完成'
+    },
+    feeDetailSub: {
+      split: '拆分',
+      parentFeeId: '父費用ID',
+      childFeeId: '子費用ID',
+      feeName: '費用名稱',
+      feeObject: '費用對象',
+      billingPeriod: '計費時間段',
+      splitTime: '拆分時間',
+      operation: '操作',
+      restoreMerge: '恢復合併'
+    },
+    feeDetailSubDemo: {
+      openComponent: '打開費用子詳情組件'
     }
   }
 }

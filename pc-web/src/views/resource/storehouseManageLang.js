@@ -81,8 +81,51 @@ export const messages = {
         operations: '操作'
       },
       messages: {
-        fetchError: '获取仓库数据失败'
+fetchError: '获取仓库数据失败'
+    }
+  },
+  'zh-TW': {
+    storehouseManage: {
+      searchTitle: '查詢條件',
+      listTitle: '倉庫信息',
+      placeholders: {
+        shName: '請輸入倉庫名稱',
+        shId: '請輸入倉庫編號',
+        isShow: '請選擇是否對外開放',
+        shDesc: '請輸入倉庫描述',
+        selectFlow: '請選擇流程'
+      },
+      options: {
+        all: '全部',
+        yes: '是',
+        no: '否',
+        noAudit: '不審核'
+      },
+      buttons: {
+        search: '查詢',
+        reset: '重置',
+        add: '添加',
+        edit: '修改',
+        delete: '刪除',
+        detail: '詳情'
+      },
+      table: {
+        shId: '倉庫編號',
+        shName: '倉庫名稱',
+        isShow: '對外開放',
+        allowPurchase: '允許採購',
+        allowUse: '允許領用',
+        purchaseSwitch: '採購審核',
+        useSwitch: '領用審核',
+        allocationSwitch: '調撥審核',
+        createTime: '創建時間',
+        shDesc: '描述',
+        operations: '操作'
+      },
+      messages: {
+        fetchError: '獲取倉庫數據失敗'
       }
     }
   }
+}
 }

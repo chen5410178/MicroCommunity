@@ -129,5 +129,70 @@ export const messages = {
       },
       fetchError: '获取接口列表失败'
     }
+  },
+  'zh-TW': {
+    appApi: {
+      search: {
+        title: '查詢條件',
+        apiId: '接口ID',
+        apiCode: '接口編碼',
+        apiName: '接口名稱',
+        typeId: '接口類型',
+        seq: '順序',
+        docUrl: '文檔地址',
+        remark: '備註',
+        createTime: '創建時間',
+        placeholder: '請輸入接口名稱'
+      },
+      list: {
+        title: '接口授權'
+      },
+      dialog: {
+        addTitle: '添加接口',
+        editTitle: '編輯接口',
+        delTitle: '刪除接口',
+        cancel: '取消',
+        confirm: '確定'
+      },
+      form: {
+        apiId: '接口ID',
+        apiCode: '接口編碼',
+        apiName: '接口名稱',
+        typeId: '接口類型',
+        seq: '順序',
+        docUrl: '文檔地址',
+        remark: '備註',
+        createTime: '創建時間',
+      },
+      table: {
+        apiId: '接口ID',
+        apiCode: '接口編碼',
+        apiName: '接口名稱',
+        typeId: '接口類型',
+        seq: '順序',
+        docUrl: '文檔地址',
+        remark: '備註',
+        createTime: '創建時間',
+        appName: '應用名稱'
+      },
+      validate: {
+        apiId: '請輸入接口ID',
+        apiCode: '請輸入接口編碼',
+        apiName: '請輸入接口名稱',
+        typeId: '請輸入接口類型',
+        createTime: '請輸入創建時間',
+      },
+      add: {
+        success: '添加接口成功'
+      },
+      edit: {
+        success: '編輯接口成功'
+      },
+      delete: {
+        success: '刪除接口成功',
+        confirm: '確認刪除該接口嗎？'
+      },
+      fetchError: '獲取接口列表失敗'
+    }
   }
 }

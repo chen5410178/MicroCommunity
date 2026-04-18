@@ -84,7 +84,51 @@ export const messages = {
       confirm: '确定',
       plan: '保养计划?',
       success: '操作成功',
-      error: '操作失败'
+error: '操作失败'
+    }
+  },
+  'zh-TW': {
+    maintainancePlanManage: {
+      search: {
+        title: '查詢條件',
+        planName: '計劃名稱',
+        state: '狀態',
+        allState: '全部狀態'
+      },
+      list: {
+        title: '保養計劃(保養日生成任務)'
+      },
+      table: {
+        planName: '計劃名稱',
+        standardName: '保養標準',
+        planPeriod: '計劃週期',
+        dateRange: '日期範圍',
+        machineCount: '設備數',
+        machine: '設備',
+        staffCount: '保養人數',
+        createUser: '制定人',
+        createTime: '制定時間',
+        state: '狀態'
+      },
+      button: {
+        enable: '啟用',
+        disable: '停用'
+      },
+      tip: '請確保計劃開始時間和計劃結束時間是有效時間範圍，並且設置了保養人，不然無法生成保養任務',
+      fetchError: '獲取保養計劃失敗'
+    },
+    deleteMaintainancePlan: {
+      title: '請確認您的操作',
+      confirm: '確定刪除保養計劃?',
+      success: '刪除成功',
+      error: '刪除失敗'
+    },
+    maintainancePlanState: {
+      title: '請確認您的操作',
+      confirm: '確定',
+      plan: '保養計劃?',
+      success: '操作成功',
+      error: '操作失敗'
     }
   }
 }

@@ -46,7 +46,32 @@ export const messages = {
       selectItemsWarning: '请选择调拨物品',
       quantityWarning: '请为所有选中物品填写有效数量',
       submitSuccess: '操作成功',
-      submitError: '操作失败'
+submitError: '操作失败'
+    }
+  },
+  'zh-TW': {
+    allocationStorehouseEnter: {
+      title: '調撥入庫',
+      applyId: '單號：',
+      resourceType: '物品類型',
+      resourceName: '物品名稱',
+      specification: '物品規格',
+      resourceCode: '物品編碼',
+      fixedResource: '固定物品',
+      transferredWarehouse: '被調倉庫',
+      returnPerson: '退還人',
+      originalWarehouse: '原倉庫',
+      targetWarehouse: '目標倉庫',
+      originalStock: '原庫存',
+      transferQuantity: '調撥數量',
+      actualQuantity: '實際數量',
+      quantityPlaceholder: '必填，請填寫調撥數量',
+      submit: '提交',
+      fetchError: '獲取調撥數據失敗',
+      selectItemsWarning: '請選擇調撥物品',
+      quantityWarning: '請為所有選中物品填寫有效數量',
+      submitSuccess: '操作成功',
+      submitError: '操作失敗'
     }
   }
 }

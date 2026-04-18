@@ -126,5 +126,60 @@ export const messages = {
       },
       fetchError: '获取应用列表失败'
     }
+  },
+  'zh-TW': {
+    hcApp: {
+      search: {
+        title: '查詢條件',
+        appId: '應用ID',
+        appName: '應用名稱',
+        tenantId: '租戶',
+        validHours: '有效期（小時）',
+        createTime: '創建時間',
+        placeholder: '請輸入應用名稱'
+      },
+      list: {
+        title: '應用列表'
+      },
+      dialog: {
+        addTitle: '添加應用',
+        editTitle: '編輯應用',
+        delTitle: '刪除應用',
+        cancel: '取消',
+        confirm: '確定'
+      },
+      form: {
+        appId: '應用ID',
+        appName: '應用名稱',
+        tenantId: '租戶',
+        validHours: '有效期（小時）',
+        createTime: '創建時間',
+      },
+      table: {
+        appId: '應用ID',
+        appName: '應用名稱',
+        tenantId: '租戶',
+        validHours: '有效期（小時）',
+        createTime: '創建時間',
+      },
+      validate: {
+        appId: '請輸入應用ID',
+        name: '請輸入名稱',
+        tenantId: '請輸入租戶',
+        validHours: '請輸入有效期',
+        createTime: '請輸入創建時間',
+      },
+      add: {
+        success: '添加應用成功'
+      },
+      edit: {
+        success: '編輯應用成功'
+      },
+      delete: {
+        success: '刪除應用成功',
+        confirm: '確認刪除該應用嗎？'
+      },
+      fetchError: '獲取應用列表失敗'
+    }
   }
 }

@@ -304,7 +304,161 @@ export const messages = {
     },
     machineSelect2: {
       placeholder: '请选择设备',
-      fetchError: '获取设备列表失败'
+fetchError: '获取设备列表失败'
+    }
+  },
+  'zh-TW': {
+    inspectionPoint: {
+      title: '巡檢點',
+      placeholder: {
+        inspectionName: '請輸入巡檢點名稱'
+      },
+      inspectionPoint: '巡檢點',
+      inspectionType: '巡檢類型',
+      inspectionLocation: '巡檢位置',
+      inspectionItem: '巡檢項目',
+      qrCode: '二維碼',
+      tabs: {
+        pointTaskDetail: '巡檢明細',
+        pointRoute: '巡檢路線',
+        pointPlan: '巡檢計劃',
+        pointTask: '巡檢任務'
+      }
+    },
+    pointTaskDetail: {
+      placeholder: {
+        planUserName: '請輸入巡檢人',
+        inspectionStartTime: '實際巡檢開始時間',
+        inspectionEndTime: '實際巡檢結束時間'
+      },
+      table: {
+        taskDetailId: '任務詳情ID',
+        inspectionName: '巡檢點名稱',
+        inspectionPlanName: '巡檢計劃名稱',
+        routeName: '巡檢路線名稱',
+        planTime: '計劃時間',
+        pointTime: '點位時間',
+        inspectionTime: '實際巡檢時間',
+        inspectionState: '實際簽到狀態',
+        planUserName: '計劃巡檢人',
+        actUserName: '實際巡檢人',
+        signTypeName: '巡檢方式',
+        taskStateName: '任務狀態',
+        stateName: '巡檢點狀態',
+        description: '巡檢情況',
+        photos: '巡檢照片',
+        createTime: '創建時間'
+      },
+      fetchError: '獲取巡檢明細失敗'
+    },
+    pointRoute: {
+      fetchError: '獲取巡檢路線失敗'
+    },
+    pointPlan: {
+      table: {
+        planName: '計劃名稱',
+        routeName: '計劃路線',
+        planPeriod: '計劃週期',
+        signType: '簽到方式',
+        dateRange: '日期範圍',
+        timeRange: '時間範圍',
+        beforeTime: '任務提前(分鐘)',
+        creator: '制定人',
+        createTime: '制定時間',
+        staffs: '巡檢人',
+        state: '狀態'
+      },
+      fetchError: '獲取巡檢計劃失敗'
+    },
+    pointTask: {
+      fetchError: '獲取巡檢任務失敗'
+    },
+    addInspectionPoint: {
+      title: '添加巡檢點',
+      placeholder: {
+        inspectionName: '必填，請填寫巡檢點名稱',
+        pointObjType: '必填，請選擇巡檢類型',
+        pointObjName: '必填，請填寫巡檢位置',
+        itemId: '必填，請選擇巡檢項目',
+        nfcCode: '選填，請填寫nfc編碼',
+        lng: '選填，請選擇經度',
+        lat: '選填，請選擇緯度',
+        remark: '選填，請填寫備註'
+      },
+      inspectionName: '巡檢點名稱',
+      pointObjType: '巡檢類型',
+      pointObjName: '位置',
+      machine: '巡檢設備',
+      itemId: '巡檢項目',
+      nfcCode: 'nfc編碼',
+      lng: '經度',
+      lat: '緯度',
+      remark: '備註',
+      tip: {
+        addMachine: '請到設備台帳中添加設備'
+      },
+      rules: {
+        inspectionName: '巡檢點名稱不能為空',
+        inspectionNameMax: '巡檢點名稱不能超過100位',
+        pointObjType: '巡檢類型不能為空',
+        pointObjName: '巡檢位置不能為空',
+        pointObjId: '設備不能為空',
+        itemId: '巡檢項目不能為空',
+        remarkMax: '備註信息不能超過200位',
+        machineRequired: '請選擇巡檢設備',
+        locationRequired: '請填寫巡檢位置'
+      },
+      saveSuccess: '巡檢點添加成功',
+      saveFailed: '巡檢點添加失敗'
+    },
+    editInspectionPoint: {
+      title: '修改巡檢點',
+      placeholder: {
+        inspectionName: '必填，請填寫巡檢點名稱',
+        pointObjType: '必填，請選擇巡檢類型',
+        pointObjName: '必填，請填寫巡檢位置',
+        itemId: '必填，請選擇巡檢項目',
+        nfcCode: '選填，請填寫nfc編碼',
+        lng: '選填，請選擇經度',
+        lat: '選填，請選擇緯度',
+        remark: '選填，請填寫備註'
+      },
+      inspectionName: '巡檢點名稱',
+      pointObjType: '巡檢類型',
+      pointObjName: '位置',
+      machine: '巡檢設備',
+      itemId: '巡檢項目',
+      nfcCode: 'nfc編碼',
+      lng: '經度',
+      lat: '緯度',
+      remark: '備註',
+      rules: {
+        inspectionName: '巡檢點名稱不能為空',
+        inspectionNameMax: '巡檢點名稱不能超過100位',
+        pointObjType: '巡檢類型不能為空',
+        pointObjName: '巡檢位置不能為空',
+        pointObjId: '設備不能為空',
+        itemId: '巡檢項目不能為空',
+        remarkMax: '備註信息不能超過200位',
+        machineRequired: '請選擇巡檢設備',
+        locationRequired: '請填寫巡檢位置'
+      },
+      updateSuccess: '巡檢點修改成功',
+      updateFailed: '巡檢點修改失敗'
+    },
+    deleteInspectionPoint: {
+      title: '請確認您的操作',
+      confirmText: '確定刪除巡檢點？',
+      deleteSuccess: '巡檢點刪除成功',
+      deleteFailed: '巡檢點刪除失敗'
+    },
+    inspectionPointQrCode: {
+      title: '巡檢二維碼',
+      tip: '請截圖貼在巡檢點的地方'
+    },
+    machineSelect2: {
+      placeholder: '請選擇設備',
+      fetchError: '獲取設備列表失敗'
     }
   }
 }

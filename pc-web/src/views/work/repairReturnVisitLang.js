@@ -54,7 +54,36 @@ export const messages = {
       unsatisfied: '不满意',
       satisfactionRequired: '请选择满意度',
       visitContentRequired: '请输入回访内容',
-      visitContentMaxLength: '回访内容长度不能超过1000个字符'
+visitContentMaxLength: '回访内容长度不能超过1000个字符'
+    }
+  },
+  'zh-TW': {
+    repairReturnVisit: {
+      queryTitle: '查詢條件',
+      listTitle: '報修回訪',
+      repairId: '工單編碼',
+      location: '位置',
+      repairType: '報修類型',
+      repairName: '報修人',
+      contact: '聯繫方式',
+      appointmentTime: '預約時間',
+      operation: '操作',
+      visit: '回訪',
+      detail: '詳情',
+      repairIdPlaceholder: '請輸入工單編號',
+      repairTypePlaceholder: '請選擇報修類型',
+      repairNamePlaceholder: '請輸入報修人',
+      telPlaceholder: '請輸入報修電話',
+      statePlaceholder: '請選擇回訪狀態',
+      waiting: '待回訪',
+      finish: '已回訪',
+      satisfaction: '滿意度',
+      visitContent: '回訪內容',
+      satisfied: '滿意',
+      unsatisfied: '不滿意',
+      satisfactionRequired: '請選擇滿意度',
+      visitContentRequired: '請輸入回訪內容',
+      visitContentMaxLength: '回訪內容長度不能超過1000個字符'
     }
   }
 }

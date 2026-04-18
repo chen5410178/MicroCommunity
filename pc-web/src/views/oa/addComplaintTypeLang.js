@@ -34,7 +34,26 @@ export const messages = {
       wechat: '微信',
       workLicense: '微信+员工工牌',
       autoReply: '自动回复',
-      manualReply: '人工回复'
+manualReply: '人工回复'
+    },
+  },
+  'zh-TW': {
+    addComplaintType: {
+      title: '添加投訴類型',
+      typeName: '類型名稱',
+      typeNamePlaceholder: '必填，請填寫類型名稱',
+      notifyWay: '通知方式',
+      notifyWayPlaceholder: '必填，請選擇通知方式',
+      appraiseReply: '評價回復',
+      appraiseReplyPlaceholder: '必填，請選擇評價回復',
+      remark: '備註',
+      remarkPlaceholder: '選填，請填寫備註',
+      selectStaff: '選擇員工',
+      sms: '短信',
+      wechat: '微信',
+      workLicense: '微信+員工工牌',
+      autoReply: '自動回復',
+      manualReply: '人工回復'
     },
   }
 }

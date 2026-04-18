@@ -67,6 +67,41 @@ export const messages = {
       vacant: '未入住',
       rented: '已出租',
       sold: '已出售'
+}
+  },
+  'zh-TW': {
+    roomCreatePayFee: {
+      title: '房屋創建費用',
+      feeType: '費用類型',
+      feeItem: '收費項目',
+      startTime: '計費起始時間',
+      endTime: '計費結束時間',
+      amount: '收費金額',
+      rateCycle: '遞增週期',
+      rate: '計費遞增率',
+      rateStartTime: '遞增開始時間',
+      building: '樓棟',
+      roomState: '房屋狀態',
+      room: '房屋',
+      selectFeeType: '請選擇費用類型',
+      selectFeeItem: '請選擇收費項目',
+      selectStartTime: '請選擇計費起始時間',
+      selectEndTime: '請選擇計費結束時間',
+      inputAmount: '請輸入收費金額',
+      inputRateCycle: '請輸入遞增週期(月份)',
+      inputRate: '請輸入遞增率',
+      selectRateStartTime: '請選擇遞增開始時間',
+      selectBuilding: '請選擇樓棟',
+      selectAll: '全選',
+      noRoom: '沒有房屋',
+      validateError: '驗證失敗',
+      noRoomSelected: '未包含房屋',
+      occupied: '已入住',
+      delivered: '已交房',
+      decorated: '已裝修',
+      vacant: '未入住',
+      rented: '已出租',
+      sold: '已出售'
     }
   }
 }

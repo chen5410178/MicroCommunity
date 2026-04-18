@@ -102,7 +102,130 @@ export const messages = {
     },
     textarea: {
       placeholder: '必填，请输入内容',
-      uploadFailed: '图片上传失败'
+uploadFailed: '图片上传失败'
+    },
+  },
+  'zh-TW': {
+    editWork: {
+      title: '修改工作單',
+      workName: '標題',
+      workNamePlaceholder: '必填，請填寫標題',
+      workType: '工作單類型',
+      workTypePlaceholder: '必填，請選擇工作單類型',
+      processor: '處理人',
+      ccPerson: '抄送人',
+      choose: '選擇',
+      workSign: '工作單標識',
+      workSignPlaceholder: '必填，請選擇工作單標識',
+      onceWork: '一次性工單',
+      cycleWork: '周期性工單',
+      attachment: '附件',
+      startTime: '開始時間',
+      startTimePlaceholder: '必填，請填寫開始時間',
+      endTime: '結束時間',
+      endTimePlaceholder: '必填，請填寫結束時間',
+      period: '周期',
+      periodPlaceholder: '必填，請選擇任務周期',
+      monthDay: '月/天',
+      byWeek: '按周',
+      workHours: '工作單',
+      workHoursPlaceholder: '必填，請輸入小時數',
+      hoursComplete: '小時內完成',
+      month: '月',
+      monthUnit: '月',
+      day: '日',
+      dayUnit: '日',
+      week: '周',
+      monday: '星期一',
+      tuesday: '星期二',
+      wednesday: '星期三',
+      thursday: '星期四',
+      friday: '星期五',
+      saturday: '星期六',
+      sunday: '星期日',
+      content: '內容',
+      add: '添加',
+      delete: '刪除'
+    },
+    uploadFile: {
+      upload: '上傳附件',
+      sizeLimit: '文件大小不能超過20MB',
+      success: '文件上傳成功',
+      failed: '文件上傳失敗'
+    },
+textarea: {
+      placeholder: '必填，請輸入內容',
+      uploadFailed: '圖片上傳失敗'
+    },
+  },
+  'zh-TW': {
+    editWork: {
+      title: '修改工作單',
+      workName: '標題',
+      workNamePlaceholder: '必填，請填寫標題',
+      workType: '工作單類型',
+      workTypePlaceholder: '必填，請選擇工作單類型',
+      processor: '處理人',
+      ccPerson: '抄送人',
+      choose: '選擇',
+      workSign: '工作單標識',
+      workSignPlaceholder: '必填，請選擇工作單標識',
+      onceWork: '一次性工單',
+      cycleWork: '周期性工單',
+      attachment: '附件',
+      uploadAttachment: '上傳附件',
+      content: '工作內容',
+      contentPlaceholder: '必填，請填寫工作內容',
+      startTime: '開始時間',
+      endTime: '結束時間',
+      save: '保存',
+      go: '前往',
+      selectType: '請選擇類型',
+      selectProcessor: '請選擇處理人',
+      selectTime: '請選擇時間',
+      required: '不能為空',
+      submitSuccess: '提交成功',
+      submitFailed: '提交失敗',
+      loadWorkTypeError: '加載工作單類型失敗',
+      loadUserError: '加載用戶失敗',
+      workflow: '流程',
+      workflowName: '流程名稱',
+      workflowVersion: '流程版本',
+      selectWorkflow: '選擇流程'
+    },
+    selectStaff: {
+      title: '選擇員工',
+      searchPlaceholder: '請輸入員工姓名',
+      name: '姓名',
+      tel: '電話',
+      confirm: '確認',
+      cancel: '取消'
+    },
+    selectUser: {
+      title: '選擇抄送人',
+      searchPlaceholder: '請輸入用戶名稱'
+    },
+    week: {
+      monday: '星期一',
+      tuesday: '星期二',
+      wednesday: '星期三',
+      thursday: '星期四',
+      friday: '星期五',
+      saturday: '星期六',
+      sunday: '星期日',
+      content: '內容',
+      add: '添加',
+      delete: '刪除'
+    },
+    uploadFile: {
+      upload: '上傳附件',
+      sizeLimit: '文件大小不能超過20MB',
+      success: '文件上傳成功',
+      failed: '文件上傳失敗'
+    },
+    textarea: {
+      placeholder: '必填，請輸入內容',
+      uploadFailed: '圖片上傳失敗'
     },
   }
 }

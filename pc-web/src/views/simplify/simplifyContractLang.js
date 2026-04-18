@@ -30,5 +30,21 @@ export const messages = {
       print: '打印',
       draftContract: '起草合同'
     }
+  },
+  'zh-TW': {
+    simplifyContract: {
+      contractName: '合同名稱',
+      contractCode: '合同編號',
+      parentContractCode: '父合同編號',
+      contractType: '合同類型',
+      startTime: '開始時間',
+      endTime: '結束時間',
+      status: '狀態',
+      operation: '操作',
+      fee: '費用',
+      view: '查看',
+      print: '列印',
+      draftContract: '起草合同'
+    }
   }
 }

@@ -88,5 +88,50 @@ export const messages = {
       },
       fetchError: '获取欠费明细失败'
     }
+  },
+  'zh-TW': {
+    adminOweFeeDetail: {
+      search: {
+        title: '查詢條件',
+        feeTypeCd: '請選擇費用大類',
+        objNameLike: '請填寫房屋編號',
+        startTime: '請選擇開始時間',
+        endTime: '請選擇結束時間',
+        ownerNameLike: '請填寫業主名稱'
+      },
+      list: {
+        title: '欠費明細表'
+      },
+      table: {
+        index: '費用編號',
+        communityName: '小區名稱',
+        objName: '房號',
+        ownerName: '業主',
+        ownerTel: '業主電話',
+        builtUpArea: '面積',
+        feeName: '費用項',
+        startTime: '開始時間',
+        endTime: '結束時間',
+        oweDay: '欠費時長(天)',
+        oweAmount: '欠費金額'
+      },
+      summary: {
+        subtotal: '小計',
+        total: '大計',
+        owe: '欠費',
+        yuan: '元'
+      },
+      tips: {
+        startTime: '費用開始時間：所創建費用的計費起始時間',
+        oweDayDeposit: '欠費時長（天）：押金費用項欠費時長是費用開始時間到當天的天數',
+        oweDayOther: '除押金外的費用項欠費時長是費用的開始時間到費用的結束時間的天數',
+        oweAmount: '欠費金額：欠費週期內應繳費用'
+      },
+      feeType: {
+        property: '物業費',
+        parking: '停車費'
+      },
+      fetchError: '獲取欠費明細失敗'
+    }
   }
 }

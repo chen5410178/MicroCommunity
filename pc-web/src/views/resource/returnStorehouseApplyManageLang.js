@@ -80,7 +80,49 @@ export const messages = {
       isFixed: '是否是固定物品',
       stock: '物品库存',
       miniStock: '最小计量总数',
-      selectItemsRequired: '请选择需要转赠的物品'
+selectItemsRequired: '请选择需要转赠的物品'
+    }
+  },
+  'zh-TW': {
+    returnStorehouseApplyManage: {
+      title: '退還物品',
+      back: '返回',
+      selectItems: '選擇物品',
+      itemId: '物品ID',
+      itemType: '物品類型',
+      itemName: '物品名稱',
+      itemSpec: '物品規格',
+      stock: '庫存',
+      miniStock: '最小計量總數',
+      targetWarehouse: '目標倉庫',
+      returnQuantity: '退還數量',
+      operation: '操作',
+      cancelReturn: '取消退還',
+      returnAll: '全部退還',
+      returnDescription: '退還說明',
+      requiredDescription: '必填，請填寫退還說明',
+      submit: '提交',
+      descriptionRequired: '退還說明不能為空',
+      selectItemsRequired: '請選擇物品',
+      quantityRequired: '請填寫數量',
+      targetWarehouseRequired: '請選擇目標倉庫',
+      stockNotEnough: '庫存不足',
+      returnSuccess: '退還成功',
+      returnFailed: '退還失敗',
+      requiredSelect: '必填，請選擇目標倉庫'
+    },
+    chooseResourceStaff: {
+      title: '選擇物品管理',
+      selectItemType: '請選擇物品類型',
+      selectSubType: '請選擇二級分類',
+      inputItemName: '輸入物品管理名稱',
+      itemType: '物品類型',
+      itemName: '物品名稱',
+      itemCode: '物品編碼',
+      isFixed: '是否是固定物品',
+      stock: '物品庫存',
+      miniStock: '最小計量總數',
+      selectItemsRequired: '請選擇需要轉贈的物品'
     }
   }
 }

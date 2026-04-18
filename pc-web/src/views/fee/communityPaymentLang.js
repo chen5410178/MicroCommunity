@@ -90,9 +90,57 @@ export const messages = {
       title: '修改支付',
       statusPlaceholder: '必填，请选择状态'
     },
-    deleteCommunityPayment: {
+deleteCommunityPayment: {
       title: '删除确认',
       message: '确定删除支付配置'
+    }
+  },
+  'zh-TW': {
+    communityPayment: {
+      title: '小區支付',
+      search: '查詢',
+      add: '添加',
+      edit: '修改',
+      delete: '刪除',
+      confirmDelete: '確認刪除',
+      paymentName: '名稱',
+      communityName: '小區名稱',
+      paymentVendor: '支付廠家',
+      paymentScope: '支付範圍',
+      status: '狀態',
+      createTime: '創建時間',
+      instruction: '使用說明',
+      operation: '操作',
+      communityFee: '小區費用',
+      tempParkingFee: '臨時停車費',
+      specificFee: '指定費用項',
+      enabled: '啟用',
+      disabled: '停用',
+      selectCommunity: '請選擇小區',
+      selectStatus: '請選擇狀態',
+      selectVendor: '請選擇廠家',
+      selectScope: '請選擇範圍',
+      selectFeeItem: '請選擇費用項',
+      merchantCert: '商戶證書(.p12)',
+      uploadFile: '上傳附件',
+      cancel: '取消',
+      save: '保存',
+      requiredField: '必填項'
+    },
+    addCommunityPayment: {
+      title: '添加支付',
+      namePlaceholder: '必填，請填寫名稱',
+      vendorPlaceholder: '必填，請選擇支付廠家',
+      scopePlaceholder: '必填，請選擇支付範圍',
+      remarkPlaceholder: '選填，請填寫使用說明'
+    },
+    editCommunityPayment: {
+      title: '修改支付',
+      statusPlaceholder: '必填，請選擇狀態'
+    },
+    deleteCommunityPayment: {
+      title: '刪除確認',
+      message: '確定刪除支付配置'
     }
   }
 }

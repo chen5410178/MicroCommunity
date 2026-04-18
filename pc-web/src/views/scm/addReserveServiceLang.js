@@ -76,7 +76,47 @@ export const messages = {
     },
     uploadImage: {
       fileSizeLimit: '图片大小不能超过2MB',
-      uploadFailed: '图片上传失败'
+uploadFailed: '圖片上傳失敗'
+    }
+  },
+  'zh-TW': {
+    addReserveService: {
+      title: '添加服務',
+      name: '名稱',
+      namePlaceholder: '必填，請填寫名稱',
+      params: '參數',
+      paramsPlaceholder: '必填，請選擇參數',
+      price: '上門費',
+      pricePlaceholder: '必填，請填寫上門費',
+      sort: '排序',
+      sortPlaceholder: '必填，請填寫排序',
+      startDate: '開始時間',
+      startDatePlaceholder: '必填，請填寫開始時間',
+      endDate: '結束時間',
+      endDatePlaceholder: '必填，請填寫結束時間',
+      coverImage: '服務封面',
+      state: '狀態',
+      statePlaceholder: '必填，請選擇狀態',
+      stateOff: '未上架',
+      stateOn: '上架',
+      goodsDesc: '商品簡介',
+      goodsDescPlaceholder: '必填，請填寫商品簡介',
+      content: '商品詳情',
+      saveSuccess: '服務保存成功',
+      saveFailed: '服務保存失敗',
+      nameRequired: '名稱不能為空',
+      paramsRequired: '參數不能為空',
+      priceRequired: '上門費不能為空',
+      sortRequired: '排序不能為空',
+      startDateRequired: '開始時間不能為空',
+      endDateRequired: '結束時間不能為空',
+      coverImageRequired: '服務封面不能為空',
+      stateRequired: '狀態不能為空',
+      goodsDescRequired: '商品簡介不能為空'
+    },
+    uploadImage: {
+      fileSizeLimit: '圖片大小不能超過2MB',
+      uploadFailed: '圖片上傳失敗'
     }
   }
 }

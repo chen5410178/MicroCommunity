@@ -24,5 +24,18 @@ export const messages = {
       content: '公告内容',
       fetchError: '获取公告详情失败'
     }
+  },
+'zh-TW': {
+    noticeDetail: {
+      title: '公告詳情',
+      back: '返回',
+      titleLabel: '標題',
+      noticeType: '公告類型',
+      startTime: '開始時間',
+      endTime: '結束時間',
+      createTime: '創建時間',
+      content: '公告內容',
+      fetchError: '獲取公告詳情失敗'
+    }
   }
-}
+};

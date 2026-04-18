@@ -76,5 +76,44 @@ export const messages = {
       },
       fetchError: '获取费用配置数据失败'
     }
+  },
+  'zh-TW': {
+    adminFeeConfig: {
+      search: {
+        title: '查詢條件',
+        configId: '費用項ID',
+        configIdPlaceholder: '請輸入費用項ID',
+        feeName: '收費項目',
+        feeNamePlaceholder: '請輸入收費項目',
+        feeFlag: '費用標識',
+        feeFlagPlaceholder: '請選擇費用標識',
+        paymentCd: '付費類型',
+        paymentCdPlaceholder: '請選擇付費類型',
+        deductFrom: '帳戶抵扣',
+        deductFromPlaceholder: '請選擇帳戶抵扣'
+      },
+      list: {
+        title: '費用項'
+      },
+      table: {
+        configId: '編號',
+        feeTypeCd: '費用類型',
+        feeName: '收費項目',
+        feeFlag: '費用標識',
+        paymentCd: '付費類型',
+        paymentCycle: '繳費週期(單位:月)',
+        computingFormula: '公式',
+        squarePrice: '計費單價(單位:元)',
+        additionalAmount: '附加/固定費用(單位:元)',
+        deductFrom: '帳戶抵扣',
+        state: '狀態'
+      },
+      description: {
+        feeFlag: '費用標識：分為週期費用和一次性費用',
+        oneTimeFee: '一次性費用表示費用只收取一次',
+        paymentType: '付費類型：分為預付費和後付費'
+      },
+      fetchError: '獲取費用配置數據失敗'
+    }
   }
 }

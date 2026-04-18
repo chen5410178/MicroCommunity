@@ -116,5 +116,64 @@ export const messages = {
       },
       fetchError: '获取应用列表失败'
     }
+  },
+  'zh-TW': {
+    app: {
+      search: {
+        title: '查詢條件',
+        appId: '應用ID',
+        name: '名稱',
+        securityCode: '簽名碼',
+        whileListIp: '白名單ip',
+        blackListIp: '黑名單ip',
+        remark: '描述',
+        createTime: '創建時間',
+        placeholder: '請輸入app名稱'
+      },
+      list: {
+        title: '應用列表'
+      },
+      dialog: {
+        addTitle: '添加',
+        editTitle: '編輯',
+        delTitle: '刪除',
+        cancel: '取消',
+        confirm: '確定'
+      },
+      form: {
+        appId: '應用ID',
+        name: '名稱',
+        securityCode: '簽名碼',
+        whileListIp: '白名單ip',
+        blackListIp: '黑名單ip',
+        remark: '描述',
+        createTime: '創建時間',
+      },
+      table: {
+        appId: '應用ID',
+        name: '名稱',
+        securityCode: '簽名碼',
+        whileListIp: '白名單ip',
+        blackListIp: '黑名單ip',
+        remark: '描述',
+        createTime: '創建時間',
+      },
+      validate: {
+        appId: '請輸入應用ID',
+        name: '請輸入名稱',
+        createTime: '請輸入創建時間',
+      },
+      add: {
+        success: '添加成功'
+      },
+      edit: {
+        success: '編輯成功'
+      },
+      delete: {
+        success: '刪除成功',
+        confirm: '確認刪除該應用嗎？'
+      },
+      fetchError: '獲取應用列表失敗'
+    }
   }
 }

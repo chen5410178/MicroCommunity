@@ -56,7 +56,37 @@ export const messages = {
       familyCar: '家用小汽车',
       bus: '客车',
       truck: '货车',
-      abnormalVehicle: '异常车辆'
+abnormalVehicle: '异常车辆'
+    }
+  },
+  'zh-TW': {
+    carDetailApplyParkingSpace: {
+      applyParkingSpace: '申請車位',
+      applyId: '申請ID',
+      carNum: '車牌號',
+      parkingSpace: '停車位',
+      none: '無',
+      carBrand: '汽車品牌',
+      carType: '車輛類型',
+      color: '顏色',
+      startTime: '起租時間',
+      endTime: '結租時間',
+      applicant: '申請人',
+      phone: '手機號',
+      auditResult: '審核結果',
+      operation: '操作',
+      audit: '審核',
+      edit: '修改',
+      delete: '刪除',
+      pendingReview: '待審核',
+      pendingPayment: '待繳費',
+      completed: '完成',
+      auditFailed: '審核失敗',
+      abnormalStatus: '狀態異常',
+      familyCar: '家用小汽車',
+      bus: '客車',
+      truck: '貨車',
+      abnormalVehicle: '異常車輛'
     }
   }
 }

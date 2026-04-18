@@ -50,7 +50,34 @@ export const messages = {
       deleteConfirmText: '确定删除该小区关联吗？',
       deleteSuccess: '删除成功',
       deleteError: '删除失败',
-      fetchStaffError: '加载员工数据失败'
+fetchStaffError: '加载员工数据失败'
+    }
+  },
+  'zh-TW': {
+    staffCommunity: {
+      orgPlaceholder: '選擇組織',
+      staffNamePlaceholder: '輸入員工名稱',
+      linkCommunity: '關聯小區',
+      staffName: '員工名稱',
+      staffId: '員工編號',
+      communityId: '小區編號',
+      communityName: '小區名稱',
+      operation: '操作',
+      chooseOrgTitle: '選擇組織',
+      fetchOrgError: '載入組織數據失敗',
+      selectOrgTip: '請選擇組織',
+      addCommunityTitle: '添加小區',
+      communityNamePlaceholder: '輸入小區名稱',
+      communityAddress: '小區地址',
+      fetchCommunityError: '載入小區數據失敗',
+      selectCommunityTip: '請至少選擇一個小',
+      addSuccess: '添加成功',
+      addError: '添加失敗',
+      deleteConfirmTitle: '確認刪除',
+      deleteConfirmText: '確定刪除該小區關聯嗎？',
+      deleteSuccess: '刪除成功',
+      deleteError: '刪除失敗',
+      fetchStaffError: '載入員工數據失敗'
     }
   }
 }

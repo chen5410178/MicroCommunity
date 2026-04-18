@@ -58,5 +58,35 @@ export const messages = {
       },
       fetchError: '获取退货订单失败'
     }
+  },
+  'zh-TW': {
+    storeOrderCartReturn: {
+      search: {
+        title: '查詢條件',
+        cartId: '訂單編號',
+        state: '請選擇狀態',
+        prodName: '請輸入商品名稱'
+      },
+      list: {
+        title: '退貨訂單'
+      },
+      table: {
+        cartId: '訂單號',
+        prodName: '商品名稱',
+        specValue: '商品規格',
+        personName: '用戶名稱',
+        returnPayPrice: '退款金額',
+        stateName: '訂單狀態',
+        returnReason: '退款原因',
+        createTime: '申請時間'
+      },
+      state: {
+        all: '全部狀態',
+        applyRefund: '申請退款',
+        returnSuccess: '退貨成功',
+        refunded: '已退款'
+      },
+      fetchError: '獲取退貨訂單失敗'
+    }
   }
 }

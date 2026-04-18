@@ -53,7 +53,35 @@ export const messages = {
         chooseOrg: '选择组织',
         confirm: '确认',
         relCd: '岗位',
-        relCdPlaceholder: '请选择岗位'
+relCdPlaceholder: '请选择岗位'
+      }
+    },
+    'zh-TW': {
+      addStaff: {
+        title: '添加員工',
+        staffName: '員工名稱',
+        staffNamePlaceholder: '必填，請填寫員工名稱（2-10位）',
+        staffPosition: '員工崗位',
+        staffPositionPlaceholder: '必填，請選擇崗位',
+        staffGender: '員工性別',
+        staffGenderPlaceholder: '必填，請選擇員工性別',
+        male: '男',
+        female: '女',
+        phone: '手機',
+        phonePlaceholder: '必填，請填寫手機',
+        photo: '照片',
+        email: '員工郵箱',
+        emailPlaceholder: '可選，請填寫員工郵箱',
+        address: '家庭住址',
+        addressPlaceholder: '必填，請填寫家庭住址',
+        relatedOrg: '關聯組織',
+        relatedOrgPlaceholder: '必填，請選擇關聯組織',
+        save: '保存',
+        cancel: '取消',
+        chooseOrg: '選擇組織',
+        confirm: '確認',
+        relCd: '崗位',
+        relCdPlaceholder: '請選擇崗位'
       }
     }
   }

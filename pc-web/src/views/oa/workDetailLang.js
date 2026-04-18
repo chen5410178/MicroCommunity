@@ -200,6 +200,108 @@ export const messages = {
       once: '一次性工单',
       periodic: '周期性工单',
       monthDay: '月/天',
+weekly: '按周'
+    }
+  },
+  'zh-TW': {
+    workDetail: {
+      title: '工作單詳情',
+      workId: '工單編號',
+      workName: '工單名稱',
+      typeName: '類型名稱',
+      workCycle: '標識',
+      once: '一次性工單',
+      periodic: '周期性工單',
+      startTime: '開始時間',
+      endTime: '結束時間',
+      createUserName: '發起人',
+      curStaffName: '處理人',
+      curCopyName: '抄送人',
+      stateName: '狀態',
+      createTime: '創建時間',
+      attachment: '附件',
+      content: '內容',
+      handler: '處理人',
+      handlerContent: '處理內容',
+      copyPerson: '抄送人',
+      workFlow: '工作單流轉',
+      flowAttachment: '流轉附件',
+      workType: '工作單類型',
+      workCycleTab: '工作單周期'
+    },
+    workDetailTask: {
+      taskId: '任務編號',
+      staffName: '處理人',
+      startTime: '開始時間',
+      endTime: '結束時間',
+      createTime: '創建時間',
+      stateName: '狀態',
+      operation: '操作',
+      progress: '進度',
+      staffNamePlaceholder: '請填寫處理人',
+      startTimePlaceholder: '開始時間',
+      endTimePlaceholder: '結束時間'
+    },
+    workDetailTaskItem: {
+      content: '工作內容',
+      finishTime: '完成時間',
+      state: '狀態',
+      remark: '說明',
+      attachment: '附件',
+      score: '評分',
+      deductionMoney: '扣款金額',
+      deductionReason: '扣款原因',
+      deductionPerson: '扣款人',
+      createTime: '創建時間',
+      copyProcessed: '抄送人已辦理',
+      handlerProcessed: '處理人已辦理',
+      pending: '待處理'
+    },
+    workDetailCopy: {
+      copyId: '任務編號',
+      staffName: '抄送人',
+      createTime: '創建時間',
+      stateName: '狀態',
+      remark: '說明',
+      staffNamePlaceholder: '請填寫抄送人'
+    },
+    workDetailEvent: {
+      preStaffName: '前處理人',
+      staffName: '處理人',
+      taskValidPeriod: '任務有效期',
+      remark: '說明',
+      createTime: '時間',
+      staffNamePlaceholder: '請填寫處理人',
+      startTimePlaceholder: '開始時間',
+      endTimePlaceholder: '結束時間'
+    },
+    workDetailFile: {
+      staffName: '處理人',
+      attachment: '附件',
+      staffNamePlaceholder: '請填寫處理人',
+      startTimePlaceholder: '開始時間',
+      endTimePlaceholder: '結束時間'
+    },
+    workDetailType: {
+      typeName: '類型名稱',
+      notifyWay: '通知方式',
+      createTime: '創建時間',
+      remark: '備註',
+      wechat: '微信',
+      aliSms: '阿里短信',
+      unknown: '未知'
+    },
+    workDetailCycle: {
+      staffName: '處理人',
+      workCycle: '標識',
+      hours: '完成小時',
+      period: '周期',
+      month: '月',
+      day: '日',
+      week: '周',
+      once: '一次性工單',
+      periodic: '周期性工單',
+      monthDay: '月/天',
       weekly: '按周'
     }
   }

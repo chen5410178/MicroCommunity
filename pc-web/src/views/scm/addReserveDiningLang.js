@@ -56,7 +56,37 @@ export const messages = {
     },
     uploadImage: {
       fileSizeLimit: '图片大小不能超过2MB',
-      uploadFailed: '图片上传失败'
+uploadFailed: '圖片上傳失敗'
+    }
+  },
+  'zh-TW': {
+    addReserveDining: {
+      title: '添加就餐商品',
+      goodsName: '名稱',
+      goodsNamePlaceholder: '必填，請填寫名稱',
+      paramsId: '參數',
+      paramsIdPlaceholder: '必填，請選擇參數',
+      price: '單價',
+      pricePlaceholder: '必填，請填寫單價',
+      sort: '排序',
+      sortPlaceholder: '必填，請填寫排序',
+      startDate: '開始時間',
+      startDatePlaceholder: '必填，請填寫開始時間',
+      endDate: '結束時間',
+      endDatePlaceholder: '必填，請填寫結束時間',
+      imgUrl: '產品封面',
+      state: '狀態',
+      statePlaceholder: '必填，請選擇狀態',
+      stateOff: '未上架',
+      stateOn: '上架',
+      goodsDesc: '商品簡介',
+      goodsDescPlaceholder: '必填，請填寫商品簡介',
+      content: '商品詳情',
+      contentPlaceholder: '必填，請輸入商品描述'
+    },
+    uploadImage: {
+      fileSizeLimit: '圖片大小不能超過2MB',
+      uploadFailed: '圖片上傳失敗'
     }
   }
 }

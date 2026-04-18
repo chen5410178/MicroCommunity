@@ -26,7 +26,22 @@ export const messages = {
       staffName: '员工名称',
       day: '日',
       rest: '休息',
-      selectOrg: '选择组织'
+selectOrg: '选择组织'
+    }
+  },
+  'zh-TW': {
+    scheduleClassesPage: {
+      searchConditions: '查詢條件',
+      scheduleTable: '排班表',
+      staffNamePlaceholder: '請輸入員工名稱',
+      schedulePlaceholder: '請選擇班次',
+      selectSchedule: '請選擇班次',
+      datePlaceholder: '請輸入日期 YYYY-MM',
+      orgPlaceholder: '必填，請選擇關聯組織',
+      staffName: '員工名稱',
+      day: '日',
+      rest: '休息',
+      selectOrg: '選擇組織'
     }
   }
 }

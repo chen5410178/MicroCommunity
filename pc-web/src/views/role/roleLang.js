@@ -72,5 +72,42 @@ export const messages = {
         addRole: '添加角色',
         editRole: '编辑角色'
       }
+    },
+    'zh-TW': {
+      role: {
+        title: '角色管理',
+        name: '名称',
+        description: '描述',
+        privilege: '功能授权',
+        community: '小区授权',
+        staff: '员工关联',
+        add: '添加',
+        edit: '修改',
+        delete: '删除',
+        save: '保存',
+        cancel: '取消',
+        confirmDelete: '确认删除',
+        deleteTip: '确定删除该角色吗？',
+        deleteSuccess: '删除成功',
+        saveSuccess: '保存成功',
+        updateSuccess: '更新成功',
+        requiredName: '请输入角色名称',
+        nameLength: '角色名称长度必须在2位至10位',
+        descriptionLength: '角色描述长度不能超过200位',
+        communityId: '小区编号',
+        communityName: '小区名称',
+        operation: '操作',
+        staffId: '员工编号',
+        staffName: '员工名称',
+        tel: '手机号',
+        email: '邮箱',
+        address: '地址',
+        sex: '性别',
+        male: '男',
+        female: '女',
+        detail: '详情',
+        addRole: '添加角色',
+        editRole: '编辑角色'
+      }
     }
   }

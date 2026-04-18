@@ -14,5 +14,13 @@ export const messages = {
       remarkPlaceholder: 'Required, please fill in the remark',
       remarkRequired: 'Please fill in the remark'
     },
+  },
+  'zh-TW': {
+    wirteRuleFeeRemark: {
+      title: '費用備註',
+      remark: '備註',
+      remarkPlaceholder: '必填，請填寫備註',
+      remarkRequired: '請填寫備註'
+    },
   }
 }

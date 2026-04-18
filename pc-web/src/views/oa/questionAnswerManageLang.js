@@ -176,5 +176,94 @@ export const messages = {
         uploadError: '图片上传失败'
       }
     }
+  },
+  'zh-TW': {
+    questionAnswerManage: {
+      search: {
+        title: '查詢條件',
+        qaName: '請輸入問卷名稱'
+      },
+      list: {
+        title: '問卷調研'
+      },
+      table: {
+        qaName: '問卷名稱',
+        validity: '有效期',
+        voteCount: '總問卷/已問卷',
+        score: '得分',
+        state: '狀態',
+        createTime: '創建時間'
+      },
+      state: {
+        published: '已發布',
+        unpublished: '待發布'
+      },
+      button: {
+        result: '結果',
+        detail: '明細',
+        publish: '發布'
+      },
+      edit: {
+        title: '修改問卷信息',
+        qaType: '問卷類型',
+        qaTypePlaceholder: '必填，請選擇問卷類型',
+        qaType1: '業主問卷',
+        qaType3: '業主投票',
+        qaType4: '員工投票',
+        qaName: '名稱',
+        qaNamePlaceholder: '必填，請填寫名稱',
+        startTime: '開始時間',
+        startTimePlaceholder: '必填，請填寫開始時間',
+        endTime: '結束時間',
+        endTimePlaceholder: '必填，請填寫結束時間',
+        content: '內容',
+        contentPlaceholder: '選填，請填寫內容',
+        remark: '備註',
+        remarkPlaceholder: '選填，請填寫備註',
+        photos: '圖片'
+      },
+      delete: {
+        title: '請確認您的操作',
+        confirmText: '確定刪除問卷信息'
+      },
+      publish: {
+        title: '發布',
+        qaName: '名稱',
+        tip: '溫馨提示',
+        tipText: '發布後將無法再次修改，請確認無誤後再發布！',
+        notifyWay: '通知方式',
+        notifyWayPlaceholder: '必填，請選擇通知方式',
+        notifyWay1: '短信',
+        notifyWay2: '微信消息',
+        notifyWay3: '不通知',
+        button: '發布'
+      },
+      validate: {
+        qaType: '問卷類型不能為空',
+        qaName: '問卷名稱不能為空',
+        qaNameMax: '問卷名稱太長',
+        startTime: '開始時間不能為空',
+        endTime: '結束時間不能為空',
+        notifyWay: '通知方式不能為空'
+      },
+      message: {
+        updateSuccess: '修改成功',
+        updateError: '修改失敗',
+        deleteSuccess: '刪除成功',
+        deleteError: '刪除失敗',
+        publishSuccess: '發布成功',
+        publishError: '發布失敗',
+        fetchError: '獲取數據失敗'
+      }
+    },
+    uploadImage: {
+      validate: {
+        imageType: '只能上傳圖片文件',
+        imageSize: '圖片大小不能超過2MB'
+      },
+      message: {
+        uploadError: '圖片上傳失敗'
+      }
+    }
   }
 }

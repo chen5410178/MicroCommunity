@@ -31,6 +31,23 @@ export const messages = {
     },
     feeDetailContractDemo: {
       openComponent: '打开合同详情'
+}
+  },
+  'zh-TW': {
+    feeDetailContract: {
+      contractName: '合約名稱',
+      contractCode: '合約編號',
+      parentContractCode: '父合約編號',
+      contractType: '合約類型',
+      operator: '經辦人',
+      contractAmount: '合約金額',
+      startTime: '開始時間',
+      endTime: '結束時間',
+      draftTime: '起草時間',
+      status: '狀態'
+    },
+    feeDetailContractDemo: {
+      openComponent: '打開合約詳情'
     }
   }
 }

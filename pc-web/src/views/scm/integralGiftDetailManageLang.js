@@ -44,7 +44,31 @@ export const messages = {
         tel: '手机号',
         createTime: '赠送时间'
       },
-      fetchError: '获取赠送记录失败'
+fetchError: '獲取贈送記錄失敗'
+    }
+  },
+  'zh-TW': {
+    integralGiftDetailManage: {
+      search: {
+        title: '查詢條件',
+        detailId: '記錄編號',
+        userNameLike: '用戶名稱',
+        tel: '手機號'
+      },
+      list: {
+        title: '贈送記錄'
+      },
+      table: {
+        detailId: '記錄編號',
+        acctName: '帳戶名稱',
+        configName: '標準名稱',
+        ruleName: '規則名稱',
+        quantity: '積分數量',
+        userName: '用戶名稱',
+        tel: '手機號',
+        createTime: '贈送時間'
+      },
+      fetchError: '獲取贈送記錄失敗'
     }
   }
 }

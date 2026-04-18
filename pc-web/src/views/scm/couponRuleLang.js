@@ -114,7 +114,66 @@ export const messages = {
       payEndTimeRequired: '结束时间不能为空',
       addFee: '添加缴费赠送',
       deleteConfirm: '删除确认',
-      deletePrompt: '确定要删除此缴费规则吗？'
+deletePrompt: '確定要刪除此繳費規則嗎？'
+    }
+  },
+  'zh-TW': {
+    couponRule: {
+      title: '優惠券規則',
+      ruleName: '規則名稱',
+      ruleNamePlaceholder: '請輸入規則名稱',
+      ruleNameRequired: '規則名稱不能為空',
+      ruleNameMaxLength: '規則名稱不能超過64個字符',
+      remark: '備註',
+      remarkPlaceholder: '請輸入備註',
+      remarkMaxLength: '備註不能超過512個字符',
+      ruleIdRequired: '規則ID不能為空',
+      addRule: '添加規則',
+      editRule: '編輯規則',
+      deleteConfirm: '刪除確認',
+      deleteRulePrompt: '確定要刪除此優惠券規則嗎？',
+      selectRuleFirst: '請先選擇規則',
+      coupon: '優惠券',
+      fee: '繳費贈送'
+    },
+    couponRuleCpps: {
+      id: '編號',
+      coupon: '優惠券',
+      couponPlaceholder: '請選擇優惠券',
+      couponRequired: '優惠券不能為空',
+      quantity: '數量',
+      quantityPlaceholder: '請輸入數量',
+      quantityRequired: '數量不能為空',
+      quantityPattern: '數量必須為正整數',
+      frequency: '頻率',
+      frequencyPlaceholder: '請選擇頻率',
+      frequencyRequired: '頻率不能為空',
+      once: '贈送一次',
+      monthly: '每月贈送',
+      addCoupon: '添加優惠券',
+      editCoupon: '編輯優惠券',
+      deleteConfirm: '刪除確認',
+      deletePrompt: '確定要刪除此優惠券嗎？',
+      idRequired: 'ID不能為空'
+    },
+    couponRuleFee: {
+      id: '編號',
+      fee: '費用',
+      feePlaceholder: '請選擇費用',
+      feeRequired: '費用不能為空',
+      payTime: '繳費時間',
+      payMonth: '繳費月',
+      payMonthPlaceholder: '請輸入繳費月',
+      payMonthRequired: '繳費月不能為空',
+      payStartTime: '開始時間',
+      payStartTimePlaceholder: '請選擇開始時間',
+      payStartTimeRequired: '開始時間不能為空',
+      payEndTime: '結束時間',
+      payEndTimePlaceholder: '請選擇結束時間',
+      payEndTimeRequired: '結束時間不能為空',
+      addFee: '添加繳費贈送',
+      deleteConfirm: '刪除確認',
+      deletePrompt: '確定要刪除此繳費規則嗎？'
     }
   }
 }

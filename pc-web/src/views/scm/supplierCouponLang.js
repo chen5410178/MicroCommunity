@@ -50,7 +50,34 @@ export const messages =  {
       editTitle: '修改优惠券',
       search: '查询',
       noData: '暂无数据',
-      supplierRequired: '请先选择供应商'
+supplierRequired: '請先選擇供應商'
+    }
+  },
+  'zh-TW': {
+    supplierCoupon: {
+      title: '供應商優惠券管理',
+      searchConditions: '查詢條件',
+      couponInfo: '優惠券信息',
+      name: '名稱',
+      businessId: '業務ID',
+      supplier: '供應商',
+      thirdPartyId: '三方ID',
+      price: '售價',
+      remark: '備註',
+      operation: '操作',
+      add: '添加',
+      edit: '修改',
+      delete: '刪除',
+      confirm: '確認',
+      cancel: '取消',
+      deleteConfirm: '確定刪除優惠券？',
+      deleteTitle: '請確認您的操作',
+      required: '必填',
+      addTitle: '添加優惠券',
+      editTitle: '修改優惠券',
+      search: '查詢',
+      noData: '暫無數據',
+      supplierRequired: '請先選擇供應商'
     }
   }
 }

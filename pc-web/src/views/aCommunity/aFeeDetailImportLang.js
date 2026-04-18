@@ -28,5 +28,20 @@ export const messages = {
       importSuccess: '导入成功',
       importFailed: '导入失败'
     }
+  },
+  'zh-TW': {
+    aFeeDetailImport: {
+      floorNum: '樓棟編號',
+      unitNum: '單元編號',
+      roomNum: '房屋編號',
+      feeName: '費用名稱',
+      startTime: '開始時間',
+      endTime: '結束時間',
+      totalAmount: '總金額',
+      remark: '備註',
+      status: '狀態',
+      importSuccess: '導入成功',
+      importFailed: '導入失敗'
+    }
   }
 }

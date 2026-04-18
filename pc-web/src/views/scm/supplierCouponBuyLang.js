@@ -56,7 +56,37 @@ export const messages = {
         createUserName: '购买人',
         remark: '备注'
       },
-      fetchError: '获取优惠券购买记录失败'
+fetchError: '獲取優惠券購買記錄失敗'
+    }
+  },
+  'zh-TW': {
+    supplierCouponBuy: {
+      searchTitle: '查詢條件',
+      listTitle: '優惠券購買記錄',
+      placeholder: {
+        buyId: '請填寫訂單號',
+        couponId: '請填寫優惠券編號',
+        name: '請填寫名稱',
+        supplierName: '請填寫供應商',
+        storeName: '請填寫商戶名稱',
+        objName: '請填寫小區名稱',
+        createUserTel: '請填寫聯繫方式',
+        createUserName: '請填寫購買人'
+      },
+      table: {
+        buyId: '編號',
+        couponName: '優惠券',
+        name: '名稱',
+        supplierName: '供應商',
+        quantity: '購買數量',
+        valuePrice: '售價',
+        storeName: '商戶名稱',
+        objName: '小區名稱',
+        createUserTel: '聯繫方式',
+        createUserName: '購買人',
+        remark: '備註'
+      },
+      fetchError: '獲取優惠券購買記錄失敗'
     }
   }
 }

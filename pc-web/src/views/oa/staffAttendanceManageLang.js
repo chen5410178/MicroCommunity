@@ -60,7 +60,39 @@ export const messages = {
       inputReasonFirst: '请先填写原因',
       submitReplenish: '提交补考勤',
       replenishSuccess: '补考勤成功',
-      replenishFailed: '补考勤失败'
+replenishFailed: '补考勤失败'
+    }
+  },
+  'zh-TW': {
+    staffAttendance: {
+      monthPlaceholder: '請選擇月份',
+      orgPlaceholder: '請選擇組織',
+      staffPlaceholder: '員工名稱',
+      replenish: '補考勤',
+      work: '上班',
+      offWork: '下班',
+      log: '考勤記錄',
+      notTime: '未到時間',
+      noNeed: '無需考勤',
+      noTask: '不存在補考勤任務',
+      chooseOrg: '選擇組織',
+      loadOrgFailed: '加載組織失敗',
+      selectOrgFirst: '請先選擇組織',
+      attendanceDetail: '考勤明細',
+      staffName: '員工名稱',
+      face: '人臉',
+      clockTime: '考勤時間',
+      loadDetailFailed: '加載考勤明細失敗',
+      replenishCheckIn: '補考勤',
+      attendanceTask: '考勤任務',
+      selectTask: '請選擇考勤任務',
+      selectTaskFirst: '請先選擇考勤任務',
+      reason: '原因',
+      inputReason: '請填寫原因',
+      inputReasonFirst: '請先填寫原因',
+      submitReplenish: '提交補考勤',
+      replenishSuccess: '補考勤成功',
+      replenishFailed: '補考勤失敗'
     }
   }
 }

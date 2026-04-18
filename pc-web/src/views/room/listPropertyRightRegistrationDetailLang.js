@@ -56,7 +56,37 @@ export const messages = {
         deedTaxPlaceholder: '请选择契税缴纳状态',
         deedTaxPhoto: '契税证明'
       },
-      fetchError: '获取产权登记详情失败'
+fetchError: '获取产权登记详情失败'
+    }
+  },
+  'zh-TW': {
+    propertyRightDetail: {
+      title: '產權登記詳情',
+      table: {
+        id: 'ID',
+        materialType: '材料類型',
+        isPayment: '是否繳費',
+        image: '圖片',
+        createTime: '創建時間',
+        operation: '操作'
+      },
+      edit: {
+        title: '修改產權登記',
+        materialType: '材料類型',
+        materialTypePlaceholder: '必填，請填寫材料類型',
+        materialTypeRequired: '材料類型不能為空',
+        idCardPhoto: '身份證照片',
+        idCardPhotoTip: '請上傳正反兩張身份證照片',
+        houseContract: '購房合同',
+        houseContractTip: '請上傳不超過十張購房合同照片',
+        repairFund: '維修基金繳納',
+        repairFundPlaceholder: '請選擇維修基金繳納狀態',
+        repairFundPhoto: '維修基金證明',
+        deedTax: '契稅繳納',
+        deedTaxPlaceholder: '請選擇契稅繳納狀態',
+        deedTaxPhoto: '契稅證明'
+      },
+      fetchError: '獲取產權登記詳情失敗'
     }
   }
 }

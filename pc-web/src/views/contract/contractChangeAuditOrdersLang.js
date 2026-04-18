@@ -14,7 +14,7 @@ export const messages = {
       processEnd: 'Process End'
     },
   },
-  zh: {
+zh: {
     contractChangeAuditOrders: {
       title: '变更待办单',
       contractCode: '合同编号',
@@ -27,6 +27,21 @@ export const messages = {
       audit: '审批',
       finish: '结束',
       processEnd: '处理结束'
+    },
+  },
+  'zh-TW': {
+    contractChangeAuditOrders: {
+      title: '變更待辦單',
+      contractCode: '合同編號',
+      contractName: '合同名稱',
+      contractType: '合同類型',
+      contractStatus: '合同狀態',
+      createTime: '創建時間',
+      operation: '操作',
+      view: '查看',
+      audit: '審批',
+      finish: '結束',
+      processEnd: '處理結束'
     },
   }
 }

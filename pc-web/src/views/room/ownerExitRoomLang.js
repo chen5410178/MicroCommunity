@@ -75,7 +75,47 @@ export const messages = {
         feeTypeRequired: '费用类型不能为空',
         feeItemRequired: '费用项目不能为空',
         startTimeRequired: '计费起始时间不能为空',
-        amountRequired: '收费金额不能为空'
+amountRequired: '收费金额不能为空'
+      }
+    }
+  },
+  'zh-TW': {
+    ownerExitRoom: {
+      ownerInfo: '業主信息',
+      name: '姓名',
+      idCard: '身份證',
+      phone: '手機',
+      ownerRoom: '業主房屋',
+      room: '房屋',
+      builtUpArea: '建築面積',
+      squareMeter: '平方米',
+      feeInfo: '費用信息',
+      feeItem: '費用項目',
+      arrears: '欠費',
+      startTime: '開始時間',
+      endTime: '結束時間',
+      feeStatus: '費用狀態',
+      validate: {
+        ownerRequired: '業主不能為空',
+        roomRequired: '請至少選擇一間房屋',
+        unpaidFee: '房屋還存在費用，請先在業務受理處理費用'
+      }
+    },
+    selectFeeConfig: {
+      title: '創建費用',
+      feeType: '費用類型',
+      feeItem: '收費項目',
+      amount: '收費金額',
+      startTime: '計費起始時間',
+      endTime: '計費結束時間',
+      amountPlaceholder: '必填，請填寫收費金額',
+      startTimePlaceholder: '必填，請填寫計費起始時間',
+      endTimePlaceholder: '必填，請填寫計費結束時間',
+      validate: {
+        feeTypeRequired: '費用類型不能為空',
+        feeItemRequired: '收費項目不能為空',
+        startTimeRequired: '計費起始時間不能為空',
+        amountRequired: '收費金額不能為空'
       }
     }
   }

@@ -79,6 +79,47 @@ export const messages = {
       sizeError: '视频大小不能超过500MB',
       uploadSuccess: '视频上传成功',
       uploadFailed: '视频上传失败'
+}
+  },
+  'zh-TW': {
+    listApplyRoomDiscountRecord: {
+      title: '裝修跟蹤記錄',
+      id: 'ID',
+      room: '房屋',
+      operator: '操作人員',
+      createTime: '創建時間',
+      status: '狀態',
+      isViolation: '是否違規',
+      remark: '備註',
+      fetchError: '獲取記錄失敗'
+    },
+    applyRoomDiscountRecord: {
+      title: '驗房跟蹤',
+      room: '房屋',
+      status: '狀態',
+      isViolation: '是否違規',
+      selectViolation: '請選擇是否違規',
+      remark: '備註',
+      remarkPlaceholder: '請填寫備註',
+      uploadImages: '上傳圖片',
+      uploadVideo: '上傳影片',
+      violationRequired: '是否違規不能為空',
+      remarkRequired: '備註不能為空'
+    },
+    deleteApplyRoomDiscountRecord: {
+      title: '請確認您的操作',
+      confirmText: '確定刪除驗房記錄嗎？'
+    },
+    uploadImage: {
+      maxCountError: '最多只能上傳{count}張圖片',
+      sizeError: '圖片大小不能超過2MB',
+      uploadFailed: '圖片上傳失敗'
+    },
+    uploadVedio: {
+      uploadButton: '上傳影片',
+      sizeError: '影片大小不能超過500MB',
+      uploadSuccess: '影片上傳成功',
+      uploadFailed: '影片上傳失敗'
     }
   }
 }

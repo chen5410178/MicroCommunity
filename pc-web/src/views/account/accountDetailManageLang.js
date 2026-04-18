@@ -46,7 +46,32 @@ export const messages = {
       cancelReason: '撤销原因',
       submit: '提交',
       cancel: '取消',
-      required: '必填项'
+required: '必填项'
+    }
+  },
+  'zh-TW': {
+    accountDetailManage: {
+      title: '賬戶明細',
+      detailId: '明細編號',
+      transactionId: '交易編號',
+      accountName: '賬戶名稱',
+      detailType: '明細類型',
+      amountPoints: '金額/積分',
+      transactionTime: '交易時間',
+      description: '說明',
+      deposit: '轉入',
+      depositCancelled: '轉入已撤銷',
+      withdrawal: '轉出',
+      back: '返回'
+    },
+    cancelAccountDetail: {
+      title: '預存撤銷',
+      accountName: '賬戶名稱',
+      cancelAmount: '撤銷金額',
+      cancelReason: '撤銷原因',
+      submit: '提交',
+      cancel: '取消',
+      required: '必填項'
     }
   }
 }

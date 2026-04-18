@@ -28,7 +28,23 @@ export const messages = {
       uploadBtn: '上传附件',
       sizeLimit: '文件大小不能超过20MB',
       uploadSuccess: '文件上传成功',
-      uploadError: '文件上传失败'
+uploadError: '文件上传失败'
+    }
+  },
+  'zh-TW': {
+    newOaWorkflowFormEdit: {
+      title: '編輯',
+      submit: '提交',
+      cancel: '取消',
+      requiredMessage: '不能為空',
+      submitSuccess: '提交成功',
+      submitError: '提交失敗'
+    },
+    uploadFile: {
+      uploadBtn: '上傳附件',
+      sizeLimit: '文件大小不能超過20MB',
+      uploadSuccess: '文件上傳成功',
+      uploadError: '文件上傳失敗'
     }
   }
 }

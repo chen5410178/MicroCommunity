@@ -21,7 +21,7 @@ export const messages = {
       detail: 'Detail'
     }
   },
-  zh: {
+zh: {
     contractDetailChange: {
       contractName: '合同名称',
       contractCode: '合同编号',
@@ -41,6 +41,28 @@ export const messages = {
       stateName: '状态',
       operation: '操作',
       detail: '明细'
+    }
+  },
+  'zh-TW': {
+    contractDetailChange: {
+      contractName: '合同名稱',
+      contractCode: '合同編號',
+      contractType: '合同類型',
+      contractTypeName: '合同類型',
+      partyA: '甲方',
+      partyB: '乙方',
+      changeType: '變更類型',
+      planTypeName: '變更類型',
+      changePerson: '變更人',
+      changePersonName: '變更人',
+      applyTime: '申請時間',
+      createTime: '申請時間',
+      description: '說明',
+      remark: '說明',
+      status: '狀態',
+      stateName: '狀態',
+      operation: '操作',
+      detail: '明細'
     }
   }
 }

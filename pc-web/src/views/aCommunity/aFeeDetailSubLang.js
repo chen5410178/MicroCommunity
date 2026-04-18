@@ -18,5 +18,15 @@ export const messages = {
       billingPeriod: '计费时间段',
       splitTime: '拆分时间'
     }
+  },
+  'zh-TW': {
+    aFeeDetailSub: {
+      parentFeeId: '父費用ID',
+      childFeeId: '子費用ID',
+      feeName: '費用名稱',
+      feeObject: '費用對象',
+      billingPeriod: '計費時間段',
+      splitTime: '拆分時間'
+    }
   }
 }

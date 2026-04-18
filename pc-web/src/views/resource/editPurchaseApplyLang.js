@@ -55,8 +55,38 @@ export const messages = {
       remove: '移除',
       submit: '提交',
       noItemsSelected: '未选择采购物品',
-      updateSuccess: '修改成功',
+updateSuccess: '修改成功',
       updateFailed: '修改失败'
+    }
+  },
+  'zh-TW': {
+    editPurchaseApply: {
+      title: '編輯採購申請',
+      back: '返回',
+      contactPerson: '聯繫人',
+      contactPersonPlaceholder: '必填，請填寫聯繫人',
+      contactPhone: '聯繫電話',
+      contactPhonePlaceholder: '必填，請填寫聯繫電話',
+      applyDescription: '申請說明',
+      applyDescriptionPlaceholder: '必填，請填寫申請說明',
+      purchaseItems: '採購物品',
+      select: '選擇',
+      itemType: '物品類型',
+      itemName: '物品名稱(編碼)',
+      itemSpec: '物品規格',
+      price: '價格',
+      selectPrice: '請選擇價格',
+      itemStock: '物品庫存',
+      applyQuantity: '申請數量',
+      applyQuantityPlaceholder: '必填，請填寫申請數量',
+      remark: '備註',
+      remarkPlaceholder: '選填，請填寫備註',
+      operation: '操作',
+      remove: '移除',
+      submit: '提交',
+      noItemsSelected: '未選擇採購物品',
+      updateSuccess: '修改成功',
+      updateFailed: '修改失敗'
     }
   }
 }

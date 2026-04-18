@@ -82,7 +82,50 @@ export const messages = {
         success: '退回成功',
         error: '退回失败'
       },
-      fetchError: '获取数据失败'
+fetchError: '獲取數據失敗'
+    }
+  },
+  'zh-TW': {
+    couponPropertyPoolDetail: {
+      search: {
+        title: '查詢條件',
+        cppId: '優惠券編號',
+        couponName: '優惠券名稱',
+        fromType: '來源方式',
+        fromTypePlaceholder: '請選擇來源方式',
+        fromType1: '優惠券市場購買',
+        fromType2: '自己製作',
+        userName: '用戶名稱',
+        tel: '手機號',
+        toType: '用途',
+        toTypePlaceholder: '請選擇用途',
+        toType1: '購物',
+        toType2: '維修券',
+        toType3: '停車券'
+      },
+      list: {
+        title: '贈送記錄'
+      },
+      table: {
+        cppId: '編號',
+        couponName: '優惠券名稱',
+        value: '面值',
+        sendCount: '數量',
+        unit: '張',
+        userName: '用戶名稱',
+        tel: '手機號',
+        createTime: '贈送時間'
+      },
+      btn: {
+        return: '退回'
+      },
+      delete: {
+        title: '確認操作',
+        confirmText: '確定退回優惠券嗎？',
+        success: '退回成功',
+        error: '退回失敗'
+      },
+      fetchError: '獲取數據失敗'
     }
   }
 }

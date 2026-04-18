@@ -83,7 +83,51 @@ export const messages = {
       },
       message: {
         success: '合同终止成功',
-        error: '合同终止失败'
+error: '合同终止失败'
+      }
+    }
+  },
+  'zh-TW': {
+    expirationContractManage: {
+      search: {
+        title: '查詢條件',
+        contractNameLike: '請輸入合同名稱',
+        contractCode: '請輸入合同編號',
+        contractType: '請選擇合同類型'
+      },
+      list: {
+        title: '到期合同'
+      },
+      table: {
+        contractName: '合同名稱',
+        contractCode: '合同編號',
+        contractType: '合同類型',
+        partyA: '甲方',
+        partyB: '乙方',
+        operator: '經辦人',
+        amount: '合同金額',
+        startTime: '開始時間',
+        endTime: '結束時間',
+        status: '狀態'
+      },
+      button: {
+        renew: '續簽',
+        stop: '終止'
+      },
+      fetchError: '獲取合同數據失敗'
+    },
+    stopContract: {
+      dialog: {
+        title: '確認操作',
+        content: '確定要終止此合同嗎？終止後將無法重新啟動！'
+      },
+      button: {
+        cancel: '取消',
+        confirm: '確認終止'
+      },
+      message: {
+        success: '合同終止成功',
+        error: '合同終止失敗'
       }
     }
   }

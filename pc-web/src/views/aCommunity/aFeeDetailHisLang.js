@@ -26,5 +26,19 @@ export const messages = {
       modifyNew: '修改(新)',
       modifyOld: '修改(旧)'
     }
+  },
+  'zh-TW': {
+    aFeeDetailHis: {
+      feeName: '費用項',
+      startTime: '建帳時間',
+      endTime: '計費起始時間',
+      operation: '動作',
+      operator: '操作人',
+      operationTime: '操作時間',
+      add: '添加',
+      delete: '刪除',
+      modifyNew: '修改(新)',
+      modifyOld: '修改(舊)'
+    }
   }
 }

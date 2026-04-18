@@ -36,7 +36,27 @@ export const messages = {
     },
     uploadImage: {
       imageSizeLimit: '图片大小不能超过2MB',
-      uploadError: '图片上传失败'
+uploadError: '图片上传失败'
+    }
+  },
+  'zh-TW': {
+    editExamineStaff: {
+      title: '修改考核員工',
+      staffName: '員工名稱',
+      staffNamePlaceholder: '必填，請填寫員工名稱',
+      projects: '考核項目',
+      staffPhoto: '員工頭像',
+      post: '員工崗位',
+      postPlaceholder: '必填，請填寫員工崗位',
+      introduction: '員工簡介',
+      staffNameRequired: '員工名稱不能為空',
+      postRequired: '員工崗位不能為空',
+      fetchProjectsError: '獲取考核項目失敗',
+      fetchStaffError: '獲取員工信息失敗'
+    },
+    uploadImage: {
+      imageSizeLimit: '圖片大小不能超過2MB',
+      uploadError: '圖片上傳失敗'
     }
   }
 }

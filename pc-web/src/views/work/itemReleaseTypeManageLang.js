@@ -104,7 +104,61 @@ export const messages = {
       },
       fetchError: '获取数据失败',
       deploySuccess: '部署成功',
-      deployError: '部署失败'
+deployError: '部署失败'
+    }
+  },
+  'zh-TW': {
+    itemReleaseTypeManage: {
+      search: {
+        title: '查詢條件',
+        typeNamePlaceholder: '請輸入類型名稱'
+      },
+      list: {
+        title: '放行類型'
+      },
+      table: {
+        typeId: '編號',
+        typeName: '類型名稱',
+        flowName: '流程名稱',
+        setFlow: '設置流程',
+        state: '狀態',
+        deployed: '已部署',
+        pendingDeploy: '待部署',
+        remark: '備註',
+        deploy: '部署'
+      },
+      form: {
+        typeName: '類型名稱',
+        typeNamePlaceholder: '必填，請填寫類型名稱',
+        remark: '備註',
+        remarkPlaceholder: '必填，請填寫備註'
+      },
+      validate: {
+        typeNameRequired: '類型名稱不能為空',
+        typeNameMaxLength: '類型名稱不能超過30個字符',
+        remarkRequired: '備註不能為空',
+        remarkMaxLength: '備註不能超過512個字符',
+        typeIdRequired: '編號不能為空'
+      },
+      add: {
+        title: '添加放行類型',
+        success: '添加成功',
+        error: '添加失敗'
+      },
+      edit: {
+        title: '修改放行類型',
+        success: '修改成功',
+        error: '修改失敗'
+      },
+      delete: {
+        title: '刪除確認',
+        confirmText: '確定刪除該放行類型嗎？',
+        success: '刪除成功',
+        error: '刪除失敗'
+      },
+      fetchError: '獲取數據失敗',
+      deploySuccess: '部署成功',
+      deployError: '部署失敗'
     }
   }
 }

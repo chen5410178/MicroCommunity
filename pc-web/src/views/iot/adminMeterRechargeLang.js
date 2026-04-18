@@ -72,9 +72,48 @@ export const messages = {
         chargeDegrees: '充值度数',
         createTime: '充值时间',
         state: '充值状态',
-        remark: '说明'
+remark: '说明'
       },
       fetchError: '获取充值明细失败'
+    }
+  },
+  'zh-TW': {
+    adminMeterRecharge: {
+      search: {
+        title: '查詢條件'
+      },
+      list: {
+        title: '儲值明細'
+      },
+      allCommunities: '全部小區',
+      machineName: '錶名稱',
+      machineNamePlaceholder: '請填寫名稱',
+      address: '表號',
+      addressPlaceholder: '請填寫表號',
+      state: '儲值狀態',
+      statePlaceholder: '請選擇儲值狀態',
+      stateWaiting: '等待',
+      stateFailed: '失敗',
+      stateCompleted: '完成',
+      roomName: '房屋',
+      roomNamePlaceholder: '請填寫房屋編號 樓棟-單元-房屋',
+      startTime: '開始時間',
+      startTimePlaceholder: '請輸入開始時間',
+      endTime: '結束時間',
+      endTimePlaceholder: '請輸入結束時間',
+      table: {
+        communityName: '小區名稱',
+        roomName: '房屋',
+        typeName: '錶類型',
+        machineName: '錶名稱',
+        address: '表號',
+        chargeMoney: '儲值金額',
+        chargeDegrees: '儲值度數',
+        createTime: '儲值時間',
+        state: '儲值狀態',
+        remark: '說明'
+      },
+      fetchError: '獲取儲值明細失敗'
     }
   }
 }

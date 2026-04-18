@@ -67,7 +67,43 @@ export const messages = {
           creator: '制定人',
           createTime: '制定时间',
           inspectors: '巡检人',
-          status: '状态'
+status: '状态'
+        }
+      }
+    },
+    'zh-TW': {
+      adminInspectionTaskDetail: {
+        title: '巡檢任務',
+        taskId: '任務編碼',
+        inspectionPlanName: '巡檢計劃',
+        planTime: '開始/結束時間',
+        actInsTime: '實際巡檢時間',
+        originalPlanUser: '計劃巡檢人',
+        currentPlanUser: '當前巡檢人',
+        transferDesc: '轉移描述',
+        signType: '巡檢方式',
+        state: '巡檢狀態',
+        tab: {
+          detail: '巡檢明細',
+          map: '巡檢地圖',
+          plan: '巡檢計劃',
+          route: '巡檢路線',
+          point: '巡檢點'
+        }
+      },
+      adminRoutePlan: {
+        table: {
+          planName: '計劃名稱',
+          routeName: '計劃路線',
+          planPeriod: '計劃週期',
+          signType: '簽到方式',
+          dateRange: '日期範圍',
+          timeRange: '時間範圍',
+          beforeTime: '任務提前(分鐘)',
+          creator: '制定人',
+          createTime: '制定時間',
+          inspectors: '巡檢人',
+          status: '狀態'
         }
       }
     }

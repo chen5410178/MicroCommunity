@@ -26,7 +26,22 @@ export const messages = {
       area: '面积(㎡)',
       startTime: '开始时间',
       endTime: '结束时间',
-      status: '状态'
+status: '状态'
+    }
+  },
+  'zh-TW': {
+    community: {
+      addCommunity: '添加小區',
+      province: '省份',
+      city: '市/州',
+      district: '區/縣',
+      communityName: '小區名稱',
+      communityCode: '小區編碼',
+      phone: '聯系電話',
+      area: '面積(㎡)',
+      startTime: '開始時間',
+      endTime: '結束時間',
+      status: '狀態'
     }
   }
-} 
+}

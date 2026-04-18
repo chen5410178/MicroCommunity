@@ -69,7 +69,44 @@ export const messages = {
         fixedDaysRequired: '固定天数不能为空',
         startDateRequired: '开始日期不能为空',
         endDateRequired: '结束日期不能为空',
-        machineRequired: '设备不能为空'
+machineRequired: '设备不能为空'
+      }
+    }
+  },
+  'zh-TW': {
+    addMaintainancePlan: {
+      title: '添加保養計劃',
+      planName: '計劃名稱',
+      planNamePlaceholder: '必填，請填寫計劃名稱',
+      standard: '保養標準',
+      standardPlaceholder: '必填，請選擇保養標準',
+      period: '保養週期',
+      periodPlaceholder: '必填，請選擇巡檢週期',
+      month: '月',
+      monthUnit: '月',
+      day: '日',
+      dayUnit: '日',
+      fixedDays: '固定天數',
+      fixedDaysPlaceholder: '必填，請填寫多少天後保養一次',
+      startDate: '開始日期',
+      startDatePlaceholder: '必填，請填寫開始日期',
+      endDate: '結束日期',
+      endDatePlaceholder: '必填，請填寫結束日期',
+      staff: '選擇員工',
+      machine: '保養設備',
+      machinePlaceholder: '必填，請選擇設備',
+      saveSuccess: '添加成功',
+      saveError: '添加失敗',
+      validate: {
+        planNameRequired: '計劃名稱不能為空',
+        standardRequired: '保養標準不能為空',
+        periodRequired: '保養週期不能為空',
+        monthRequired: '月不能為空',
+        dayRequired: '日不能為空',
+        fixedDaysRequired: '固定天數不能為空',
+        startDateRequired: '開始日期不能為空',
+        endDateRequired: '結束日期不能為空',
+        machineRequired: '設備不能為空'
       }
     }
   }

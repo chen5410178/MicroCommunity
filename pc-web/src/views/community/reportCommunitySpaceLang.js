@@ -66,7 +66,42 @@ export const messages = {
             cash: '现金',
             wechat: '微信',
             alipay: '支付宝',
-            requiredPayWay: '请选择支付方式'
+requiredPayWay: '请选择支付方式'
         }
+    },
+  'zh-TW': {
+    reportCommunitySpace: {
+      selectMonth: '請選擇月份',
+      appointmentTime: '預約時間',
+      noSpace: '未設置場地',
+      available: '可預約',
+      notAvailable: '不可預約'
+    },
+    addCommunitySpacePerson: {
+      title: '場地預約',
+      personName: '預約人',
+      personTel: '預約電話',
+      receivableAmount: '應收金額',
+      receivedAmount: '實收金額',
+      payWay: '支付方式',
+      appointmentTime: '預約時間',
+      remark: '備註',
+      requiredPersonName: '必填，請填寫預約人',
+      requiredPersonTel: '必填，請填寫預約電話',
+      requiredReceivableAmount: '必填，請填寫應收金額',
+      requiredReceivedAmount: '必填，請填寫實收金額',
+      selectPayWay: '請選擇支付方式',
+      requiredAppointmentTime: '必填，請填寫預約時間',
+      requiredRemark: '必填，請填寫備註',
+      maxPersonName: '預約人不能超過64個字符',
+      maxPersonTel: '預約電話不能超過11個字符',
+      maxReceivableAmount: '應收金額不能超過10個字符',
+      maxReceivedAmount: '實收金額不能超過10個字符',
+      maxRemark: '備註不能超過512個字符',
+      cash: '現金',
+      wechat: '微信',
+      alipay: '支付寶',
+      requiredPayWay: '請選擇支付方式'
     }
+  }
 }

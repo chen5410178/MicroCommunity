@@ -119,8 +119,70 @@ export const messages = {
       owner: '业主',
       oweFee: '欠费',
       receivedFee: '实收',
-      owe: ' (欠费)',
-      received: ' (实收)'
+owe: ' (欠費)',
+      received: ' (實收)'
+    }
+  },
+  'zh-TW': {
+    reportFeeDetail: {
+      search: {
+        title: '查詢條件',
+        startDate: '開始日期',
+        endDate: '結束日期',
+        objName: '房屋編號/合同/車牌號',
+        ownerName: '業主名稱',
+        link: '業主手機號',
+        community: '小區'
+      },
+      placeholder: {
+        startDate: '請選擇開始日期',
+        endDate: '請選擇結束日期',
+        objName: '請輸入房屋編號/合同名稱/車牌號',
+        ownerName: '請輸入業主名稱',
+        link: '請輸入業主手機號',
+        community: '請選擇小區'
+      },
+      hide: '隱藏',
+      more: '更多',
+      tabs: {
+        room: '房屋費用明細',
+        owner: '業主費用明細',
+        contract: '合同費用明細',
+        car: '車輛費用明細'
+      }
+    },
+    reportFeeDetailRoom: {
+      all: '全部',
+      room: '房屋',
+      owner: '業主',
+      oweFee: '欠費',
+      receivedFee: '實收',
+      owe: ' (欠費)',
+      received: ' (實收)'
+    },
+    reportFeeDetailOwner: {
+      owner: '業主',
+      room: '房屋',
+      oweFee: '欠費',
+      receivedFee: '實收',
+      owe: ' (欠費)',
+      received: ' (實收)'
+    },
+    reportFeeDetailContract: {
+      contract: '合同',
+      owner: '業主',
+      oweFee: '欠費',
+      receivedFee: '實收',
+      owe: ' (欠費)',
+      received: ' (實收)'
+    },
+    reportFeeDetailCar: {
+      car: '車輛',
+      owner: '業主',
+      oweFee: '欠費',
+      receivedFee: '實收',
+      owe: ' (欠費)',
+      received: ' (實收)'
     }
   }
 }

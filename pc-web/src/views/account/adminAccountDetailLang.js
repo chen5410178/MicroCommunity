@@ -30,7 +30,24 @@ export const messages = {
       createTime: '交易时间',
       remark: '说明',
       noRemark: '无',
-      fetchError: '获取账户明细失败'
+fetchError: '获取账户明细失败'
+    }
+  },
+  'zh-TW': {
+    adminAccountDetail: {
+      title: '賬戶明細',
+      detailId: '明細編號',
+      orderId: '交易編號',
+      acctName: '賬戶名稱',
+      detailType: '明細類型',
+      detailType1001: '轉入',
+      detailType3003: '轉入已撤銷',
+      detailTypeOther: '轉出',
+      amount: '金額/積分',
+      createTime: '交易時間',
+      remark: '說明',
+      noRemark: '無',
+      fetchError: '獲取賬戶明細失敗'
     }
   }
 }

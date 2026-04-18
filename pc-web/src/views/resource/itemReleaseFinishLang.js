@@ -42,5 +42,27 @@ export const messages = {
       detail: '详情',
       fetchError: '获取数据失败'
     },
+  },
+  'zh-TW': {
+    itemReleaseFinish: {
+      title: '放行已辦單',
+      back: '返回',
+      refresh: '刷新',
+      orderNo: '單號',
+      releaseType: '放行類型',
+      applyUnit: '申請單位',
+      applicant: '申請人',
+      idCard: '身份證',
+      phone: '手機號',
+      passTime: '通行時間',
+      items: '物品',
+      viewItems: '查看物品',
+      status: '狀態',
+      plateNo: '車牌號',
+      none: '無',
+      operation: '操作',
+      detail: '詳情',
+      fetchError: '獲取數據失敗'
+    },
   }
 }

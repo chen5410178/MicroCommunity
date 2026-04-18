@@ -56,7 +56,37 @@ export const messages = {
       editFailed: '修改失败',
       deleteSuccess: '删除成功',
       deleteFailed: '删除失败',
-      fetchError: '获取小程序列表失败'
+fetchError: '获取小程序列表失败'
+    }
+  },
+  'zh-TW': {
+    smallWeChatManage: {
+      title: '我的小程式',
+      name: '名稱',
+      appSecret: '應用密鑰',
+      remarks: '描述',
+      addTitle: '添加',
+      editTitle: '修改',
+      deleteTitle: '請確認您的操作',
+      deleteConfirm: '確定刪除小程式管理嗎?',
+      namePlaceholder: '必填，請填寫名稱',
+      appIdPlaceholder: '必填，請填寫APPID',
+      appSecretPlaceholder: '必填，請填寫應用密鑰',
+      remarksPlaceholder: '選填，請填寫描述信息',
+      nameRequired: '名稱不能為空',
+      nameMaxLength: '名稱不能超過100位',
+      appIdRequired: 'APPID不能為空',
+      appIdMaxLength: 'APPID不能超過100位',
+      appSecretRequired: '應用密鑰不能為空',
+      appSecretMaxLength: '應用密鑰不能超過200個字符',
+      wechatIdRequired: '編碼不能為空',
+      addSuccess: '添加成功',
+      addFailed: '添加失敗',
+      editSuccess: '修改成功',
+      editFailed: '修改失敗',
+      deleteSuccess: '刪除成功',
+      deleteFailed: '刪除失敗',
+      fetchError: '獲取小程式列表失敗'
     }
   }
 }

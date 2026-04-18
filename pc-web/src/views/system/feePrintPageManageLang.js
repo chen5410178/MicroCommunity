@@ -104,7 +104,61 @@ export const messages = {
         templateRequired: '收据页面不能为空',
         pageIdRequired: '收据ID不能为空'
       },
-      fetchError: '获取数据失败'
+fetchError: '获取数据失败'
+    }
+  },
+  'zh-TW': {
+    feePrintPageManage: {
+      search: {
+        title: '查詢條件',
+        pageId: '收據ID',
+        pageName: '名稱',
+        state: '狀態',
+        all: '全部',
+        enabled: '啟用',
+        disabled: '停用'
+      },
+      list: {
+        title: '收據模板'
+      },
+      table: {
+        pageId: '收據ID',
+        pageName: '名稱',
+        communityId: '小區ID',
+        templateName: '收據頁面',
+        state: '狀態',
+        enabled: '啟用',
+        disabled: '停用',
+        operation: '操作'
+      },
+      add: {
+        title: '添加收據模板',
+        pageName: '名稱',
+        pageNamePlaceholder: '請輸入名稱',
+        template: '收據頁面',
+        templatePlaceholder: '請選擇收據頁面',
+        success: '添加成功'
+      },
+      edit: {
+        title: '修改收據模板',
+        pageName: '名稱',
+        pageNamePlaceholder: '請輸入名稱',
+        template: '收據頁面',
+        templatePlaceholder: '請選擇收據頁面',
+        success: '修改成功'
+      },
+      delete: {
+        title: '刪除確認',
+        confirmText: '確定刪除該收據模板嗎？',
+        success: '刪除成功'
+      },
+      validate: {
+        pageNameRequired: '名稱不能為空',
+        pageNameMaxLength: '名稱不能超過128個字符',
+        templateRequired: '收據頁面不能為空',
+        pageIdRequired: '收據ID不能為空'
+      },
+      fetchError: '獲取數據失敗'
     }
   }
 }

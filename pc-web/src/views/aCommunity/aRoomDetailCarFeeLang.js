@@ -56,5 +56,34 @@ export const messages = {
       phone: '电话',
       noParkingSpace: '没有车位'
     }
+  },
+  'zh-TW': {
+    aRoomDetailCarFee: {
+      selectCar: '選擇車輛',
+      feeItem: '費用項目',
+      feeFlag: '費用標識',
+      feeType: '費用類型',
+      amount: '應收金額',
+      createTime: '建帳時間',
+      timeRange: '應收時間段',
+      description: '說明',
+      state: '狀態',
+      operation: '操作',
+      preDegrees: '上期度數',
+      curDegrees: '本期度數',
+      unitPrice: '單價',
+      additionalFee: '附加費',
+      algorithm: '算法',
+      usage: '用量',
+      fixedFee: '固定費',
+      note1: '注意： 應收結束時間 "-" 表示未到應收時間 或 收費已結束',
+      note2: '注意： 應收金額 為-1 一般為費用項公式設置出錯請檢查',
+      totalArrears: '欠費小計',
+      parkingLot: '停車場',
+      parkingSpace: '停車位',
+      owner: '業主',
+      phone: '電話',
+      noParkingSpace: '沒有車位'
+    }
   }
 }

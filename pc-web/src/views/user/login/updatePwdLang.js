@@ -32,7 +32,25 @@ export const messages = {
         label: '确认密码',
         placeholder: '必填，请输入确认密码'
       },
-      button: '确认修改'
+button: '确认修改'
+    }
+  },
+  'zh-TW': {
+    updatePwd: {
+      title: '修改密碼',
+      oldPassword: {
+        label: '原始密碼',
+        placeholder: '必填，請輸入原始密碼'
+      },
+      newPassword: {
+        label: '新密碼',
+        placeholder: '必填，請輸入新密碼'
+      },
+      confirmPassword: {
+        label: '確認密碼',
+        placeholder: '必填，請輸入確認密碼'
+      },
+      button: '確認修改'
     }
   }
-} 
+}

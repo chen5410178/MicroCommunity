@@ -34,5 +34,23 @@ export const messages = {
       parkingLot: '停车场-',
       parkingSpace: '停车位'
     }
+  },
+  'zh-TW': {
+    aOwnerDetailVisit: {
+      visitorId: '訪客ID',
+      photo: '照片',
+      visitor: '訪客',
+      ownerName: '業主姓名',
+      visitReason: '來訪事由/類型',
+      carNum: '車牌號',
+      entourage: '隨行人數',
+      createTime: '創建時間',
+      visitTime: '來訪/離開時間',
+      visitorStatus: '訪客狀態',
+      carStatus: '車輛狀態',
+      operation: '操作',
+      parkingLot: '停車場-',
+      parkingSpace: '停車位'
+    }
   }
 }

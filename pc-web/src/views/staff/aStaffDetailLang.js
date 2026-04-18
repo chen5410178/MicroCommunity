@@ -124,7 +124,71 @@ export const messages = {
       "cancel": "点错了",
       "confirm": "确认删除",
       "deleteSuccess": "小区删除成功",
-      "deleteError": "小区删除失败"
+"deleteError": "小区删除失败"
+    }
+  },
+  'zh-TW': {
+    aStaffDetailList: {
+      staffInfo: '員工信息',
+      back: '返回',
+      edit: '修改',
+      resetPwd: '重置密碼',
+      staffId: '編號',
+      userName: '名稱',
+      idCard: '身份證',
+      tel: '手機',
+      sex: '性別',
+      male: '男',
+      female: '女',
+      address: '住址',
+      orgPrivilege: '組織權限',
+      community: '小區',
+      loadError: '載入員工信息失敗',
+      resetSuccess: '密碼重置成功',
+      editSuccess: '員工信息修改成功',
+      addCommunitySuccess: '小區關聯成功',
+      deleteCommunitySuccess: '小區刪除成功'
+    },
+    "staffDetailOrgPrivilege": {
+      "relatedOrg": "關聯組織",
+      "org": "組織",
+      "position": "崗位",
+      "relatedRole": "關聯角色",
+      "staffPrivilege": "員工權限",
+      "loadOrgsError": "載入組織失敗",
+      "loadRolesError": "載入角色失敗",
+      "loadPrivilegesError": "載入權限失敗"
+    },
+    "aStaffDetailCommunitys": {
+      "relateCommunity": "關聯小區",
+      "staffName": "員工名稱",
+      "staffId": "員工編號",
+      "communityId": "小區編號",
+      "communityName": "小區名稱",
+      "operation": "操作",
+      "delete": "刪除",
+      "loadError": "載入小區數據失敗"
+    },
+    "addAStaffCommunity": {
+      "community": "小區",
+      "searchPlaceholder": "輸入小區名稱",
+      "communityId": "小區ID",
+      "communityName": "小區名稱",
+      "communityAddress": "小區地址",
+      "cancel": "取消",
+      "submit": "提交",
+      "loadError": "載入小區數據失敗",
+      "selectCommunity": "請至少選擇一個小區",
+      "addSuccess": "小區關聯成功",
+      "addError": "小區關聯失敗"
+    },
+    "deleteAStaffCommunity": {
+      "confirmOperation": "請確認您的操作",
+      "confirmDelete": "確定刪除隸屬小區？",
+      "cancel": "點錯了",
+      "confirm": "確認刪除",
+      "deleteSuccess": "小區刪除成功",
+      "deleteError": "小區刪除失敗"
     }
   }
 }

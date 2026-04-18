@@ -64,9 +64,44 @@ export const messages = {
       },
       allCommunities: '全部小区',
       faceOpen: '人脸开门',
-      otherOpen: '其他',
+otherOpen: '其他',
       openSuccess: '开门成功',
       openFailed: '开门失败'
+    }
+  },
+  'zh-TW': {
+    adminInout: {
+      search: {
+        title: '查詢條件',
+        inputUserName: '請填寫用戶名稱',
+        inputPhone: '請填寫手機號',
+        inputStartTime: '請輸入開始時間',
+        inputEndTime: '請輸入結束時間',
+        selectAccessControl: '請選擇門禁',
+        selectOpenStatus: '請選擇開門狀態'
+      },
+      list: {
+        title: '進出記錄'
+      },
+      table: {
+        face: '人臉',
+        communityName: '小區名稱',
+        number: '編號',
+        deviceName: '設備名稱',
+        deviceCode: '設備編碼',
+        userName: '用戶名稱',
+        openType: '開門方式',
+        phone: '手機號',
+        idCard: '用戶身份證',
+        similarity: '相似度',
+        openStatus: '開門狀態',
+        openTime: '開門時間'
+      },
+      allCommunities: '全部小區',
+      faceOpen: '人臉開門',
+      otherOpen: '其他',
+      openSuccess: '開門成功',
+      openFailed: '開門失敗'
     }
   }
 }

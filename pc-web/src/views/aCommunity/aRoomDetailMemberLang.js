@@ -22,5 +22,17 @@ export const messages = {
       contact: '联系方式',
       address: '地址'
     }
+  },
+  'zh-TW': {
+    aRoomDetailMember: {
+      placeholderName: '請填寫成員名稱',
+      face: '人臉',
+      name: '名稱',
+      sex: '性別',
+      personRole: '人員角色',
+      idCard: '身份證',
+      contact: '聯繫方式',
+      address: '地址'
+    }
   }
 }

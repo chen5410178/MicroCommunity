@@ -70,5 +70,41 @@ export const messages = {
       deleteSuccess: '取消领用成功',
       cancelText: '点错了',
     }
+  },
+  'zh-TW': {
+    itemOutManage: {
+      search: {
+        title: '查詢條件',
+        applyOrderId: '請輸入單號',
+        applyUserName: '請填寫申請人姓名',
+        resName: '請填寫物品名稱',
+        startTime: '請選擇開始時間',
+        endTime: '請選擇結束時間'
+      },
+      list: {
+        title: '物品領用管理',
+        apply: '領用申請'
+      },
+      table: {
+        applyOrderId: '單號',
+        resourceNames: '物品',
+        userName: '申請人',
+        createUserName: '操作人',
+        createTime: '申請時間',
+        stateName: '狀態',
+        warehousingWay: '領用方式',
+        directOut: '直接出庫',
+        auditOut: '審核出庫',
+        flowChart: '流程圖',
+        cancelApply: '取消領用',
+        operation: '操作'
+      }
+    },
+    deleteItemOut: {
+      title: '確認操作',
+      confirmText: '確定取消領用嗎?',
+      deleteSuccess: '取消領用成功',
+      cancelText: '點錯了',
+    }
   }
 }

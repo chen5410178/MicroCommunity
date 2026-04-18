@@ -91,7 +91,55 @@ export const messages = {
         name: '必填，请填写名称',
         appId: '必填，请填写APPID',
         appSecret: '必填，请填写应用密钥',
-        remarks: '选填，请填写描述信息'
+remarks: '选填，请填写描述信息'
+      }
+    },
+  },
+  'zh-TW': {
+    communityWechat: {
+      title: '小區公眾號',
+      name: '名稱',
+      communityName: '小區名稱',
+      appId: 'APPID',
+      appSecret: '應用密鑰',
+      description: '描述',
+      operation: '操作',
+      add: '添加',
+      edit: '修改',
+      cancel: '取消',
+      save: '保存',
+      required: '不能為空',
+      maxLength100: '不能超過100個字符',
+      maxLength200: '不能超過200個字符',
+      addSuccess: '添加成功',
+      editSuccess: '修改成功'
+    },
+    addCommunityWechat: {
+      title: '添加',
+      name: '名稱',
+      appId: 'APPID',
+      appSecret: '應用密鑰',
+      description: '描述',
+      remarks: '備註',
+      placeholder: {
+        name: '必填，請填寫名稱',
+        appId: '必填，請填寫APPID',
+        appSecret: '必填，請填寫應用密鑰',
+        remarks: '選填，請填寫描述信息'
+      }
+    },
+    editCommunityWechat: {
+      title: '修改公眾號',
+      name: '名稱',
+      appId: 'APPID',
+      appSecret: '應用密鑰',
+      description: '描述',
+      remarks: '備註',
+      placeholder: {
+        name: '必填，請填寫名稱',
+        appId: '必填，請填寫APPID',
+        appSecret: '必填，請填寫應用密鑰',
+        remarks: '選填，請填寫描述信息'
       }
     },
   }

@@ -26,5 +26,19 @@ export const messages = {
       operation: '操作',
       view: '查看'
     }
+  },
+  'zh-TW': {
+    myAuditHistoryOrders: {
+      title: '採購已辦單',
+      back: '返回',
+      refresh: '刷新',
+      orderNumber: '訂單號',
+      orderType: '訂單類型',
+      orderStatus: '訂單狀態',
+      applicant: '申請人',
+      createTime: '創建時間',
+      operation: '操作',
+      view: '查看'
+    }
   }
 }

@@ -50,7 +50,34 @@ export const messages = {
       itemReleaseCompleted: '物品放行已办',
       visitCompleted: '访客已办',
       pending: '待办',
-      completed: '已办'
+completed: '已办'
+    }
+  },
+  'zh-TW': {
+    newOaWorkflowDoing: {
+      myPending: '我的待辦',
+      myCompleted: '我的已辦',
+      refresh: '刷新',
+      repairPending: '報修待辦',
+      complaintPending: '投訴待辦',
+      purchasePending: '採購待辦',
+      collectionPending: '物品領用待辦',
+      contractApplyPending: '合同起草待辦',
+      contractChangePending: '合同變更待辦',
+      allocationPending: '調撥待辦',
+      itemReleasePending: '物品放行待辦',
+      visitPending: '訪客待辦',
+      repairCompleted: '報修已辦',
+      complaintCompleted: '投訴已辦',
+      purchaseCompleted: '採購已辦',
+      collectionCompleted: '物品領用已辦',
+      contractApplyCompleted: '合同起草已辦',
+      contractChangeCompleted: '合同變更已辦',
+      allocationCompleted: '調撥已辦',
+      itemReleaseCompleted: '物品放行已辦',
+      visitCompleted: '訪客已辦',
+      pending: '待辦',
+      completed: '已辦'
     }
   }
 }

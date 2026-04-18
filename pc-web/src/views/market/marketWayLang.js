@@ -100,6 +100,58 @@ export const messages = {
       delete: '删除',
       add: '添加',
       search: '查询',
+viewGoods: '查看商品'
+    }
+  },
+  'zh-TW': {
+    marketWay: {
+      title: '營銷管理',
+      tabText: '營銷文本',
+      tabPic: '營銷圖片',
+      tabGoods: '營銷商品'
+    },
+    marketText: {
+      title: '營銷文本管理',
+      name: '名稱',
+      sendRate: '發送頻率',
+      content: '內容',
+      config: '營銷配置',
+      createTime: '創建時間',
+      operation: '操作',
+      edit: '修改',
+      delete: '刪除',
+      add: '新增',
+      search: '查詢',
+      sendRateOptions: {
+        daily: '按天',
+        monthly: '按月',
+        unlimited: '不限制'
+      }
+    },
+    marketPic: {
+      title: '營銷圖片管理',
+      image: '圖片',
+      name: '名稱',
+      url: '訪問地址',
+      createTime: '創建時間',
+      remark: '備註',
+      operation: '操作',
+      edit: '修改',
+      delete: '刪除',
+      add: '新增',
+      search: '查詢'
+    },
+    marketGoods: {
+      title: '營銷商品管理',
+      name: '名稱',
+      goodsCount: '商品數',
+      createTime: '創建時間',
+      remark: '備註',
+      operation: '操作',
+      edit: '修改',
+      delete: '刪除',
+      add: '新增',
+      search: '查詢',
       viewGoods: '查看商品'
     }
   }

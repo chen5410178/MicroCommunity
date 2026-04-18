@@ -132,13 +132,84 @@ export const messages = {
       classesIdRequired: '班组ID不能为空',
       editSuccess: '修改成功'
     },
-    deleteAttendanceClasses: {
+deleteAttendanceClasses: {
       title: '请确认您的操作',
       confirmText: '确定删除考勤班组吗？',
       cancel: '点错了',
       confirm: '确认删除',
       deleteSuccess: '删除成功',
       deleteError: '删除考勤班组失败'
+    }
+  },
+  'zh-TW': {
+    attendanceClassesManage: {
+      title: '考勤設置',
+      document: '文檔',
+      add: '添加',
+      classesId: '班組ID',
+      classesName: '班組名稱',
+      timeOffset: '打卡範圍',
+      lateOffset: '遲到範圍',
+      leaveOffset: '早退範圍',
+      maxLastOffset: '當日下班範圍',
+      operation: '操作',
+      minute: '分鐘',
+      fetchError: '獲取考勤班組數據失敗'
+    },
+    addAttendanceClasses: {
+      title: '添加考勤班組',
+      classesName: '班次名稱',
+      classesNamePlaceholder: '必填，請填寫班次名稱',
+      classesNameRequired: '班次名稱不能為空',
+      classesNameMaxLength: '班次名稱格式錯誤',
+      timeOffset: '打卡範圍',
+      timeOffsetPlaceholder: '必填，請填寫打卡範圍(分鐘)',
+      timeOffsetRequired: '打卡範圍不能為空',
+      timeOffsetFormat: '打卡範圍格式錯誤',
+      lateOffset: '遲到範圍',
+      lateOffsetPlaceholder: '必填，請填寫遲到範圍（分鐘）',
+      lateOffsetRequired: '遲到範圍不能為空',
+      lateOffsetMaxLength: '遲到範圍錯誤',
+      leaveOffset: '早退範圍',
+      leaveOffsetPlaceholder: '必填，請填寫早退範圍（分鐘）',
+      leaveOffsetRequired: '早退範圍不能為空',
+      leaveOffsetMaxLength: '早退範圍錯誤',
+      maxLastOffset: '當日下班範圍',
+      maxLastOffsetPlaceholder: '必填，請填寫當日最後一次下班打卡範圍（分鐘）',
+      maxLastOffsetRequired: '當日下班範圍不能為空',
+      saveSuccess: '添加成功'
+    },
+    editAttendanceClasses: {
+      title: '修改考勤班組',
+      classesName: '班次名稱',
+      classesNamePlaceholder: '必填，請填寫班次名稱',
+      classesNameRequired: '班次名稱不能為空',
+      classesNameMaxLength: '班次名稱格式錯誤',
+      timeOffset: '打卡範圍',
+      timeOffsetPlaceholder: '必填，請填寫打卡範圍(分鐘)',
+      timeOffsetRequired: '打卡範圍不能為空',
+      timeOffsetFormat: '打卡範圍格式錯誤',
+      lateOffset: '遲到範圍',
+      lateOffsetPlaceholder: '必填，請填寫遲到範圍（分鐘）',
+      lateOffsetRequired: '遲到範圍不能為空',
+      lateOffsetMaxLength: '遲到範圍錯誤',
+      leaveOffset: '早退範圍',
+      leaveOffsetPlaceholder: '必填，請填寫早退範圍（分鐘）',
+      leaveOffsetRequired: '早退範圍不能為空',
+      leaveOffsetMaxLength: '早退範圍錯誤',
+      maxLastOffset: '當日下班範圍',
+      maxLastOffsetPlaceholder: '必填，請填寫當日最後一次下班打卡範圍（分鐘）',
+      maxLastOffsetRequired: '當日下班範圍不能為空',
+      classesIdRequired: '班組ID不能為空',
+      editSuccess: '修改成功'
+    },
+    deleteAttendanceClasses: {
+      title: '請確認您的操作',
+      confirmText: '確定刪除考勤班組嗎？',
+      cancel: '點錯了',
+      confirm: '確認刪除',
+      deleteSuccess: '刪除成功',
+      deleteError: '刪除考勤班組失敗'
     }
   }
 }

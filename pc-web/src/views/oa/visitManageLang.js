@@ -88,5 +88,50 @@ export const messages = {
       visitType: '访客类型',
       manage: '管理'
     },
+  },
+  'zh-TW': {
+    visitManage: {
+      search: {
+        title: '查詢條件',
+        state: '請選擇審核狀態',
+        nameLike: '請輸入訪客姓名',
+        gender: '請選擇性別',
+        phoneNumber: '請輸入電話號碼',
+        roomName: '請輸入拜訪房屋 樓棟-單元-房屋',
+        ownerName: '請輸入拜訪業主',
+        startTime: '請輸入開始時間',
+        endTime: '請輸入結束時間'
+      },
+      list: {
+        title: '訪客人員'
+      },
+      table: {
+        visitId: '拜訪ID',
+        name: '姓名',
+        photo: '照片',
+
+        gender: '性別',
+        phoneNumber: '電話號碼',
+        roomName: '拜訪房屋',
+        ownerName: '拜訪業主',
+        carNum: '訪客車輛',
+        visitType: '訪客類型',
+        visitCase: '拜訪事由',
+        entourage: '隨行人數',
+        visitTime: '拜訪時間',
+        departureTime: '離開時間',
+        state: '審核狀態',
+        carStatus: '車輛狀態',
+
+        msg: '審核備註',
+        createTime: '創建時間'
+      },
+      gender: {
+        male: '男',
+        female: '女'
+      },
+      visitType: '訪客類型',
+      manage: '管理'
+    },
   }
 }

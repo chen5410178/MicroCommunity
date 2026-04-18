@@ -30,7 +30,24 @@ export const messages = {
       stateP: '处理中',
       createTime: '导入时间',
       remark: '备注',
-      fetchError: '获取导入日志失败'
+      fetchError: '獲取導入日誌失敗'
+    }
+  },
+  'zh-TW': {
+    assetImportLog: {
+      title: '批量導入日誌',
+      logId: '導入編號',
+      logTypeName: '導入類型',
+      waitCount: '待導入數',
+      successCount: '成功數量',
+      errorCount: '失敗數量',
+      state: '狀態',
+      stateW: '待導入',
+      stateC: '已完成',
+      stateP: '處理中',
+      createTime: '導入時間',
+      remark: '備註',
+      fetchError: '獲取導入日誌失敗'
     }
   }
 }

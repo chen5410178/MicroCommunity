@@ -114,7 +114,66 @@ export const messages = {
     resetStaffPwd: {
       title: '请确认您的操作',
       confirm: '确认是否重置密码？',
-      success: '修改密码成功，密码为{pwd}请及时修改密码'
+success: '修改密码成功，密码为{pwd}请及时修改密码'
+    }
+  },
+  'zh-TW': {
+    systemUserDetail: {
+      title: '用戶信息',
+      userId: '編號',
+      userName: '名稱',
+      idCard: '身份證',
+      tel: '手機',
+      sex: '性別',
+      address: '住址',
+      userAttr: '用戶屬性',
+      relatedStaff: '關聯員工',
+      relatedOwner: '關聯業主'
+    },
+    userDetailAttr: {
+      specCd: '規格編號',
+      specName: '規格名稱',
+      value: '屬性值'
+    },
+    userDetailStaff: {
+      name: '員工名稱',
+      tel: '員工電話',
+      storeName: '物业公司'
+    },
+    ownerDetailAppUser: {
+      communityName: '小區名稱',
+      appUserName: '關聯業主',
+      idCard: '身份證',
+      link: '手機號',
+      state: '狀態',
+      createTime: '申請時間',
+      appType: '手機端類型',
+      openId: 'Open ID',
+      ownerDetail: '業主詳情',
+      relatedOwner: '關聯業主',
+      phone: '手機號',
+      status: '狀態',
+      applyTime: '申請時間',
+    },
+    audit: {
+      title: '審核信息',
+      state: '審核狀態',
+      selectState: '請審核',
+      agree: '同意',
+      reject: '拒絕',
+      remark: '原因',
+      remarkPlaceholder: '必填，請填寫原因',
+      stateRequired: '審核狀態不能為空',
+      remarkRequired: '原因內容不能為空'
+    },
+    deleteAppUserBindingOwner: {
+      title: '請確認您的操作',
+      confirm: '確定解綁業主嗎？'
+    },
+    resetStaffPwd: {
+      title: '請確認您的操作',
+      confirm: '確認是否重置密碼？',
+      success: '修改密碼成功，密碼為{pwd}請及時修改密碼'
     }
   }
 }

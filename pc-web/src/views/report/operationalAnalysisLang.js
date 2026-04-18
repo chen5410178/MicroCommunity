@@ -22,16 +22,34 @@ export const messages = {
       allCommunities: '全部小区',
       fetchError: '获取运营分析数据失败',
       fetchCommunityError: '获取小区列表失败',
+chart: {
+        payFee: '繳費訂單數',
+        repair: '報修訂單數',
+        inspection: '巡檢數',
+        maintainance: '保養數',
+        itemIn: '採購訂單數',
+        itemOut: '領用訂單數',
+        carIn: '車輛進場數',
+        personIn: '開門記錄',
+        contract: '簽訂合同數'
+      }
+    }
+  },
+  'zh-TW': {
+    operationalAnalysis: {
+      allCommunities: '全部小區',
+      fetchError: '獲取運營分析數據失敗',
+      fetchCommunityError: '獲取小區列表失敗',
       chart: {
-        payFee: '缴费订单数',
-        repair: '报修订单数',
-        inspection: '巡检数',
-        maintainance: '保养数',
-        itemIn: '采购订单数',
-        itemOut: '领用订单数',
-        carIn: '车辆进场数',
-        personIn: '开门记录',
-        contract: '签订合同数'
+        payFee: '繳費訂單數',
+        repair: '報修訂單數',
+        inspection: '巡檢數',
+        maintainance: '保養數',
+        itemIn: '採購訂單數',
+        itemOut: '領用訂單數',
+        carIn: '車輛進場數',
+        personIn: '開門記錄',
+        contract: '簽訂合同數'
       }
     }
   }

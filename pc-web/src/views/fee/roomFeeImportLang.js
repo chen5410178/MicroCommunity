@@ -111,6 +111,63 @@ export const messages = {
         downloadSuccess: '下载模板成功',
         downloadFailed: '下载模板失败'
       }
+}
+  },
+  'zh-TW': {
+    roomFeeImport: {
+      search: {
+        title: '查詢條件',
+        importFeeId: '請輸入匯入ID',
+        feeTypeCd: '請選擇費用類型'
+      },
+      table: {
+        title: '費用匯入',
+        importFeeId: '匯入ID',
+        feeTypeCd: '費用類型',
+        createTime: '創建時間',
+        remark: '備註'
+      },
+      button: {
+        import: '費用匯入'
+      },
+      fetchError: '獲取費用匯入數據失敗'
+    },
+    importRoomFee: {
+      title: '費用匯入',
+      form: {
+        feeTypeCd: '費用類型',
+        objType: '費用對象',
+        file: '選擇檔案',
+        template: '下載範本'
+      },
+      placeholder: {
+        feeTypeCd: '必填，請選擇費用類型',
+        objType: '必填，請選擇費用對象'
+      },
+      options: {
+        room: '房屋',
+        parking: '車位車輛'
+      },
+      rules: {
+        feeTypeCdRequired: '費用類型不能為空',
+        objTypeRequired: '費用對象不能為空',
+        fileRequired: '檔案不能為空'
+      },
+      tips: {
+        fileFormat: '只能上傳.xls, .xlsx格式檔案',
+        downloadTemplate1: '請先下載',
+        downloadTemplate2: '匯入範本',
+        downloadTemplate3: '準備資料後上傳匯入'
+      },
+      button: {
+        selectFile: '選擇檔案'
+      },
+      message: {
+        importSuccess: '匯入成功',
+        importFailed: '匯入失敗',
+        downloadSuccess: '下載範本成功',
+        downloadFailed: '下載範本失敗'
+      }
     }
   }
 }

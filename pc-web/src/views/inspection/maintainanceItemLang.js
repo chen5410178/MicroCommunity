@@ -94,7 +94,56 @@ export const messages = {
         title: '确认操作',
         confirmText: '确定删除该题目吗?'
       },
-      fetchError: '获取数据失败'
+fetchError: '获取数据失败'
+    }
+  },
+  'zh-TW': {
+    maintainanceItem: {
+      search: {
+        title: '查詢條件',
+        itemTitle: '請輸入問題名稱',
+        titleType: '請選擇題目類型'
+      },
+      list: {
+        title: '檢查項'
+      },
+      table: {
+        itemTitle: '名稱',
+        titleType: '類型',
+        seq: '順序',
+        createTime: '創建時間'
+      },
+      titleType: {
+        single: '單選',
+        multiple: '多選',
+        shortAnswer: '簡答'
+      },
+      form: {
+        itemTitle: '名稱',
+        itemTitlePlaceholder: '請輸入名稱',
+        itemTitleRequired: '名稱不能為空',
+        titleType: '類型',
+        titleTypePlaceholder: '請選擇類型',
+        titleTypeRequired: '類型不能為空',
+        option: '選項',
+        optionPlaceholder: '請輸入選項內容',
+        optionRequired: '選項內容不能為空',
+        seq: '順序',
+        seqPlaceholder: '請輸入順序',
+        seqRequired: '順序不能為空',
+        seqNumber: '順序必須是數字'
+      },
+      add: {
+        title: '添加檢查項'
+      },
+      edit: {
+        title: '修改檢查項'
+      },
+      delete: {
+        title: '確認操作',
+        confirmText: '確定刪除該題目嗎?'
+      },
+      fetchError: '獲取數據失敗'
     }
   }
 }

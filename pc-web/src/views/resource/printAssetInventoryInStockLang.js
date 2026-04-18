@@ -40,5 +40,26 @@ export const messages = {
       transferPersonSign: '调拨人员签字',
       time: '时间'
     }
+  },
+  'zh-TW': {
+    printAssetInventoryInStock: {
+      inventoryName: '盤點名稱',
+      inventoryPerson: '盤點人',
+      warehouse: '選擇倉庫',
+      inventoryDate: '盤點日期',
+      warehouseName: '倉庫名稱',
+      itemType: '物品類型',
+      itemName: '物品名稱',
+      specification: '物品規格',
+      itemCode: '物品編碼',
+      isFixed: '是否是固定物品',
+      batchPrice: '批次價格',
+      originalStock: '原有庫存',
+      afterInventory: '盤點後數量',
+      remark: '備註',
+      warehouseManagerSign: '倉庫管理員簽字',
+      transferPersonSign: '調撥人員簽字',
+      time: '時間'
+    }
   }
 }

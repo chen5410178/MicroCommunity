@@ -22,5 +22,17 @@ export const messages = {
       callableWayRequired: '催缴方式不能为空',
       fetchFeeError: '获取费用列表失败'
     }
+  },
+  'zh-TW': {
+    roomOweFeeCallable: {
+      title: '催繳欠費',
+      callableWay: '催繳方式',
+      selectCallableWay: '請選擇催繳方式',
+      callableFees: '催繳費用',
+      remark: '催繳說明',
+      inputRemark: '請輸入備註',
+      callableWayRequired: '催繳方式不能為空',
+      fetchFeeError: '獲取費用列表失敗'
+    }
   }
 }

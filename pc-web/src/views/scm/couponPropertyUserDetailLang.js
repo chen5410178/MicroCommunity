@@ -42,7 +42,30 @@ export const messages = {
       usageTime: '使用时间',
       scanTip: '请先扫码',
       verifySuccess: '核销成功',
-      fetchError: '获取数据失败'
+fetchError: '獲取數據失敗'
+    }
+  },
+  'zh-TW': {
+    couponPropertyUser: {
+      scanPlaceholder: '請扫码槍掃碼核銷',
+      verify: '核銷',
+      verifyResult: '核銷結果',
+      verifyTime: '核銷時間',
+      couponName: '優惠券名稱',
+      faceValue: '面值',
+      userName: '用戶名稱',
+      phone: '手機號',
+      purpose: '用途',
+      searchCondition: '查詢條件',
+      couponNamePlaceholder: '請填寫優惠券名稱',
+      userNamePlaceholder: '請填寫用戶名稱',
+      phonePlaceholder: '請填寫手機號',
+      usageRecord: '優惠券使用記錄',
+      serialNumber: '編號',
+      usageTime: '使用時間',
+      scanTip: '請先掃碼',
+      verifySuccess: '核銷成功',
+      fetchError: '獲取數據失敗'
     }
   }
 }

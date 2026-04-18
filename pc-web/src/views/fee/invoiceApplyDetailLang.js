@@ -65,7 +65,7 @@ export const messages = {
       imageTab: '查看发票',
       notUploaded: '未上传',
       noInvoice: '没有发票',
-      downloadInvoice: '下载发票',
+downloadInvoice: '下载发票',
       fetchError: '获取发票详情失败'
     },
     invoiceApplyDetailFee: {
@@ -79,12 +79,56 @@ export const messages = {
       accountType: '账户',
       fetchError: '获取费用明细失败'
     },
-    invoiceApplyDetailEvent: {
+invoiceApplyDetailEvent: {
       type: '类型',
       operator: '操作人',
       remark: '说明',
       time: '时间',
       fetchError: '获取审核记录失败'
     },
-  }
+  },
+  'zh-TW': {
+    invoiceApplyDetail: {
+      title: '發票詳情',
+      back: '返回',
+      applyId: '編號：',
+      invoiceType: '發票類型：',
+      personal: '個人',
+      company: '企業',
+      ownerName: '業主名稱：',
+      createUserName: '申請人：',
+      invoiceName: '發票名頭：',
+      invoiceNum: '納稅人識別號：',
+      invoiceAddress: '地址、電話：',
+      invoiceAmount: '申請金額：',
+      stateName: '審核狀態：',
+      createTime: '申請時間：',
+      invoiceCode: '發票編號：',
+      feeTab: '開票明細',
+      eventTab: '審核記錄',
+      imageTab: '查看發票',
+      notUploaded: '未上傳',
+      noInvoice: '沒有發票',
+      downloadInvoice: '下載發票',
+      fetchError: '獲取發票詳情失敗'
+    },
+    invoiceApplyDetailFee: {
+      type: '類型',
+      name: '名稱',
+      amount: '金額',
+      payTime: '繳費時間',
+      remark: '備註',
+      paymentId: '繳費ID',
+      feeType: '費用',
+      accountType: '帳戶',
+      fetchError: '獲取費用明細失敗'
+    },
+    invoiceApplyDetailEvent: {
+      type: '類型',
+      operator: '操作人',
+      remark: '說明',
+      time: '時間',
+      fetchError: '獲取審核記錄失敗'
+    },
+  },
 }

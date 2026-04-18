@@ -106,5 +106,59 @@ export const messages = {
       },
       fetchError: '获取服务注册列表失败'
     }
+  },
+  'zh-TW': {
+    route: {
+      search: {
+        title: '查詢條件',
+        appId: '應用ID',
+        serviceName: '接口名稱',
+        serviceCode: '接口編碼',
+        placeholder: '請輸入服務註冊名稱'
+      },
+      list: {
+        title: '服務註冊'
+      },
+      dialog: {
+        addTitle: '添加服務註冊',
+        editTitle: '編輯服務註冊',
+        delTitle: '刪除服務註冊',
+        cancel: '取消',
+        confirm: '確定'
+      },
+      form: {
+        id: 'id',
+        appId: '應用ID',
+        serviceId: '服務ID',
+        orderTypeCd: '訂單類型',
+      },
+      table: {
+        id: 'id',
+        appId: '應用ID',
+        serviceId: '服務ID',
+        orderTypeCd: '訂單類型',
+        serviceCode: '接口編碼',
+        serviceName: '接口名稱',
+        appName: '應用名稱',
+      },
+      validate: {
+        id: '請輸入id',
+        appId: '請輸入應用ID',
+        serviceId: '請輸入服務ID',
+        orderTypeCd: '請輸入訂單類型',
+      },
+      register:'註冊',
+      add: {
+        success: '添加服務註冊成功'
+      },
+      edit: {
+        success: '編輯服務註冊成功'
+      },
+      delete: {
+        success: '刪除服務註冊成功',
+        confirm: '確認刪除該服務註冊嗎？'
+      },
+      fetchError: '獲取服務註冊列表失敗'
+    }
   }
 }

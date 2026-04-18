@@ -154,5 +154,83 @@ export const messages = {
         deleteSuccess: '删除公摊抄表成功'
       }
     }
+  },
+  'zh-TW': {
+    shareReading: {
+      search: {
+        title: '查詢條件',
+        selectMeter: '請選擇公攤表',
+        startTime: '請選擇開始時間',
+        endTime: '請選擇結束時間'
+      },
+      list: {
+        title: '公攤抄表',
+        addReading: '抄表'
+      },
+      table: {
+        id: '編號',
+        name: '名稱',
+        preDegrees: '上期度數',
+        curDegrees: '本期度數',
+        degrees: '度數',
+        preReadingTime: '上期讀表時間',
+        curReadingTime: '本期讀表時間',
+        reader: '抄表人',
+        status: '狀態',
+        remark: '說明',
+        auditor: '審核人',
+        auditOpinion: '審核意見',
+        shareProgress: '公攤進度',
+        readingTime: '抄表時間',
+        shareFee: '公攤費用',
+        operation: '操作'
+      },
+      status: {
+        waiting: '待審核',
+        passed: '審核通過',
+        rejected: '審核不通過',
+        all: '全部'
+      },
+      add: {
+        title: '公攤抄表',
+        meter: '公攤表',
+        selectMeter: '請選擇公攤表',
+        preDegrees: '上期度數',
+        inputPreDegrees: '請填寫上期度數',
+        curDegrees: '本期度數',
+        inputCurDegrees: '請填寫本期度數',
+        preReadingTime: '上期讀表時間',
+        selectPreTime: '請選擇上期讀表時間',
+        curReadingTime: '本期讀表時間',
+        selectCurTime: '請選擇本期讀表時間',
+        remark: '備註',
+        inputRemark: '請填寫備註(選填)'
+      },
+      audit: {
+        title: '公攤審核',
+        status: '審核',
+        selectStatus: '請選擇審核',
+        remark: '說明',
+        inputRemark: '請填寫說明'
+      },
+      delete: {
+        title: '刪除確認',
+        confirm: '確定刪除公攤抄表?'
+      },
+      validate: {
+        selectMeter: '請選擇公攤表',
+        inputPreDegrees: '請填寫上期度數',
+        inputCurDegrees: '請填寫本期度數',
+        selectPreTime: '請選擇上期讀表時間',
+        selectCurTime: '請選擇本期讀表時間',
+        selectStatus: '請選擇審核狀態',
+        number: '請輸入有效數字'
+      },
+      message: {
+        addSuccess: '新增公攤抄表成功',
+        auditSuccess: '審核公攤抄表成功',
+        deleteSuccess: '刪除公攤抄表成功'
+      }
+    }
   }
 }

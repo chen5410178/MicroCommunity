@@ -52,7 +52,35 @@ export const messages = {
       auditor: '审核人',
       contactNumber: '联系电话',
       auditTime: '审核时间',
-      auditOpinion: '审核意见'
+auditOpinion: '审核意见'
+    }
+  },
+  'zh-TW': {
+    assetInventoryInStock: {
+      title: '盤點信息',
+      print: '列印',
+      back: '返回',
+      inventoryName: '盤點名稱',
+      inventoryPerson: '盤點人',
+      warehouse: '選擇倉庫',
+      inventoryDate: '盤點日期',
+      remark: '盤點說明',
+      status: '審核狀態',
+      inventoryItems: '盤點商品',
+      warehouseName: '倉庫名稱',
+      itemType: '物品類型',
+      itemName: '物品名稱',
+      specification: '物品規格',
+      itemCode: '物品編碼',
+      isFixedItem: '是否是固定物品',
+      batchPrice: '批次價格',
+      originalStock: '原有庫存',
+      inventoryQuantity: '盤點後數量',
+      auditInfo: '審核信息',
+      auditor: '審核人',
+      contactNumber: '聯繫電話',
+      auditTime: '審核時間',
+      auditOpinion: '審核意見'
     }
   }
 }

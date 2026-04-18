@@ -334,5 +334,173 @@ export const messages = {
         fetchError: '获取数据失败'
       }
     }
+  },
+  'zh-TW': {
+    applyRoomDiscount: {
+      search: {
+        title: '查詢條件',
+        roomName: '請輸入房屋名稱(樓棟-單元-房屋)',
+        applyType: '請選擇申請類型',
+        state: '請選擇狀態'
+      },
+      list: {
+        title: '優惠申請'
+      },
+      table: {
+        roomName: '房屋(樓棟-單元-房屋)',
+        discountId: '折扣ID',
+        discountName: '折扣名稱',
+        applyType: '申請類型',
+        createUser: '申請人',
+        createUserTel: '申請電話',
+        startTime: '開始時間',
+        endTime: '結束時間',
+        state: '狀態',
+        createTime: '創建時間',
+        inUse: '使用狀態',
+        returnType: '返還類型',
+        returnAmount: '返還金額'
+      },
+      button: {
+        discountType: '優惠類型',
+        phoneApply: '電話申請',
+        export: '導出',
+        check: '驗房',
+        record: '跟蹤記錄',
+        review: '審核',
+        edit: '修改',
+        delete: '刪除'
+      },
+      status: {
+        notUsed: '未使用',
+        used: '已使用',
+        checkPass: '驗房通過',
+        checkReject: '驗房不通過',
+        reviewPass: '審批通過',
+        reviewReject: '審批不通過'
+      },
+      returnType: {
+        account: '帳戶餘額',
+        discount: '折扣'
+      },
+      discountType: {
+        discount: '優惠(需要申請)'
+      },
+      returnWay: {
+        discount: '享受繳納折扣',
+        account: '預繳金額返還至餘額帳戶'
+      },
+      add: {
+        title: '電話申請',
+        room: '房屋',
+        roomPlaceholder: '必填，請填寫房屋 樓棟-單元-房屋',
+        applyType: '申請類型',
+        applyTypePlaceholder: '必填，請選擇申請類型',
+        feeItem: '費用項目',
+        feeItemPlaceholder: '請選擇費用項目',
+        createUser: '申請人',
+        createUserPlaceholder: '必填，請填寫申請人',
+        createUserTel: '申請電話',
+        createUserTelPlaceholder: '必填，請填寫申請電話',
+        startTime: '開始時間',
+        startTimePlaceholder: '必填，請填寫開始時間',
+        endTime: '結束時間',
+        endTimePlaceholder: '必填，請填寫結束時間',
+        createRemark: '申請說明',
+        createRemarkPlaceholder: '必填，請填寫申請說明',
+        images: '圖片材料'
+      },
+      edit: {
+        title: '驗房',
+        startTime: '開始時間',
+        startTimePlaceholder: '必填，請填寫開始時間',
+        endTime: '結束時間',
+        endTimePlaceholder: '必填，請填寫結束時間',
+        state: '驗房狀態',
+        statePlaceholder: '必填，請選擇狀態',
+        createRemark: '申請說明',
+        checkRemark: '驗房說明',
+        checkRemarkPlaceholder: '必填，請填寫驗房說明',
+        images: '圖片資料'
+      },
+      editRecord: {
+        title: '修改優惠申請',
+        ardId: '申請ID',
+        roomName: '房屋(樓棟-單元-房屋)',
+        applyTypeName: '申請類型',
+        createUserName: '申請人',
+        createUserTel: '申請電話',
+        startTime: '開始時間',
+        startTimePlaceholder: '必填，請填寫開始時間',
+        endTime: '結束時間',
+        endTimePlaceholder: '必填，請填寫結束時間',
+        stateName: '狀態'
+      },
+      review: {
+        title: '審批',
+        discountType: '折扣類型',
+        discountTypePlaceholder: '必填，請選擇折扣類型',
+        discountName: '折扣名稱',
+        discountNamePlaceholder: '必填，請選擇折扣名稱',
+        returnWay: '返還方式',
+        returnWayPlaceholder: '請選擇返還方式',
+        paymentRecords: '繳費記錄',
+        refundAmount: '返還金額',
+        refundAmountPlaceholder: '必填，請填寫返還金額',
+        startTime: '開始時間',
+        startTimePlaceholder: '必填，請填寫開始時間',
+        endTime: '結束時間',
+        endTimePlaceholder: '必填，請填寫結束時間',
+        state: '審批狀態',
+        statePlaceholder: '必填，請選擇狀態',
+        createRemark: '申請備註',
+        checkRemark: '驗房備註',
+        reviewRemark: '審批備註',
+        reviewRemarkPlaceholder: '必填，請填寫審批說明',
+        images: '圖片資料'
+      },
+      delete: {
+        title: '請確認您的操作',
+        confirmText: '確定刪除房屋折扣申請?'
+      },
+      validate: {
+        roomRequired: '房屋不能為空',
+        roomFormat: '房屋格式錯誤',
+        roomNotFound: '未找到房屋',
+        applyTypeRequired: '申請類型不能為空',
+        feeIdRequired: '費用項不能為空',
+        createUserRequired: '申請人不能為空',
+        createUserFormat: '申請人錯誤',
+        createUserTelRequired: '申請電話不能為空',
+        createUserTelFormat: '申請電話錯誤',
+        startTimeRequired: '開始時間不能為空',
+        endTimeRequired: '結束時間不能為空',
+        dateInvalid: '結束時間必須大於開始時間',
+        createRemarkRequired: '申請說明不能為空',
+        createRemarkFormat: '申請說明過長',
+        checkRemarkRequired: '驗房說明不能為空',
+        checkRemarkFormat: '驗房說明過長',
+        reviewRemarkRequired: '審批說明不能為空',
+        reviewRemarkFormat: '審批說明過長',
+        stateRequired: '狀態不能為空',
+        ardIdRequired: '申請ID不能為空',
+        discountIdRequired: '折扣名稱不能為空',
+        discountTypeRequired: '折扣類型不能為空',
+        returnWayRequired: '返還方式不能為空',
+        refundAmountRequired: '返還金額不能為空',
+        refundAmountFormat: '返還金額格式錯誤'
+      },
+      message: {
+        saveSuccess: '申請成功',
+        saveFailed: '申請失敗',
+        updateSuccess: '修改成功',
+        updateFailed: '修改失敗',
+        reviewSuccess: '審批成功',
+        reviewFailed: '審批失敗',
+        deleteSuccess: '刪除成功',
+        deleteFailed: '刪除失敗',
+        fetchError: '獲取數據失敗'
+      }
+    }
   }
 }

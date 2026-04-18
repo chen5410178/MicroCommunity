@@ -137,8 +137,79 @@ export const messages = {
       bankRequired: '开户行不能为空',
       applicationNote: '申请说明',
       applicationNotePlaceholder: '必填，请填写申请说明',
-      applySuccess: '申请成功',
-      applyFailed: '申请失败'
+applySuccess: '申請成功',
+      applyFailed: '申請失敗'
+    }
+  },
+  'zh-TW': {
+    communityIntegral: {
+      title: '小區積分',
+      accountId: '帳戶ID：',
+      accountName: '帳戶名稱：',
+      points: '積分數：',
+      withdraw: '提現',
+      transactionDetails: '交易明細',
+      pointsWithdrawal: '積分提現'
+    },
+    communityIntegralDetail: {
+      id: '編號',
+      integralAccount: '金幣帳戶',
+      type: '類型',
+      transferIn: '轉入',
+      transferOut: '轉出',
+      transactionAmount: '交易金額',
+      currentAmount: '當前金額',
+      transactionNo: '交易單號',
+      remark: '備註',
+      time: '時間'
+    },
+    applyWithholdIntegral: {
+      id: '編號',
+      integralId: '積分ID',
+      integralName: '積分名稱',
+      withdrawAmount: '提現金額',
+      applicant: '申請人',
+      applicantPhone: '申請人電話',
+      bankAccount: '銀行帳戶',
+      accountName: '帳號名稱',
+      bank: '開戶行',
+      applicationNote: '申請說明',
+      status: '狀態',
+      reviewNote: '審核說明'
+    },
+    deleteApplyWithholdIntegral: {
+      confirmTitle: '請確認您的操作！',
+      confirmText: '確定刪除申請',
+      cancel: '點錯了',
+      confirmDelete: '確認刪除',
+      deleteSuccess: '刪除成功',
+      deleteFailed: '刪除失敗'
+    },
+    withholdIntegral: {
+      applyWithdraw: '申請提現',
+      totalPoints: '總積分數',
+      withdrawPoints: '提現積分',
+      withdrawPointsPlaceholder: '必填，請填寫提現積分',
+      withdrawPointsRequired: '提現積分不能為空',
+      applicant: '申請人',
+      applicantPlaceholder: '必填，請填寫申請人',
+      applicantRequired: '申請人不能為空',
+      applicantPhone: '申請人電話',
+      applicantPhonePlaceholder: '必填，請填寫申請人電話',
+      applicantPhoneRequired: '申請人電話不能為空',
+      bankAccount: '銀行帳戶',
+      bankAccountPlaceholder: '必填，請填寫銀行帳戶',
+      bankAccountRequired: '銀行帳戶不能為空',
+      accountName: '帳號名稱',
+      accountNamePlaceholder: '必填，請填寫帳號名稱',
+      accountNameRequired: '帳號名稱不能為空',
+      bank: '開戶行',
+      bankPlaceholder: '必填，請填寫開戶行',
+      bankRequired: '開戶行不能為空',
+      applicationNote: '申請說明',
+      applicationNotePlaceholder: '必填，請填寫申請說明',
+      applySuccess: '申請成功',
+      applyFailed: '申請失敗'
     }
   }
 }

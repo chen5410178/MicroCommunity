@@ -63,8 +63,42 @@ export const messages = {
       fillQuantityFirst: '请先填写数量',
       insufficientStock: '库存不足',
       orgInfo: '组织信息',
-      staffInfo: '员工信息',
+staffInfo: '员工信息',
       selectStaffFirst: '请先选择员工'
+    }
+  },
+  'zh-TW': {
+    transferGoodsManage: {
+      recipient: '受贈人',
+      requiredContact: '必填，請填寫聯繫人',
+      selectRecipient: '選擇受贈人',
+      transferDescription: '轉贈說明',
+      requiredDescription: '必填，請填寫轉贈說明',
+      goodsInfo: '物品信息',
+      selectGoods: '選擇物品',
+      goodsName: '物品名稱',
+      goodsCode: '物品編碼',
+      goodsType: '物品類型',
+      isFixedGoods: '是否是固定物品',
+      goodsStock: '物品庫存',
+      miniStock: '最小計量總數',
+      transferQuantity: '轉贈數量',
+      remark: '備註',
+      operation: '操作',
+      remove: '移除',
+      submit: '提交',
+      selectGoodsType: '請選擇物品類型',
+      selectSubCategory: '請選擇二級分類',
+      inputGoodsName: '輸入物品名稱',
+      cannotTransferToSelf: '不能轉贈給自己',
+      selectRecipientFirst: '請先選擇受贈人',
+      fillDescriptionFirst: '請先填寫轉贈說明',
+      selectGoodsFirst: '請先選擇物品',
+      fillQuantityFirst: '請先填寫數量',
+      insufficientStock: '庫存不足',
+      orgInfo: '組織信息',
+      staffInfo: '員工信息',
+      selectStaffFirst: '請先選擇員工'
     }
   }
 }

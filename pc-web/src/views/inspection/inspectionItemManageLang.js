@@ -68,6 +68,42 @@ export const messages = {
       confirmDeleteBtn: '确认删除',
       deleteSuccess: '删除成功',
       addSuccess: '添加成功',
+editSuccess: '修改成功'
+    }
+  },
+  'zh-TW': {
+    inspectionItemManage: {
+      searchCondition: '查詢條件',
+      itemIdPlaceholder: '請輸入項目編號',
+      itemNamePlaceholder: '請輸入巡檢項目',
+      searchBtn: '查詢',
+      resetBtn: '重設',
+      inspectionItems: '巡檢項目',
+      doc: '文檔',
+      addBtn: '添加',
+      id: '編號',
+      itemName: '巡檢項目',
+      createTime: '創建時間',
+      remark: '備註',
+      operation: '操作',
+      edit: '修改',
+      delete: '刪除',
+      question: '題目',
+      addTitle: '添加',
+      editTitle: '修改',
+      deleteTitle: '刪除',
+      itemNameLabel: '巡檢項目',
+      remarkLabel: '備註',
+      requiredItem: '必填，請填寫巡檢項目',
+      requiredRemark: '必填，請填寫備註',
+      save: '保存',
+      cancel: '取消',
+      confirmDelete: '請確認您的操作',
+      confirmDeleteMsg: '確定刪除巡檢項目',
+      cancelDelete: '點錯了',
+      confirmDeleteBtn: '確認刪除',
+      deleteSuccess: '刪除成功',
+      addSuccess: '添加成功',
       editSuccess: '修改成功'
     }
   }

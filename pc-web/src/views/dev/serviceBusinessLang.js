@@ -120,5 +120,66 @@ export const messages = {
       },
       fetchError: '获取服务实现列表失败'
     }
+  },
+  'zh-TW': {
+    serviceBusiness: {
+      search: {
+        title: '查詢條件',
+        businessTypeCd: '業務類型',
+        invokeType: '調用類型',
+        url: '目標地址',
+        messageTopic: 'kafka主題',
+        timeout: '超時時間',
+        retryCount: '重試次數',
+        createTime: '創建時間',
+        placeholder: '請輸入服務實現名稱'
+      },
+      list: {
+        title: '服務實現'
+      },
+      dialog: {
+        addTitle: '添加服務實現',
+        editTitle: '編輯服務實現',
+        delTitle: '刪除服務實現',
+        cancel: '取消',
+        confirm: '確定'
+      },
+      form: {
+        businessTypeCd: '業務類型',
+        invokeType: '調用類型',
+        name:'業務名稱',
+        url: '目標地址',
+        messageTopic: 'kafka主題',
+        timeout: '超時時間',
+        retryCount: '重試次數',
+        createTime: '創建時間',
+      },
+      table: {
+        businessTypeCd: '業務類型',
+        invokeType: '調用類型',
+        url: '目標地址',
+        messageTopic: 'kafka主題',
+        timeout: '超時時間',
+        retryCount: '重試次數',
+        createTime: '創建時間',
+      },
+      validate: {
+        invokeType: '請輸入調用類型',
+        timeout: '請輸入超時時間',
+        retryCount: '請輸入重試次數',
+        createTime: '請輸入創建時間',
+      },
+      add: {
+        success: '添加服務實現成功'
+      },
+      edit: {
+        success: '編輯服務實現成功'
+      },
+      delete: {
+        success: '刪除服務實現成功',
+        confirm: '確認刪除該服務實現嗎？'
+      },
+      fetchError: '獲取服務實現列表失敗'
+    }
   }
 }

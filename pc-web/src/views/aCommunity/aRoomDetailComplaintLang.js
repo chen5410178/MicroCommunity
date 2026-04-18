@@ -30,5 +30,21 @@ export const messages = {
       flowChart: '流程图',
       none: '无'
     }
+  },
+  'zh-TW': {
+    aRoomDetailComplaint: {
+      type: '類型',
+      room: '房屋',
+      contact: '聯絡人',
+      phone: '聯繫電話',
+      status: '狀態',
+      handler: '處理人',
+      handlerPhone: '處理人電話',
+      createTime: '創建時間',
+      actions: '操作',
+      detail: '詳情',
+      flowChart: '流程圖',
+      none: '無'
+    }
   }
 }

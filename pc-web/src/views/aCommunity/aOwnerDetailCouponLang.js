@@ -32,5 +32,22 @@ export const messages = {
       used: '已使用',
       sheet: '张'
     }
+  },
+  'zh-TW': {
+    aOwnerDetailCoupon: {
+      id: '編號',
+      couponName: '優惠券名稱',
+      faceValue: '面值',
+      validity: '有效期',
+      userName: '用戶名稱',
+      phone: '手機號',
+      purpose: '用途',
+      quantity: '數量',
+      status: '狀態',
+      effectiveTime: '生效時間',
+      unused: '未使用',
+      used: '已使用',
+      sheet: '張'
+    }
   }
 }

@@ -104,5 +104,58 @@ export const messages = {
       },
       fetchError: '获取菜单组列表失败'
     }
+  },
+  'zh-TW': {
+    menuGroupCatalog: {
+      search: {
+        title: '查詢條件',
+        mgName: '菜單組',
+        gId: '菜單組',
+        storeType: '商戶類型',
+        createTime: '創建時間',
+        placeholder: '請輸入菜單組名稱'
+      },
+      list: {
+        title: '菜單組'
+      },
+      dialog: {
+        addTitle: '添加菜單組',
+        editTitle: '編輯菜單組',
+        delTitle: '刪除菜單組',
+        cancel: '取消',
+        confirm: '確定'
+      },
+      form: {
+        gcId: '目錄名稱',
+        caId: '目錄ID',
+        gId: '菜單組ID',
+        storeType: '商戶類型',
+        createTime: '創建時間',
+      },
+      table: {
+        gcId: '目錄名稱',
+        mgName: '菜單組',
+        gId: '菜單組ID',
+        storeType: '商戶類型',
+        createTime: '創建時間',
+      },
+      validate: {
+        gcId: '請輸入目錄名稱',
+        caId: '請輸入目錄ID',
+        gId: '請輸入菜單組ID',
+        createTime: '請輸入創建時間',
+      },
+      add: {
+        success: '添加菜單組成功'
+      },
+      edit: {
+        success: '編輯菜單組成功'
+      },
+      delete: {
+        success: '刪除菜單組成功',
+        confirm: '確認刪除該菜單組嗎？'
+      },
+      fetchError: '獲取菜單組列表失敗'
+    }
   }
 }

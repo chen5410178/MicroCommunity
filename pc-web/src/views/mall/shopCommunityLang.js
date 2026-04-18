@@ -50,7 +50,34 @@ export const messages = {
         passed: '审核通过',
         rejected: '审核不通过'
       },
-      fetchError: '获取小区商铺数据失败'
+fetchError: '获取小区商铺数据失败'
+    }
+  },
+  'zh-TW': {
+    shopCommunity: {
+      search: {
+        title: '查詢條件',
+        shopName: '店鋪名稱',
+        communityName: '小區名稱',
+        state: '狀態'
+      },
+      list: {
+        title: '小區商鋪'
+      },
+      table: {
+        communityId: '小區編碼',
+        communityName: '小區名稱',
+        shopName: '商鋪名稱',
+        createTime: '入駐時間',
+        startTime: '開始時間',
+        endTime: '結束時間',
+        state: '狀態'
+      },
+      state: {
+        passed: '審核通過',
+        rejected: '審核不通過'
+      },
+      fetchError: '獲取小區商鋪數據失敗'
     }
   }
 }

@@ -110,5 +110,61 @@ export const messages = {
       },
       fetchError: '获取tenant列表失败'
     }
+  },
+  'zh-TW': {
+    tenant: {
+      search: {
+        title: '查詢條件',
+        tenantId: '租戶ID',
+        name: '名稱',
+        address: '地址',
+        tel: '電話',
+        createTime: '創建時間',
+        placeholder: '請輸入tenant名稱'
+      },
+      list: {
+        title: '租戶列表'
+      },
+      dialog: {
+        addTitle: '添加租戶',
+        editTitle: '編輯租戶',
+        delTitle: '刪除租戶',
+        cancel: '取消',
+        confirm: '確定'
+      },
+      form: {
+        tenantId: '租戶ID',
+        name: '名稱',
+        address: '地址',
+        tel: '電話',
+        createTime: '創建時間',
+      },
+      table: {
+        tenantId: '租戶ID',
+        name: '名稱',
+        address: '地址',
+        tel: '電話',
+        createTime: '創建時間',
+        resetPassword: '重置密碼'
+      },
+      validate: {
+        tenantId: '請輸入租戶ID',
+        name: '請輸入名稱',
+        address: '請輸入地址',
+        tel: '請輸入電話',
+        createTime: '請輸入創建時間',
+      },
+      add: {
+        success: '添加tenant成功'
+      },
+      edit: {
+        success: '編輯tenant成功'
+      },
+      delete: {
+        success: '刪除tenant成功',
+        confirm: '確認刪除該tenant嗎？'
+      },
+      fetchError: '獲取tenant列表失敗'
+    }
   }
 }

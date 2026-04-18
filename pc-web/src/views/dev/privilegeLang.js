@@ -118,5 +118,65 @@ export const messages = {
       },
       fetchError: '获取权限列表失败'
     }
+  },
+  'zh-TW': {
+    privilege: {
+      search: {
+        title: '查詢條件',
+        name: '權限名稱',
+        domain: '商戶類型',
+        resource: '資源路徑',
+        mId: '菜單ID',
+        description: '權限描述',
+        createTime: '創建時間',
+        placeholder: '請輸入權限名稱'
+      },
+      list: {
+        title: '權限列表'
+      },
+      dialog: {
+        addTitle: '添加權限',
+        editTitle: '編輯權限',
+        delTitle: '刪除權限',
+        cancel: '取消',
+        confirm: '確定'
+      },
+      form: {
+        pId: '權限ID',
+        name: '權限名稱',
+        domain: '商戶類型',
+        resource: '資源路徑',
+        mId: '菜單ID',
+        description: '權限描述',
+        createTime: '創建時間',
+      },
+      table: {
+        pId: '權限ID',
+        name: '權限名稱',
+        domain: '商戶類型',
+        resource: '資源路徑',
+        mId: '菜單ID',
+        description: '權限描述',
+        createTime: '創建時間',
+      },
+      validate: {
+        pId: '請輸入權限ID',
+        name: '請輸入權限名稱',
+        domain: '請輸入商戶類型',
+        mId: '請輸入菜單ID',
+        createTime: '請輸入創建時間',
+      },
+      add: {
+        success: '添加權限成功'
+      },
+      edit: {
+        success: '編輯權限成功'
+      },
+      delete: {
+        success: '刪除權限成功',
+        confirm: '確認刪除該權限嗎？'
+      },
+      fetchError: '獲取權限列表失敗'
+    }
   }
 }

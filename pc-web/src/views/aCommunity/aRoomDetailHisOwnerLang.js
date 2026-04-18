@@ -22,5 +22,17 @@ export const messages = {
       active: '在用',
       inactive: '失效'
     }
+  },
+  'zh-TW': {
+    aRoomDetailHisOwner: {
+      ownerName: '業主名稱',
+      ownerPhone: '業主電話',
+      startTime: '開始時間',
+      endTime: '結束時間',
+      createTime: '創建時間',
+      status: '狀態',
+      active: '在用',
+      inactive: '失效'
+    }
   }
 }

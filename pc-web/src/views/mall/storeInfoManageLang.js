@@ -106,5 +106,59 @@ export const messages = {
         remarkMaxLength: '备注不能超过5000个字符'
       }
     }
+  },
+  'zh-TW': {
+    storeInfoManage: {
+      search: {
+        title: '查詢條件',
+        storeName: '請輸入商戶名稱',
+        convenienceType: '請選擇便民種類',
+        isShow: '請選擇是否顯示'
+      },
+      list: {
+        title: '商戶信息'
+      },
+      table: {
+        storeInfoId: '商戶信息ID',
+        storeName: '商戶名稱',
+        icon: '圖片地址',
+        tel: '商戶電話',
+        site: '商戶位置',
+        seq: '顯示序號',
+        isShow: '是否顯示',
+        convenienceType: '便民類型',
+        workTime: '工作時間',
+        remark: '備註'
+      },
+      delete: {
+        confirmDelete: '確定刪除商戶信息'
+      },
+      error: {
+        fetchStoreInfoFailed: '獲取商戶信息失敗',
+        fetchConvenienceMenusFailed: '獲取便民選單失敗',
+        saveFailed: '保存商戶信息失敗',
+        updateFailed: '更新商戶信息失敗',
+        deleteFailed: '刪除商戶信息失敗',
+        uploadFailed: '上傳圖片失敗',
+        uploadImageOnly: '只能上傳圖片文件',
+        imageSizeLimit: '圖片大小不能超過2MB',
+        maxLength50: '不能超過50個字符',
+        maxLength13: '不能超過13個字符',
+        maxLength100: '不能超過100個字符',
+        maxLength200: '不能超過200個字符',
+        maxLength5000: '不能超過5000個字符',
+        required: '此字段為必填項',
+        number: '請輸入有效的數字'
+      },
+      validation: {
+        storeNameRequired: '商戶名稱為必填項',
+        seqRequired: '顯示序號為必填項',
+        seqNumber: '顯示序號必須為數字',
+        telMaxLength: '電話號碼不能超過13個字符',
+        siteMaxLength: '位置不能超過100個字符',
+        workTimeMaxLength: '工作時間不能超過200個字符',
+        remarkMaxLength: '備註不能超過5000個字符'
+      }
+    }
   }
 }

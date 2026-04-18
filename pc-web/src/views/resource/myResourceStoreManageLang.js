@@ -68,5 +68,40 @@ export const messages = {
       miniUnit: '最小计量',
       price: '收费标准'
     }
+  },
+  'zh-TW': {
+    myResourceStoreManage: {
+      queryCondition: '查詢條件',
+      hide: '隱藏',
+      more: '更多',
+      enterResId: '請輸入物品ID',
+      enterResName: '請輸入物品名稱',
+      enterResCode: '請輸入物品編碼',
+      search: '查詢',
+      reset: '重設',
+      selectResType: '請選擇物品類型',
+      selectSecondType: '請選擇二級分類',
+      selectResSpec: '請選擇物品規格',
+      enterUserId: '請輸入用戶ID',
+      enterUserName: '請輸入用戶名稱',
+      selectIsFixed: '請選擇物品是否固定',
+      myResources: '我的物品',
+      return: '退還',
+      transfer: '轉贈',
+      scrap: '損耗',
+      export: '導出',
+      userId: '用戶ID',
+      userName: '用戶名',
+      resId: '物品ID',
+      resType: '物品類型',
+      resName: '物品名稱',
+      resSpec: '物品規格',
+      resCode: '物品編碼',
+      isFixed: '是否是固定物品',
+      stock: '物品庫存',
+      miniStock: '最小計量總數',
+      miniUnit: '最小計量',
+      price: '收費標準'
+    }
   }
 }

@@ -44,5 +44,28 @@ export const messages = {
       roomsRequired: '请选择欠费房屋',
       noOweRoomsSelected: '未选择欠费房屋'
     }
+  },
+  'zh-TW': {
+    addOweFeeCallable: {
+      title: '催繳欠費',
+      callableWay: '催繳方式',
+      selectCallableWay: '請選擇催繳方式',
+      feeConfigs: '催繳費用',
+      floor: '樓棟',
+      selectFloor: '請選擇樓棟',
+      timeRange: '應收時間段',
+      selectTimeRange: '請選擇應收時間段',
+      startTime: '開始時間',
+      selectStartTime: '請選擇開始時間',
+      endTime: '結束時間',
+      selectEndTime: '請選擇結束時間',
+      oweRooms: '欠費房屋',
+      noOweRooms: '沒有欠費房屋',
+      checkAll: '全選',
+      ttsCall: '語音催繳',
+      callableWayRequired: '催繳方式不能為空',
+      roomsRequired: '請選擇欠費房屋',
+      noOweRoomsSelected: '未選擇欠費房屋'
+    }
   }
 }

@@ -102,5 +102,57 @@ export const messages = {
         error: '取消申请失败'
       }
     }
+  },
+  'zh-TW': {
+    purchaseApplyManage: {
+      search: {
+        title: '查詢條件',
+        applyOrderId: '請輸入申請單號',
+        name: '請填寫申請人姓名',
+        resName: '請填寫物品名稱',
+        startTime: '請選擇開始時間',
+        endTime: '請選擇結束時間'
+      },
+      list: {
+        title: '採購申請'
+      },
+      table: {
+        applyOrderId: '申請單號',
+        userName: '申請人',
+        endUserName: '使用人',
+        createUserName: '操作人',
+        resourceNames: '物品(規格)',
+        createTime: '申請時間',
+        warehousingWay: '採購方式',
+        stateName: '審批狀態'
+      },
+      button: {
+        purchase: '採購',
+        urgentPurchase: '緊急採購',
+        flowChart: '流程圖',
+        cancelApply: '取消申請',
+        export: '導出'
+      },
+      warehousingWay: {
+        direct: '直接入庫',
+        purchase: '採購入庫',
+        urgent: '緊急採購'
+      },
+      edit: {
+        title: '修改採購申請',
+        state: '訂單狀態',
+        stateRequired: '必填，請選擇訂單狀態',
+        stateOption1: '面積*單價+附加費',
+        stateOption2: '固定費用',
+        stateFormatError: '訂單狀態格式錯誤',
+        applyOrderIdRequired: '訂單號不能為空'
+      },
+      delete: {
+        title: '請確認您的操作',
+        confirmText: '確定取消申請?',
+        success: '取消申請成功',
+        error: '取消申請失敗'
+      }
+    }
   }
 }

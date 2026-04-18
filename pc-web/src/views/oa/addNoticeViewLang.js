@@ -39,8 +39,30 @@ export const messages = {
         noticeType: '公告类型不能为空',
         content: '公告内容不能为空'
       },
-      saveSuccess: '添加成功',
+saveSuccess: '添加成功',
       saveError: '添加公告失败'
+    }
+  },
+  'zh-TW': {
+    addNoticeView: {
+      title: '新公告',
+      titleLabel: '標題',
+      titlePlaceholder: '必填，請填寫標題',
+      noticeTypeLabel: '公告類型',
+      noticeTypePlaceholder: '必填，請選擇公告類型',
+      noticeTypeOption1: '業主通知(微信通知關注用戶)',
+      noticeTypeOption2: '員工通知',
+      contentLabel: '公告內容',
+      contentPlaceholder: '必填，請輸入公告內容',
+      submit: '提交',
+      cancel: '取消',
+      validate: {
+        title: '標題不能為空',
+        noticeType: '公告類型不能為空',
+        content: '公告內容不能為空'
+      },
+      saveSuccess: '添加成功',
+      saveError: '添加公告失敗'
     }
   }
 }

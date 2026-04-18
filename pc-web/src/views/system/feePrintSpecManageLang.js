@@ -62,7 +62,40 @@ export const messages = {
       specRequired: '规格不能为空',
       nameRequired: '名称不能为空',
       nameMaxLength: '名称不能超过128个字符',
-      content: '内容'
+content: '内容'
+    }
+  },
+  'zh-TW': {
+    feePrintSpecManage: {
+      title: '列印配置信息',
+      add: '添加',
+      edit: '修改',
+      delete: '刪除',
+      image: '圖片',
+      name: '名稱',
+      spec: '規格',
+      code: '編碼',
+      operation: '操作',
+      reminderPrint: '催繳列印說明',
+      receiptPrint: '收據列印說明',
+      addTitle: '添加列印配置',
+      editTitle: '修改列印配置',
+      deleteTitle: '刪除確認',
+      deleteConfirm: '確定刪除列印配置嗎？',
+      deleteSuccess: '刪除成功',
+      deleteFailed: '刪除失敗',
+      addSuccess: '添加成功',
+      addFailed: '添加失敗',
+      editSuccess: '修改成功',
+      editFailed: '修改失敗',
+      fetchError: '獲取數據失敗',
+      specPlaceholder: '請選擇規格',
+      namePlaceholder: '請輸入名稱',
+      contentPlaceholder: '選填，請輸入內容',
+      specRequired: '規格不能為空',
+      nameRequired: '名稱不能為空',
+      nameMaxLength: '名稱不能超過128個字符',
+      content: '內容'
     }
   }
 }

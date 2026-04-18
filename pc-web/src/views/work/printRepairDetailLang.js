@@ -52,7 +52,35 @@ export const messages = {
       remark: '备注',
       repairerSign: '维修人员签字',
       customerSign: '客户签字',
-      time: '时间'
+time: '时间'
+    }
+  },
+  'zh-TW': {
+    printRepairDetail: {
+      repairId: '報修單號：',
+      printTime: '打印時間：',
+      repairInfo: '報修信息',
+      repairName: '報修人：',
+      tel: '聯繫電話：',
+      location: '位置：',
+      context: '報修內容：',
+      maintenanceType: '報修類型：',
+      paidService: '有償服務',
+      freeService: '无偿服務',
+      repairMaterials: '報修用料：',
+      repairFee: '費用明細：',
+      yuan: '元',
+      workflow: '工單流轉',
+      serialNumber: '序號',
+      handler: '處理人',
+      status: '狀態',
+      processTime: '處理時間',
+      timeConsuming: '耗時',
+      comment: '意見',
+      remark: '備註',
+      repairerSign: '維修人員簽字',
+      customerSign: '客戶簽字',
+      time: '時間'
     }
   }
 }

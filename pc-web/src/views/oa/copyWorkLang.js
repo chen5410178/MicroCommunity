@@ -80,7 +80,91 @@ export const messages = {
         message: '说明',
         messagePlaceholder: '必填，请填写说明'
       },
-      fetchError: '获取工单列表失败'
+fetchError: '获取工单列表失败'
+    }
+  },
+  'zh-TW': {
+    copyWork: {
+      search: {
+        title: '查詢條件',
+        workName: '工單名稱',
+        createUser: '發起人',
+        startTime: '開始時間',
+        endTime: '結束時間'
+      },
+      list: {
+        title: '抄送我的工作單'
+      },
+      table: {
+        id: '編號',
+        workName: '工單名稱',
+        typeName: '類型名稱',
+        workCycle: '標識',
+        startTime: '開始時間',
+        endTime: '結束時間',
+        createUser: '發起人',
+        handler: '處理人',
+        copyUser: '抄送人',
+        status: '狀態',
+        createTime: '創建時間'
+      },
+      state: {
+        all: '全部',
+        W: '待處理',
+        C: '已處理'
+      },
+      cycle: {
+        once: '一次性工單',
+        periodic: '周期性工單'
+      },
+      audit: {
+        title: '已閱說明',
+        message: '說明',
+        messagePlaceholder: '必填，請填寫說明'
+      },
+fetchError: '獲取工單列表失敗'
+    }
+  },
+  'zh-TW': {
+    copyWork: {
+      search: {
+        title: '查詢條件',
+        workName: '工單名稱',
+        createUser: '發起人',
+        startTime: '開始時間',
+        endTime: '結束時間'
+      },
+      list: {
+        title: '抄送我的工作單'
+      },
+      table: {
+        id: '編號',
+        workName: '工單名稱',
+        typeName: '類型名稱',
+        workCycle: '標識',
+        startTime: '開始時間',
+        endTime: '結束時間',
+        createUser: '發起人',
+        handler: '處理人',
+        copyUser: '抄送人',
+        status: '狀態',
+        createTime: '創建時間'
+      },
+      state: {
+        all: '全部',
+        W: '待處理',
+        C: '已處理'
+      },
+      cycle: {
+        once: '一次性工單',
+        periodic: '周期性工單'
+      },
+      audit: {
+        title: '已閱說明',
+        message: '說明',
+        messagePlaceholder: '必填，請填寫說明'
+      },
+      fetchError: '獲取工單列表失敗'
     }
   }
 }

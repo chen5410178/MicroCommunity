@@ -90,7 +90,54 @@ export const messages = {
       title: "请确认您的操作!",
       confirmDelete: "确定删除保证金",
       cancel: "点错了",
-      confirm: "确认删除"
+confirm: "确认删除"
+    }
+  },
+  'zh-TW': {
+    accountManage: {
+      searchTitle: "查詢條件",
+      ownerAccount: "業主賬戶",
+      accountId: "賬戶編號",
+      accountName: "賬戶名稱",
+      idCard: "身份證號",
+      phone: "手機號",
+      accountType: "賬戶類型",
+      accountAmount: "賬戶金額",
+      deductionRoom: "扣款房號",
+      createTime: "創建時間",
+      operations: "操作",
+      accountDetail: "賬戶明細",
+      delete: "刪除",
+      prestore: "預存",
+      query: "查詢",
+      reset: "重置",
+      placeholderName: "請輸入賬戶名稱",
+      placeholderIdCard: "請輸入身份證號",
+      placeholderLink: "請輸入聯絡方式"
+    },
+    prestoreAccount: {
+      title: "預存",
+      accountType: "賬戶類型",
+      ownerPhone: "業主手機",
+      ownerName: "業主名稱",
+      deductionRoom: "扣款房屋",
+      prestoreAmount: "預存金額",
+      paymentMethod: "支付方式",
+      remark: "備註",
+      placeholderPhone: "必填，請填寫業主手機號",
+      placeholderOwner: "必填，請選擇業主",
+      placeholderRoom: "必填，請選擇房屋",
+      placeholderAmount: "必填，請填寫預存金額",
+      placeholderPayment: "必填，請選擇支付方式",
+      placeholderRemark: "可填，請填寫備註",
+      save: "保存",
+      cancel: "取消"
+    },
+    deleteAccount: {
+      title: "請確認您的操作!",
+      confirmDelete: "確定刪除保證金",
+      cancel: "點錯了",
+      confirm: "確認刪除"
     }
   }
 }

@@ -54,7 +54,36 @@ export const messages = {
       algorithm: '算法',
       usage: '用量',
       note1: '注意：应收结束时间“-”表示未到应收时间或收费已结束。',
-      note2: '应收金额为-1一般为费用项公式设置出错请检查。'
+note2: '应收金额为-1一般为费用项公式设置出错请检查。'
+    },
+  },
+  'zh-TW': {
+    listCarFee: {
+      fee: '費用',
+      createFee: '創建費用',
+      feeItem: '費用項目',
+      feeFlag: '費用標識',
+      feeType: '費用類型',
+      amountOwed: '應收金額',
+      startTime: '建帳時間',
+      endTime: '應收時間段',
+      remark: '說明',
+      state: '狀態',
+      operation: '操作',
+      pay: '繳費',
+      history: '歷史',
+      cancel: '取消',
+      change: '變更',
+      split: '拆分',
+      detail: '詳情',
+      preDegrees: '上期度數',
+      curDegrees: '本期度數',
+      price: '單價',
+      additionalAmount: '附加費',
+      algorithm: '演算法',
+      usage: '用量',
+      note1: '注意：應收結束時間「-」表示未到應收時間或收費已結束。',
+      note2: '應收金額為-1一般為費用項目公式設定出錯請檢查。'
     },
   }
 }

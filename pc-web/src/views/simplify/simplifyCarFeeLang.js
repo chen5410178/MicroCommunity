@@ -1,8 +1,89 @@
-export default {
+export const messages = {
   en: {
-   
+    simplifyCarFee: {
+      selectStatus: 'Select status',
+      valid: 'Valid',
+      feeEnd: 'Fee End',
+      buyMonthCard: 'Buy Month Card',
+      batchPay: 'Batch Payment',
+      prePay: 'Prepayment',
+      tempFee: 'Temporary Fee',
+      feeItem: 'Fee Item',
+      feeFlag: 'Fee Flag',
+      feeType: 'Fee Type',
+      receivableAmount: 'Receivable Amount',
+      receivablePeriod: 'Receivable Period',
+      remark: 'Remark',
+      status: 'Status',
+      operation: 'Operation',
+      pay: 'Pay',
+      payHistory: 'Payment History',
+      more: 'More',
+      cancelFee: 'Cancel Fee',
+      feeChange: 'Fee Change',
+      splitFee: 'Split Fee',
+      detail: 'Detail',
+      note1: 'Note: End time "-" means not yet due or fee collection has ended',
+      note2: 'Note: Receivable amount -1 generally indicates formula error, please check',
+      oweSubtotal: 'Owe Subtotal'
+    }
   },
   zh: {
-    
+    simplifyCarFee: {
+      selectStatus: '请选择状态',
+      valid: '有效',
+      feeEnd: '收费结束',
+      buyMonthCard: '买月卡',
+      batchPay: '批量缴费',
+      prePay: '预付收款',
+      tempFee: '临时收费',
+      feeItem: '费用项目',
+      feeFlag: '费用标识',
+      feeType: '费用类型',
+      receivableAmount: '应收金额',
+      receivablePeriod: '应收时间段',
+      remark: '说明',
+      status: '状态',
+      operation: '操作',
+      pay: '缴费',
+      payHistory: '缴费历史',
+      more: '更多操作',
+      cancelFee: '取消费用',
+      feeChange: '费用变更',
+      splitFee: '拆费',
+      detail: '详情',
+      note1: '注意： 应收结束时间 "-" 表示未到应收时间 或 收费已结束',
+      note2: '注意： 应收金额 为-1 一般为费用项公式设置出错请检查',
+      oweSubtotal: '欠费小计'
+    }
+  },
+  'zh-TW': {
+    simplifyCarFee: {
+      selectStatus: '請選擇狀態',
+      valid: '有效',
+      feeEnd: '收費結束',
+      buyMonthCard: '買月卡',
+      batchPay: '批量繳費',
+      prePay: '預付收款',
+      tempFee: '臨時收費',
+      feeItem: '費用項目',
+      feeFlag: '費用標識',
+      feeType: '費用類型',
+      receivableAmount: '應收金額',
+      receivablePeriod: '應收時間段',
+      remark: '說明',
+      status: '狀態',
+      operation: '操作',
+      pay: '繳費',
+      payHistory: '繳費歷史',
+      more: '更多操作',
+      cancelFee: '取消費用',
+      feeChange: '費用變更',
+      splitFee: '拆費',
+      detail: '詳情',
+      note1: '注意： 應收結束時間 "-" 表示未到應收時間 或 收費已結束',
+      note2: '注意： 應收金額 為-1 一般為費用項公式設置出錯請檢查',
+      oweSubtotal: '欠費小計'
+    }
   }
 }

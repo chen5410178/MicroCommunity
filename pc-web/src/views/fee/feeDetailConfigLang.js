@@ -45,6 +45,30 @@ export const messages = {
     },
     feeDetailConfigDemo: {
       openComponent: '打开配置详情'
+}
+  },
+  'zh-TW': {
+    feeDetailConfig: {
+      feeType: '費用類型',
+      feeItem: '收費項目',
+      feeFlag: '費用標識',
+      reminderType: '催繳類型',
+      paymentType: '付費類型',
+      paymentCycle: '繳費週期',
+      unit: '單位',
+      formula: '公式',
+      unitPrice: '計費單價',
+      additionalFee: '附加/固定費用',
+      accountDeduction: '帳戶抵扣',
+      mobilePayment: '手機繳費',
+      decimalPlaces: '保留小數位',
+      prepaid: '預付費',
+      postpaid: '後付費',
+      yes: '是',
+      no: '否'
+    },
+    feeDetailConfigDemo: {
+      openComponent: '打開配置詳情'
     }
   }
 }

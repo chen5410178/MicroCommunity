@@ -63,8 +63,42 @@ export const messages = {
         photos: '保养照片',
         createTime: '创建时间'
       },
-      fetchError: '获取保养任务详情失败',
+fetchError: '获取保养任务详情失败',
       noLocation: '暂无位置信息'
+    }
+  },
+  'zh-TW': {
+    maintainanceTaskDetails: {
+      search: {
+        title: '查詢條件',
+        planUserName: '請輸入保養人',
+        maintainanceStartTime: '請輸入實際保養開始時間',
+        maintainanceEndTime: '請輸入實際保養結束時間',
+        maintainancePlanId: '請選擇保養計劃',
+        selectPlan: '選擇計劃',
+        taskDetailId: '請輸入任務詳情ID',
+        taskState: '請選擇任務狀態',
+        selectState: '選擇狀態'
+      },
+      list: {
+        title: '保養明細信息'
+      },
+      table: {
+        taskDetailId: '編號',
+        machineName: '設備名稱',
+        planName: '計劃名稱',
+        standardName: '保養標準',
+        planUserName: '計劃保養人',
+        planTime: '保養人\n開始/結束時間',
+        inspectionTime: '實際保養時間',
+        actUserName: '實際保養人',
+        stateName: '任務狀態',
+        description: '保養情況',
+        photos: '保養照片',
+        createTime: '創建時間'
+      },
+      fetchError: '獲取保養任務詳情失敗',
+      noLocation: '暫無位置信息'
     }
   }
 }

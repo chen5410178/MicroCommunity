@@ -70,7 +70,44 @@ export const messages = {
       remark: '说明',
       hour: '小时',
       minute: '分',
-      out: '出场'
+out: '出场'
+    }
+  },
+  'zh-TW': {
+    carInoutManage: {
+      searchCondition: '查詢條件',
+      carNumRequired: '必填，請填寫車牌號',
+      selectCarStatus: '請選擇車輛狀態',
+      inStatus: '進場狀態',
+      payCompleted: '支付完成',
+      outStatus: '離場狀態',
+      payTimeout: '支付超時重新支付',
+      selectCarType: '請選擇車牌類型',
+      temporaryCar: '臨時車',
+      saleCar: '出售車輛',
+      monthlyCar: '月租車',
+      internalCar: '內部車',
+      freeCar: '免費車',
+      startTimePlaceholder: '請填寫開始時間',
+      endTimePlaceholder: '請填寫結束時間',
+      query: '查詢',
+      reset: '重設',
+      carInoutRecord: '進出廠記錄',
+      inPhoto: '進場圖',
+      inoutId: '進出廠編號',
+      carStatus: '車輛狀態',
+      carNum: '車牌號',
+      parkingArea: '停車場',
+      feeRule: '計費規則',
+      carType: '車牌類型',
+      inTime: '進場時間',
+      outTime: '出廠時間',
+      parkingTime: '停車時間',
+      chargeAmount: '收費金額',
+      remark: '說明',
+      hour: '小時',
+      minute: '分',
+      out: '出廠'
     }
   }
 }

@@ -143,8 +143,82 @@ export const messages = {
       approve: '同意',
       reject: '拒绝'
     },
-    uploadImage: {
+uploadImage: {
       sizeLimit: '图片大小不能超过 2MB'
+    }
+  },
+  'zh-TW': {
+    invoiceApply: {
+      searchTitle: '查詢條件',
+      title: '申請發票',
+      apply: '申請',
+      table: {
+        id: '編號',
+        invoiceType: '發票類型',
+        ownerName: '業主名稱',
+        applicant: '申請人',
+        invoiceName: '發票名頭',
+        taxNumber: '納稅人識別號',
+        addressPhone: '地址、電話',
+        amount: '申請金額',
+        invoiceCode: '發票號',
+        status: '審核狀態',
+        applyTime: '申請時間'
+      },
+      states: {
+        all: '全部',
+        pendingReview: '待審核',
+        pendingUpload: '待上傳',
+        reviewFailed: '審核失敗',
+        pendingReceive: '待領用',
+        received: '已領用'
+      },
+      personal: '個人',
+      company: '企業',
+      notUploaded: '未上傳',
+      openInvoice: '開票',
+      uploadInvoice: '上傳發票',
+      reUpload: '重新上傳',
+      verify: '核銷',
+      register: '登記',
+      auditSuccess: '審核成功',
+      invoiceCodePlaceholder: '請填寫發票號',
+      invoiceTypePlaceholder: '請選擇發票類型',
+      ownerNamePlaceholder: '請填寫業主名稱',
+      applicantPlaceholder: '請填寫申請人',
+      phonePlaceholder: '請填寫申請人電話'
+    },
+    deleteInvoiceApply: {
+      title: '請確認您的操作',
+      confirmMessage: '確定刪除申請發票'
+    },
+    uploadInvoicePhoto: {
+      title: '上傳發票',
+      invoiceCode: '發票編號',
+      invoice: '發票',
+      codeRequired: '必填，請填寫發票編號',
+      photoRequired: '請選擇發票'
+    },
+    wirteInvoiceEvent: {
+      title: '登記核銷',
+      type: '類型',
+      remark: '說明',
+      typeRequired: '必填，請選擇類型',
+      remarkRequired: '必填，請填寫說明',
+      receive: '領用',
+      register: '登記'
+    },
+    audit: {
+      title: '審核資訊',
+      status: '審核狀態',
+      reason: '原因',
+      statusRequired: '請審核',
+      reasonRequired: '必填，請填寫原因',
+      approve: '同意',
+      reject: '拒絕'
+    },
+    uploadImage: {
+      sizeLimit: '圖片大小不能超過 2MB'
     }
   }
 }

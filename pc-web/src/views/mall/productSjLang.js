@@ -46,7 +46,32 @@ export const messages = {
         sort: '排序',
         state: '状态'
       },
-      fetchError: '获取商品列表失败'
+fetchError: '获取商品列表失败'
+    }
+  },
+  'zh-TW': {
+    productSj: {
+      search: {
+        title: '查詢條件',
+        prodName: '請輸入商品名稱'
+      },
+      list: {
+        title: '上架商品',
+        today: '今日上架',
+        all: '所有上架'
+      },
+      table: {
+        productId: '商品ID',
+        coverPhoto: '商品圖片',
+        categoryName: '商品分組',
+        prodName: '商品名稱',
+        sales: '銷量',
+        stock: '庫存',
+        price: '價格',
+        sort: '排序',
+        state: '狀態'
+      },
+      fetchError: '獲取商品列表失敗'
     }
   }
 }

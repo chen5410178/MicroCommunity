@@ -175,13 +175,106 @@ export const messages = {
         uploadSuccess: '文件上传成功',
         uploadError: '文件上传失败'
       },
-      delete: {
+delete: {
         title: '请确认您的操作',
         confirmMessage: '确定删除合同信息',
         cancel: '点错了',
         confirm: '确认删除',
         success: '合同删除成功',
         error: '合同删除失败'
+      }
+    }
+  },
+  'zh-TW': {
+    contractManage: {
+      search: {
+        title: '查詢條件',
+        hide: '隱藏',
+        more: '更多',
+        search: '查詢',
+        reset: '重設'
+      },
+      list: {
+        title: '合同信息'
+      },
+      contractNamePlaceholder: '請輸入合同名稱',
+      contractCodePlaceholder: '請輸入合同編號',
+      contractTypePlaceholder: '請選擇合同類型',
+      partyBPlaceholder: '請輸入合同乙方',
+      startTimePlaceholder: '請輸入起草開始時間',
+      endTimePlaceholder: '請輸入起草結束時間',
+      parentContractCodePlaceholder: '請輸入父合同編號',
+      fetchError: '獲取合同數據失敗',
+      table: {
+        contractName: '合同名稱',
+        contractCode: '合同編號',
+        parentContractCode: '父合同編號',
+        contractType: '合同類型',
+        operator: '經辦人',
+        amount: '合同金額',
+        partyB: '合同乙方',
+        validityPeriod: '有效期',
+        createTime: '起草時間',
+        status: '狀態',
+        operation: '操作'
+      },
+      operation: {
+        fee: '費用',
+        view: '查看',
+        print: '列印',
+        delete: '刪除'
+      },
+      edit: {
+        title: '編輯合同',
+        contractName: '合同名稱',
+        contractNamePlaceholder: '必填，請填寫合同名稱',
+        contractCode: '合同編號',
+        contractCodePlaceholder: '必填，請填寫合同編號',
+        contractType: '合同類型',
+        contractTypePlaceholder: '必填，請選擇合同類型',
+        partyA: '甲方',
+        partyAPlaceholder: '必填，請填寫甲方',
+        aContacts: '甲方聯絡人',
+        aContactsPlaceholder: '必填，請填寫甲方聯絡人',
+        aLink: '甲方聯繫電話',
+        aLinkPlaceholder: '必填，請填寫甲方聯繫電話',
+        partyB: '乙方',
+        partyBPlaceholder: '必填，請填寫乙方',
+        bContacts: '乙方聯絡人',
+        bContactsPlaceholder: '必填，請填寫乙方聯絡人',
+        bLink: '乙方聯繫電話',
+        bLinkPlaceholder: '必填，請填寫乙方聯繫電話',
+        operator: '經辦人',
+        operatorPlaceholder: '必填，請填寫經辦人',
+        operatorLink: '聯繫電話',
+        operatorLinkPlaceholder: '必填，請填寫聯繫電話',
+        amount: '合同金額',
+        amountPlaceholder: '選填，請填寫合同金額',
+        startTime: '開始時間',
+        startTimePlaceholder: '必填，請填寫開始時間',
+        endTime: '結束時間',
+        endTimePlaceholder: '必填，請填寫結束時間',
+        signingTime: '簽訂時間',
+        signingTimePlaceholder: '必填，請填寫簽訂時間',
+        contractFiles: '合同附件',
+        addFile: '添加附件',
+        fileIndex: '第{index}個',
+        deleteFile: '刪除附件',
+        cancel: '取消',
+        save: '保存',
+        saveSuccess: '合同保存成功',
+        saveError: '合同保存失敗',
+        fileTypeError: '僅支援PNG、PDF、JPG格式文件',
+        uploadSuccess: '文件上傳成功',
+        uploadError: '文件上傳失敗'
+      },
+      delete: {
+        title: '請確認您的操作',
+        confirmMessage: '確定刪除合同信息',
+        cancel: '點錯了',
+        confirm: '確認刪除',
+        success: '合同刪除成功',
+        error: '合同刪除失敗'
       }
     }
   }

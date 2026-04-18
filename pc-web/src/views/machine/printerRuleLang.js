@@ -147,7 +147,83 @@ export const messages = {
       deleteConfirm: '确定删除此报修自动打印吗？',
       table: {
         id: '编号',
-        repairType: '报修类型'
+repairType: '报修类型'
+      }
+    }
+  },
+  'zh-TW': {
+    printerRule: {
+      title: '列印機規則管理',
+      addTitle: '添加列印機規則',
+      editTitle: '修改列印機規則',
+      deleteTitle: '刪除列印機規則',
+      ruleName: '規則名稱',
+      ruleNamePlaceholder: '請輸入規則名稱',
+      ruleNameRequired: '規則名稱不能為空',
+      ruleNameMaxLength: '規則名稱不能超過64個字符',
+      remark: '備註',
+      remarkPlaceholder: '請輸入備註',
+      remarkMaxLength: '備註不能超過512個字符',
+      state: '狀態',
+      deleteConfirm: '確定刪除此列印機規則嗎？',
+      tab: {
+        machine: '雲列印機',
+        fees: '繳費自動列印',
+        repair: '報修自動列印'
+      }
+    },
+    printerRuleMachine: {
+      title: '列印機機器管理',
+      addTitle: '添加列印機機器',
+      editTitle: '修改列印機機器',
+      deleteTitle: '刪除列印機機器',
+      id: '編號',
+      idPlaceholder: '請輸入編號',
+      machineName: '列印機名稱',
+      machineNamePlaceholder: '請輸入列印機名稱',
+      machine: '列印機',
+      machinePlaceholder: '請選擇列印機',
+      machineRequired: '列印機不能為空',
+      quantity: '列印數量',
+      quantityPlaceholder: '請輸入列印數量',
+      quantityRequired: '列印數量不能為空',
+      deleteConfirm: '確定刪除此列印機機器嗎？',
+      table: {
+        id: '編號',
+        machineName: '列印機名稱',
+        quantity: '列印數量'
+      }
+    },
+    printerRuleFees: {
+      title: '繳費自動列印管理',
+      addTitle: '添加繳費自動列印',
+      deleteTitle: '刪除繳費自動列印',
+      id: '編號',
+      idPlaceholder: '請輸入編號',
+      feeName: '費用名稱',
+      feeNamePlaceholder: '請輸入費用名稱',
+      fee: '費用',
+      feePlaceholder: '請選擇費用',
+      feeRequired: '費用不能為空',
+      deleteConfirm: '確定刪除此繳費自動列印嗎？',
+      table: {
+        id: '編號',
+        feeName: '費用名稱'
+      }
+    },
+    printerRuleRepair: {
+      title: '報修自動列印管理',
+      addTitle: '添加報修自動列印',
+      deleteTitle: '刪除報修自動列印',
+      id: '編號',
+      idPlaceholder: '請輸入編號',
+      repairType: '報修類型',
+      repairTypePlaceholder: '請輸入報修類型',
+      repairTypeRequired: '報修類型不能為空',
+      deleteConfirm: '確定刪除此報修自動列印嗎？',
+      table: {
+        id: '編號',
+        repairType: '報修類型'
       }
     }
   }

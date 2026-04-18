@@ -58,7 +58,38 @@ export const messages = {
       finished: '已完结(条)',
       score: '员工评分',
       statistics: '统计',
-      timeError: '结束时间必须大于开始时间'
+timeError: '結束時間必須大於開始時間'
+    }
+  },
+  'zh-TW': {
+    reportRepair: {
+      queryCondition: '查詢條件',
+      hide: '隱藏',
+      more: '更多',
+      beginStartTimePlaceholder: '請選擇創建開始時間',
+      beginEndTimePlaceholder: '請選擇創建結束時間',
+      finishStartTimePlaceholder: '請選擇完結開始時間',
+      finishEndTimePlaceholder: '請選擇完結結束時間',
+      communityPlaceholder: '請選擇小區',
+      search: '查詢',
+      reset: '重置',
+      staffPlaceholder: '請選擇員工姓名',
+      statePlaceholder: '請選擇狀態',
+      reportTitle: '報修匯總表',
+      tooltip: '以員工為維度，展示員工處理工單情況匯總',
+      export: '匯出',
+      repairId: '報修編號',
+      staffId: '員工ID',
+      staffName: '員工姓名',
+      dealing: '處理中(條)',
+      dispatch: '派單(條)',
+      transfer: '轉單(條)',
+      chargeback: '退單(條)',
+      returnVisit: '已回訪(條)',
+      finished: '已完結(條)',
+      score: '員工評分',
+      statistics: '統計',
+      timeError: '結束時間必須大於開始時間'
     }
   }
 }

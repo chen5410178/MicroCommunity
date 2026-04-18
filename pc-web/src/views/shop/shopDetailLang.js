@@ -88,5 +88,50 @@ export const messages = {
       backupPhone: '备用手机',
       remark: '备注'
     }
+  },
+  'zh-TW': {
+    shopDetail: {
+      shopInfo: '商鋪詳情',
+      shopNumber: '商鋪編號',
+      location: '位置',
+      builtUpArea: '建築面積',
+      shopArea: '室內面積',
+      rent: '租金',
+      state: '狀態',
+      leasePeriod: '租賃期限',
+      owner: '業主',
+      room: '房屋',
+      contact: '聯絡方式',
+      remark: '備註',
+      member: '成員',
+      car: '車輛',
+      shop: '商鋪',
+      idle: '空閒',
+      rented: '已出租',
+      sold: '已售'
+    },
+    shopDetailShop: {
+      shopNumberPlaceholder: '請輸入商鋪編號',
+      shopNumber: '商鋪編號',
+      location: '位置',
+      owner: '業主',
+      contact: '聯絡方式',
+      area: '面積',
+      state: '狀態',
+      idle: '空閒',
+      rented: '已出租',
+      sold: '已售'
+    },
+    shopDetailOwner: {
+      ownerId: '業主ID',
+      name: '名稱',
+      gender: '性別',
+      personType: '人員類型',
+      personRole: '人員角色',
+      idCard: '證件號',
+      contact: '聯絡方式',
+      backupPhone: '備用手機',
+      remark: '備註'
+    }
   }
 }

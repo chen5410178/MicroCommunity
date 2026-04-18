@@ -52,7 +52,35 @@ export const messages = {
       confirmOperation: '请确认您的操作',
       confirmDelete: '确定删除设备类型?',
       cancelDelete: '点错了',
-      confirmDeleteBtn: '确认删除'
+confirmDeleteBtn: '确认删除'
+    }
+  },
+  'zh-TW': {
+    machineTypeTree: {
+      addParent: '添加一級分類',
+      addChild: '添加子級分類',
+      edit: '修改',
+      delete: '刪除',
+      detail: '詳情',
+      machineTypeName: '設備類型名稱',
+      machineTypeCode: '分類編碼',
+      status: '啟用狀態',
+      enable: '啟用',
+      disable: '停用',
+      importanceLevel: '重要等級',
+      seq: '排序值',
+      unit: '單位',
+      warrantyDeadline: '保修截止日期',
+      remark: '備註',
+      requiredPlaceholder: '必填，請填寫{field}',
+      optionalPlaceholder: '選填，請填寫{field}',
+      requiredMessage: '{field}不能為空',
+      maxLengthMessage: '{field}不能超過{length}個字符',
+      selectTypeFirst: '請先選擇設備分類',
+      confirmOperation: '請確認您的操作',
+      confirmDelete: '確定刪除設備類型?',
+      cancelDelete: '點錯了',
+      confirmDeleteBtn: '確認刪除'
     }
   }
 }

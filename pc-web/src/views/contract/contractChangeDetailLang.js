@@ -143,7 +143,7 @@ export const messages = {
       staffNameRequired: '员工名称不能为空'
     },
  
-    chooseContract: {
+chooseContract: {
       title: '选择合同信息',
       searchPlaceholder: '输入合同信息名称',
       contractName: '合同名称',
@@ -152,6 +152,83 @@ export const messages = {
       partyA: '甲方',
       partyB: '乙方',
       signingTime: '签订时间'
+    }
+  },
+  'zh-TW': {
+    contractChangeDetail: {
+      contractInfo: '合同信息',
+      selectContract: '選擇合同',
+      contractName: '合同名稱',
+      contractCode: '合同編號',
+      contractType: '合同類型',
+      partyA: '甲方',
+      partyB: '乙方',
+      aContacts: '甲方聯絡人',
+      bContacts: '乙方聯絡人',
+      aLink: '甲方聯繫電話',
+      bLink: '乙方聯繫電話',
+      operator: '經辦人',
+      operatorLink: '聯繫電話',
+      amount: '合同金額',
+      startTime: '開始時間',
+      endTime: '結束時間',
+      signingTime: '簽訂時間',
+      changeRemark: '變更說明',
+      changeRemarkPlaceholder: '必填，請填寫變更說明',
+      changeRemarkRequired: '變更說明不能為空'
+    },
+    contractChangeMainBody: {
+      title: '主體變更',
+      contractName: '合同名稱',
+      contractNamePlaceholder: '必填，請填寫合同名稱',
+      partyA: '甲方',
+      partyAPlaceholder: '必填，請填寫甲方',
+      aContacts: '甲方聯絡人',
+      aContactsPlaceholder: '必填，請填寫甲方聯絡人',
+      aLink: '甲方聯繫電話',
+      aLinkPlaceholder: '必填，請填寫甲方聯繫電話',
+      partyB: '乙方',
+      partyBPlaceholder: '必填，請填寫乙方',
+      bContacts: '乙方聯絡人',
+      bContactsPlaceholder: '必填，請填寫乙方聯絡人',
+      bLink: '乙方聯繫電話',
+      bLinkPlaceholder: '必填，請填寫乙方聯繫電話'
+    },
+    contractChangeLease: {
+      title: '租期調整',
+      startTime: '開始時間',
+      startTimePlaceholder: '必填，請選擇開始時間',
+      endTime: '結束時間',
+      endTimePlaceholder: '必填，請選擇結束時間'
+    },
+    contractChangeAssets: {
+      title: '關聯房屋',
+      room: '房屋',
+      owner: '業主',
+      phone: '電話',
+      area: '建築面積',
+      status: '房屋狀態',
+      squareMeters: '平方米',
+      confirmDelete: '確定刪除該房屋嗎？'
+    },
+    purchaseApprovers: {
+      title: '審批人信息',
+      orgName: '所屬組織',
+      staffName: '員工',
+      orgPlaceholder: '必填，請填寫所屬組織',
+      staffPlaceholder: '必填，請選擇員工',
+      staffRequired: '員工不能為空',
+      staffNameRequired: '員工名稱不能為空'
+    },
+    chooseContract: {
+      title: '選擇合同信息',
+      searchPlaceholder: '輸入合同信息名稱',
+      contractName: '合同名稱',
+      contractCode: '合同編號',
+      contractType: '合同類型',
+      partyA: '甲方',
+      partyB: '乙方',
+      signingTime: '簽訂時間'
     }
   }
 }

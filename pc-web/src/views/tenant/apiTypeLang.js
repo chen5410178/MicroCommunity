@@ -88,7 +88,45 @@ export const messages = {
         success: '删除接口类型成功',
         confirm: '确认删除该接口类型吗？'
       },
-      fetchError: '获取接口类型列表失败'
+fetchError: '获取接口类型列表失败'
+    }
+  },
+  'zh-TW': {
+    apiType: {
+      search: {
+        title: '查詢條件',
+        typeName: '類型名稱',
+        createTime: '創建時間',
+        placeholder: '請輸入接口類型名稱'
+      },
+      list: {
+        title: '接口類型列表'
+      },
+      dialog: {
+        add: '新增接口類型',
+        edit: '編輯接口類型'
+      },
+      table: {
+        typeId: '接口類型ID',
+        typeName: '類型名稱',
+        createTime: '創建時間',
+      },
+      validate: {
+        typeId: '請輸入接口類型ID',
+        typeName: '請輸入類型名稱',
+        createTime: '請輸入創建時間',
+      },
+      add: {
+        success: '添加接口類型成功'
+      },
+      edit: {
+        success: '編輯接口類型成功'
+      },
+      delete: {
+        success: '刪除接口類型成功',
+        confirm: '確認刪除該接口類型嗎？'
+      },
+      fetchError: '獲取接口類型列表失敗'
     }
   }
 }

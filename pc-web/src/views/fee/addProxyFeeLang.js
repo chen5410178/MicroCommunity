@@ -84,5 +84,48 @@ export const messages = {
       openModal: '打开按量缴费弹窗',
       successMessage: '保存成功'
     }
+  },
+  'zh-TW': {
+    addProxyFee: {
+      title: '按量繳費',
+      feeType: '費用類型',
+      feeTypePlaceholder: '必填，請選擇費用類型',
+      feeItem: '收費項目',
+      feeItemPlaceholder: '必填，請選擇收費項目',
+      feeItemTip: '說明：顯示公式為(用量*單價+附加費)的費用項',
+      chargeObject: '收費對象',
+      chargeObjectPlaceholder: '必填，請填寫房屋',
+      consumption: '用量',
+      consumptionPlaceholder: '必填，請填寫用量',
+      quantity: '個數',
+      amount: '金額',
+      amountPlaceholder: '必填，請填寫金額',
+      startTime: '開始時間',
+      startTimePlaceholder: '必填，請填寫開始時間',
+      endTime: '結束時間',
+      endTimePlaceholder: '必填，請填寫結束時間',
+      waterFee: '水費',
+      electricityFee: '電費',
+      otherFee: '其他',
+      validate: {
+        amountRequired: '金額不能為空',
+        amountFormat: '金額格式錯誤，如3.00',
+        consumptionRequired: '用量不能為空',
+        consumptionFormat: '用量格式錯誤，如3.00',
+        roomRequired: '房屋必填',
+        feeRequired: '費用必填',
+        startTimeRequired: '開始時間不能為空',
+        endTimeRequired: '結束時間不能為空',
+        startBeforeEnd: '開始時間必須小於結束時間',
+        endAfterStart: '結束時間必須大於開始時間',
+        invalidConfig: '未選擇收費項目或者收費項目公式錯誤',
+        amountTooSmall: '輸入金額太小'
+      },
+      successMessage: '保存成功'
+    },
+    addProxyFeeDemo: {
+      openModal: '打開按量繳費彈窗',
+      successMessage: '保存成功'
+    }
   }
 }

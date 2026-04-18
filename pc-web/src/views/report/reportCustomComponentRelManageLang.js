@@ -74,7 +74,46 @@ export const messages = {
       title: '确认删除',
       confirmMessage: '确定删除该组件关系吗？',
       deleteSuccess: '删除成功',
-      deleteError: '删除失败'
+deleteError: '刪除失敗'
+    }
+  },
+  'zh-TW': {
+    reportCustomComponentRelManage: {
+      title: '報表自訂組件關係管理',
+      relId: '關係編號',
+      componentName: '組件名稱',
+      customId: '報表編號',
+      seq: '組件序號',
+      createTime: '關聯時間',
+      associateComponent: '關聯組件',
+      fetchError: '獲取組件關係失敗'
+    },
+    addReportCustomComponentRel: {
+      title: '添加組件關係',
+      component: '組件',
+      seq: '組件序號',
+      chooseComponent: '選擇組件',
+      componentRequired: '組件不能為空',
+      seqRequired: '組件序號不能為空',
+      seqMustNumber: '組件序號必須為數字',
+      saveSuccess: '保存成功',
+      saveError: '保存失敗'
+    },
+    chooseReportCustomComponent: {
+      title: '選擇報表組件',
+      searchPlaceholder: '輸入報表組件名稱',
+      componentId: '組件ID',
+      componentName: '組件名稱',
+      componentType: '組件類型',
+      queryModel: '查詢方式',
+      remark: '描述',
+      fetchError: '獲取組件列表失敗'
+    },
+    deleteReportCustomComponentRel: {
+      title: '確認刪除',
+      confirmMessage: '確定刪除該組件關係嗎？',
+      deleteSuccess: '刪除成功',
+      deleteError: '刪除失敗'
     }
   }
 }

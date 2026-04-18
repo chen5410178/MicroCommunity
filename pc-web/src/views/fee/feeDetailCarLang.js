@@ -31,6 +31,23 @@ export const messages = {
     },
     feeDetailCarDemo: {
       openComponent: '打开车辆详情'
+}
+  },
+  'zh-TW': {
+    feeDetailCar: {
+      licensePlate: '車牌號',
+      licenseType: '車牌類型',
+      carType: '車輛類型',
+      color: '顏色',
+      owner: '業主',
+      parkingSpace: '車位',
+      validityPeriod: '有效期',
+      temporaryCar: '臨時車',
+      parkingLot: '車場',
+      spaceReleased: '車位已釋放'
+    },
+    feeDetailCarDemo: {
+      openComponent: '打開車輛詳情'
     }
   }
 }

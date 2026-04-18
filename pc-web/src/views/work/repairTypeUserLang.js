@@ -48,7 +48,33 @@ export const messages = {
       online: '在线',
       offline: '离线',
       descriptionPlaceholder: '选填，请填写说明',
-      statusRequired: '状态不能为空'
+statusRequired: '状态不能为空'
+    }
+  },
+  'zh-TW': {
+    repairTypeUser: {
+      title: '報修師傅',
+      repairMasterId: '維修師傅ID',
+      masterName: '師傅名稱',
+      repairType: '報修類型',
+      status: '狀態',
+      description: '說明',
+      createTime: '創建時間',
+      operation: '操作',
+      repairTypeRequired: '未包含報修類型'
+    },
+    deleteRepairTypeUser: {
+      title: '請確認您的操作',
+      confirmDelete: '確定刪除報修師傅?'
+    },
+    editRepairTypeUser: {
+      title: '變更報修師傅',
+      status: '狀態',
+      description: '說明',
+      online: '在線',
+      offline: '離線',
+      descriptionPlaceholder: '選填，請填寫說明',
+      statusRequired: '狀態不能為空'
     }
   }
 }

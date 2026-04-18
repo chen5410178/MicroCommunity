@@ -28,5 +28,20 @@ export const messages = {
       createTime: '创建时间',
       query: '查询'
     }
+  },
+  'zh-TW': {
+    aFeeDetailFeeObj: {
+      selectFeeObj: '請選擇費用對象',
+      house: '房屋',
+      car: '車輛',
+      contract: '合同',
+      feeId: '費用編號',
+      objType: '對象類型',
+      objName: '對象名稱',
+      ownerName: '業主名稱',
+      phone: '手機號',
+      createTime: '創建時間',
+      query: '查詢'
+    }
   }
 }

@@ -86,7 +86,52 @@ export const messages = {
         chargeUseNameRequired: '责任人不能为空'
       },
       saveSuccess: '添加成功',
-      saveFailed: '添加失败'
+saveFailed: '添加失败'
+    }
+  },
+  'zh-TW': {
+    addEquipmentAccount: {
+      title: '添加設備',
+      machineName: '設備名稱',
+      machineNamePlaceholder: '必填，請填寫設備名稱',
+      machineCode: '設備編碼',
+      machineCodePlaceholder: '必填，請填寫設備編碼',
+      importanceLevel: '重要等級',
+      importanceLevelPlaceholder: '必填，請選擇重要等級',
+      state: '使用狀態',
+      statePlaceholder: '必填，請選擇使用狀態',
+      brand: '設備品牌',
+      brandPlaceholder: '選填，請填寫設備品牌',
+      model: '設備型號',
+      modelPlaceholder: '選填，請填寫設備型號',
+      netWorth: '資產淨值',
+      netWorthPlaceholder: '選填，請填寫資產淨值',
+      locationDetail: '位置詳情',
+      locationDetailPlaceholder: '選填，請填寫位置詳情',
+      firstEnableTime: '首次啟用時間',
+      firstEnableTimePlaceholder: '選填，請填寫首次啟用時間',
+      warrantyDeadline: '保修截止日期',
+      warrantyDeadlinePlaceholder: '選填，請填寫保修截止日期',
+      usefulLife: '使用年限(年)',
+      usefulLifePlaceholder: '選填，請填寫使用年限',
+      purchasePrice: '採購價格',
+      purchasePricePlaceholder: '選填，請填寫採購價格',
+      useUserName: '使用人',
+      useUserNamePlaceholder: '必填，請填寫使用人',
+      chargeUseName: '責任人',
+      chargeUseNamePlaceholder: '必填，請填寫責任人',
+      remark: '備註',
+      remarkPlaceholder: '選填，請填寫備註',
+      validate: {
+        machineNameRequired: '設備名稱不能為空',
+        machineCodeRequired: '設備編碼不能為空',
+        importanceLevelRequired: '重要等級不能為空',
+        stateRequired: '使用狀態不能為空',
+        useUserNameRequired: '使用人不能為空',
+        chargeUseNameRequired: '責任人不能為空'
+      },
+      saveSuccess: '添加成功',
+      saveFailed: '添加失敗'
     }
   }
 }

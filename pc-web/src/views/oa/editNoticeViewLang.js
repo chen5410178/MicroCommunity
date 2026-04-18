@@ -36,5 +36,24 @@ export const messages = {
       updateSuccess: '公告修改成功',
       updateError: '公告修改失败'
     }
-  }
+  },
+  'zh-TW': {
+    editNoticeView: {
+      title: '修改公告',
+      titleLabel: '標題',
+      titlePlaceholder: '必填，請填寫標題',
+      contentLabel: '公告內容',
+      contentPlaceholder: '必填，請輸入公告內容',
+      validate: {
+        titleRequired: '標題不能為空',
+        titleLength: '標題必須在4至100字符之間',
+        contentRequired: '公告內容不能為空',
+        contentMaxLength: '公告內容不能超過10000個字',
+        noticeIdRequired: '公告ID不能為空'
+      },
+      fetchError: '獲取公告詳情失敗',
+      updateSuccess: '公告修改成功',
+      updateError: '公告修改失敗'
+    }
+  },
 }

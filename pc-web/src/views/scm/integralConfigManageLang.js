@@ -135,7 +135,77 @@ export const messages = {
       },
       delete: {
         title: '删除积分标准',
-        confirmMessage: '确定删除该积分标准吗？'
+confirmMessage: '確定刪除該積分標準嗎？'
+      }
+    }
+  },
+  'zh-TW': {
+    integralConfigManage: {
+      search: {
+        title: '查詢條件',
+        configNamePlaceholder: '請輸入標準名稱'
+      },
+      list: {
+        title: '積分標準'
+      },
+      table: {
+        configName: '標準名稱',
+        computingFormula: '計算公式',
+        squarePrice: '金額/月',
+        additionalAmount: '贈送積分',
+        scale: '進位'
+      },
+      form: {
+        configName: '標準名稱',
+        configNamePlaceholder: '必填，請填寫標準名稱',
+        computingFormula: '計算公式',
+        computingFormulaPlaceholder: '必填，請選擇計算公式',
+        amount: '金額',
+        amountPlaceholder: '必填，請填寫金額',
+        month: '月份',
+        monthPlaceholder: '必填，請填寫月份',
+        points: '積分',
+        pointsPlaceholder: '必填，請填寫積分',
+        scale: '進位',
+        scalePlaceholder: '必填，請選擇進位'
+      },
+      formula: {
+        fullAmount: '滿(金額)送積分',
+        fullMonth: '滿(月)送積分'
+      },
+      scale: {
+        roundUp: '向上取整',
+        roundDown: '向下取整'
+      },
+      validate: {
+        configIdRequired: '積分標準不能為空',
+        configNameRequired: '標準名稱不能為空',
+        configNameMaxLength: '標準名稱不能超過100個字符',
+        computingFormulaRequired: '計算公式不能為空',
+        squarePriceRequired: '金額/月不能為空',
+        squarePriceMaxLength: '金額/月不能超過12個字符',
+        additionalAmountRequired: '積分不能為空',
+        additionalAmountMaxLength: '積分不能超過12個字符',
+        scaleRequired: '進位不能為空'
+      },
+      message: {
+        addSuccess: '添加積分標準成功',
+        addFailed: '添加積分標準失敗',
+        editSuccess: '修改積分標準成功',
+        editFailed: '修改積分標準失敗',
+        deleteSuccess: '刪除積分標準成功',
+        deleteFailed: '刪除積分標準失敗',
+        fetchError: '獲取積分標準數據失敗'
+      },
+      add: {
+        title: '添加積分標準'
+      },
+      edit: {
+        title: '修改積分標準'
+      },
+      delete: {
+        title: '刪除積分標準',
+        confirmMessage: '確定刪除該積分標準嗎？'
       }
     }
   }

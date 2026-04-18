@@ -34,7 +34,26 @@ export const messages = {
       back: '返回',
       submit: '提交',
       submitSuccess: '提交成功',
-      submitError: '提交失败'
+submitError: '提交失败'
+    }
+  },
+  'zh-TW': {
+    addRoomRepair: {
+      title: '電話報修',
+      repairType: '報修類型',
+      repairTypePlaceholder: '必填，請選擇報修類型',
+      repairName: '報修人',
+      repairNamePlaceholder: '必填，請填寫報修人',
+      tel: '聯繫方式',
+      telPlaceholder: '必填，請填寫聯繫方式',
+      appointmentTime: '預約時間',
+      appointmentTimePlaceholder: '必填，請填寫預約時間',
+      context: '報修內容',
+      contextPlaceholder: '必填，請填寫報修內容',
+      back: '返回',
+      submit: '提交',
+      submitSuccess: '提交成功',
+      submitError: '提交失敗'
     }
   }
 }

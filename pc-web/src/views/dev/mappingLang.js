@@ -120,5 +120,66 @@ export const messages = {
       },
       fetchError: '获取配置中心列表失败'
     }
+  },
+  'zh-TW': {
+    mapping: {
+      search: {
+        title: '查詢條件',
+        domain: '域',
+        name: '名稱',
+        mappingKey: '鍵',
+        value: '值',
+        remark: '描述',
+        createTime: '創建時間',
+        placeholder: '請輸入配置中心名稱'
+      },
+      list: {
+        title: '配置中心'
+      },
+      dialog: {
+        addTitle: '添加配置中心',
+        editTitle: '編輯配置中心',
+        delTitle: '刪除配置中心',
+        cancel: '取消',
+        confirm: '確定'
+      },
+      form: {
+        id: '編碼ID',
+        domain: '域',
+        name: '名稱',
+        mappingKey: '鍵',
+        value: '值',
+        remark: '描述',
+        createTime: '創建時間',
+      },
+      table: {
+        id: '編碼ID',
+        domain: '域',
+        name: '名稱',
+        mappingKey: '鍵',
+        value: '值',
+        remark: '描述',
+        createTime: '創建時間',
+      },
+      validate: {
+        id: '請輸入編碼ID',
+        domain: '請輸入域',
+        name: '請輸入名稱',
+        mappingKey: '請輸入鍵',
+        value: '請輸入值',
+        createTime: '請輸入創建時間',
+      },
+      add: {
+        success: '添加配置中心成功'
+      },
+      edit: {
+        success: '編輯配置中心成功'
+      },
+      delete: {
+        success: '刪除配置中心成功',
+        confirm: '確認刪除該配置中心嗎？'
+      },
+      fetchError: '獲取配置中心列表失敗'
+    }
   }
 }

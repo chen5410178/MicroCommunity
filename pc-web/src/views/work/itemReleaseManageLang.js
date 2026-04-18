@@ -151,7 +151,85 @@ export const messages = {
       viewItems: {
         title: '放行物品',
         itemName: '物品名称',
-        amount: '数量'
+amount: '数量'
+      }
+    }
+  },
+  'zh-TW': {
+    itemReleaseManage: {
+      search: {
+        title: '查詢條件',
+        more: '更多',
+        hide: '隱藏'
+      },
+      list: {
+        title: '物品放行'
+      },
+      form: {
+        releaseType: '放行類型',
+        applyCompany: '申請單位',
+        applyPerson: '申請人',
+        idCard: '身份證',
+        phone: '手機號',
+        passTime: '通行時間',
+        releaseItems: '放行物品',
+        itemAmount: '物品數量',
+        status: '狀態',
+        carNumber: '車牌號',
+        remark: '備註'
+      },
+      table: {
+        orderNo: '單號',
+        releaseType: '放行類型',
+        applyCompany: '申請單位',
+        applyPerson: '申請人',
+        idCard: '身份證',
+        phone: '手機號',
+        passTime: '通行時間',
+        items: '物品',
+        status: '狀態',
+        carNumber: '車牌號'
+      },
+      button: {
+        applyRelease: '申請放行',
+        viewItems: '查看物品'
+      },
+      placeholder: {
+        selectReleaseType: '請選擇放行類型',
+        selectApplyCompany: '請選擇申請單位',
+        selectApplyPerson: '請選擇申請人',
+        selectIdCard: '請輸入身份證',
+        selectPhone: '請輸入手機號',
+        selectStatus: '請選擇狀態',
+        requiredSelect: '必填，請選擇',
+        requiredInput: '必填，請輸入',
+        optionalInput: '選填，請輸入'
+      },
+      status: {
+        waiting: '待審核',
+        processing: '審核中',
+        completed: '審核完成',
+        failed: '審核失敗'
+      },
+      validate: {
+        required: '不能為空',
+        maxLength30: '不能超過30個字符',
+        maxLength64: '不能超過64個字符',
+        maxLength18: '不能超過18個字符',
+        maxLength11: '不能超過11個字符',
+        maxLength12: '不能超過12個字符',
+        maxLength512: '不能超過512個字符'
+      },
+      edit: {
+        title: '修改物品放行'
+      },
+      delete: {
+        confirmDelete: '確定刪除物品放行?'
+      },
+      viewItems: {
+        title: '放行物品',
+        itemName: '物品名稱',
+        amount: '數量'
       }
     }
   }

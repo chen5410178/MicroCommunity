@@ -72,7 +72,45 @@ export const messages = {
       submit: '确认撤回',
       remarkRequired: '撤回说明必填',
       success: '撤回成功',
-      error: '撤回失败'
+error: '撤回失败'
+    }
+  },
+  'zh-TW': {
+    shopManage: {
+      search: {
+        title: '查詢條件',
+        shopName: '店鋪名稱',
+        storeType: '店鋪類型',
+        state: '狀態'
+      },
+      list: {
+        title: '店鋪信息'
+      },
+      table: {
+        shopLogo: '店鋪logo',
+        shopName: '店鋪名稱',
+        shopType: '店鋪類型',
+        storeName: '商家名稱',
+        storeAddress: '商家地址',
+        storeTel: '聯繫電話',
+        state: '店鋪狀態',
+        createTime: '創建時間'
+      },
+      state: {
+        passed: '審核通過',
+        rejected: '審核不通過'
+      },
+      fetchError: '獲取店鋪列表失敗',
+      fetchStoreTypesError: '獲取店鋪類型失敗'
+    },
+    shopWithdraw: {
+      title: '請確認您的操作',
+      remark: '撤回說明',
+      remarkPlaceholder: '必填，請填寫撤回意見',
+      submit: '確認撤回',
+      remarkRequired: '撤回說明必填',
+      success: '撤回成功',
+      error: '撤回失敗'
     }
   }
 }

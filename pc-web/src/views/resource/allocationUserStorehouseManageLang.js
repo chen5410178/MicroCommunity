@@ -88,5 +88,50 @@ export const messages = {
       exportSuccess: '导出开始成功',
       exportFailed: '导出失败'
     }
+  },
+  'zh-TW': {
+    allocationUserStorehouseManage: {
+      search: {
+        title: '查詢條件',
+        ausId: '請輸入轉增ID',
+        resId: '請輸入物品資源ID',
+        resName: '請輸入物品名稱',
+        parentRstId: '請選擇物品類型',
+        rstId: '請選擇二級分類',
+        rssId: '請選擇物品規格',
+        startUserId: '請輸入轉增人ID',
+        startUserName: '請輸入轉增人名稱',
+        acceptUserId: '請輸入轉增對象ID',
+        acceptUserName: '請輸入轉增對象名稱',
+        startTime: '請選擇開始時間',
+        endTime: '請選擇結束時間'
+      },
+      list: {
+        title: '轉贈記錄'
+      },
+      table: {
+        ausId: '轉增ID',
+        resId: '物品資源ID',
+        resType: '物品類型',
+        resName: '物品名稱',
+        specName: '物品規格',
+        isFixedName: '固定物品',
+        startUserId: '轉贈人ID',
+        startUserName: '轉贈人',
+        acceptUserId: '轉贈對象ID',
+        acceptUserName: '轉贈對象',
+        stock: '原有庫存',
+        giveQuantity: '轉贈數量',
+        createTime: '創建時間',
+        remark: '備註'
+      },
+      total: {
+        subTotal: '小計',
+        highTotal: '大計',
+        quantity: '總數量：'
+      },
+      exportSuccess: '導出開始成功',
+      exportFailed: '導出失敗'
+    }
   }
 }

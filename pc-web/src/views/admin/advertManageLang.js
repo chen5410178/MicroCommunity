@@ -235,8 +235,128 @@ export const messages = {
         imageRequired: 'Please upload image',
         machineCodeRequired: 'Device code is required'
       },
-      fetchError: '获取广告列表失败',
+fetchError: '获取广告列表失败',
       fetchLocationError: '获取位置类型失败'
+    }
+  },
+  'zh-TW': {
+    advertManage: {
+      search: {
+        title: '查詢條件',
+        hide: '隱藏',
+        more: '更多',
+        adNamePlaceholder: '請輸入廣告名稱',
+        classifyPlaceholder: '請選擇廣告分類',
+        locationPlaceholder: '請選擇投放位置'
+      },
+      list: {
+        title: '廣告信息',
+        publish: '發布',
+        viewAdvert: '查看廣告'
+      },
+      table: {
+        advertId: '廣告ID',
+        adName: '廣告名稱',
+        classify: '廣告分類',
+        location: '投放位置',
+        advertType: '發布類型',
+        startTime: '投放時間',
+        endTime: '結束時間',
+        createTime: '創建時間'
+      },
+      advertType: {
+        site: '站內',
+        outside: '站外',
+        noJump: '不跳轉'
+      },
+      location:{
+        device: '設備',
+        ownerHome: '業主家',
+        businessHome: '商家家',
+        serviceHome: '服務家',
+        convenienceHome: '便利家',
+        staffHome: '員工'
+      },
+      classify: {
+        logistics: '物流',
+        catering: '餐飲',
+        travel: '旅遊',
+        hotel: '酒店',
+        education: '教育',
+        internet: '互聯網'
+      },
+      add: {
+        title: '發布廣告',
+        adName: '廣告名稱',
+        adNamePlaceholder: '必填，請填寫廣告名稱',
+        classify: '廣告分類',
+        classifyPlaceholder: '必填，請選擇廣告分類',
+        locationTypeCd: '投放位置',
+        locationPlaceholder: '必填，請選擇投放位置',
+        advertType: '發布類型',
+        advertTypePlaceholder: '必填，請選擇發布類型',
+        pageUrl: '跳轉路徑',
+        pageUrlPlaceholder: '請填寫跳轉路徑',
+        seq: '播放順序',
+        seqPlaceholder: '必填，請填寫播放順序',
+        startTime: '投放時間',
+        startTimePlaceholder: '必填，請填寫投放時間',
+        endTime: '結束時間',
+        endTimePlaceholder: '必填，請填寫結束時間',
+        viewType: '播放方式',
+        viewTypePlaceholder: '必填，請選擇播放方式',
+        image: '圖片(800 * 373)',
+        success: '廣告發布成功'
+      },
+      edit: {
+        title: '修改廣告',
+        adName: '廣告名稱',
+        adNamePlaceholder: '必填，請填寫廣告名稱',
+        classify: '廣告分類',
+        classifyPlaceholder: '必填，請選擇廣告分類',
+        locationTypeCd: '投放位置',
+        locationPlaceholder: '必填，請選擇投放位置',
+        advertType: '發布類型',
+        advertTypePlaceholder: '必填，請選擇發布類型',
+        pageUrl: '跳轉路徑',
+        pageUrlPlaceholder: '請填寫跳轉路徑',
+        seq: '播放順序',
+        seqPlaceholder: '必填，請填寫播放順序',
+        startTime: '投放時間',
+        startTimePlaceholder: '必填，請填寫投放時間',
+        endTime: '結束時間',
+        endTimePlaceholder: '必填，請填寫結束時間',
+        viewType: '播放方式',
+        viewTypePlaceholder: '必填，請選擇播放方式',
+        image: '圖片(800 * 373)',
+        success: '廣告修改成功'
+      },
+      delete: {
+        title: '請確認您的操作',
+        confirm: '確定刪除發布廣告?',
+        success: '廣告刪除成功'
+      },
+      machine: {
+        title: '廣告設備碼',
+        machineCode: '設備編碼',
+        machineCodePlaceholder: '必填，請填寫設備編碼',
+        view: '查看廣告'
+      },
+      validate: {
+        adNameRequired: '廣告名稱不能為空',
+        classifyRequired: '廣告分類不能為空',
+        locationRequired: '投放位置不能為空',
+        advertTypeRequired: '發布類型不能為空',
+        seqRequired: '播放順序不能為空',
+        seqNumber: '播放順序必須為數字',
+        startTimeRequired: '開始時間不能為空',
+        endTimeRequired: '結束時間不能為空',
+        viewTypeRequired: '播放方式不能為空',
+        imageRequired: '請上傳圖片',
+        machineCodeRequired: '設備編碼不能為空'
+      },
+      fetchError: '獲取廣告列表失敗',
+      fetchLocationError: '獲取位置類型失敗'
     }
   }
 }

@@ -102,6 +102,59 @@ export const messages = {
       cancel: '点错了',
       confirmDelete: '确认删除',
       success: '删除成功',
+failed: '删除失败'
+    }
+  },
+  'zh-TW': {
+    listRoomDecorationRecord: {
+      title: '装修跟踪记录',
+      add: '添加',
+      back: '返回',
+      recordId: '记录ID',
+      room: '房屋',
+      operator: '操作人员',
+      createTime: '创建时间',
+      status: '状态',
+      originalImage: '原始图片',
+      isViolation: '是否违规',
+      remark: '备注',
+      operation: '操作',
+      viewDetails: '查看详情',
+      delete: '删除',
+      fetchError: '获取装修记录失败'
+    },
+    roomDecorationRecord: {
+      title: '装修跟踪',
+      room: '房屋',
+      roomPlaceholder: '必填，请填写房屋',
+      status: '状态',
+      isViolation: '是否违规',
+      isViolationPlaceholder: '请选择是否违规',
+      yes: '是',
+      no: '否',
+      remark: '备注',
+      remarkPlaceholder: '请填写备注',
+      uploadImage: '上传图片',
+      uploadVideo: '上传视频',
+      isViolationRequired: '是否违规不能为空',
+      remarkRequired: '备注不能为空'
+    },
+    uploadImage: {
+      imageSizeLimit: '图片大小不能超过2MB',
+      uploadFailed: '图片上传失败'
+    },
+    uploadVedio: {
+      upload: '上传视频',
+      sizeLimit: '视频大小不能超过500MB',
+      success: '视频上传成功',
+      failed: '视频上传失败'
+    },
+    deleteRoomDecorationRecord: {
+      title: '请确认您的操作',
+      confirm: '确定删除房屋装修记录？',
+      cancel: '点错了',
+      confirmDelete: '确认删除',
+      success: '删除成功',
       failed: '删除失败'
     }
   }

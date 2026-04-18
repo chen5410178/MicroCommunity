@@ -63,11 +63,47 @@ export const messages = {
         title: '确认操作',
         confirmText: '确定删除资产盘点?'
       },
-      cancel: {
+cancel: {
         title: '确认操作',
         confirmText: '确定取消该次资产盘点?',
         success: '取消成功',
         failed: '取消失败'
+      }
+    }
+  },
+  'zh-TW': {
+    assetInventoryManage: {
+      search: {
+        title: '查詢條件',
+        staffName: '請輸入盤點人',
+        state: '請選擇狀態',
+        startTime: '請選擇開始時間',
+        endTime: '請選擇結束時間'
+      },
+      list: {
+        title: '資產盤點',
+        inventory: '盤點',
+        cancelApply: '取消申請',
+        audit: '審核'
+      },
+      table: {
+        aiId: '盤點單號',
+        name: '盤點名稱',
+        invTime: '盤點時間',
+        shName: '盤點倉庫',
+        staffName: '盤點人',
+        state: '狀態',
+        createTime: '創建時間'
+      },
+      delete: {
+        title: '確認操作',
+        confirmText: '確定刪除資產盤點?'
+      },
+      cancel: {
+        title: '確認操作',
+        confirmText: '確定取消該次資產盤點?',
+        success: '取消成功',
+        failed: '取消失敗'
       }
     }
   }

@@ -104,7 +104,61 @@ export const messages = {
       confirmOperation: '请确认您的操作',
       confirmDelete: '确定删除巡检任务',
       mistake: '点错了',
-      confirmDeleteBtn: '确认删除'
+confirmDeleteBtn: '确认删除'
+    }
+  },
+  'zh-TW': {
+    inspectionTask: {
+      queryConditions: '查詢條件',
+      executor: '執行人',
+      actualStartTime: '實際巡檢開始時間',
+      actualEndTime: '實際巡檢結束時間',
+      inspectionStatus: '巡檢狀態',
+      query: '查詢',
+      reset: '重設',
+      inspectionTask: '巡檢任務',
+      taskCode: '任務編碼',
+      inspectionPlan: '巡檢計劃',
+      inspectorTime: '巡檢人/開始結束時間',
+      actualTime: '實際巡檢時間',
+      plannedInspector: '計劃巡檢人',
+      currentInspector: '當前巡檢人',
+      transferDesc: '轉移描述',
+      inspectionMethod: '巡檢方式',
+      operation: '操作',
+      flow: '流轉',
+      detail: '詳情',
+      delete: '刪除',
+      note: '巡檢任務是根據巡檢計劃，每天晚上2點鐘自動生成，如果沒有生成 請確認是否開啟了定時任務，或者巡檢計劃是否設置正確'
+    },
+    inspectionTaskDetail: {
+      taskDetails: '任務詳情',
+      inspectionPoint: '巡檢點',
+      inspectionStatus: '巡檢狀態',
+      signStatus: '簽到狀態',
+      inspectorTime: '巡檢人/開始結束時間',
+      pointTime: '巡檢點開始結束時間',
+      actualTime: '實際巡檢時間',
+      inspectionSituation: '巡檢情況',
+      inspectionPhotos: '巡檢照片',
+      locationInfo: '位置信息',
+      view: '查看',
+      start: '開始',
+      end: '結束'
+    },
+    inspectionTaskTransfer: {
+      transfer: '流轉',
+      transferObject: '流轉對象',
+      transferDesc: '流轉說明',
+      required: '必填，請填寫',
+      submit: '提交',
+      cancel: '取消'
+    },
+    deleteInspectionTask: {
+      confirmOperation: '請確認您的操作',
+      confirmDelete: '確定刪除巡檢任務',
+      mistake: '點錯了',
+      confirmDeleteBtn: '確認刪除'
     }
   }
 }

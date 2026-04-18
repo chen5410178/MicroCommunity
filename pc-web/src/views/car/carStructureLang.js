@@ -26,7 +26,22 @@ export const messages = {
       noBuilding: '当前没有楼栋',
       building: '栋',
       unit: '单元',
-      fetchError: '获取楼栋单元数据失败'
+fetchError: '获取楼栋单元数据失败'
+    }
+  },
+  'zh-TW': {
+    carStructure: {
+      noOwner: '無',
+      oweAmount: '欠費',
+      yuan: '元',
+      searchPlaceholder: '請輸入房屋編號 樓棟-單元-房屋 如1-1-1',
+      fetchError: '獲取車位結構數據失敗'
+    },
+    floorUnitTree: {
+      noBuilding: '當前沒有樓棟',
+      building: '棟',
+      unit: '單元',
+      fetchError: '獲取樓棟單元數據失敗'
     }
   }
 }

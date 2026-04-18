@@ -100,6 +100,58 @@ export const messages = {
       specification: '规格',
       quantity: '商品数量',
       confirm: '确定',
+cancel: '取消'
+    }
+  },
+  'zh-TW': {
+    repairForceFinishManage: {
+      searchCondition: '查詢條件',
+      repairTypePlaceholder: '請選擇報修類型',
+      repairPersonPlaceholder: '請輸入報修人',
+      repairPhonePlaceholder: '請輸入報修電話',
+      search: '查詢',
+      reset: '重設',
+      forceFinish: '強制回單',
+      repairId: '工單編號',
+      location: '位置',
+      repairType: '報修類型',
+      repairPerson: '報修人',
+      contact: '聯繫方式',
+      appointmentTime: '預約時間',
+      submitTime: '提交時間',
+      status: '狀態',
+      operation: '操作',
+      detail: '詳情',
+      description: '說明：此功能主要是為了解決維修師傅年齡大不會使用手機操作，需要客服人員確認維修完後強制回單場景'
+    },
+    forceFinishRepair: {
+      title: '強制回單',
+      useMaterial: '是否用料',
+      maintenanceType: '維修類型',
+      goodsType: '商品類型',
+      goodsName: '商品名',
+      customPrice: '自定義價格',
+      secondaryCategory: '二級分類',
+      goods: '商品',
+      goodsPrice: '商品價格',
+      priceRange: '價格範圍',
+      specification: '規格',
+      quantity: '商品數量',
+      paymentMethod: '支付方式',
+      explanation: '說明',
+      submit: '提交',
+      cancel: '取消'
+    },
+    chooseSingleResource: {
+      title: '選擇物品',
+      goodsType: '商品類型',
+      secondaryCategory: '二級分類',
+      goods: '商品',
+      goodsPrice: '商品價格',
+      priceRange: '價格範圍',
+      specification: '規格',
+      quantity: '商品數量',
+      confirm: '確定',
       cancel: '取消'
     }
   }

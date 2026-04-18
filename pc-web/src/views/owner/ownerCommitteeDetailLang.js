@@ -40,7 +40,29 @@ export const messages = {
       memberRelation: '成员关系',
       contactPhone: '联系电话',
       fetchDetailError: '获取业委会详情失败',
-      fetchContactsError: '获取紧急联系人失败'
+fetchContactsError: '获取紧急联系人失败'
+    }
+  },
+  'zh-TW': {
+    ownerCommitteeDetail: {
+      title: '業委會成員詳情',
+      name: '姓名',
+      sex: '性別',
+      link: '電話',
+      idCard: '身份證號碼',
+      address: '住址',
+      position: '職位',
+      post: '崗位',
+      postDesc: '崗位描述',
+      appointTime: '屆期',
+      curTime: '任期',
+      state: '狀態',
+      remark: '備註',
+      emergencyContacts: '緊急聯繫人',
+      memberRelation: '成員關係',
+      contactPhone: '聯繫電話',
+      fetchDetailError: '獲取業委會詳情失敗',
+      fetchContactsError: '獲取緊急聯繫人失敗'
     }
   }
 }

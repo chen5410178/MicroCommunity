@@ -65,6 +65,40 @@ export const messages = {
         reprintSmall: '补打小票'
       },
       fetchError: '获取收据数据失败'
+}
+  },
+  'zh-TW': {
+    feeReceipt: {
+      search: {
+        title: '查詢條件',
+        receiptId: '請輸入收據ID',
+        roomId: '請輸入房屋或車位資訊，格式為樓棟-單元-房屋，如1-1-1',
+        objType: '請選擇收費類型',
+        all: '全部',
+        houseFee: '房屋費',
+        parkingFee: '車位費',
+        startTime: '請選擇開始時間',
+        endTime: '請選擇結束時間'
+      },
+      list: {
+        title: '收據資訊'
+      },
+      table: {
+        receiptId: '收據ID',
+        receiptCode: '收據編號',
+        objType: '費用類型',
+        feeName: '費用項',
+        roomName: '房屋',
+        payObjName: '業主',
+        carNum: '車位',
+        amount: '總金額(單位:元)',
+        createTime: '繳費時間'
+      },
+      button: {
+        reprint: '補打收據',
+        reprintSmall: '補打小票'
+      },
+      fetchError: '獲取收據數據失敗'
     }
   }
 }

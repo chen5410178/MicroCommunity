@@ -70,8 +70,46 @@ export const messages = {
         unitPrice: '物品价格',
         createUserId: '使用人ID',
         createUserName: '使用人',
-        createTime: '创建时间',
+createTime: '创建时间',
         remark: '备注'
+      }
+    }
+  },
+  'zh-TW': {
+    resourceStoreUseRecordManage: {
+      search: {
+        title: '查詢條件',
+        rsurId: '請輸入使用記錄ID',
+        repairId: '請輸入維修工單編碼',
+        resId: '請輸入物品資源編號',
+        createUserId: '請輸入物品使用人ID',
+        createUserName: '請輸入用戶名',
+        resName: '請輸入物品名稱',
+        parentRstId: '請選擇物品類型',
+        rstId: '請選擇二級分類',
+        rssId: '請選擇物品規格',
+        state: '請選擇物品使用類型',
+        startTime: '請選擇開始時間',
+        endTime: '請選擇結束時間'
+      },
+      list: {
+        title: '使用記錄'
+      },
+      table: {
+        rsurId: '使用記錄ID',
+        repairId: '維修工單編號',
+        resId: '物品編號',
+        resourceType: '物品類型',
+        resourceStoreName: '物品名稱',
+        specName: '物品規格',
+        isFixedName: '固定物品',
+        stateName: '使用類型',
+        quantity: '使用數量',
+        unitPrice: '物品價格',
+        createUserId: '使用人ID',
+        createUserName: '使用人',
+        createTime: '創建時間',
+        remark: '備註'
       }
     }
   }

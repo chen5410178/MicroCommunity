@@ -88,5 +88,50 @@ export const messages = {
         createTime: '创建时间'
       }
     }
+  },
+  'zh-TW': {
+    purchaseApplyDetailManage: {
+      search: {
+        title: '查詢條件',
+        applyOrderId: '請填寫申請單號',
+        state: '請選擇狀態',
+        name: '請填寫申請人姓名',
+        endUserName: '請填寫使用人姓名',
+        resName: '請填寫物品名稱',
+        warehousingWay: '請選擇採購方式',
+        startTime: '請選擇創建開始時間',
+        endTime: '請選擇創建結束時間',
+        parentRstId: '請選擇物品類型',
+        rstId: '請選擇二級分類',
+        rssId: '請選擇物品規格',
+        rsId: '請選擇供應商',
+        shId: '請選擇倉庫',
+        hide: '隱藏',
+        more: '更多'
+      },
+      list: {
+        title: '出入庫明細'
+      },
+      table: {
+        applyOrderId: '申請單號',
+        userName: '申請人',
+        endUserName: '使用人',
+        resOrderTypeName: '出入庫類型',
+        rstName: '物品類型',
+        resName: '物品名稱',
+        specName: '物品規格',
+        isFixedName: '固定物品',
+        supplierName: '供應商',
+        shName: '物品倉庫',
+        warehousingWayName: '採購/出庫方式',
+        quantity: '申請數量',
+        purchaseQuantity: '採購/出庫數量',
+        price: '採購價格',
+        totalApplyPrice: '總價',
+        remark: '申請備註',
+        stateName: '狀態',
+        createTime: '創建時間'
+      }
+    }
   }
 }

@@ -23,6 +23,19 @@ export const messages = {
     mergeFeeDemo: {
       openComponent: '打开合并费用组件',
       mergeSuccess: '合并操作成功完成'
+}
+  },
+  'zh-TW': {
+    mergeFee: {
+      confirmOperation: '請確認您的操作!',
+      mergeDescription: '合併拆分費用，合併後，將結束拆分後的費用，啟用原費用',
+      cancel: '點錯了',
+      confirmMerge: '確認合併',
+      mergeSuccess: '合併成功，請到業務受理查看合併後費用'
+    },
+    mergeFeeDemo: {
+      openComponent: '打開合併費用組件',
+      mergeSuccess: '合併操作成功完成'
     }
   }
 }

@@ -15,7 +15,7 @@ export const messages = {
       selectPrint: 'Please select'
     }
   },
-  zh: {
+zh: {
     contractDetailReceipt: {
       feeType: '费用类型',
       owner: '业主',
@@ -29,6 +29,22 @@ export const messages = {
       printApply: '申请单',
       selectPrintReceipt: '请选择打印收据',
       selectPrint: '请选择'
+    }
+  },
+  'zh-TW': {
+    contractDetailReceipt: {
+      feeType: '費用類型',
+      owner: '業主',
+      feeItem: '費用項目',
+      feePeriod: '收費時間段',
+      totalAmount: '總金額',
+      payTime: '繳費時間',
+      receiptId: '收據ID',
+      print: '列印',
+      printSmall: '列印小票',
+      printApply: '申請單',
+      selectPrintReceipt: '請選擇列印收據',
+      selectPrint: '請選擇'
     }
   }
 }

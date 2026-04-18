@@ -41,12 +41,37 @@ export const messages = {
       startTimeRequired: '开始时间不能为空',
       endTimeRequired: '结束时间不能为空'
     },
-    chooseFeeCombo: {
+chooseFeeCombo: {
       title: '选择费用套餐',
       searchPlaceholder: '输入费用套餐名称',
       comboName: '套餐名称',
       createTime: '创建时间',
       remark: '说明'
+    }
+  },
+  'zh-TW': {
+    createFeeByCombo: {
+      title: '創建費用（根據費用套餐創建）',
+      chooseFeeCombo: '選擇費用套餐',
+      feeType: '費用類型',
+      feeItem: '費用項目',
+      feeFlag: '費用標識',
+      startTime: '計費起始時間',
+      endTime: '計費結束時間',
+      requiredStartTime: '必填，請填寫開始時間',
+      requiredEndTime: '必填，請填寫結束時間',
+      feeItemEndTime: '費用項結束時間',
+      endTimeMustGreater: '結束時間必須大於開始時間',
+      noFeeSelected: '未選中要創建的費用套餐',
+      startTimeRequired: '開始時間不能為空',
+      endTimeRequired: '結束時間不能為空'
+    },
+    chooseFeeCombo: {
+      title: '選擇費用套餐',
+      searchPlaceholder: '輸入費用套餐名稱',
+      comboName: '套餐名稱',
+      createTime: '創建時間',
+      remark: '說明'
     }
   }
 }

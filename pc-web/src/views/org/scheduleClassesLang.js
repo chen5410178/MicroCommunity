@@ -70,7 +70,44 @@ export const messages = {
         success: '操作成功',
         error: '操作失败'
       },
-      fetchError: '获取排班数据失败'
+fetchError: '获取排班数据失败'
+    }
+  },
+  'zh-TW': {
+    scheduleClasses: {
+      search: {
+        title: '查詢條件',
+        nameLike: '請輸入排班名稱',
+        state: '請選擇狀態',
+        allState: '全部狀態'
+      },
+      list: {
+        title: '排班設置'
+      },
+      table: {
+        name: '班次名稱',
+        scheduleType: '排班類型',
+        scheduleCycle: '排班週期',
+        computeTime: '生效時間',
+        staff: '人員',
+        staffLink: '人員',
+        state: '狀態',
+        createTime: '創建時間'
+      },
+      delete: {
+        title: '確認操作',
+        confirm: '確定刪除排班嗎？',
+        success: '刪除成功',
+        error: '刪除失敗'
+      },
+      state: {
+        title: '確認操作',
+        confirm: '確定',
+        schedule: '該排班嗎？',
+        success: '操作成功',
+        error: '操作失敗'
+      },
+      fetchError: '獲取排班數據失敗'
     }
   }
 }

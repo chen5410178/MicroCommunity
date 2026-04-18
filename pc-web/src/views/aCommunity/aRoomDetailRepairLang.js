@@ -24,5 +24,18 @@ export const messages = {
       taskProcessing: '定时任务处理',
       detail: '详情'
     }
+  },
+  'zh-TW': {
+    aRoomDetailRepair: {
+      repairId: '工單編碼',
+      location: '位置',
+      repairType: '報修類型',
+      repairPerson: '報修人',
+      contact: '聯繫方式',
+      appointmentTime: '預約時間',
+      state: '狀態',
+      taskProcessing: '定時任務處理',
+      detail: '詳情'
+    }
   }
 }

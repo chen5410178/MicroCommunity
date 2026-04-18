@@ -32,5 +32,22 @@ export const messages = {
       itemDistribution: '物品发放',
       audit: '审批'
     }
+  },
+  'zh-TW': {
+    myItemOutAuditOrders: {
+      title: '待辦單',
+      back: '返回',
+      refresh: '刷新',
+      orderNo: '訂單號',
+      orderType: '訂單類型',
+      orderStatus: '訂單狀態',
+      applicant: '申請人',
+      createTime: '創建時間',
+      operation: '操作',
+      view: '查看',
+      edit: '修改',
+      itemDistribution: '物品發放',
+      audit: '審批'
+    }
   }
 }

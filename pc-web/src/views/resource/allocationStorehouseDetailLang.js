@@ -57,8 +57,37 @@ export const messages = {
       handler: '处理人',
       processTime: '处理时间',
       timeConsuming: '耗时',
-      opinion: '意见'
+opinion: '意见'
     },
-   
+  },
+  'zh-TW': {
+    allocationStorehouseDetail: {
+      applyInfo: '申請信息',
+      print: '列印',
+      back: '返回',
+      applicant: '申請人：',
+      applyTime: '申請時間：',
+      type: '類型：',
+      status: '狀態：',
+      applyRemark: '申請說明：',
+      allocationGoods: '調撥物品',
+      goodsId: '物品ID',
+      goodsType: '物品類型',
+      goodsName: '物品名稱',
+      goodsSpec: '物品規格',
+      goodsCode: '物品編碼',
+      fixedGoods: '固定物品',
+      transferredWarehouse: '被調倉庫',
+      returnPerson: '退還人',
+      targetWarehouse: '目標倉庫',
+      originalStock: '原庫存',
+      allocationQuantity: '調撥數量',
+      workflow: '工單流轉',
+      serialNumber: '序號',
+      handler: '處理人',
+      processTime: '處理時間',
+      timeConsuming: '耗時',
+      opinion: '意見'
+    },
   }
 }

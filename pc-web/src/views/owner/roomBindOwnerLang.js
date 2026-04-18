@@ -60,7 +60,39 @@ export const messages = {
       personType: '人员类型',
       personRole: '人员角色',
       idCard: '证件号',
-      contact: '联系方式'
+contact: '联系方式'
+    }
+  },
+  'zh-TW': {
+    roomBindOwner: {
+      title: '房屋交房',
+      room: '房屋',
+      owner: '業主',
+      startTime: '開始時間',
+      endTime: '結束時間',
+      roomPlaceholder: '必填，請填寫房屋名稱',
+      ownerPlaceholder: '必填，請選擇業主',
+      startTimePlaceholder: '必填，請填寫開始時間',
+      endTimePlaceholder: '必填，請填寫結束時間',
+      selectOwner: '選擇業主',
+      roomRequired: '房屋不能為空',
+      ownerRequired: '業主不能為空',
+      startTimeRequired: '開始時間不能為空',
+      endTimeRequired: '結束時間不能為空',
+      timeError: '結束時間必須大於開始時間',
+      fetchRoomError: '獲取房屋信息失敗'
+    },
+    searchOwner: {
+      ownerId: '業主編號',
+      title: '選擇業主',
+      roomPlaceholder: '輸入房屋編號(樓棟-單元-房屋)',
+      ownerPlaceholder: '輸入業主名稱',
+      memberId: '業主編號',
+      name: '名稱',
+      personType: '人員類型',
+      personRole: '人員角色',
+      idCard: '證件號',
+      contact: '聯繫方式'
     }
   }
 }

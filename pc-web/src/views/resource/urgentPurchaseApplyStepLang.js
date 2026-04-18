@@ -94,7 +94,56 @@ export const messages = {
       fixedItem: '固定物品',
       price: '物品价格',
       stock: '物品库存',
-      selectItemsRequired: '请选择需要采购的物品'
+selectItemsRequired: '请选择需要采购的物品'
+    }
+  },
+  'zh-TW': {
+    urgentPurchaseApplyStep: {
+      applyInfo: '申請信息',
+      warehouse: '倉庫',
+      requiredSelectWarehouse: '必填，請選擇倉庫',
+      contact: '聯繫人',
+      requiredContact: '必填，請填寫聯繫人',
+      phone: '聯繫電話',
+      requiredPhone: '必填，請填寫聯繫電話',
+      applyDesc: '申請說明',
+      requiredDesc: '必填，請填寫申請說明',
+      purchaseItems: '採購物品',
+      select: '選擇',
+      itemType: '物品類型',
+      nameCode: '名稱(編碼)',
+      spec: '物品規格',
+      referencePrice: '參考價格',
+      stock: '物品庫存',
+      applyQuantity: '申請數量',
+      requiredQuantity: '必填，請填寫申請數量',
+      purchasePrice: '採購單價',
+      requiredPrice: '必填，請填寫採購單價',
+      targetWarehouse: '目標倉庫',
+      requiredTargetWarehouse: '必填，請選擇目標倉庫',
+      remark: '備註',
+      optionalRemark: '選填，請填寫備註',
+      operation: '操作',
+      remove: '移除',
+      submit: '提交',
+      requiredSelectItems: '請選擇採購物品',
+      sameWarehouseRequired: '採購商品需來自同一倉庫！'
+    },
+    chooseResourceStore4: {
+      title: '【緊急採購】選擇物品',
+      selectWarehouse: '請選擇倉庫',
+      selectItemType: '請選擇物品類型',
+      selectSubType: '請選擇二級分類',
+      inputItemName: '輸入物品管理名稱',
+      warehouse: '倉庫',
+      itemType: '物品類型',
+      itemName: '物品名稱',
+      spec: '物品規格',
+      code: '物品編碼',
+      fixedItem: '固定物品',
+      price: '物品價格',
+      stock: '物品庫存',
+      selectItemsRequired: '請選擇需要採購的物品'
     }
   }
 }

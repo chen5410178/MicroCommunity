@@ -80,7 +80,49 @@ export const messages = {
       feeStartTimeDesc: '费用开始时间：所创建费用的计费起始时间',
       oweDaysDesc1: '欠费时长（天）：押金费用项欠费时长是费用开始时间到当天的天数',
       oweDaysDesc2: '除押金外的费用项欠费时长是费用的开始时间到费用的结束时间的天数',
-      oweAmountDesc: '欠费金额：欠费周期内应缴费用'
+      oweAmountDesc: '欠費金額：欠費周期內應繳費用'
+    }
+  },
+  'zh-TW': {
+    reportOweFeeDetail: {
+      all: '全部',
+      searchCondition: '查詢條件',
+      feeType: '費用大類',
+      selectFeeType: '請選擇費用大類',
+      roomNum: '房屋編號',
+      inputRoomNum: '請填寫房屋編號',
+      room: '房屋',
+      phone: '手機號',
+      inputPhone: '請填寫手機號',
+      startTime: '開始時間',
+      selectStartTime: '請選擇開始時間',
+      endTime: '結束時間',
+      selectEndTime: '請選擇結束時間',
+      community: '小區',
+      selectCommunity: '請選擇小區',
+      search: '查詢',
+      reset: '重置',
+      ownerName: '業主名稱',
+      inputOwnerName: '請填寫業主名稱',
+      oweFeeDetail: '欠費明細表',
+      tooltip: '房屋與費用項關聯的欠費明細',
+      updateDaily: '按天更新',
+      export: '匯出',
+      feeNum: '費用編號',
+      owner: '業主',
+      ownerTel: '業主電話',
+      area: '面積',
+      feeItem: '費用項',
+      oweDays: '欠費時長(天)',
+      oweAmount: '欠費金額',
+      subtotal: '小計',
+      total: '大計',
+      owe: '欠費',
+      yuan: '元',
+      feeStartTimeDesc: '費用開始時間：所創建費用的計費起始時間',
+      oweDaysDesc1: '欠費時長（天）：押金費用項欠費時長是費用開始時間到當天的天數',
+      oweDaysDesc2: '除押金外的費用項欠費時長是費用的開始時間到費用的結束時間的天數',
+      oweAmountDesc: '欠費金額：欠費周期內應繳費用'
     }
   }
 }

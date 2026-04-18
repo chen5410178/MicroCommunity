@@ -26,5 +26,19 @@ export const messages = {
       createTime: '起草时间',
       state: '状态'
     }
+  },
+  'zh-TW': {
+    aRoomDetailContract: {
+      contractName: '合同名稱',
+      contractCode: '合同編號',
+      parentContractCode: '父合同編號',
+      contractType: '合同類型',
+      operator: '經辦人',
+      amount: '合同金額',
+      startTime: '開始時間',
+      endTime: '結束時間',
+      createTime: '起草時間',
+      state: '狀態'
+    }
   }
 }

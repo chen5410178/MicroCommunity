@@ -56,7 +56,37 @@ export const messages = {
         user: '用户'
       },
       resetPwd: '重置密码',
-      fetchError: '获取用户列表失败'
+fetchError: '获取用户列表失败'
+    }
+  },
+  'zh-TW': {
+    systemUser: {
+      search: {
+        title: '查詢條件',
+        levelCd: '請選擇人員角色',
+        nameLike: '請輸入用戶名稱',
+        tel: '請輸入手機號'
+      },
+      list: {
+        title: '物业用戶'
+      },
+      table: {
+        userId: '用戶編號',
+        userName: '用戶名稱',
+        tel: '手機號',
+        email: 'Email',
+        address: '地址',
+        createTime: '創建時間',
+        levelCd: '角色',
+        ownerCount: '認證數'
+      },
+      level: {
+        admin: '管理員',
+        staff: '員工',
+        user: '用戶'
+      },
+      resetPwd: '重置密碼',
+      fetchError: '獲取用戶列表失敗'
     }
   }
 }

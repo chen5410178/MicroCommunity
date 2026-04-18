@@ -45,7 +45,7 @@ export const messages = {
       fetchError: 'Failed to fetch Party A data'
     }
   },
-  zh: {
+zh: {
     contractPartyaManage: {
       search: {
         title: '查询条件',
@@ -89,6 +89,52 @@ export const messages = {
         confirmText: '确定删除合同甲方吗?'
       },
       fetchError: '获取甲方数据失败'
+    }
+  },
+  'zh-TW': {
+    contractPartyaManage: {
+      search: {
+        title: '查詢條件',
+        partyA: '甲方',
+        aContacts: '甲方聯絡人',
+        aLink: '聯繫電話'
+      },
+      list: {
+        title: '合同甲方'
+      },
+      table: {
+        partyA: '甲方',
+        aContacts: '甲方聯絡人',
+        aLink: '聯繫電話'
+      },
+      form: {
+        partyA: '甲方',
+        partyAPlaceholder: '請輸入甲方',
+        aContacts: '甲方聯絡人',
+        aContactsPlaceholder: '請輸入甲方聯絡人',
+        aLink: '聯繫電話',
+        aLinkPlaceholder: '請輸入聯繫電話'
+      },
+      validate: {
+        partyARequired: '甲方不能為空',
+        partyAMaxLength: '甲方太長',
+        aContactsRequired: '甲方聯絡人不能為空',
+        aContactsMaxLength: '甲方聯絡人不能超過64個字符',
+        aLinkRequired: '聯繫電話不能為空',
+        aLinkFormat: '聯繫電話格式錯誤',
+        partyaIdRequired: '甲方編號不能為空'
+      },
+      add: {
+        title: '添加甲方'
+      },
+      edit: {
+        title: '修改甲方'
+      },
+      delete: {
+        title: '請確認您的操作',
+        confirmText: '確定刪除合同甲方嗎?'
+      },
+      fetchError: '獲取甲方數據失敗'
     }
   }
 }

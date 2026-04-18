@@ -39,7 +39,28 @@ export const messages = {
         createTime: '扣款时间',
         remark: '备注'
       },
-      fetchError: '获取预付扣款详情失败'
+fetchError: '获取预付扣款详情失败'
+    },
+  },
+  'zh-TW': {
+    prePayFeeDeductionDetail: {
+      title: '預付扣款',
+      table: {
+        detailId: '編號',
+        feeName: '費用名稱',
+        preAmount: '上月結存',
+        curAmount: '本月抵扣',
+        remainAmount: '本月結存',
+        curOweAmount: '本欠抵扣',
+        hisOweAmount: '歷欠抵扣',
+        curYearMonth: '年月',
+        payerObjName: '費用對象',
+        ownerName: '業主名稱',
+        ftName: '費用類型',
+        createTime: '扣款時間',
+        remark: '備註'
+      },
+      fetchError: '獲取預付扣款詳情失敗'
     },
   }
 }

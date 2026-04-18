@@ -118,5 +118,65 @@ export const messages = {
       },
       fetchError: '获取业务轨迹列表失败'
     }
+  },
+  'zh-TW': {
+    businessTableHis: {
+      search: {
+        title: '查詢條件',
+        action: '動作',
+        actionObj: '表名',
+        actionObjHis: '軌跡表名',
+        businessTypeCd: '業務類型',
+        remark: '備註',
+        createTime: '創建時間',
+        placeholder: '請輸入業務軌跡名稱'
+      },
+      list: {
+        title: '業務軌跡'
+      },
+      dialog: {
+        addTitle: '添加業務軌跡',
+        editTitle: '編輯業務軌跡',
+        delTitle: '刪除業務軌跡',
+        cancel: '取消',
+        confirm: '確定'
+      },
+      form: {
+        hisId: '歷史ID',
+        action: '動作',
+        actionObj: '表名',
+        actionObjHis: '軌跡表名',
+        businessTypeCd: '業務類型',
+        remark: '備註',
+        createTime: '創建時間',
+      },
+      table: {
+        hisId: '歷史ID',
+        action: '動作',
+        actionObj: '表名',
+        actionObjHis: '軌跡表名',
+        businessTypeCd: '業務類型',
+        remark: '備註',
+        createTime: '創建時間',
+      },
+      validate: {
+        hisId: '請輸入歷史ID',
+        actionObj: '表名',
+        actionObjHis: '軌跡表名',
+        businessTypeCd: '業務類型',
+        createTime: '請輸入創建時間',
+      },
+      add: {
+        success: '添加業務軌跡成功'
+      },
+      edit: {
+        success: '編輯業務軌跡成功'
+      },
+      delete: {
+        success: '刪除業務軌跡成功',
+        confirm: '確認刪除該業務軌跡嗎？'
+      },
+      fetchError: '獲取業務軌跡列表失敗'
+    }
   }
 }

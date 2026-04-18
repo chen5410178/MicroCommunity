@@ -64,7 +64,41 @@ export const messages = {
       cancel: '点错了',
       confirm: '确认删除',
       deleteSuccess: '删除成功',
-      deleteError: '删除检查项失败'
+deleteError: '删除检查项失败'
+    }
+  },
+  'zh-TW': {
+    maintainanceStandardItem: {
+      title: '檢查項',
+      back: '返回',
+      add: '添加',
+      item: '檢查項',
+      id: '編號',
+      operation: '操作',
+      delete: '刪除',
+      fetchError: '獲取檢查項失敗'
+    },
+    chooseMaintainanceStandardItem: {
+      title: '選擇檢查項',
+      searchPlaceholder: '輸入檢查項',
+      search: '查詢',
+      reset: '重設',
+      id: '編號',
+      item: '檢查項',
+      submit: '提交',
+      cancel: '取消',
+      selectWarning: '請至少選擇一項檢查項',
+      submitSuccess: '添加成功',
+      submitError: '添加檢查項失敗',
+      fetchError: '獲取可選檢查項失敗'
+    },
+    deleteMaintainanceStandardItem: {
+      title: '確認操作',
+      confirmMessage: '確定刪除該檢查項嗎？',
+      cancel: '取消',
+      confirm: '確認刪除',
+      deleteSuccess: '刪除成功',
+      deleteError: '刪除檢查項失敗'
     }
   }
 }

@@ -26,7 +26,7 @@ export const messages = {
       },
       tip1: 'Note: Before using this function, please go to Repair Management;',
       tip2: 'For general owner housing repairs, we must add a non-public area type to report repairs normally.',
-      
+       
     },
     addOwnerRepair: {
         title: 'Repair Registration',
@@ -137,9 +137,80 @@ export const messages = {
           appointmentTime: '请选择预约时间'
         }
       },
-      deleteOwnerRepair: {
+deleteOwnerRepair: {
         title: '请确认您的操作',
         confirmText: '确定删除业主报修？'
+      },
+  },
+  'zh-TW': {
+    ownerRepairManage: {
+      queryCondition: '查詢條件',
+      phoneRepair: '電話報修',
+      register: '登記',
+      placeholder: {
+        repairId: '請輸入工單編號',
+        repairName: '請輸入報修人',
+        tel: '請輸入報修電話',
+        repairType: '請選擇報修類型',
+        state: '請選擇報修狀態'
+      },
+      table: {
+        repairId: '工單編號',
+        location: '位置',
+        repairType: '報修類型',
+        repairName: '報修人',
+        tel: '聯繫方式',
+        appointmentTime: '預約時間',
+        timeout: '超時時間',
+        createTime: '提交時間',
+        state: '狀態',
+        operation: '操作',
+        scheduledTask: '(定時任務處理)'
+      },
+      tip1: '注意：此功能使用前 請先到 報修管理；',
+      tip2: '一般業主房屋報修 我們必須要添加一個非公共區域的類型才能正常報修'
+    },
+    addOwnerRepair: {
+        title: '報修登記',
+        repairScope: '報修範圍',
+        belongBuilding: '歸屬樓棟',
+        belongUnit: '歸屬單元',
+        belongRoom: '歸屬房屋',
+        repairType: '報修類型',
+        repairName: '報修人',
+        tel: '聯繫方式',
+        appointmentTime: '預約時間',
+        context: '報修內容',
+        placeholder: {
+          appointmentTime: '請選擇預約時間',
+          repairScope: '請選擇報修範圍',
+          repairType: '請選擇報修類型',
+          repairName: '請輸入報修人',
+          tel: '請輸入聯繫方式',
+          context: '請輸入報修內容',
+        },
+        community: '小區',
+        building: '樓棟',
+        unit: '單元',
+        room: '房屋',
+        buildingSuffix: '棟',
+        unitSuffix: '單元',
+        roomSuffix: '室'
+      },
+      editOwnerRepair: {
+        title: '修改業主報修',
+        repairType: '報修類型',
+        repairName: '報修人',
+        tel: '聯繫方式',
+        appointmentTime: '預約時間',
+        context: '報修內容',
+        placeholder: {
+          appointmentTime: '請選擇預約時間'
+        }
+      },
+      deleteOwnerRepair: {
+        title: '確認操作',
+        confirmText: '確定刪除業主報修？'
       },
   }
 }

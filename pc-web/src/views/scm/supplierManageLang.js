@@ -56,5 +56,34 @@ export const messages = {
       requiredField: '必填项',
       template:'模版'
     }
+  },
+  'zh-TW': {
+    supplierManage: {
+      searchCondition: '查詢條件',
+      moreCondition: '更多',
+      hide: '隱藏',
+      supplierInfo: '供應商信息',
+      add: '添加',
+      supplierType: '供應商類型',
+      supplierName: '供應商名稱',
+      contactPerson: '聯繫人',
+      contactTel: '聯繫電話',
+      startTime: '開始時間',
+      endTime: '結束時間',
+      createTime: '創建時間',
+      remark: '備註',
+      operation: '操作',
+      edit: '修改',
+      config: '配置',
+      delete: '刪除',
+      query: '查詢',
+      confirmDelete: '確認刪除',
+      deleteTip: '確定刪除供應商嗎？',
+      cancel: '取消',
+      confirm: '確認',
+      pleaseSelect: '請選擇',
+      requiredField: '必填項',
+      template:'模板'
+    }
   }
 }
