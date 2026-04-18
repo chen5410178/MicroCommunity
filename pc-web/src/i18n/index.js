@@ -86,7 +86,6 @@ import { messages as supplierTypeManageMessages } from '../views/scm/supplierTyp
 import { messages as supplierManageMessages } from '../views/scm/supplierManageLang'
 import { messages as supplierCouponMessages } from '../views/scm/supplierCouponLang'
 import { messages as supplierCouponBuyMessages } from '../views/scm/supplierCouponBuyLang'
-import { messages as aStaffMessages } from '../views/staff/aStaffLang'
 import { messages as aStaffDetailMessages } from '../views/staff/aStaffDetailLang'
 import { messages as aStaffCommunityMessages } from '../views/staff/aStaffCommunityLang'
 import { messages as communityWechatMessages } from '../views/community/communityWechatLang'
@@ -238,7 +237,6 @@ const messages = {
     ...supplierManageMessages.en,
     ...supplierCouponMessages.en,
     ...supplierCouponBuyMessages.en,
-    ...aStaffMessages.en,
     ...aStaffDetailMessages.en,
     ...aStaffCommunityMessages.en,
     ...communityWechatMessages.en,
@@ -383,7 +381,6 @@ const messages = {
     ...supplierManageMessages.zh,
     ...supplierCouponMessages.zh,
     ...supplierCouponBuyMessages.zh,
-    ...aStaffMessages.zh,
     ...aStaffDetailMessages.zh,
     ...aStaffCommunityMessages.zh,
     ...communityWechatMessages.zh,
@@ -526,7 +523,6 @@ const messages = {
     ...supplierManageMessages['zh-TW'],
     ...supplierCouponMessages['zh-TW'],
     ...supplierCouponBuyMessages['zh-TW'],
-    ...aStaffMessages['zh-TW'],
     ...aStaffDetailMessages['zh-TW'],
     ...aStaffCommunityMessages['zh-TW'],
     ...communityWechatMessages['zh-TW'],
