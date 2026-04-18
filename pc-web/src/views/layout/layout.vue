@@ -3,7 +3,7 @@
     <!-- 顶部导航 -->
     <el-header height="60px" class="app-header">
       <div class="header-left">
-        <div class="logo" @click="_toIndex">{{systemInfo.systemSimpleTitle}}</div>
+        <div class="logo" @click="_toIndex">{{ systemInfo.systemSimpleTitle }}</div>
         <el-menu mode="horizontal" :default-active="activeMenu" class="header-menu" background-color="#1e2132"
           text-color="#fff" active-text-color="#409EFF">
           <template v-for="(item, index) in catalogs">
@@ -14,7 +14,7 @@
       </div>
       <div class="header-right">
         <el-dropdown @command="handleSwitchLang" class="margin-right">
-          <span class="lang-info">
+          <span class="user-info">
             <i class="el-icon-language"></i>
             {{ currentLangLabel }}
           </span>
@@ -31,7 +31,7 @@
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item :command="c" v-for="(c, index) in communitys" :key="index">{{ c.name }}</el-dropdown-item>
             <el-dropdown-item command="moreCommunity" class="moreCommunity">{{ $t('layout.moreCommunity')
-            }}</el-dropdown-item>
+              }}</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
         <el-dropdown @command="handleCommand">
@@ -43,7 +43,7 @@
             <el-dropdown-item command="logout">{{ $t('layout.logout') }}</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
-        <span class="margin-left">{{systemInfo.version}}</span>
+        <span class="margin-left">{{ systemInfo.version }}</span>
 
       </div>
     </el-header>
@@ -57,7 +57,8 @@
               <template v-for="(menu, index) in menuTree">
                 <li :key="index" v-if="menu.childs && menu.childs.length > 0" :class="{ active: menu.active }"
                   @click="switchMenu(menu)">
-                  <i class="fa " v-bind:class="menu.icon"></i><span class="margin-left-xs">{{ $t('menu.' + menu.name) }}</span>
+                  <i class="fa " v-bind:class="menu.icon"></i><span class="margin-left-xs">{{ $t('menu.' + menu.name)
+                    }}</span>
                 </li>
               </template>
             </ul>
@@ -81,15 +82,13 @@
       <el-main class="app-main">
         <div class="tabs-wrap" v-if="visitedTabs.length > 0">
           <div class="tabs-list">
-            <div
-              v-for="tab in visitedTabs"
-              :key="tab.path"
-              :class="['tabs-item', { active: $route.path === tab.path }]"
-              @click="goTab(tab)"
-            >
-              <span class="tabs-item-title">{{ $t('menu.'+tab.title) }}</span>
-              <i class="el-icon-close tabs-item-close" @click.stop="removeTab(tab)" v-if="visitedTabs.length > 1"></i>
-            </div>
+            <template v-for="(tab, index) in visitedTabs">
+              <div :key="index" v-if="tab.title" :class="['tabs-item', { active: $route.path === tab.path }]"
+                @click="goTab(tab)">
+                <span class="tabs-item-title">{{ $t('menu.' + tab.title) }}</span>
+                <i class="el-icon-close tabs-item-close" @click.stop="removeTab(tab)" v-if="visitedTabs.length > 1"></i>
+              </div>
+            </template>
           </div>
           <el-button type="text" size="mini" class="tabs-close-all" @click="closeAllTabs">
             {{ $t('layout.closeAllTabs') }}
@@ -107,13 +106,13 @@
 <script>
 import { _getMenuCatalog, getMenuTree, jumpToMall, jumpToIot } from '@/api/user/menuApi'
 import { getStoreInfo } from "@/api/user/indexApi"
-import {listSystemInfo} from '@/api/system/systemInfoManageApi'
+import { listSystemInfo } from '@/api/system/systemInfoManageApi'
 import { deepCopy, setCurrentCommunity } from "@/utils/vc"
 import { getCommunityName, _loadCommunityInfo } from '@/api/community/communityApi'
 import moreCommunity from '@/components/community/moreCommunity.vue'
 import viewMenuUserList from '@/components/system/viewMenuUserList.vue'
 import searchCommunityDataList from '@/components/system/searchCommunityDataList.vue'
-import {initSystem} from '@/api/util/vcApi'
+import { initSystem } from '@/api/util/vcApi'
 import config from '@/conf/config'
 
 
@@ -162,7 +161,7 @@ export default {
       handler(route) {
         if (!route.path || route.path === '/views/user/login' || route.path === '/login') return
         var path = route.path
-        var exists = this.visitedTabs.some(function(t) { return t.path === path })
+        var exists = this.visitedTabs.some(function (t) { return t.path === path })
         if (!exists) {
           var info = this.getTabTitle(path, route.meta || {})
           if (info) this.visitedTabs.push({ path: path, title: info.title, titleKey: info.titleKey })
@@ -265,7 +264,7 @@ export default {
       }
       setCurrentCommunity(community);
       this.curCommunityName = getCommunityName()
-      window.location.href="/"
+      window.location.href = "/"
     },
     handleMenuSelect(index) {
       // 处理菜单选择
@@ -356,10 +355,10 @@ export default {
       }
       return false;
     },
-    _toIndex(){
+    _toIndex() {
       location.href = '/'
     },
-    _closeSubMenu(){
+    _closeSubMenu() {
       this.subMenus = []
       this.curMenuName = ''
     },
@@ -374,19 +373,19 @@ export default {
     },
     goTab(tab) {
       if (this.$route.path === tab.path) return
-      this.$router.push(tab.path).catch(function() {})
+      this.$router.push(tab.path).catch(function () { })
     },
     removeTab(tab) {
-      var list = this.visitedTabs.filter(function(t) { return t.path !== tab.path })
+      var list = this.visitedTabs.filter(function (t) { return t.path !== tab.path })
       this.visitedTabs = list
       if (this.$route.path === tab.path) {
         var next = list.length ? list[list.length - 1] : { path: '/views/index/index' }
-        this.$router.push(next.path).catch(function() {})
+        this.$router.push(next.path).catch(function () { })
       }
     },
     closeAllTabs() {
       this.visitedTabs = []
-      this.$router.push('/views/index/index').catch(function() {})
+      this.$router.push('/views/index/index').catch(function () { })
     },
     handleSwitchLang(command) {
       this.$i18n.locale = command
@@ -477,6 +476,7 @@ export default {
   border-bottom: 1px solid #ebeef5;
   gap: 8px;
 }
+
 .tabs-list {
   display: flex;
   flex-wrap: nowrap;
@@ -485,6 +485,7 @@ export default {
   min-width: 0;
   overflow-x: auto;
 }
+
 .tabs-item {
   display: inline-flex;
   align-items: center;
@@ -499,30 +500,36 @@ export default {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
 .tabs-item:hover {
   color: #409EFF;
   background: #ecf5ff;
 }
+
 .tabs-item.active {
   color: #409EFF;
   background: #ecf5ff;
   font-weight: 500;
 }
+
 .tabs-item-title {
   flex: 1;
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 .tabs-item-close {
   margin-left: 6px;
   font-size: 12px;
   opacity: 0.7;
 }
+
 .tabs-item-close:hover {
   opacity: 1;
   color: #f56c6c;
 }
+
 .tabs-close-all {
   flex-shrink: 0;
   padding: 4px 8px;
