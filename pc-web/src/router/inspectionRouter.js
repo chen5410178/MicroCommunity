@@ -67,7 +67,7 @@ export default [
     },
     {
         path: '/pages/property/inspectionTaskDetails',
-        meta: { title: '巡检任务详情' },
+        meta: { title: '巡检明细' },
         name: '/pages/property/inspectionTaskDetails',
         component: () => import('@/views/inspection/inspectionTaskDetailsList.vue')
     },
