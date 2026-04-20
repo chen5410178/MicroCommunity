@@ -49,13 +49,11 @@ export default [
     },
     {
         path: '/views/owner/ownerDetail',
-        meta: { title: '业主详情' },
         name: '/views/owner/ownerDetail',
         component: () => import('@/views/owner/ownerDetail.vue')
     },
     {
         path: '/views/owner/auditAuthOwnerUndo',
-        meta: { title: '待审核业主' },
         name: '/views/owner/auditAuthOwnerUndo',
         component: () => import('@/views/owner/auditAuthOwnerUndoList.vue')
     },

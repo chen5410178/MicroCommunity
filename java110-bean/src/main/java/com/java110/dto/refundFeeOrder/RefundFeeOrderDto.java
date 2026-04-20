@@ -47,6 +47,9 @@ public class RefundFeeOrderDto extends PageDto implements Serializable {
 
     private String refundRemark;
 
+    private String feeId;
+
+
     private List<RefundFeeDetailDto> details;
 
     public String getOrderType() {
@@ -232,5 +235,13 @@ public class RefundFeeOrderDto extends PageDto implements Serializable {
 
     public void setPayOrderId(String payOrderId) {
         this.payOrderId = payOrderId;
+    }
+
+    public String getFeeId() {
+        return feeId;
+    }
+
+    public void setFeeId(String feeId) {
+        this.feeId = feeId;
     }
 }

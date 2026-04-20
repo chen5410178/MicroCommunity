@@ -43,7 +43,6 @@ export default [
       },
       {
         path: '/views/car/carAddParkingSpace',
-        meta: { title: '添加车位' },
         name: '/views/car/carAddParkingSpace',
         component: () => import('@/views/car/carAddParkingSpaceList.vue')
       },
@@ -85,19 +84,16 @@ export default [
       },
       {
         path: '/views/car/addParkingSpaceApply',
-        meta: { title: '添加车位申请' },
         name: '/views/car/addParkingSpaceApply',
         component: () => import('@/views/car/addParkingSpaceApply.vue')
       },
       {
         path: '/views/car/auditParkingSpaceApply',
-        meta: { title: '审核车位申请' },
         name: '/views/car/auditParkingSpaceApply',
         component: () => import('@/views/car/auditParkingSpaceApply.vue')
       },
       {
         path:'/views/car/carDetail',
-        meta: { title: '车辆详情' },
         name:'/views/car/carDetail',
         component: () => import('@/views/car/carDetail.vue')
         },

@@ -225,12 +225,12 @@
               >
                 {{ $t('returnPayFeeManage.table.retryRefund') }}
               </el-button>
-              <el-button
+              <!-- <el-button
                 size="mini"
                 @click="_toReturnFeeDetail(scope.row)"
               >
                 {{ $t('returnPayFeeManage.table.detail') }}
-              </el-button>
+              </el-button> -->
             </el-button-group>
           </template>
         </el-table-column>
@@ -442,9 +442,9 @@ export default {
       this.$refs.auditComponent.open()
     },
     
-    _toReturnFeeDetail(payFee) {
-      this.$router.push({ path: '/pages/property/propertyFee', query: { feeId: payFee.feeId }})
-    },
+    // _toReturnFeeDetail(payFee) {
+    //   this.$router.push(`/views/fee/propertyFee?feeId=${payFee.feeId}`)
+    // },
     
     handleSizeChange(val) {
       this.page.size = val

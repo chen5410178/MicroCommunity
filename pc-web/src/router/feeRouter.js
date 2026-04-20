@@ -146,7 +146,6 @@ export default [
     },
     {
         path: '/views/fee/feeDetail',
-        meta: { title: '费用详情' },
         name: '/views/fee/feeDetail',
         component: () => import('@/views/fee/feeDetail.vue')
     },

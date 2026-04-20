@@ -58,7 +58,6 @@ const routes = [
         path: '/views/staff/addStaff',
         name: '/views/staff/addStaff',
         component: () => import('@/views/staff/addStaff.vue'),
-        meta: { title: '添加员工' }
       },
       {
         path: '/pages/frame/role',
@@ -72,7 +71,6 @@ const routes = [
         path: '/views/staff/staffDetail',
         name: '/views/staff/staffDetail',
         component: () => import('@/views/staff/staffDetailList.vue'),
-        meta: { title: '员工详情' }
       },
 
 
