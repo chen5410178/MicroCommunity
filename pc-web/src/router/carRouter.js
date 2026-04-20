@@ -13,19 +13,19 @@ export default [
       },
       {
         path: '/pages/property/parkingAreaManage',
-        meta: { title: '停车场' },
+        meta: { title: '停车场管理' },
         name: '/pages/property/parkingAreaManage',
         component: () => import('@/views/car/parkingAreaManageList.vue')
       },
       {
         path: '/pages/property/listParkingSpace',
-        meta: { title: '车位' },
+        meta: { title: '车位信息' },
         name: '/pages/property/listParkingSpace',
         component: () => import('@/views/car/listParkingSpaceList.vue')
       },
       {
         path: '/pages/property/parkingBoxManage',
-        meta: { title: '车闸' },
+        meta: { title: '岗亭管理' },
         name: '/pages/property/parkingBoxManage',
         component: () => import('@/views/car/parkingBoxManageList.vue')
       },
@@ -55,13 +55,13 @@ export default [
       },
       {
         path: '/pages/property/carInoutManage',
-        meta: { title: '车辆进出管理' },
+        meta: { title: '进场记录' },
         name: '/pages/property/carInoutManage',
         component: () => import('@/views/car/carInoutManageList.vue')
       },
       {
         path: '/pages/property/carInManage',
-        meta: { title: '车辆入场' },
+        meta: { title: '在场车辆' },
         name: '/pages/property/carInManage',
         component: () => import('@/views/car/carInManageList.vue')
       },
@@ -73,7 +73,7 @@ export default [
       },
       {
         path: '/pages/car/tempCarPayment',
-        meta: { title: '临时车辆缴费' },
+        meta: { title: '临时车缴费' },
         name: '/pages/car/tempCarPayment',
         component: () => import('@/views/car/tempCarPaymentList.vue')
       },

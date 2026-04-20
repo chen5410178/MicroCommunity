@@ -37,7 +37,7 @@ export default [
     },
     {
         path: '/pages/property/inspectionItemManage',
-        meta: { title: '巡检项' },
+        meta: { title: '巡检项目' },
         name: '/pages/property/inspectionItemManage',
         component: () => import('@/views/inspection/inspectionItemManageList.vue')
     },

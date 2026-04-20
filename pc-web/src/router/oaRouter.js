@@ -127,25 +127,25 @@ export default [
     },
     {
         path: '/pages/property/newOaWorkflowManage',
-        meta: { title: '新工作流' },
+        meta: { title: '我的流程' },
         name: '/pages/property/newOaWorkflowManage',
         component: () => import('@/views/oa/newOaWorkflowManageList.vue')
     },
     {
         path: '/pages/property/newOaWorkflowDoing',
-        meta: { title: '工作流进行中' },
+        meta: { title: '工作办理' },
         name: '/pages/property/newOaWorkflowDoing',
         component: () => import('@/views/oa/newOaWorkflowDoingList.vue')
     },
     {
         path: '/pages/property/attendanceClassesManage',
-        meta: { title: '考勤班次' },
+        meta: { title: '考勤班组' },
         name: '/pages/property/attendanceClassesManage',
         component: () => import('@/views/oa/attendanceClassesManageList.vue')
     },
     {
         path: '/pages/attendance/attendanceClassesStaffManage',
-        meta: { title: '考勤班次员工' },
+        meta: { title: '考勤人员' },
         name: '/pages/attendance/attendanceClassesStaffManage',
         component: () => import('@/views/oa/attendanceClassesStaffManageList.vue')
     },
@@ -181,19 +181,19 @@ export default [
     },
     {
         path: '/pages/oa/workType',
-        meta: { title: '工种' },
+        meta: { title: '工作单类型' },
         name: '/pages/oa/workType',
         component: () => import('@/views/oa/workTypeList.vue')
     },
     {
         path: '/pages/oa/startWork',
-        meta: { title: '开始工作' },
+        meta: { title: '起工作单' },
         name: '/pages/oa/startWork',
         component: () => import('@/views/oa/startWorkList.vue')
     },
     {
         path: '/views/oa/addWork',
-        meta: { title: '添加工作' },
+        meta: { title: '起工作单' },
         name: '/views/oa/addWork',
         component: () => import('@/views/oa/addWorkList.vue')
     },
@@ -211,25 +211,25 @@ export default [
     },
     {
         path: '/pages/oa/doWork',
-        meta: { title: '执行工作' },
+        meta: { title: '办工作单' },
         name: '/pages/oa/doWork',
         component: () => import('@/views/oa/doWorkList.vue')
     },
     {
         path: '/pages/oa/copyWork',
-        meta: { title: '复制工作' },
+        meta: { title: '抄送我的' },
         name: '/pages/oa/copyWork',
         component: () => import('@/views/oa/copyWorkList.vue')
     },
     {
         path: '/pages/oa/workPool',
-        meta: { title: '工作池' },
+        meta: { title: '工作单池' },
         name: '/pages/oa/workPool',
         component: () => import('@/views/oa/workPoolList.vue')
     },
     {
         path: '/pages/oa/workDeduction',
-        meta: { title: '工作扣款' },
+        meta: { title: '工作单扣款' },
         name: '/pages/oa/workDeduction',
         component: () => import('@/views/oa/workDeductionList.vue')
     },
