@@ -29,7 +29,7 @@ export default [
     },
     {
         path: '/pages/iot/adminChargeMachine',
-        meta: { title: '充电设备' },
+        meta: { title: '充电桩' },
         name: '/pages/iot/adminChargeMachine',
         component: () => import('@/views/iot/adminChargeMachineList.vue')
     },

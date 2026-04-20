@@ -113,7 +113,7 @@ export default {
         this.tableData = data
         this.page.total = total
       } catch (error) {
-        this.$message.error(this.$t('adminChargeMachine.fetchError'))
+        this.$message.error(error)
       } finally {
         this.loading = false
       }
