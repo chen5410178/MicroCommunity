@@ -164,7 +164,6 @@ const routes = [
         path: '/views/staff/systemUserDetail',
         name: '/views/staff/systemUserDetail',
         component: () => import('@/views/staff/systemUserDetailList.vue'),
-        meta: { title: '用户详情' }
       },
       {
         path: '/pages/staff/storeStaff',
@@ -176,7 +175,6 @@ const routes = [
         path: '/views/staff/adminStaffDetail',
         name: '/views/staff/adminStaffDetail',
         component: () => import('@/views/staff/adminStaffDetail.vue'),
-        meta: { title: '员工详情' }
       },
       {
         path: '/pages/community/adminRoom',
@@ -206,7 +204,6 @@ const routes = [
         path: '/views/account/adminAccountDetail',
         name: '/views/account/adminAccountDetail',
         component: () => import('@/views/account/adminAccountDetailList.vue'),
-        meta: { title: '账户详情' }
       },
       {
         path: '/pages/fee/adminFeeConfig',
@@ -230,7 +227,6 @@ const routes = [
         path: '/views/work/adminRepairDetail',
         name: '/views/work/adminRepairDetail',
         component: () => import('@/views/work/adminRepairDetailList.vue'),
-        meta: { title: '报修详情' }
       },
 
       {
@@ -243,7 +239,6 @@ const routes = [
         path: '/views/complaint/adminComplaintDetail',
         name: '/views/complaint/adminComplaintDetail',
         component: () => import('@/views/complaint/adminComplaintDetailList.vue'),
-        meta: { title: '投诉详情' }
       },
       {
         path: '/pages/oa/adminWorkPool',
@@ -255,7 +250,6 @@ const routes = [
         path: '/views/work/adminWorkDetail',
         name: '/views/work/adminWorkDetail',
         component: () => import('@/views/work/adminWorkDetailList.vue'),
-        meta: { title: '工单详情' }
       },
       {
         path: '/pages/iot/aAccessControl',
@@ -411,7 +405,6 @@ const routes = [
         path: '/pages/admin/convenienceMenusManage',
         name: '/pages/admin/convenienceMenusManage',
         component: () => import('@/views/mall/convenienceMenusManageList.vue'),
-        meta: { title: '便民菜单' }
       },
       {
         path: '/pages/admin/storeInfoManage',
@@ -447,19 +440,19 @@ const routes = [
         path: '/pages/scm/supplierManage',
         name: '/pages/scm/supplierManage',
         component: () => import('@/views/scm/supplierManageList.vue'),
-        meta: { title: '供应商管理' }
+        meta: { title: '供应商' }
       },
       {
         path: '/pages/scm/supplierCoupon',
         name: '/pages/scm/supplierCoupon',
         component: () => import('@/views/scm/supplierCouponList.vue'),
-        meta: { title: '供应商优惠券' }
+        meta: { title: '优惠券' }
       },
       {
         path: '/pages/scm/supplierCouponBuy',
         name: '/pages/scm/supplierCouponBuy',
         component: () => import('@/views/scm/supplierCouponBuyList.vue'),
-        meta: { title: '优惠券购买' }
+        meta: { title: '优惠券订单' }
       },
       {
         path: '/pages/staff/aStaff',

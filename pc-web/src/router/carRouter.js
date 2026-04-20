@@ -1,13 +1,13 @@
 export default [
     {
         path: '/pages/car/adminCar',
-        meta: { title: '车辆信息' },
+        meta: { title: '小区车辆' },
         name: '/pages/car/adminCar',
         component: () => import('@/views/car/adminCarList.vue')
       },
       {
         path: '/pages/iot/adminCarInout',
-        meta: { title: '车辆进出' },
+        meta: { title: '车辆出入' },
         name: '/pages/iot/adminCarInout',
         component: () => import('@/views/iot/adminCarInoutList.vue')
       },

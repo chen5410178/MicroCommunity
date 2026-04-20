@@ -1,7 +1,7 @@
 export default [
     {
         path: '/pages/resource/adminEquipment',
-        meta: { title: '设备管理' },
+        meta: { title: '设备台账' },
         name: '/pages/resource/adminEquipment',
         component: () => import('@/views/resource/adminEquipmentList.vue')
     },

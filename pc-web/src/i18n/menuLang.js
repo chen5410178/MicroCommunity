@@ -691,6 +691,8 @@ export const menuMessages = {
       '物品规格删除权限': 'Item Spec Delete Privilege',
       '导入日志详情': 'Import Log Detail',
       '店铺详情': 'Store Detail',
+      '商城运营': 'Mall Operation',
+      '数据': 'Data'
       
     }
   },
@@ -1410,7 +1412,8 @@ export const menuMessages = {
       '工作单流转': '工作单流转',
       '导入日志详情': '导入日志详情',
       '店铺详情': '店铺详情',
-      
+      '商城运营':'商城运营',
+      '数据':'数据'
     }
   },
   'zh-TW': {
@@ -2128,6 +2131,8 @@ export const menuMessages = {
       '工作单流转': '工作單流轉',
       '导入日志详情': '匯入日誌詳情',
       '店铺详情': '店鋪詳情',
+      '商城运营': '商城運營',
+      '数据': '資料',
     }
   }
 }

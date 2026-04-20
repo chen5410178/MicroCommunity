@@ -19,7 +19,6 @@ export default [
     },
     {
         path: '/pages/inspection/aInspectionPlanDetail',
-        meta: { title: '巡检计划详情' },
         name: '/pages/inspection/aInspectionPlanDetail',
         component: () => import('@/views/inspection/aInspectionPlanDetailList.vue')
     },
@@ -31,7 +30,6 @@ export default [
     },
     {
         path: '/views/inspection/adminInspectionTaskDetail',
-        meta: { title: '巡检任务详情' },
         name: '/views/inspection/adminInspectionTaskDetail',
         component: () => import('@/views/inspection/adminInspectionTaskDetailList.vue')
     },
@@ -43,7 +41,6 @@ export default [
     },
     {
         path: '/views/inspection/inspectionItemTitleManage',
-        meta: { title: '巡检项标题' },
         name: '/views/inspection/inspectionItemTitleManage',
         component: () => import('@/views/inspection/inspectionItemTitleManageList.vue')
     },
@@ -55,7 +52,6 @@ export default [
     },
     {
         path: '/views/inspection/addInspectionPlan',
-        meta: { title: '添加巡检计划' },
         name: '/views/inspection/addInspectionPlan',
         component: () => import('@/views/inspection/addInspectionPlanList.vue')
     },

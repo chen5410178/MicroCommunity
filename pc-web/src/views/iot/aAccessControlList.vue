@@ -124,7 +124,7 @@ export default {
         this.tableData = data
         this.pagination.total = total
       } catch (error) {
-        this.$message.error(this.$t('aAccessControl.fetchError'))
+        this.$message.error(error)
       } finally {
         this.loading = false
       }
