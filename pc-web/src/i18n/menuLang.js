@@ -690,6 +690,7 @@ export const menuMessages = {
       '物品规格修改权限': 'Item Spec Edit Privilege',
       '物品规格删除权限': 'Item Spec Delete Privilege',
       '导入日志详情': 'Import Log Detail',
+      '店铺详情': 'Store Detail',
       
     }
   },
@@ -1408,6 +1409,7 @@ export const menuMessages = {
       '修改商城菜单': '修改商城菜单',
       '工作单流转': '工作单流转',
       '导入日志详情': '导入日志详情',
+      '店铺详情': '店铺详情',
       
     }
   },
@@ -2125,6 +2127,7 @@ export const menuMessages = {
       '修改商城菜单': '修改商城菜單',
       '工作单流转': '工作單流轉',
       '导入日志详情': '匯入日誌詳情',
+      '店铺详情': '店鋪詳情',
     }
   }
 }
