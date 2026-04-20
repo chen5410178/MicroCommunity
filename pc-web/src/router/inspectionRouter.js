@@ -73,7 +73,7 @@ export default [
     },
     {
         path: '/pages/property/maintainanceItem',
-        meta: { title: '保养项' },
+        meta: { title: '检查项' },
         name: '/pages/property/maintainanceItem',
         component: () => import('@/views/inspection/maintainanceItemList.vue')
     },
@@ -85,7 +85,6 @@ export default [
     },
     {
         path: '/views/inspection/maintainanceStandardItem',
-        meta: { title: '保养标准项' },
         name: '/views/inspection/maintainanceStandardItem',
         component: () => import('@/views/inspection/maintainanceStandardItemList.vue')
     },
@@ -97,25 +96,22 @@ export default [
     },
     {
         path: '/views/inspection/addMaintainancePlan',
-        meta: { title: '添加保养计划' },
         name: '/views/inspection/addMaintainancePlan',
         component: () => import('@/views/inspection/addMaintainancePlanList.vue')
     },
     {
         path: '/views/inspection/editMaintainancePlan',
-        meta: { title: '编辑保养计划' },
         name: '/views/inspection/editMaintainancePlan',
         component: () => import('@/views/inspection/editMaintainancePlanList.vue')
     },
     {
         path: '/views/inspection/maintainancePlanMachine',
-        meta: { title: '保养计划设备' },
         name: '/views/inspection/maintainancePlanMachine',
         component: () => import('@/views/inspection/maintainancePlanMachineList.vue')
     },
     {
         path: '/pages/property/maintainanceTaskDetails',
-        meta: { title: '保养任务详情' },
+        meta: { title: '保养明细' },
         name: '/pages/property/maintainanceTaskDetails',
         component: () => import('@/views/inspection/maintainanceTaskDetailsList.vue')
     },
@@ -133,7 +129,6 @@ export default [
     },
     {
         path:'/pages/inspection/inspectionPlanDetail',
-        meta: { title: '巡检计划详情' },
         name:'/pages/inspection/inspectionPlanDetail',
         component: () => import('@/views/inspection/inspectionPlanDetailList.vue')
         },

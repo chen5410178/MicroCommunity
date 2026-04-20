@@ -532,19 +532,16 @@ const routes = [
         path: '/views/room/addRoomView',
         name: '/views/room/addRoomView',
         component: () => import('@/views/room/addRoomViewList.vue'),
-        meta: { title: '添加房屋' }
       },
       {
         path: '/views/owner/roomBindOwner',
         name: '/views/owner/roomBindOwner',
         component: () => import('@/views/owner/roomBindOwnerList.vue'),
-        meta: { title: '房间绑定业主' }
       },
       {
         path: '/views/owner/deleteOwnerRoom',
         name: '/views/owner/deleteOwnerRoom',
         component: () => import('@/views/owner/deleteOwnerRoomList.vue'),
-        meta: { title: '删除业主房间' }
       },
       {
         path: '/pages/property/shops',
@@ -556,13 +553,11 @@ const routes = [
         path: '/views/room/shopBindOwner',
         name: '/views/room/shopBindOwner',
         component: () => import('@/views/room/shopBindOwner.vue'),
-        meta: { title: '商铺绑定业主' }
       },
       {
         path: '/views/room/shopUnbindOwner',
         name: '/views/room/shopUnbindOwner',
         component: () => import('@/views/room/shopUnbindOwner.vue'),
-        meta: { title: '商铺解绑业主' }
       },
       {
         path: '/pages/property/listOwner',
@@ -574,7 +569,6 @@ const routes = [
         path: '/views/owner/ownerBindRoom',
         name: '/views/owner/ownerBindRoom',
         component: () => import('@/views/owner/ownerBindRoom.vue'),
-        meta: { title: '业主绑定房间' }
       },
       {
         path: '/pages/property/auditAuthOwner',
@@ -592,7 +586,6 @@ const routes = [
         path: '/views/account/accountDetailManage',
         name: '/views/account/accountDetailManage',
         component: () => import('@/views/account/accountDetailManageList.vue'),
-        meta: { title: '账户明细' }
       },
       {
         path: '/pages/property/communitySpaceManage',
@@ -616,26 +609,22 @@ const routes = [
         path: '/pages/property/communitySpaceConfirm',
         name: '/pages/property/communitySpaceConfirm',
         component: () => import('@/views/community/communitySpaceConfirmList.vue'),
-        meta: { title: '预约核销' }
       },
 
       {
         path: '/views/owner/addOwnerCommittee',
         name: '/views/owner/addOwnerCommittee',
         component: () => import('@/views/owner/addOwnerCommitteeList.vue'),
-        meta: { title: '添加业委会' }
       },
       {
         path: '/views/owner/editOwnerCommittee',
         name: '/views/owner/editOwnerCommittee',
         component: () => import('@/views/owner/editOwnerCommitteeList.vue'),
-        meta: { title: '编辑业委会' }
       },
       {
         path: '/views/owner/ownerCommitteeDetail',
         name: '/views/owner/ownerCommitteeDetail',
         component: () => import('@/views/owner/ownerCommitteeDetailList.vue'),
-        meta: { title: '业委会详情' }
       },
       {
         path: '/pages/fee/ownerInvoice',
@@ -647,7 +636,6 @@ const routes = [
         path: '/views/fee/addOwnerInvoice',
         name: '/views/fee/addOwnerInvoice',
         component: () => import('@/views/fee/addOwnerInvoiceList.vue'),
-        meta: { title: '添加发票抬头' }
       },
       {
         path: '/pages/fee/invoiceApply',
@@ -659,19 +647,16 @@ const routes = [
         path: '/views/fee/ownerApplyInvoice',
         name: '/views/fee/ownerApplyInvoice',
         component: () => import('@/views/fee/ownerApplyInvoiceList.vue'),
-        meta: { title: '申请发票' }
       },
       {
         path: '/views/fee/invoiceApplyDetail',
         name: '/views/fee/invoiceApplyDetail',
         component: () => import('@/views/fee/invoiceApplyDetailList.vue'),
-        meta: { title: '发票详情' }
       },
       {
         path: '/views/fee/feeConfigDetail',
         name: '/views/fee/feeConfigDetail',
         component: () => import('@/views/fee/feeConfigDetailList.vue'),
-        meta: { title: '费用项详情' }
       },
 
       {
@@ -684,7 +669,6 @@ const routes = [
         path: '/views/fee/listCarFee',
         name: '/views/fee/listCarFee',
         component: () => import('@/views/fee/listCarFeeList.vue'),
-        meta: { title: '车辆费用' }
       },
       {
         path: '/pages/work/repairSetting',
@@ -696,7 +680,6 @@ const routes = [
         path: '/views/work/repairTypeUser',
         name: '/views/work/repairTypeUser',
         component: () => import('@/views/work/repairTypeUserList.vue'),
-        meta: { title: '维修人员' }
       },
       {
         path: '/pages/property/ownerRepairManage',
@@ -714,7 +697,6 @@ const routes = [
         path: '/views/work/repairDetail',
         name: '/views/work/repairDetail',
         component: () => import('@/views/work/repairDetailList.vue'),
-        meta: { title: '报修详情' }
       },
       {
         path: '/pages/property/repairDispatchManage',
@@ -765,7 +747,6 @@ const routes = [
         path: '/views/shop/shopDetail',
         name: '/views/shop/shopDetail',
         component: () => import('@/views/shop/shopDetail.vue'),
-        meta: { title: '店铺详情' }
       },
       // 其他子路由可以在这里添加
     ]

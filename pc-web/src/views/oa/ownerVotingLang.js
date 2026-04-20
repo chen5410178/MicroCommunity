@@ -4,35 +4,42 @@ export const messages = {
       title: 'Owner Voting',
       search: {
         title: 'Search Conditions',
-        votingName: 'Please enter voting name',
-        state: 'Please select status'
+        qaId: 'Please enter voting ID',
+        qaName: 'Please enter voting name'
       },
       list: {
         title: 'Voting List'
       },
       table: {
-        votingName: 'Voting Name',
-        votingType: 'Voting Type',
-        votingStartTime: 'Start Time',
-        votingEndTime: 'End Time',
-        stateName: 'Status',
+        qaName: 'Voting Name',
+        validity: 'Validity Period',
+        type: 'Type',
+        options: 'Options',
+        peopleChose: 'people chose',
+        voteCount: 'Vote Count',
+        state: 'Status',
         createTime: 'Create Time'
       },
       state: {
         drafting: 'Draft',
         publishing: 'Published',
-        deleted: 'Deleted'
+        deleted: 'Deleted',
+        published: 'Published',
+        unpublished: 'Unpublished'
       },
       type: {
         agree: 'Agreement',
         agreeAndDisagree: 'Agree / Disagree',
-        multi: 'Multiple Choice'
+        multi: 'Multiple Choice',
+        single: 'Single Choice',
+        multiple: 'Multiple Choice'
       },
       operation: {
         edit: 'Edit',
         delete: 'Delete',
         publish: 'Publish',
-        detail: 'Voting Result'
+        detail: 'Voting Result',
+        result: 'Voting Result'
       },
       add: {
         title: 'Add Voting',
@@ -105,35 +112,42 @@ export const messages = {
       title: '业主投票',
       search: {
         title: '查询条件',
-        votingName: '请输入投票名称',
-        state: '请选择状态'
+        qaId: '请输入投票编号',
+        qaName: '请输入投票名称'
       },
       list: {
         title: '投票列表'
       },
       table: {
-        votingName: '投票名称',
-        votingType: '投票类型',
-        votingStartTime: '开始时间',
-        votingEndTime: '结束时间',
-        stateName: '状态',
+        qaName: '投票名称',
+        validity: '有效期',
+        type: '类型',
+        options: '选项',
+        peopleChose: '人选择',
+        voteCount: '投票数',
+        state: '状态',
         createTime: '创建时间'
       },
       state: {
         drafting: '草稿',
         publishing: '已发布',
-        deleted: '已删除'
+        deleted: '已删除',
+        published: '已发布',
+        unpublished: '未发布'
       },
       type: {
         agree: '同意',
         agreeAndDisagree: '同意/反对',
-        multi: '多选'
+        multi: '多选',
+        single: '单选',
+        multiple: '多选'
       },
       operation: {
         edit: '修改',
         delete: '删除',
         publish: '发布',
-        detail: '投票结果'
+        detail: '投票结果',
+        result: '投票结果'
       },
       add: {
         title: '新增投票',
@@ -206,35 +220,42 @@ export const messages = {
       title: '業主投票',
       search: {
         title: '查詢條件',
-        votingName: '請輸入投票名稱',
-        state: '請選擇狀態'
+        qaId: '請輸入投票編號',
+        qaName: '請輸入投票名稱'
       },
       list: {
         title: '投票列表'
       },
       table: {
-        votingName: '投票名稱',
-        votingType: '投票類型',
-        votingStartTime: '開始時間',
-        votingEndTime: '結束時間',
-        stateName: '狀態',
+        qaName: '投票名稱',
+        validity: '有效期',
+        type: '類型',
+        options: '選項',
+        peopleChose: '人選擇',
+        voteCount: '投票數',
+        state: '狀態',
         createTime: '創建時間'
       },
       state: {
         drafting: '草稿',
         publishing: '已發布',
-        deleted: '已刪除'
+        deleted: '已刪除',
+        published: '已發布',
+        unpublished: '未發布'
       },
       type: {
         agree: '同意',
         agreeAndDisagree: '同意/反對',
-        multi: '多選'
+        multi: '多選',
+        single: '單選',
+        multiple: '多選'
       },
       operation: {
         edit: '修改',
         delete: '刪除',
         publish: '發布',
-        detail: '投票結果'
+        detail: '投票結果',
+        result: '投票結果'
       },
       add: {
         title: '新增投票',

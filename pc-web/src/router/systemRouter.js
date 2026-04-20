@@ -1,19 +1,19 @@
 export default [
     {
         path: '/pages/property/communitySettingManage',
-        meta: { title: '小区设置' },
+        meta: { title: '小区配置' },
         name: '/pages/property/communitySettingManage',
         component: () => import('@/views/system/communitySettingManageList.vue')
     },
     {
         path: '/pages/property/workflowManage',
-        meta: { title: '工作流' },
+                meta: { title: '流程管理' },
+
         name: '/pages/property/workflowManage',
         component: () => import('@/views/system/workflowManageList.vue')
     },
     {
         path: '/pages/property/workflowSettingManage',
-        meta: { title: '工作流设置' },
         name: '/pages/property/workflowSettingManage',
         component: () => import('@/views/system/workflowSettingManageList.vue')
     },
@@ -31,13 +31,13 @@ export default [
     },
     {
         path: '/pages/property/smallWeChatManage',
-        meta: { title: '小程序' },
+        meta: { title: '小程序配置' },
         name: '/pages/property/smallWeChatManage',
         component: () => import('@/views/system/smallWeChatManageList.vue')
     },
     {
         path: '/pages/fee/paymentPool',
-        meta: { title: '支付池' },
+        meta: { title: '支付配置' },
         name: '/pages/fee/paymentPool',
         component: () => import('@/views/system/paymentPoolList.vue')
     },
@@ -50,43 +50,41 @@ export default [
 
     {
         path: '/pages/property/feePrintSpecManage',
-        meta: { title: '打印规格' },
+        meta: { title: '打印配置' },
         name: '/pages/property/feePrintSpecManage',
         component: () => import('@/views/system/feePrintSpecManageList.vue')
     },
     {
         path: '/pages/property/feePrintPageManage',
-        meta: { title: '打印页面' },
+        meta: { title: '收据模板' },
         name: '/pages/property/feePrintPageManage',
         component: () => import('@/views/system/feePrintPageManageList.vue')
     },
     {
         path: '/pages/property/downloadTempFile',
-        meta: { title: '下载模板' },
+        meta: { title: '下载中心' },
         name: '/pages/property/downloadTempFile',
         component: () => import('@/views/system/downloadTempFileList.vue')
     },
     {
         path: '/pages/property/assetImportLog',
-        meta: { title: '资产导入日志' },
+        meta: { title: '导入日志' },
         name: '/pages/property/assetImportLog',
         component: () => import('@/views/system/assetImportLogList.vue')
     },
     {
         path: '/views/system/assetImportLogDetail',
-        meta: { title: '导入日志详情' },
         name: '/views/system/assetImportLogDetail',
         component: () => import('@/views/system/assetImportLogDetailList.vue')
     },
     {
         path: '/pages/fee/payFeeQrcode',
-        meta: { title: '缴费二维码' },
+        meta: { title: '支付二维码' },
         name: '/pages/fee/payFeeQrcode',
         component: () => import('@/views/fee/payFeeQrcodeList.vue')
     },
     {
         path: '/views/system/menuUserManage',
-        meta: { title: '菜单用户' },
         name: '/views/system/menuUserManage',
         component: () => import('@/views/system/menuUserManageList.vue')
     },

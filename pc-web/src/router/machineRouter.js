@@ -7,19 +7,17 @@ export default [
     },
     {
         path: '/pages/property/equipmentAccount',
-        meta: { title: '设备档案' },
+        meta: { title: '设备台账' },
         name: '/pages/property/equipmentAccount',
         component: () => import('@/views/machine/equipmentAccountList.vue')
     },
     {
         path: '/views/machine/addEquipmentAccount',
-        meta: { title: '添加设备' },
         name: '/views/machine/addEquipmentAccount',
         component: () => import('@/views/machine/addEquipmentAccountList.vue')
     },
     {
         path: '/views/machine/editEquipmentAccount',
-        meta: { title: '编辑设备' },
         name: '/views/machine/editEquipmentAccount',
         component: () => import('@/views/machine/editEquipmentAccountList.vue')
     },
@@ -37,19 +35,19 @@ export default [
     },
     {
         path: '/pages/property/machineTranslateManage',
-        meta: { title: '设备转移' },
+        meta: { title: '物联网同步' },
         name: '/pages/property/machineTranslateManage',
         component: () => import('@/views/machine/machineTranslateManageList.vue')
     },
     {
         path: '/pages/machine/accessControlInout',
-        meta: { title: '门禁进出' },
+        meta: { title: '开门记录' },
         name: '/pages/machine/accessControlInout',
         component: () => import('@/views/machine/accessControlInoutList.vue')
     },
     {
         path: '/pages/print/machinePrinterManage',
-        meta: { title: '打印机' },
+        meta: { title: '云打印机' },
         name: '/pages/print/machinePrinterManage',
         component: () => import('@/views/machine/machinePrinterManageList.vue')
     },

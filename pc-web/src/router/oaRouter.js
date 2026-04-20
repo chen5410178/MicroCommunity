@@ -13,25 +13,22 @@ export default [
     },
     {
         path: '/pages/common/noticeManage',
-        meta: { title: '公告管理' },
+        meta: { title: '发布公告' },
         name: '/pages/common/noticeManage',
         component: () => import('@/views/oa/noticeManageList.vue')
     },
     {
         path: '/views/oa/addNoticeView',
-        meta: { title: '添加公告' },
         name: '/views/oa/addNoticeView',
         component: () => import('@/views/oa/addNoticeViewList.vue')
     },
     {
         path: '/views/oa/editNoticeView',
-        meta: { title: '编辑公告' },
         name: '/views/oa/editNoticeView',
         component: () => import('@/views/oa/editNoticeViewList.vue')
     },
     {
         path: '/views/oa/noticeDetail',
-        meta: { title: '公告详情' },
         name: '/views/oa/noticeDetail',
         component: () => import('@/views/oa/noticeDetailList.vue')
     },
@@ -43,61 +40,56 @@ export default [
     },
     {
         path: '/views/oa/addComplaintType',
-        meta: { title: '添加投诉类型' },
         name: '/views/oa/addComplaintType',
         component: () => import('@/views/oa/addComplaintTypeList.vue')
     },
     {
         path: '/views/oa/editComplaintType',
-        meta: { title: '编辑投诉类型' },
         name: '/views/oa/editComplaintType',
         component: () => import('@/views/oa/editComplaintTypeList.vue')
     },
     {
         path: '/views/oa/addComplaint',
-        meta: { title: '添加投诉' },
         name: '/views/oa/addComplaint',
         component: () => import('@/views/oa/addComplaintList.vue')
     },
     {
         path: '/pages/complaint/complaint',
-        meta: { title: '投诉管理' },
+        meta: { title: '投诉建议' },
         name: '/pages/complaint/complaint',
         component: () => import('@/views/oa/complaintList.vue')
     },
     {
         path: '/pages/property/notepadManage',
-        meta: { title: '便签管理' },
+        meta: { title: '业主反馈' },
         name: '/pages/property/notepadManage',
         component: () => import('@/views/oa/notepadManageList.vue')
     },
     {
         path: '/pages/property/visitManage',
-        meta: { title: '来访管理' },
+        meta: { title: '访客人员' },
         name: '/pages/property/visitManage',
         component: () => import('@/views/oa/visitManageList.vue')
     },
     {
         path: '/pages/question/questionTitle',
-        meta: { title: '问卷标题' },
+        meta: { title: '问卷题目' },
         name: '/pages/question/questionTitle',
         component: () => import('@/views/oa/questionTitleList.vue')
     },
     {
         path: '/pages/property/questionAnswerManage',
-        meta: { title: '问卷管理' },
+        meta: { title: '问卷调研' },
         name: '/pages/property/questionAnswerManage',
         component: () => import('@/views/oa/questionAnswerManageList.vue')
     },
     {
         path: '/views/oa/addQuestionAnswer',
-        meta: { title: '添加问卷' },
         name: '/views/oa/addQuestionAnswer',
         component: () => import('@/views/oa/addQuestionAnswerList.vue')
     },
     {
         path: '/views/oa/editQuestionAnswer',
-        meta: { title: '编辑问卷' },
         name: '/views/oa/editQuestionAnswer',
         component: () => import('@/views/oa/editQuestionAnswerList.vue')
     },
@@ -109,13 +101,11 @@ export default [
     },
     {
         path: '/views/oa/addOwnerVoting',
-        meta: { title: '添加投票' },
         name: '/views/oa/addOwnerVoting',
         component: () => import('@/views/oa/addOwnerVotingList.vue')
     },
     {
         path: '/views/oa/editOwnerVoting',
-        meta: { title: '编辑投票' },
         name: '/views/oa/editOwnerVoting',
         component: () => import('@/views/oa/editOwnerVotingList.vue')
     },
