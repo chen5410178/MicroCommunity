@@ -60,6 +60,7 @@ public class NativeQrcodePaymentCmd extends Cmd {
         String appId = context.getReqHeaders().get("app-id");
         String userId = context.getReqHeaders().get("user-id");
         reqJson.put("createUserId", userId);
+        reqJson.put("cashierUserId", userId);
         reqJson.put("storeId", CmdContextUtils.getStoreId(context));
 
         //1.0 查询当前支付的业务
