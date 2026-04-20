@@ -19,7 +19,7 @@ export default [
     },
     {
         path: '/pages/admin/newContractManage',
-        meta: { title: '新签合同' },
+        meta: { title: '起草合同' },
         name: '/pages/admin/newContractManage',
         component: () => import('@/views/contract/newContractManageList.vue')
     },
@@ -31,7 +31,7 @@ export default [
     },
     {
         path: '/pages/admin/contractManage',
-        meta: { title: '合同管理' },
+        meta: { title: '合同查询' },
         name: '/pages/admin/contractManage',
         component: () => import('@/views/contract/contractManageList.vue')
     },

@@ -1,13 +1,13 @@
 export default [
     {
         path: '/pages/property/activitiesTypeManage',
-        meta: { title: '活动类型' },
+        meta: { title: '信息大类' },
         name: '/pages/property/activitiesTypeManage',
         component: () => import('@/views/oa/activitiesTypeManageList.vue')
     },
     {
         path: '/pages/property/activitiesManage',
-        meta: { title: '活动管理' },
+        meta: { title: '信息发布' },
         name: '/pages/property/activitiesManage',
         component: () => import('@/views/oa/activitiesManageList.vue')
     },
@@ -121,7 +121,7 @@ export default [
     },
     {
         path: '/pages/property/oaWorkflowManage',
-        meta: { title: '工作流' },
+        meta: { title: '流程实例' },
         name: '/pages/property/oaWorkflowManage',
         component: () => import('@/views/oa/oaWorkflowManageList.vue')
     },
