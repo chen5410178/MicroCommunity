@@ -147,9 +147,6 @@ public class ImportShopQueueDataAdapt extends DefaultImportData implements IImpo
 
     private String getOrCreateShopLocation(String locationName, String communityId) {
         String[] parts = locationName.split("-");
-        if (parts.length < 2) {
-            throw new IllegalArgumentException("商铺位置格式不正确，应为 楼栋-单元 格式");
-        }
 
         String parentId = "-1";
 

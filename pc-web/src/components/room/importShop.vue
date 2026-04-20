@@ -29,6 +29,7 @@
 
 <script>
 import { importShop } from '@/api/room/importShopApi'
+import {getCommunityId} from '@/api/community/communityApi'
 
 export default {
   name: 'ImportShop',
@@ -36,7 +37,7 @@ export default {
     return {
       visible: false,
       form: {
-        communityId: this.getCommunityId(),
+        communityId: getCommunityId(),
         file: null
       },
       fileName: '',
@@ -44,15 +45,6 @@ export default {
     }
   },
   methods: {
-    getCommunityId() {
-      let communityId = '';
-      try {
-        communityId = localStorage.getItem('communityId') || '';
-      } catch (e) {
-        console.error('Failed to get communityId:', e);
-      }
-      return communityId;
-    },
     open() {
       this.visible = true
       this.resetForm()
