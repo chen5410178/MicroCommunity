@@ -6,6 +6,7 @@ import com.java110.core.annotation.Java110Transactional;
 import com.java110.core.context.ICmdDataFlowContext;
 import com.java110.core.event.cmd.Cmd;
 import com.java110.core.event.cmd.CmdEvent;
+import com.java110.dto.shop.BuildingShopOwnerDto;
 import com.java110.intf.community.IBuildingShopOwnerInnerServiceSMO;
 import com.java110.intf.community.IBuildingShopV1InnerServiceSMO;
 import com.java110.po.shop.BuildingShopOwnerPo;
@@ -29,24 +30,32 @@ public class DeleteBuildingShopCmd extends Cmd {
     @Override
     public void validate(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) {
         Assert.jsonObjectHaveKey(reqJson, "shopId", "shopId不能为空");
+        Assert.jsonObjectHaveKey(reqJson, "communityId", "小区编号不能为空");
     }
 
     @Override
     @Java110Transactional
     public void doCmd(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) throws CmdException {
         String shopId = reqJson.getString("shopId");
+        String communityId = reqJson.getString("communityId");
 
         // 删除商铺业主关联
-        JSONObject businessBuildingShopOwner = new JSONObject();
-        businessBuildingShopOwner.put("shopId", shopId);
-        BuildingShopOwnerPo buildingShopOwnerPo = JSONObject.parseObject(businessBuildingShopOwner.toJSONString(), BuildingShopOwnerPo.class);
-        buildingShopOwnerInnerServiceSMOImpl.deleteBuildingShopOwner(buildingShopOwnerPo);
+        BuildingShopOwnerDto buildingShopOwnerDto = new BuildingShopOwnerDto();
+        buildingShopOwnerDto.setShopId(shopId);
+        buildingShopOwnerDto.setCommunityId(communityId);
+        int count = buildingShopOwnerInnerServiceSMOImpl.queryBuildingShopOwnersCount(buildingShopOwnerDto);
+        if(count >0) {
+            BuildingShopOwnerPo buildingShopOwnerPo = new BuildingShopOwnerPo();
+            buildingShopOwnerPo.setShopId(shopId);
+            buildingShopOwnerPo.setCommunityId(communityId);
+            buildingShopOwnerInnerServiceSMOImpl.deleteBuildingShopOwner(buildingShopOwnerPo);
+        }
 
         // 删除商铺
-        JSONObject businessBuildingShop = new JSONObject();
-        businessBuildingShop.put("shopId", shopId);
-        businessBuildingShop.put("statusCd", "1");
-        BuildingShopPo buildingShopPo = JSONObject.parseObject(businessBuildingShop.toJSONString(), BuildingShopPo.class);
+        BuildingShopPo buildingShopPo = new BuildingShopPo();
+        buildingShopPo.setShopId(shopId);
+        buildingShopPo.setCommunityId(communityId);
+        buildingShopPo.setStatusCd("1");
         int flag = buildingShopV1InnerServiceSMOImpl.deleteBuildingShop(buildingShopPo);
         if (flag < 1) {
             throw new CmdException("删除商铺失败");

@@ -38,7 +38,7 @@ export const messages = {
       insufficientStock: '库存不足',
       submitSuccess: '提交成功',
       submitError: '提交失败',
-fetchError: '获取数据失败'
+      fetchError: '获取数据失败'
     }
   },
   'zh-TW': {
