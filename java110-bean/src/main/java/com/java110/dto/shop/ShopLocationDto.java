@@ -10,6 +10,7 @@ public class ShopLocationDto extends PageDto implements Serializable {
 
     private String locationId;
     private String locationName;
+    private String locationNameLike;
     private String parentId;
     private int level;
     private String remark;
@@ -89,5 +90,13 @@ public class ShopLocationDto extends PageDto implements Serializable {
 
     public void setChildren(List<ShopLocationDto> children) {
         this.children = children;
+    }
+
+    public String getLocationNameLike() {
+        return locationNameLike;
+    }
+
+    public void setLocationNameLike(String locationNameLike) {
+        this.locationNameLike = locationNameLike;
     }
 }

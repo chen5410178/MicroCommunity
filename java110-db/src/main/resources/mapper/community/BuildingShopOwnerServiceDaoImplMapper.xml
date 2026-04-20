@@ -77,8 +77,8 @@
         </if>
     </select>
 
-    <select id="queryBuildingShopOwnersCount" parameterType="map" resultType="int">
-        SELECT COUNT(1) FROM building_shop_owner sl
+    <select id="queryBuildingShopOwnersCount" parameterType="map" resultType="map">
+        SELECT COUNT(1) count FROM building_shop_owner sl
         LEFT JOIN building_shop bs ON sl.shop_id = bs.shop_id
         LEFT JOIN shop_location sls ON bs.location_id = sls.location_id
         <where>

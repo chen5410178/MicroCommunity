@@ -32,7 +32,10 @@
             and t.level = #{level}
         </if>
         <if test="locationName != null and locationName != ''">
-            and t.location_name like concat('%', #{locationName}, '%')
+            and t.location_name = #{locationName}
+        </if>
+        <if test="locationNameLike != null and locationNameLike != ''">
+            and t.location_name like concat('%', #{locationNameLike}, '%')
         </if>
         order by t.seq asc, t.create_time desc
     </select>
@@ -52,6 +55,12 @@
         </if>
         <if test="level != null and level > 0">
             and t.level = #{level}
+        </if>
+        <if test="locationName != null and locationName != ''">
+            and t.location_name = #{locationName}=
+        </if>
+        <if test="locationNameLike != null and locationNameLike != ''">
+            and t.location_name like concat('%', #{locationNameLike}, '%')
         </if>
     </select>
 

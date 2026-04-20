@@ -320,53 +320,6 @@ public class ImportOwnerRoomInnerServiceSMOImpl extends BaseServiceSMO implement
             throw new IllegalArgumentException("导入业主失败");
         }
 
-        String autoUser = MappingCache.getValue(MappingConstant.DOMAIN_SYSTEM_SWITCH, "AUTO_GENERATOR_OWNER_USER");
-
-        if (!"ON".equals(autoUser)) {
-            return ownerPo.getOwnerId();
-        }
-
-        CommunityDto communityDto = new CommunityDto();
-        communityDto.setCommunityId(ownerPo.getCommunityId());
-        List<CommunityDto> communityDtos = communityInnerServiceSMOImpl.queryCommunitys(communityDto);
-        Assert.listNotNull(communityDtos, "未包含小区信息");
-        CommunityDto tmpCommunityDto = communityDtos.get(0);
-
-        UserPo userPo = new UserPo();
-        userPo.setUserId(GenerateCodeFactory.getUserId());
-        userPo.setName(ownerPo.getName());
-        userPo.setTel(ownerPo.getLink());
-        userPo.setPassword(AuthenticationFactory.passwdMd5(ownerPo.getLink()));
-        userPo.setLevelCd(UserLevelConstant.USER_LEVEL_ORDINARY);
-        userPo.setAge(ownerPo.getAge());
-        userPo.setAddress(ownerPo.getAddress());
-        userPo.setSex(ownerPo.getSex());
-        flag = userV1InnerServiceSMOImpl.saveUser(userPo);
-        if (flag < 1) {
-            throw new CmdException("注册失败");
-        }
-
-        OwnerAppUserPo ownerAppUserPo = new OwnerAppUserPo();
-        //状态类型，10000 审核中，12000 审核成功，13000 审核失败
-        ownerAppUserPo.setState("12000");
-        ownerAppUserPo.setAppTypeCd("10010");
-        ownerAppUserPo.setAppUserId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_appUserId));
-        ownerAppUserPo.setMemberId(ownerPo.getMemberId());
-        ownerAppUserPo.setCommunityName(tmpCommunityDto.getName());
-        ownerAppUserPo.setCommunityId(ownerPo.getCommunityId());
-        ownerAppUserPo.setAppUserName(ownerPo.getName());
-        ownerAppUserPo.setIdCard(ownerPo.getIdCard());
-        ownerAppUserPo.setAppType("WECHAT");
-        ownerAppUserPo.setLink(ownerPo.getLink());
-        ownerAppUserPo.setUserId(userPo.getUserId());
-        ownerAppUserPo.setOpenId("-1");
-        ownerAppUserPo.setOwnerTypeCd(ownerPo.getOwnerTypeCd());
-
-        flag = ownerAppUserV1InnerServiceSMOImpl.saveOwnerAppUser(ownerAppUserPo);
-        if (flag < 1) {
-            throw new CmdException("添加用户业主关系失败");
-        }
-
         return ownerPo.getOwnerId();
     }
 

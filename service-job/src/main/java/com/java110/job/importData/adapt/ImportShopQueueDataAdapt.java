@@ -78,6 +78,7 @@ public class ImportShopQueueDataAdapt extends DefaultImportData implements IImpo
         buildingShopPo.setState(StringUtil.isEmpty(importShopDto.getState()) ? BuildingShopDto.STATE_FREE : importShopDto.getState());
         buildingShopPo.setShopRent(StringUtil.isEmpty(importShopDto.getShopRent()) ? "0.00" : importShopDto.getShopRent());
         buildingShopPo.setCommunityId(importShopDto.getCommunityId());
+        buildingShopPo.setLocationName(importShopDto.getLocationName());
 
         int flag = buildingShopV1InnerServiceSMOImpl.saveBuildingShop(buildingShopPo);
         if (flag < 1) {
@@ -101,19 +102,24 @@ public class ImportShopQueueDataAdapt extends DefaultImportData implements IImpo
         }
 
         OwnerPo ownerPo = new OwnerPo();
+        ownerPo.setState(OwnerDto.STATE_FINISH);
+        ownerPo.setOwnerFlag(OwnerDto.OWNER_FLAG_TRUE);
+        ownerPo.setbId("-1");
+        ownerPo.setOwnerTypeCd(importShopDto.getOwnerTypeCd());
+        ownerPo.setCommunityId(importShopDto.getCommunityId());
         ownerPo.setOwnerId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_ownerId));
         ownerPo.setName(importShopDto.getOwnerName());
+        ownerPo.setIdCard(importShopDto.getIdCard());
+        ownerPo.setAge("1");
+        ownerPo.setSex(importShopDto.getSex());
         ownerPo.setLink(importShopDto.getLink());
-        ownerPo.setIdCard(StringUtil.isEmpty(importShopDto.getIdCard()) ? "" : importShopDto.getIdCard());
-        ownerPo.setOwnerTypeCd(StringUtil.isEmpty(importShopDto.getOwnerTypeCd()) ? "1002" : importShopDto.getOwnerTypeCd());
-        ownerPo.setSex(StringUtil.isEmpty(importShopDto.getSex()) ? "0" : ("女".equals(importShopDto.getSex()) ? "1" : "0"));
-        ownerPo.setCommunityId(importShopDto.getCommunityId());
-        ownerPo.setMemberId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_ownerId));
+        ownerPo.setMemberId(ownerPo.getOwnerId());
+        ownerPo.setRemark("商铺导入");
+        ownerPo.setUserId(importShopDto.getUserId());
         ownerPo.setPersonType(importShopDto.getPersonType());
         ownerPo.setPersonRole(importShopDto.getPersonRole());
         ownerPo.setConcactPerson(importShopDto.getContactPerson());
         ownerPo.setConcactLink(importShopDto.getReserveLink());
-        ownerPo.setRemark("商铺导入");
         ownerV1InnerServiceSMOImpl.saveOwner(ownerPo);
 
         return ownerPo.getOwnerId();

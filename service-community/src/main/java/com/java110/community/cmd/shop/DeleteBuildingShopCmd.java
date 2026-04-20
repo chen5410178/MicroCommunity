@@ -3,6 +3,7 @@ package com.java110.community.cmd.shop;
 import com.alibaba.fastjson.JSONObject;
 import com.java110.core.annotation.Java110Cmd;
 import com.java110.core.annotation.Java110Transactional;
+import com.java110.core.context.Environment;
 import com.java110.core.context.ICmdDataFlowContext;
 import com.java110.core.event.cmd.Cmd;
 import com.java110.core.event.cmd.CmdEvent;
@@ -31,6 +32,7 @@ public class DeleteBuildingShopCmd extends Cmd {
     public void validate(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) {
         Assert.jsonObjectHaveKey(reqJson, "shopId", "shopId不能为空");
         Assert.jsonObjectHaveKey(reqJson, "communityId", "小区编号不能为空");
+        Environment.isDevEnv();
     }
 
     @Override

@@ -7,6 +7,7 @@ import com.java110.dto.importData.ImportShopDto;
 import com.java110.dto.shop.BuildingShopDto;
 import com.java110.dto.system.ComponentValidateResult;
 import com.java110.utils.util.Assert;
+import com.java110.utils.util.DateUtil;
 import com.java110.utils.util.ImportExcelUtils;
 import com.java110.utils.util.StringUtil;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -53,10 +54,14 @@ public class ImportShopDataCleaningAdapt extends DefaultImportDataAdapt implemen
                 importShopDto.setShopArea(os[3].toString().trim());
             }
             if (os.length > 4 && !StringUtil.isNullOrNone(os[4])) {
-                importShopDto.setStartTime(os[4].toString().trim());
+                String startTime = excelDoubleToDate(os[4].toString());
+                Assert.isDate(startTime, DateUtil.DATE_FORMATE_STRING_B, (osIndex + 1) + "行开始时间格式错误 请填写YYYY-MM-DD 文本格式");
+                importShopDto.setStartTime(startTime.trim());
             }
             if (os.length > 5 && !StringUtil.isNullOrNone(os[5])) {
-                importShopDto.setEndTime(os[5].toString().trim());
+                String endTime = excelDoubleToDate(os[5].toString());
+                Assert.isDate(endTime, DateUtil.DATE_FORMATE_STRING_B, (osIndex + 1) + "行结束时间格式错误 请填写YYYY-MM-DD 文本格式");
+                importShopDto.setEndTime(endTime.trim());
             }
             importShopDto.setState(os[6].toString().trim());
             if (os.length > 7 && !StringUtil.isNullOrNone(os[7])) {
@@ -66,7 +71,9 @@ public class ImportShopDataCleaningAdapt extends DefaultImportDataAdapt implemen
                 importShopDto.setOwnerName(os[8].toString().trim());
             }
             if (os.length > 9 && !StringUtil.isNullOrNone(os[9])) {
-                importShopDto.setSex(os[9].toString().trim());
+               // importShopDto.setSex(os[9].toString().trim());
+                importShopDto.setSex("男".equals(os[9].toString().trim()) ? "0" : "1");
+
             }
             if (os.length > 10 && !StringUtil.isNullOrNone(os[10])) {
                 importShopDto.setLink(os[10].toString().trim());
