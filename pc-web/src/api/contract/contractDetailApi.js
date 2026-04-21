@@ -24,7 +24,7 @@ export function queryContract(params) {
 export function getContractRooms(params) {
   return new Promise((resolve, reject) => {
     request({
-      url: '/contract/getContractRooms',
+      url: '/contract/queryContractRoom',
       method: 'get',
       params
     }).then(response => {
