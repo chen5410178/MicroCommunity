@@ -124,7 +124,7 @@ export const messages = {
       state: '状态',
       discountAmount: '优惠金额',
       prePayTime: '预付时间',
-cashier: '收銀員'
+cashier: '收银员'
     }
   },
   'zh-TW': {

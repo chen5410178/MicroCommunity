@@ -223,11 +223,9 @@ export default {
           }
         }
 
-        &.is-current {
-          .el-tree-node__content {
-            background-color: #ecf5ff;
-            color: #409eff;
-          }
+        &.is-current > .el-tree-node__content {
+          background-color: #ecf5ff;
+          color: #409eff;
         }
       }
     }

@@ -1,12 +1,12 @@
 <template>
   <div class="fee-config-manage-container animated ">
     <el-row :gutter="20">
-      <el-col :span="5">
+      <el-col :span="4">
         <div class="room-floor-unit-tree">
           <fee-type-tree ref="feeTypeTree"  @selectFeeType="handleSelectFeeType" />
         </div>
       </el-col>
-      <el-col :span="19">
+      <el-col :span="20">
         <!-- 查询条件 -->
         <el-card class="margin-top-xs">
           <div slot="header" class="flex justify-between">
@@ -89,10 +89,7 @@
           <div slot="header" class="flex justify-between">
             <span>{{ $t('feeConfigManage.list.title') }}</span>
             <div style="float: right;">
-              <el-button type="primary" size="small" @click="vc.showMarkdown('/pages/property/feeConfigManage')">
-                <i class="el-icon-document"></i>
-                {{ $t('feeConfigManage.list.document') }}
-              </el-button>
+             
               <el-button type="primary" size="small" @click="_openAddFeeConfigModal()"
                 v-if="hasPrivilege('502022022571930560') && feeConfigManageInfo.conditions.ftId"
                 style="margin-left: 10px;">

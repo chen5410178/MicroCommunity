@@ -81,7 +81,7 @@
 
       <!-- 主要内容区 -->
       <el-main class="app-main">
-        <div class="tabs-wrap" v-if="visitedTabs.length > 0">
+        <div class="tabs-wrap" v-if="visitedTabs.length > 1">
           <div class="tabs-list">
             <template v-for="(tab, index) in visitedTabs">
               <div :key="index" v-if="tab.title" :class="['tabs-item', { active: $route.path === tab.path }]"
