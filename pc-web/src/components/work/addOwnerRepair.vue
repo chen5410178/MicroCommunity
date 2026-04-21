@@ -150,7 +150,7 @@ export default {
     handleRoomChange(roomId) {
       if (this.formData.repairObjType === '004') {
         this.formData.repairObjId = roomId
-        this.formData.repairObjName =this.rooms.find(item => item.roomId == roomId).roomNum + this.$t('addOwnerRepair.roomSuffix')
+        this.formData.repairObjName =this.rooms.find(item => item.roomId == roomId).roomName + this.$t('addOwnerRepair.roomSuffix')
         this.formData.repairName = this.rooms.find(item => item.roomId == roomId).ownerName
         this.formData.tel = this.rooms.find(item => item.roomId == roomId).link
       }

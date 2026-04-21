@@ -10,8 +10,7 @@
     <el-form label-width="120px">
       <el-form-item :label="$t('contractTypeManage.template.content')">
         <div class="editor-container">
-          <el-input type="textarea" :rows="15" v-model="context"
-            :placeholder="$t('contractTypeManage.template.placeholder')" />
+          <rich-text-editor ref="richTextEditor" v-model="context" />
         </div>
       </el-form-item>
     </el-form>
@@ -28,9 +27,13 @@
 
 <script>
 import { saveContractTypeTemplate, updateContractTypeTemplate, queryContractTypeTemplate, printContractTemplate } from '@/api/contract/contractTypeManageApi'
+import RichTextEditor from '@/components/editor/RichTextEditor'
 
 export default {
   name: 'AddTemplateView',
+  components: {
+    RichTextEditor
+  },
   data() {
     return {
       visible: false,
@@ -69,7 +72,9 @@ export default {
       }
     },
     insertAttrs(attr) {
-      this.context += attr
+      if (this.$refs.richTextEditor && this.$refs.richTextEditor.editor) {
+        this.$refs.richTextEditor.editor.txt.append(attr)
+      }
     },
     async saveTemplateInfo() {
       if (!this.addTemplateValidate()) {
@@ -121,9 +126,15 @@ export default {
         if (data.length > 0) {
           this.templateId = data[0].templateId
           this.context = data[0].context
+          if (this.$refs.richTextEditor) {
+            this.$refs.richTextEditor.setContent(this.context)
+          }
         } else {
           this.templateId = ''
           this.context = ''
+          if (this.$refs.richTextEditor) {
+            this.$refs.richTextEditor.clear()
+          }
         }
       } catch (error) {
         console.error('加载模板失败:', error)
@@ -133,6 +144,9 @@ export default {
       this.contractTypeId = ''
       this.context = ''
       this.templateId = ''
+      if (this.$refs.richTextEditor) {
+        this.$refs.richTextEditor.clear()
+      }
     }
   }
 }

@@ -20,7 +20,7 @@
 
           <el-row :gutter="20">
             <el-col :span="6">
-              <el-input v-model="conditions.ownerName" :placeholder="$t('accountManage.placeholderName')" clearable />
+              <el-input v-model="conditions.acctName" :placeholder="$t('accountManage.placeholderName')" clearable />
             </el-col>
 
             <el-col :span="6">
@@ -114,7 +114,7 @@ export default {
       accountTypes: [],
       conditions: {
         acctType: '',
-        ownerName: '',
+        acctName: '',
         idCard: '',
         link: '',
         page: 1,
