@@ -67,6 +67,21 @@ export default {
           const reg = `#${rname}#`
           this.contractTypeAttrs.push(reg)
         })
+        
+        // 处理基本属性
+        if (data.baseRepalce) {
+          data.baseRepalce.forEach(e => {
+            const rname = e.name
+            const rkey = e.key
+            const contractarr = Object.keys(data.contract[0] || {})
+            for (const a in contractarr) {
+              if (rkey === contractarr[a]) {
+                const reg = `#${rname}#`
+                this.contractTypeAttrs.push(reg)
+              }
+            }
+          })
+        }
       } catch (error) {
         console.error('加载合同属性失败:', error)
       }
