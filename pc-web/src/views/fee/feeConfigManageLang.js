@@ -1,6 +1,7 @@
 export const messages = {
   en: {
-    feeConfigManage: {
+feeConfigManage: {
+      selectFeeTypeFirst: 'Please select the fee type on the left first',
       search: {
         title: 'Search Conditions',
         hide: 'Hide',
@@ -235,8 +236,9 @@ export const messages = {
       deleteError: 'Failed to delete fee configuration'
     }
   },
-  zh: {
+zh: {
     feeConfigManage: {
+      selectFeeTypeFirst: '请先选择左侧的费用类型',
       search: {
         title: '查询条件',
         hide: '隐藏',
@@ -471,8 +473,9 @@ deleteFeeConfig: {
       deleteError: '删除费用配置失败'
     }
   },
-  'zh-TW': {
+'zh-TW': {
     feeConfigManage: {
+      selectFeeTypeFirst: '請先選擇左側的費用類型',
       search: {
         title: '查詢條件',
         hide: '隱藏',

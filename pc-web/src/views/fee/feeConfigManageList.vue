@@ -91,7 +91,7 @@
             <div style="float: right;">
              
               <el-button type="primary" size="small" @click="_openAddFeeConfigModal()"
-                v-if="hasPrivilege('502022022571930560') && feeConfigManageInfo.conditions.ftId"
+                v-if="hasPrivilege('502022022571930560') "
                 style="margin-left: 10px;">
                 {{ $t('feeConfigManage.list.add') }}
               </el-button>
@@ -325,7 +325,11 @@ export default {
       this._listFeeConfigs(1, 10)
     },
 
-    _openAddFeeConfigModal() {
+_openAddFeeConfigModal() {
+      if (!this.feeConfigManageInfo.conditions.ftId) {
+        this.$message.warning(this.$t('feeConfigManage.selectFeeTypeFirst'))
+        return
+      }
       this.$refs.addFeeConfig.open({
         ftId: this.feeConfigManageInfo.conditions.ftId,
         feeTypeCd: this.feeConfigManageInfo.conditions.feeTypeCd
