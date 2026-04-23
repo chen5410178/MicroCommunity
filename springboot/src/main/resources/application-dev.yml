@@ -3,8 +3,6 @@ server:
   tomcat:
     uri-encoding: UTF-8
 
-
-
 spring:
   servlet:
     multipart:
@@ -21,7 +19,7 @@ spring:
     name: boot-service
   redis:
     database: 8
-    host: dev.redis.java110.com
+    host: 127.0.0.1
     port: 6379
     password: hc
     pool:
@@ -34,7 +32,7 @@ spring:
   activiti:
     database-schema-update: false
   datasource:
-    url: jdbc:mysql://dev.db.java110.com:3306/TT_v2?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
+    url: jdbc:mysql://127.0.0.1:3306/TT_v2?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
     username: TT_v2
     password: hc12345678
     type: com.alibaba.druid.pool.DruidDataSource
@@ -51,35 +49,3 @@ feign:
       default:
         connect-timeout: 10000
         read-timeout: 20000
-
-#============== kafka ===================
-kafka:
-  consumer:
-    zookeeper:
-      connect: dev.zk.java110.com:2181
-    servers: dev.kafka.java110.com:9092
-    enable:
-      auto:
-        commit: true
-    session:
-      timeout: 6000
-    auto:
-      commit:
-        interval: 100
-      offset:
-        reset: latest
-    topic: test
-    group:
-      id: communityBusinessStatus
-    concurrency: 10
-
-  producer:
-    zookeeper:
-      connect: dev.zk.java110.com:2181
-    servers: dev.kafka.java110.com:9092
-    retries: 0
-    batch:
-      size: 4096
-    linger: 1
-    buffer:
-      memory: 40960
