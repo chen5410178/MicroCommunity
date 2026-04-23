@@ -180,7 +180,7 @@ export default {
 
 <style lang="scss" scoped>
 .service-provide-manage-container {
-  padding: 20px;
+  padding: 15px;
   background-color: #f5f7fa;
 
   .el-card {

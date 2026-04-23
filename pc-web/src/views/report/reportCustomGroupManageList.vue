@@ -239,7 +239,7 @@ export default {
 
 <style lang="scss" scoped>
 .report-custom-group-manage-container {
-  padding: 20px;
+  padding: 15px;
 
   .el-card {
     margin-bottom: 20px;

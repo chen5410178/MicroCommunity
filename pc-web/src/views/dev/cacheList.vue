@@ -118,7 +118,7 @@ export default {
 
 <style lang="scss" scoped>
 .cache-container {
-  padding: 20px;
+  padding: 15px;
   margin: 0;
 
   .search-wrapper {

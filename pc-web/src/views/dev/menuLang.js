@@ -1,6 +1,6 @@
 export const messages = {
   en: {
-    menu: {
+    menuPage: {
       search: {
         title: 'Search Condition',
         name: 'name',
@@ -66,7 +66,7 @@ export const messages = {
     }
   },
   zh: {
-    menu: {
+    menuPage: {
       search: {
         title: '查询条件',
         name: '菜单名称',
@@ -132,7 +132,7 @@ export const messages = {
     }
   },
   'zh-TW': {
-    menu: {
+    menuPage: {
       search: {
         title: '查詢條件',
         name: '菜單名稱',

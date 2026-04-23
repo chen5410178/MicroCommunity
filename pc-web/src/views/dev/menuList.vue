@@ -31,11 +31,11 @@
     <div class="menu-list-wrapper">
       <!-- 查询条件 -->
       <div class="search-wrapper">
-        <div class="search-title">{{ $t('menu.search.title') }}</div>
+        <div class="search-title">{{ $t('menuPage.search.title') }}</div>
         <div class="search-content">
-          <el-input v-model="searchForm.name" :placeholder="$t('menu.search.name')" class="search-item" clearable
+          <el-input v-model="searchForm.name" :placeholder="$t('menuPage.search.name')" class="search-item" clearable
             @keyup.enter.native="handleSearch" />
-          <el-select v-model="searchForm.isShow" :placeholder="$t('menu.search.isShow')" class="search-item">
+          <el-select v-model="searchForm.isShow" :placeholder="$t('menuPage.search.isShow')" class="search-item">
             <el-option label="全部" value="" />
             <el-option label="显示" value="Y" />
             <el-option label="不显示" value="N" />
@@ -46,24 +46,24 @@
 
       <div class="list-wrapper">
         <div class="list-header">
-          <div class="list-title">{{ $t('menu.list.title') }}</div>
+          <div class="list-title">{{ $t('menuPage.list.title') }}</div>
           <el-button type="primary" @click="handleAdd" v-if="searchForm.gId">{{ $t('common.add') }}</el-button>
         </div>
 
         <el-table v-loading="loading" :data="tableData" border style="width: 100%">
-          <el-table-column prop="mId" :label="$t('menu.table.mId')" />
-          <el-table-column prop="name" :label="$t('menu.table.name')" />
-          <el-table-column prop="gId" :label="$t('menu.table.gId')" />
-          <el-table-column prop="url" :label="$t('menu.table.url')" />
-          <el-table-column prop="seq" :label="$t('menu.table.seq')" />
-          <el-table-column prop="description" :label="$t('menu.table.description')" />
-          <el-table-column prop="isShowName" :label="$t('menu.table.isShow')" />
-          <!-- <el-table-column prop="createTime" :label="$t('menu.table.createTime')" /> -->
+          <el-table-column prop="mId" :label="$t('menuPage.table.mId')" />
+          <el-table-column prop="name" :label="$t('menuPage.table.name')" />
+          <el-table-column prop="gId" :label="$t('menuPage.table.gId')" />
+          <el-table-column prop="url" :label="$t('menuPage.table.url')" />
+          <el-table-column prop="seq" :label="$t('menuPage.table.seq')" />
+          <el-table-column prop="description" :label="$t('menuPage.table.description')" />
+          <el-table-column prop="isShowName" :label="$t('menuPage.table.isShow')" />
+          <!-- <el-table-column prop="createTime" :label="$t('menuPage.table.createTime')" /> -->
           <el-table-column :label="$t('common.operation')" width="200" fixed="right">
             <template slot-scope="scope">
               <el-button size="mini" type="primary" @click="handleEdit(scope.row)">{{ $t('common.edit') }}</el-button>
               <el-button size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('common.delete') }}</el-button>
-              <el-button size="mini" type="warn" @click="handlePrivilege(scope.row)">{{ $t('menu.privilege') }}</el-button>
+              <el-button size="mini" type="warn" @click="handlePrivilege(scope.row)">{{ $t('menuPage.privilege') }}</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -163,7 +163,7 @@ export default {
         this.tableData = menus
         this.page.total = total
       } catch (error) {
-        this.$message.error(this.$t('menu.fetchError'))
+        this.$message.error(this.$t('menuPage.fetchError'))
       } finally {
         this.loading = false
       }
@@ -211,7 +211,7 @@ export default {
 
 <style lang="scss" scoped>
 .menu-container {
-  padding: 0;
+  padding: 15px;
   margin: 0;
   display: flex;
   background-color: #f0f2f5;

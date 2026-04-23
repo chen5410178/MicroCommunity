@@ -1,19 +1,19 @@
 ﻿<template>
-  <el-dialog :title="$t('menu.dialog.addTitle')" :visible.sync="dialogVisible" width="500px" @close="handleClose">
+  <el-dialog :title="$t('menuPage.dialog.addTitle')" :visible.sync="dialogVisible" width="500px" @close="handleClose">
     <el-form ref="form" :model="form" :rules="rules" label-width="100px">
-      <el-form-item :label="$t('menu.form.name')" prop="name">
+      <el-form-item :label="$t('menuPage.form.name')" prop="name">
         <el-input v-model="form.name" />
       </el-form-item>
-      <el-form-item :label="$t('menu.form.url')" prop="url">
+      <el-form-item :label="$t('menuPage.form.url')" prop="url">
         <el-input v-model="form.url" />
       </el-form-item>
-      <el-form-item :label="$t('menu.form.seq')" prop="seq">
+      <el-form-item :label="$t('menuPage.form.seq')" prop="seq">
         <el-input v-model="form.seq" />
       </el-form-item>
-      <el-form-item :label="$t('menu.form.description')" prop="description">
+      <el-form-item :label="$t('menuPage.form.description')" prop="description">
         <el-input v-model="form.description" />
       </el-form-item>
-      <el-form-item :label="$t('menu.form.isShow')" prop="isShow">
+      <el-form-item :label="$t('menuPage.form.isShow')" prop="isShow">
         <el-select v-model="form.isShow" placeholder="请选择" style="width: 100%">
           <el-option label="显示" value="Y" />
             <el-option label="不显示" value="N" />
@@ -21,8 +21,8 @@
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="handleClose">{{ $t('menu.dialog.cancel') }}</el-button>
-      <el-button type="primary" @click="handleSubmit">{{ $t('menu.dialog.confirm') }}</el-button>
+      <el-button @click="handleClose">{{ $t('menuPage.dialog.cancel') }}</el-button>
+      <el-button type="primary" @click="handleSubmit">{{ $t('menuPage.dialog.confirm') }}</el-button>
     </span>
   </el-dialog>
 </template>
@@ -62,22 +62,22 @@ export default {
       },
       rules: {
         name: [
-          { required: true, message: this.$t('menu.validate.name'), trigger: 'blur' }
+          { required: true, message: this.$t('menuPage.validate.name'), trigger: 'blur' }
         ],
         gId: [
-          { required: true, message: this.$t('menu.validate.gId'), trigger: 'blur' }
+          { required: true, message: this.$t('menuPage.validate.gId'), trigger: 'blur' }
         ],
         url: [
-          { required: true, message: this.$t('menu.validate.url'), trigger: 'blur' }
+          { required: true, message: this.$t('menuPage.validate.url'), trigger: 'blur' }
         ],
         seq: [
-          { required: true, message: this.$t('menu.validate.seq'), trigger: 'blur' }
+          { required: true, message: this.$t('menuPage.validate.seq'), trigger: 'blur' }
         ],
         isShow: [
-          { required: true, message: this.$t('menu.validate.isShow'), trigger: 'blur' }
+          { required: true, message: this.$t('menuPage.validate.isShow'), trigger: 'blur' }
         ],
         createTime: [
-          { required: true, message: this.$t('menu.validate.createTime'), trigger: 'blur' }
+          { required: true, message: this.$t('menuPage.validate.createTime'), trigger: 'blur' }
         ],
       }
     }

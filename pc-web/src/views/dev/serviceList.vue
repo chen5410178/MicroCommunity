@@ -1,5 +1,5 @@
 <template>
-  <div class="service-container">
+  <div class="service-container ">
     <!-- 查询条件 -->
     <div class="search-wrapper">
       <div class="search-title">{{ $t('service.search.title') }}</div>
@@ -141,7 +141,7 @@ export default {
 
 <style lang="scss" scoped>
 .service-container {
-  padding: 0;
+  padding: 15px;
   margin: 0;
 
   .search-wrapper {

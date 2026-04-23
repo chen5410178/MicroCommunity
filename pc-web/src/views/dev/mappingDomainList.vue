@@ -197,7 +197,7 @@ export default {
 
 <style lang="scss" scoped>
 .mappingDomain-container {
-  padding: 0;
+  padding: 15px;
   margin: 0;
 
   .search-wrapper {

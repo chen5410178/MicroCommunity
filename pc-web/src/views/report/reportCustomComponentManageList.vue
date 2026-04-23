@@ -222,7 +222,7 @@ export default {
 
 <style lang="scss" scoped>
 .report-custom-component-container {
-  padding: 20px;
+  padding: 15px;
 
   .mt-20 {
     margin-top: 20px;

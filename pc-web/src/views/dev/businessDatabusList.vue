@@ -142,7 +142,7 @@ export default {
 
 <style lang="scss" scoped>
 .businessDatabus-container {
-  padding: 0;
+  padding: 15px;
   margin: 0;
 
   .search-wrapper {

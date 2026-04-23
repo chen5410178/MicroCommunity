@@ -199,7 +199,7 @@ export default {
 
 <style lang="scss" scoped>
 .attrSpec-container {
-  padding: 0;
+  padding: 15px;
   margin: 0;
   display: flex;
   background-color: #f0f2f5;

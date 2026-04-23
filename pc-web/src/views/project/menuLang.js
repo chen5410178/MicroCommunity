@@ -37,7 +37,7 @@ export default {
         groupId: '菜单组ID',
         sequence: '排序',
         permission: '权限标识',
-createTime: '创建时间'
+        createTime: '创建时间'
       }
     },
   },

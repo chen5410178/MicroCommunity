@@ -1,7 +1,7 @@
 export default [
     {
         path: '/pages/dev/appManage',
-        meta: { title: '应用管理' },
+        meta: { title: '应用信息' },
         name: '/pages/dev/appManage',
         component: () => import('@/views/dev/app/appList.vue')
     },
@@ -31,7 +31,7 @@ export default [
     },
     {
         path: '/pages/dev/businessTableHisManage',
-        meta: { title: '业务表历史' },
+        meta: { title: '业务轨迹' },
         name: '/pages/dev/businessTableHisManage',
         component: () => import('@/views/dev/businessTableHisList.vue')
     },
@@ -55,85 +55,83 @@ export default [
     },
     {
         path: '/pages/dev/mappingDomainManage',
-        meta: { title: '映射域' },
+        meta: { title: '配置项' },
         name: '/pages/dev/mappingDomainManage',
         component: () => import('@/views/dev/mappingDomainList.vue')
     },
     {
         path: '/pages/dev/mappingManage',
-        meta: { title: '映射管理' },
+        meta: { title: '配置中心' },
         name: '/pages/dev/mappingManage',
         component: () => import('@/views/dev/mappingList.vue')
     },
     {
         path: '/pages/dev/businessDatabusManage',
-        meta: { title: '业务数据总线' },
+        meta: { title: 'Databus' },
         name: '/pages/dev/businessDatabusManage',
         component: () => import('@/views/dev/businessDatabusList.vue')
     },
     {
         path: '/pages/dev/dictManage',
-        meta: { title: '字典管理' },
+        meta: { title: '字典' },
         name: '/pages/dev/dictManage',
         component: () => import('@/views/dev/dictList.vue')
     },
     {
         path: '/pages/dev/cacheManage',
-        meta: { title: '缓存管理' },
+        meta: { title: '刷新缓存' },
         name: '/pages/dev/cacheManage',
         component: () => import('@/views/dev/cacheList.vue')
     },
     {
         path: '/pages/dev/menuManage',
-        meta: { title: '菜单管理' },
+        meta: { title: '菜单维护' },
         name: '/pages/dev/menuManage',
         component: () => import('@/views/dev/menuList.vue')
     },
     {
         path: '/views/dev/privilegeList',
-        meta: { title: '权限列表' },
         name: '/views/dev/privilegeList',
         component: () => import('@/views/dev/privilegeList.vue')
     },
     {
         path: '/pages/dev/jobManage',
-        meta: { title: '任务管理' },
+        meta: { title: '定时任务' },
         name: '/pages/dev/jobManage',
         component: () => import('@/views/dev/taskList.vue')
     },
     {
         path: '/pages/dev/attrSpecManage',
-        meta: { title: '属性规格' },
+        meta: { title: '属性' },
         name: '/pages/dev/attrSpecManage',
         component: () => import('@/views/dev/attrSpecList.vue')
     },
     {
         path: '/views/dev/attrValueList',
-        meta: { title: '属性值' },
         name: '/pages/dev/attrValueList',
         component: () => import('@/views/dev/attrValueList.vue')
     },
     {
         path: '/pages/dev/reportCustomGroupManage',
-        meta: { title: '自定义报表组' },
+        meta: { title: '报表组' },
         name: '/pages/dev/reportCustomGroupManage',
         component: () => import('@/views/report/reportCustomGroupManageList.vue')
     },
     {
         path: '/pages/dev/reportCustomManage',
-        meta: { title: '自定义报表' },
+        meta: { title: '报表信息' },
         name: '/pages/dev/reportCustomManage',
         component: () => import('@/views/report/reportCustomManageList.vue')
     },
     {
         path: '/pages/dev/reportCustomComponentManage',
-        meta: { title: '自定义报表组件' },
+        meta: { title: '报表组件' },
         name: '/pages/dev/reportCustomComponentManage',
         component: () => import('@/views/report/reportCustomComponentManageList.vue')
     },
     {
         path: '/pages/dev/transactionLogManage',
-        meta: { title: '事务日志' },
+        meta: { title: '交互日志' },
         name: '/pages/dev/transactionLogManage',
         component: () => import('@/views/log/transactionLogManageList.vue')
     },
@@ -151,13 +149,12 @@ export default [
     },
     {
         path: '/views/dev/devServiceProvide',
-        meta: { title: '服务提供详情' },
         name: '/views/dev/devServiceProvide',
         component: () => import('@/views/dev/devServiceProvideList.vue')
     },
     {
         path: '/pages/dev/transactionOutLog',
-        meta: { title: '事务输出日志' },
+        meta: { title: '调用三方' },
         name: '/pages/dev/transactionOutLog',
         component: () => import('@/views/log/transactionOutLogList.vue')
       },

@@ -1,68 +1,99 @@
-﻿<template>
+<template>
   <div class="initialize-community-manage-container">
     <!-- 查询条件 -->
-    <div class="ibox">
-      <div class="ibox-title">
-        <h5>{{ $t('initializeCommunityManage.search.title') }}</h5>
-      </div>
-      <div class="ibox-content">
-        <el-row :gutter="20">
-          <el-col :span="6">
-            <el-input v-model="searchForm.communityId" :placeholder="$t('initializeCommunityManage.search.communityId')"
-              clearable @keyup.enter.native="handleSearch" />
-          </el-col>
-          <el-col :span="8">
-            <el-input v-model="searchForm.name" :placeholder="$t('initializeCommunityManage.search.name')" clearable
-              @keyup.enter.native="handleSearch" />
-          </el-col>
-          <el-col :span="4">
-            <el-button type="primary" @click="handleSearch">
-              <i class="el-icon-search"></i>
-              {{ $t('common.search') }}
-            </el-button>
-            <el-button @click="handleReset">
-              <i class="el-icon-refresh"></i>
-              {{ $t('common.reset') }}
-            </el-button>
-          </el-col>
-        </el-row>
+    <div class="search-wrapper">
+      <div class="search-title">{{ $t('initializeCommunityManage.search.title') }}</div>
+      <div class="search-content">
+        <el-input
+          v-model="searchForm.communityId"
+          :placeholder="$t('initializeCommunityManage.search.communityId')"
+          class="search-item"
+          clearable
+          @keyup.enter.native="handleSearch"
+        />
+        <el-input
+          v-model="searchForm.name"
+          :placeholder="$t('initializeCommunityManage.search.name')"
+          class="search-item"
+          clearable
+          @keyup.enter.native="handleSearch"
+        />
+        <el-button type="primary" @click="handleSearch">{{ $t('common.search') }}</el-button>
+        <el-button @click="handleReset">{{ $t('common.reset') }}</el-button>
       </div>
     </div>
 
-    <!-- 初始化小区数据 -->
-    <div class="ibox">
-      <div class="ibox-title">
-        <h5>{{ $t('initializeCommunityManage.list.title') }}</h5>
+    <div class="list-wrapper">
+      <div class="list-header">
+        <div class="list-title">{{ $t('initializeCommunityManage.list.title') }}</div>
       </div>
-      <div class="ibox-content">
-        <el-table :data="tableData" border style="width: 100%" v-loading="loading">
-          <el-table-column prop="communityId" :label="$t('initializeCommunityManage.table.communityId')" align="center" />
-          <el-table-column prop="name" :label="$t('initializeCommunityManage.table.name')" align="center" />
-          <el-table-column prop="nearbyLandmarks" :label="$t('initializeCommunityManage.table.nearbyLandmarks')"
-            align="center" />
-          <el-table-column prop="cityName" :label="$t('initializeCommunityManage.table.cityCode')" align="center" />
-          <el-table-column prop="stateName" :label="$t('initializeCommunityManage.table.state')" align="center" />
-          <el-table-column :label="$t('common.operation')" align="center" width="150">
-            <template slot-scope="scope">
-              <el-button size="mini" @click="handleInitialize(scope.row)">
-                {{ $t('initializeCommunityManage.button.initialize') }}
-              </el-button>
-            </template>
-          </el-table-column>
-        </el-table>
 
-        <el-pagination :current-page.sync="pagination.current" :page-sizes="[10, 20, 30, 50]" :page-size="pagination.size"
-          :total="pagination.total" layout="total, sizes, prev, pager, next, jumper" @size-change="handleSizeChange"
-          @current-change="handleCurrentChange" />
-      </div>
+      <el-table
+        v-loading="loading"
+        :data="tableData"
+        border
+        style="width: 100%"
+      >
+        <el-table-column
+          prop="communityId"
+          :label="$t('initializeCommunityManage.table.communityId')"
+          align="center"
+        />
+        <el-table-column
+          prop="name"
+          :label="$t('initializeCommunityManage.table.name')"
+          align="center"
+        />
+        <el-table-column
+          prop="nearbyLandmarks"
+          :label="$t('initializeCommunityManage.table.nearbyLandmarks')"
+          align="center"
+        />
+        <el-table-column
+          prop="cityName"
+          :label="$t('initializeCommunityManage.table.cityCode')"
+          align="center"
+        />
+        <el-table-column
+          prop="stateName"
+          :label="$t('initializeCommunityManage.table.state')"
+          align="center"
+        />
+        <el-table-column
+          :label="$t('common.operation')"
+          width="150"
+          fixed="right"
+        >
+          <template slot-scope="scope">
+            <el-button
+              size="mini"
+              type="primary"
+              @click="handleInitialize(scope.row)"
+            >{{ $t('initializeCommunityManage.button.initialize') }}</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+
+      <el-pagination
+        :current-page.sync="pagination.current"
+        :page-sizes="[10, 20, 30, 50]"
+        :page-size="pagination.size"
+        :total="pagination.total"
+        layout="total, sizes, prev, pager, next, jumper"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+      />
     </div>
 
     <div class="form-group">
       <li style="color: red;">{{ msgData }}</li>
     </div>
 
-    <choose-initialize-community :visible.sync="dialogVisible" :community-info="currentCommunity"
-      @confirm="handleConfirmInitialize" />
+    <ChooseInitializeCommunity
+      :visible.sync="dialogVisible"
+      :community-info="currentCommunity"
+      @confirm="handleConfirmInitialize"
+    />
   </div>
 </template>
 
@@ -155,35 +186,60 @@ export default {
 
 <style lang="scss" scoped>
 .initialize-community-manage-container {
-  padding: 20px;
+  padding: 15px;
+  margin: 0;
 
-  .ibox {
-    background: #fff;
+  .search-wrapper {
+    background-color: #fff;
+    padding: 20px;
     margin-bottom: 20px;
     border-radius: 4px;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 
-    .ibox-title {
-      border-bottom: 1px solid #e7eaec;
-      padding: 15px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-
-      h5 {
-        margin: 0;
-        font-size: 16px;
-      }
+    .search-title {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      text-align: left;
+      color: #333;
     }
 
-    .ibox-content {
-      padding: 20px;
+    .search-content {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+
+      .search-item {
+        width: 200px;
+      }
     }
   }
 
-  .el-pagination {
-    margin-top: 20px;
-    text-align: right;
+  .list-wrapper {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 4px;
+
+    .list-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+
+      .list-title {
+        font-size: 16px;
+        font-weight: bold;
+        color: #333;
+      }
+    }
+
+    .el-pagination {
+      margin-top: 20px;
+      text-align: right;
+    }
+  }
+
+  .form-group {
+    margin-top: 10px;
   }
 }
 </style>

@@ -1,17 +1,17 @@
 ﻿<template>
   <el-dialog
-    :title="$t('menu.dialog.delTitle')"
+    :title="$t('menuPage.dialog.delTitle')"
     :visible.sync="dialogVisible"
     width="400px"
     @close="handleClose"
   >
     <div class="del-dialog-content">
       <i class="el-icon-warning"></i>
-      <span>{{ $t('menu.delete.confirm') }}</span>
+      <span>{{ $t('menuPage.delete.confirm') }}</span>
     </div>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="handleClose">{{ $t('menu.dialog.cancel') }}</el-button>
-      <el-button type="primary" @click="handleConfirm">{{ $t('menu.dialog.confirm') }}</el-button>
+      <el-button @click="handleClose">{{ $t('menuPage.dialog.cancel') }}</el-button>
+      <el-button type="primary" @click="handleConfirm">{{ $t('menuPage.dialog.confirm') }}</el-button>
     </span>
   </el-dialog>
 </template>

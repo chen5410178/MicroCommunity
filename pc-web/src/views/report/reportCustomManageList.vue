@@ -176,7 +176,7 @@ export default {
 
 <style lang="scss" scoped>
 .report-custom-container {
-  padding: 20px;
+  padding: 15px;
 
   .search-wrapper {
     margin-bottom: 20px;
