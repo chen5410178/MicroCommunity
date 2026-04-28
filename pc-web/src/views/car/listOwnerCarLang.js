@@ -88,6 +88,14 @@ export const messages = {
       iotSyncDetail: 'IoT sync details',
       confirmRelease: 'Are you sure to release the car?',
       parkingLot: 'Parking Lot',
+       changeOwner: 'Change Owner',
+      ownerName: 'Owner Name',
+      phoneNumber: 'Phone Number',
+      select: 'Select',
+      changeOwnerQueryFailed: 'Failed to query owner list, please try again later',
+      changeOwnerSelectTip: 'Please select an owner first',
+      changeOwnerTodoTip: 'The change owner operation will be completed after backend API is ready',
+      changeOwnerFailed: 'Failed to change owner, please try again later',
     }
   },
   zh: {
@@ -179,6 +187,14 @@ export const messages = {
       iotSyncDetail: '同步物联网详情',
       confirmRelease: '确认释放车辆？',
 parkingLot: '车场',
+ changeOwner: '修改业主',
+      ownerName: '业主名称',
+      phoneNumber: '手机号',
+      select: '选择',
+      changeOwnerQueryFailed: '查询业主列表失败，请稍后重试',
+      changeOwnerSelectTip: '请先选择业主',
+      changeOwnerTodoTip: '后端接口开发完成后，将在此完成修改业主操作',
+      changeOwnerFailed: '修改业主失败，请稍后重试',
     }
   },
   'zh-TW': {
@@ -270,6 +286,14 @@ parkingLot: '车场',
       iotSyncDetail: '同步物聯網詳情',
       confirmRelease: '確認釋放車輛？',
       parkingLot: '車場',
+       changeOwner: '修改业主',
+      ownerName: '业主名称',
+      phoneNumber: '手机号',
+      select: '选择',
+      changeOwnerQueryFailed: '查询业主列表失败，请稍后重试',
+      changeOwnerSelectTip: '请先选择业主',
+      changeOwnerTodoTip: '后端接口开发完成后，将在此完成修改业主操作',
+      changeOwnerFailed: '修改业主失败，请稍后重试',
     }
   }
 }

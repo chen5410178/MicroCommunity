@@ -131,7 +131,7 @@
               </template>
             </el-table-column>
             <el-table-column prop="remark" :label="$t('listOwnerCar.remark')" align="center" />
-            <el-table-column :label="$t('listOwnerCar.operation')" align="center" width="280">
+            <el-table-column :label="$t('listOwnerCar.operation')" align="center" width="360">
               <template slot-scope="scope">
                 <el-button v-if="scope.row.state !== '3003' && hasPrivilege('502023032855861676')" size="mini"
                   @click="deleteCarParkingSpace(scope.row)">
@@ -147,6 +147,9 @@
                 <el-button v-if="scope.row.carTypeCd !== '1003' && hasPrivilege('502023032804261679')" size="mini"
                   @click="openEditOwnerCar(scope.row)">
                   {{ $t('listOwnerCar.modify') }}
+                </el-button>
+                <el-button size="mini" type="primary" @click="openChangeOwnerDialog(scope.row)">
+                  {{ $t('listOwnerCar.changeOwner') }}
                 </el-button>
                 <el-button v-if="hasPrivilege('502023032822121680')" size="mini" type="danger"
                   @click="openDelOwnerCarModel(scope.row)">
@@ -176,11 +179,12 @@ import EditCar from '@/components/car/editCar'
 import DeleteOwnerCar from '@/components/car/deleteOwnerCar'
 import { getDict } from '@/api/community/communityApi'
 import { getCommunityId } from '@/api/community/communityApi'
+import ChangeOwnerDialog from '@/components/car/changeOwnerDialog'
 
 
 export default {
   name: 'ListOwnerCar',
-  components: { ImportOwnerCar, EditCar, DeleteOwnerCar },
+  components: { ImportOwnerCar, EditCar, DeleteOwnerCar, ChangeOwnerDialog },
   data() {
     return {
       loading: false,
@@ -317,6 +321,9 @@ export default {
 
     toCarMember(car) {
       this.$router.push(`/views/car/carDetail?memberId=${car.carId}&tab=carDetailMember`)
+    },
+    openChangeOwnerDialog(car) {
+      this.$refs.changeOwnerDialog.open(car)
     },
 
     getCarState(car) {

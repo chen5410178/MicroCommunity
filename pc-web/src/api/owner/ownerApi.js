@@ -85,6 +85,27 @@ export function deleteOwner(data) {
   })
 }
 
+// 修改车辆所属业主
+export function changeCarOwner(data) {
+  return new Promise((resolve, reject) => {
+    data.communityId = getCommunityId()
+    request({
+      url: '/owner.changeCarOwner',
+      method: 'post',
+      data
+    }).then(response => {
+      const res = response.data
+      if (res.code == 0) {
+        resolve(res)
+      } else {
+        reject(new Error(res.msg || '修改车辆业主失败'))
+      }
+    }).catch(error => {
+      reject(error)
+    })
+  })
+}
+
 // 上传图片
 export function uploadImage(data) {
   return new Promise((resolve, reject) => {
