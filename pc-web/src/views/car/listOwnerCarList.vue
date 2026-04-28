@@ -169,6 +169,7 @@
     <import-owner-car ref="importOwnerCar" @success="listOwnerCarData" />
     <edit-car ref="editCar" @success="listOwnerCarData" />
     <delete-owner-car ref="deleteOwnerCar" @success="listOwnerCarData" />
+    <change-owner-dialog ref="changeOwnerDialog" @success="listOwnerCarData" />
   </div>
 </template>
 
