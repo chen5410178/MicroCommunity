@@ -32416,7 +32416,7 @@ CREATE TABLE `u_user` (
 -- Records of u_user
 -- ----------------------------
 INSERT INTO `u_user` VALUES ('21', '30518939884421922816', 'admin', 'sss@sf.com', 'ccc地方都是', '3ad352384261cbc2c7462210dbb3ce61', null, null, '0', '18909714555', '00', '202022030905502375', '2018-12-02 16:01:50', '0', null);
-INSERT INTO `u_user` VALUES ('23', '30520751775595118592', 'dev', '129@qq.com', 'Qingdao', '109c333b381580e1fe8a5ff630c398a7', null, '0', '0', '17797173942', '00', '202021111595270456', '2018-12-07 16:01:38', '0', null);
+INSERT INTO `u_user` VALUES ('23', '30520751775595118592', 'dev', '129@qq.com', 'Qingdao', '3ad352384261cbc2c7462210dbb3ce61', null, '0', '0', '17797173942', '00', '202021111595270456', '2018-12-07 16:01:38', '0', null);
 
 -- ----------------------------
 -- Table structure for u_user_address
