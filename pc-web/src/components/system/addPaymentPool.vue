@@ -25,7 +25,6 @@
         <el-select v-model="formData.payType" :placeholder="$t('paymentPool.add.payRangePlaceholder')"
           style="width:100%">
           <el-option :label="$t('paymentPool.add.communityFee')" value="1001" />
-          <el-option :label="$t('paymentPool.add.tempCarFee')" value="2002" />
           <el-option :label="$t('paymentPool.add.specifiedFee')" value="3003" />
         </el-select>
       </el-form-item>
