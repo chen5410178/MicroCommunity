@@ -173,11 +173,12 @@ public class SaveRoomCreateFeeCmd extends Cmd {
         ownerDto.setRoomId(roomDto.getRoomId());
         List<OwnerDto> ownerDtos = ownerInnerServiceSMOImpl.queryOwnersByRoom(ownerDto);
 
-        if (!ListUtil.isNull(ownerDtos)) {
-            roomDto.setOwnerId(ownerDtos.get(0).getOwnerId());
-            roomDto.setOwnerName(ownerDtos.get(0).getName());
-            roomDto.setLink(ownerDtos.get(0).getLink());
+        if (ListUtil.isNull(ownerDtos)) {
+           throw new CmdException("根据房屋未能查到业主，不能创建费用！");
         }
+        roomDto.setOwnerId(ownerDtos.get(0).getOwnerId());
+        roomDto.setOwnerName(ownerDtos.get(0).getName());
+        roomDto.setLink(ownerDtos.get(0).getLink());
 
         List<PayFeeRulePo> payFeeRulePos = new ArrayList<>();
         ResponseEntity<String> responseEntity = null;

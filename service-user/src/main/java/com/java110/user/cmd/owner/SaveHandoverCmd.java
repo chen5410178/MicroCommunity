@@ -9,7 +9,6 @@ import com.java110.core.event.cmd.Cmd;
 import com.java110.core.event.cmd.CmdEvent;
 import com.java110.core.factory.GenerateCodeFactory;
 import com.java110.dto.room.RoomDto;
-import com.java110.dto.fee.FeeAttrDto;
 import com.java110.dto.fee.FeeConfigDto;
 import com.java110.dto.fee.FeeDto;
 import com.java110.dto.owner.OwnerDto;
@@ -17,21 +16,21 @@ import com.java110.dto.payFee.PayFeeBatchDto;
 import com.java110.dto.user.UserDto;
 import com.java110.intf.user.IOwnerRoomRelV1InnerServiceSMO;
 import com.java110.intf.user.IOwnerV1InnerServiceSMO;
-import com.java110.intf.community.IRoomInnerServiceSMO;
 import com.java110.intf.community.IRoomV1InnerServiceSMO;
 import com.java110.intf.fee.*;
 import com.java110.intf.user.IUserInnerServiceSMO;
-import com.java110.po.fee.FeeAttrPo;
-import com.java110.po.fee.PayFeePo;
 import com.java110.po.owner.OwnerPo;
 import com.java110.po.owner.OwnerRoomRelPo;
 import com.java110.po.payFee.PayFeeBatchPo;
+import com.java110.po.payFee.PayFeeRulePo;
 import com.java110.po.room.RoomPo;
 import com.java110.utils.exception.CmdException;
 import com.java110.utils.util.*;
 import com.java110.vo.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Java110Cmd(serviceCode = "owner.saveHandover")
@@ -53,13 +52,10 @@ public class SaveHandoverCmd extends Cmd {
     private IPayFeeBatchV1InnerServiceSMO payFeeBatchV1InnerServiceSMOImpl;
 
     @Autowired
-    private IPayFeeV1InnerServiceSMO payFeeV1InnerServiceSMOImpl;
+    private IPayFeeRuleV1InnerServiceSMO payFeeRuleV1InnerServiceSMOImpl;
 
     @Autowired
-    private IFeeAttrInnerServiceSMO feeAttrInnerServiceSMOImpl;
-
-    @Autowired
-    private IRoomInnerServiceSMO roomInnerServiceSMOImpl;
+    private IRuleGeneratorPayFeeBillV1InnerServiceSMO ruleGeneratorPayFeeBillV1InnerServiceSMOImpl;
 
     @Autowired
     private IRoomV1InnerServiceSMO roomV1InnerServiceSMOImpl;
@@ -90,7 +86,7 @@ public class SaveHandoverCmd extends Cmd {
     public void doCmd(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) throws CmdException {
         OwnerPo ownerPo = BeanConvertUtil.covertBean(reqJson, OwnerPo.class);
         int flag = 0;
-        if (ownerPo.getAge().equals("")) {
+        if (StringUtil.isEmpty(ownerPo.getAge())) {
             ownerPo.setAge(null);
         }
         if (reqJson.containsKey("ownerId") && !StringUtil.isEmpty(reqJson.getString("ownerId"))) {
@@ -146,96 +142,26 @@ public class SaveHandoverCmd extends Cmd {
             return;
         }
         generatorBatch(reqJson);
+
+        List<PayFeeRulePo> payFeeRulePos = new ArrayList<>();
         JSONObject paramInJson = null;
-        PayFeePo payFeePo = null;
-        FeeAttrPo feeAttrPo = null;
-        List<RoomDto> roomDtos = null;
-        RoomDto roomDto = null;
         for (int roomIndex = 0; roomIndex < rooms.size(); roomIndex++) {
-
-            roomDto = new RoomDto();
-            roomDto.setRoomId(rooms.getJSONObject(roomIndex).getString("roomId"));
-            roomDtos = roomInnerServiceSMOImpl.queryRooms(roomDto);
-
-            Assert.listOnlyOne(roomDtos, "房屋不存在");
-
             for (int feeIndex = 0; feeIndex < fees.size(); feeIndex++) {
-
                 paramInJson = fees.getJSONObject(feeIndex);
 
-                String time = DateUtil.getNow(DateUtil.DATE_FORMATE_STRING_A);
-
-                if (paramInJson.containsKey("startTime")) {
-                    time = paramInJson.getString("startTime");
-                }
-
-                //查询费用项
                 FeeConfigDto feeConfigDto = new FeeConfigDto();
-                feeConfigDto.setConfigId(fees.getJSONObject(feeIndex).getString("configId"));
+                feeConfigDto.setConfigId(paramInJson.getString("configId"));
                 List<FeeConfigDto> feeConfigDtos = feeConfigInnerServiceSMOImpl.queryFeeConfigs(feeConfigDto);
                 Assert.listOnlyOne(feeConfigDtos, "查询费用项错误！");
-                JSONObject businessUnit = new JSONObject();
-                businessUnit.put("feeId", GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_feeId));
-                businessUnit.put("configId", fees.getJSONObject(feeIndex).getString("configId"));
-                businessUnit.put("feeTypeCd", feeConfigDtos.get(0).getFeeTypeCd());
-                businessUnit.put("incomeObjId", reqJson.getString("storeId"));
-                businessUnit.put("amount", "-1.00");
-                if (paramInJson.containsKey("amount") && !StringUtil.isEmpty(paramInJson.getString("amount"))) {
-                    businessUnit.put("amount", paramInJson.getString("amount"));
-                }
-                businessUnit.put("startTime", time);
-                businessUnit.put("endTime", time);
-                businessUnit.put("communityId", reqJson.getString("communityId"));
-                businessUnit.put("payerObjId", rooms.getJSONObject(roomIndex).getString("roomId"));
-                businessUnit.put("payerObjType", "3333");
-                businessUnit.put("feeFlag", feeConfigDtos.get(0).getFeeFlag());
-                businessUnit.put("state", "2008001");
-                businessUnit.put("batchId", reqJson.getString("batchId"));
-                businessUnit.put("userId", "-1");
-                businessUnit.put("bId", "-1");
 
-                payFeePo = BeanConvertUtil.covertBean(businessUnit, PayFeePo.class);
-
-                flag = payFeeV1InnerServiceSMOImpl.savePayFee(payFeePo);
-
-                if (flag < 1) {
-                    throw new CmdException("保存费用失败");
-                }
-
-                feeAttrPo = addFeeAttr(businessUnit, FeeAttrDto.SPEC_CD_OWNER_ID, reqJson.getString("ownerId"));
-                flag = feeAttrInnerServiceSMOImpl.saveFeeAttr(feeAttrPo);
-                if (flag < 1) {
-                    throw new CmdException("保存费用失败");
-                }
-                feeAttrPo = addFeeAttr(businessUnit, FeeAttrDto.SPEC_CD_OWNER_LINK, reqJson.getString("link"));
-                flag = feeAttrInnerServiceSMOImpl.saveFeeAttr(feeAttrPo);
-                if (flag < 1) {
-                    throw new CmdException("保存费用失败");
-                }
-                feeAttrPo = addFeeAttr(businessUnit, FeeAttrDto.SPEC_CD_OWNER_NAME, reqJson.getString("name"));
-                flag = feeAttrInnerServiceSMOImpl.saveFeeAttr(feeAttrPo);
-                if (flag < 1) {
-                    throw new CmdException("保存费用失败");
-                }
-
-                feeAttrPo = addFeeAttr(businessUnit, FeeAttrDto.SPEC_CD_PAY_OBJECT_NAME,
-                        roomDtos.get(roomIndex).getFloorNum() + "-" + roomDtos.get(roomIndex).getUnitNum() + "-" + roomDtos.get(roomIndex).getRoomNum());
-
-                flag = feeAttrInnerServiceSMOImpl.saveFeeAttr(feeAttrPo);
-                if (flag < 1) {
-                    throw new CmdException("保存费用失败");
-                }
-
-                if (!FeeDto.FEE_FLAG_CYCLE.equals(businessUnit.getString("feeFlag"))) {
-                    feeAttrPo = addFeeAttr(businessUnit, FeeAttrDto.SPEC_CD_ONCE_FEE_DEADLINE_TIME,
-                            paramInJson.containsKey("endTime") ? paramInJson.getString("endTime") : feeConfigDtos.get(0).getEndTime());
-                    flag = feeAttrInnerServiceSMOImpl.saveFeeAttr(feeAttrPo);
-                    if (flag < 1) {
-                        throw new CmdException("保存费用失败");
-                    }
-                }
+                PayFeeRulePo payFeeRulePo = createPayFeeRulePo(rooms.getJSONObject(roomIndex), paramInJson, reqJson, feeConfigDtos.get(0));
+                payFeeRulePos.add(payFeeRulePo);
             }
         }
+
+        payFeeRuleV1InnerServiceSMOImpl.savePayFeeRules(payFeeRulePos);
+
+        ruleGeneratorPayFeeBillV1InnerServiceSMOImpl.rulesGeneratePayFees(payFeeRulePos);
 
     }
 
@@ -264,13 +190,42 @@ public class SaveHandoverCmd extends Cmd {
     }
 
 
-    public FeeAttrPo addFeeAttr(JSONObject paramInJson, String specCd, String value) {
-        FeeAttrPo feeAttrPo = new FeeAttrPo();
-        feeAttrPo.setCommunityId(paramInJson.getString("communityId"));
-        feeAttrPo.setSpecCd(specCd);
-        feeAttrPo.setValue(value);
-        feeAttrPo.setFeeId(paramInJson.getString("feeId"));
-        feeAttrPo.setAttrId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_attrId));
-        return feeAttrPo;
+    private PayFeeRulePo createPayFeeRulePo(JSONObject room, JSONObject paramInJson, JSONObject reqJson, FeeConfigDto feeConfigDto) {
+        String time = DateUtil.getNow(DateUtil.DATE_FORMATE_STRING_A);
+        if (paramInJson.containsKey("startTime")) {
+            time = paramInJson.getString("startTime");
+        }
+
+        PayFeeRulePo payFeeRulePo = new PayFeeRulePo();
+        payFeeRulePo.setMaxTime(paramInJson.containsKey("endTime") && !StringUtil.isEmpty(paramInJson.getString("endTime"))
+                ? paramInJson.getString("endTime") : feeConfigDto.getEndTime());
+        payFeeRulePo.setAmount("-1");
+        if (paramInJson.containsKey("amount") && !StringUtil.isEmpty(paramInJson.getString("amount"))) {
+            payFeeRulePo.setAmount(paramInJson.getString("amount"));
+        }
+        payFeeRulePo.setFeeTypeCd(feeConfigDto.getFeeTypeCd());
+        payFeeRulePo.setBatchId(reqJson.getString("batchId"));
+        payFeeRulePo.setUserId("-1");
+        payFeeRulePo.setIncomeObjId(reqJson.getString("storeId"));
+        payFeeRulePo.setConfigId(feeConfigDto.getConfigId());
+        payFeeRulePo.setFeeFlag(feeConfigDto.getFeeFlag());
+        payFeeRulePo.setStartTime(time);
+        payFeeRulePo.setEndTime(time);
+        payFeeRulePo.setDeductFrom(feeConfigDto.getDeductFrom());
+        payFeeRulePo.setState(FeeDto.STATE_DOING);
+        payFeeRulePo.setRuleId(GenerateCodeFactory.getGeneratorId("11"));
+        payFeeRulePo.setCommunityId(reqJson.getString("communityId"));
+        payFeeRulePo.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_ROOM);
+        payFeeRulePo.setPayerObjId(room.getString("roomId"));
+
+        String curYearMonth = DateUtil.getFormatTimeStringB(DateUtil.getDateFromStringB(payFeeRulePo.getEndTime()));
+        if (FeeConfigDto.PAYMENT_CD_AFTER.equals(feeConfigDto.getPaymentCd())) {
+            int ruleCycle = Integer.parseInt(feeConfigDto.getPaymentCycle());
+            Date endTime = DateUtil.getNextMonthDateB(payFeeRulePo.getEndTime(), ruleCycle);
+            curYearMonth = DateUtil.getFormatTimeStringB(endTime);
+        }
+        payFeeRulePo.setCurYearMonth(curYearMonth);
+
+        return payFeeRulePo;
     }
 }
