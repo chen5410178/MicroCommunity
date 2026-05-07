@@ -218,7 +218,8 @@
 <script>
 import { getCommunityId } from '@/api/community/communityApi'
 import { getDict } from '@/api/community/communityApi'
-import { queryPayFeeDeposit, queryFloors, queryUnits, exportData } from '@/api/report/reportPayFeeDepositApi'
+import { queryPayFeeDeposit, queryUnits, exportData } from '@/api/report/reportPayFeeDepositApi'
+import {getFloors} from '@/api/room/roomApi'
 
 export default {
   name: 'ReportPayFeeDepositList',
@@ -331,8 +332,8 @@ export default {
           row: 100,
           communityId: this.communityId
         }
-        const data = await queryFloors(params)
-        this.floors = data
+        const data = await getFloors(params)
+        this.floors = data.apiFloorDataVoList
       } catch (error) {
         console.error('加载楼栋数据失败:', error)
       }

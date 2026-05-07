@@ -50,7 +50,8 @@
 </template>
 
 <script>
-import { queryFeeReceipt, listFeePrintPage } from '@/api/fee/feeDetailReceiptApi'
+import { queryFeeReceipt } from '@/api/fee/feeDetailReceiptApi'
+import {listFeePrintPage} from '@/api/fee/feeReceiptApi'
 import { getCommunityId } from '@/api/community/communityApi'
 
 export default {

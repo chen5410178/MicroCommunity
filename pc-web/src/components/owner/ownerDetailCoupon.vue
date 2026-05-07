@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { listCouponPropertyUser } from '@/api/owner/ownerDetailCouponApi'
+import { listCouponPropertyUser } from '@/api/scm/couponPropertyUserManageApi'
 import { getCommunityId } from '@/api/community/communityApi'
 
 export default {

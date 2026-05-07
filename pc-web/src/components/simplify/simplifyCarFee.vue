@@ -62,7 +62,7 @@
               <td class="text-center" @click="switchSimplifyCarFeeFlag(fee)">{{ fee.feeFlagName }}</td>
               <td class="text-center" @click="switchSimplifyCarFeeFlag(fee)">{{ fee.feeTypeCdName }}</td>
               <td class="text-center" @click="switchSimplifyCarFeeFlag(fee)">{{ fee.oweAmount }}</td>
-              <td class="text-center" @click="switchSimplifyCarFeeFlag(fee)">{{ formatDate(fee.startTime) }}<br/>~{{ formatDate(fee.endTime) }}</td>
+              <td class="text-center" @click="switchSimplifyCarFeeFlag(fee)">{{ dateFormat(fee.startTime) }}<br/>~{{ dateFormat(fee.endTime) }}</td>
               <td class="text-center multiline-text">-</td>
               <td class="text-center">-</td>
               <td class="text-center"></td>
@@ -74,7 +74,7 @@
                 <td class="text-center">{{ feeSub.feeFlagName }}</td>
                 <td class="text-center">{{ feeSub.feeTypeCdName }}</td>
                 <td class="text-center">{{ feeSub.oweAmount }}</td>
-                <td class="text-center">{{ formatDate(feeSub.startTime) }}<br/>~{{ formatDate(feeSub.endTime) }}</td>
+                <td class="text-center">{{ dateFormat(feeSub.startTime) }}<br/>~{{ dateFormat(feeSub.endTime) }}</td>
                 <td class="text-center multiline-text">{{ feeSub.remark || '-' }}</td>
                 <td class="text-center">{{ feeSub.stateName }}</td>
                 <td class="text-center">
@@ -125,7 +125,7 @@
 import { getCommunityId } from '@/api/community/communityApi'
 import { queryOwnerCars } from '@/api/fee/carCreateFeeApi'
 import { listFee } from '@/api/fee/feeApi'
-import { formatDate } from '@/utils/dateUtil'
+import { dateFormat } from '@/utils/dateUtil'
 import EditFee from '@/components/fee/editFee'
 import DeleteFee from '@/components/fee/deleteFee'
 import SplitFee from '@/components/fee/splitFee'
@@ -329,7 +329,7 @@ export default {
       return mergedFees
     },
 
-    formatDate,
+    dateFormat,
 
     handlePageChange(page) {
       this.currentPage = page

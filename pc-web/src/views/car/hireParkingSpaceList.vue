@@ -139,7 +139,7 @@ import { saveOwnerCar } from '@/api/car/hireParkingSpaceApi'
 import { getCommunityId, getDict } from '@/api/community/communityApi'
 import SearchOwner from '@/components/owner/SearchOwner'
 import SearchParkingSpace from '@/components/car/SearchParkingSpace'
-import { getSpecAttrList } from '@/api/dev/attrSpecApi'
+import { getAttrSpecList } from '@/api/dev/attrSpecApi'
 
 export default {
   name: 'HireParkingSpaceList',
@@ -233,7 +233,7 @@ export default {
 
     async loadCarAttrSpec() {
       try {
-        const attrs = await getSpecAttrList('owner_car_attr')
+        const attrs = await getAttrSpecList('owner_car_attr')
         this.hireParkingSpaceInfo.attrs = attrs.map(item => {
           if (item.specShow === 'Y') {
             return {

@@ -93,8 +93,8 @@
         <el-table-column prop="primeRateName" :label="$t('ownerApplyInvoice.paymentMethod')" align="center" />
         <el-table-column :label="$t('ownerApplyInvoice.paymentPeriod')" align="center">
           <template slot-scope="scope">
-            {{ formatDate(scope.row.startTime) }}~<br>
-            {{ formatDate(scope.row.endTime) }}
+            {{ dateFormat(scope.row.startTime) }}~<br>
+            {{ dateFormat(scope.row.endTime) }}
           </template>
         </el-table-column>
         <el-table-column prop="createTime" :label="$t('ownerApplyInvoice.paymentTime')" align="center" />
@@ -146,7 +146,7 @@
 <script>
 import { queryFeeDetail, listAccountReceipt, saveInvoiceApply } from '@/api/fee/ownerApplyInvoiceApi'
 import SearchOwnerInvoice from '@/components/fee/searchOwnerInvoice'
-import { formatDate } from '@/utils/dateUtil'
+import { dateFormat } from '@/utils/dateUtil'
 
 export default {
   name: 'OwnerApplyInvoiceList',
@@ -175,7 +175,7 @@ export default {
     }
   },
   methods: {
-    formatDate,
+    dateFormat,
     goBack() {
       this.$router.go(-1)
     },

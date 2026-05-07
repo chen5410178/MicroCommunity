@@ -144,7 +144,7 @@
 </template>
 
 <script>
-import { updateResourceStore, listStorehouses, listResourceStoreTypes, getResourceStoreType, listResourceStoreSpecifications } from '@/api/resource/resourceStoreManageApi'
+import { updateResourceStore, listStorehouses, listResourceStoreTypes, listResourceStoreSpecifications } from '@/api/resource/resourceStoreManageApi'
 import { getDict, getCommunityId } from '@/api/community/communityApi'
 import UploadImageUrl from '@/components/upload/UploadImageUrl'
 
@@ -282,7 +282,7 @@ export default {
       if (!this.formData.parentRstId) return
 
       try {
-        const response = await getResourceStoreType(this.formData.parentRstId)
+        const response = await listResourceStoreTypes(this.formData.parentRstId)
         if (response) {
           this.formData.parentRstId = response.rstId
         }

@@ -17,13 +17,10 @@ import { messages as roleMessages } from '../views/role/roleLang'
 import { messages as staffDetailMessages } from '../views/staff/staffDetailLang'
 import { messages as reportCustomGroupManageMessages } from '../views/report/reportCustomGroupManageLang'
 
-import { messages as transactionLogManageMessages } from '../views/log/transactionLogManageLang'
-import { messages as mqttLogMessages } from '../views/log/mqttLogLang'
 import { messages as systemInfoManageMessages } from '../views/system/systemInfoManageLang'
 import { messages as registerProtocolMessages } from '../views/system/registerProtocolLang'
 import { messages as initializeCommunityManageMessages } from '../views/community/initializeCommunityManageLang'
 
-import { messages as transactionOutLogMessages } from '../views/log/transactionOutLogLang'
 import { messages as communityManageMessages } from '../views/community/communityManageLang'
 import { messages as propertyCompanyManageMessages } from '../views/store/propertyCompanyManageLang'
 import { messages as propertyCommunityMessages } from '../views/community/propertyCommunityLang'
@@ -170,12 +167,9 @@ const messages = {
     ...roleMessages.en,
     ...staffDetailMessages.en,
     ...reportCustomGroupManageMessages.en,
-    ...transactionLogManageMessages.en,
-    ...mqttLogMessages.en,
     ...systemInfoManageMessages.en,
     ...registerProtocolMessages.en,
     ...initializeCommunityManageMessages.en,
-    ...transactionOutLogMessages.en,
     ...communityManageMessages.en,
     ...propertyCompanyManageMessages.en,
     ...propertyCommunityMessages.en,
@@ -314,12 +308,9 @@ const messages = {
     ...roleMessages.zh,
     ...staffDetailMessages.zh,
     ...reportCustomGroupManageMessages.zh,
-    ...transactionLogManageMessages.zh,
-    ...mqttLogMessages.zh,
     ...systemInfoManageMessages.zh,
     ...registerProtocolMessages.zh,
     ...initializeCommunityManageMessages.zh,
-    ...transactionOutLogMessages.zh,
     ...communityManageMessages.zh,
     ...propertyCompanyManageMessages.zh,
     ...propertyCommunityMessages.zh,
@@ -456,12 +447,9 @@ const messages = {
     ...roleMessages['zh-TW'],
     ...staffDetailMessages['zh-TW'],
     ...reportCustomGroupManageMessages['zh-TW'],
-    ...transactionLogManageMessages['zh-TW'],
-    ...mqttLogMessages['zh-TW'],
     ...systemInfoManageMessages['zh-TW'],
     ...registerProtocolMessages['zh-TW'],
     ...initializeCommunityManageMessages['zh-TW'],
-    ...transactionOutLogMessages['zh-TW'],
     ...communityManageMessages['zh-TW'],
     ...propertyCompanyManageMessages['zh-TW'],
     ...propertyCommunityMessages['zh-TW'],
