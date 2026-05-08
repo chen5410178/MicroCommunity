@@ -36,7 +36,7 @@
           <i class="el-icon-plus"></i>
           {{ $t('simplifyRoomFee.batchPayment') }}
         </el-button>
-        <el-button type="primary" size="small" style="margin-left:10px" v-if="hasPrivilege('502020080570210194')"
+        <el-button type="primary" size="small" style="margin-left:10px" v-if="hasPrivilege('502020082314267912')"
           @click="toRoomPrePayFeeOrder">
           <i class="el-icon-plus"></i>
           {{ $t('simplifyRoomFee.prePayFee') }}
