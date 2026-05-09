@@ -6,7 +6,7 @@ import com.java110.core.context.ICmdDataFlowContext;
 import com.java110.dto.fee.FeeDto;
 import com.java110.dto.owner.OwnerAppUserDto;
 import com.java110.dto.owner.OwnerDto;
-import com.java110.intf.fee.IOweFeeInnerServiceSMO;
+import com.java110.intf.fee.IFeeInnerServiceSMO;
 import com.java110.intf.user.IOwnerAppUserV1InnerServiceSMO;
 import com.java110.intf.user.IOwnerV1InnerServiceSMO;
 import com.java110.utils.exception.CmdException;
@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service("getOwnerOweFeeImpl")
@@ -40,7 +41,7 @@ public class GetOwnerOweFeeImpl implements IMallCommonApiBmo {
      * 欠费查询业务接口
      */
     @Autowired
-    private IOweFeeInnerServiceSMO oweFeeInnerServiceSMOImpl;
+    private IFeeInnerServiceSMO feeInnerServiceSMOImpl;
 
     @Override
     public void validate(ICmdDataFlowContext context, JSONObject reqJson) {
@@ -115,8 +116,8 @@ public class GetOwnerOweFeeImpl implements IMallCommonApiBmo {
             feeDto.setTargetEndTime(targetEndTime);
         }
 
-        // 调用欠费查询服务
-        List<FeeDto> feeDtos = oweFeeInnerServiceSMOImpl.queryOwnerOweFee(feeDto);
+        List<FeeDto> feeDtos =  feeInnerServiceSMOImpl.queryFees(feeDto);//查询费用项目
+
         ResponseEntity<String> responseEntity = ResultVo.createResponseEntity(feeDtos);        // 设置响应结果
         context.setResponseEntity(responseEntity);
     }
