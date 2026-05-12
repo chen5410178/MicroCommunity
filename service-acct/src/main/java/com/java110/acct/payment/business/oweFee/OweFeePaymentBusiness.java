@@ -177,6 +177,7 @@ public class OweFeePaymentBusiness implements IPaymentBusiness {
 
         JSONObject saveFees = new JSONObject();
         saveFees.put("orderId", orderId);
+        saveFees.put("payOrderId", orderId);
         saveFees.put("userId", userDtos.get(0).getUserId());
         saveFees.put("money", money);
         saveFees.put("communityId", reqJson.getString("communityId"));

@@ -140,7 +140,7 @@ public class ApplyRefundDepositCmd extends Cmd {
         refundFeeOrderPo.setCommunityId(payFeeOrderDtos.get(0).getCommunityId());
         refundFeeOrderPo.setPayerObjType(payFeeOrderDtos.get(0).getPayerObjType());
         refundFeeOrderPo.setPayerObjId(payFeeOrderDtos.get(0).getPayerObjId());
-        refundFeeOrderPo.setPayOrderId(payFeeOrderDtos.get(0).getPayOrderId());
+        refundFeeOrderPo.setPayOrderId(payFeeOrderDtos.get(0).getExtOrderId());
 
         refundFeeOrderV1InnerServiceSMOImpl.saveRefundFeeOrder(refundFeeOrderPo);
 

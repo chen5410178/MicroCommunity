@@ -128,7 +128,6 @@ const routes = [
         path: '/views/community/propertyCommunity',
         name: '/views/community/propertyCommunity',
         component: () => import('@/views/community/propertyCommunityList.vue'),
-        meta: { title: '物业小区' }
       },
       {
         path: '/pages/community/cityArea',

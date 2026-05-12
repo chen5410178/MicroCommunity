@@ -102,6 +102,9 @@ public class FeeDetailDto extends PageDto implements Serializable {
     private String deductionAmount;
     private String lateAmount;
     private String giftAmount;
+    private String feeTime;
+    private String feeStartTime;
+    private String feeEndTime;
 
     public String getPrimeRate() {
         return primeRate;
@@ -485,5 +488,24 @@ public class FeeDetailDto extends PageDto implements Serializable {
 
     public void setGiftAmount(String giftAmount) {
         this.giftAmount = giftAmount;
+    }
+
+    public String getFeeTime() {
+        return feeTime;
+    }
+    public void setFeeTime(String feeTime) {
+        this.feeTime = feeTime;
+    }
+    public String getFeeStartTime() {
+        return feeStartTime;
+    }
+    public void setFeeStartTime(String feeStartTime) {
+        this.feeStartTime = feeStartTime;
+    }
+    public String getFeeEndTime() {
+        return feeEndTime;
+    }
+    public void setFeeEndTime(String feeEndTime) {
+        this.feeEndTime = feeEndTime;
     }
 }
