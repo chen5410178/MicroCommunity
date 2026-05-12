@@ -213,7 +213,8 @@ public class OweFeePaymentBusiness implements IPaymentBusiness {
         String amount = paramIn.getString("money");
         JSONArray feeConfigs = reqJson.getJSONArray("feeConfigs");
 
-        batchPayFeeInnerServiceSMOImpl.batchPayFee(new BatchPayFeeDto(communityId, primeRate, remark, acctId, payOrderId, userDtos.get(0), feeConfigs));
+        //String communityId, String primeRate, String acctId, String payOrderId, String remark, UserDto userDto, JSONArray feeConfigs
+        batchPayFeeInnerServiceSMOImpl.batchPayFee(new BatchPayFeeDto(communityId, primeRate,acctId, payOrderId, remark,  userDtos.get(0), feeConfigs));
     }
 
 
