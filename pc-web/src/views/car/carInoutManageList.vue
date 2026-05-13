@@ -86,12 +86,12 @@
               </el-table-column>
               <el-table-column prop="carNum" :label="$t('carInoutManage.carNum')" align="center" />
               <el-table-column prop="paNum" :label="$t('carInoutManage.parkingArea')" align="center" />
-              <el-table-column prop="feeName" :label="$t('carInoutManage.feeRule')" align="center" />
+              <!-- <el-table-column prop="feeName" :label="$t('carInoutManage.feeRule')" align="center" /> -->
               <el-table-column prop="carTypeName" :label="$t('carInoutManage.carType')" align="center" />
               <el-table-column prop="inTime" :label="$t('carInoutManage.inTime')" align="center" />
               <el-table-column :label="$t('carInoutManage.outTime')" align="center">
                 <template slot-scope="scope">
-                  {{ scope.row.carInout === '3307' ? scope.row.outTime : '-' }}
+                  {{ scope.row.carInout === '3307' ? scope.row.openTime : '-' }}
                 </template>
               </el-table-column>
               <el-table-column :label="$t('carInoutManage.parkingTime')" align="center">
