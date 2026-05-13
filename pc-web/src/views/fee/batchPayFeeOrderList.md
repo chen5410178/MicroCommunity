@@ -461,7 +461,7 @@
                 feePrices: '',
                 orgFeePrices: 0.0,
                 receiptIds: '',
-                printUrl: '/print.html#/pages/property/printPayFee',
+                printUrl: '/#/pages/property/printPayFee',
                 accountAmount: '',
                 acctId: '',
                 isBatch: '',
@@ -1290,7 +1290,7 @@
                     roomName: $that.batchPayFeeOrderInfo.roomName
                 });
                 //打印催交单
-                window.open('/print.html#/pages/property/printBatchFee?roomId=' + $that.batchPayFeeOrderInfo.payObjId)
+                window.open('/#/pages/property/printBatchFee?roomId=' + $that.batchPayFeeOrderInfo.payObjId)
             },
             _doComputeTotalFee: function () {
                 let _payObjs = $that.batchPayFeeOrderInfo.batchFees;

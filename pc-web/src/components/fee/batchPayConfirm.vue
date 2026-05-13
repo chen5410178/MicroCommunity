@@ -191,7 +191,7 @@ export default {
         feePrices: '',
         orgFeePrices: 0.0,
         receiptIds: '',
-        printUrl: '/print.html#/pages/property/printPayFee',
+        printUrl: '/#/pages/property/printPayFee',
         accountAmount: '',
         acctId: '',
         isBatch: '',

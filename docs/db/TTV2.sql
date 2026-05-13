@@ -16501,11 +16501,11 @@ CREATE TABLE `fee_print_page_template` (
 -- ----------------------------
 -- Records of fee_print_page_template
 -- ----------------------------
-INSERT INTO `fee_print_page_template` VALUES ('1', '通用收据模板', '/print.html#/pages/property/printPayFee', '2021-09-16 23:44:13', '0');
-INSERT INTO `fee_print_page_template` VALUES ('2', '邦泰物业模板', '/print.html#/pages/property/printPayFeeBangTai', '2021-09-17 00:03:17', '0');
-INSERT INTO `fee_print_page_template` VALUES ('3', '宗鑫物业收据模板', '/print.html#/pages/property/printPayFeeXinShiDai', '2021-09-17 00:03:17', '0');
-INSERT INTO `fee_print_page_template` VALUES ('4', '祥云物流园区', '/print.html#/pages/property/printPayFeeXiangyun', '2021-09-16 23:44:13', '0');
-INSERT INTO `fee_print_page_template` VALUES ('5', '东莞市天麟物业', '/print.html#/pages/property/printPayFeeTianlin', '2021-09-16 23:44:13', '0');
+INSERT INTO `fee_print_page_template` VALUES ('1', '通用收据模板', '/#/pages/property/printPayFee', '2021-09-16 23:44:13', '0');
+INSERT INTO `fee_print_page_template` VALUES ('2', '邦泰物业模板', '/#/pages/property/printPayFeeBangTai', '2021-09-17 00:03:17', '0');
+INSERT INTO `fee_print_page_template` VALUES ('3', '宗鑫物业收据模板', '/#/pages/property/printPayFeeXinShiDai', '2021-09-17 00:03:17', '0');
+INSERT INTO `fee_print_page_template` VALUES ('4', '祥云物流园区', '/#/pages/property/printPayFeeXiangyun', '2021-09-16 23:44:13', '0');
+INSERT INTO `fee_print_page_template` VALUES ('5', '东莞市天麟物业', '/#/pages/property/printPayFeeTianlin', '2021-09-16 23:44:13', '0');
 
 -- ----------------------------
 -- Table structure for fee_print_spec

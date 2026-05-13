@@ -31,7 +31,7 @@ export default {
       visible: false,
       communityId: '',
       payFeeOrderResultInfo: {
-        printUrl: '/print.html#/pages/property/printPayFee',
+        printUrl: '/#/pages/property/printPayFee',
         receiptIds: ''
       }
     }

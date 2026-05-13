@@ -176,7 +176,7 @@ export default {
         },
         _printPrePayFeeReceipt() {
             const _selectPpfIds = this.prePayFeeDetailInfo.selectPpfIds.join(',')
-            window.open(`/print.html#/pages/print/printPrePayFeeReceipt?ppfIds=${_selectPpfIds}&payerObjId=${this.prePayFeeDetailInfo.payerObjId}`)
+            window.open(`/#/pages/print/printPrePayFeeReceipt?ppfIds=${_selectPpfIds}&payerObjId=${this.prePayFeeDetailInfo.payerObjId}`)
         },
         async _updatePrePayFeeWay(fee, way) {
             try {
