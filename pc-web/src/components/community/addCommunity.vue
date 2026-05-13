@@ -1,26 +1,26 @@
 ﻿<template>
   <el-dialog :title="$t('addCommunity.title')" :visible.sync="visible" width="40%" @close="clearAddCommunityInfo">
-    <el-form ref="form" :model="addCommunityInfo" label-width="120px" class="text-left">
-      <el-form-item :label="$t('addCommunity.name')" prop="name" required>
+    <el-form ref="form" :model="addCommunityInfo" :rules="rules" label-width="120px" class="text-left">
+      <el-form-item :label="$t('addCommunity.name')" prop="name">
         <el-input v-model="addCommunityInfo.name" :placeholder="$t('addCommunity.name')" />
       </el-form-item>
       <el-form-item :label="$t('addCommunity.area')" prop="area">
         <area-select ref="areaSelectRef" @selectArea="selectArea" />
       </el-form-item>
-      <el-form-item :label="$t('addCommunity.address')" prop="tmpAddress" required>
+      <el-form-item :label="$t('addCommunity.address')" prop="tmpAddress">
         <el-input v-model="addCommunityInfo.tmpAddress" :placeholder="$t('addCommunity.address')" />
       </el-form-item>
-      <el-form-item :label="$t('addCommunity.nearbyLandmarks')" prop="nearbyLandmarks" required>
+      <el-form-item :label="$t('addCommunity.nearbyLandmarks')" prop="nearbyLandmarks">
         <el-input v-model="addCommunityInfo.nearbyLandmarks"
           :placeholder="$t('addCommunity.nearbyLandmarks')" />
       </el-form-item>
-      <el-form-item :label="$t('addCommunity.tel')" prop="tel" required>
+      <el-form-item :label="$t('addCommunity.tel')" prop="tel">
         <el-input v-model="addCommunityInfo.tel" :placeholder="$t('addCommunity.tel')" />
       </el-form-item>
-      <el-form-item :label="$t('addCommunity.payFeeMonth')" prop="payFeeMonth" required>
+      <el-form-item :label="$t('addCommunity.payFeeMonth')" prop="payFeeMonth">
         <el-input v-model="addCommunityInfo.payFeeMonth" :placeholder="$t('addCommunity.payFeeMonth')" />
       </el-form-item>
-      <el-form-item :label="$t('addCommunity.feePrice')" prop="feePrice" required>
+      <el-form-item :label="$t('addCommunity.feePrice')" prop="feePrice">
         <el-input v-model="addCommunityInfo.feePrice" :placeholder="$t('addCommunity.feePrice')" />
       </el-form-item>
       <el-form-item v-for="(item, index) in addCommunityInfo.attrs" :key="index" :label="item.specName"
@@ -50,6 +50,20 @@ export default {
   data() {
     return {
       visible: false,
+      rules: {
+        name: [
+          { required: true, message: this.$t('addCommunity.validate.name'), trigger: 'blur' }
+        ],
+        tmpAddress: [
+          { required: true, message: this.$t('addCommunity.validate.address'), trigger: 'blur' }
+        ],
+        nearbyLandmarks: [
+          { required: true, message: this.$t('addCommunity.validate.nearbyLandmarks'), trigger: 'blur' }
+        ],
+        tel: [
+          { required: true, message: this.$t('addCommunity.validate.tel'), trigger: 'blur' }
+        ]
+      },
       addCommunityInfo: {
         name: '',
         address: '',

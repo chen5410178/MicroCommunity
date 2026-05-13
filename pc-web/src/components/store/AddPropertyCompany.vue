@@ -1,22 +1,22 @@
 ﻿<template>
   <el-dialog :title="$t('propertyCompanyManage.add')" :visible="visible" width="40%" @close="handleClose">
-    <el-form ref="form" :model="formData" label-width="120px" class="text-left">
-      <el-form-item :label="$t('propertyCompanyManage.name')" prop="name" required>
+    <el-form ref="form" :model="formData" :rules="rules" label-width="120px" class="text-left">
+      <el-form-item :label="$t('propertyCompanyManage.name')" prop="name">
         <el-input v-model="formData.name" />
       </el-form-item>
-      <el-form-item :label="$t('propertyCompanyManage.address')" prop="address" required>
+      <el-form-item :label="$t('propertyCompanyManage.address')" prop="address">
         <el-input v-model="formData.address" />
       </el-form-item>
-      <el-form-item :label="$t('propertyCompanyManage.tel')" prop="tel" required>
+      <el-form-item :label="$t('propertyCompanyManage.tel')" prop="tel">
         <el-input v-model="formData.tel" />
       </el-form-item>
-      <el-form-item :label="$t('propertyCompanyManage.corporation')" prop="corporation" required>
+      <el-form-item :label="$t('propertyCompanyManage.corporation')" prop="corporation">
         <el-input v-model="formData.corporation" />
       </el-form-item>
-      <el-form-item :label="$t('propertyCompanyManage.foundingTime')" prop="foundingTime" required>
+      <el-form-item :label="$t('propertyCompanyManage.foundingTime')" prop="foundingTime">
         <el-date-picker v-model="formData.foundingTime" type="date" value-format="yyyy-MM-dd" style="width: 100%" />
       </el-form-item>
-      <el-form-item :label="$t('propertyCompanyManage.landmark')" prop="nearbyLandmarks" required>
+      <el-form-item :label="$t('propertyCompanyManage.landmark')" prop="nearbyLandmarks">
         <el-input v-model="formData.nearbyLandmarks" />
       </el-form-item>
       <el-form-item :label="$t('propertyCompanyManage.communities')">
@@ -52,6 +52,26 @@ export default {
   data() {
     return {
       visible: false,
+      rules: {
+        name: [
+          { required: true, message: this.$t('propertyCompanyManage.validate.name'), trigger: 'blur' }
+        ],
+        address: [
+          { required: true, message: this.$t('propertyCompanyManage.validate.address'), trigger: 'blur' }
+        ],
+        tel: [
+          { required: true, message: this.$t('propertyCompanyManage.validate.tel'), trigger: 'blur' }
+        ],
+        corporation: [
+          { required: true, message: this.$t('propertyCompanyManage.validate.corporation'), trigger: 'blur' }
+        ],
+        foundingTime: [
+          { required: true, message: this.$t('propertyCompanyManage.validate.foundingTime'), trigger: 'blur' }
+        ],
+        nearbyLandmarks: [
+          { required: true, message: this.$t('propertyCompanyManage.validate.nearbyLandmarks'), trigger: 'blur' }
+        ]
+      },
       formData: {
         name: '',
         address: '',

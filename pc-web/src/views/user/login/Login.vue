@@ -44,8 +44,8 @@ export default {
       logo: '',
       companyName:'',
       loginForm: {
-        username: 'wuxw',
-        passwd: 'admin',
+        username: '',
+        passwd: '',
         validateCode: ''
       },
       captchaUrl: '',

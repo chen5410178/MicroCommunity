@@ -51,7 +51,15 @@ export const messages = {
       belongTo: 'Belong To',
       role: 'Role',
       selectUserFirst: 'Please select a user first',
-      noCommunityAssigned: 'No community assigned'
+      noCommunityAssigned: 'No community assigned',
+      validate: {
+        name: 'Name cannot be empty',
+        address: 'Address cannot be empty',
+        tel: 'Telephone cannot be empty',
+        corporation: 'Corporation cannot be empty',
+        foundingTime: 'Founding time cannot be empty',
+        nearbyLandmarks: 'Landmark cannot be empty'
+      }
     }
   },
   zh: {
@@ -106,7 +114,15 @@ export const messages = {
       belongTo: '所属',
       role: '角色',
       selectUserFirst: '请先选择用户',
-noCommunityAssigned: '未分配小区'
+      noCommunityAssigned: '未分配小区',
+      validate: {
+        name: '名称不能为空',
+        address: '地址不能为空',
+        tel: '电话不能为空',
+        corporation: '公司法人不能为空',
+        foundingTime: '成立日期不能为空',
+        nearbyLandmarks: '地标不能为空'
+      }
     },
   },
   'zh-TW': {
@@ -161,7 +177,15 @@ noCommunityAssigned: '未分配小区'
       belongTo: '所屬',
       role: '角色',
       selectUserFirst: '請先選擇用戶',
-      noCommunityAssigned: '未分配小區'
+      noCommunityAssigned: '未分配小區',
+      validate: {
+        name: '名稱不能為空',
+        address: '地址不能為空',
+        tel: '電話不能為空',
+        corporation: '公司法人不能為空',
+        foundingTime: '成立日期不能為空',
+        nearbyLandmarks: '地標不能為空'
+      }
     },
   }
 }
