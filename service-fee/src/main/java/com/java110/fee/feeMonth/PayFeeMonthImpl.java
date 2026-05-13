@@ -103,17 +103,17 @@ public class PayFeeMonthImpl implements IPayFeeMonth {
     @Override
     public void payFeeDetailRefreshFeeMonth(String feeId, String detailId, String communityId) {
         // todo 查询费用
-        FeeDto feeDto = new FeeDto();
-        feeDto.setCommunityId(communityId);
-        feeDto.setFeeId(feeId);
-        List<FeeDto> tmpFeeDtos = feeInnerServiceSMOImpl.queryFees(feeDto);
-
-        Assert.listOnlyOne(tmpFeeDtos, "费用不存在");
-
-        // todo 准备离散的基础数据
-        PayFeeMonthOwnerDto payFeeMonthOwnerDto = payFeeMonthHelp.generatorOwnerRoom(feeDto);
-
-        payFeeMonthHelp.generatorPayFeeDetailMonth(feeDto, payFeeMonthOwnerDto);
+//        FeeDto feeDto = new FeeDto();
+//        feeDto.setCommunityId(communityId);
+//        feeDto.setFeeId(feeId);
+//        List<FeeDto> tmpFeeDtos = feeInnerServiceSMOImpl.queryFees(feeDto);
+//
+//        Assert.listOnlyOne(tmpFeeDtos, "费用不存在");
+//
+//        // todo 准备离散的基础数据
+//        PayFeeMonthOwnerDto payFeeMonthOwnerDto = payFeeMonthHelp.generatorOwnerRoom(feeDto);
+//
+//        payFeeMonthHelp.generatorPayFeeDetailMonth(feeDto, payFeeMonthOwnerDto);
 
     }
 
@@ -146,26 +146,26 @@ public class PayFeeMonthImpl implements IPayFeeMonth {
     @Override
     @Async
     public void doGeneratorFeeMonths(List<String> feeIds, String communityId) {
-        for (String feeId : feeIds) {
-            doGeneratorOrRefreshFeeMonth(feeId, communityId);
-        }
+//        for (String feeId : feeIds) {
+//            doGeneratorOrRefreshFeeMonth(feeId, communityId);
+//        }
     }
 
     @Override
     @Async
     public void doGeneratorOweFees(List<String> feeIds, String communityId) {
-        for (String feeId : feeIds) {
-            // todo 查询费用
-            FeeDto feeDto = new FeeDto();
-            feeDto.setCommunityId(communityId);
-            feeDto.setFeeId(feeId);
-            List<FeeDto> tmpFeeDtos = feeInnerServiceSMOImpl.queryFees(feeDto);
-
-           if(ListUtil.isNull(tmpFeeDtos)){
-               continue;
-           }
-            generatorOweFeeInnerServiceSMOImpl.computeOweFee(tmpFeeDtos.get(0));
-        }
+//        for (String feeId : feeIds) {
+//            // todo 查询费用
+//            FeeDto feeDto = new FeeDto();
+//            feeDto.setCommunityId(communityId);
+//            feeDto.setFeeId(feeId);
+//            List<FeeDto> tmpFeeDtos = feeInnerServiceSMOImpl.queryFees(feeDto);
+//
+//           if(ListUtil.isNull(tmpFeeDtos)){
+//               continue;
+//           }
+//            generatorOweFeeInnerServiceSMOImpl.computeOweFee(tmpFeeDtos.get(0));
+//        }
     }
 
 
