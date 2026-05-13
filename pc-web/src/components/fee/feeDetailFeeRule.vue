@@ -160,7 +160,7 @@ export default {
         roomId: '',
         roomName: '',
         ownerName: '',
-        state: ''
+        state: '2008001'
       },
       currentPage: 1,
       pageSize: 10,
