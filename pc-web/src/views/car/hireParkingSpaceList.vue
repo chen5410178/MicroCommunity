@@ -10,10 +10,11 @@
         </div>
       </div>
 
-      <el-form ref="form" :model="hireParkingSpaceInfo" :rules="dynamicRules" label-width="120px" label-position="right">
+      <el-form ref="form" :model="hireParkingSpaceInfo" :rules="dynamicRules" label-width="120px"
+        label-position="right">
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item :label="$t('hireParkingSpace.carNum')" prop="carNum" >
+            <el-form-item :label="$t('hireParkingSpace.carNum')" prop="carNum">
               <el-input v-model="hireParkingSpaceInfo.carNum" :placeholder="$t('hireParkingSpace.carNumPlaceholder')" />
             </el-form-item>
           </el-col>
@@ -27,11 +28,11 @@
 
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item :label="$t('hireParkingSpace.carType')" prop="carType" >
+            <el-form-item :label="$t('hireParkingSpace.carType')" prop="carType">
               <el-select v-model="hireParkingSpaceInfo.carType" class="w-full"
                 :placeholder="$t('hireParkingSpace.carTypePlaceholder')">
-                <el-option v-for="carType in hireParkingSpaceInfo.carTypes" :key="carType.statusCd" :label="carType.name"
-                  :value="carType.statusCd" />
+                <el-option v-for="carType in hireParkingSpaceInfo.carTypes" :key="carType.statusCd"
+                  :label="carType.name" :value="carType.statusCd" />
               </el-select>
             </el-form-item>
           </el-col>
@@ -45,7 +46,7 @@
 
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item :label="$t('hireParkingSpace.licenseType')" prop="leaseType" >
+            <el-form-item :label="$t('hireParkingSpace.licenseType')" prop="leaseType">
               <el-select v-model="hireParkingSpaceInfo.leaseType" class="w-full"
                 :placeholder="$t('hireParkingSpace.licenseTypePlaceholder')" @change="changeLeaseType">
                 <el-option :label="$t('hireParkingSpace.monthlyRent')" value="H" />
@@ -59,43 +60,43 @@
 
         <el-row v-if="showDateRange" :gutter="20">
           <el-col :span="12">
-            <el-form-item :label="$t('hireParkingSpace.startTime')" prop="startTime" >
-              <el-date-picker v-model="hireParkingSpaceInfo.startTime" type="date" value-format="yyyy-MM-dd" class="w-full"
-                :placeholder="$t('hireParkingSpace.startTimePlaceholder')" />
+            <el-form-item :label="$t('hireParkingSpace.startTime')" prop="startTime">
+              <el-date-picker v-model="hireParkingSpaceInfo.startTime" type="date" value-format="yyyy-MM-dd"
+                class="w-full" :placeholder="$t('hireParkingSpace.startTimePlaceholder')" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item :label="$t('hireParkingSpace.endTime')" prop="endTime" >
-              <el-date-picker v-model="hireParkingSpaceInfo.endTime" type="date" value-format="yyyy-MM-dd" class="w-full"
-                :placeholder="$t('hireParkingSpace.endTimePlaceholder')" />
+            <el-form-item :label="$t('hireParkingSpace.endTime')" prop="endTime">
+              <el-date-picker v-model="hireParkingSpaceInfo.endTime" type="date" value-format="yyyy-MM-dd"
+                class="w-full" :placeholder="$t('hireParkingSpace.endTimePlaceholder')" />
             </el-form-item>
           </el-col>
         </el-row>
 
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item :label="$t('hireParkingSpace.owner')" prop="ownerName" >
+            <el-form-item :label="$t('hireParkingSpace.owner')" prop="ownerName">
               <el-input v-model="hireParkingSpaceInfo.ownerName" disabled
                 :placeholder="$t('hireParkingSpace.ownerPlaceholder')" />
             </el-form-item>
           </el-col>
           <el-col :span="4">
-              <div class="">
-                <el-button type="primary" size="small" @click="openChooseOwner">
-                  {{ $t('common.select') }}
-                </el-button>
-              </div>
+            <div class="">
+              <el-button type="primary" size="small" @click="openChooseOwner">
+                {{ $t('common.select') }}
+              </el-button>
+            </div>
           </el-col>
           <el-col :span="8">
-            <el-form-item :label="$t('hireParkingSpace.parkingSpace')" prop="psName" >
+            <el-form-item :label="$t('hireParkingSpace.parkingSpace')" prop="psName">
               <el-input v-model="hireParkingSpaceInfo.psName" disabled
                 :placeholder="$t('hireParkingSpace.parkingSpacePlaceholder')" />
             </el-form-item>
           </el-col>
           <el-col :span="4">
-                <el-button type="primary" size="small" @click="openSearchParkingSpaceModel">
-                  {{ $t('common.select') }}
-                </el-button>
+            <el-button type="primary" size="small" @click="openSearchParkingSpaceModel">
+              {{ $t('common.select') }}
+            </el-button>
           </el-col>
         </el-row>
 
@@ -233,8 +234,12 @@ export default {
 
     async loadCarAttrSpec() {
       try {
-        const attrs = await getAttrSpecList('owner_car_attr')
-        this.hireParkingSpaceInfo.attrs = attrs.map(item => {
+        const {data} = await getAttrSpecList({
+          page: 1,
+          row: 100,
+          tableName: 'owner_car_attr'
+        })
+        this.hireParkingSpaceInfo.attrs = data.map(item => {
           if (item.specShow === 'Y') {
             return {
               ...item,
