@@ -82,8 +82,8 @@ export const messages = {
       saturday: 'Saturday',
       sunday: 'Sunday',
       map: 'Map',
-              remove:'Remove',
-              operationSuccess:'Operation successfully',
+      remove: 'Remove',
+      operationSuccess: 'Operation successfully',
     }
   },
   zh: {
@@ -169,8 +169,8 @@ export const messages = {
       saturday: '星期六',
       sunday: '星期日',
       map: '地图',
-      remove:'删除',
-      operationSuccess:'操作成功',
+      remove: '删除',
+      operationSuccess: '操作成功',
     }
   },
   'zh-TW': {
@@ -256,8 +256,8 @@ export const messages = {
       saturday: '星期六',
       sunday: '星期日',
       map: '地圖',
-      remove:'刪除',
-      operationSuccess:'操作成功',
+      remove: '刪除',
+      operationSuccess: '操作成功',
     }
   }
 }

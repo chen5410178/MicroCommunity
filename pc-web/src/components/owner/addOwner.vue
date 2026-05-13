@@ -177,7 +177,7 @@ export default {
 
     async loadAttributes() {
       try {
-        const {data} = await getAttrSpecList({ page: 1, row: 100, tableName: 'building_owner_attr' })
+        const { data } = await getAttrSpecList({ page: 1, row: 100, tableName: 'building_owner_attr' })
         this.attrs = data.filter(item => item.specShow === 'Y')
 
         for (const attr of this.attrs) {
@@ -233,7 +233,7 @@ export default {
           this.visible = false
           this.$emit('success')
         } catch (error) {
-          this.$message.error(this.$t('listOwner.saveFailed'))
+          this.$message.error(error || this.$t('common.submitFailed'))
         }
       })
     },
