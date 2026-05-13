@@ -1,10 +1,13 @@
 package com.java110.community.bmo.roomRenovationRecord.impl;
 
 import com.java110.community.bmo.roomRenovationRecord.IGetRoomRenovationRecordBMO;
+import com.java110.dto.file.FileRelDto;
+import com.java110.intf.common.IFileRelInnerServiceSMO;
 import com.java110.intf.community.IRoomRenovationRecordInnerServiceSMO;
 import com.java110.po.room.RoomRenovationRecordPo;
 import com.java110.utils.cache.MappingCache;
 import com.java110.utils.constant.MappingConstant;
+import com.java110.utils.util.ListUtil;
 import com.java110.utils.util.StringUtil;
 import com.java110.vo.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +30,9 @@ public class GetRoomRenovationRecordBMOImpl implements IGetRoomRenovationRecordB
     @Autowired
     private IRoomRenovationRecordInnerServiceSMO roomRenovationRecordInnerServiceSMOImpl;
 
+    @Autowired
+    private IFileRelInnerServiceSMO fileRelInnerServiceSMOImpl;
+
     /**
      * 查询装修记录信息(与文件表关联)
      *
@@ -37,17 +43,29 @@ public class GetRoomRenovationRecordBMOImpl implements IGetRoomRenovationRecordB
     public ResponseEntity<String> get(RoomRenovationRecordPo roomRenovationRecordPo) {
         int count = roomRenovationRecordInnerServiceSMOImpl.queryRoomRenovationRecordsCount(roomRenovationRecordPo);
         List<RoomRenovationRecordPo> roomRenovationRecordPos = new ArrayList<>();
+        List<FileRelDto> fileRelDtos = null;
         if (count > 0) {
             List<RoomRenovationRecordPo> roomRenovationRecordList = roomRenovationRecordInnerServiceSMOImpl.queryRoomRenovationRecords(roomRenovationRecordPo);
-            String imgUrl = MappingCache.getValue(MappingConstant.FILE_DOMAIN,"IMG_PATH");
+            String imgUrl = MappingCache.getValue(MappingConstant.FILE_DOMAIN, "IMG_PATH");
             for (RoomRenovationRecordPo renovationRecordPo : roomRenovationRecordList) {
                 if (!StringUtil.isEmpty(renovationRecordPo.getFileRealName()) && renovationRecordPo.getRelTypeCd().equals("19000")) {
-                    renovationRecordPo.setUrl(imgUrl +
-                            renovationRecordPo.getFileRealName());
+                    if (renovationRecordPo.getFileRealName().startsWith("http")) {
+                        renovationRecordPo.setUrl(
+                                renovationRecordPo.getFileRealName());
+                    } else {
+                        renovationRecordPo.setUrl(imgUrl +
+                                renovationRecordPo.getFileRealName());
+                    }
                 } else if (!StringUtil.isEmpty(renovationRecordPo.getFileRealName()) && renovationRecordPo.getRelTypeCd().equals("21000")) {
-                    renovationRecordPo.setUrl(imgUrl +
-                            renovationRecordPo.getFileRealName());
+                    if (renovationRecordPo.getFileRealName().startsWith("http")) {
+                        renovationRecordPo.setUrl(
+                                renovationRecordPo.getFileRealName());
+                    } else {
+                        renovationRecordPo.setUrl(imgUrl +
+                                renovationRecordPo.getFileRealName());
+                    }
                 }
+
                 roomRenovationRecordPos.add(renovationRecordPo);
             }
         } else {
