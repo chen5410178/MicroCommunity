@@ -335,8 +335,18 @@ public class UpdateReturnPayFeeCmd extends Cmd {
             refundFee = refundFee.add(new BigDecimal(refundFeeDetailDto.getReceivedAmount()));
         }
 
+        // 根据PayOrderId 查询extOrderId
+        PayFeeOrderDto payFeeOrderDto = new PayFeeOrderDto();
+        payFeeOrderDto.setPayOrderId(refundFeeOrderDto.getPayOrderId());
+        payFeeOrderDto.setCommunityId(refundFeeOrderDto.getCommunityId());
+        List<PayFeeOrderDto> payFeeOrderDtos = payFeeOrderV1InnerServiceSMOImpl.queryPayFeeOrders(payFeeOrderDto);
+
+        if(ListUtil.isNull(payFeeOrderDtos)){ // 订单不存在
+            return;
+        }
+
         OnlinePayDto onlinePayDto = new OnlinePayDto();
-        onlinePayDto.setOrderId(refundFeeOrderDto.getPayOrderId());
+        onlinePayDto.setOrderId(payFeeOrderDtos.get(0).getExtOrderId());
         List<OnlinePayDto> onlinePayDtos = onlinePayV1InnerServiceSMOImpl.queryOnlinePays(onlinePayDto);
         if (ListUtil.isNull(onlinePayDtos)) {
             return;
