@@ -32,10 +32,7 @@ import com.java110.po.resource.ResourceStoreUseRecordPo;
 import com.java110.po.user.UserStorehousePo;
 import com.java110.utils.constant.FeeTypeConstant;
 import com.java110.utils.exception.CmdException;
-import com.java110.utils.util.Assert;
-import com.java110.utils.util.BeanConvertUtil;
-import com.java110.utils.util.DateUtil;
-import com.java110.utils.util.StringUtil;
+import com.java110.utils.util.*;
 import com.java110.vo.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -121,12 +118,10 @@ public class RepairForceFinishCmd extends Cmd {
         RepairUserDto repairUserDto = new RepairUserDto();
         repairUserDto.setRepairId(reqJson.getString("repairId"));
         repairUserDto.setCommunityId(reqJson.getString("communityId"));
-        repairUserDto.setState(RepairUserDto.STATE_DOING);
+        //repairUserDto.setState(RepairUserDto.STATE_DOING);
         List<RepairUserDto> repairUserDtos = repairUserInnerServiceSMOImpl.queryRepairUsers(repairUserDto);
-        if (repairUserDtos == null || repairUserDtos.size() != 1) {
-            ResponseEntity<String> responseEntity = ResultVo.createResponseEntity(ResultVo.CODE_BUSINESS_VERIFICATION, "当前用户没有需要处理订单！");
-            context.setResponseEntity(responseEntity);
-            return;
+        if (ListUtil.isNull(repairUserDtos)) {
+            throw new CmdException("当前用户没有需要处理订单！");
         }
         JSONArray json = JSONArray.parseArray(choosedGoodsList); //用到的物品列表
         if (json != null && json.size() > 0 && ("1001".equals(maintenanceType) || "1003".equals(maintenanceType))) { //有偿或需要用料
@@ -411,11 +406,11 @@ public class RepairForceFinishCmd extends Cmd {
         repairUserPo.setEndTime(DateUtil.getNow(DateUtil.DATE_FORMATE_STRING_A));
         repairUserPo.setState(RepairUserDto.STATE_CLOSE);
         repairUserPo.setRepairId(reqJson.getString("repairId"));
-        repairUserPo.setPreStaffId(repairUserDtos.get(0).getStaffId());
-        repairUserPo.setPreStaffName(repairUserDtos.get(0).getStaffName());
+        repairUserPo.setPreStaffId(repairUserDtos.get(repairUserDtos.size()-1).getStaffId());
+        repairUserPo.setPreStaffName(repairUserDtos.get(repairUserDtos.size()-1).getStaffName());
         repairUserPo.setStaffId(userId);
         repairUserPo.setStaffName(userName);
-        repairUserPo.setPreRuId(repairUserDtos.get(0).getRuId());
+        repairUserPo.setPreRuId(repairUserDtos.get(repairUserDtos.size()-1).getRuId());
         repairUserPo.setRepairEvent(RepairUserDto.REPAIR_EVENT_AUDIT_USER);
         repairUserPo.setContext(reqJson.getString("context"));
         repairUserPo.setCommunityId(reqJson.getString("communityId"));

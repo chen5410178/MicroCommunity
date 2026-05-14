@@ -205,7 +205,7 @@ export default {
           this.$emit('success')
         } catch (error) {
           console.error('强制回单失败:', error)
-          this.$message.error('强制回单失败')
+          this.$message.error(error || '强制回单失败')
         }
       }
     },

@@ -34,6 +34,7 @@ import com.java110.po.fee.PayFeePo;
 import com.java110.po.file.FileRelPo;
 import com.java110.po.owner.RepairPoolPo;
 import com.java110.po.owner.RepairUserPo;
+import com.java110.po.payFee.PayFeeRulePo;
 import com.java110.po.purchase.ResourceStorePo;
 import com.java110.po.resource.ResourceStoreUseRecordPo;
 import com.java110.po.user.UserStorehousePo;
@@ -49,6 +50,7 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Java110Cmd(serviceCode = "ownerRepair.repairFinish")
@@ -255,18 +257,7 @@ public class RepairFinishCmd extends Cmd {
                 context.setResponseEntity(responseEntity);
                 return;
             }
-            PayFeePo feePo = new PayFeePo();
-            feePo.setAmount(String.valueOf(reqJson.getString("")));
-            feePo.setCommunityId(reqJson.getString("communityId"));
-            feePo.setConfigId(feeConfigDtos.get(0).getConfigId());
-            feePo.setEndTime(DateUtil.getNow(DateUtil.DATE_FORMATE_STRING_A));
-            feePo.setFeeFlag(feeConfigDtos.get(0).getFeeFlag());
-            feePo.setFeeId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_feeId));
-            feePo.setFeeTypeCd(FeeTypeConstant.FEE_TYPE_REPAIR);
-            feePo.setIncomeObjId(reqJson.getString("storeId"));
-            feePo.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_ROOM);
-            feePo.setAmount(reqJson.getString("totalPrice"));
-            feePo.setBatchId("-1");
+
             RepairDto repairDto = new RepairDto();
             repairDto.setCommunityId(reqJson.getString("communityId"));
             repairDto.setRepairId(reqJson.getString("repairId"));
@@ -276,11 +267,32 @@ public class RepairFinishCmd extends Cmd {
                 context.setResponseEntity(responseEntity);
                 return;
             }
+
+            String startTime = DateUtil.getNow(DateUtil.DATE_FORMATE_STRING_B);
+            String endTime = DateUtil.getAddMonthStringA(new Date(),1);
+            PayFeePo feePo = new PayFeePo();
+            feePo.setCommunityId(reqJson.getString("communityId"));
+            feePo.setConfigId(feeConfigDtos.get(0).getConfigId());
+            feePo.setEndTime(endTime);
+            feePo.setFeeFlag(feeConfigDtos.get(0).getFeeFlag());
+            feePo.setFeeId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_feeId));
+            feePo.setFeeTypeCd(FeeTypeConstant.FEE_TYPE_REPAIR);
+            feePo.setIncomeObjId(reqJson.getString("storeId"));
+            feePo.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_ROOM);
+            feePo.setAmount(reqJson.getString("totalPrice"));
+            feePo.setReceivableAmount(reqJson.getString("totalPrice"));
+            feePo.setOweAmount(reqJson.getString("totalPrice"));
+            feePo.setBatchId("-1");
             feePo.setPayerObjId(repairDtos.get(0).getRepairObjId());
-            feePo.setStartTime(DateUtil.getNow(DateUtil.DATE_FORMATE_STRING_A));
+            feePo.setPayerObjName(repairDtos.get(0).getRepairObjName());
+            feePo.setOwnerId("-1");
+            feePo.setOwnerName("未知");
+            feePo.setStartTime(startTime);
             feePo.setState(FeeDto.STATE_DOING);
             feePo.setUserId(userId);
             feePo.setbId("-1");
+            feePo.setRuleId("-1");
+            feePo.setFeeTime(startTime);
 
             flag = payFeeV1InnerServiceSMOImpl.savePayFee(feePo);
             if (flag < 1) {
