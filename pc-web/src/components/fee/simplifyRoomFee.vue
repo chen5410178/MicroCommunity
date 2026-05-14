@@ -30,7 +30,10 @@
           <el-option :label="$t('simplifyRoomFee.currentOwner')" value="Y"></el-option>
         </el-select>
       </el-col>
-      <el-col :span="15" class="text-right">
+      <el-col :span="2">
+        <el-button type="primary" size="small" @click="handleQuery">查询</el-button>
+      </el-col>
+      <el-col :span="13" class="text-right">
         <el-button type="primary" size="small" v-if="hasPrivilege('502020082314267912')"
           @click="openBatchPayRoomFeeModal">
           <i class="el-icon-plus"></i>
@@ -269,6 +272,10 @@ export default {
       getDict('pay_fee_config', 'fee_type_cd').then(data => {
         this.simplifyRoomFeeInfo.feeTypeCds = data
       })
+    },
+    handleQuery() {
+      this.currentPage = 1
+      this.listSimplifyRoomFee(1, this.pageSize)
     },
     handleNotify() {
       this.listSimplifyRoomFee(this.currentPage, this.pageSize)
