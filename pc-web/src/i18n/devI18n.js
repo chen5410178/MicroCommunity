@@ -19,6 +19,8 @@ import { messages as attrSpecMessages } from '../views/dev/attrSpecLang'
 import { messages as attrValueMessages } from '../views/dev/attrValueLang'
 import { messages as serviceProvideManageMessages } from '../views/dev/serviceProvideManageLang'
 import { messages as devServiceProvideMessages } from '../views/dev/devServiceProvideLang'
+import { messages as transactionLogManageMessages } from '../views/dev/transactionLogManageLang'
+import { messages as transactionOutLogMessages } from '../views/dev/transactionOutLogLang'
 
 export const messages = {
     en: {
@@ -43,7 +45,9 @@ export const messages = {
         ...attrValueMessages.en,
         ...serviceProvideManageMessages.en,
         ...devServiceProvideMessages.en,
-    },
+        ...transactionLogManageMessages.en,
+        ...transactionOutLogMessages.en
+    },  
     zh: {
         ...appMessages.zh,
         ...serviceMessages.zh,
@@ -66,6 +70,8 @@ export const messages = {
         ...attrValueMessages.zh,
         ...serviceProvideManageMessages.zh,
 ...devServiceProvideMessages.zh,
+        ...transactionLogManageMessages.zh,
+        ...transactionOutLogMessages.zh
     },
     'zh-TW': {
         ...appMessages['zh-TW'],
@@ -89,5 +95,7 @@ export const messages = {
         ...attrValueMessages['zh-TW'],
         ...serviceProvideManageMessages['zh-TW'],
         ...devServiceProvideMessages['zh-TW'],
+        ...transactionLogManageMessages['zh-TW'],
+        ...transactionOutLogMessages['zh-TW']
     }
 }

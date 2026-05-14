@@ -77,7 +77,7 @@ const routes = [
       {
         path: '/pages/log/mqttLog',
         name: '/pages/log/mqttLog',
-        component: () => import('@/views/log/mqttLogList.vue'),
+        component: () => import('@/views/dev/mqttLogList.vue'),
         meta: { title: 'MQTT日志' }
       },
       {

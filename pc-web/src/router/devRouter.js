@@ -133,7 +133,7 @@ export default [
         path: '/pages/dev/transactionLogManage',
         meta: { title: '交互日志' },
         name: '/pages/dev/transactionLogManage',
-        component: () => import('@/views/log/transactionLogManageList.vue')
+        component: () => import('@/views/dev/transactionLogManageList.vue')
     },
     {
         path: '/pages/dev/initializeCommunityManage',
@@ -156,6 +156,7 @@ export default [
         path: '/pages/dev/transactionOutLog',
         meta: { title: '调用三方' },
         name: '/pages/dev/transactionOutLog',
-        component: () => import('@/views/log/transactionOutLogList.vue')
+        component: () => import('@/views/dev/transactionOutLogList.vue')
       },
+      
 ]
