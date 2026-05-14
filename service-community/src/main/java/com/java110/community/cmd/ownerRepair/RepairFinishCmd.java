@@ -268,8 +268,10 @@ public class RepairFinishCmd extends Cmd {
                 return;
             }
 
+            OwnerDto ownerDto = getOwnerDto(repairDtos.get(0).getRepairObjId(), repairDtos.get(0).getCommunityId());
+
             String startTime = DateUtil.getNow(DateUtil.DATE_FORMATE_STRING_B);
-            String endTime = DateUtil.getAddMonthStringA(new Date(),1);
+            String endTime = DateUtil.getAddMonthStringA(new Date(), 1);
             PayFeePo feePo = new PayFeePo();
             feePo.setCommunityId(reqJson.getString("communityId"));
             feePo.setConfigId(feeConfigDtos.get(0).getConfigId());
@@ -287,6 +289,10 @@ public class RepairFinishCmd extends Cmd {
             feePo.setPayerObjName(repairDtos.get(0).getRepairObjName());
             feePo.setOwnerId("-1");
             feePo.setOwnerName("未知");
+            if (ownerDto != null) {
+                feePo.setOwnerId(ownerDto.getMemberId());
+                feePo.setOwnerName(ownerDto.getName());
+            }
             feePo.setStartTime(startTime);
             feePo.setState(FeeDto.STATE_DOING);
             feePo.setUserId(userId);
@@ -349,6 +355,7 @@ public class RepairFinishCmd extends Cmd {
         ResponseEntity<String> responseEntity = ResultVo.createResponseEntity(ResultVo.CODE_OK, ResultVo.MSG_OK);
         context.setResponseEntity(responseEntity);
     }
+
 
     private void dealResource(JSONObject reqJson, String maintenanceType, String userId) {
 
@@ -647,5 +654,36 @@ public class RepairFinishCmd extends Cmd {
         if (flag < 1) {
             throw new CmdException("修改工单失败");
         }
+    }
+
+    /**
+     * 查询业主信息
+     *
+     * @param roomId
+     * @param communityId
+     * @return
+     */
+    private OwnerDto getOwnerDto(String roomId, String communityId) {
+        if (StringUtil.isEmpty(roomId)) {
+            return null;
+        }
+        OwnerRoomRelDto ownerRoomRelDto = new OwnerRoomRelDto();
+        ownerRoomRelDto.setRoomId(roomId);
+        //查询房屋业主关系表
+        List<OwnerRoomRelDto> ownerRoomRelDtos = ownerRoomRelInnerServiceSMO.queryOwnerRoomRels(ownerRoomRelDto);
+        if (ListUtil.isNull(ownerRoomRelDtos)) {
+            return null;
+        }
+        //获取业主id
+        String ownerId = ownerRoomRelDtos.get(0).getOwnerId();
+        OwnerDto ownerDto = new OwnerDto();
+        ownerDto.setMemberId(ownerId);
+        ownerDto.setCommunityId(communityId);
+        //根据业主id查询业主信息
+        List<OwnerDto> ownerDtos = ownerInnerServiceSMO.queryOwners(ownerDto);
+        if (ListUtil.isNull(ownerDtos)) {
+            return null;
+        }
+        return ownerDtos.get(0);
     }
 }
