@@ -214,6 +214,14 @@ public class FinishFeeNotifyImpl implements IFinishFeeNotify {
         Assert.listOnlyOne(repairUserDtoList, "信息错误！");
         RepairUserPo repairUserPo = new RepairUserPo();
         repairUserPo.setRuId(repairUserDtoList.get(0).getRuId());
+        //如果是已支付状态，就更新结束时间
+        repairUserPo.setEndTime(DateUtil.getNow(DateUtil.DATE_FORMATE_STRING_A));
+        repairUserPo.setState(RepairUserDto.STATE_FINISH_PAY_FEE);
+        repairUserPo.setContext("已支付" + receivedAmount + "元");
+        flag = repairUserV1InnerServiceSMOImpl.updateRepairUserNew(repairUserPo);
+        if (flag < 1) {
+            throw new CmdException("修改失败");
+        }
         if ("Z".equals(repairChannel)) {  //如果业主是自主报修，状态就变成已支付，并新增一条待评价状态
             //新增待评价状态
             RepairUserPo repairUser = new RepairUserPo();
@@ -235,14 +243,7 @@ public class FinishFeeNotifyImpl implements IFinishFeeNotify {
                 throw new CmdException("修改失败");
             }
         }
-        repairUserPo.setState(RepairUserDto.STATE_FINISH_PAY_FEE);
-        //如果是已支付状态，就更新结束时间
-        repairUserPo.setEndTime(DateUtil.getNow(DateUtil.DATE_FORMATE_STRING_A));
-        repairUserPo.setContext("已支付" + receivedAmount + "元");
-        flag = repairUserV1InnerServiceSMOImpl.updateRepairUserNew(repairUserPo);
-        if (flag < 1) {
-            throw new CmdException("修改失败");
-        }
+
 
     }
 
