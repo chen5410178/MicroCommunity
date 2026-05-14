@@ -95,7 +95,7 @@ public class FeeReceiptBmoImpl implements IFeeReceiptBmo {
         payFeeRuleDto.setFtId(prePayFeePo.getFtId());
         List<PayFeeRuleDto> payFeeRuleDtos = payFeeRuleV1InnerServiceSMOImpl.queryPayFeeRules(payFeeRuleDto);
         if (!ListUtil.isNull(payFeeRuleDtos)) {
-            feeReceiptDetailPo.setSquarePrice(Double.parseDouble(payFeeRuleDtos.get(0).getSquarePrice())+""); // 单价
+            feeReceiptDetailPo.setSquarePrice(Double.parseDouble(payFeeRuleDtos.get(0).getSquarePrice()) + ""); // 单价
         }
         RoomDto roomDto = new RoomDto();
         roomDto.setRoomId(prePayFeePo.getPayerObjId());
@@ -157,6 +157,9 @@ public class FeeReceiptBmoImpl implements IFeeReceiptBmo {
         feeReceiptDetailPo.setStartDegree(feeDto.getPreDegrees());
         feeReceiptDetailPo.setEndDegree(feeDto.getCurDegrees());
         feeReceiptDetailPo.setFtName(feeDto.getFtName());
+        if (StringUtil.isEmpty(feeReceiptDetailPo.getFtName())) {
+            feeReceiptDetailPo.setFtName("默认费用");
+        }
         feeReceiptDetailPo.setAcctAmount(payFeeDetailPo.getAcctAmount());
 
         // Initialize fields that might not be set by freshFeeReceiptDetail

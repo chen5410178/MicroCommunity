@@ -149,7 +149,7 @@ public class FinishFeeNotifyImpl implements IFinishFeeNotify {
             return;
         }
         //todo 不是租金跳过
-        if(!FeeConfigDto.FEE_TYPE_CD_RENT.equals(feeDtos.get(0).getFeeTypeCd())){
+        if (!FeeConfigDto.FEE_TYPE_CD_RENT.equals(feeDtos.get(0).getFeeTypeCd())) {
             return;
         }
 
@@ -162,7 +162,7 @@ public class FinishFeeNotifyImpl implements IFinishFeeNotify {
         if (ListUtil.isNull(ownerRoomRelDtos)) {
             return;
         }
-        for(OwnerRoomRelDto tOwnerRoomRelDto: ownerRoomRelDtos){
+        for (OwnerRoomRelDto tOwnerRoomRelDto : ownerRoomRelDtos) {
             if (tOwnerRoomRelDto.getEndTime().getTime() >= feeEndTime.getTime()) {
                 continue;
             }
@@ -171,7 +171,6 @@ public class FinishFeeNotifyImpl implements IFinishFeeNotify {
             ownerRoomRelPo.setEndTime(DateUtil.getFormatTimeStringA(feeEndTime));
             ownerRoomRelInnerServiceSMOImpl.updateOwnerRoomRels(ownerRoomRelPo);
         }
-
 
 
     }
@@ -216,10 +215,6 @@ public class FinishFeeNotifyImpl implements IFinishFeeNotify {
         RepairUserPo repairUserPo = new RepairUserPo();
         repairUserPo.setRuId(repairUserDtoList.get(0).getRuId());
         if ("Z".equals(repairChannel)) {  //如果业主是自主报修，状态就变成已支付，并新增一条待评价状态
-            repairUserPo.setState(RepairUserDto.STATE_FINISH_PAY_FEE);
-            //如果是待评价状态，就更新结束时间
-            repairUserPo.setEndTime(DateUtil.getNow(DateUtil.DATE_FORMATE_STRING_A));
-            repairUserPo.setContext("已支付" + receivedAmount + "元");
             //新增待评价状态
             RepairUserPo repairUser = new RepairUserPo();
             repairUser.setRuId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_ruId));
@@ -235,20 +230,20 @@ public class FinishFeeNotifyImpl implements IFinishFeeNotify {
             repairUser.setPreStaffName(repairUserDtoList.get(0).getStaffName());
             repairUser.setPreRuId(repairUserDtoList.get(0).getRuId());
             repairUser.setRepairEvent("auditUser");
-            flag = repairUserV1InnerServiceSMOImpl.saveRepairUserNew(repairUserPo);
-            if (flag < 1) {
-                throw new CmdException("修改失败");
-            }
-        } else {  //如果是员工代客报修或电话报修，状态就变成已支付
-            repairUserPo.setState(RepairUserDto.STATE_FINISH_PAY_FEE);
-            //如果是已支付状态，就更新结束时间
-            repairUserPo.setEndTime(DateUtil.getNow(DateUtil.DATE_FORMATE_STRING_A));
-            repairUserPo.setContext("已支付" + receivedAmount + "元");
-            flag = repairUserV1InnerServiceSMOImpl.updateRepairUserNew(repairUserPo);
+            flag = repairUserV1InnerServiceSMOImpl.saveRepairUserNew(repairUser);
             if (flag < 1) {
                 throw new CmdException("修改失败");
             }
         }
+        repairUserPo.setState(RepairUserDto.STATE_FINISH_PAY_FEE);
+        //如果是已支付状态，就更新结束时间
+        repairUserPo.setEndTime(DateUtil.getNow(DateUtil.DATE_FORMATE_STRING_A));
+        repairUserPo.setContext("已支付" + receivedAmount + "元");
+        flag = repairUserV1InnerServiceSMOImpl.updateRepairUserNew(repairUserPo);
+        if (flag < 1) {
+            throw new CmdException("修改失败");
+        }
+
     }
 
     @Override
@@ -283,7 +278,6 @@ public class FinishFeeNotifyImpl implements IFinishFeeNotify {
         if (accountAmount <= 0) {
             return;
         }
-
 
 
         AccountDetailPo accountDetailPo = new AccountDetailPo();
