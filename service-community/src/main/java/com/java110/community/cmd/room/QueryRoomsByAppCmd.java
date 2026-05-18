@@ -8,6 +8,7 @@ import com.java110.core.event.cmd.Cmd;
 import com.java110.core.event.cmd.CmdEvent;
 import com.java110.dto.app.AppDto;
 import com.java110.dto.room.RoomDto;
+import com.java110.intf.community.IRoomInnerServiceSMO;
 import com.java110.intf.community.IRoomV1InnerServiceSMO;
 import com.java110.utils.exception.CmdException;
 import com.java110.utils.util.Assert;
@@ -26,7 +27,7 @@ import java.util.List;
 public class QueryRoomsByAppCmd extends Cmd {
 
     @Autowired
-    private IRoomV1InnerServiceSMO roomV1InnerServiceSMOImpl;
+    private IRoomInnerServiceSMO roomInnerServiceSMOImpl;
     @Override
     public void validate(CmdEvent event, ICmdDataFlowContext context, JSONObject reqJson) throws CmdException, ParseException {
         Assert.jsonObjectHaveKey(reqJson, "communityId", "请求中未包含communityId信息");
@@ -47,10 +48,10 @@ public class QueryRoomsByAppCmd extends Cmd {
         roomDto.setUserId("");
 
         //查询总记录数
-        int total = roomV1InnerServiceSMOImpl.queryRoomsCount(roomDto);
+        int total = roomInnerServiceSMOImpl.queryRoomsCount(roomDto);
         List<RoomDto> roomDtoList = null;
         if (total > 0) {
-            roomDtoList = roomV1InnerServiceSMOImpl.queryRooms(roomDto);
+            roomDtoList = roomInnerServiceSMOImpl.queryRooms(roomDto);
         } else {
             roomDtoList = new ArrayList<>();
         }
