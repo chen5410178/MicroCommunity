@@ -104,7 +104,21 @@ export const messages = {
         atLeastOneOption: 'At least one option is required',
         optionNotEmpty: 'Option cannot be empty'
       },
-      fetchError: 'Failed to fetch voting list'
+      fetchError: 'Failed to fetch voting list',
+      publish: {
+        title: 'Publish Voting',
+        name: 'Voting Name',
+        tip: 'Notification Tip',
+        tipContent: 'Please vote on time, thank you for your participation!',
+        notifyWay: 'Notification Method',
+        notifyWayPlaceholder: 'Please select notification method',
+        sms: 'SMS',
+        wechat: 'WeChat',
+        noNotify: 'No Notification',
+        publishBtn: 'Publish',
+        notifyWayRequired: 'Please select notification method',
+        error: 'Publish failed'
+      }
     }
   },
   zh: {
@@ -212,7 +226,21 @@ export const messages = {
         atLeastOneOption: '至少需要一个选项',
         optionNotEmpty: '选项不能为空'
       },
-      fetchError: '获取投票列表失败'
+      fetchError: '获取投票列表失败',
+      publish: {
+        title: '发布投票',
+        name: '投票名称',
+        tip: '通知提示',
+        tipContent: '请按时投票，感谢您的参与！',
+        notifyWay: '通知方式',
+        notifyWayPlaceholder: '请选择通知方式',
+        sms: '短信',
+        wechat: '微信',
+        noNotify: '不通知',
+        publishBtn: '发布',
+        notifyWayRequired: '请选择通知方式',
+        error: '发布失败'
+      }
     }
   },
   'zh-TW': {
@@ -320,7 +348,21 @@ export const messages = {
         atLeastOneOption: '至少需要一個選項',
         optionNotEmpty: '選項不能為空'
       },
-      fetchError: '獲取投票列表失敗'
+      fetchError: '獲取投票列表失敗',
+      publish: {
+        title: '發布投票',
+        name: '投票名稱',
+        tip: '通知提示',
+        tipContent: '請按時投票，感謝您的參與！',
+        notifyWay: '通知方式',
+        notifyWayPlaceholder: '請選擇通知方式',
+        sms: '短信',
+        wechat: '微信',
+        noNotify: '不通知',
+        publishBtn: '發布',
+        notifyWayRequired: '請選擇通知方式',
+        error: '發布失敗'
+      }
     }
   },
 };

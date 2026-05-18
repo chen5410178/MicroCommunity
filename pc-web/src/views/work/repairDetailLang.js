@@ -35,7 +35,9 @@ export const messages = {
       needMaterials: 'Need Materials',
       noMaterials: 'No Materials',
       beforeRepairPhotos: 'Before Repair Photos',
-      afterRepairPhotos: 'After Repair Photos'
+      afterRepairPhotos: 'After Repair Photos',
+      satisfied: 'Satisfied',
+      notSatisfied: 'Unsatisfied'
     },
     repairDetailResource: {
       itemCode: 'Item Code',
@@ -107,7 +109,9 @@ export const messages = {
       needMaterials: '需要用料',
       noMaterials: '无需用料',
       beforeRepairPhotos: '维修前照片',
-      afterRepairPhotos: '维修后照片'
+      afterRepairPhotos: '维修后照片',
+      satisfied: '满意',
+      notSatisfied: '不满意'
     },
     repairDetailResource: {
       itemCode: '物品资源编号',
@@ -140,7 +144,7 @@ export const messages = {
       content: '内容',
       submit: '提交',
       cancel: '取消',
-placeholder: '必填，请填写回复内容'
+      placeholder: '必填，请填写回复内容'
     }
   },
   'zh-TW': {
@@ -179,7 +183,9 @@ placeholder: '必填，请填写回复内容'
       needMaterials: '需要用料',
       noMaterials: '無需用料',
       beforeRepairPhotos: '維修前照片',
-      afterRepairPhotos: '維修後照片'
+      afterRepairPhotos: '維修後照片',
+      satisfied: '满意',
+      notSatisfied: '不满意'
     },
     repairDetailResource: {
       itemCode: '物品資源編號',

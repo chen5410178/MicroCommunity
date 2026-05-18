@@ -124,6 +124,7 @@ export default {
   top: 0 !important;
   margin: 0 !important;
   height: 100vh !important;
+  padding-bottom: 20px;
   
   .el-dialog {
     margin: 0 !important;

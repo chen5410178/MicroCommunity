@@ -113,6 +113,7 @@ export default {
 <style scoped>
 .tree-div {
   min-height: 300px;
+  padding-bottom: 40px;
 }
 .custom-tree-node {
   display: flex;
