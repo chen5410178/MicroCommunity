@@ -125,10 +125,8 @@ export default {
     async refreshCaptcha() {
       try {
         const res = await getCaptcha();
-        console.log(res);
         this.captchaUrl = res;
       } catch (error) {
-        console.error('获取验证码失败：', error);
         this.$message.error(this.$t('login.getCaptchaFailed'));
       }
     }
