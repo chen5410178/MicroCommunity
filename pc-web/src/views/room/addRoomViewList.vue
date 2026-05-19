@@ -312,9 +312,13 @@ export default {
       if (!this.addRoomValidate()) return
 
       try {
-        await saveRoom(this.addRoomViewInfo)
-        this.$message.success(this.$t('common.operationSuccess'))
-        this._goBack()
+        const {code,msg} = await saveRoom(this.addRoomViewInfo)
+        if (code === 0) {
+          this.$message.success(this.$t('common.operationSuccess'))
+          this._goBack()
+        } else {
+          this.$message.error(msg)
+        }
       } catch (error) {
         console.error('保存失败:', error)
         this.$message.error(error.message || this.$t('addRoomView.saveError'))
