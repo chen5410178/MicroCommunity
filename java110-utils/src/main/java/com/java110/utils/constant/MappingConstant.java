@@ -26,6 +26,7 @@ public final class MappingConstant {
     public static final String FILE_DOMAIN = "FILE_DOMAIN";
     public static final String DOMAIN_COMMON = "DOMAIN.COMMON";
     public static final String FILE_OSS = "OSS";
+    public static final String FILE_S3 = "S3";
 
     // 平台URL
     public static final String URL_DOMAIN = "URL_DOMAIN";

@@ -6,7 +6,7 @@ import com.java110.api.smo.DefaultAbstractComponentSMO;
 import com.java110.api.smo.assetImport.IImportRoomFeeSMO;
 import com.java110.config.properties.code.Java110Properties;
 import com.java110.core.client.FtpUploadTemplate;
-import com.java110.core.client.OssUploadTemplate;
+import com.java110.core.client.S3UploadTemplate;
 import com.java110.core.context.IPageData;
 import com.java110.core.factory.GenerateCodeFactory;
 import com.java110.core.log.LoggerFactory;
@@ -62,7 +62,7 @@ public class ImportRoomFeeSMOImpl extends DefaultAbstractComponentSMO implements
     private Java110Properties java110Properties;
 
     @Autowired
-    private OssUploadTemplate ossUploadTemplate;
+    private S3UploadTemplate s3UploadTemplate;
 
     @Autowired
     private IPayFeeBatchV1InnerServiceSMO payFeeBatchV1InnerServiceSMOImpl;
@@ -108,13 +108,13 @@ public class ImportRoomFeeSMOImpl extends DefaultAbstractComponentSMO implements
     public ResponseEntity<String> importFile(MultipartFile uploadFile) throws Exception {
         try {
             String fileName = "";
-            String ossSwitch = MappingCache.getValue(MappingConstant.FILE_DOMAIN, OSSUtil.OSS_SWITCH);
-            if (StringUtil.isEmpty(ossSwitch) || !OSSUtil.OSS_SWITCH_OSS.equals(ossSwitch)) {
+            String ossSwitch = MappingCache.getValue(MappingConstant.FILE_DOMAIN, S3Util.S3_SWITCH);
+            if (StringUtil.isEmpty(ossSwitch) || !S3Util.S3_SWITCH_S3.equals(ossSwitch)) {
                 fileName = ftpUploadTemplate.upload(uploadFile, java110Properties.getFtpServer(),
                         java110Properties.getFtpPort(), java110Properties.getFtpUserName(),
                         java110Properties.getFtpUserPassword(), "hc/");
             } else {
-                fileName = ossUploadTemplate.upload(uploadFile, java110Properties.getFtpServer(),
+                fileName = s3UploadTemplate.upload(uploadFile, java110Properties.getFtpServer(),
                         java110Properties.getFtpPort(), java110Properties.getFtpUserName(),
                         java110Properties.getFtpUserPassword(), "hc/");
             }

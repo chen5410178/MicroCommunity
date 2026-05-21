@@ -5,7 +5,7 @@ import com.java110.api.smo.DefaultAbstractComponentSMO;
 import com.java110.api.smo.assetImport.IImportCustomCreateFeeSMO;
 import com.java110.config.properties.code.Java110Properties;
 import com.java110.core.client.FtpUploadTemplate;
-import com.java110.core.client.OssUploadTemplate;
+import com.java110.core.client.S3UploadTemplate;
 import com.java110.core.context.IPageData;
 import com.java110.core.factory.GenerateCodeFactory;
 import com.java110.core.log.LoggerFactory;
@@ -73,7 +73,7 @@ public class ImportCustomCreateFeeSMOImpl extends DefaultAbstractComponentSMO im
     private Java110Properties java110Properties;
 
     @Autowired
-    private OssUploadTemplate ossUploadTemplate;
+    private S3UploadTemplate s3UploadTemplate;
 
     @Autowired
     private IPayFeeBatchV1InnerServiceSMO payFeeBatchV1InnerServiceSMOImpl;

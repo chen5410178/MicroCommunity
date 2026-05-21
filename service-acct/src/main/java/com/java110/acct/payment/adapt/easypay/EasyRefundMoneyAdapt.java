@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.java110.acct.payment.IRefundMoneyAdapt;
 import com.java110.acct.payment.adapt.easypay.utils.HttpConnectUtils;
 import com.java110.core.client.FtpUploadTemplate;
-import com.java110.core.client.OssUploadTemplate;
+import com.java110.core.client.S3UploadTemplate;
 import com.java110.core.factory.GenerateCodeFactory;
 import com.java110.core.log.LoggerFactory;
 import com.java110.dto.payment.PaymentPoolDto;
@@ -55,7 +55,7 @@ public class EasyRefundMoneyAdapt implements IRefundMoneyAdapt {
     private FtpUploadTemplate ftpUploadTemplate;
 
     @Autowired
-    private OssUploadTemplate ossUploadTemplate;
+    private S3UploadTemplate s3UploadTemplate;
 
     @Autowired
     private IOnlinePayRefundV1InnerServiceSMO onlinePayRefundV1InnerServiceSMOImpl;

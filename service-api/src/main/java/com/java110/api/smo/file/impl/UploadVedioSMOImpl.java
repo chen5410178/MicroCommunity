@@ -6,12 +6,12 @@ import com.java110.api.smo.file.IUploadVedioSMO;
 import com.java110.config.properties.code.Java110Properties;
 import com.java110.core.client.CosUploadTemplate;
 import com.java110.core.client.FtpUploadTemplate;
-import com.java110.core.client.OssUploadTemplate;
+import com.java110.core.client.S3UploadTemplate;
 import com.java110.core.context.IPageData;
 import com.java110.utils.cache.MappingCache;
 import com.java110.utils.constant.MappingConstant;
 import com.java110.utils.util.COSUtil;
-import com.java110.utils.util.OSSUtil;
+import com.java110.utils.util.S3Util;
 import com.java110.utils.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,7 +40,7 @@ public class UploadVedioSMOImpl extends DefaultAbstractComponentSMO implements I
     private FtpUploadTemplate ftpUploadTemplate;
 
     @Autowired
-    private OssUploadTemplate ossUploadTemplate;
+    private S3UploadTemplate s3UploadTemplate;
 
     @Autowired
     private CosUploadTemplate cosUploadTemplate;
@@ -58,8 +58,8 @@ public class UploadVedioSMOImpl extends DefaultAbstractComponentSMO implements I
 //                java110Properties.getFtpUserPassword(), "hc/");
 //
         String fileName = "";
-        String ossSwitch = MappingCache.getValue(MappingConstant.FILE_DOMAIN, OSSUtil.OSS_SWITCH);
-        if (StringUtil.isEmpty(ossSwitch) || !OSSUtil.OSS_SWITCH_OSS.equals(ossSwitch)) {
+        String ossSwitch = MappingCache.getValue(MappingConstant.FILE_DOMAIN, S3Util.S3_SWITCH);
+        if (StringUtil.isEmpty(ossSwitch) || !S3Util.S3_SWITCH_S3.equals(ossSwitch)) {
             String ftpServer = MappingCache.getValue(FtpUploadTemplate.FTP_DOMAIN, FtpUploadTemplate.FTP_SERVER);
             int ftpPort = Integer.parseInt(MappingCache.getValue(FtpUploadTemplate.FTP_DOMAIN, FtpUploadTemplate.FTP_PORT));
             String ftpUserName = MappingCache.getValue(FtpUploadTemplate.FTP_DOMAIN, FtpUploadTemplate.FTP_USERNAME);
@@ -74,7 +74,7 @@ public class UploadVedioSMOImpl extends DefaultAbstractComponentSMO implements I
                     java110Properties.getFtpUserPassword(), ROOT_PATH);
         } else {
 
-            fileName = ossUploadTemplate.upload(uploadFile, java110Properties.getFtpServer(),
+            fileName = s3UploadTemplate.upload(uploadFile, java110Properties.getFtpServer(),
                     java110Properties.getFtpPort(), java110Properties.getFtpUserName(),
                     java110Properties.getFtpUserPassword(), ROOT_PATH);
         }

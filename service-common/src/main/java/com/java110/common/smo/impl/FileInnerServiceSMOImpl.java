@@ -6,13 +6,13 @@ import com.java110.core.base.smo.BaseServiceSMO;
 import com.java110.core.client.CosUploadTemplate;
 import com.java110.core.client.FtpUploadTemplate;
 import com.java110.core.client.JSchFtpUploadTemplate;
-import com.java110.core.client.OssUploadTemplate;
+import com.java110.core.client.S3UploadTemplate;
 import com.java110.dto.file.FileDto;
 import com.java110.intf.common.IFileInnerServiceSMO;
 import com.java110.utils.cache.MappingCache;
 import com.java110.utils.constant.MappingConstant;
 import com.java110.utils.util.COSUtil;
-import com.java110.utils.util.OSSUtil;
+import com.java110.utils.util.S3Util;
 import com.java110.utils.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,7 +39,7 @@ public class FileInnerServiceSMOImpl extends BaseServiceSMO implements IFileInne
     private JSchFtpUploadTemplate jSchFtpUploadTemplate;
 
     @Autowired
-    private OssUploadTemplate ossUploadTemplate;
+    private S3UploadTemplate s3UploadTemplate;
 
     @Autowired
     private CosUploadTemplate cosUploadTemplate;
@@ -49,10 +49,10 @@ public class FileInnerServiceSMOImpl extends BaseServiceSMO implements IFileInne
 
         //int saveFileFlag = fileServiceDaoImpl.saveFile(BeanConvertUtil.beanCovertMap(fileDto));
         String fileName = "";
-        String ossSwitch = MappingCache.getValue(MappingConstant.FILE_DOMAIN, OSSUtil.OSS_SWITCH);
+        String ossSwitch = MappingCache.getValue(MappingConstant.FILE_DOMAIN, S3Util.S3_SWITCH);
 
-        if (OSSUtil.OSS_SWITCH_OSS.equals(ossSwitch)) {
-            fileName = ossUploadTemplate.upload(fileDto.getContext(), java110Properties.getFtpServer(),
+        if (S3Util.S3_SWITCH_S3.equals(ossSwitch)) {
+            fileName = s3UploadTemplate.upload(fileDto.getContext(), java110Properties.getFtpServer(),
                     java110Properties.getFtpPort(), java110Properties.getFtpUserName(),
                     java110Properties.getFtpUserPassword(), ROOT_PATH);
         } else if (COSUtil.COS_SWITCH_COS.equals(ossSwitch)) {
@@ -85,9 +85,9 @@ public class FileInnerServiceSMOImpl extends BaseServiceSMO implements IFileInne
             fileName = fileName.substring(fileName.lastIndexOf("/") + 1, fileName.length());
         }
         String context = "";
-        String ossSwitch = MappingCache.getValue(MappingConstant.FILE_DOMAIN, OSSUtil.OSS_SWITCH);
-        if (OSSUtil.OSS_SWITCH_OSS.equals(ossSwitch)) {
-            context = ossUploadTemplate.download(ftpPath, fileName, java110Properties.getFtpServer(),
+        String ossSwitch = MappingCache.getValue(MappingConstant.FILE_DOMAIN, S3Util.S3_SWITCH);
+        if (S3Util.S3_SWITCH_S3.equals(ossSwitch)) {
+            context = s3UploadTemplate.download(ftpPath, fileName, java110Properties.getFtpServer(),
                     java110Properties.getFtpPort(), java110Properties.getFtpUserName(),
                     java110Properties.getFtpUserPassword());
         } else if (COSUtil.COS_SWITCH_COS.equals(ossSwitch)) {

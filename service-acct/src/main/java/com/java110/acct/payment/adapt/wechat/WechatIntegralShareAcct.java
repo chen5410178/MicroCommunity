@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.java110.acct.integral.IGiftIntegral;
 import com.java110.core.client.FtpUploadTemplate;
-import com.java110.core.client.OssUploadTemplate;
+import com.java110.core.client.S3UploadTemplate;
 import com.java110.core.client.RestTemplate;
 import com.java110.core.log.LoggerFactory;
 import com.java110.dto.file.FileDto;
@@ -12,7 +12,7 @@ import com.java110.dto.integral.GiftIntegralDto;
 import com.java110.dto.payment.PaymentOrderDto;
 import com.java110.utils.cache.MappingCache;
 import com.java110.utils.constant.MappingConstant;
-import com.java110.utils.util.OSSUtil;
+import com.java110.utils.util.S3Util;
 import com.java110.utils.util.PayUtil;
 import com.java110.utils.util.StringUtil;
 import org.apache.http.HttpEntity;
@@ -74,7 +74,7 @@ public class WechatIntegralShareAcct {
     private FtpUploadTemplate ftpUploadTemplate;
 
     @Autowired
-    private OssUploadTemplate ossUploadTemplate;
+    private S3UploadTemplate s3UploadTemplate;
 
     @Autowired
     private IGiftIntegral giftIntegralImpl;
@@ -257,8 +257,8 @@ public class WechatIntegralShareAcct {
         byte[] context = null;
         String ftpPath = MappingCache.getValue(FtpUploadTemplate.FTP_DOMAIN, FtpUploadTemplate.FTP_PATH);
 
-        String ossSwitch = MappingCache.getValue(MappingConstant.FILE_DOMAIN, OSSUtil.OSS_SWITCH);
-        if (StringUtil.isEmpty(ossSwitch) || !OSSUtil.OSS_SWITCH_OSS.equals(ossSwitch)) {
+        String ossSwitch = MappingCache.getValue(MappingConstant.FILE_DOMAIN, S3Util.S3_SWITCH);
+        if (StringUtil.isEmpty(ossSwitch) || !S3Util.S3_SWITCH_S3.equals(ossSwitch)) {
             String ftpServer = MappingCache.getValue(FtpUploadTemplate.FTP_DOMAIN, FtpUploadTemplate.FTP_SERVER);
             int ftpPort = Integer.parseInt(MappingCache.getValue(FtpUploadTemplate.FTP_DOMAIN, FtpUploadTemplate.FTP_PORT));
             String ftpUserName = MappingCache.getValue(FtpUploadTemplate.FTP_DOMAIN, FtpUploadTemplate.FTP_USERNAME);
@@ -267,7 +267,7 @@ public class WechatIntegralShareAcct {
                     ftpPort, ftpUserName,
                     ftpUserPassword);
         } else {
-            context = ossUploadTemplate.downFileByte(ftpPath, fileName, "",
+            context = s3UploadTemplate.downFileByte(ftpPath, fileName, "",
                     0, "",
                     "");
         }

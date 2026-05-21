@@ -76,6 +76,7 @@
         <swagger.version>2.5.0</swagger.version>
         <pinyin4j.version>2.5.0</pinyin4j.version>
         <oss.aliyun>2.8.2</oss.aliyun>
+        <s3.aws>2.21.29</s3.aws>
     </properties>
 
     <dependencyManagement>
@@ -501,11 +502,11 @@
                 <version>3.0.112</version>
             </dependency>
 
-            <!-- https://mvnrepository.com/artifact/com.aliyun.oss/aliyun-sdk-oss -->
+            <!-- https://mvnrepository.com/artifact/software.amazon.awssdk/s3 -->
             <dependency>
-                <groupId>com.aliyun.oss</groupId>
-                <artifactId>aliyun-sdk-oss</artifactId>
-                <version>${oss.aliyun}</version>
+                <groupId>software.amazon.awssdk</groupId>
+                <artifactId>s3</artifactId>
+                <version>${s3.aws}</version>
             </dependency>
 
             <dependency>
