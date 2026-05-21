@@ -22,8 +22,7 @@ public class S3Util {
 
     public static final String DOMAIN = "OSS";
     public static final String S3_SWITCH = "OSS_SWITCH";
-    public static final String S3_SWITCH_S3 = "S3";
-    public static final String S3_SWITCH_FTP = "FTP";
+    public static final String S3_SWITCH_S3 = "OSS";
     public static final String ENDPOINT = "endpoint";
     public static final String ACCESS_KEY_ID = "accessKeyId";
     public static final String ACCESS_KEY_SECRET = "accessKeySecret";

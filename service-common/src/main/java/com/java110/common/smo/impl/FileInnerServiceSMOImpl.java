@@ -4,8 +4,6 @@ import com.java110.common.dao.IFileServiceDao;
 import com.java110.config.properties.code.Java110Properties;
 import com.java110.core.base.smo.BaseServiceSMO;
 import com.java110.core.client.CosUploadTemplate;
-import com.java110.core.client.FtpUploadTemplate;
-import com.java110.core.client.JSchFtpUploadTemplate;
 import com.java110.core.client.S3UploadTemplate;
 import com.java110.dto.file.FileDto;
 import com.java110.intf.common.IFileInnerServiceSMO;
@@ -33,12 +31,6 @@ public class FileInnerServiceSMOImpl extends BaseServiceSMO implements IFileInne
     private Java110Properties java110Properties;
 
     @Autowired
-    private FtpUploadTemplate ftpUploadTemplate;
-
-    @Autowired
-    private JSchFtpUploadTemplate jSchFtpUploadTemplate;
-
-    @Autowired
     private S3UploadTemplate s3UploadTemplate;
 
     @Autowired
@@ -60,15 +52,9 @@ public class FileInnerServiceSMOImpl extends BaseServiceSMO implements IFileInne
                     java110Properties.getFtpPort(), java110Properties.getFtpUserName(),
                     java110Properties.getFtpUserPassword(), ROOT_PATH);
         } else {
-            String ftpServer = MappingCache.getValue(FtpUploadTemplate.FTP_DOMAIN, FtpUploadTemplate.FTP_SERVER);
-            int ftpPort = Integer.parseInt(MappingCache.getValue(FtpUploadTemplate.FTP_DOMAIN, FtpUploadTemplate.FTP_PORT));
-            String ftpUserName = MappingCache.getValue(FtpUploadTemplate.FTP_DOMAIN, FtpUploadTemplate.FTP_USERNAME);
-            String ftpUserPassword = MappingCache.getValue(FtpUploadTemplate.FTP_DOMAIN, FtpUploadTemplate.FTP_USERPASSWORD);
-            //String ftpPath = "hc/";
-
-            fileName = ftpUploadTemplate.upload(fileDto.getContext(), ftpServer,
-                        ftpPort, ftpUserName,
-                        ftpUserPassword, ROOT_PATH);
+            fileName = s3UploadTemplate.upload(fileDto.getContext(), java110Properties.getFtpServer(),
+                    java110Properties.getFtpPort(), java110Properties.getFtpUserName(),
+                    java110Properties.getFtpUserPassword(), ROOT_PATH);
         }
         return fileName;
     }
@@ -95,13 +81,9 @@ public class FileInnerServiceSMOImpl extends BaseServiceSMO implements IFileInne
                     java110Properties.getFtpPort(), java110Properties.getFtpUserName(),
                     java110Properties.getFtpUserPassword());
         } else {
-            String ftpServer = MappingCache.getValue(FtpUploadTemplate.FTP_DOMAIN, FtpUploadTemplate.FTP_SERVER);
-            int ftpPort = Integer.parseInt(MappingCache.getValue(FtpUploadTemplate.FTP_DOMAIN, FtpUploadTemplate.FTP_PORT));
-            String ftpUserName = MappingCache.getValue(FtpUploadTemplate.FTP_DOMAIN, FtpUploadTemplate.FTP_USERNAME);
-            String ftpUserPassword = MappingCache.getValue(FtpUploadTemplate.FTP_DOMAIN, FtpUploadTemplate.FTP_USERPASSWORD);
-            context = ftpUploadTemplate.download(ftpPath, fileName, ftpServer,
-                    ftpPort, ftpUserName,
-                    ftpUserPassword);
+            context = s3UploadTemplate.download(ftpPath, fileName, java110Properties.getFtpServer(),
+                    java110Properties.getFtpPort(), java110Properties.getFtpUserName(),
+                    java110Properties.getFtpUserPassword());
         }
 
         fileDto.setContext(context);

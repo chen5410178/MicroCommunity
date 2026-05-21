@@ -5,7 +5,6 @@ import com.java110.api.smo.DefaultAbstractComponentSMO;
 import com.java110.api.smo.file.IUploadVedioSMO;
 import com.java110.config.properties.code.Java110Properties;
 import com.java110.core.client.CosUploadTemplate;
-import com.java110.core.client.FtpUploadTemplate;
 import com.java110.core.client.S3UploadTemplate;
 import com.java110.core.context.IPageData;
 import com.java110.utils.cache.MappingCache;
@@ -36,8 +35,6 @@ public class UploadVedioSMOImpl extends DefaultAbstractComponentSMO implements I
 
     @Autowired
     private Java110Properties java110Properties;
-    @Autowired
-    private FtpUploadTemplate ftpUploadTemplate;
 
     @Autowired
     private S3UploadTemplate s3UploadTemplate;
@@ -59,21 +56,15 @@ public class UploadVedioSMOImpl extends DefaultAbstractComponentSMO implements I
 //
         String fileName = "";
         String ossSwitch = MappingCache.getValue(MappingConstant.FILE_DOMAIN, S3Util.S3_SWITCH);
-        if (StringUtil.isEmpty(ossSwitch) || !S3Util.S3_SWITCH_S3.equals(ossSwitch)) {
-            String ftpServer = MappingCache.getValue(FtpUploadTemplate.FTP_DOMAIN, FtpUploadTemplate.FTP_SERVER);
-            int ftpPort = Integer.parseInt(MappingCache.getValue(FtpUploadTemplate.FTP_DOMAIN, FtpUploadTemplate.FTP_PORT));
-            String ftpUserName = MappingCache.getValue(FtpUploadTemplate.FTP_DOMAIN, FtpUploadTemplate.FTP_USERNAME);
-            String ftpUserPassword = MappingCache.getValue(FtpUploadTemplate.FTP_DOMAIN, FtpUploadTemplate.FTP_USERPASSWORD);
-
-            fileName = ftpUploadTemplate.upload(uploadFile, ftpServer,
-                    ftpPort, ftpUserName,
-                    ftpUserPassword, ROOT_PATH);
+        if (S3Util.S3_SWITCH_S3.equals(ossSwitch)) {
+            fileName = s3UploadTemplate.upload(uploadFile, java110Properties.getFtpServer(),
+                    java110Properties.getFtpPort(), java110Properties.getFtpUserName(),
+                    java110Properties.getFtpUserPassword(), ROOT_PATH);
         } else if (COSUtil.COS_SWITCH_COS.equals(ossSwitch)) {
             fileName = cosUploadTemplate.upload(uploadFile, java110Properties.getFtpServer(),
                     java110Properties.getFtpPort(), java110Properties.getFtpUserName(),
                     java110Properties.getFtpUserPassword(), ROOT_PATH);
         } else {
-
             fileName = s3UploadTemplate.upload(uploadFile, java110Properties.getFtpServer(),
                     java110Properties.getFtpPort(), java110Properties.getFtpUserName(),
                     java110Properties.getFtpUserPassword(), ROOT_PATH);

@@ -3,7 +3,6 @@ package com.java110.acct.payment.adapt.chinaUms;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.java110.acct.payment.IRefundMoneyAdapt;
-import com.java110.core.client.FtpUploadTemplate;
 import com.java110.core.client.S3UploadTemplate;
 import com.java110.core.factory.PlutusFactory;
 import com.java110.core.log.LoggerFactory;
@@ -64,9 +63,6 @@ public class ChinaUmsRefundMoneyAdapt implements IRefundMoneyAdapt {
     public static final String wechatReturnUrl = "https://api.plutuspay.com/open/v2/refund";
 
     private static Logger logger = LoggerFactory.getLogger(ChinaUmsRefundMoneyAdapt.class);
-
-    @Autowired
-    private FtpUploadTemplate ftpUploadTemplate;
 
     @Autowired
     private S3UploadTemplate s3UploadTemplate;

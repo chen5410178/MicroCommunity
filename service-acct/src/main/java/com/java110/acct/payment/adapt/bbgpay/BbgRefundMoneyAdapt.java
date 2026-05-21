@@ -2,7 +2,6 @@ package com.java110.acct.payment.adapt.bbgpay;
 
 import com.alibaba.fastjson.JSONObject;
 import com.java110.acct.payment.IRefundMoneyAdapt;
-import com.java110.core.client.FtpUploadTemplate;
 import com.java110.core.client.S3UploadTemplate;
 import com.java110.core.factory.GenerateCodeFactory;
 import com.java110.core.log.LoggerFactory;
@@ -55,9 +54,6 @@ public class BbgRefundMoneyAdapt implements IRefundMoneyAdapt {
 
 
     private static Logger logger = LoggerFactory.getLogger(BbgRefundMoneyAdapt.class);
-
-    @Autowired
-    private FtpUploadTemplate ftpUploadTemplate;
 
     @Autowired
     private S3UploadTemplate s3UploadTemplate;

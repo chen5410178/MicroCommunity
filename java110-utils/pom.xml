@@ -117,10 +117,6 @@
             <artifactId>java-jwt</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>commons-net</groupId>
-            <artifactId>commons-net</artifactId>
-        </dependency>
 
 
         <dependency>

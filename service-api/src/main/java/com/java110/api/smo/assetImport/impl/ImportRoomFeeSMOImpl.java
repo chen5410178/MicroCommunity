@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.java110.api.smo.DefaultAbstractComponentSMO;
 import com.java110.api.smo.assetImport.IImportRoomFeeSMO;
 import com.java110.config.properties.code.Java110Properties;
-import com.java110.core.client.FtpUploadTemplate;
 import com.java110.core.client.S3UploadTemplate;
 import com.java110.core.context.IPageData;
 import com.java110.core.factory.GenerateCodeFactory;
@@ -54,9 +53,6 @@ public class ImportRoomFeeSMOImpl extends DefaultAbstractComponentSMO implements
 
     @Autowired
     private RestTemplate restTemplate;
-
-    @Autowired
-    private FtpUploadTemplate ftpUploadTemplate;
 
     @Autowired
     private Java110Properties java110Properties;
@@ -109,8 +105,8 @@ public class ImportRoomFeeSMOImpl extends DefaultAbstractComponentSMO implements
         try {
             String fileName = "";
             String ossSwitch = MappingCache.getValue(MappingConstant.FILE_DOMAIN, S3Util.S3_SWITCH);
-            if (StringUtil.isEmpty(ossSwitch) || !S3Util.S3_SWITCH_S3.equals(ossSwitch)) {
-                fileName = ftpUploadTemplate.upload(uploadFile, java110Properties.getFtpServer(),
+            if (S3Util.S3_SWITCH_S3.equals(ossSwitch)) {
+                fileName = s3UploadTemplate.upload(uploadFile, java110Properties.getFtpServer(),
                         java110Properties.getFtpPort(), java110Properties.getFtpUserName(),
                         java110Properties.getFtpUserPassword(), "hc/");
             } else {

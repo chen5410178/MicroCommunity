@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.java110.api.smo.DefaultAbstractComponentSMO;
 import com.java110.api.smo.assetImport.IImportCustomCreateFeeSMO;
 import com.java110.config.properties.code.Java110Properties;
-import com.java110.core.client.FtpUploadTemplate;
 import com.java110.core.client.S3UploadTemplate;
 import com.java110.core.context.IPageData;
 import com.java110.core.factory.GenerateCodeFactory;
@@ -65,9 +64,6 @@ public class ImportCustomCreateFeeSMOImpl extends DefaultAbstractComponentSMO im
 
     @Autowired
     private RestTemplate restTemplate;
-
-    @Autowired
-    private FtpUploadTemplate ftpUploadTemplate;
 
     @Autowired
     private Java110Properties java110Properties;

@@ -3,7 +3,6 @@ package com.java110.acct.payment.adapt.wechat;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.java110.acct.integral.IGiftIntegral;
-import com.java110.core.client.FtpUploadTemplate;
 import com.java110.core.client.S3UploadTemplate;
 import com.java110.core.client.RestTemplate;
 import com.java110.core.log.LoggerFactory;
@@ -69,9 +68,6 @@ public class WechatIntegralShareAcct {
 
     @Autowired
     private RestTemplate outRestTemplate;
-
-    @Autowired
-    private FtpUploadTemplate ftpUploadTemplate;
 
     @Autowired
     private S3UploadTemplate s3UploadTemplate;
@@ -255,22 +251,11 @@ public class WechatIntegralShareAcct {
         List<FileDto> fileDtos = new ArrayList<>();
 
         byte[] context = null;
-        String ftpPath = MappingCache.getValue(FtpUploadTemplate.FTP_DOMAIN, FtpUploadTemplate.FTP_PATH);
+        String ftpPath = "hc/";
 
-        String ossSwitch = MappingCache.getValue(MappingConstant.FILE_DOMAIN, S3Util.S3_SWITCH);
-        if (StringUtil.isEmpty(ossSwitch) || !S3Util.S3_SWITCH_S3.equals(ossSwitch)) {
-            String ftpServer = MappingCache.getValue(FtpUploadTemplate.FTP_DOMAIN, FtpUploadTemplate.FTP_SERVER);
-            int ftpPort = Integer.parseInt(MappingCache.getValue(FtpUploadTemplate.FTP_DOMAIN, FtpUploadTemplate.FTP_PORT));
-            String ftpUserName = MappingCache.getValue(FtpUploadTemplate.FTP_DOMAIN, FtpUploadTemplate.FTP_USERNAME);
-            String ftpUserPassword = MappingCache.getValue(FtpUploadTemplate.FTP_DOMAIN, FtpUploadTemplate.FTP_USERPASSWORD);
-            context = ftpUploadTemplate.downFileByte(ftpPath, fileName, ftpServer,
-                    ftpPort, ftpUserName,
-                    ftpUserPassword);
-        } else {
-            context = s3UploadTemplate.downFileByte(ftpPath, fileName, "",
-                    0, "",
-                    "");
-        }
+        context = s3UploadTemplate.downFileByte(ftpPath, fileName, "",
+                0, "",
+                "");
 
         return context;
     }

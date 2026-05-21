@@ -16,12 +16,6 @@ public class FileUploadTemplate {
 
 
     @Autowired
-    private FtpUploadTemplate ftpUploadTemplate;
-
-    @Autowired
-    private JSchFtpUploadTemplate jSchFtpUploadTemplate;
-
-    @Autowired
     private S3UploadTemplate s3UploadTemplate;
 
     @Autowired
@@ -39,14 +33,7 @@ public class FileUploadTemplate {
         } else if (COSUtil.COS_SWITCH_COS.equals(ossSwitch)) {
             newfileName = cosUploadTemplate.upload(inputStream, newfileName);
         } else {
-            String ftpServer = MappingCache.getValue(FtpUploadTemplate.FTP_DOMAIN, FtpUploadTemplate.FTP_SERVER);
-            int ftpPort = Integer.parseInt(MappingCache.getValue(FtpUploadTemplate.FTP_DOMAIN, FtpUploadTemplate.FTP_PORT));
-            String ftpUserName = MappingCache.getValue(FtpUploadTemplate.FTP_DOMAIN, FtpUploadTemplate.FTP_USERNAME);
-            String ftpUserPassword = MappingCache.getValue(FtpUploadTemplate.FTP_DOMAIN, FtpUploadTemplate.FTP_USERPASSWORD);
-
-            newfileName = ftpUploadTemplate.upload(inputStream, ftpServer,
-                    ftpPort, ftpUserName,
-                    ftpUserPassword, newfileName);
+            newfileName = s3UploadTemplate.upload(inputStream, newfileName);
         }
         return newfileName;
     }
@@ -62,14 +49,7 @@ public class FileUploadTemplate {
         } else if (COSUtil.COS_SWITCH_COS.equals(ossSwitch)) {
             inputStream = cosUploadTemplate.download(fileName);
         } else {
-            String ftpServer = MappingCache.getValue(FtpUploadTemplate.FTP_DOMAIN, FtpUploadTemplate.FTP_SERVER);
-            int ftpPort = Integer.parseInt(MappingCache.getValue(FtpUploadTemplate.FTP_DOMAIN, FtpUploadTemplate.FTP_PORT));
-            String ftpUserName = MappingCache.getValue(FtpUploadTemplate.FTP_DOMAIN, FtpUploadTemplate.FTP_USERNAME);
-            String ftpUserPassword = MappingCache.getValue(FtpUploadTemplate.FTP_DOMAIN, FtpUploadTemplate.FTP_USERPASSWORD);
-
-            inputStream = ftpUploadTemplate.download(fileName, ftpServer,
-                    ftpPort, ftpUserName,
-                    ftpUserPassword);
+            inputStream = s3UploadTemplate.download(fileName);
         }
 
         return inputStream;

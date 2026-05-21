@@ -248,12 +248,6 @@
             </dependency>
 
             <dependency>
-                <groupId>com.jcraft</groupId>
-                <artifactId>jsch</artifactId>
-                <version>0.1.49</version>
-            </dependency>
-
-            <dependency>
                 <groupId>org.apache.activemq</groupId>
                 <artifactId>activemq-core</artifactId>
                 <version>${activemq.version}</version>
@@ -340,11 +334,7 @@
                 <version>${commons-codec.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>commons-net</groupId>
-                <artifactId>commons-net</artifactId>
-                <version>3.3</version>
-            </dependency>
+
 
             <dependency>
                 <groupId>commons-httpclient</groupId>

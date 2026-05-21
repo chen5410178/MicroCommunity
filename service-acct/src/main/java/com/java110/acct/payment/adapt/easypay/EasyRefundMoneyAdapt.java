@@ -3,7 +3,6 @@ package com.java110.acct.payment.adapt.easypay;
 import com.alibaba.fastjson.JSONObject;
 import com.java110.acct.payment.IRefundMoneyAdapt;
 import com.java110.acct.payment.adapt.easypay.utils.HttpConnectUtils;
-import com.java110.core.client.FtpUploadTemplate;
 import com.java110.core.client.S3UploadTemplate;
 import com.java110.core.factory.GenerateCodeFactory;
 import com.java110.core.log.LoggerFactory;
@@ -50,9 +49,6 @@ public class EasyRefundMoneyAdapt implements IRefundMoneyAdapt {
 
 
     private static Logger logger = LoggerFactory.getLogger(EasyRefundMoneyAdapt.class);
-
-    @Autowired
-    private FtpUploadTemplate ftpUploadTemplate;
 
     @Autowired
     private S3UploadTemplate s3UploadTemplate;

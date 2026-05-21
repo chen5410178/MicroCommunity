@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.java110.acct.payment.IRefundMoneyAdapt;
 import com.java110.acct.payment.adapt.easypay.BasePay;
 import com.java110.acct.payment.adapt.easypay.utils.HttpConnectUtils;
-import com.java110.core.client.FtpUploadTemplate;
 import com.java110.core.client.S3UploadTemplate;
 import com.java110.core.factory.GenerateCodeFactory;
 import com.java110.core.factory.WechatFactory;
@@ -61,9 +60,6 @@ public class RuiPayRefundMoneyAdapt implements IRefundMoneyAdapt {
     public static final String RUI_PAY_URL = "http://api.ruishengyi.com/rb-client/platform/openPlatform/router";
 
     private static Logger logger = LoggerFactory.getLogger(RuiPayRefundMoneyAdapt.class);
-
-    @Autowired
-    private FtpUploadTemplate ftpUploadTemplate;
 
     @Autowired
     private S3UploadTemplate s3UploadTemplate;
