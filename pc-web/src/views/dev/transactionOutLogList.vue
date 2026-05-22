@@ -85,7 +85,7 @@
 </template>
 
 <script>
-import { queryTransactionOutLog } from '@/api/log/transactionOutLogApi'
+import { queryTransactionOutLog } from '@/api/dev/transactionOutLogApi'
 
 export default {
   name: 'TransactionOutLogList',

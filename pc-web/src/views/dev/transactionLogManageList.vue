@@ -131,8 +131,8 @@
 </template>
 
 <script>
-import { queryTransactionLog } from '@/api/log/transactionLogManageApi'
-import TransactionLogMessage from '@/components/log/TransactionLogMessage'
+import { queryTransactionLog } from '@/api/dev/transactionLogManageApi'
+import TransactionLogMessage from '@/components/dev/TransactionLogMessage'
 
 export default {
   name: 'TransactionLogManageList',

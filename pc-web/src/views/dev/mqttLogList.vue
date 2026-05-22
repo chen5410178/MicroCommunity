@@ -99,7 +99,7 @@
 </template>
 
 <script>
-import { listMqttLog } from '@/api/log/mqttLogApi'
+import { listMqttLog } from '@/api/dev/mqttLogApi'
 
 export default {
   name: 'MqttLogList',
