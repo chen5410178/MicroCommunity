@@ -40,9 +40,12 @@ public class S3Util {
         }
         logger.info("S3Client初始化: endpoint={}, region={}, bucket={}",
                 endpoint, region, MappingCache.getValue(DOMAIN, BUCKET_NAME));
+        boolean pathStyle = !endpoint.contains("aliyuncs.com");
+        logger.info("S3Client pathStyle={} ({}aliyuncs.com)", pathStyle, endpoint.contains("aliyuncs.com") ? "含" : "不含");
         S3Client s3Client = S3Client.builder()
                 .endpointOverride(URI.create(endpoint.indexOf("://") == -1 ? "https://" + endpoint : endpoint))
                 .region(Region.of(region))
+                .forcePathStyle(pathStyle)
                 .credentialsProvider(StaticCredentialsProvider.create(
                         AwsBasicCredentials.create(accessKeyId, accessKeySecret)
                 ))
