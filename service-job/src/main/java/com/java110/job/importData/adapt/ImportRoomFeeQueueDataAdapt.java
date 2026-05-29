@@ -2,15 +2,12 @@ package com.java110.job.importData.adapt;
 
 import com.alibaba.fastjson.JSONObject;
 import com.java110.core.factory.GenerateCodeFactory;
-import com.java110.dto.fee.FeeAttrDto;
 import com.java110.dto.fee.FeeConfigDto;
 import com.java110.dto.fee.FeeDto;
-import com.java110.dto.importData.ImportCustomCreateFeeDto;
 import com.java110.dto.importData.ImportFeeDto;
 import com.java110.dto.importData.ImportRoomFee;
 import com.java110.dto.log.AssetImportLogDetailDto;
 import com.java110.dto.owner.OwnerDto;
-import com.java110.dto.payFee.PayFeeDetailRefreshFeeMonthDto;
 import com.java110.intf.community.IRoomInnerServiceSMO;
 import com.java110.intf.fee.*;
 import com.java110.intf.user.IOwnerCarInnerServiceSMO;
@@ -18,10 +15,9 @@ import com.java110.intf.user.IOwnerInnerServiceSMO;
 import com.java110.intf.user.IUserInnerServiceSMO;
 import com.java110.job.importData.DefaultImportData;
 import com.java110.job.importData.IImportDataAdapt;
-import com.java110.po.fee.FeeAttrPo;
-import com.java110.po.fee.PayFeePo;
 import com.java110.po.importFee.ImportFeeDetailPo;
 import com.java110.po.importFee.ImportFeePo;
+import com.java110.po.payFee.PayFeeRulePo;
 import com.java110.utils.util.BeanConvertUtil;
 import com.java110.utils.util.DateUtil;
 import com.java110.utils.util.ListUtil;
@@ -48,22 +44,22 @@ public class ImportRoomFeeQueueDataAdapt extends DefaultImportData implements II
     private IPayFeeConfigV1InnerServiceSMO payFeeConfigV1InnerServiceSMOImpl;
 
     @Autowired
-    private IFeeInnerServiceSMO feeInnerServiceSMOImpl;
-
-    @Autowired
-    private IFeeAttrInnerServiceSMO feeAttrInnerServiceSMOImpl;
-
-    @Autowired
     private IOwnerCarInnerServiceSMO ownerCarInnerServiceSMOImpl;
-
-    @Autowired
-    private IPayFeeMonthInnerServiceSMO payFeeMonthInnerServiceSMOImpl;
 
     @Autowired
     private IImportFeeDetailInnerServiceSMO importFeeDetailInnerServiceSMOImpl;
 
     @Autowired
     private IImportFeeInnerServiceSMO importFeeInnerServiceSMOImpl;
+
+    @Autowired
+    private IPayFeeRuleV1InnerServiceSMO payFeeRuleV1InnerServiceSMOImpl;
+
+    @Autowired
+    private IRuleGeneratorPayFeeBillV1InnerServiceSMO ruleGeneratorPayFeeBillV1InnerServiceSMOImpl;
+
+    @Autowired
+    private IFeeInnerServiceSMO feeInnerServiceSMOImpl;
 
     //    @Autowired
 //    private IPayFeeMonth payFeeMonthImpl;
@@ -170,14 +166,6 @@ public class ImportRoomFeeQueueDataAdapt extends DefaultImportData implements II
 
 
     private void doCreateFeeAndAttrs(ImportRoomFee importRoomFee, String batchId) {
-        List<PayFeePo> payFeePos = new ArrayList<>();
-        List<FeeAttrPo> feeAttrPos = new ArrayList<>();
-        PayFeePo payFeePo = null;
-        ImportFeeDetailPo importFeeDetailPo = null;
-
-//        if (StringUtil.isEmpty(importRoomFee.getRoomId())) {
-//            throw new IllegalArgumentException("收费对象不存在");
-//        }
         FeeConfigDto feeConfigDto = new FeeConfigDto();
         feeConfigDto.setCommunityId(importRoomFee.getCommunityId());
         if (!StringUtil.isEmpty(importRoomFee.getConfigId())) {
@@ -190,121 +178,77 @@ public class ImportRoomFeeQueueDataAdapt extends DefaultImportData implements II
         if (ListUtil.isNull(feeConfigDtos)) {
             throw new IllegalArgumentException("费用项不存在,或者费用项公式不是动态费用");
         }
-        payFeePo = new PayFeePo();
-        payFeePo.setFeeId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_feeId, true));
-        payFeePo.setEndTime(importRoomFee.getStartTime());
-        payFeePo.setState(FeeDto.STATE_DOING);
-        payFeePo.setCommunityId(importRoomFee.getCommunityId());
-        payFeePo.setConfigId(feeConfigDtos.get(0).getConfigId());
-        if (FeeDto.PAYER_OBJ_TYPE_CONTRACT.equals(importRoomFee.getObjType())) {
-            payFeePo.setPayerObjId(importRoomFee.getContractId());
-            payFeePo.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_CONTRACT);
-        } else if (FeeDto.PAYER_OBJ_TYPE_CAR.equals(importRoomFee.getObjType())) {
-            payFeePo.setPayerObjId(importRoomFee.getCarId());
-            payFeePo.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_CAR);
-        } else {
-            payFeePo.setPayerObjId(importRoomFee.getRoomId());
-            payFeePo.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_ROOM);
-        }
-        payFeePo.setUserId(importRoomFee.getUserId());
-        payFeePo.setIncomeObjId(importRoomFee.getStoreId());
-        payFeePo.setFeeTypeCd(feeConfigDtos.get(0).getFeeTypeCd());
-        payFeePo.setFeeFlag(feeConfigDtos.get(0).getFeeFlag());
-        payFeePo.setAmount(importRoomFee.getAmount());
-        payFeePo.setBatchId(batchId);
-        payFeePo.setEndTime(importRoomFee.getStartTime());
-        payFeePo.setStartTime(importRoomFee.getStartTime());
-        //payFeePo.setStartTime(DateUtil.getNow(DateUtil.DATE_FORMATE_STRING_A));
 
-        payFeePos.add(payFeePo);
+        PayFeeRulePo payFeeRulePo = createPayFeeRulePo(importRoomFee, batchId, feeConfigDtos.get(0));
 
-        FeeAttrPo feeAttrPo = new FeeAttrPo();
-        feeAttrPo.setCommunityId(importRoomFee.getCommunityId());
-        feeAttrPo.setAttrId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_attrId, true));
-        feeAttrPo.setSpecCd(FeeAttrDto.SPEC_CD_IMPORT_FEE_NAME);
-        feeAttrPo.setValue(feeConfigDtos.get(0).getFeeName());
-        feeAttrPo.setFeeId(payFeePo.getFeeId());
-        feeAttrPos.add(feeAttrPo);
+        List<PayFeeRulePo> payFeeRulePos = new ArrayList<>();
+        payFeeRulePos.add(payFeeRulePo);
 
-        feeAttrPo = new FeeAttrPo();
-        feeAttrPo.setCommunityId(importRoomFee.getCommunityId());
-        feeAttrPo.setAttrId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_attrId, true));
-        feeAttrPo.setSpecCd(FeeAttrDto.SPEC_CD_PAY_OBJECT_NAME);
-        if (FeeDto.PAYER_OBJ_TYPE_CONTRACT.equals(importRoomFee.getObjType())) {
-            feeAttrPo.setValue(importRoomFee.getContractId());
-        } else if (FeeDto.PAYER_OBJ_TYPE_CAR.equals(importRoomFee.getObjType())) {
-            feeAttrPo.setValue(importRoomFee.getCarNum());
-        } else {
-            feeAttrPo.setValue(importRoomFee.getRoomName());
-        }
-        feeAttrPo.setFeeId(payFeePo.getFeeId());
-        feeAttrPos.add(feeAttrPo);
+        payFeeRuleV1InnerServiceSMOImpl.savePayFeeRules(payFeeRulePos);
 
-        //todo 不是周期性费用的场景需要写入结束时间
+        ruleGeneratorPayFeeBillV1InnerServiceSMOImpl.rulesGeneratePayFees(payFeeRulePos);
 
-        feeAttrPo = new FeeAttrPo();
-        feeAttrPo.setCommunityId(importRoomFee.getCommunityId());
-        feeAttrPo.setAttrId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_attrId, true));
-        feeAttrPo.setSpecCd(FeeAttrDto.SPEC_CD_ONCE_FEE_DEADLINE_TIME);
-        feeAttrPo.setValue(importRoomFee.getEndTime());
-        feeAttrPo.setFeeId(payFeePo.getFeeId());
-        feeAttrPos.add(feeAttrPo);
-
-
-        if (!StringUtil.isEmpty(importRoomFee.getOwnerId())) {
-            feeAttrPo = new FeeAttrPo();
-            feeAttrPo.setCommunityId(importRoomFee.getCommunityId());
-            feeAttrPo.setAttrId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_attrId, true));
-            feeAttrPo.setSpecCd(FeeAttrDto.SPEC_CD_OWNER_ID);
-            feeAttrPo.setValue(importRoomFee.getOwnerId());
-            feeAttrPo.setFeeId(payFeePo.getFeeId());
-            feeAttrPos.add(feeAttrPo);
-
-            feeAttrPo = new FeeAttrPo();
-            feeAttrPo.setCommunityId(importRoomFee.getCommunityId());
-            feeAttrPo.setAttrId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_attrId, true));
-            feeAttrPo.setSpecCd(FeeAttrDto.SPEC_CD_OWNER_NAME);
-            feeAttrPo.setValue(importRoomFee.getOwnerName());
-            feeAttrPo.setFeeId(payFeePo.getFeeId());
-            feeAttrPos.add(feeAttrPo);
-
-            feeAttrPo = new FeeAttrPo();
-            feeAttrPo.setCommunityId(importRoomFee.getCommunityId());
-            feeAttrPo.setAttrId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_attrId, true));
-            feeAttrPo.setSpecCd(FeeAttrDto.SPEC_CD_OWNER_LINK);
-            feeAttrPo.setValue(importRoomFee.getOwnerLink());
-            feeAttrPo.setFeeId(payFeePo.getFeeId());
-            feeAttrPos.add(feeAttrPo);
+        FeeDto feeDto = new FeeDto();
+        feeDto.setCommunityId(importRoomFee.getCommunityId());
+        feeDto.setBatchId(batchId);
+        List<FeeDto> feeDtos = feeInnerServiceSMOImpl.queryFees(feeDto);
+        String feeId = "";
+        if (!ListUtil.isNull(feeDtos)) {
+            feeId = feeDtos.get(0).getFeeId();
         }
 
-
-        if (payFeePos.size() < 1) {
-            return;
-        }
-
-        feeInnerServiceSMOImpl.saveFee(payFeePos);
-
-        feeAttrInnerServiceSMOImpl.saveFeeAttrs(feeAttrPos);
-
-        //todo 保存导入记录日志
-        saveImportFee(importRoomFee, payFeePo);
-
-        // todo 这里异步的方式计算 月数据 和欠费数据
-
-        PayFeeDetailRefreshFeeMonthDto payFeeDetailRefreshFeeMonthDto = new PayFeeDetailRefreshFeeMonthDto();
-        payFeeDetailRefreshFeeMonthDto.setCommunityId(importRoomFee.getCommunityId());
-        payFeeDetailRefreshFeeMonthDto.setFeeId(payFeePos.get(0).getFeeId());
-        payFeeMonthInnerServiceSMOImpl.doGeneratorOrRefreshFeeMonth(payFeeDetailRefreshFeeMonthDto);
+        saveImportFee(importRoomFee, feeId);
     }
 
-    private void saveImportFee(ImportRoomFee importRoomFee, PayFeePo payFeePo) {
+    private PayFeeRulePo createPayFeeRulePo(ImportRoomFee importRoomFee, String batchId, FeeConfigDto feeConfigDto) {
+        String time = importRoomFee.getStartTime();
+
+        PayFeeRulePo payFeeRulePo = new PayFeeRulePo();
+        payFeeRulePo.setRuleId(GenerateCodeFactory.getGeneratorId("11"));
+        payFeeRulePo.setConfigId(feeConfigDto.getConfigId());
+        payFeeRulePo.setCommunityId(importRoomFee.getCommunityId());
+        payFeeRulePo.setFeeTypeCd(feeConfigDto.getFeeTypeCd());
+        payFeeRulePo.setFeeFlag(feeConfigDto.getFeeFlag());
+        payFeeRulePo.setAmount(importRoomFee.getAmount());
+        payFeeRulePo.setStartTime(time);
+        payFeeRulePo.setEndTime(time);
+        payFeeRulePo.setMaxTime(importRoomFee.getEndTime());
+        payFeeRulePo.setBatchId(batchId);
+        payFeeRulePo.setUserId("-1");
+        payFeeRulePo.setIncomeObjId(importRoomFee.getStoreId());
+        payFeeRulePo.setState(FeeDto.STATE_DOING);
+        payFeeRulePo.setDeductFrom(feeConfigDto.getDeductFrom());
+
+        if (FeeDto.PAYER_OBJ_TYPE_CONTRACT.equals(importRoomFee.getObjType())) {
+            payFeeRulePo.setPayerObjId(importRoomFee.getContractId());
+            payFeeRulePo.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_CONTRACT);
+        } else if (FeeDto.PAYER_OBJ_TYPE_CAR.equals(importRoomFee.getObjType())) {
+            payFeeRulePo.setPayerObjId(importRoomFee.getCarId());
+            payFeeRulePo.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_CAR);
+        } else {
+            payFeeRulePo.setPayerObjId(importRoomFee.getRoomId());
+            payFeeRulePo.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_ROOM);
+        }
+
+        String curYearMonth = DateUtil.getFormatTimeStringB(DateUtil.getDateFromStringB(payFeeRulePo.getEndTime()));
+        if (FeeConfigDto.PAYMENT_CD_AFTER.equals(feeConfigDto.getPaymentCd())) {
+            int ruleCycle = Integer.parseInt(feeConfigDto.getPaymentCycle());
+            java.util.Date endTime = DateUtil.getNextMonthDateB(payFeeRulePo.getEndTime(), ruleCycle);
+            curYearMonth = DateUtil.getFormatTimeStringB(endTime);
+        }
+        payFeeRulePo.setCurYearMonth(curYearMonth);
+
+        return payFeeRulePo;
+    }
+
+    private void saveImportFee(ImportRoomFee importRoomFee, String feeId) {
         ImportFeeDetailPo importFeeDetailPo;
         List<ImportFeeDetailPo> importFeeDetailPos = new ArrayList<>();
         importFeeDetailPo = new ImportFeeDetailPo();
         importFeeDetailPo.setAmount(importRoomFee.getAmount());
-        importFeeDetailPo.setCommunityId(payFeePo.getCommunityId());
+        importFeeDetailPo.setCommunityId(importRoomFee.getCommunityId());
         importFeeDetailPo.setEndTime(importRoomFee.getEndTime());
-        importFeeDetailPo.setFeeId(payFeePo.getFeeId());
+        importFeeDetailPo.setFeeId(feeId);
         importFeeDetailPo.setFeeName(importRoomFee.getFeeName());
 
         if (FeeDto.PAYER_OBJ_TYPE_CONTRACT.equals(importRoomFee.getObjType())) {
@@ -342,7 +286,7 @@ public class ImportRoomFeeQueueDataAdapt extends DefaultImportData implements II
         importFeeDetailPos.add(importFeeDetailPo);
 
         ImportFeeDto importFeeDto = new ImportFeeDto();
-        importFeeDto.setCommunityId(payFeePo.getCommunityId());
+        importFeeDto.setCommunityId(importRoomFee.getCommunityId());
         importFeeDto.setImportFeeId(importRoomFee.getBatchId());
 
         List<ImportFeeDto> importRoomFeess = importFeeInnerServiceSMOImpl.queryImportFees(importFeeDto);
