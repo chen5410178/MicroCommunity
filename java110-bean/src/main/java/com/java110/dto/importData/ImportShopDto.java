@@ -20,7 +20,7 @@ public class ImportShopDto implements Serializable {
 
     private String endTime;
 
-    private String state;
+    private String shopState;
 
     private String shopRent;
 
@@ -106,12 +106,12 @@ public class ImportShopDto implements Serializable {
         this.endTime = endTime;
     }
 
-    public String getState() {
-        return state;
+    public String getShopState() {
+        return shopState;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public void setShopState(String shopState) {
+        this.shopState = shopState;
     }
 
     public String getShopRent() {

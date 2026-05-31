@@ -75,7 +75,7 @@ public class ImportShopQueueDataAdapt extends DefaultImportData implements IImpo
         buildingShopPo.setLocationId(locationId);
         buildingShopPo.setBuiltUpArea(importShopDto.getBuiltUpArea());
         buildingShopPo.setShopArea(importShopDto.getShopArea());
-        buildingShopPo.setState(StringUtil.isEmpty(importShopDto.getState()) ? BuildingShopDto.STATE_FREE : importShopDto.getState());
+        buildingShopPo.setState(StringUtil.isEmpty(importShopDto.getShopState()) ? BuildingShopDto.STATE_FREE : importShopDto.getShopState());
         buildingShopPo.setShopRent(StringUtil.isEmpty(importShopDto.getShopRent()) ? "0.00" : importShopDto.getShopRent());
         buildingShopPo.setCommunityId(importShopDto.getCommunityId());
         buildingShopPo.setLocationName(importShopDto.getLocationName());
@@ -132,7 +132,7 @@ public class ImportShopQueueDataAdapt extends DefaultImportData implements IImpo
         buildingShopOwnerPo.setOwnerId(ownerId);
         buildingShopOwnerPo.setOwnerName(importShopDto.getOwnerName());
         buildingShopOwnerPo.setLink(importShopDto.getLink());
-        buildingShopOwnerPo.setState(importShopDto.getState());
+        buildingShopOwnerPo.setState(importShopDto.getShopState());
         buildingShopOwnerPo.setCommunityId(importShopDto.getCommunityId());
         if (!StringUtil.isEmpty(importShopDto.getStartTime())) {
             buildingShopOwnerPo.setStartTime(parseDate(importShopDto.getStartTime()));

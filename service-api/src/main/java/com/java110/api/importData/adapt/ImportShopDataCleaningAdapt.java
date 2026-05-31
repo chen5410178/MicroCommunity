@@ -63,7 +63,7 @@ public class ImportShopDataCleaningAdapt extends DefaultImportDataAdapt implemen
                 Assert.isDate(endTime, DateUtil.DATE_FORMATE_STRING_B, (osIndex + 1) + "行结束时间格式错误 请填写YYYY-MM-DD 文本格式");
                 importShopDto.setEndTime(endTime.trim());
             }
-            importShopDto.setState(os[6].toString().trim());
+            importShopDto.setShopState(os[6].toString().trim());
             if (os.length > 7 && !StringUtil.isNullOrNone(os[7])) {
                 importShopDto.setShopRent(os[7].toString().trim());
             }
@@ -116,7 +116,7 @@ public class ImportShopDataCleaningAdapt extends DefaultImportDataAdapt implemen
                 throw new IllegalArgumentException((shopIndex + 2) + "行建筑面积不能为空");
             }
 
-            String state = importShopDto.getState();
+            String state = importShopDto.getShopState();
             if (!BuildingShopDto.STATE_RENT.equals(state) && !BuildingShopDto.STATE_SELL.equals(state) && !BuildingShopDto.STATE_FREE.equals(state)) {
                 throw new IllegalArgumentException((shopIndex + 2) + "行状态不正确，只能是空闲(2008)、已出租(2006)或已出售(2007)");
             }
