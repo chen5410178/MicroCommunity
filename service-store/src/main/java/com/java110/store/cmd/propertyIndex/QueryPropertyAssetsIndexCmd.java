@@ -7,9 +7,11 @@ import com.java110.core.event.cmd.Cmd;
 import com.java110.core.event.cmd.CmdEvent;
 import com.java110.dto.floor.FloorDto;
 import com.java110.dto.room.RoomDto;
+import com.java110.dto.shop.BuildingShopDto;
 import com.java110.dto.owner.OwnerCarDto;
 import com.java110.dto.owner.OwnerDto;
 import com.java110.dto.parking.ParkingSpaceDto;
+import com.java110.intf.community.IBuildingShopV1InnerServiceSMO;
 import com.java110.intf.community.IFloorInnerServiceSMO;
 import com.java110.intf.community.IParkingSpaceV1InnerServiceSMO;
 import com.java110.intf.community.IRoomV1InnerServiceSMO;
@@ -38,6 +40,9 @@ public class QueryPropertyAssetsIndexCmd extends Cmd {
     @Autowired
     private IOwnerCarV1InnerServiceSMO ownerCarV1InnerServiceSMOImpl;
 
+    @Autowired
+    private IBuildingShopV1InnerServiceSMO buildingShopV1InnerServiceSMOImpl;
+
     @Override
     public void validate(CmdEvent event, ICmdDataFlowContext context, JSONObject reqJson) throws CmdException {
 
@@ -61,11 +66,10 @@ public class QueryPropertyAssetsIndexCmd extends Cmd {
         int roomCount = roomV1InnerServiceSMOImpl.queryRoomsCount(roomDto);
         paramOut.put("roomCount", roomCount);
 
-        //查询商铺
-        roomDto = new RoomDto();
-        roomDto.setCommunityId(reqJson.getString("communityId"));
-        roomDto.setRoomType(RoomDto.ROOM_TYPE_SHOPS);
-        int shopCount = roomV1InnerServiceSMOImpl.queryRoomsCount(roomDto);
+        //查询商铺 (查询 building_shop 表)
+        BuildingShopDto buildingShopDto = new BuildingShopDto();
+        buildingShopDto.setCommunityId(reqJson.getString("communityId"));
+        int shopCount = buildingShopV1InnerServiceSMOImpl.queryBuildingShopsCount(buildingShopDto);
         paramOut.put("shopCount", shopCount);
 
         //查看车位
