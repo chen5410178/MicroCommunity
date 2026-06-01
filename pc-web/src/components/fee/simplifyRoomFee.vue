@@ -187,7 +187,7 @@ export default {
         from: ''
       },
       currentPage: 1,
-      pageSize: 10,
+      pageSize: 100,
       total: 0
     }
   },
