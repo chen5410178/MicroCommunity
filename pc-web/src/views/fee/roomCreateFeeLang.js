@@ -148,7 +148,9 @@ export const messages = {
       actions: 'Actions',
       choose: 'Choose',
       currentRoom: 'Current Room',
-      subtotalOweFee: 'Subtotal Owe Fee'
+      subtotalOweFee: 'Subtotal Owe Fee',
+      note1: 'Note: End time "-" means not yet due or fee collection has ended',
+      note2: 'Note: Receivable amount -1 generally indicates formula error, please check'
     },
     carDetailOwner: {
       ownerFace: 'Owner Face',
@@ -655,7 +657,9 @@ export const messages = {
       actions: '操作',
       choose: '选择',
       currentRoom: '当前房屋',
-      subtotalOweFee: '欠费小计'
+      subtotalOweFee: '欠费小计',
+      note1: '注意：应收结束时间 "-" 表示未到应收时间或收费已结束',
+      note2: '注意：应收金额为-1 一般为费用项公式设置出错请检查'
     },
     carDetailOwner: {
       ownerFace: '业主人脸',
@@ -1162,7 +1166,9 @@ export const messages = {
       actions: '操作',
       choose: '選擇',
       currentRoom: '目前房屋',
-      subtotalOweFee: '欠費小計'
+      subtotalOweFee: '欠費小計',
+      note1: '注意：應收結束時間 "-" 表示未到應收時間或收費已結束',
+      note2: '注意：應收金額為-1 一般為費用項公式設定出錯請檢查'
     },
     carDetailOwner: {
       ownerFace: '業主人臉',

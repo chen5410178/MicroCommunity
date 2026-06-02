@@ -50,7 +50,7 @@
         </thead>
         <tbody>
           <template v-for="(fee, index) in simplifyCarFeeInfo.fees">
-            <tr :key="'fee-'+index">
+            <tr :key="'fee-' + index">
               <td class="text-center" style="color:#999;" @click="switchSimplifyCarFeeFlag(fee)">
                 <span class="fa fa-chevron-down" v-if="fee.showFlag == 'Y'"></span>
                 <span class="fa fa-chevron-right" v-else></span>
@@ -62,32 +62,45 @@
               <td class="text-center" @click="switchSimplifyCarFeeFlag(fee)">{{ fee.feeFlagName }}</td>
               <td class="text-center" @click="switchSimplifyCarFeeFlag(fee)">{{ fee.feeTypeCdName }}</td>
               <td class="text-center" @click="switchSimplifyCarFeeFlag(fee)">{{ fee.oweAmount }}</td>
-              <td class="text-center" @click="switchSimplifyCarFeeFlag(fee)">{{ dateFormat(fee.startTime) }}<br/>~{{ dateFormat(fee.endTime) }}</td>
+              <td class="text-center" @click="switchSimplifyCarFeeFlag(fee)">{{ dateFormat(fee.startTime) }}<br />~{{
+                dateFormat(fee.endTime) }}</td>
               <td class="text-center multiline-text">-</td>
               <td class="text-center">-</td>
               <td class="text-center"></td>
             </tr>
             <template v-if="fee.showFlag == 'Y'">
-              <tr v-for="(feeSub, subIndex) in fee.childs" :key="'feeSub-'+index+'-'+subIndex" style="background-color:#f9f9f9;">
+              <tr v-for="(feeSub, subIndex) in fee.childs" :key="'feeSub-' + index + '-' + subIndex"
+                style="background-color:#f9f9f9;">
                 <td class="text-center hand"></td>
                 <td class="text-center hand">{{ feeSub.feeName }}</td>
                 <td class="text-center">{{ feeSub.feeFlagName }}</td>
                 <td class="text-center">{{ feeSub.feeTypeCdName }}</td>
                 <td class="text-center">{{ feeSub.oweAmount }}</td>
-                <td class="text-center">{{ dateFormat(feeSub.startTime) }}<br/>~{{ dateFormat(feeSub.endTime) }}</td>
+                <td class="text-center">{{ dateFormat(feeSub.startTime) }}<br />~{{ dateFormat(feeSub.endTime) }}</td>
                 <td class="text-center multiline-text">{{ feeSub.remark || '-' }}</td>
                 <td class="text-center">{{ feeSub.stateName }}</td>
                 <td class="text-center">
-                  <el-button class="btn-link" type="text" v-if="feeSub.state != '2009001' && hasPrivilege('502020082314267912')" @click="_simplifyCarPayFee(feeSub)">{{ $t('simplifyCarFee.pay') }}</el-button>
-                  <el-button class="btn-link" type="text" @click="_simplifyCarPayFeeHis(feeSub)">{{ $t('simplifyCarFee.payHistory') }}</el-button>
-                  <el-dropdown v-if="hasPrivilege('502020090604200029') || hasPrivilege('502021070488970005') || hasPrivilege('502020090427190001')">
-                    <span class="el-dropdown-link">{{ $t('simplifyCarFee.more') }}<i class="el-icon-arrow-down el-icon--right"></i></span>
+                  <el-button class="btn-link" type="text"
+                    v-if="feeSub.state != '2009001' && hasPrivilege('502020082314267912')"
+                    @click="_simplifyCarPayFee(feeSub)">{{ $t('simplifyCarFee.pay') }}</el-button>
+                  <el-button class="btn-link" type="text" @click="_simplifyCarPayFeeHis(feeSub)">{{
+                    $t('simplifyCarFee.payHistory') }}</el-button>
+                  <el-dropdown
+                    v-if="hasPrivilege('502020090604200029') || hasPrivilege('502021070488970005') || hasPrivilege('502020090427190001')">
+                    <span class="el-dropdown-link">{{ $t('simplifyCarFee.more') }}<i
+                        class="el-icon-arrow-down el-icon--right"></i></span>
                     <el-dropdown-menu slot="dropdown">
-                      <el-dropdown-item v-if="hasPrivilege('502020090604200029')" @click.native="_simplifyCarDeleteFee(feeSub)">{{ $t('simplifyCarFee.cancelFee') }}</el-dropdown-item>
-                      <el-dropdown-item v-if="feeSub.state != '2009001' && hasPrivilege('502020090427190001')" @click.native="_simplifyCarEditFee(feeSub)">{{ $t('simplifyCarFee.feeChange') }}</el-dropdown-item>
-                      <el-dropdown-item v-if="feeSub.state != '2009001' && hasPrivilege('502020090427190001')" @click.native="_splitCarFee(feeSub)">{{ $t('simplifyCarFee.splitFee') }}</el-dropdown-item>
+                      <el-dropdown-item v-if="hasPrivilege('502020090604200029')"
+                        @click.native="_simplifyCarDeleteFee(feeSub)">{{ $t('simplifyCarFee.cancelFee')
+                        }}</el-dropdown-item>
+                      <el-dropdown-item v-if="feeSub.state != '2009001' && hasPrivilege('502020090427190001')"
+                        @click.native="_simplifyCarEditFee(feeSub)">{{ $t('simplifyCarFee.feeChange')
+                        }}</el-dropdown-item>
+                      <el-dropdown-item v-if="feeSub.state != '2009001' && hasPrivilege('502020090427190001')"
+                        @click.native="_splitCarFee(feeSub)">{{ $t('simplifyCarFee.splitFee') }}</el-dropdown-item>
                       <el-dropdown-item>
-                        <a target="_blank" :href="'/#/pages/fee/feeDetail?feeId=' + feeSub.feeId">{{ $t('simplifyCarFee.detail') }}</a>
+                        <a target="_blank" :href="'/#/pages/fee/feeDetail?feeId=' + feeSub.feeId">{{
+                          $t('simplifyCarFee.detail') }}</a>
                       </el-dropdown-item>
                     </el-dropdown-menu>
                   </el-dropdown>
@@ -99,21 +112,22 @@
       </table>
     </div>
 
-    <el-row class="footer-info">
-      <el-col :span="12">
-        <div class="notice">
-          <div>{{ $t('simplifyCarFee.note1') }}</div>
-          <div>{{ $t('simplifyCarFee.note2') }}</div>
-        </div>
+    <el-row class="margin-top">
+      <el-col :span="12" class="text-left table-desc">
+        <div>{{ $t('simplifyCarFee.note1') }}</div>
+        <div>{{ $t('simplifyCarFee.note2') }}</div>
       </el-col>
-      <el-col :span="4" class="text-center">
-        <span>{{ $t('simplifyCarFee.oweSubtotal') }}：{{ simplifyCarFeeInfo.totalAmount }}</span>
+      <el-col :span="6">
+        <span>
+          <span>{{ $t('simplifyCarFee.oweSubtotal') }}</span>{{ simplifyCarFeeInfo.totalAmount }}
+        </span>
       </el-col>
-      <el-col :span="8" class="text-right">
+      <el-col :span="6">
         <el-pagination :current-page.sync="currentPage" :page-size="pageSize" :total="total"
-          layout="total, prev, pager, next" @current-change="handlePageChange" />
+          layout="total, prev, pager, next" @current-change="handlePageChange" class="text-right" />
       </el-col>
     </el-row>
+
 
     <delete-fee ref="deleteFee" @success="handleNotify"></delete-fee>
     <edit-fee ref="editFee" @success="handleNotify"></edit-fee>
@@ -136,7 +150,7 @@ export default {
     EditFee,
     DeleteFee,
     SplitFee
-  },  
+  },
   data() {
     return {
       ownerId: '',
@@ -420,34 +434,31 @@ export default {
 
   /* table UI 优化：贴近 el-table 风格 */
   ::v-deep .el-table thead th {
-    background-color: #fff !important;     /* 白底表头 */
-    color: #606266 !important;            /* Element 默认文字色 */
-    font-weight: 500;                      /* 更接近 el-table 的字重 */
+    background-color: #fff !important;
+    /* 白底表头 */
+    color: #606266 !important;
+    /* Element 默认文字色 */
+    font-weight: 500;
+    /* 更接近 el-table 的字重 */
     border-bottom: 1px solid #ebeef5 !important;
-    height: 48px;                          /* 提高表头高度 */
-    line-height: 48px;                     /* 垂直居中 */
+    height: 48px;
+    /* 提高表头高度 */
+    line-height: 48px;
+    /* 垂直居中 */
   }
 
   ::v-deep .el-table tbody td {
-    border-top: none;                      /* 避免形成双线 */
-    border-bottom: 1px solid #ebeef5;      /* 行分隔线与 el-table 接近 */
+    border-top: none;
+    /* 避免形成双线 */
+    border-bottom: 1px solid #ebeef5;
+    /* 行分隔线与 el-table 接近 */
   }
 
   ::v-deep .el-table {
-    border: 1px solid #ebeef5;             /* 外框单线 */
-    border-collapse: collapse;              /* 合并边框，避免双线 */
-  }
-
-  .footer-info {
-    margin-top: 20px;
-    padding: 10px;
-    background-color: #f5f7fa;
-    border-radius: 4px;
-
-    .notice {
-      color: #666;
-      font-size: 12px;
-    }
+    border: 1px solid #ebeef5;
+    /* 外框单线 */
+    border-collapse: collapse;
+    /* 合并边框，避免双线 */
   }
 
   .text-right {

@@ -118,11 +118,9 @@
           </template>
         </tbody>
       </table>
-      <el-pagination @current-change="handleCurrentChange" :current-page="currentPage" :page-size="pageSize"
-        layout="total, prev, pager, next" :total="total" class="pagination text-right"></el-pagination>
     </div>
 
-    <el-row>
+    <el-row class="margin-top">
       <el-col :span="12" class="text-left table-desc">
         <div>{{ $t('simplifyOwnerShopFee.note1') }}</div>
         <div>{{ $t('simplifyOwnerShopFee.note2') }}</div>
@@ -131,6 +129,10 @@
         <span>
           <span>{{ $t('simplifyOwnerShopFee.arrearsSubtotal') }}</span>{{ simplifyOwnerShopFeeInfo.totalAmount }}
         </span>
+      </el-col>
+      <el-col :span="6" class="text-right">
+        <el-pagination @current-change="handleCurrentChange" :current-page="currentPage" :page-size="pageSize"
+          layout="total, prev, pager, next" :total="total" class="pagination text-right"></el-pagination>
       </el-col>
     </el-row>
     <delete-fee ref="deleteFee" @success="handleNotify"></delete-fee>
@@ -502,18 +504,5 @@ export default {
   white-space: pre-wrap;
   word-break: break-word;
   line-height: 1.4;
-}
-
-.pagination {
-  margin-top: 20px;
-}
-
-.table-desc {
-  color: #909399;
-  font-size: 12px;
-}
-
-.table-desc div {
-  margin-bottom: 5px;
 }
 </style>

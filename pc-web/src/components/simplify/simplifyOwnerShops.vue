@@ -25,19 +25,21 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-row>
-      <el-col :span="16"></el-col>
-      <el-col :span="8" class="float-right">
+    <el-row class="margin-top">
+      <el-col :span="12" class="text-left table-desc">&nbsp;</el-col>
+      <el-col :span="6" class="text-center">
         <span>{{ $t('simplifyOwnerShops.subtotalOweFee') }}：{{ simplifyOwnerShopsInfo.allOweFeeAmount }}</span>
       </el-col>
+      <el-col :span="6" class="text-right">
+        <el-pagination
+          @current-change="handleCurrentChange"
+          :current-page="currentPage"
+          :page-size="pageSize"
+          layout="total, prev, pager, next"
+          :total="total">
+        </el-pagination>
+      </el-col>
     </el-row>
-    <el-pagination
-      @current-change="handleCurrentChange"
-      :current-page="currentPage"
-      :page-size="pageSize"
-      layout="total, prev, pager, next"
-      :total="total">
-    </el-pagination>
   </div>
 </template>
 

@@ -117,13 +117,12 @@
           </template>
         </tbody>
       </table>
-      <el-pagination @current-change="handleCurrentChange" :current-page="currentPage" :page-size="pageSize"
-        layout="total, prev, pager, next" :total="total" class="pagination text-right"></el-pagination>
+     
     </div>
 
     
 
-    <el-row>
+    <el-row class="margin-top">
       <el-col :span="12" class="text-left table-desc">
         <div>{{ $t('simplifyRoomFee.note1') }}</div>
         <div>{{ $t('simplifyRoomFee.note2') }}</div>
@@ -133,6 +132,10 @@
           <span>{{ $t('simplifyRoomFee.arrearsSubtotal') }}</span>{{ simplifyRoomFeeInfo.totalAmount }}
         </span>
       </el-col>
+      <el-col :span="6" class="text-right">
+        <el-pagination @current-change="handleCurrentChange" :current-page="currentPage" :page-size="pageSize"
+        layout="total, prev, pager, next" :total="total" class="pagination text-right"></el-pagination>
+        </el-col>
     </el-row>
     <!-- Modal Components -->
     <delete-fee ref="deleteFee" @success="handleNotify"></delete-fee>
