@@ -72,7 +72,9 @@
         :current-page="currentPage"
         :page-size="pageSize"
         layout="total, prev, pager, next"
-        :total="total">
+        :total="total"
+        class="text-right"
+        style="margin-top: 20px">
       </el-pagination>
     </div>
     <write-owe-fee-callable ref="writeOweFeeCallable"></write-owe-fee-callable>

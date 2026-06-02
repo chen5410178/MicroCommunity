@@ -41,7 +41,8 @@
         :page-size="pageSize"
         layout="total, prev, pager, next"
         :total="total"
-        class="pagination"
+        class="text-right"
+        style="margin-top: 20px"
       ></el-pagination>
     </div>
   </div>
@@ -146,8 +147,7 @@ export default {
 .margin-top {
   margin-top: 15px;
 }
-.pagination {
-  margin-top: 15px;
+.text-right {
   text-align: right;
 }
 </style>

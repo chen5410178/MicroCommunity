@@ -46,7 +46,7 @@
     </el-table>
 
     <el-pagination @current-change="handleCurrentChange" :current-page="currentPage" :page-size="pageSize"
-      layout="total, prev, pager, next" :total="total">
+      layout="total, prev, pager, next" :total="total" class="text-right" style="margin-top: 20px">
     </el-pagination>
 
     <complaint-detail ref="complaintDetail"></complaint-detail>
@@ -149,5 +149,8 @@ export default {
 <style scoped>
 .margin-top {
   margin-top: 10px;
+}
+.text-right {
+  text-align: right;
 }
 </style>

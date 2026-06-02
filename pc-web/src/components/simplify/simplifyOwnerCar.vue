@@ -68,7 +68,9 @@
       :current-page="currentPage"
       :page-size="pageSize"
       layout="total, prev, pager, next"
-      :total="total">
+      :total="total"
+      class="text-right"
+      style="margin-top: 20px">
     </el-pagination>
 
     <edit-car ref="editCar" @listOwnerCarData="listSimplifyOwnerCar"></edit-car>
@@ -167,5 +169,8 @@ export default {
 <style scoped>
 .margin-top {
   margin-top: 10px;
+}
+.text-right {
+  text-align: right;
 }
 </style>

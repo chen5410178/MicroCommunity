@@ -92,7 +92,7 @@
         <el-table-column prop="receiptId" :label="$t('simplifyFeeReceipt.receiptId')" align="center"></el-table-column>
       </el-table>
       <el-pagination @current-change="handleCurrentChange" :current-page="currentPage" :page-size="pageSize"
-        layout="total, prev, pager, next" :total="total">
+        layout="total, prev, pager, next" :total="total" class="text-right" style="margin-top: 20px">
       </el-pagination>
     </div>
   </div>
