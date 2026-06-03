@@ -17,13 +17,13 @@
         </el-select>
       </el-form-item>
 
-   
+
 
       <template v-if="formData.titleType && formData.titleType !== '3003'">
         <div v-for="(item, index) in formData.titleValues" :key="index">
-          <el-form-item :label="`${$t('inspectionItemTitleManage.option')} ${index + 1}`"
+          <el-form-item :label="`${$t('inspectionItemTitleManage.option')} ${index + 1}`" class="text-left"
             :prop="`titleValues.${index}.itemValue`" :rules="[{ required: true, message: $t('common.required') }]">
-            <el-input v-model="item.itemValue" />
+            <el-input v-model="item.itemValue" style="width:80%;" />
             <el-button v-if="index === formData.titleValues.length - 1" type="text" @click="addOption">
               <i class="el-icon-plus"></i>
               {{ $t('inspectionItemTitleManage.addOption') }}

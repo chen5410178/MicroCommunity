@@ -2,25 +2,30 @@
   <div class="inspection-route-container">
     <el-row :gutter="20">
       <el-col :span="4" class="left-panel">
-        <el-card class="search-card">
-          <div class="flex justify-start">
+        <el-card class="route-card">
+          <div style="display: flex; align-items: center; margin-bottom: 12px; gap: 6px;">
             <el-input v-model="inspectionRouteInfo.conditions.routeName"
-              :placeholder="$t('inspectionRoute.routeNamePlaceholder')" class="search-input" clearable />
-            <el-button type="text" class="margin-left-xs" size="small" @click="_queryInspectionRouteMethod">
+              :placeholder="$t('inspectionRoute.routeNamePlaceholder')"
+              size="small"
+              clearable
+              style="flex: 1;"
+            />
+            <el-button type="text" size="small" @click="_queryInspectionRouteMethod">
               {{ $t('common.search') }}
             </el-button>
-            <el-button type="text" class="margin-left-xs" size="small" @click="_openAddInspectionRouteModal">
+            <el-button type="text" size="small" @click="_openAddInspectionRouteModal">
               {{ $t('common.add') }}
             </el-button>
           </div>
 
-          <div class="route-list margin-top">
+          <div class="route-list-wrapper">
             <ul class="route-ul">
-              <li v-for="(route, index) in inspectionRouteInfo.inspectionRoutes" :key="index" :class="{
-                'active-route':
-                  route.inspectionRouteId ==
-                  inspectionRouteInfo.route.inspectionRouteId
-              }" @click="_switchInspectionRoute(route)">
+              <li v-for="(route, index) in inspectionRouteInfo.inspectionRoutes" :key="index"
+                :class="{
+                  'selected': route.inspectionRouteId == inspectionRouteInfo.route.inspectionRouteId
+                }"
+                class="route-list-item"
+                @click="_switchInspectionRoute(route)">
                 {{ route.routeName }}
               </li>
             </ul>
@@ -29,71 +34,73 @@
       </el-col>
 
       <el-col :span="20" class="right-panel">
-        <el-card class="route-detail-card">
-          <div slot="header" class="flex justify-between">
-            <span>{{ $t('inspectionRoute.routeInfo') }}</span>
-            <div class="ibox-tools">
-              <el-button size="mini" @click="_openEditInspectionRouteModel(inspectionRouteInfo.route)">
-                {{ $t('common.edit') }}
-              </el-button>
-              <el-button size="mini" type="danger" @click="_openDeleteInspectionRouteModel(inspectionRouteInfo.route)">
-                {{ $t('common.delete') }}
-              </el-button>
-            </div>
-          </div>
+        <el-row v-if="inspectionRouteInfo.route.inspectionRouteId">
+          <el-col :span="24">
+            <el-card>
+              <div slot="header" class="flex justify-between">
+                <span>{{ $t('inspectionRoute.routeInfo') }}</span>
+                <div class="ibox-tools">
+                  <el-button size="small" @click="_openEditInspectionRouteModel(inspectionRouteInfo.route)">
+                    {{ $t('common.edit') }}
+                  </el-button>
+                  <el-button size="small" type="danger" @click="_openDeleteInspectionRouteModel(inspectionRouteInfo.route)">
+                    {{ $t('common.delete') }}
+                  </el-button>
+                </div>
+              </div>
 
-          <el-row class="text-left">
-            <el-col :span="6">
-              <div class="form-group">
-                <label class="col-form-label">
-                  {{ $t('inspectionRoute.routeName') }}:
-                </label>
-                <label>{{ inspectionRouteInfo.route.routeName }}</label>
+              <div class="detail-wrapper">
+                <el-row :gutter="10">
+                  <el-col :span="6">
+                    <div class="detail-item">
+                      <span class="detail-label">{{ $t('inspectionRoute.routeName') }}：</span>
+                      <span>{{ inspectionRouteInfo.route.routeName }}</span>
+                    </div>
+                  </el-col>
+                  <el-col :span="6">
+                    <div class="detail-item">
+                      <span class="detail-label">{{ $t('inspectionRoute.sequence') }}：</span>
+                      <span>{{ inspectionRouteInfo.route.seq }}</span>
+                    </div>
+                  </el-col>
+                  <el-col :span="6">
+                    <div class="detail-item">
+                      <span class="detail-label">{{ $t('inspectionRoute.createTime') }}：</span>
+                      <span>{{ inspectionRouteInfo.route.createTime }}</span>
+                    </div>
+                  </el-col>
+                  <el-col :span="6">
+                    <div class="detail-item">
+                      <span class="detail-label">{{ $t('inspectionRoute.remark') }}：</span>
+                      <span>{{ inspectionRouteInfo.route.remark }}</span>
+                    </div>
+                  </el-col>
+                </el-row>
               </div>
-            </el-col>
-            <el-col :span="6">
-              <div class="form-group">
-                <label class="col-form-label">
-                  {{ $t('inspectionRoute.sequence') }}:
-                </label>
-                <label>{{ inspectionRouteInfo.route.seq }}</label>
-              </div>
-            </el-col>
-            <el-col :span="6">
-              <div class="form-group">
-                <label class="col-form-label">
-                  {{ $t('inspectionRoute.createTime') }}:
-                </label>
-                <label>{{ inspectionRouteInfo.route.createTime }}</label>
-              </div>
-            </el-col>
-            <el-col :span="6">
-              <div class="form-group">
-                <label class="col-form-label">
-                  {{ $t('inspectionRoute.remark') }}:
-                </label>
-                <label>{{ inspectionRouteInfo.route.remark }}</label>
-              </div>
-            </el-col>
-          </el-row>
-        </el-card>
+            </el-card>
+          </el-col>
+        </el-row>
 
-        <el-card class="tab-card margin-top">
-          <el-tabs v-model="inspectionRouteInfo._currentTab" @tab-click="changeTab(inspectionRouteInfo._currentTab)">
-            <el-tab-pane label="巡检点" name="inspectionRoutePoint">
-              <inspection-route-point ref="inspectionRoutePoint" />
-            </el-tab-pane>
-            <el-tab-pane label="巡检地图" name="inspectionRouteMap">
-              <inspection-route-map ref="inspectionRouteMap" />
-            </el-tab-pane>
-            <el-tab-pane label="巡检计划" name="routePlan">
-              <route-plan ref="routePlan" />
-            </el-tab-pane>
-            <el-tab-pane label="巡检任务" name="routeTask">
-              <route-task ref="routeTask" />
-            </el-tab-pane>
-          </el-tabs>
-        </el-card>
+        <el-row v-if="inspectionRouteInfo.route.inspectionRouteId" class="margin-top">
+          <el-col :span="24">
+            <el-card>
+              <el-tabs v-model="inspectionRouteInfo._currentTab" @tab-click="changeTab(inspectionRouteInfo._currentTab)">
+                <el-tab-pane label="巡检点" name="inspectionRoutePoint">
+                  <inspection-route-point ref="inspectionRoutePoint" />
+                </el-tab-pane>
+                <el-tab-pane label="巡检地图" name="inspectionRouteMap">
+                  <inspection-route-map ref="inspectionRouteMap" />
+                </el-tab-pane>
+                <el-tab-pane label="巡检计划" name="routePlan">
+                  <route-plan ref="routePlan" />
+                </el-tab-pane>
+                <el-tab-pane label="巡检任务" name="routeTask">
+                  <route-task ref="routeTask" />
+                </el-tab-pane>
+              </el-tabs>
+            </el-card>
+          </el-col>
+        </el-row>
       </el-col>
     </el-row>
 
@@ -159,7 +166,21 @@ export default {
         const data = await listInspectionRoutes(params)
         this.inspectionRouteInfo.inspectionRoutes = data.inspectionRoutes
         if (data.inspectionRoutes && data.inspectionRoutes.length > 0) {
-          this._switchInspectionRoute(data.inspectionRoutes[0])
+          if (this.inspectionRouteInfo.route.inspectionRouteId) {
+            var found = data.inspectionRoutes.find(function (r) {
+              return r.inspectionRouteId === this.inspectionRouteInfo.route.inspectionRouteId
+            }.bind(this))
+            if (found) {
+              this.inspectionRouteInfo.route = found
+              this.changeTab(this.inspectionRouteInfo._currentTab)
+            } else {
+              this._switchInspectionRoute(data.inspectionRoutes[0])
+            }
+          } else {
+            this._switchInspectionRoute(data.inspectionRoutes[0])
+          }
+        } else {
+          this.inspectionRouteInfo.route = {}
         }
       } catch (error) {
         console.error('获取巡检路线列表失败:', error)
@@ -199,63 +220,79 @@ export default {
 <style lang="scss" scoped>
 .inspection-route-container {
   padding: 20px;
-  height: 100%;
+}
 
-  .left-panel {
-    height: 100%;
+.margin-top {
+  margin-top: 15px;
+}
 
-    .search-card {
-      height: 100%;
+.left-panel {
+  .route-card {
+    height: 700px;
 
-      .search-input {
-        width: 60%;
+    .route-list-wrapper {
+      height: 630px;
+      overflow-y: auto;
+
+      &::-webkit-scrollbar {
+        width: 4px;
       }
 
-      .route-list {
-        height: calc(100% - 60px);
-        overflow-y: auto;
+      &::-webkit-scrollbar-thumb {
+        background: #dcdfe6;
+        border-radius: 2px;
+      }
 
-        .route-ul {
-          list-style: none;
-          padding: 0;
-          margin: 0;
+      &::-webkit-scrollbar-track {
+        background: transparent;
+      }
 
-          li {
-            padding: 10px;
-            cursor: pointer;
+      .route-ul {
+        list-style: none;
+        padding: 0 5px;
+        margin: 0;
 
-            &:hover {
-              background-color: #f5f5f5;
-            }
+        .route-list-item {
+          padding: 10px;
+          text-align: center;
+          cursor: pointer;
+          border-radius: 4px;
+          margin-bottom: 5px;
+          transition: all 0.3s;
+          font-size: 14px;
+          color: #606266;
 
-            &.active-route {
-              background-color: #409eff;
-              color: white;
-            }
+          &:hover {
+            background-color: #f5f7fa;
+          }
+
+          &.selected {
+            background-color: #409eff;
+            color: white;
           }
         }
       }
     }
   }
+}
 
-  .right-panel {
-    height: 100%;
+.right-panel {
+  padding-left: 5px;
+}
 
-    .route-detail-card {
-      margin-bottom: 20px;
-    }
+.ibox-tools {
+  float: right;
+}
 
-    .tab-card {
-      height: calc(100% - 180px);
-    }
+.detail-wrapper {
+  .detail-item {
+    padding: 8px 0;
+    font-size: 14px;
+    color: #606266;
   }
 
-  .margin-top {
-    margin-top: 10px;
-  }
-
-  .margin-left-xs {
-    margin-left: 10px;
+  .detail-label {
+    margin-right: 4px;
   }
 }
 </style>

@@ -16,7 +16,7 @@ export const messages = {
       operation: 'Operation',
       edit: 'Edit',
       delete: 'Delete',
-      question: 'Question',
+      question: 'Inspection Questions',
       addTitle: 'Add',
       editTitle: 'Edit',
       deleteTitle: 'Delete',
@@ -32,7 +32,9 @@ export const messages = {
       confirmDeleteBtn: 'Confirm Delete',
       deleteSuccess: 'Delete successfully',
       addSuccess: 'Add successfully',
-      editSuccess: 'Edit successfully'
+      editSuccess: 'Edit successfully',
+      itemDetail: 'Item Detail',
+      noItemSelected: 'Please select an inspection item on the left'
     }
   },
   zh: {
@@ -52,7 +54,7 @@ export const messages = {
       operation: '操作',
       edit: '修改',
       delete: '删除',
-      question: '题目',
+      question: '巡检题目',
       addTitle: '添加',
       editTitle: '修改',
       deleteTitle: '删除',
@@ -68,7 +70,9 @@ export const messages = {
       confirmDeleteBtn: '确认删除',
       deleteSuccess: '删除成功',
       addSuccess: '添加成功',
-editSuccess: '修改成功'
+      editSuccess: '修改成功',
+      itemDetail: '巡检项目详情',
+      noItemSelected: '请在左侧选择一个巡检项目'
     }
   },
   'zh-TW': {
@@ -88,7 +92,7 @@ editSuccess: '修改成功'
       operation: '操作',
       edit: '修改',
       delete: '刪除',
-      question: '題目',
+      question: '巡檢題目',
       addTitle: '添加',
       editTitle: '修改',
       deleteTitle: '刪除',
@@ -104,7 +108,9 @@ editSuccess: '修改成功'
       confirmDeleteBtn: '確認刪除',
       deleteSuccess: '刪除成功',
       addSuccess: '添加成功',
-      editSuccess: '修改成功'
+      editSuccess: '修改成功',
+      itemDetail: '巡檢項目詳情',
+      noItemSelected: '請在左側選擇一個巡檢項目'
     }
   }
 }

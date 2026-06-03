@@ -27,6 +27,9 @@
         <el-card class="box-card">
           <div slot="header" class="flex justify-between">
             <span>{{ $t('repairPoolManage.queryConditions') }}</span>
+            <el-button type="text" @click="moreCondition = !moreCondition" style="padding:0">
+              {{ moreCondition ? $t('repairPoolManage.hide') : $t('repairPoolManage.more') }}
+            </el-button>
           </div>
 
           <el-form :model="conditions" label-width="auto">
@@ -51,22 +54,6 @@
 
               <el-col :span="4">
                 <el-form-item>
-                  <el-input v-model="conditions.repairObjName" :placeholder="$t('repairPoolManage.repairLocation')" clearable />
-                </el-form-item>
-              </el-col>
-
-              <el-col :span="4">
-                <el-form-item>
-                  <el-select v-model="conditions.maintenanceType"
-                    :placeholder="$t('repairPoolManage.selectMaintenanceType')" style="width:100%" clearable>
-                    <el-option v-for="(item, index) in maintenanceTypes" :key="index" :label="item.name"
-                      :value="item.statusCd" />
-                  </el-select>
-                </el-form-item>
-              </el-col>
-
-              <el-col :span="4">
-                <el-form-item>
                   <el-date-picker v-model="conditions.startTime" type="date" style="width:100%" value-format="yyyy-MM-dd"
                     :placeholder="$t('repairPoolManage.startTime')" />
                 </el-form-item>
@@ -81,6 +68,24 @@
               <el-col :span="4">
                 <el-button type="primary" @click="queryRepairPool">{{ $t('repairPoolManage.search') }}</el-button>
                 <el-button @click="resetRepairPool">{{ $t('repairPoolManage.reset') }}</el-button>
+              </el-col>
+            </el-row>
+
+            <el-row :gutter="20" v-show="moreCondition">
+              <el-col :span="4">
+                <el-form-item>
+                  <el-input v-model="conditions.repairObjName" :placeholder="$t('repairPoolManage.repairLocation')" clearable />
+                </el-form-item>
+              </el-col>
+
+              <el-col :span="4">
+                <el-form-item>
+                  <el-select v-model="conditions.maintenanceType"
+                    :placeholder="$t('repairPoolManage.selectMaintenanceType')" style="width:100%" clearable>
+                    <el-option v-for="(item, index) in maintenanceTypes" :key="index" :label="item.name"
+                      :value="item.statusCd" />
+                  </el-select>
+                </el-form-item>
               </el-col>
             </el-row>
           </el-form>
@@ -208,6 +213,7 @@ export default {
       maintenanceTypes: [],
       selectedRepairType: '',
       activeStateTab: 'ALL',
+      moreCondition: false,
       conditions: {
         repairId: '',
         repairName: '',

@@ -14,7 +14,8 @@ export const messages = {
         pointTaskDetail: 'Inspection Details',
         pointRoute: 'Inspection Route',
         pointPlan: 'Inspection Plan',
-        pointTask: 'Inspection Task'
+        pointTask: 'Inspection Task',
+        itemQuestions: 'Inspection Questions'
       }
     },
     pointTaskDetail: {
@@ -168,7 +169,8 @@ export const messages = {
         pointTaskDetail: '巡检明细',
         pointRoute: '巡检路线',
         pointPlan: '巡检计划',
-        pointTask: '巡检任务'
+        pointTask: '巡检任务',
+        itemQuestions: '巡检题目'
       }
     },
     pointTaskDetail: {
@@ -322,7 +324,8 @@ fetchError: '获取设备列表失败'
         pointTaskDetail: '巡檢明細',
         pointRoute: '巡檢路線',
         pointPlan: '巡檢計劃',
-        pointTask: '巡檢任務'
+        pointTask: '巡檢任務',
+        itemQuestions: '巡檢題目'
       }
     },
     pointTaskDetail: {

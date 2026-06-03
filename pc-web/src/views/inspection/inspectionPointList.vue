@@ -1,33 +1,37 @@
 <template>
   <div class="inspection-point-container">
-    <el-row class="margin-bottom-20" :gutter="20">
-      <el-col :span="4">
-        <el-card>
-          <div class="flex justify-start">
-            <div style="width: 300px; margin-right: 10px;">
-              <el-input :placeholder="$t('inspectionPoint.placeholder.inspectionName')"
-                v-model="inspectionPointInfo.conditions.inspectionName" clearable />
-            </div>
-            <el-button type="text" class="margin-left-xs" size="small" @click="_queryInspectionPointMethod()">
+    <el-row :gutter="20">
+      <el-col :span="4" class="left-panel">
+        <el-card class="point-card">
+          <div style="display: flex; align-items: center; margin-bottom: 12px; gap: 6px;">
+            <el-input
+              :placeholder="$t('inspectionPoint.placeholder.inspectionName')"
+              v-model="inspectionPointInfo.conditions.inspectionName"
+              clearable
+              size="small"
+              style="flex: 1;"
+            />
+            <el-button type="text" size="small" @click="_queryInspectionPointMethod()">
               {{ $t('common.search') }}
             </el-button>
-            <el-button type="text" class="margin-left-xs" size="small" @click="_openAddInspectionPointModal()">
+            <el-button type="text" size="small" @click="_openAddInspectionPointModal()">
               {{ $t('common.add') }}
             </el-button>
           </div>
 
-          <div class="vc-org margin-top">
+          <div class="point-list-wrapper">
             <ul class="point-list">
               <li v-for="(point, index) in inspectionPointInfo.points" :key="index"
                 @click="_switchInspectionPoint(point)"
-                :class="{ 'active': point.inspectionId == inspectionPointInfo.point.inspectionId }">
+                :class="{ 'selected': point.inspectionId == inspectionPointInfo.point.inspectionId }"
+                class="point-list-item">
                 {{ point.inspectionName }}
               </li>
             </ul>
           </div>
         </el-card>
       </el-col>
-      <el-col :span="20">
+      <el-col :span="20" class="right-panel">
         <el-row v-if="inspectionPointInfo.point.inspectionId">
           <el-col :span="24">
             <el-card>
@@ -48,46 +52,36 @@
                 </div>
               </div>
 
-              <div class="">
-                <el-row :gutter="20" class="text-left">
+              <div class="detail-wrapper">
+                <el-row :gutter="10">
                   <el-col :span="6">
-                    <div class="form-group">
-                      <label class="col-form-label">
-                        {{ $t('inspectionPoint.inspectionPoint') }}:
-                      </label>
-                      <label>{{ inspectionPointInfo.point.inspectionName }}</label>
+                    <div class="detail-item">
+                      <span class="detail-label">{{ $t('inspectionPoint.inspectionPoint') }}：</span>
+                      <span>{{ inspectionPointInfo.point.inspectionName }}</span>
                     </div>
                   </el-col>
                   <el-col :span="6">
-                    <div class="form-group">
-                      <label class="col-form-label">
-                        {{ $t('inspectionPoint.inspectionType') }}:
-                      </label>
-                      <label>{{ inspectionPointInfo.point.pointTypeName }}</label>
+                    <div class="detail-item">
+                      <span class="detail-label">{{ $t('inspectionPoint.inspectionType') }}：</span>
+                      <span>{{ inspectionPointInfo.point.pointTypeName }}</span>
                     </div>
                   </el-col>
                   <el-col :span="6">
-                    <div class="form-group">
-                      <label class="col-form-label">
-                        {{ $t('inspectionPoint.inspectionLocation') }}:
-                      </label>
-                      <label>{{ inspectionPointInfo.point.pointObjName }}</label>
+                    <div class="detail-item">
+                      <span class="detail-label">{{ $t('inspectionPoint.inspectionLocation') }}：</span>
+                      <span>{{ inspectionPointInfo.point.pointObjName }}</span>
                     </div>
                   </el-col>
                   <el-col :span="6">
-                    <div class="form-group">
-                      <label class="col-form-label">
-                        {{ $t('inspectionPoint.inspectionItem') }}:
-                      </label>
-                      <label>{{ inspectionPointInfo.point.itemName }}</label>
+                    <div class="detail-item">
+                      <span class="detail-label">{{ $t('inspectionPoint.inspectionItem') }}：</span>
+                      <span>{{ inspectionPointInfo.point.itemName }}</span>
                     </div>
                   </el-col>
                   <el-col :span="6">
-                    <div class="form-group">
-                      <label class="col-form-label">
-                        NFC:
-                      </label>
-                      <label>{{ inspectionPointInfo.point.nfcCode }}</label>
+                    <div class="detail-item">
+                      <span class="detail-label">NFC：</span>
+                      <span>{{ inspectionPointInfo.point.nfcCode }}</span>
                     </div>
                   </el-col>
                 </el-row>
@@ -114,6 +108,21 @@
                 <el-tab-pane name="pointTask" :label="$t('inspectionPoint.tabs.pointTask')">
                   <point-task v-if="inspectionPointInfo._currentTab === 'pointTask'" ref="pointTask" />
                 </el-tab-pane>
+                <el-tab-pane name="itemQuestions" :label="$t('inspectionPoint.tabs.itemQuestions')">
+                  <div v-if="inspectionPointInfo._currentTab === 'itemQuestions'" v-loading="questionsLoading" class="margin-top">
+                    <el-table :data="questionsData" border style="width:100%">
+                      <el-table-column prop="titleId" :label="$t('inspectionItemTitleManage.titleId')" align="center" />
+                      <el-table-column prop="itemTitle" :label="$t('inspectionItemTitleManage.title')" align="center" />
+                      <el-table-column prop="titleType" :label="$t('inspectionItemTitleManage.titleType')" align="center">
+                        <template slot-scope="scope">
+                          {{ _getTitleTypeName(scope.row.titleType) }}
+                        </template>
+                      </el-table-column>
+                      <el-table-column prop="seq" :label="$t('inspectionItemTitleManage.seq')" align="center" />
+                      <el-table-column prop="createTime" :label="$t('inspectionItemTitleManage.createTime')" align="center" />
+                    </el-table>
+                  </div>
+                </el-tab-pane>
               </el-tabs>
             </el-card>
           </el-col>
@@ -130,6 +139,7 @@
 
 <script>
 import { listInspectionPoints } from '@/api/inspection/inspectionPointApi'
+import { listInspectionItemTitle } from '@/api/inspection/inspectionItemTitleManageApi'
 import { getDict } from '@/api/community/communityApi'
 import { getCommunityId } from '@/api/community/communityApi'
 import PointTaskDetail from '@/components/inspection/pointTaskDetail'
@@ -175,7 +185,9 @@ export default {
           row: 1000
         }
       },
-      communityId: ''
+      communityId: '',
+      questionsData: [],
+      questionsLoading: false
     }
   },
   created() {
@@ -201,7 +213,19 @@ export default {
         this.inspectionPointInfo.records = response.records
 
         if (response.inspectionPoints && response.inspectionPoints.length > 0) {
-          this._switchInspectionPoint(response.inspectionPoints[0])
+          if (this.inspectionPointInfo.point.inspectionId) {
+            var found = response.inspectionPoints.find(function (p) {
+              return p.inspectionId === this.inspectionPointInfo.point.inspectionId
+            }.bind(this))
+            if (found) {
+              this.inspectionPointInfo.point = found
+              this.changeTab(this.inspectionPointInfo._currentTab)
+            } else {
+              this._switchInspectionPoint(response.inspectionPoints[0])
+            }
+          } else {
+            this._switchInspectionPoint(response.inspectionPoints[0])
+          }
         }
       } catch (error) {
         console.error('获取巡检点列表失败:', error)
@@ -218,6 +242,11 @@ export default {
     changeTab(tab) {
       this.inspectionPointInfo._currentTab = tab
 
+      if (tab === 'itemQuestions') {
+        this._loadQuestions()
+        return
+      }
+
       // 触发子组件加载数据
       setTimeout(() => {
         if (this.$refs[tab]) {
@@ -225,6 +254,33 @@ export default {
         }
       }, 500)
 
+    },
+    async _loadQuestions() {
+      var itemId = this.inspectionPointInfo.point.itemId
+      if (!itemId) return
+
+      this.questionsLoading = true
+      try {
+        var res = await listInspectionItemTitle({
+          itemId: itemId,
+          page: 1,
+          row: 100,
+          communityId: this.communityId
+        })
+        this.questionsData = res.data || []
+      } catch (error) {
+        console.error('获取项目题目失败:', error)
+      } finally {
+        this.questionsLoading = false
+      }
+    },
+    _getTitleTypeName(type) {
+      var types = {
+        '1001': this.$t('inspectionItemTitleManage.singleChoice'),
+        '2002': this.$t('inspectionItemTitleManage.multipleChoice'),
+        '3003': this.$t('inspectionItemTitleManage.shortAnswer')
+      }
+      return types[type] || type
     },
     _openAddInspectionPointModal() {
       this.$refs.addInspectionPoint.open()
@@ -243,64 +299,82 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .inspection-point-container {
   padding: 20px;
-}
-
-.margin-bottom-20 {
-  margin-bottom: 20px;
 }
 
 .margin-top {
   margin-top: 15px;
 }
 
-.margin-left-xs {
-  margin-left: 10px;
+.left-panel {
+  .point-card {
+    height: 700px;
+
+    .point-list-wrapper {
+      height: 630px;
+      overflow-y: auto;
+
+      &::-webkit-scrollbar {
+        width: 4px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: #dcdfe6;
+        border-radius: 2px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      .point-list {
+        list-style: none;
+        padding: 0 5px;
+        margin: 0;
+
+        .point-list-item {
+          padding: 10px;
+          text-align: center;
+          cursor: pointer;
+          border-radius: 4px;
+          margin-bottom: 5px;
+          transition: all 0.3s;
+          font-size: 14px;
+          color: #606266;
+
+          &:hover {
+            background-color: #f5f7fa;
+          }
+
+          &.selected {
+            background-color: #409eff;
+            color: white;
+          }
+        }
+      }
+    }
+  }
 }
 
-.vc-org {
-  padding: 5px;
-  max-height: 600px;
-  overflow-y: auto;
-}
-
-.point-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.point-list li {
-  padding: 10px;
-  cursor: pointer;
-}
-
-.point-list li:last-child {
-  border-bottom: none;
-}
-
-.point-list li:hover {
-  background-color: #f5f7fa;
-}
-
-.point-list li.active {
-  background-color: #409eff;
-  color: #ecf5ff;
-  font-weight: bold;
+.right-panel {
+  padding-left: 5px;
 }
 
 .ibox-tools {
   float: right;
 }
 
-.form-group {
-  margin-bottom: 15px;
-}
+.detail-wrapper {
+  .detail-item {
+    padding: 8px 0;
+    font-size: 14px;
+    color: #606266;
+  }
 
-.col-form-label {
-  display: inline-block;
-  margin-right: 10px;
+  .detail-label {
+    margin-right: 4px;
+  }
 }
 </style>
