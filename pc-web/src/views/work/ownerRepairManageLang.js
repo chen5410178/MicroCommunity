@@ -4,6 +4,7 @@ export const messages = {
       queryCondition: 'Query Condition',
       phoneRepair: 'Phone Repair',
       register: 'Register',
+      all: 'All',
       placeholder: {
         repairId: 'Please input repair id',
         repairName: 'Please input repair name',
@@ -76,6 +77,7 @@ export const messages = {
       queryCondition: '查询条件',
       phoneRepair: '电话报修',
       register: '登记',
+      all: '全部',
       placeholder: {
         repairId: '请输入工单编号',
         repairName: '请输入报修人',
@@ -147,6 +149,7 @@ deleteOwnerRepair: {
       queryCondition: '查詢條件',
       phoneRepair: '電話報修',
       register: '登記',
+      all: '全部',
       placeholder: {
         repairId: '請輸入工單編號',
         repairName: '請輸入報修人',

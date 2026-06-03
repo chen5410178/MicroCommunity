@@ -1,39 +1,51 @@
 <template>
-  <div class="padding">
+  <div class="animated fadeInRight">
     <el-row :gutter="20">
-      <el-col :span="24">
+      <el-col :span="3" class="left-panel">
+        <el-card class="parking-area-card">
+          <div class="parking-area-list-wrapper">
+            <ul class="parking-area-list">
+              <li class="parking-area-item" :class="{ 'selected': selectedRepairType === '' }"
+                @click="switchRepairType('')">
+                {{ $t('repairReturnVisit.all') }}
+              </li>
+              <li v-for="item in repairSettings" :key="item.repairType"
+                class="parking-area-item"
+                :class="{ 'selected': selectedRepairType === item.repairType }"
+                @click="switchRepairType(item.repairType)">
+                {{ item.repairTypeName }}
+              </li>
+            </ul>
+          </div>
+        </el-card>
+      </el-col>
+
+      <el-col :span="21" class="right-panel">
         <el-card>
           <div slot="header" class="flex justify-between">
             <span>{{ $t('repairReturnVisit.queryTitle') }}</span>
           </div>
           <el-form :model="searchForm" label-width="0">
             <el-row :gutter="15">
-              <el-col :sm="6" :md="4">
+              <el-col :span="4">
                 <el-input v-model.trim="searchForm.repairId" :placeholder="$t('repairReturnVisit.repairIdPlaceholder')"
                   clearable />
               </el-col>
-              <el-col :sm="6" :md="4">
-                <el-select v-model="searchForm.repairType" :placeholder="$t('repairReturnVisit.repairTypePlaceholder')"
-                  clearable style="width:100%">
-                  <el-option v-for="item in repairSettings" :key="item.repairType" :label="item.repairTypeName"
-                    :value="item.repairType" />
-                </el-select>
-              </el-col>
-              <el-col :sm="6" :md="4">
+              <el-col :span="4">
                 <el-input v-model.trim="searchForm.repairName"
                   :placeholder="$t('repairReturnVisit.repairNamePlaceholder')" clearable />
               </el-col>
-              <el-col :sm="6" :md="4">
+              <el-col :span="4">
                 <el-input v-model.trim="searchForm.tel" :placeholder="$t('repairReturnVisit.telPlaceholder')"
                   clearable />
               </el-col>
-              <el-col :sm="6" :md="4">
+              <el-col :span="4">
                 <el-select v-model="searchForm.state" :placeholder="$t('repairReturnVisit.statePlaceholder')" clearable
                   style="width:100%">
                   <el-option v-for="item in states" :key="item.value" :label="item.label" :value="item.value" />
                 </el-select>
               </el-col>
-              <el-col :sm="6" :md="4">
+              <el-col :span="4">
                 <el-button type="primary" icon="el-icon-search" @click="queryRepairPool">
                   {{ $t('common.search') }}
                 </el-button>
@@ -44,12 +56,8 @@
             </el-row>
           </el-form>
         </el-card>
-      </el-col>
-    </el-row>
 
-    <el-row :gutter="20" class="mt-20">
-      <el-col :span="24">
-        <el-card>
+        <el-card class="mt-20">
           <div slot="header" class="flex justify-between">
             <span>{{ $t('repairReturnVisit.listTitle') }}</span>
           </div>
@@ -92,9 +100,9 @@ export default {
   data() {
     return {
       loading: false,
+      selectedRepairType: '',
       searchForm: {
         repairId: '',
-        repairType: '',
         repairName: '',
         tel: '',
         state: 'waiting'
@@ -127,6 +135,12 @@ export default {
       } catch (error) {
         console.error('获取字典数据失败:', error)
       }
+    },
+    switchRepairType(repairType) {
+      this.selectedRepairType = repairType
+      this.searchForm.repairType = repairType
+      this.pagination.current = 1
+      this.listRepairPools()
     },
     async listRepairPools() {
       try {
@@ -169,13 +183,10 @@ export default {
       this.listRepairPools()
     },
     resetRepairPool() {
-      this.searchForm = {
-        repairId: '',
-        repairType: '',
-        repairName: '',
-        tel: '',
-        state: ''
-      }
+      this.searchForm.repairId = ''
+      this.searchForm.repairName = ''
+      this.searchForm.tel = ''
+      this.searchForm.state = ''
       this.queryRepairPool()
     },
     openRepairDetail(repairPool) {
@@ -200,7 +211,65 @@ export default {
 </script>
 
 <style scoped>
+.animated {
+  padding: 20px;
+}
+
 .mt-20 {
   margin-top: 20px;
+}
+
+.right-panel {
+  padding-left: 5px;
+}
+
+.left-panel {
+  .parking-area-card {
+    height: 700px;
+
+    .parking-area-list-wrapper {
+      height: 630px;
+      overflow-y: auto;
+
+      &::-webkit-scrollbar {
+        width: 4px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: #dcdfe6;
+        border-radius: 2px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      .parking-area-list {
+        list-style: none;
+        padding: 0 5px;
+        margin: 0;
+
+        .parking-area-item {
+          padding: 10px;
+          text-align: center;
+          cursor: pointer;
+          border-radius: 4px;
+          margin-bottom: 5px;
+          transition: all 0.3s;
+          font-size: 14px;
+          color: #606266;
+
+          &:hover {
+            background-color: #f5f7fa;
+          }
+
+          &.selected {
+            background-color: #409eff;
+            color: white;
+          }
+        }
+      }
+    }
+  }
 }
 </style>

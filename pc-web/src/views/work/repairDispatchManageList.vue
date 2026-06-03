@@ -1,40 +1,54 @@
 <template>
-  <div class="padding">
+  <div class="animated fadeInRight">
     <el-row :gutter="20">
-      <el-col :span="24">
+      <el-col :span="3" class="left-panel">
+        <el-card class="parking-area-card">
+          <div class="parking-area-list-wrapper">
+            <ul class="parking-area-list">
+              <li class="parking-area-item" :class="{ 'selected': selectedRepairType === '' }"
+                @click="switchRepairType('')">
+                {{ $t('repairDispatchManage.all') }}
+              </li>
+              <li v-for="(item, index) in repairDispatchManageInfo.repairTypes" :key="index"
+                class="parking-area-item"
+                :class="{ 'selected': selectedRepairType === item.repairType }"
+                @click="switchRepairType(item.repairType)">
+                {{ item.repairTypeName }}
+              </li>
+            </ul>
+          </div>
+        </el-card>
+      </el-col>
+
+      <el-col :span="21" class="right-panel">
         <el-card>
           <div slot="header" class="flex justify-between">
             <div>{{ $t('repairDispatchManage.searchConditions') }}</div>
           </div>
           <div class="">
             <el-row :gutter="15">
-              <el-col :span="4">
+              <el-col :span="6">
                 <el-input :placeholder="$t('repairDispatchManage.placeholder.repairId')"
                   v-model.trim="repairDispatchManageInfo.conditions.repairId" clearable />
               </el-col>
-              <el-col :span="4">
+              <el-col :span="6">
                 <el-input :placeholder="$t('repairDispatchManage.placeholder.repairName')"
                   v-model.trim="repairDispatchManageInfo.conditions.repairName" clearable />
               </el-col>
-              <el-col :span="4">
+              <el-col :span="6">
                 <el-input :placeholder="$t('repairDispatchManage.placeholder.tel')"
                   v-model.trim="repairDispatchManageInfo.conditions.tel" clearable />
               </el-col>
-              <el-col :span="4">
-                <el-select v-model="repairDispatchManageInfo.conditions.repairType" style="width:100%">
-                  <el-option :label="$t('repairDispatchManage.placeholder.selectRepairType')" value="" />
-                  <el-option v-for="(item, index) in repairDispatchManageInfo.repairTypes" :key="index"
-                    :label="item.repairTypeName" :value="item.repairType" />
-                </el-select>
-              </el-col>
-              <el-col :span="4">
+              <el-col :span="6">
                 <el-select v-model="repairDispatchManageInfo.conditions.state" style="width:100%">
                   <el-option :label="$t('repairDispatchManage.placeholder.selectStatus')" value="" />
                   <el-option v-for="(item, index) in repairDispatchManageInfo.states" :key="index" :label="item.name"
                     :value="item.statusCd" />
                 </el-select>
               </el-col>
-              <el-col :span="4">
+            </el-row>
+            <el-row :gutter="15" style="margin-top:15px">
+              <el-col :span="6">
                 <el-button type="primary" @click="_queryOwnerRepairMethod">
                   <i class="el-icon-search"></i>
                   {{ $t('common.search') }}
@@ -47,12 +61,8 @@
             </el-row>
           </div>
         </el-card>
-      </el-col>
-    </el-row>
 
-    <el-row :gutter="20" class="margin-top">
-      <el-col :span="24">
-        <el-card>
+        <el-card class="mt-20">
           <div slot="header" class="flex justify-between">
             <div>
               <span>{{ repairDispatchManageInfo.conditions.roomName }}</span>
@@ -60,7 +70,7 @@
             </div>
           </div>
           <div class="">
-            <el-table :data="repairDispatchManageInfo.ownerRepairs" border style="width:100%">
+            <el-table :data="repairDispatchManageInfo.ownerRepairs" border stripe style="width:100%">
               <el-table-column prop="repairObjName" :label="$t('repairDispatchManage.table.location')" align="center" />
               <el-table-column prop="repairTypeName" :label="$t('repairDispatchManage.table.repairType')"
                 align="center" />
@@ -150,6 +160,7 @@ export default {
   },
   data() {
     return {
+      selectedRepairType: '',
       repairDispatchManageInfo: {
         ownerRepairs: [],
         total: 0,
@@ -193,6 +204,12 @@ export default {
         this.$message.error(this.$t('common.initFailed'))
       }
     },
+    switchRepairType(repairType) {
+      this.selectedRepairType = repairType
+      this.repairDispatchManageInfo.conditions.repairType = repairType
+      this.page.current = 1
+      this._listOwnerRepairs()
+    },
     async _listOwnerRepairs() {
       try {
         const params = {
@@ -233,7 +250,6 @@ export default {
       this.repairDispatchManageInfo.conditions.repairId = ''
       this.repairDispatchManageInfo.conditions.repairName = ''
       this.repairDispatchManageInfo.conditions.tel = ''
-      this.repairDispatchManageInfo.conditions.repairType = ''
       this.repairDispatchManageInfo.conditions.state = ''
       this._listOwnerRepairs()
     },
@@ -286,8 +302,66 @@ export default {
 </script>
 
 <style scoped>
-.ibox-content {
-  padding: 15px 20px 20px 20px;
+.animated {
+  padding: 20px;
+}
+
+.mt-20 {
+  margin-top: 20px;
+}
+
+.right-panel {
+  padding-left: 5px;
+}
+
+.left-panel {
+  .parking-area-card {
+    height: 700px;
+
+    .parking-area-list-wrapper {
+      height: 630px;
+      overflow-y: auto;
+
+      &::-webkit-scrollbar {
+        width: 4px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: #dcdfe6;
+        border-radius: 2px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      .parking-area-list {
+        list-style: none;
+        padding: 0 5px;
+        margin: 0;
+
+        .parking-area-item {
+          padding: 10px;
+          text-align: center;
+          cursor: pointer;
+          border-radius: 4px;
+          margin-bottom: 5px;
+          transition: all 0.3s;
+          font-size: 14px;
+          color: #606266;
+
+          &:hover {
+            background-color: #f5f7fa;
+          }
+
+          &.selected {
+            background-color: #409eff;
+            color: white;
+          }
+        }
+      }
+    }
+  }
 }
 
 .pagination {

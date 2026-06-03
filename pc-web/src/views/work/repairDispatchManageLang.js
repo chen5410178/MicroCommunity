@@ -3,6 +3,7 @@ export const messages = {
     repairDispatchManage: {
       searchConditions: 'Search Conditions',
       repairBacklog: 'Repair Backlog',
+      all: 'All',
       placeholder: {
         repairId: 'Please enter work order number',
         repairName: 'Please enter reporter name',
@@ -54,6 +55,7 @@ export const messages = {
     repairDispatchManage: {
       searchConditions: '查询条件',
       repairBacklog: '报修待办',
+      all: '全部',
       placeholder: {
         repairId: '请输入工单编号',
         repairName: '请输入报修人',
@@ -105,6 +107,7 @@ startFailed: '启动失败'
     repairDispatchManage: {
       searchConditions: '查詢條件',
       repairBacklog: '報修待辦',
+      all: '全部',
       placeholder: {
         repairId: '請輸入工單編號',
         repairName: '請輸入報修人',

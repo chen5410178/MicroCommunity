@@ -2,6 +2,7 @@ export const messages = {
     en: {
       myRepairDispatchManage: {
         queryCondition: 'Query Conditions',
+      all: 'All',
         selectMaintenanceType: 'Select Maintenance Type',
         inputRepairName: 'Enter Reporter Name',
         inputRepairTel: 'Enter Reporter Phone',
@@ -39,6 +40,7 @@ export const messages = {
     zh: {
       myRepairDispatchManage: {
         queryCondition: '查询条件',
+      all: '全部',
         selectMaintenanceType: '请选择维修类型',
         inputRepairName: '请输入报修人',
         inputRepairTel: '请输入报修电话',
@@ -76,6 +78,7 @@ export const messages = {
     'zh-TW': {
       myRepairDispatchManage: {
         queryCondition: '查詢條件',
+      all: '全部',
         selectMaintenanceType: '請選擇維修類型',
         inputRepairName: '請輸入報修人',
         inputRepairTel: '請輸入報修電話',

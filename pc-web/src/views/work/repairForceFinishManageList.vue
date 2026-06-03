@@ -1,85 +1,95 @@
 <template>
-  <div class="repair-force-finish-container">
-    <!-- 查询条件 -->
-    <el-card class="search-card">
-      <div slot="header" class="flex justify-between">
-        <span>{{ $t('repairForceFinishManage.searchCondition') }}</span>
-      </div>
-
-      <el-row :gutter="20">
-        <el-col :span="6">
-          <el-select v-model="searchForm.repairType" :placeholder="$t('repairForceFinishManage.repairTypePlaceholder')"
-            clearable style="width:100%">
-            <el-option v-for="item in repairSettings" :key="item.repairType" :label="item.repairTypeName"
-              :value="item.repairType" />
-          </el-select>
-        </el-col>
-
-        <el-col :span="6">
-          <el-input v-model="searchForm.repairName" :placeholder="$t('repairForceFinishManage.repairPersonPlaceholder')"
-            clearable />
-        </el-col>
-
-        <el-col :span="6">
-          <el-input v-model="searchForm.tel" :placeholder="$t('repairForceFinishManage.repairPhonePlaceholder')"
-            clearable />
-        </el-col>
-
-        <el-col :span="6">
-          <el-button type="primary" @click="queryRepairPool">
-            <i class="el-icon-search"></i>
-            {{ $t('repairForceFinishManage.search') }}
-          </el-button>
-          <el-button @click="resetRepairPool" style="margin-left:10px">
-            <i class="el-icon-refresh"></i>
-            {{ $t('repairForceFinishManage.reset') }}
-          </el-button>
-        </el-col>
-      </el-row>
-    </el-card>
-
-    <!-- 报修列表 -->
-    <el-card class="list-card">
-      <div slot="header" class="flex justify-between">
-        <span>{{ searchForm.roomName }} {{ $t('repairForceFinishManage.forceFinish') }}</span>
-      </div>
-
-      <el-table :data="repairPools" border v-loading="loading">
-        <el-table-column prop="repairId" :label="$t('repairForceFinishManage.repairId')" align="center" />
-        <el-table-column prop="repairObjName" :label="$t('repairForceFinishManage.location')" align="center" />
-        <el-table-column prop="repairTypeName" :label="$t('repairForceFinishManage.repairType')" align="center" />
-        <el-table-column prop="repairName" :label="$t('repairForceFinishManage.repairPerson')" align="center" />
-        <el-table-column prop="tel" :label="$t('repairForceFinishManage.contact')" align="center" />
-        <el-table-column prop="appointmentTime" :label="$t('repairForceFinishManage.appointmentTime')" align="center" />
-        <el-table-column prop="createTime" :label="$t('repairForceFinishManage.submitTime')" align="center" />
-        <el-table-column prop="stateName" :label="$t('repairForceFinishManage.status')" align="center" />
-        <el-table-column :label="$t('repairForceFinishManage.operation')" align="center" width="200">
-          <template slot-scope="scope">
-            <el-button size="mini" type="primary" @click="openForceFinishRepair(scope.row)">
-              {{ $t('repairForceFinishManage.forceFinish') }}
-            </el-button>
-            <el-button size="mini" @click="openRepairDetail(scope.row)">
-              {{ $t('repairForceFinishManage.detail') }}
-            </el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-
-      <el-row class="footer-row">
-        <el-col :span="18">
-          <div class="description">
-            {{ $t('repairForceFinishManage.description') }}
+  <div class="animated fadeInRight">
+    <el-row :gutter="20">
+      <el-col :span="3" class="left-panel">
+        <el-card class="parking-area-card">
+          <div class="parking-area-list-wrapper">
+            <ul class="parking-area-list">
+              <li class="parking-area-item" :class="{ 'selected': selectedRepairType === '' }"
+                @click="switchRepairType('')">
+                {{ $t('repairForceFinishManage.all') }}
+              </li>
+              <li v-for="item in repairSettings" :key="item.repairType"
+                class="parking-area-item"
+                :class="{ 'selected': selectedRepairType === item.repairType }"
+                @click="switchRepairType(item.repairType)">
+                {{ item.repairTypeName }}
+              </li>
+            </ul>
           </div>
-        </el-col>
-        <el-col :span="6">
-          <el-pagination :current-page="pagination.current" :page-sizes="[10, 20, 30, 50]" :page-size="pagination.size"
-            :total="pagination.total" layout="total, sizes, prev, pager, next, jumper" @size-change="handleSizeChange"
-            @current-change="handleCurrentChange" />
-        </el-col>
-      </el-row>
-    </el-card>
+        </el-card>
+      </el-col>
 
-    <!-- 强制回单弹窗 -->
+      <el-col :span="21" class="right-panel">
+        <el-card class="search-card">
+          <div slot="header" class="flex justify-between">
+            <span>{{ $t('repairForceFinishManage.searchCondition') }}</span>
+          </div>
+
+          <el-row :gutter="20">
+            <el-col :span="4">
+              <el-input v-model="searchForm.repairName" :placeholder="$t('repairForceFinishManage.repairPersonPlaceholder')"
+                clearable />
+            </el-col>
+
+            <el-col :span="4">
+              <el-input v-model="searchForm.tel" :placeholder="$t('repairForceFinishManage.repairPhonePlaceholder')"
+                clearable />
+            </el-col>
+
+            <el-col :span="4">
+              <el-button type="primary" @click="queryRepairPool">
+                <i class="el-icon-search"></i>
+                {{ $t('repairForceFinishManage.search') }}
+              </el-button>
+              <el-button @click="resetRepairPool" style="margin-left:10px">
+                <i class="el-icon-refresh"></i>
+                {{ $t('repairForceFinishManage.reset') }}
+              </el-button>
+            </el-col>
+          </el-row>
+        </el-card>
+
+        <el-card class="list-card mt-20">
+          <div slot="header" class="flex justify-between">
+            <span>{{ searchForm.roomName }} {{ $t('repairForceFinishManage.forceFinish') }}</span>
+          </div>
+
+          <el-table :data="repairPools" border stripe v-loading="loading">
+            <el-table-column prop="repairId" :label="$t('repairForceFinishManage.repairId')" align="center" />
+            <el-table-column prop="repairObjName" :label="$t('repairForceFinishManage.location')" align="center" />
+            <el-table-column prop="repairTypeName" :label="$t('repairForceFinishManage.repairType')" align="center" />
+            <el-table-column prop="repairName" :label="$t('repairForceFinishManage.repairPerson')" align="center" />
+            <el-table-column prop="tel" :label="$t('repairForceFinishManage.contact')" align="center" />
+            <el-table-column prop="appointmentTime" :label="$t('repairForceFinishManage.appointmentTime')" align="center" />
+            <el-table-column prop="createTime" :label="$t('repairForceFinishManage.submitTime')" align="center" />
+            <el-table-column prop="stateName" :label="$t('repairForceFinishManage.status')" align="center" />
+            <el-table-column :label="$t('repairForceFinishManage.operation')" align="center" width="200">
+              <template slot-scope="scope">
+                <el-button size="mini" type="primary" @click="openForceFinishRepair(scope.row)">
+                  {{ $t('repairForceFinishManage.forceFinish') }}
+                </el-button>
+                <el-button size="mini" @click="openRepairDetail(scope.row)">
+                  {{ $t('repairForceFinishManage.detail') }}
+                </el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+
+          <el-row class="footer-row">
+            <el-col :span="12" class="text-left repair-detail-desc">
+              <div>{{ $t('repairForceFinishManage.description') }}</div>
+            </el-col>
+            <el-col :span="12">
+              <el-pagination :current-page="pagination.current" :page-sizes="[10, 20, 30, 50]" :page-size="pagination.size"
+                :total="pagination.total" layout="total, sizes, prev, pager, next, jumper" @size-change="handleSizeChange"
+                @current-change="handleCurrentChange" style="text-align:right" />
+            </el-col>
+          </el-row>
+        </el-card>
+      </el-col>
+    </el-row>
+
     <force-finish-repair ref="forceFinishDialog" :visible.sync="forceFinishVisible" @success="handleForceFinishSuccess" />
   </div>
 </template>
@@ -100,7 +110,6 @@ export default {
   data() {
     return {
       searchForm: {
-        repairType: '',
         repairName: '',
         tel: '',
         roomId: '',
@@ -111,6 +120,7 @@ export default {
       repairSettings: [],
       states: [],
       loading: false,
+      selectedRepairType: '',
       forceFinishVisible: false,
       pagination: {
         current: 1,
@@ -141,6 +151,12 @@ export default {
         this.$message.error('获取状态字典失败')
       }
     },
+    switchRepairType(repairType) {
+      this.selectedRepairType = repairType
+      this.searchForm.repairType = repairType
+      this.pagination.current = 1
+      this.listRepairPools()
+    },
     async listRepairPools() {
       this.loading = true
       try {
@@ -170,12 +186,8 @@ export default {
       this.listRepairPools()
     },
     resetRepairPool() {
-      this.searchForm = {
-        repairType: '',
-        repairName: '',
-        tel: '',
-        state: '1100'
-      }
+      this.searchForm.repairName = ''
+      this.searchForm.tel = ''
       this.queryRepairPool()
     },
     openForceFinishRepair(repair) {
@@ -203,31 +215,85 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.repair-force-finish-container {
+.animated {
   padding: 20px;
+}
 
-  .search-card {
-    margin-bottom: 20px;
-  }
+.mt-20 {
+  margin-top: 20px;
+}
 
-  .list-card {
-    margin-bottom: 20px;
-  }
+.right-panel {
+  padding-left: 5px;
+}
 
-  .footer-row {
-    margin-top: 20px;
-    display: flex;
-    align-items: center;
+.left-panel {
+  .parking-area-card {
+    height: 700px;
 
-    .description {
-      font-size: 14px;
-      color: #999;
+    .parking-area-list-wrapper {
+      height: 630px;
+      overflow-y: auto;
+
+      &::-webkit-scrollbar {
+        width: 4px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: #dcdfe6;
+        border-radius: 2px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      .parking-area-list {
+        list-style: none;
+        padding: 0 5px;
+        margin: 0;
+
+        .parking-area-item {
+          padding: 10px;
+          text-align: center;
+          cursor: pointer;
+          border-radius: 4px;
+          margin-bottom: 5px;
+          transition: all 0.3s;
+          font-size: 14px;
+          color: #606266;
+
+          &:hover {
+            background-color: #f5f7fa;
+          }
+
+          &.selected {
+            background-color: #409eff;
+            color: white;
+          }
+        }
+      }
     }
   }
+}
 
-  .el-pagination {
-    display: flex;
-    justify-content: flex-end;
+.search-card {
+  margin-bottom: 20px;
+}
+
+.list-card {
+  margin-bottom: 20px;
+}
+
+.footer-row {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+
+  .repair-detail-desc {
+    text-align: left;
+    font-size: 13px;
+    color: #606266;
   }
 }
 </style>

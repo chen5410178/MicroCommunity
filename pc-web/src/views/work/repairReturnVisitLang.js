@@ -2,6 +2,7 @@ export const messages = {
   en: {
     repairReturnVisit: {
       queryTitle: 'Query Conditions',
+      all: 'All',
       listTitle: 'Repair Return Visit',
       repairId: 'Work Order No.',
       location: 'Location',
@@ -31,6 +32,7 @@ export const messages = {
   zh: {
     repairReturnVisit: {
       queryTitle: '查询条件',
+      all: '全部',
       listTitle: '报修回访',
       repairId: '工单编码',
       location: '位置',
@@ -60,6 +62,7 @@ visitContentMaxLength: '回访内容长度不能超过1000个字符'
   'zh-TW': {
     repairReturnVisit: {
       queryTitle: '查詢條件',
+      all: '全部',
       listTitle: '報修回訪',
       repairId: '工單編碼',
       location: '位置',

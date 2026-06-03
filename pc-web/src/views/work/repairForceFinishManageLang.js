@@ -2,6 +2,7 @@ export const messages = {
   en: {
     repairForceFinishManage: {
       searchCondition: 'Search Conditions',
+      all: 'All',
       repairTypePlaceholder: 'Select Repair Type',
       repairPersonPlaceholder: 'Enter Repair Person',
       repairPhonePlaceholder: 'Enter Repair Phone',
@@ -54,6 +55,7 @@ export const messages = {
   zh: {
     repairForceFinishManage: {
       searchCondition: '查询条件',
+      all: '全部',
       repairTypePlaceholder: '请选择报修类型',
       repairPersonPlaceholder: '请输入报修人',
       repairPhonePlaceholder: '请输入报修电话',
@@ -106,6 +108,7 @@ cancel: '取消'
   'zh-TW': {
     repairForceFinishManage: {
       searchCondition: '查詢條件',
+      all: '全部',
       repairTypePlaceholder: '請選擇報修類型',
       repairPersonPlaceholder: '請輸入報修人',
       repairPhonePlaceholder: '請輸入報修電話',
