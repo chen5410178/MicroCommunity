@@ -1,68 +1,64 @@
 <template>
-  <div class="app-container padding">
+  <div class="animated fadeInRight">
     <el-row :gutter="20">
-      <!-- 左侧状态栏 -->
-      <el-col :span="3">
-        <el-card>
-          <div class="status-list">
-            <div v-for="(item, index) in states" :key="index" class="status-item"
-              :class="{ 'status-active': conditions.state === item.statusCd }" @click="switchRepairState(item)">
-              {{ item.name }}
-            </div>
+      <!-- 左侧报修类型 -->
+      <el-col :span="3" class="left-panel">
+        <el-card class="parking-area-card">
+          <div class="parking-area-list-wrapper">
+            <ul class="parking-area-list">
+              <li class="parking-area-item" :class="{ 'selected': selectedRepairType === '' }"
+                @click="switchRepairType('')">
+                {{ $t('repairPoolManage.all') }}
+              </li>
+              <li v-for="(item, index) in repairSettings" :key="index"
+                class="parking-area-item"
+                :class="{ 'selected': selectedRepairType === item.repairType }"
+                @click="switchRepairType(item.repairType)">
+                {{ item.repairTypeName }}
+              </li>
+            </ul>
           </div>
         </el-card>
       </el-col>
 
       <!-- 右侧内容 -->
-      <el-col :span="21">
+      <el-col :span="21" class="right-panel">
         <!-- 查询条件 -->
         <el-card class="box-card">
           <div slot="header" class="flex justify-between">
             <span>{{ $t('repairPoolManage.queryConditions') }}</span>
-            <!-- <el-button style="float: right; padding: 3px 0" type="text" @click="toggleMoreCondition">
-              {{ moreCondition ? $t('repairPoolManage.hide') : $t('repairPoolManage.more') }}
-            </el-button> -->
           </div>
 
           <el-form :model="conditions" label-width="auto">
             <el-row :gutter="20">
               <el-col :span="4">
                 <el-form-item>
-                  <el-input v-model="conditions.repairId" :placeholder="$t('repairPoolManage.workOrderNumber')" />
+                  <el-input v-model="conditions.repairId" :placeholder="$t('repairPoolManage.workOrderNumber')" clearable />
                 </el-form-item>
               </el-col>
 
               <el-col :span="4">
                 <el-form-item>
-                  <el-input v-model="conditions.repairName" :placeholder="$t('repairPoolManage.repairPersonName')" />
+                  <el-input v-model="conditions.repairName" :placeholder="$t('repairPoolManage.repairPersonName')" clearable />
                 </el-form-item>
               </el-col>
 
               <el-col :span="4">
                 <el-form-item>
-                  <el-input v-model="conditions.tel" :placeholder="$t('repairPoolManage.repairPhone')" />
+                  <el-input v-model="conditions.tel" :placeholder="$t('repairPoolManage.repairPhone')" clearable />
                 </el-form-item>
               </el-col>
 
               <el-col :span="4">
                 <el-form-item>
-                  <el-select v-model="conditions.repairType" :placeholder="$t('repairPoolManage.selectRepairType')"
-                    style="width:100%">
-                    <el-option v-for="(item, index) in repairSettings" :key="index" :label="item.repairTypeName"
-                      :value="item.repairType" />
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="4">
-                <el-form-item>
-                  <el-input v-model="conditions.repairObjName" :placeholder="$t('repairPoolManage.repairLocation')" />
+                  <el-input v-model="conditions.repairObjName" :placeholder="$t('repairPoolManage.repairLocation')" clearable />
                 </el-form-item>
               </el-col>
 
               <el-col :span="4">
                 <el-form-item>
                   <el-select v-model="conditions.maintenanceType"
-                    :placeholder="$t('repairPoolManage.selectMaintenanceType')" style="width:100%">
+                    :placeholder="$t('repairPoolManage.selectMaintenanceType')" style="width:100%" clearable>
                     <el-option v-for="(item, index) in maintenanceTypes" :key="index" :label="item.name"
                       :value="item.statusCd" />
                   </el-select>
@@ -71,13 +67,15 @@
 
               <el-col :span="4">
                 <el-form-item>
-                  <el-date-picker v-model="conditions.startTime" type="date" style="width:100%" value-format="yyyy-MM-dd"                    :placeholder="$t('repairPoolManage.startTime')"  />
+                  <el-date-picker v-model="conditions.startTime" type="date" style="width:100%" value-format="yyyy-MM-dd"
+                    :placeholder="$t('repairPoolManage.startTime')" />
                 </el-form-item>
               </el-col>
 
               <el-col :span="4">
                 <el-form-item>
-                  <el-date-picker v-model="conditions.endTime" type="date" style="width:100%" value-format="yyyy-MM-dd"                    :placeholder="$t('repairPoolManage.endTime')"  />
+                  <el-date-picker v-model="conditions.endTime" type="date" style="width:100%" value-format="yyyy-MM-dd"
+                    :placeholder="$t('repairPoolManage.endTime')" />
                 </el-form-item>
               </el-col>
               <el-col :span="4">
@@ -90,9 +88,12 @@
 
         <!-- 报修工单池 -->
         <el-card class="box-card">
-          <div slot="header" class="clearfix flex justify-between">
-            <span>{{ $t('repairPoolManage.repairOrderPool') }}</span>
-          </div>
+          <!-- 状态Tab -->
+          <el-tabs v-model="activeStateTab" @tab-click="handleStateTabClick">
+            <el-tab-pane :label="$t('repairPoolManage.all')" name="ALL" />
+            <el-tab-pane :label="$t('repairPoolManage.timeoutOrders')" name="TIMEOUT" />
+            <el-tab-pane v-for="(item, index) in states" :key="index" :label="item.name" :name="item.statusCd" />
+          </el-tabs>
 
           <el-table v-loading="loading" :data="repairPools" border style="width: 100%">
             <el-table-column prop="repairId" :label="$t('repairPoolManage.workOrderCode')" align="center" />
@@ -130,18 +131,16 @@
                 <span v-else>{{ scope.row.stateName }}</span>
               </template>
             </el-table-column>
-            <el-table-column :label="$t('repairPoolManage.operation')" align="center" width="300">
+            <el-table-column :label="$t('repairPoolManage.operation')" align="center" width="250">
               <template slot-scope="scope">
                 <el-button v-if="hasPrivilege('502021012067300023') && ['1000', '1200'].includes(scope.row.state)"
                   size="mini" @click="openEditModal(scope.row)">
                   {{ $t('repairPoolManage.modify') }}
                 </el-button>
-
                 <el-button v-if="hasPrivilege('502019101946430010') && scope.row.state === '1000'" size="mini"
                   type="primary" @click="openDispatchModal(scope.row)">
                   {{ $t('repairPoolManage.dispatch') }}
                 </el-button>
-
                 <el-button
                   v-if="hasPrivilege('502021012099350016') && scope.row.state === '1000' && scope.row.repairWay === '100'"
                   size="mini" type="success" @click="grabOrder(scope.row)">
@@ -169,7 +168,7 @@
           <!-- 分页 -->
           <el-pagination background layout="total, sizes, prev, pager, next, jumper" :current-page="page.current"
             :page-sizes="[10, 20, 30, 50]" :page-size="page.size" :total="page.total" @size-change="handleSizeChange"
-            @current-change="handleCurrentChange" />
+            @current-change="handleCurrentChange" class="pagination" />
         </el-card>
       </el-col>
     </el-row>
@@ -206,23 +205,19 @@ export default {
       repairPools: [],
       repairSettings: [],
       states: [],
-      repairSettingTypes: [],
       maintenanceTypes: [],
-      moreCondition: false,
+      selectedRepairType: '',
+      activeStateTab: 'ALL',
       conditions: {
         repairId: '',
         repairName: '',
         tel: '',
         repairType: '',
-        repairSettingType: '',
-        roomId: '',
-        roomName: '',
-        ownerId: '',
-        state: '',
+        repairObjName: '',
         maintenanceType: '',
         startTime: '',
         endTime: '',
-        repairObjName: ''
+        state: ''
       },
       page: {
         current: 1,
@@ -273,18 +268,7 @@ export default {
 
     async loadDictData() {
       try {
-        // 获取状态字典
-        const stateData = await getDict('r_repair_pool', 'state')
-        this.states = [
-          { statusCd: '', name: this.$t('repairPoolManage.all') },
-          { statusCd: 'TIMEOUT', name: this.$t('repairPoolManage.timeoutOrders') },
-          ...(stateData || [])
-        ]
-
-        // 获取报修设置类型字典
-        this.repairSettingTypes = await getDict('r_repair_setting', 'repair_setting_type')
-
-        // 获取维修类型字典
+        this.states = await getDict('r_repair_pool', 'state')
         this.maintenanceTypes = await getDict('r_repair_pool', 'maintenance_type')
       } catch (error) {
         console.error('Failed to load dict data:', error)
@@ -301,13 +285,17 @@ export default {
       return types[type] || '--'
     },
 
-    switchRepairState(item) {
-      this.conditions.state = item.statusCd
+    switchRepairType(repairType) {
+      this.selectedRepairType = repairType
+      this.conditions.repairType = repairType
+      this.page.current = 1
       this.fetchData()
     },
 
-    toggleMoreCondition() {
-      this.moreCondition = !this.moreCondition
+    handleStateTabClick() {
+      this.conditions.state = this.activeStateTab === 'ALL' ? '' : this.activeStateTab
+      this.page.current = 1
+      this.fetchData()
     },
 
     queryRepairPool() {
@@ -321,13 +309,14 @@ export default {
         repairName: '',
         tel: '',
         repairType: '',
-        repairSettingType: '',
         repairObjName: '',
         maintenanceType: '',
         startTime: '',
         endTime: '',
-        state: this.conditions.state // 保持当前状态
+        state: this.conditions.state
       }
+      this.selectedRepairType = ''
+      this.page.current = 1
       this.fetchData()
     },
 
@@ -380,31 +369,71 @@ export default {
 }
 </script>
 
-<style scoped>
-.status-list {
-  display: flex;
-  flex-direction: column;
+<style lang="scss" scoped>
+.animated {
+  padding: 20px;
 }
 
-.status-item {
-  padding: 12px;
-  margin-bottom: 8px;
-  border-radius: 4px;
-  cursor: pointer;
-  text-align: center;
-  transition: all 0.3s;
+.right-panel {
+  padding-left: 5px;
 }
 
-.status-item:hover {
-  background-color: #f5f7fa;
-}
+.left-panel {
+  .parking-area-card {
+    height: 700px;
 
-.status-active {
-  background-color: #409eff;
-  color: white;
+    .parking-area-list-wrapper {
+      height: 630px;
+      overflow-y: auto;
+
+      &::-webkit-scrollbar {
+        width: 4px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: #dcdfe6;
+        border-radius: 2px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      .parking-area-list {
+        list-style: none;
+        padding: 0 5px;
+        margin: 0;
+
+        .parking-area-item {
+          padding: 10px;
+          text-align: center;
+          cursor: pointer;
+          border-radius: 4px;
+          margin-bottom: 5px;
+          transition: all 0.3s;
+          font-size: 14px;
+          color: #606266;
+
+          &:hover {
+            background-color: #f5f7fa;
+          }
+
+          &.selected {
+            background-color: #409eff;
+            color: white;
+          }
+        }
+      }
+    }
+  }
 }
 
 .box-card {
   margin-bottom: 20px;
+}
+
+.pagination {
+  margin-top: 15px;
+  text-align: right;
 }
 </style>

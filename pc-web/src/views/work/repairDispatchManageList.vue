@@ -27,28 +27,27 @@
           </div>
           <div class="">
             <el-row :gutter="15">
-              <el-col :span="6">
+              <el-col :span="4">
                 <el-input :placeholder="$t('repairDispatchManage.placeholder.repairId')"
                   v-model.trim="repairDispatchManageInfo.conditions.repairId" clearable />
               </el-col>
-              <el-col :span="6">
+              <el-col :span="4">
                 <el-input :placeholder="$t('repairDispatchManage.placeholder.repairName')"
                   v-model.trim="repairDispatchManageInfo.conditions.repairName" clearable />
               </el-col>
-              <el-col :span="6">
+              <el-col :span="4">
                 <el-input :placeholder="$t('repairDispatchManage.placeholder.tel')"
                   v-model.trim="repairDispatchManageInfo.conditions.tel" clearable />
               </el-col>
-              <el-col :span="6">
+              <el-col :span="4">
                 <el-select v-model="repairDispatchManageInfo.conditions.state" style="width:100%">
                   <el-option :label="$t('repairDispatchManage.placeholder.selectStatus')" value="" />
                   <el-option v-for="(item, index) in repairDispatchManageInfo.states" :key="index" :label="item.name"
                     :value="item.statusCd" />
                 </el-select>
               </el-col>
-            </el-row>
-            <el-row :gutter="15" style="margin-top:15px">
-              <el-col :span="6">
+
+              <el-col :span="4">
                 <el-button type="primary" @click="_queryOwnerRepairMethod">
                   <i class="el-icon-search"></i>
                   {{ $t('common.search') }}

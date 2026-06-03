@@ -91,12 +91,12 @@
             <span>{{ $t('simplifyContractFee.arrearsSubtotal') }}</span>{{ simplifyContractFeeInfo.totalAmount }}
           </span>
         </el-col>
-      </el-row>
-      <div class="text-right" style="margin-top: 20px">
-        <el-pagination @current-change="handlePageChange" :current-page="pagination.currentPage"
+         <el-col :span="6">
+           <el-pagination @current-change="handlePageChange" :current-page="pagination.currentPage"
           :page-size="pagination.pageSize" layout="total, prev, pager, next"
           :total="pagination.total"></el-pagination>
-      </div>
+        </el-col>
+      </el-row>
     </div>
     <temp-import-room-fee ref="tempImportRoomFee"></temp-import-room-fee>
     <delete-fee ref="deleteFee" @success="handleNotify"></delete-fee>
