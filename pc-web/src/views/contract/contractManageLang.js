@@ -8,6 +8,7 @@ export const messages = {
         search: 'Search',
         reset: 'Reset'
       },
+      allTypes: 'All',
       list: {
         title: 'Contract Information'
       },
@@ -101,6 +102,7 @@ export const messages = {
         search: '查询',
         reset: '重置'
       },
+      allTypes: '全部',
       list: {
         title: '合同信息'
       },
@@ -194,6 +196,7 @@ delete: {
         search: '查詢',
         reset: '重設'
       },
+      allTypes: '全部',
       list: {
         title: '合同信息'
       },

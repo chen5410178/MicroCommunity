@@ -3,20 +3,18 @@
 
     <div class="wrapper wrapper-content animated fadeInRight ecommerce">
       <el-row :gutter="20">
-        <el-col :span="4" class="padding-r-0">
-          <div class="list-group-border-radius">
-            <div class=" treeview">
-              <ul class="list-group text-center ">
-                <li v-for="(item, index) in purchaseApplyManageInfo.states" :key="index" @click="swatchState(item)"
-                  :class="{ 'vc-node-selected': purchaseApplyManageInfo.conditions.state === item.statusCd }"
-                  class="list-group-item node-orgTree">
-                  {{ item.name }}
-                </li>
-              </ul>
+        <el-col :span="4" class="left-panel">
+          <el-card class="state-card">
+            <div class="state-list-wrapper">
+              <div v-for="(item, index) in purchaseApplyManageInfo.states" :key="index" @click="swatchState(item)"
+                :class="{ 'selected': purchaseApplyManageInfo.conditions.state === item.statusCd }"
+                class="state-list-item">
+                {{ item.name }}
+              </div>
             </div>
-          </div>
+          </el-card>
         </el-col>
-        <el-col :span="20">
+        <el-col :span="20" class="right-panel">
           <el-card>
             <div slot="header" class="flex justify-between">
               <span>{{ $t('purchaseApplyManage.search.title') }}</span>
@@ -308,18 +306,50 @@ export default {
     margin-top: 20px;
   }
 
-  .padding-r-0 {
-    padding-right: 0;
+  .left-panel {
+    .state-card {
+      .state-list-wrapper {
+        max-height: 600px;
+        overflow-y: auto;
+
+        &::-webkit-scrollbar {
+          width: 4px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          background: #dcdfe6;
+          border-radius: 2px;
+        }
+
+        &::-webkit-scrollbar-track {
+          background: transparent;
+        }
+
+        .state-list-item {
+          padding: 10px;
+          text-align: center;
+          cursor: pointer;
+          border-radius: 4px;
+          margin-bottom: 5px;
+          transition: all 0.3s;
+          font-size: 14px;
+          color: #606266;
+
+          &:hover {
+            background-color: #f5f7fa;
+          }
+
+          &.selected {
+            background-color: #409eff;
+            color: white;
+          }
+        }
+      }
+    }
   }
 
-  .border-radius {
-    border-radius: 4px;
+  .right-panel {
+    padding-left: 5px;
   }
-
-  .margin-xs-r {
-    margin-right: 5px;
-  }
-
-  
 }
 </style>

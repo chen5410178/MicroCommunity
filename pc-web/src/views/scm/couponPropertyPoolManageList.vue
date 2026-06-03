@@ -6,31 +6,29 @@
         <span>{{ $t('couponPropertyPoolManage.search.title') }}</span>
       </div>
       <el-row :gutter="20">
-        <el-col :span="6">
+        <el-col :span="4">
           <el-input v-model="searchForm.cppId" :placeholder="$t('couponPropertyPoolManage.search.cppId')" clearable />
         </el-col>
-        <el-col :span="6">
+        <el-col :span="4">
           <el-input v-model="searchForm.couponName" :placeholder="$t('couponPropertyPoolManage.search.couponName')"
             clearable />
         </el-col>
-        <el-col :span="6">
+        <el-col :span="4">
           <el-select v-model="searchForm.fromType" :placeholder="$t('couponPropertyPoolManage.search.fromType')"
             style="width:100%" clearable>
             <el-option v-for="item in fromTypeOptions" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-col>
-        <el-col :span="6">
-          <el-button type="primary" @click="handleSearch">
-            {{ $t('common.search') }}
-          </el-button>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20" style="margin-top:15px">
-        <el-col :span="6">
+        <el-col :span="4">
           <el-select v-model="searchForm.toType" :placeholder="$t('couponPropertyPoolManage.search.toType')"
             style="width:100%" clearable>
             <el-option v-for="item in toTypeOptions" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
+        </el-col>
+        <el-col :span="4">
+          <el-button type="primary" @click="handleSearch">
+            {{ $t('common.search') }}
+          </el-button>
         </el-col>
       </el-row>
     </el-card>

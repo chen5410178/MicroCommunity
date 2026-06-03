@@ -1,21 +1,21 @@
 <template>
-  <div class="report-fee-detail-container">
+  <div class="report-fee-detail-container animated fadeInRight">
     <el-row :gutter="20">
-      <el-col :span="3">
-        <el-card class="role-card">
-          <ul class="role-list">
-            <li 
-              v-for="item in menuList" 
+      <el-col :span="4" class="left-panel">
+        <el-card class="type-card">
+          <div class="type-list-wrapper">
+            <div
+              v-for="item in menuList"
               :key="item.key"
-              class="role-item"
-              :class="{ 'role-item-active': currentTab === item.key }"
+              class="type-list-item"
+              :class="{ 'selected': currentTab === item.key }"
               @click="changeTab(item.key)">
               {{ item.label }}
-            </li>
-          </ul>
+            </div>
+          </div>
         </el-card>
       </el-col>
-      <el-col :span="21">
+      <el-col :span="20" class="right-panel">
         <report-fee-detail-room v-if="currentTab === 'room'" ref="reportFeeDetailRoom"></report-fee-detail-room>
         <report-fee-detail-owner v-if="currentTab === 'owner'" ref="reportFeeDetailOwner"></report-fee-detail-owner>
         <report-fee-detail-contract v-if="currentTab === 'contract'" ref="reportFeeDetailContract"></report-fee-detail-contract>
@@ -75,33 +75,51 @@ export default {
 <style lang="scss" scoped>
 .report-fee-detail-container {
   padding: 20px;
-}
 
-.role-card {
-  height: 100%;
-}
+  .left-panel {
+    .type-card {
+      .type-list-wrapper {
+        max-height: 600px;
+        overflow-y: auto;
 
-.role-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
+        &::-webkit-scrollbar {
+          width: 4px;
+        }
 
-.role-item {
-  padding: 10px;
-  text-align: center;
-  cursor: pointer;
-  border-radius: 4px;
-  margin-bottom: 5px;
-  transition: all 0.3s;
-}
+        &::-webkit-scrollbar-thumb {
+          background: #dcdfe6;
+          border-radius: 2px;
+        }
 
-.role-item:hover {
-  background-color: #f5f7fa;
-}
+        &::-webkit-scrollbar-track {
+          background: transparent;
+        }
 
-.role-item-active {
-  background-color: #409eff;
-  color: white;
+        .type-list-item {
+          padding: 10px;
+          text-align: center;
+          cursor: pointer;
+          border-radius: 4px;
+          margin-bottom: 5px;
+          transition: all 0.3s;
+          font-size: 14px;
+          color: #606266;
+
+          &:hover {
+            background-color: #f5f7fa;
+          }
+
+          &.selected {
+            background-color: #409eff;
+            color: white;
+          }
+        }
+      }
+    }
+  }
+
+  .right-panel {
+    padding-left: 5px;
+  }
 }
 </style>

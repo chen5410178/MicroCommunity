@@ -34,6 +34,10 @@ export const messages = {
         successMessage: 'Delete successfully',
         errorMessage: 'Delete failed'
       },
+      allTypes: 'All',
+      allStates: 'All',
+      more: 'More',
+      hide: 'Hide',
       fetchError: 'Failed to fetch notice data'
     }
   },
@@ -72,6 +76,10 @@ export const messages = {
         successMessage: '删除成功',
         errorMessage: '删除失败'
       },
+      allTypes: '全部',
+      allStates: '全部',
+      more: '更多',
+      hide: '隐藏',
       fetchError: '获取公告数据失败'
     }
   },
@@ -110,6 +118,10 @@ export const messages = {
         successMessage: '刪除成功',
         errorMessage: '刪除失敗'
       },
+      allTypes: '全部',
+      allStates: '全部',
+      more: '更多',
+      hide: '隱藏',
       fetchError: '獲取公告數據失敗'
     }
   }

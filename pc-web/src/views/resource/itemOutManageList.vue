@@ -1,20 +1,19 @@
 ﻿<template>
   <div class="item-out-manage-container">
     <el-row class="wrapper" :gutter="10">
-      <el-col :span="4" class="padding-r-0">
-        <div class="border-radius">
-          <div class="margin-xs-r treeview attendance-staff">
-            <ul class="list-group text-center border-radius">
-              <li v-for="(item, index) in itemOutManageInfo.states" :key="index" class="list-group-item node-orgTree"
-                :class="{ 'vc-node-selected': itemOutManageInfo.conditions.state === item.statusCd }"
+      <el-col :span="4" class="left-panel">
+          <el-card class="state-card">
+            <div class="state-list-wrapper">
+              <div v-for="(item, index) in itemOutManageInfo.states" :key="index"
+                class="state-list-item"
+                :class="{ 'selected': itemOutManageInfo.conditions.state === item.statusCd }"
                 @click="swatchState(item)">
                 {{ item.name }}
-              </li>
-            </ul>
-          </div>
-        </div>
-      </el-col>
-      <el-col :span="20">
+              </div>
+            </div>
+          </el-card>
+        </el-col>
+        <el-col :span="20" class="right-panel">
         <el-card class="box-card">
           <div slot="header" class="flex justify-between">
             <span>{{ $t('itemOutManage.search.title') }}</span>
@@ -279,34 +278,50 @@ export default {
     width: 100%;
   }
 
-  .border-radius {
-    border-radius: 4px;
-  }
+  .left-panel {
+    .state-card {
+      .state-list-wrapper {
+        max-height: 600px;
+        overflow-y: auto;
 
-  .margin-xs-r {
-    margin-right: 5px;
-  }
+        &::-webkit-scrollbar {
+          width: 4px;
+        }
 
-  .list-group {
-    padding: 0;
-    margin: 0;
-    list-style: none;
+        &::-webkit-scrollbar-thumb {
+          background: #dcdfe6;
+          border-radius: 2px;
+        }
 
-    .list-group-item {
-      padding: 10px 15px;
-      margin-bottom: -1px;
-      background-color: #fff;
-      cursor: pointer;
+        &::-webkit-scrollbar-track {
+          background: transparent;
+        }
 
-      &:hover {
-        background-color: #f5f5f5;
-      }
+        .state-list-item {
+          padding: 10px;
+          text-align: center;
+          cursor: pointer;
+          border-radius: 4px;
+          margin-bottom: 5px;
+          transition: all 0.3s;
+          font-size: 14px;
+          color: #606266;
 
-      &.vc-node-selected {
-        background-color: #409eff;
-        color: #fff;
+          &:hover {
+            background-color: #f5f7fa;
+          }
+
+          &.selected {
+            background-color: #409eff;
+            color: white;
+          }
+        }
       }
     }
+  }
+
+  .right-panel {
+    padding-left: 5px;
   }
 
   .margin-top {

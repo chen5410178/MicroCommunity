@@ -108,7 +108,7 @@ export default [
     },
     {
         path: '/pages/common/allocationUserStorehouseManage',
-        meta: { title: '转增记录' },
+        meta: { title: '转赠记录' },
         name: '/pages/common/allocationUserStorehouseManage',
         component: () => import('@/views/resource/allocationUserStorehouseManageList.vue')
     },

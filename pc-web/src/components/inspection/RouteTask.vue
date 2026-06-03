@@ -1,18 +1,22 @@
 <template>
   <div class="route-task-container">
     <el-row :gutter="20">
-      <el-col :span="6" class="task-list-col">
-        <el-card class="task-list-card">
-          <ul class="task-ul">
-            <li v-for="(task, index) in routeTaskInfo.tasks" :key="index"
-              :class="{ 'active-task': task.taskId == routeTaskInfo.taskId }" @click="_switchRouteTask(task)">
-              <div class="task-user">{{ task.planUserName }}({{ task.inspectionPlanName }})</div>
-              <div class="task-time">{{ task.planInsTime }}</div>
-            </li>
-          </ul>
+      <el-col :span="6" class="left-panel">
+        <el-card class="task-card">
+          <div class="task-list-wrapper">
+            <ul class="task-ul">
+              <li v-for="(task, index) in routeTaskInfo.tasks" :key="index"
+                :class="{ 'selected': task.taskId == routeTaskInfo.taskId }"
+                class="task-list-item"
+                @click="_switchRouteTask(task)">
+                <div class="task-user">{{ task.planUserName }}({{ task.inspectionPlanName }})</div>
+                <div class="task-time">{{ task.planInsTime }}</div>
+              </li>
+            </ul>
+          </div>
         </el-card>
       </el-col>
-      <el-col :span="18" class="task-map-col">
+      <el-col :span="18" class="right-panel">
         <inspection-task-map ref="inspectionTaskMap"/>
       </el-col>
     </el-row>
@@ -94,45 +98,65 @@ export default {
   padding: 20px;
   height: 100%;
 
-  .task-list-col {
-    height: 100%;
+  .left-panel {
+    .task-card {
+      height: 700px;
 
-    .task-list-card {
-      height: 100%;
-      overflow-y: auto;
+      .task-list-wrapper {
+        height: 640px;
+        overflow-y: auto;
 
-      .task-ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
+        &::-webkit-scrollbar {
+          width: 4px;
+        }
 
-        li {
-          padding: 10px;
-          cursor: pointer;
-          transition: all 0.3s;
+        &::-webkit-scrollbar-thumb {
+          background: #dcdfe6;
+          border-radius: 2px;
+        }
 
-          &:hover {
-            background-color: #f5f5f5;
-          }
+        &::-webkit-scrollbar-track {
+          background: transparent;
+        }
 
-          &.active-task {
-            background-color: #409eff;
-            color: white;
-          }
+        .task-ul {
+          list-style: none;
+          padding: 0 5px;
+          margin: 0;
 
-          .task-user {
-          }
+          .task-list-item {
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            transition: all 0.3s;
+            font-size: 14px;
+            color: #606266;
 
-          .task-time {
-            font-size: 12px;
-            color: inherit;
+            &:hover {
+              background-color: #f5f7fa;
+            }
+
+            &.selected {
+              background-color: #409eff;
+              color: white;
+            }
+
+            .task-user {
+            }
+
+            .task-time {
+              font-size: 12px;
+              color: inherit;
+            }
           }
         }
       }
     }
   }
 
-  .task-map-col {
+  .right-panel {
     height: 100%;
   }
 }

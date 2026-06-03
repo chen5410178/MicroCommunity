@@ -1,77 +1,92 @@
 <template>
   <div class="activities-manage-container animated fadeInRight">
-    <el-card class="box-card">
-      <div slot="header" class="flex justify-between">
-        <span>{{ $t('activitiesManage.search.title') }}</span>
-        <el-button type="text" style="float: right; padding: 3px 0" @click="_moreCondition">
-          {{ activitiesManageInfo.moreCondition ? $t('common.hide') : $t('common.more') }}
-        </el-button>
-      </div>
-      <el-row :gutter="20">
-        <el-col :span="6">
-          <el-input v-model="activitiesManageInfo.conditions.activitiesId"
-            :placeholder="$t('activitiesManage.search.activitiesId')" clearable />
-        </el-col>
-        <el-col :span="8">
-          <el-input v-model="activitiesManageInfo.conditions.title" :placeholder="$t('activitiesManage.search.title')"
-            clearable />
-        </el-col>
-        <el-col :span="6">
-          <el-select v-model="activitiesManageInfo.conditions.typeCd" :placeholder="$t('activitiesManage.search.typeCd')"
-            style="width:100%">
-            <el-option v-for="item in activitiesManageInfo.typeCds" :key="item.typeCd" :label="item.typeName"
-              :value="item.typeCd" />
-          </el-select>
-        </el-col>
-        <el-col :span="4">
-          <el-button type="primary" @click="_queryActivitiesMethod">
-            <i class="el-icon-search"></i>
-            {{ $t('common.search') }}
-          </el-button>
-          <el-button @click="_resetActivitiesMethod">
-            <i class="el-icon-refresh"></i>
-            {{ $t('common.reset') }}
-          </el-button>
-        </el-col>
-      </el-row>
-      <el-row v-if="activitiesManageInfo.moreCondition" :gutter="20" style="margin-top:15px">
-        <el-col :span="6">
-          <el-input v-model="activitiesManageInfo.conditions.staffName"
-            :placeholder="$t('activitiesManage.search.staffName')" clearable />
-        </el-col>
-      </el-row>
-    </el-card>
+    <el-row :gutter="20">
+      <el-col :span="4" class="left-panel">
+        <el-card class="type-card">
+          <div class="type-list-wrapper">
+            <div class="type-list-item"
+              :class="{ 'selected': activitiesManageInfo.conditions.typeCd == '' }"
+              @click="_switchType({ typeCd: '', typeName: '' })">
+              {{ $t('common.all') }}
+            </div>
+            <div v-for="(item, index) in activitiesManageInfo.typeCds" :key="index"
+              class="type-list-item"
+              :class="{ 'selected': activitiesManageInfo.conditions.typeCd == item.typeCd }"
+              @click="_switchType(item)">
+              {{ item.typeName }}
+            </div>
+          </div>
+        </el-card>
+      </el-col>
 
-    <el-card class="box-card" style="margin-top:20px">
-      <div slot="header" class="flex justify-between">
-        <span>{{ $t('activitiesManage.list.title') }}</span>
-        <el-button type="primary" size="small" @click="_openAddActivitiesModal">
-          <i class="el-icon-plus"></i>
-          {{ $t('common.add') }}
-        </el-button>
-      </div>
-      <el-table :data="activitiesManageInfo.activitiess" border style="width: 100%">
-        <el-table-column prop="activitiesId" :label="$t('activitiesManage.table.activitiesId')" align="center" />
-        <el-table-column prop="title" :label="$t('activitiesManage.table.title')" align="center" />
-        <el-table-column prop="typeCdName" :label="$t('activitiesManage.table.typeCd')" align="center" />
-        <el-table-column prop="startTime" :label="$t('activitiesManage.table.startTime')" align="center" />
-        <el-table-column prop="endTime" :label="$t('activitiesManage.table.endTime')" align="center" />
-        <el-table-column prop="userName" :label="$t('activitiesManage.table.userName')" align="center" />
-        <el-table-column :label="$t('common.operation')" align="center" width="200">
-          <template slot-scope="scope">
-            <el-button size="mini" @click="_openEditActivitiesModel(scope.row)">
-              {{ $t('common.edit') }}
+      <el-col :span="20" class="right-panel">
+        <el-card class="box-card">
+          <div slot="header" class="flex justify-between">
+            <span>{{ $t('activitiesManage.search.title') }}</span>
+            <el-button type="text" style="float: right; padding: 3px 0" @click="_moreCondition">
+              {{ activitiesManageInfo.moreCondition ? $t('common.hide') : $t('common.more') }}
             </el-button>
-            <el-button size="mini" type="danger" @click="_openDeleteActivitiesModel(scope.row)">
-              {{ $t('common.delete') }}
+          </div>
+          <el-row :gutter="20">
+            <el-col :span="6">
+              <el-input v-model="activitiesManageInfo.conditions.activitiesId"
+                :placeholder="$t('activitiesManage.search.activitiesId')" clearable />
+            </el-col>
+            <el-col :span="8">
+              <el-input v-model="activitiesManageInfo.conditions.title"
+                :placeholder="$t('activitiesManage.search.title')" clearable />
+            </el-col>
+            <el-col :span="6">
+              <el-button type="primary" @click="_queryActivitiesMethod">
+                <i class="el-icon-search"></i>
+                {{ $t('common.search') }}
+              </el-button>
+              <el-button @click="_resetActivitiesMethod">
+                <i class="el-icon-refresh"></i>
+                {{ $t('common.reset') }}
+              </el-button>
+            </el-col>
+          </el-row>
+          <el-row v-if="activitiesManageInfo.moreCondition" :gutter="20" class="margin-top-xs">
+            <el-col :span="6">
+              <el-input v-model="activitiesManageInfo.conditions.staffName"
+                :placeholder="$t('activitiesManage.search.staffName')" clearable />
+            </el-col>
+          </el-row>
+        </el-card>
+
+        <el-card class="box-card margin-top">
+          <div slot="header" class="flex justify-between">
+            <span>{{ $t('activitiesManage.list.title') }}</span>
+            <el-button type="primary" size="small" @click="_openAddActivitiesModal">
+              <i class="el-icon-plus"></i>
+              {{ $t('common.add') }}
             </el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <el-pagination :current-page.sync="page.current" :page-sizes="[10, 20, 30, 50]" :page-size="page.size"
-        :total="page.total" layout="total, sizes, prev, pager, next, jumper" @size-change="handleSizeChange"
-        @current-change="handleCurrentChange" style="margin-top:20px;text-align:right" />
-    </el-card>
+          </div>
+          <el-table :data="activitiesManageInfo.activitiess" border style="width: 100%">
+            <el-table-column prop="activitiesId" :label="$t('activitiesManage.table.activitiesId')" align="center" />
+            <el-table-column prop="title" :label="$t('activitiesManage.table.title')" align="center" />
+            <el-table-column prop="typeCdName" :label="$t('activitiesManage.table.typeCd')" align="center" />
+            <el-table-column prop="startTime" :label="$t('activitiesManage.table.startTime')" align="center" />
+            <el-table-column prop="endTime" :label="$t('activitiesManage.table.endTime')" align="center" />
+            <el-table-column prop="userName" :label="$t('activitiesManage.table.userName')" align="center" />
+            <el-table-column :label="$t('common.operation')" align="center" width="200">
+              <template slot-scope="scope">
+                <el-button size="mini" @click="_openEditActivitiesModel(scope.row)">
+                  {{ $t('common.edit') }}
+                </el-button>
+                <el-button size="mini" type="danger" @click="_openDeleteActivitiesModel(scope.row)">
+                  {{ $t('common.delete') }}
+                </el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+          <el-pagination :current-page.sync="page.current" :page-sizes="[10, 20, 30, 50]" :page-size="page.size"
+            :total="page.total" layout="total, sizes, prev, pager, next, jumper" @size-change="handleSizeChange"
+            @current-change="handleCurrentChange" style="margin-top:20px;text-align:right" />
+        </el-card>
+      </el-col>
+    </el-row>
 
     <add-activities-view ref="addActivitiesView" @success="handleSuccess" />
     <edit-activities-view ref="editActivitiesView" @success="handleSuccess" />
@@ -154,6 +169,10 @@ export default {
         console.error('获取活动类型失败:', error)
       }
     },
+    _switchType(item) {
+      this.activitiesManageInfo.conditions.typeCd = item.typeCd
+      this._listActivitiess()
+    },
     _openAddActivitiesModal() {
       this.$refs.addActivitiesView.open()
     },
@@ -168,16 +187,10 @@ export default {
       this._listActivitiess()
     },
     _resetActivitiesMethod() {
-      this.activitiesManageInfo.conditions = {
-        title: '',
-        typeCd: '',
-        staffName: '',
-        activitiesId: '',
-        endTimeFlag: '1',
-        page: 1,
-        row: 10,
-        communityId: this.communityId
-      }
+      this.activitiesManageInfo.conditions.title = ''
+      this.activitiesManageInfo.conditions.typeCd = ''
+      this.activitiesManageInfo.conditions.staffName = ''
+      this.activitiesManageInfo.conditions.activitiesId = ''
       this._listActivitiess()
     },
     _moreCondition() {
@@ -202,12 +215,62 @@ export default {
 .activities-manage-container {
   padding: 20px;
 
+  .left-panel {
+    .type-card {
+      .type-list-wrapper {
+        max-height: 600px;
+        overflow-y: auto;
+
+        &::-webkit-scrollbar {
+          width: 4px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          background: #dcdfe6;
+          border-radius: 2px;
+        }
+
+        &::-webkit-scrollbar-track {
+          background: transparent;
+        }
+
+        .type-list-item {
+          padding: 10px;
+          text-align: center;
+          cursor: pointer;
+          border-radius: 4px;
+          margin-bottom: 5px;
+          transition: all 0.3s;
+          font-size: 14px;
+          color: #606266;
+
+          &:hover {
+            background-color: #f5f7fa;
+          }
+
+          &.selected {
+            background-color: #409eff;
+            color: white;
+          }
+        }
+      }
+    }
+  }
+
+  .right-panel {
+    padding-left: 5px;
+  }
+
   .box-card {
     margin-bottom: 20px;
   }
 
-  .no_display {
-    display: none;
+  .margin-top {
+    margin-top: 20px;
+  }
+
+  .margin-top-xs {
+    margin-top: 15px;
   }
 }
 </style>

@@ -1,18 +1,18 @@
 <template>
   <div class="inspection-task-container">
     <el-row :gutter="20">
-      <el-col :span="3">
-        <el-card class="plan-list-card">
-          <div class="plan-list">
-            <div v-for="item in plans" :key="item.inspectionPlanId" class="plan-item"
-              :class="{ 'active-plan': conditions.inspectionPlanId === item.inspectionPlanId }" @click="switchPlan(item)">
+      <el-col :span="3" class="left-panel">
+        <el-card class="plan-card">
+          <div class="plan-list-wrapper">
+            <div v-for="item in plans" :key="item.inspectionPlanId" class="plan-list-item"
+              :class="{ 'selected': conditions.inspectionPlanId === item.inspectionPlanId }" @click="switchPlan(item)">
               {{ item.inspectionPlanName }}
             </div>
           </div>
         </el-card>
       </el-col>
 
-      <el-col :span="21">
+      <el-col :span="21" class="right-panel">
         <el-card>
           <div slot="header" class="flex justify-between">
             <span>{{ $t('inspectionTask.queryConditions') }}</span>
@@ -231,35 +231,57 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .inspection-task-container {
   padding: 20px;
 }
 
-.plan-list-card {
-  height: auto;
+.left-panel {
+  .plan-card {
+    height: 700px;
+
+    .plan-list-wrapper {
+      height: 640px;
+      overflow-y: auto;
+
+      &::-webkit-scrollbar {
+        width: 4px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: #dcdfe6;
+        border-radius: 2px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      .plan-list-item {
+        padding: 10px;
+        text-align: center;
+        cursor: pointer;
+        border-radius: 4px;
+        margin-bottom: 5px;
+        transition: all 0.3s;
+        font-size: 14px;
+        color: #606266;
+
+        &:hover {
+          background-color: #f5f7fa;
+        }
+
+        &.selected {
+          background-color: #409eff;
+          color: white;
+        }
+      }
+    }
+  }
 }
 
-.plan-list {
-  max-height: calc(100vh - 150px);
-  overflow-y: auto;
-}
-
-.plan-item {
-  padding: 12px 15px;
-  margin-bottom: 5px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-.plan-item:hover {
-  background-color: #f5f7fa;
-}
-
-.active-plan {
-  background-color: #409EFF;
-  color: white;
+.right-panel {
+  padding-left: 5px;
 }
 
 .note {

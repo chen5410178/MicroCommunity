@@ -1,10 +1,10 @@
 ﻿﻿<template>
   <div class="report-fee-summary-container animated fadeInRight">
-    <el-row class="flex justify-start" :gutter="20">
-      <el-col :span="3" class="padding-r-0">
+    <el-row :gutter="20">
+      <el-col :span="4" class="left-panel">
         <select-community-floor ref="selectCommunityFloor" />
       </el-col>
-      <el-col :span="21">
+      <el-col :span="20" class="right-panel">
         <el-card class="box-card">
           <div slot="header" class="flex justify-between">
             <span>{{ $t('reportFeeSummary.queryCondition') }}</span>
@@ -366,12 +366,12 @@ export default {
 .report-fee-summary-container {
   padding: 20px;
 
-  .margin-top {
-    margin-top: 20px;
+  .right-panel {
+    padding-left: 5px;
   }
 
-  .padding-r-0 {
-    padding-right: 0;
+  .margin-top {
+    margin-top: 20px;
   }
 
   .popover-show {

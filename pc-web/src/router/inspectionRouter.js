@@ -113,7 +113,6 @@ export default [
     },
     {
         path: '/views/inspection/maintainanceTaskDetailView',
-        meta: { title: '保养任务详情' },
         name: '/views/inspection/maintainanceTaskDetailView',
         component: () => import('@/views/inspection/maintainanceTaskDetailView.vue')
     },

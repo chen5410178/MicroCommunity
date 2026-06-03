@@ -1,21 +1,17 @@
 <template>
   <div class="equipment-account-container">
-    <el-card class="box-card">
-      <div class="operation-wrapper text-left">
-        <el-button type="primary" size="small" @click="openAddEquipmentAccountModal">
-          <i class="el-icon-plus"></i>{{ $t('equipmentAccount.addEquipment') }}
-        </el-button>
-        <el-button type="primary" size="small" @click="printEquipmentAccounts">
-          <i class="el-icon-printer"></i>{{ $t('equipmentAccount.batchPrint') }}
-        </el-button>
-      </div>
-    </el-card>
-
-    <el-row :gutter="20" class="margin-top">
-      <el-col :span="4" class="tree-container">
-        <machine-type-tree ref="machineTypeTree" @switchType="handleSwitchType"></machine-type-tree>
+    <el-row :gutter="20">
+      <el-col :span="4" class="left-panel">
+        <el-card class="type-card">
+          <div class="type-list-item"
+            :class="{ 'selected': equipmentAccountInfo.conditions.typeId == '' }"
+            @click="handleSwitchType({ typeId: '', typeName: '' })">
+            {{ $t('common.all') }}
+          </div>
+          <machine-type-tree ref="machineTypeTree" @switchType="handleSwitchType"></machine-type-tree>
+        </el-card>
       </el-col>
-      <el-col :span="20">
+      <el-col :span="20" class="right-panel">
         <el-card class="box-card text-left">
           <div slot="header" class="">
             <span>{{ $t('equipmentAccount.searchCondition') }}</span>
@@ -54,6 +50,17 @@
         </el-card>
 
         <el-card class="box-card margin-top">
+          <div slot="header" class="flex justify-between">
+            <span>{{ $t('equipmentAccount.listTitle') }}</span>
+            <div>
+              <el-button type="primary" size="small" @click="openAddEquipmentAccountModal">
+                <i class="el-icon-plus"></i>{{ $t('equipmentAccount.addEquipment') }}
+              </el-button>
+              <el-button type="primary" size="small" @click="printEquipmentAccounts">
+                <i class="el-icon-printer"></i>{{ $t('equipmentAccount.batchPrint') }}
+              </el-button>
+            </div>
+          </div>
           <el-table :data="equipmentAccountInfo.equipmentAccounts" border style="width: 100%"   @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55" align="center"></el-table-column>
             <el-table-column prop="machineName" :label="$t('equipmentAccount.machineName')"
@@ -92,7 +99,7 @@
           </el-table>
 
           <el-row class="pagination-wrapper">
-            <el-col :span="12">
+            <el-col :span="12" class="table-desc">
               <div>{{ $t('equipmentAccount.stateDescription') }}</div>
             </el-col>
             <el-col :span="12">
@@ -254,12 +261,42 @@ export default {
 .equipment-account-container {
   padding: 20px;
 
-  .operation-wrapper {
-    margin-bottom: 0px;
+  .left-panel {
+    .type-card {
+      .type-list-item {
+        padding: 10px;
+        text-align: center;
+        cursor: pointer;
+        border-radius: 4px;
+        margin-bottom: 5px;
+        transition: all 0.3s;
+        font-size: 14px;
+        color: #606266;
+
+        &:hover {
+          background-color: #f5f7fa;
+        }
+
+        &.selected {
+          background-color: #409eff;
+          color: white;
+        }
+      }
+
+      ::v-deep .tree-container {
+        border: none;
+        box-shadow: none;
+        padding: 0;
+
+        .el-card__body {
+          padding: 0;
+        }
+      }
+    }
   }
 
-  .tree-container {
-    padding-right: 0;
+  .right-panel {
+    padding-left: 5px;
   }
 
   .search-form {
@@ -272,4 +309,9 @@ export default {
     justify-content: space-between;
     align-items: center;
   }
-}</style>
+}
+
+.margin-top {
+  margin-top: 20px;
+}
+</style>

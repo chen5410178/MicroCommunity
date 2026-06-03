@@ -7,6 +7,7 @@ export const messages = {
         contractCodePlaceholder: 'Please enter contract code',
         contractTypePlaceholder: 'Please select contract type'
       },
+      allTypes: 'All',
       list: {
         title: 'Draft Contract Information',
         draft: 'Draft',
@@ -21,7 +22,8 @@ export const messages = {
         amount: 'Contract Amount',
         startTime: 'Start Time',
         endTime: 'End Time',
-        state: 'Status'
+        state: 'Status',
+        createTime: 'Apply Time'
       },
       edit: {
         title: 'Edit Contract',
@@ -107,6 +109,7 @@ export const messages = {
         contractCodePlaceholder: '请输入合同编号',
         contractTypePlaceholder: '请选择合同类型'
       },
+      allTypes: '全部',
       list: {
         title: '起草合同信息',
         draft: '起草',
@@ -121,7 +124,8 @@ export const messages = {
         amount: '合同金额',
         startTime: '开始时间',
         endTime: '结束时间',
-        state: '状态'
+        state: '状态',
+        createTime: '申请时间'
       },
       edit: {
         title: '编辑合同',
@@ -207,6 +211,7 @@ fetchError: '获取合同数据失败'
         contractCodePlaceholder: '請輸入合同編號',
         contractTypePlaceholder: '請選擇合同類型'
       },
+      allTypes: '全部',
       list: {
         title: '起草合同信息',
         draft: '起草',
@@ -221,7 +226,8 @@ fetchError: '获取合同数据失败'
         amount: '合同金額',
         startTime: '開始時間',
         endTime: '結束時間',
-        state: '狀態'
+        state: '狀態',
+        createTime: '申請時間'
       },
       edit: {
         title: '編輯合同',

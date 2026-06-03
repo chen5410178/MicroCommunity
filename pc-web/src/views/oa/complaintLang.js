@@ -20,6 +20,7 @@ export const messages = {
         processing: 'Processing',
         completed: 'Completed'
       },
+      allTypes: 'All',
       table: {
         id: 'ID',
         type: 'Type',
@@ -99,6 +100,7 @@ export const messages = {
         processing: '处理中',
         completed: '处理完成'
       },
+      allTypes: '全部',
       table: {
         id: '订单编号',
         type: '类型',
@@ -178,6 +180,7 @@ export const messages = {
         processing: '處理中',
         completed: '處理完成'
       },
+      allTypes: '全部',
       table: {
         id: '訂單編號',
         type: '類型',

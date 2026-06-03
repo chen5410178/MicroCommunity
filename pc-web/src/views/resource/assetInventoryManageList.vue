@@ -1,21 +1,19 @@
 ﻿<template>
   <div class="asset-inventory-manage-container">
     <el-row :gutter="20">
-      <el-col :span="4" class="">
-       
-        <div class="list-group-border-radius">
-          <div class=" treeview">
-            <ul class="list-group text-center ">
-              <li v-for="(item, index) in assetInventoryManageInfo.storehouses" :key="index" @click="swatchStorehouse(item)"
-                :class="{ 'vc-node-selected': assetInventoryManageInfo.conditions.shId == item.shId }"
-                class="list-group-item node-orgTree">
-                {{ item.shName }}
-              </li>
-            </ul>
+      <el-col :span="4" class="left-panel">
+        <el-card class="type-card">
+          <div class="type-list-wrapper">
+            <div v-for="(item, index) in assetInventoryManageInfo.storehouses" :key="index"
+              class="type-list-item"
+              :class="{ 'selected': assetInventoryManageInfo.conditions.shId == item.shId }"
+              @click="swatchStorehouse(item)">
+              {{ item.shName }}
+            </div>
           </div>
-        </div>
+        </el-card>
       </el-col>
-      <el-col :span="20">
+      <el-col :span="20" class="right-panel">
         <el-row>
           <el-col :span="24">
             <el-card>
@@ -282,18 +280,54 @@ export default {
 .asset-inventory-manage-container {
   padding: 20px;
 
-  .border-radius {
-    border-radius: 4px;
+  .left-panel {
+    .type-card {
+      .type-list-wrapper {
+        max-height: 600px;
+        overflow-y: auto;
+
+        &::-webkit-scrollbar {
+          width: 4px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          background: #dcdfe6;
+          border-radius: 2px;
+        }
+
+        &::-webkit-scrollbar-track {
+          background: transparent;
+        }
+
+        .type-list-item {
+          padding: 10px;
+          text-align: center;
+          cursor: pointer;
+          border-radius: 4px;
+          margin-bottom: 5px;
+          transition: all 0.3s;
+          font-size: 14px;
+          color: #606266;
+
+          &:hover {
+            background-color: #f5f7fa;
+          }
+
+          &.selected {
+            background-color: #409eff;
+            color: white;
+          }
+        }
+      }
+    }
   }
 
-  .margin-xs-r {
-    margin-right: 5px;
+  .right-panel {
+    padding-left: 5px;
   }
+}
 
-  .padding-r-0 {
-    padding-right: 0;
-  }
-
-
+.margin-top {
+  margin-top: 20px;
 }
 </style>

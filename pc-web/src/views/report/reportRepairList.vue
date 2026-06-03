@@ -6,7 +6,7 @@
           <div slot="header" class="flex justify-between">
             <span>{{ $t('reportRepair.queryCondition') }}</span>
             <div style="float: right;">
-              <el-button type="text" @click="_moreCondition()">
+              <el-button type="text" @click="_moreCondition()" style="padding: 0;">
                 {{ reportRepairInfo.moreCondition ? $t('reportRepair.hide') : $t('reportRepair.more') }}
               </el-button>
             </div>

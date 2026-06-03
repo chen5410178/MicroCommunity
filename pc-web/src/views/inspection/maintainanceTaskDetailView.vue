@@ -1,18 +1,13 @@
 <template>
     <div class="maintainance-task-detail-view">
-      <el-card class="detail-card">
+      <el-card shadow="never" class="info-card text-left">
         <div slot="header" class="flex justify-between">
-          <span>{{ $t('maintainanceTaskDetailView.title') }}</span>
+          <span>{{ $t('maintainanceTaskDetailView.basicInfo') }}</span>
           <el-button type="primary" size="mini" @click="goBack">
             <i class="el-icon-back"></i>
             {{ $t('maintainanceTaskDetailView.back') }}
           </el-button>
         </div>
-  
-        <el-card shadow="never" class="info-card text-left">
-          <div slot="header" class="flex justify-between">
-            <span>{{ $t('maintainanceTaskDetailView.basicInfo') }}</span>
-          </div>
   
           <el-row :gutter="24" class="">
             <el-col :span="8">
@@ -104,8 +99,7 @@
             {{ detail.description || $t('maintainanceTaskDetailView.noDescription') }}
           </div>
         </el-card>
-      </el-card>
-  
+
       <view-image ref="viewImage" />
     </div>
   </template>
@@ -202,53 +196,41 @@
   <style lang="scss" scoped>
   .maintainance-task-detail-view {
     padding: 20px;
-  
-    .detail-card {
-      .card-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+
+    .info-card {
+      margin-bottom: 20px;
+    }
+
+    .info-item {
+      margin-bottom: 16px;
+      .label {
+        color: #606266;
+        margin-right: 4px;
       }
-  
-      .info-card {
-        margin-bottom: 20px;
+    }
+
+    .photo-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+
+      .photo-item {
+        width: 120px;
+        height: 120px;
+        border-radius: 4px;
+        overflow: hidden;
+        border: 1px solid #ebeef5;
       }
-  
-      .section-title {
-        font-weight: 600;
-      }
-  
-      .info-item {
-        margin-bottom: 16px;
-        .label {
-          color: #606266;
-          margin-right: 4px;
-        }
-      }
-  
-      .photo-list {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
-  
-        .photo-item {
-          width: 120px;
-          height: 120px;
-          border-radius: 4px;
-          overflow: hidden;
-          border: 1px solid #ebeef5;
-        }
-      }
-  
-      .empty-text {
-        color: #999;
-      }
-  
-      .description {
-        min-height: 80px;
-        line-height: 1.6;
-        white-space: pre-wrap;
-      }
+    }
+
+    .empty-text {
+      color: #999;
+    }
+
+    .description {
+      min-height: 80px;
+      line-height: 1.6;
+      white-space: pre-wrap;
     }
   }
   </style>

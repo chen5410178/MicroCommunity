@@ -1,69 +1,72 @@
 <template>
   <div class="complaint-container animated fadeInRight">
     <el-row :gutter="20">
-      <el-col :span="4">
-        <div class="list-group-border-radius">
-          <div class=" treeview">
-            <ul class="list-group text-center ">
-              <li v-for="(item, index) in complaintInfo.states" :key="index" @click="swatchComplaintState(item)"
-                :class="{ 'vc-node-selected': complaintInfo.conditions.state == item.statusCd }"
-                class="list-group-item node-orgTree">
-                {{ item.name }}
-              </li>
-            </ul>
+      <el-col :span="4" class="left-panel">
+        <el-card class="type-card">
+          <div class="type-list-wrapper">
+            <div class="type-list-item" :class="{ 'selected': selectedType === '' }"
+              @click="switchType('')">
+              {{ $t('complaint.allTypes') }}
+            </div>
+            <div v-for="(item, index) in complaintTypes" :key="index"
+              class="type-list-item"
+              :class="{ 'selected': selectedType === item.typeCd }"
+              @click="switchType(item.typeCd)">
+              {{ item.typeName }}
+            </div>
           </div>
-        </div>
+        </el-card>
       </el-col>
-      <el-col :span="20">
-        <el-card>
+
+      <el-col :span="20" class="right-panel">
+        <el-card class="search-card">
           <div slot="header" class="flex justify-between">
             <span>{{ $t('complaint.search.title') }}</span>
           </div>
           <el-row :gutter="20">
             <el-col :span="4">
-              <el-select v-model="complaintInfo.conditions.typeCd" :placeholder="$t('complaint.search.type')"
-                style="width:100%">
-                <el-option v-for="item in complaintInfo.complaintTypes" :key="item.typeCd" :label="item.typeName"
-                  :value="item.typeCd" />
-              </el-select>
+              <el-input v-model="complaintInfo.conditions.roomName" :placeholder="$t('complaint.search.room')" clearable />
             </el-col>
             <el-col :span="4">
-              <el-input v-model="complaintInfo.conditions.roomName" :placeholder="$t('complaint.search.room')" />
+              <el-input v-model="complaintInfo.conditions.complaintName" :placeholder="$t('complaint.search.contact')" clearable />
             </el-col>
             <el-col :span="4">
-              <el-input v-model="complaintInfo.conditions.complaintName" :placeholder="$t('complaint.search.contact')" />
+              <el-input v-model="complaintInfo.conditions.tel" :placeholder="$t('complaint.search.phone')" clearable />
             </el-col>
             <el-col :span="4">
-              <el-input v-model="complaintInfo.conditions.tel" :placeholder="$t('complaint.search.phone')" />
+              <el-input v-model="complaintInfo.conditions.complaintId" :placeholder="$t('complaint.search.id')" clearable />
             </el-col>
             <el-col :span="4">
-              <el-input v-model="complaintInfo.conditions.complaintId" :placeholder="$t('complaint.search.id')" />
+              <el-date-picker v-model="complaintInfo.conditions.startTime" type="datetime"
+                :placeholder="$t('complaint.search.startTime')" value-format="yyyy-MM-dd HH:mm:ss" style="width:100%" />
             </el-col>
             <el-col :span="4">
               <el-button type="primary" @click="_queryComplaintMethod()">
+                <i class="el-icon-search"></i>
                 {{ $t('common.search') }}
               </el-button>
-            </el-col>
-          </el-row>
-          <el-row :gutter="20" style="margin-top:15px">
-            <el-col :span="4">
-              <el-date-picker v-model="complaintInfo.conditions.startTime" type="datetime"
-                :placeholder="$t('complaint.search.startTime')" style="width:100%" />
-            </el-col>
-            <el-col :span="4">
-              <el-date-picker v-model="complaintInfo.conditions.endTime" type="datetime"
-                :placeholder="$t('complaint.search.endTime')" style="width:100%" />
+              <el-button @click="_resetComplaintMethod()">
+                <i class="el-icon-refresh"></i>
+                {{ $t('common.reset') }}
+              </el-button>
             </el-col>
           </el-row>
         </el-card>
 
-        <el-card style="margin-top:20px">
-          <div slot="header" class="flex justify-between">
-            <span>{{ $t('complaint.list.title') }}</span>
-            <el-button type="primary" size="small" style="float:right" @click="_openAddComplaintModal()">
-              <i class="el-icon-plus"></i>{{ $t('complaint.list.add') }}
+        <el-card class="table-card">
+          <el-tabs v-model="activeStateTab" @tab-click="handleStateTabClick">
+            <el-tab-pane :label="$t('complaint.status.all')" name="ALL" />
+            <el-tab-pane :label="$t('complaint.status.processing')" name="W" />
+            <el-tab-pane :label="$t('complaint.status.completed')" name="C" />
+          </el-tabs>
+
+          <div style="text-align:right;margin-bottom:10px">
+            <el-button type="primary" size="small" @click="_openAddComplaintModal()">
+              <i class="el-icon-plus"></i>
+              {{ $t('complaint.list.add') }}
             </el-button>
           </div>
+
           <el-table :data="complaintInfo.complaints" border style="width:100%" v-loading="loading">
             <el-table-column prop="complaintId" :label="$t('complaint.table.id')" align="center" />
             <el-table-column prop="typeName" :label="$t('complaint.table.type')" align="center" />
@@ -126,6 +129,9 @@ export default {
   data() {
     return {
       loading: false,
+      selectedType: '',
+      activeStateTab: 'ALL',
+      complaintTypes: [],
       page: {
         current: 1,
         size: 10,
@@ -133,12 +139,6 @@ export default {
       },
       complaintInfo: {
         complaints: [],
-        states: [
-          { statusCd: '', name: this.$t('complaint.status.all') },
-          { statusCd: 'W', name: this.$t('complaint.status.processing') },
-          { statusCd: 'C', name: this.$t('complaint.status.completed') }
-        ],
-        complaintTypes: [],
         conditions: {
           complaintId: '',
           typeCd: '',
@@ -185,13 +185,20 @@ export default {
           communityId: this.communityId
         }
         const { data } = await listComplaintTypes(params)
-        this.complaintInfo.complaintTypes = data
+        this.complaintTypes = data
       } catch (error) {
         console.error('获取投诉类型失败:', error)
       }
     },
-    swatchComplaintState(item) {
-      this.complaintInfo.conditions.state = item.statusCd
+    switchType(typeCd) {
+      this.selectedType = typeCd
+      this.complaintInfo.conditions.typeCd = typeCd
+      this.page.current = 1
+      this._listComplaints()
+    },
+    handleStateTabClick() {
+      this.complaintInfo.conditions.state = this.activeStateTab === 'ALL' ? '' : this.activeStateTab
+      this.page.current = 1
       this._listComplaints()
     },
     _openAddComplaintModal() {
@@ -207,6 +214,16 @@ export default {
       this.$router.push(`/pages/complaint/complaintDetail?complaintId=${row.complaintId}`)
     },
     _queryComplaintMethod() {
+      this.page.current = 1
+      this._listComplaints()
+    },
+    _resetComplaintMethod() {
+      this.complaintInfo.conditions.complaintId = ''
+      this.complaintInfo.conditions.complaintName = ''
+      this.complaintInfo.conditions.tel = ''
+      this.complaintInfo.conditions.roomName = ''
+      this.complaintInfo.conditions.startTime = ''
+      this.complaintInfo.conditions.endTime = ''
       this.page.current = 1
       this._listComplaints()
     },
@@ -229,10 +246,54 @@ export default {
 .complaint-container {
   padding: 20px;
 
-  .border-radius {
-    border-radius: 4px;
+  .left-panel {
+    .type-card {
+      .type-list-wrapper {
+        max-height: 600px;
+        overflow-y: auto;
+
+        &::-webkit-scrollbar {
+          width: 4px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          background: #dcdfe6;
+          border-radius: 2px;
+        }
+
+        &::-webkit-scrollbar-track {
+          background: transparent;
+        }
+
+        .type-list-item {
+          padding: 10px;
+          text-align: center;
+          cursor: pointer;
+          border-radius: 4px;
+          margin-bottom: 5px;
+          transition: all 0.3s;
+          font-size: 14px;
+          color: #606266;
+
+          &:hover {
+            background-color: #f5f7fa;
+          }
+
+          &.selected {
+            background-color: #409eff;
+            color: white;
+          }
+        }
+      }
+    }
   }
 
-  
+  .right-panel {
+    padding-left: 5px;
+  }
+
+  .search-card {
+    margin-bottom: 20px;
+  }
 }
 </style>

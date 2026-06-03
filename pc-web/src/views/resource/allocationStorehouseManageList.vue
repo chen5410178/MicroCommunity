@@ -1,20 +1,19 @@
 <template>
   <div class="animated fadeInRight ecommerce">
     <el-row :gutter="20">
-      <el-col :span="4" class="padding-r-0">
-        <div class="list-group-border-radius">
-          <div class=" treeview">
-            <ul class="list-group text-center ">
-              <li v-for="(item, index) in states"  :key="index" @click="swatchState(item)"
-                :class="{ 'vc-node-selected':  conditions.state == item.statusCd  }"
-                class="list-group-item node-orgTree">
-                {{ item.name }}
-              </li>
-            </ul>
+      <el-col :span="4" class="left-panel">
+        <el-card class="type-card">
+          <div class="type-list-wrapper">
+            <div v-for="(item, index) in states" :key="index"
+              class="type-list-item"
+              :class="{ 'selected': conditions.state == item.statusCd }"
+              @click="swatchState(item)">
+              {{ item.name }}
+            </div>
           </div>
-        </div>
+        </el-card>
       </el-col>
-      <el-col :span="20">
+      <el-col :span="20" class="right-panel">
         <el-card class="box-card">
           <div slot="header" class="flex justify-between">
             <span>{{ $t('allocationStorehouseManage.search.title') }}</span>
@@ -298,24 +297,52 @@ export default {
 <style lang="scss" scoped>
 .ecommerce {
   padding: 20px;
-}
 
-.padding-r-0 {
-  padding-right: 0 !important;
-}
+  .left-panel {
+    .type-card {
+      .type-list-wrapper {
+        max-height: 600px;
+        overflow-y: auto;
 
-.border-radius {
-  border-radius: 4px;
-}
+        &::-webkit-scrollbar {
+          width: 4px;
+        }
 
-.margin-xs-r {
-  margin-right: 5px;
-}
+        &::-webkit-scrollbar-thumb {
+          background: #dcdfe6;
+          border-radius: 2px;
+        }
 
+        &::-webkit-scrollbar-track {
+          background: transparent;
+        }
 
+        .type-list-item {
+          padding: 10px;
+          text-align: center;
+          cursor: pointer;
+          border-radius: 4px;
+          margin-bottom: 5px;
+          transition: all 0.3s;
+          font-size: 14px;
+          color: #606266;
 
-.text-center {
-  text-align: center;
+          &:hover {
+            background-color: #f5f7fa;
+          }
+
+          &.selected {
+            background-color: #409eff;
+            color: white;
+          }
+        }
+      }
+    }
+  }
+
+  .right-panel {
+    padding-left: 5px;
+  }
 }
 
 .margin-top {

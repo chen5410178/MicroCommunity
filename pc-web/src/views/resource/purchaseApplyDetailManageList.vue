@@ -1,25 +1,24 @@
 <template>
   <div class="purchase-apply-detail-manage-container">
     <el-row :gutter="20">
-      <el-col :span="3">
-        <div class="border-radius">
-          <div class="margin-xs-r treeview attendance-staff">
-            <ul class="list-group text-center border-radius">
-              <li v-for="(item, index) in resOrderTypes" :key="index" class="list-group-item node-orgTree"
-                :class="{ 'vc-node-selected': conditions.resOrderType == item.statusCd }"
+      <el-col :span="3" class="left-panel">
+          <el-card class="type-card">
+            <div class="type-list-wrapper">
+              <div v-for="(item, index) in resOrderTypes" :key="index"
+                class="type-list-item"
+                :class="{ 'selected': conditions.resOrderType == item.statusCd }"
                 @click="swatchResOrderTypes(item)">
                 {{ item.name }}
-              </li>
-            </ul>
-          </div>
-        </div>
-      </el-col>
-      <el-col :span="21">
+              </div>
+            </div>
+          </el-card>
+        </el-col>
+        <el-col :span="21" class="right-panel">
         <el-card class="box-card">
           <div slot="header" class="flex justify-between">
             <span>{{ $t('purchaseApplyDetailManage.search.title') }}</span>
             <div style="float: right;">
-              <el-button type="text" @click="_moreCondition()">
+              <el-button type="text" @click="_moreCondition()" style="padding:0;">
                 {{ moreCondition ? $t('purchaseApplyDetailManage.search.hide') :
                   $t('purchaseApplyDetailManage.search.more') }}
               </el-button>
@@ -457,32 +456,58 @@ export default {
 .purchase-apply-detail-manage-container {
   padding: 20px;
 
-  .border-radius {
-    border-radius: 4px;
-    border: 1px solid #ebeef5;
-    background-color: #fff;
-    overflow: hidden;
+  .left-panel {
+    .type-card {
+      .type-list-wrapper {
+        max-height: 600px;
+        overflow-y: auto;
 
-    .list-group {
-      padding: 0;
-      margin: 0;
-      list-style: none;
-
-      .list-group-item {
-        padding: 12px 15px;
-        border-bottom: 1px solid #ebeef5;
-        cursor: pointer;
-
-        &:hover {
-          background-color: #f5f7fa;
+        &::-webkit-scrollbar {
+          width: 4px;
         }
 
-        &.vc-node-selected {
-          background-color: #409eff;
-          color: #fff;
+        &::-webkit-scrollbar-thumb {
+          background: #dcdfe6;
+          border-radius: 2px;
+        }
+
+        &::-webkit-scrollbar-track {
+          background: transparent;
+        }
+
+        .type-list-item {
+          padding: 10px;
+          text-align: center;
+          cursor: pointer;
+          border-radius: 4px;
+          margin-bottom: 5px;
+          transition: all 0.3s;
+          font-size: 14px;
+          color: #606266;
+
+          &:hover {
+            background-color: #f5f7fa;
+          }
+
+          &.selected {
+            background-color: #409eff;
+            color: white;
+          }
         }
       }
     }
+  }
+
+  .right-panel .detail-wrapper {
+    margin-bottom: 20px;
+  }
+  .right-panel .detail-item {
+    margin-bottom: 16px;
+  }
+  .right-panel .detail-label {
+    color: #606266;
+    font-size: 14px;
+    margin-bottom: 4px;
   }
 
   .box-card {

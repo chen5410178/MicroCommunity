@@ -8,6 +8,10 @@ export const messages = {
       list: {
         title: 'Maintenance Standard'
       },
+      standardDetail: 'Standard Detail',
+      noStandardSelected: 'Please select a maintenance standard',
+      items: 'Inspection Items',
+      itemId: 'ID',
       table: {
         standardName: 'Maintenance Standard',
         itemCount: 'Inspection Items',
@@ -60,6 +64,10 @@ export const messages = {
       list: {
         title: '保养标准'
       },
+      standardDetail: '标准详情',
+      noStandardSelected: '请选择保养标准',
+      items: '检查项',
+      itemId: '编号',
       table: {
         standardName: '保养标准',
         itemCount: '检查项',
@@ -112,6 +120,10 @@ fetchError: '获取数据失败'
       list: {
         title: '保養標準'
       },
+      standardDetail: '標準詳情',
+      noStandardSelected: '請選擇保養標準',
+      items: '檢查項',
+      itemId: '編號',
       table: {
         standardName: '保養標準',
         itemCount: '檢查項',

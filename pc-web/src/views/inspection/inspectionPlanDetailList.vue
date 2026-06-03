@@ -4,90 +4,72 @@
       <div slot="header" class="clearfix">
         <span>{{ $t('inspectionPlanDetail.title') }}</span>
       </div>
-      <div class="content-wrapper">
-        <el-row :gutter="20">
-          <el-col :span="8">
-            <div class="form-group">
-              <label class="col-form-label">
-                {{ $t('inspectionPlanDetail.planName') }}:
-              </label>
-              <label>{{ inspectionPlanDetailInfo.inspectionPlanName }}</label>
-            </div>
-          </el-col>
-          <el-col :span="8">
-            <div class="form-group">
-              <label class="col-form-label">
-                {{ $t('inspectionPlanDetail.planRoute') }}:
-              </label>
-              <label>{{ inspectionPlanDetailInfo.inspectionRouteName }}</label>
-            </div>
-          </el-col>
-          <el-col :span="8">
-            <div class="form-group">
-              <label class="col-form-label">
-                {{ $t('inspectionPlanDetail.planPeriod') }}:
-              </label>
-              <label>{{ inspectionPlanDetailInfo.inspectionPlanPeriodName }}</label>
-            </div>
-          </el-col>
-          <el-col :span="8">
-            <div class="form-group">
-              <label class="col-form-label">
-                {{ $t('inspectionPlanDetail.signType') }}:
-              </label>
-              <label>{{ inspectionPlanDetailInfo.signTypeName }}</label>
-            </div>
-          </el-col>
-          <el-col :span="8">
-            <div class="form-group">
-              <label class="col-form-label">
-                {{ $t('inspectionPlanDetail.dateRange') }}:
-              </label>
-              <label>{{ inspectionPlanDetailInfo.startDate }}~{{ inspectionPlanDetailInfo.endDate }}</label>
-            </div>
-          </el-col>
-          <el-col :span="8">
-            <div class="form-group">
-              <label class="col-form-label">
-                {{ $t('inspectionPlanDetail.timeRange') }}:
-              </label>
-              <label>{{ inspectionPlanDetailInfo.startTime }}~{{ inspectionPlanDetailInfo.endTime }}</label>
-            </div>
-          </el-col>
-          <el-col :span="8">
-            <div class="form-group">
-              <label class="col-form-label">
-                {{ $t('inspectionPlanDetail.beforeTime') }}:
-              </label>
-              <label>{{ inspectionPlanDetailInfo.beforeTime }}</label>
-            </div>
-          </el-col>
-          <el-col :span="8">
-            <div class="form-group">
-              <label class="col-form-label">
-                {{ $t('inspectionPlanDetail.creator') }}:
-              </label>
-              <label>{{ inspectionPlanDetailInfo.createUserName }}</label>
-            </div>
-          </el-col>
-          <el-col :span="8">
-            <div class="form-group">
-              <label class="col-form-label">
-                {{ $t('inspectionPlanDetail.createTime') }}:
-              </label>
-              <label>{{ inspectionPlanDetailInfo.createTime }}</label>
-            </div>
-          </el-col>
-          <el-col :span="8">
-            <div class="form-group">
-              <label class="col-form-label">
-                {{ $t('inspectionPlanDetail.status') }}:
-              </label>
-              <label>{{ inspectionPlanDetailInfo.stateName }}</label>
-            </div>
-          </el-col>
-        </el-row>
-      </div>
+        <div class="content-wrapper">
+          <div class="detail-wrapper">
+            <el-row :gutter="10">
+              <el-col :span="6">
+                <div class="detail-item">
+                  <span class="detail-label">{{ $t('inspectionPlanDetail.planName') }}：</span>
+                  <span>{{ inspectionPlanDetailInfo.inspectionPlanName }}</span>
+                </div>
+              </el-col>
+              <el-col :span="6">
+                <div class="detail-item">
+                  <span class="detail-label">{{ $t('inspectionPlanDetail.planRoute') }}：</span>
+                  <span>{{ inspectionPlanDetailInfo.inspectionRouteName }}</span>
+                </div>
+              </el-col>
+              <el-col :span="6">
+                <div class="detail-item">
+                  <span class="detail-label">{{ $t('inspectionPlanDetail.planPeriod') }}：</span>
+                  <span>{{ inspectionPlanDetailInfo.inspectionPlanPeriodName }}</span>
+                </div>
+              </el-col>
+              <el-col :span="6">
+                <div class="detail-item">
+                  <span class="detail-label">{{ $t('inspectionPlanDetail.signType') }}：</span>
+                  <span>{{ inspectionPlanDetailInfo.signTypeName }}</span>
+                </div>
+              </el-col>
+              <el-col :span="6">
+                <div class="detail-item">
+                  <span class="detail-label">{{ $t('inspectionPlanDetail.dateRange') }}：</span>
+                  <span>{{ inspectionPlanDetailInfo.startDate }}~{{ inspectionPlanDetailInfo.endDate }}</span>
+                </div>
+              </el-col>
+              <el-col :span="6">
+                <div class="detail-item">
+                  <span class="detail-label">{{ $t('inspectionPlanDetail.timeRange') }}：</span>
+                  <span>{{ inspectionPlanDetailInfo.startTime }}~{{ inspectionPlanDetailInfo.endTime }}</span>
+                </div>
+              </el-col>
+              <el-col :span="6">
+                <div class="detail-item">
+                  <span class="detail-label">{{ $t('inspectionPlanDetail.beforeTime') }}：</span>
+                  <span>{{ inspectionPlanDetailInfo.beforeTime }}</span>
+                </div>
+              </el-col>
+              <el-col :span="6">
+                <div class="detail-item">
+                  <span class="detail-label">{{ $t('inspectionPlanDetail.creator') }}：</span>
+                  <span>{{ inspectionPlanDetailInfo.createUserName }}</span>
+                </div>
+              </el-col>
+              <el-col :span="6">
+                <div class="detail-item">
+                  <span class="detail-label">{{ $t('inspectionPlanDetail.createTime') }}：</span>
+                  <span>{{ inspectionPlanDetailInfo.createTime }}</span>
+                </div>
+              </el-col>
+              <el-col :span="6">
+                <div class="detail-item">
+                  <span class="detail-label">{{ $t('inspectionPlanDetail.status') }}：</span>
+                  <span>{{ inspectionPlanDetailInfo.stateName }}</span>
+                </div>
+              </el-col>
+            </el-row>
+          </div>
+        </div>
     </el-card>
 
     <el-card class="box-card margin-top">
@@ -219,23 +201,24 @@ export default {
     }
 
     .content-wrapper {
-      padding: 20px;
+      padding: 0;
+    }
+  }
 
-      .form-group {
-        margin-bottom: 15px;
-        display: flex;
-        align-items: center;
+  .detail-wrapper {
+    .detail-item {
+      padding: 8px 0;
+      font-size: 14px;
+      color: #606266;
+    }
 
-        .col-form-label {
-          margin-right: 10px;
-          min-width: 100px;
-        }
-      }
+    .detail-label {
+      margin-right: 4px;
     }
   }
 
   .margin-top {
-    margin-top: 20px;
+    margin-top: 15px;
   }
 }
 </style>

@@ -1,24 +1,24 @@
 ﻿<template>
   <div class="animated fadeInRight ecommerce">
     <el-row :gutter="20">
-      <el-col :span="5" class="tree-container">
+      <el-col :span="4" class="tree-container">
         <div class="tree-header">
-          <el-button type="primary" size="small" @click="openAddResourceStoreTypeModal(1)">
+          <el-button type="text" size="small" @click="openAddResourceStoreTypeModal(1)">
             {{ $t('resourceStoreManage.addFirstLevel') }}
           </el-button>
-          <el-button type="primary" size="small" @click="openAddResourceStoreTypeModal(2)">
+          <el-button type="text" size="small" @click="openAddResourceStoreTypeModal(2)">
             {{ $t('resourceStoreManage.addSecondLevel') }}
           </el-button>
-          <el-button type="primary" size="small" @click="openEditResourceStoreTypeModel">
+          <el-button type="text" size="small" @click="openEditResourceStoreTypeModel">
             {{ $t('resourceStoreManage.edit') }}
           </el-button>
-          <el-button type="primary" size="small" @click="openDeleteResourceStoreTypeModel">
+          <el-button type="text" size="small" @click="openDeleteResourceStoreTypeModel">
             {{ $t('resourceStoreManage.delete') }}
           </el-button>
         </div>
         <resource-store-type-tree ref="resourceStoreTypeTree" @switchParent="switchParent" @switchRst="switchRst" />
       </el-col>
-      <el-col :span="19">
+      <el-col :span="20">
         <el-card class="margin-top-xs">
           <div slot="header" class="text-left">
             <span>{{ $t('resourceStoreManage.queryCondition') }}</span>
@@ -180,7 +180,7 @@
           </el-table>
 
           <el-row class="margin-top">
-            <el-col :span="12" class="text-left">
+            <el-col :span="12" class="table-desc">
               <div>
                 <b>{{ $t('resourceStoreManage.subTotal') }}</b>
                 <span class="margin-left">
@@ -523,13 +523,7 @@ export default {
   border-right: 1px solid #ebeef5;
 }
 
-.tree-header {
-  margin-bottom: 15px;
-}
 
-.tree-header .el-button {
-  margin-bottom: 5px;
-}
 
 .card-header {
   display: flex;

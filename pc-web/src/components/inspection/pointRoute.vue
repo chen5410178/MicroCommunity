@@ -1,19 +1,20 @@
 <template>
   <div class="point-route-container" >
     <el-row :gutter="20" v-if="pointRouteInfo.routes && pointRouteInfo.routes.length>0">
-      <el-col :span="6">
-        <el-card class="route-list-card">
-          <div class="route-list">
-            <ul>
+      <el-col :span="6" class="left-panel">
+        <el-card class="route-card">
+          <div class="route-list-wrapper">
+            <ul class="route-ul">
               <li v-for="(route, index) in pointRouteInfo.routes" :key="index" @click="_switchPointRoute(route)"
-                :class="{ 'active': route.inspectionRouteId == pointRouteInfo.inspectionRouteId }">
+                :class="{ 'selected': route.inspectionRouteId == pointRouteInfo.inspectionRouteId }"
+                class="route-list-item">
                 {{ route.routeName }}
               </li>
             </ul>
           </div>
         </el-card>
       </el-col>
-      <el-col :span="18">
+      <el-col :span="18" class="right-panel">
         <el-card>
           <inspection-route-map ref="inspectionRouteMap" />
         </el-card>
@@ -93,40 +94,62 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .point-route-container {
   padding: 20px;
 }
 
-.route-list-card {
-  height: 600px;
-  overflow: hidden;
+.left-panel {
+  .route-card {
+    height: 700px;
+
+    .route-list-wrapper {
+      height: 640px;
+      overflow-y: auto;
+
+      &::-webkit-scrollbar {
+        width: 4px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: #dcdfe6;
+        border-radius: 2px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      .route-ul {
+        list-style: none;
+        padding: 0 5px;
+        margin: 0;
+
+        .route-list-item {
+          padding: 10px;
+          text-align: center;
+          cursor: pointer;
+          border-radius: 4px;
+          margin-bottom: 5px;
+          transition: all 0.3s;
+          font-size: 14px;
+          color: #606266;
+
+          &:hover {
+            background-color: #f5f7fa;
+          }
+
+          &.selected {
+            background-color: #409eff;
+            color: white;
+          }
+        }
+      }
+    }
+  }
 }
 
-.route-list {
-  height: 550px;
-  overflow-y: auto;
-}
-
-.route-list ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.route-list li {
-  padding: 12px 15px;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-.route-list li:hover {
-  background-color: #f5f7fa;
-}
-
-.route-list li.active {
-  background-color: #ecf5ff;
-  color: #409eff;
-  font-weight: bold;
+.right-panel {
+  padding-left: 5px;
 }
 </style>

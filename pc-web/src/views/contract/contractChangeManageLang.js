@@ -7,6 +7,7 @@ export const messages = {
         contractCode: 'Please enter contract code',
         contractType: 'Please select contract type'
       },
+      allTypes: 'All',
       list: {
         title: 'Contract Change Information',
         mainBodyChange: 'Main Body Change',
@@ -43,6 +44,7 @@ zh: {
         contractCode: '请输入合同编号',
         contractType: '请选择合同类型'
       },
+      allTypes: '全部',
       list: {
         title: '合同变更信息',
         mainBodyChange: '主体变更',
@@ -79,6 +81,7 @@ zh: {
         contractCode: '請輸入合同編號',
         contractType: '請選擇合同類型'
       },
+      allTypes: '全部',
       list: {
         title: '合同變更信息',
         mainBodyChange: '主體變更',

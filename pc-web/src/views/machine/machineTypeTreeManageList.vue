@@ -1,73 +1,101 @@
 <template>
   <div class="machine-type-tree-manage-container">
-    <div class="box-card">
-
-      <el-row :gutter="20">
-        <el-col :span="4" style="padding-right:0">
-          <div class="">
-            <el-button-group>
-              <el-button type="text" size="small" @click="openAddParentMachineTypeModal">
-                <i class="el-icon-plus"></i>{{ $t('machineTypeTree.addParent') }}
-              </el-button>
-              <el-button type="text" size="small" @click="openAddMachineTypeModal">
-                <i class="el-icon-plus"></i>{{ $t('machineTypeTree.addChild') }}
-              </el-button>
-              <el-button type="text" size="small" @click="openEditMachineTypeModel">
-                <i class="el-icon-edit"></i>{{ $t('machineTypeTree.edit') }}
-              </el-button>
-              <el-button type="text" size="small" @click="openDeleteMachineTypeModel">
-                <i class="el-icon-delete"></i>{{ $t('machineTypeTree.delete') }}
-              </el-button>
-            </el-button-group>
+    <el-row :gutter="20">
+      <el-col :span="4" class="left-panel">
+        <el-card class="type-card">
+          <div class="type-list-item type-add"
+            @click="openAddParentMachineTypeModal">
+            <i class="el-icon-plus"></i>{{ $t('machineTypeTree.addParent') }}
           </div>
-          <div>
-            <machine-type-tree ref="machineTypeTree" @switchType="handleSwitchType"></machine-type-tree>
-          </div>
-        </el-col>
-        <el-col :span="20">
-          <el-card class="box-card">
-            <div slot="header" class="flex justify-between">
-              <span>{{ $t('machineTypeTree.detail') }}</span>
-            </div>
-            <div class="detail-content">
-              <el-form label-width="120px">
-                <el-form-item :label="$t('machineTypeTree.machineTypeName')">
-                  <span>{{ machineTypeInfo.machineTypeName }}</span>
-                </el-form-item>
-                <el-form-item :label="$t('machineTypeTree.machineTypeCode')">
-                  <span>{{ machineTypeInfo.machineTypeCode }}</span>
-                </el-form-item>
-                <el-form-item :label="$t('machineTypeTree.status')">
-                  <el-radio-group v-model="machineTypeInfo.isEnable" disabled>
-                    <el-radio :label="'1000'">{{ $t('machineTypeTree.enable') }}</el-radio>
-                    <el-radio :label="'2000'">{{ $t('machineTypeTree.disable') }}</el-radio>
-                  </el-radio-group>
-                </el-form-item>
-                <el-form-item :label="$t('machineTypeTree.importanceLevel')">
-                  <template v-for="(item, index) in importanceLevels">
-                    <span v-if="machineTypeInfo.importanceLevel == item.statusCd" :key="index">
-                      {{ item.name }}
-                    </span>
+          <machine-type-tree ref="machineTypeTree" @switchType="handleSwitchType"></machine-type-tree>
+        </el-card>
+      </el-col>
+      <el-col :span="20" class="right-panel">
+        <el-row>
+          <el-col :span="24">
+            <el-card>
+              <div slot="header" class="flex justify-between">
+                <span>{{ $t('machineTypeTree.detail') }}</span>
+                <div>
+                  <template v-if="currentTypeId">
+                    <el-button size="small" @click="openAddMachineTypeModal">
+                      {{ $t('machineTypeTree.addChild') }}
+                    </el-button>
+                    <el-button size="small" @click="openEditMachineTypeModel">
+                      {{ $t('machineTypeTree.edit') }}
+                    </el-button>
+                    <el-button size="small" type="danger" @click="openDeleteMachineTypeModel">
+                      {{ $t('machineTypeTree.delete') }}
+                    </el-button>
                   </template>
-                </el-form-item>
-                <el-form-item :label="$t('machineTypeTree.seq')">
-                  <span>{{ machineTypeInfo.seq }}</span>
-                </el-form-item>
-                <el-form-item :label="$t('machineTypeTree.unit')">
-                  <span>{{ machineTypeInfo.unit }}</span>
-                </el-form-item>
-                <el-form-item :label="$t('machineTypeTree.warrantyDeadline')">
-                  <span>{{ machineTypeInfo.warrantyDeadline }}</span>
-                </el-form-item>
-                <el-form-item :label="$t('machineTypeTree.remark')">
-                  <span>{{ machineTypeInfo.remark }}</span>
-                </el-form-item>
-              </el-form>
-            </div>
-          </el-card>
-        </el-col>
-      </el-row>
-    </div>
+                </div>
+              </div>
+
+              <div v-if="currentTypeId" class="detail-wrapper margin-top">
+                <el-row :gutter="10">
+                  <el-col :span="6">
+                    <div class="detail-item">
+                      <span class="detail-label">{{ $t('machineTypeTree.machineTypeName') }}：</span>
+                      <span>{{ machineTypeInfo.machineTypeName }}</span>
+                    </div>
+                  </el-col>
+                  <el-col :span="6">
+                    <div class="detail-item">
+                      <span class="detail-label">{{ $t('machineTypeTree.machineTypeCode') }}：</span>
+                      <span>{{ machineTypeInfo.machineTypeCode }}</span>
+                    </div>
+                  </el-col>
+                  <el-col :span="6">
+                    <div class="detail-item">
+                      <span class="detail-label">{{ $t('machineTypeTree.status') }}：</span>
+                      <span>{{ machineTypeInfo.isEnable == '1000' ? $t('machineTypeTree.enable') : $t('machineTypeTree.disable') }}</span>
+                    </div>
+                  </el-col>
+                  <el-col :span="6">
+                    <div class="detail-item">
+                      <span class="detail-label">{{ $t('machineTypeTree.importanceLevel') }}：</span>
+                      <template v-for="(item, index) in importanceLevels">
+                        <span v-if="machineTypeInfo.importanceLevel == item.statusCd" :key="index">
+                          {{ item.name }}
+                        </span>
+                      </template>
+                    </div>
+                  </el-col>
+                  <el-col :span="6">
+                    <div class="detail-item">
+                      <span class="detail-label">{{ $t('machineTypeTree.seq') }}：</span>
+                      <span>{{ machineTypeInfo.seq }}</span>
+                    </div>
+                  </el-col>
+                  <el-col :span="6">
+                    <div class="detail-item">
+                      <span class="detail-label">{{ $t('machineTypeTree.unit') }}：</span>
+                      <span>{{ machineTypeInfo.unit }}</span>
+                    </div>
+                  </el-col>
+                  <el-col :span="6">
+                    <div class="detail-item">
+                      <span class="detail-label">{{ $t('machineTypeTree.warrantyDeadline') }}：</span>
+                      <span>{{ machineTypeInfo.warrantyDeadline }}</span>
+                    </div>
+                  </el-col>
+                  <el-col :span="6">
+                    <div class="detail-item">
+                      <span class="detail-label">{{ $t('machineTypeTree.remark') }}：</span>
+                      <span>{{ machineTypeInfo.remark }}</span>
+                    </div>
+                  </el-col>
+                </el-row>
+              </div>
+
+              <div v-else class="text-center" style="padding: 40px 0; color: #909399;">
+                {{ $t('machineTypeTree.noTypeSelected') }}
+              </div>
+            </el-card>
+          </el-col>
+        </el-row>
+      </el-col>
+    </el-row>
 
     <add-machine-type ref="addMachineType" @success="handleSuccess"></add-machine-type>
     <edit-machine-type ref="editMachineType" @success="handleSuccess"></edit-machine-type>
@@ -115,6 +143,10 @@ export default {
     },
     handleSwitchType(data) {
       this.currentTypeId = data.typeId
+      if (!data.typeId) {
+        this.machineTypeInfo = {}
+        return
+      }
       this.machineTypeInfo = {
         ...data
       }
@@ -161,21 +193,68 @@ export default {
 .machine-type-tree-manage-container {
   padding: 20px;
 
-  .box-card {
-    margin-bottom: 20px;
-  }
+  .left-panel {
+    .type-card {
+      .type-list-item {
+        padding: 10px;
+        text-align: center;
+        cursor: pointer;
+        border-radius: 4px;
+        margin-bottom: 5px;
+        transition: all 0.3s;
+        font-size: 14px;
+        color: #606266;
 
-  .detail-content {
-    padding: 20px;
+        &:hover {
+          background-color: #f5f7fa;
+        }
 
-    span {
-      line-height: 40px;
+        &.selected {
+          background-color: #409eff;
+          color: white;
+        }
+
+        &.type-add {
+          color: #409eff;
+          border: 1px dashed #409eff;
+          margin-bottom: 10px;
+
+          &:hover {
+            background-color: #ecf5ff;
+          }
+        }
+      }
+
+      ::v-deep .tree-container {
+        border: none;
+        box-shadow: none;
+        padding: 0;
+
+        .el-card__body {
+          padding: 0;
+        }
+      }
     }
   }
 
-  .el-row {
-    width: 100%;
-  }
+  .right-panel {
+    padding-left: 5px;
 
+    .detail-wrapper {
+      .detail-item {
+        padding: 8px 0;
+        font-size: 14px;
+        color: #606266;
+      }
+
+      .detail-label {
+        margin-right: 4px;
+      }
+    }
+  }
+}
+
+.margin-top {
+  margin-top: 15px;
 }
 </style>
