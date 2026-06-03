@@ -5,7 +5,7 @@
       <div slot="header" class="flex justify-between">
         <span>{{ $t('returnPayFeeManage.search.title') }}</span>
         <div class="card-header-tools">
-          <el-button type="text" @click="_moreCondition">
+          <el-button type="text" @click="_moreCondition" style="padding:0px">
             {{ returnPayFeeManageInfo.moreCondition ? $t('returnPayFeeManage.search.hide') : $t('returnPayFeeManage.search.more') }}
           </el-button>
         </div>

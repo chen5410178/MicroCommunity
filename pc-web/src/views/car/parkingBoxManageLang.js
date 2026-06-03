@@ -22,7 +22,8 @@ export const messages = {
       operation: 'Operation',
       console: 'Console',
       dataSource: 'Data comes from IoT system',
-      pagination: 'Pagination'
+      pagination: 'Pagination',
+      all: 'All'
     },
     addParkingBox: {
       title: 'Add Booth',
@@ -82,7 +83,8 @@ export const messages = {
       operation: '操作',
       console: '控制台',
       dataSource: '数据来源于物联网系统，请到物联网系统管理数据',
-      pagination: '分页'
+      pagination: '分页',
+      all: '全部'
     },
     addParkingBox: {
       title: '添加岗亭',
@@ -142,7 +144,8 @@ confirm: '确认删除'
       operation: '操作',
       console: '控制台',
       dataSource: '數據來源於物聯網系統，請到物聯網系統管理數據',
-      pagination: '分頁'
+      pagination: '分頁',
+      all: '全部'
     },
     addParkingBox: {
       title: '添加崗亭',

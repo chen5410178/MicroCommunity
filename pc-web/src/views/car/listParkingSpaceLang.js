@@ -23,7 +23,8 @@ export const messages = {
       createTime: "Create Time",
       operation: "Operation",
       modify: "Modify",
-      delete: "Delete"
+      delete: "Delete",
+      all: "All"
     },
     addParkingSpace: {
       title: "Add",
@@ -111,7 +112,8 @@ export const messages = {
       createTime: "创建时间",
       operation: "操作",
       modify: "修改",
-      delete: "删除"
+      delete: "删除",
+      all: "全部"
     },
     addParkingSpace: {
       title: "添加",
@@ -199,7 +201,8 @@ parkingSpaceTypePlaceholder: "必填，请选择车位类型",
       createTime: "创建时间",
       operation: "操作",
       modify: "修改",
-      delete: "删除"
+      delete: "删除",
+      all: "全部"
     },
     addParkingSpace: {
       title: "添加",

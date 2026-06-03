@@ -66,10 +66,10 @@
 
             <!-- 分页 -->
             <el-row class="margin-top">
-                <el-col :span="8" class="text-right">
-                    <div>{{ $t('prePayFeeDetail.totalRemainAmount') }}：{{ prePayFeeDetailInfo.totalAmount }}</div>
+                <el-col :span="12" class="text-right">
+                    <span>{{ $t('prePayFeeDetail.totalRemainAmount') }}：{{ prePayFeeDetailInfo.totalAmount }}</span>
                 </el-col>
-                <el-col :span="16">
+                <el-col :span="12" class="text-right">
                     <el-pagination :current-page.sync="page.current" :page-sizes="[10, 20, 30, 50]"
                         :page-size="page.size" :total="page.total" layout="total, sizes, prev, pager, next, jumper"
                         @size-change="handleSizeChange" @current-change="handleCurrentChange" />

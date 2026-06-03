@@ -130,11 +130,11 @@
           <span>{{ $t('simplifyOwnerShopFee.arrearsSubtotal') }}</span>{{ simplifyOwnerShopFeeInfo.totalAmount }}
         </span>
       </el-col>
-      <el-col :span="6" class="text-right">
-        <el-pagination @current-change="handleCurrentChange" :current-page="currentPage" :page-size="pageSize"
-          layout="total, prev, pager, next" :total="total" class="pagination text-right"></el-pagination>
-      </el-col>
     </el-row>
+    <div class="text-right" style="margin-top: 20px">
+      <el-pagination @current-change="handleCurrentChange" :current-page="currentPage" :page-size="pageSize"
+        layout="total, prev, pager, next" :total="total"></el-pagination>
+    </div>
     <delete-fee ref="deleteFee" @success="handleNotify"></delete-fee>
     <edit-fee ref="editFee" @success="handleNotify"></edit-fee>
     <finish-fee ref="finishFee" @success="handleNotify"></finish-fee>

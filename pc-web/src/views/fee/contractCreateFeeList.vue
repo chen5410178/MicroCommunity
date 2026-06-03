@@ -8,6 +8,10 @@
       <el-row v-else :gutter="20">
         <el-col :span="4" class="left-panel">
           <el-card class="contract-list-card">
+            <div class="contract-search-input">
+              <el-input placeholder="合同编号，回车查询"
+                v-model="contractCreateFeeInfo.conditions.contractCode" @keyup.enter.native="_queryContract"></el-input>
+            </div>
             <div class="contract-list-wrapper">
               <ul class="contract-list">
                 <li v-for="(item, index) in contractCreateFeeInfo.contracts" :key="index" class="contract-item"
@@ -28,10 +32,6 @@
 
             <div class="search-section">
               <el-row :gutter="20">
-                <el-col :span="4">
-                  <el-input :placeholder="$t('contractCreateFee.enterContractCode')"
-                    v-model="contractCreateFeeInfo.conditions.contractCode" @keyup.enter.native="_queryContract"></el-input>
-                </el-col>
                 <el-col :span="4">
                   <el-input :placeholder="$t('contractCreateFee.enterContractName')"
                     v-model="contractCreateFeeInfo.conditions.contractNameLike" @keyup.enter.native="_queryContract"></el-input>
@@ -316,13 +316,31 @@ export default {
     .contract-list-card {
       height: 700px;
 
+      .contract-search-input {
+        margin-bottom: 10px;
+      }
+
       .contract-list-wrapper {
-        height: 650px;
+        height: 600px;
         overflow-y: auto;
+
+        &::-webkit-scrollbar {
+          width: 4px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          background: #dcdfe6;
+          border-radius: 2px;
+        }
+
+        &::-webkit-scrollbar-track {
+          background: transparent;
+        }
 
         .contract-list {
           list-style: none;
           padding: 0;
+          padding-right: 5px;
           margin: 0;
 
           .contract-item {
@@ -333,6 +351,8 @@ export default {
             cursor: pointer;
             transition: all 0.3s;
             text-align: center;
+            font-size: 14px;
+            color: #606266;
 
             &:hover {
               background-color: #f5f7fa;

@@ -1,20 +1,21 @@
 <template>
   <div class="animated fadeInRight">
     <el-row :gutter="20">
-      <el-col :span="3" class="padding-r-0">
-        <div class="border-radius">
-          <div class="margin-xs-r treeview">
-            <ul class="list-group text-center border-radius">
-              <li v-for="(item, index) in parkingAreas" :key="index" class="list-group-item node-orgTree"
-                :class="{ 'vc-node-selected': conditions.paNum === item.num }" @click="swatchParkingArea(item)">
+      <el-col :span="3" class="left-panel">
+        <el-card class="parking-area-card">
+          <div class="parking-area-list-wrapper">
+            <ul class="parking-area-list">
+              <li v-for="(item, index) in parkingAreas" :key="index"
+                class="parking-area-item"
+                :class="{ 'selected': conditions.paNum === item.num }" @click="swatchParkingArea(item)">
                 {{ item.num }}
               </li>
             </ul>
           </div>
-        </div>
+        </el-card>
       </el-col>
 
-      <el-col :span="21">
+      <el-col :span="21" class="right-panel">
         <el-card class="box-card">
           <div slot="header" class=" flex justify-between">
             <div>{{ $t('carInoutManage.searchCondition') }}</div>
@@ -233,38 +234,58 @@ export default {
   padding: 15px;
 }
 
-.border-radius {
-  border-radius: 4px;
-  overflow: hidden;
+.right-panel {
+  padding-left: 5px;
 }
 
-.margin-xs-r {
-  margin-right: 5px;
-}
+.left-panel {
+  .parking-area-card {
+    height: 700px;
 
-.list-group {
-  padding-left: 0;
-  margin-bottom: 0;
-}
+    .parking-area-list-wrapper {
+      height: 630px;
+      overflow-y: auto;
 
-.list-group-item {
-  position: relative;
-  display: block;
-  padding: 10px 15px;
-  margin-bottom: -1px;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  cursor: pointer;
-}
+      &::-webkit-scrollbar {
+        width: 4px;
+      }
 
-.list-group-item:hover {
-  background-color: #f5f5f5;
-}
+      &::-webkit-scrollbar-thumb {
+        background: #dcdfe6;
+        border-radius: 2px;
+      }
 
-.vc-node-selected {
-  background-color: #409EFF;
-  color: white;
-  border-color: #409EFF;
+      &::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      .parking-area-list {
+        list-style: none;
+        padding: 0 5px;
+        margin: 0;
+
+        .parking-area-item {
+          padding: 10px;
+          text-align: center;
+          cursor: pointer;
+          border-radius: 4px;
+          margin-bottom: 5px;
+          transition: all 0.3s;
+          font-size: 14px;
+          color: #606266;
+
+          &:hover {
+            background-color: #f5f7fa;
+          }
+
+          &.selected {
+            background-color: #409eff;
+            color: white;
+          }
+        }
+      }
+    }
+  }
 }
 
 .card-body {

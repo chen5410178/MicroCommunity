@@ -122,11 +122,11 @@
           <span>{{ $t('simplifyCarFee.oweSubtotal') }}</span>{{ simplifyCarFeeInfo.totalAmount }}
         </span>
       </el-col>
-      <el-col :span="6">
-        <el-pagination :current-page.sync="currentPage" :page-size="pageSize" :total="total"
-          layout="total, prev, pager, next" @current-change="handlePageChange" class="text-right" />
-      </el-col>
     </el-row>
+    <div class="text-right" style="margin-top: 20px">
+      <el-pagination :current-page.sync="currentPage" :page-size="pageSize" :total="total"
+        layout="total, prev, pager, next" @current-change="handlePageChange" />
+    </div>
 
 
     <delete-fee ref="deleteFee" @success="handleNotify"></delete-fee>

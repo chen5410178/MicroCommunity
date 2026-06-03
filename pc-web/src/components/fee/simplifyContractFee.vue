@@ -82,20 +82,21 @@
         </tbody>
       </table>
       <el-row class="margin-top">
-        <el-col :span="4">
+        <el-col :span="12" class="text-left table-desc">
           <div>{{ $t('simplifyContractFee.note1') }}</div>
           <div>{{ $t('simplifyContractFee.note2') }}</div>
         </el-col>
-        <el-col :span="2">
-          <span>{{ $t('simplifyContractFee.arrearsSubtotal') }}:</span>
-          {{ simplifyContractFeeInfo.totalAmount }}
-        </el-col>
-        <el-col :span="6" class="text-right">
-          <el-pagination @current-change="handlePageChange" :current-page="pagination.currentPage"
-            :page-size="pagination.pageSize" layout="total, prev, pager, next"
-            :total="pagination.total"></el-pagination>
+        <el-col :span="6">
+          <span>
+            <span>{{ $t('simplifyContractFee.arrearsSubtotal') }}</span>{{ simplifyContractFeeInfo.totalAmount }}
+          </span>
         </el-col>
       </el-row>
+      <div class="text-right" style="margin-top: 20px">
+        <el-pagination @current-change="handlePageChange" :current-page="pagination.currentPage"
+          :page-size="pagination.pageSize" layout="total, prev, pager, next"
+          :total="pagination.total"></el-pagination>
+      </div>
     </div>
     <temp-import-room-fee ref="tempImportRoomFee"></temp-import-room-fee>
     <delete-fee ref="deleteFee" @success="handleNotify"></delete-fee>

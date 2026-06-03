@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-row class="margin-top-lg">
+    <el-row class="margin-top">
       <el-col :span="2">
         <el-select v-model="simplifyShopFeeInfo.feeTypeCd" @change="changeSimplifyShopFeeFeeTypeCd" size="small"
           :placeholder="$t('simplifyShopFee.selectFeeType')">
@@ -108,12 +108,10 @@
           </template>
         </tbody>
       </table>
-      <el-pagination @current-change="handleCurrentChange" :current-page="currentPage" :page-size="pageSize"
-        layout="total, prev, pager, next" :total="total" class="pagination text-right"></el-pagination>
     </div>
 
-    <el-row>
-      <el-col :span="12" class="text-left table-desc">
+    <el-row class="margin-top">
+      <el-col :span="8" class="text-left table-desc">
         <div>{{ $t('simplifyShopFee.note1') }}</div>
         <div>{{ $t('simplifyShopFee.note2') }}</div>
       </el-col>
@@ -121,6 +119,10 @@
         <span>
           <span>{{ $t('simplifyShopFee.arrearsSubtotal') }}</span>{{ simplifyShopFeeInfo.totalAmount }}
         </span>
+      </el-col>
+      <el-col :span="8" class="text-right">
+         <el-pagination @current-change="handleCurrentChange" :current-page="currentPage" :page-size="pageSize"
+        layout="total, prev, pager, next" :total="total"></el-pagination>
       </el-col>
     </el-row>
     <delete-fee ref="deleteFee" @success="handleNotify"></delete-fee>
@@ -166,7 +168,7 @@ export default {
         ownerId: ''
       },
       currentPage: 1,
-      pageSize: 10,
+      pageSize: 100,
       total: 0
     }
   },
@@ -445,18 +447,5 @@ export default {
   white-space: pre-wrap;
   word-break: break-word;
   line-height: 1.4;
-}
-
-.pagination {
-  margin-top: 20px;
-}
-
-.table-desc {
-  color: #909399;
-  font-size: 12px;
-}
-
-.table-desc div {
-  margin-bottom: 5px;
 }
 </style>

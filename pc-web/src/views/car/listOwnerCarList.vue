@@ -1,21 +1,20 @@
 ﻿<template>
   <div class="list-owner-car-container">
     <el-row :gutter="20">
-      <el-col :span="3">
-        
-        <div class="list-group-border-radius">
-          <div class=" treeview">
-            <ul class="list-group text-center ">
+      <el-col :span="3" class="left-panel">
+        <el-card class="parking-area-card">
+          <div class="parking-area-list-wrapper">
+            <ul class="parking-area-list">
               <li v-for="(item, index) in leaseTypes" :key="index" @click="switchLeaseType(item)"
-                :class="{ 'vc-node-selected': conditions.leaseType === item.statusCd }"
-                class="list-group-item node-orgTree">
+                :class="{ 'selected': conditions.leaseType === item.statusCd }"
+                class="parking-area-item">
                 {{ item.name }}
               </li>
             </ul>
           </div>
-        </div>
+        </el-card>
       </el-col>
-      <el-col :span="21">
+      <el-col :span="21" class="right-panel">
         <el-card class="search-card">
           <div slot="header" class="flex justify-between">
             <span>{{ $t('listOwnerCar.searchCondition') }}</span>
@@ -131,7 +130,7 @@
               </template>
             </el-table-column>
             <el-table-column prop="remark" :label="$t('listOwnerCar.remark')" align="center" />
-            <el-table-column :label="$t('listOwnerCar.operation')" align="center" width="360">
+            <el-table-column :label="$t('listOwnerCar.operation')" align="center" width="250">
               <template slot-scope="scope">
                 <el-button v-if="scope.row.state !== '3003' && hasPrivilege('502023032855861676')" size="mini"
                   @click="deleteCarParkingSpace(scope.row)">
@@ -148,10 +147,10 @@
                   @click="openEditOwnerCar(scope.row)">
                   {{ $t('listOwnerCar.modify') }}
                 </el-button>
-                <el-button size="mini" type="primary" @click="openChangeOwnerDialog(scope.row)">
+                <el-button size="mini" type="primary" v-if="scope.row.carTypeCd !== '1003' && hasPrivilege('502023032804261679')"  @click="openChangeOwnerDialog(scope.row)">
                   {{ $t('listOwnerCar.changeOwner') }}
                 </el-button>
-                <el-button v-if="hasPrivilege('502023032822121680')" size="mini" type="danger"
+                <el-button v-if="hasPrivilege('502023032822121680')"   size="mini" type="danger"
                   @click="openDelOwnerCarModel(scope.row)">
                   {{ $t('listOwnerCar.delete') }}
                 </el-button>
@@ -372,28 +371,55 @@ export default {
 .list-owner-car-container {
   padding: 20px;
 
-  .tree-card {
-    height: 100%;
+  .right-panel {
+    padding-left: 5px;
+  }
 
-    .lease-type-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
+  .left-panel {
+    .parking-area-card {
+      height: 700px;
 
-      li {
-        padding: 10px 15px;
-        text-align: center;
-        cursor: pointer;
-        border-bottom: 1px solid #eee;
-        transition: all 0.3s;
+      .parking-area-list-wrapper {
+        height: 630px;
+        overflow-y: auto;
 
-        &:hover {
-          background-color: #f5f7fa;
+        &::-webkit-scrollbar {
+          width: 4px;
         }
 
-        &.selected {
-          background-color: #409EFF;
-          color: white;
+        &::-webkit-scrollbar-thumb {
+          background: #dcdfe6;
+          border-radius: 2px;
+        }
+
+        &::-webkit-scrollbar-track {
+          background: transparent;
+        }
+
+        .parking-area-list {
+          list-style: none;
+          padding: 0 5px;
+          margin: 0;
+
+          .parking-area-item {
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            transition: all 0.3s;
+            font-size: 14px;
+            color: #606266;
+
+            &:hover {
+              background-color: #f5f7fa;
+            }
+
+            &.selected {
+              background-color: #409eff;
+              color: white;
+            }
+          }
         }
       }
     }

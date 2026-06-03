@@ -1,18 +1,18 @@
 <template>
   <div class="fee-config-manage-container animated ">
     <el-row :gutter="20">
-      <el-col :span="4">
+      <el-col :span="3">
         <div class="room-floor-unit-tree">
           <fee-type-tree ref="feeTypeTree"  @selectFeeType="handleSelectFeeType" />
         </div>
       </el-col>
-      <el-col :span="20">
+      <el-col :span="21">
         <!-- 查询条件 -->
-        <el-card class="margin-top-xs">
+        <el-card>
           <div slot="header" class="flex justify-between">
             <span>{{ $t('feeConfigManage.search.title') }}</span>
             <div >
-              <el-button type="text" @click="_moreCondition()">
+              <el-button type="text" @click="_moreCondition()" style="padding:0px">
                 {{ feeConfigManageInfo.moreCondition ? $t('feeConfigManage.search.hide') :
                   $t('feeConfigManage.search.more') }}
               </el-button>
@@ -85,11 +85,10 @@
         </el-card>
 
         <!-- 费用项列表 -->
-        <el-card class="margin-top-xs">
+        <el-card class="margin-top">
           <div slot="header" class="flex justify-between">
             <span>{{ $t('feeConfigManage.list.title') }}</span>
-            <div style="float: right;">
-             
+            <div >
               <el-button type="primary" size="small" @click="_openAddFeeConfigModal()"
                 v-if="hasPrivilege('502022022571930560') "
                 style="margin-left: 10px;">
@@ -137,7 +136,7 @@
                 {{ scope.row.state == 'Y' ? '启用' : '停用' }}
               </template>
             </el-table-column>
-            <el-table-column :label="$t('feeConfigManage.table.operation')" align="center" width="280" fixed="right">
+            <el-table-column :label="$t('feeConfigManage.table.operation')" align="center" width="200" fixed="right">
               <template slot-scope="scope">
                 <el-button v-if="hasPrivilege('502022022549630561')" type="text" size="mini"
                   @click="_openEditFeeConfigModel(scope.row)">
@@ -158,19 +157,17 @@
           </el-table>
 
           <!-- 分页 -->
-          <el-row class="margin-top-xs">
-            <el-col :span="18">
-              <div class="explanation-text">
-                <div>{{ $t('feeConfigManage.list.explanation1') }}</div>
-                <div>{{ $t('feeConfigManage.list.explanation2') }}</div>
-                <div>{{ $t('feeConfigManage.list.explanation3') }}</div>
-              </div>
+          <el-row class="margin-top">
+            <el-col :span="12" class="text-left table-desc">
+              <div>{{ $t('feeConfigManage.list.explanation1') }}</div>
+              <div>{{ $t('feeConfigManage.list.explanation2') }}</div>
+              <div>{{ $t('feeConfigManage.list.explanation3') }}</div>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="12" class="text-right">
               <el-pagination :current-page.sync="feeConfigManageInfo.curPage" :page-sizes="[10, 20, 30, 50]"
                 :page-size="page_size" :total="feeConfigManageInfo.total"
                 layout="total, sizes, prev, pager, next, jumper" @size-change="handleSizeChange"
-                @current-change="handleCurrentChange" style="float: right;" />
+                @current-change="handleCurrentChange" />
             </el-col>
           </el-row>
         </el-card>
@@ -399,11 +396,13 @@ _openAddFeeConfigModal() {
     overflow-y: auto;
   }
 
-  .margin-top-xs {
-    margin-top: 10px;
+  .margin-top {
+    margin-top: 20px;
   }
 
-
+  .text-right {
+    text-align: right;
+  }
 
 }
 

@@ -3,21 +3,22 @@
     <el-row :gutter="20">
       <!-- 左侧停车场区域选择 -->
 
-      <el-col :span="3" class="padding-r-0">
-        <div class="border-radius">
-          <div class="margin-xs-r treeview">
-            <ul class="list-group text-center border-radius">
-              <li v-for="(item, index) in carInManageInfo.parkingAreas" :key="index" class="list-group-item node-orgTree"
-                :class="{ 'vc-node-selected': carInManageInfo.conditions.paNum === item.num }" @click="swatchParkingArea(item)">
+      <el-col :span="3" class="left-panel">
+        <el-card class="parking-area-card">
+          <div class="parking-area-list-wrapper">
+            <ul class="parking-area-list">
+              <li v-for="(item, index) in carInManageInfo.parkingAreas" :key="index"
+                class="parking-area-item"
+                :class="{ 'selected': carInManageInfo.conditions.paNum === item.num }" @click="swatchParkingArea(item)">
                 {{ item.num }}
               </li>
             </ul>
           </div>
-        </div>
+        </el-card>
       </el-col>
 
       <!-- 右侧内容区域 -->
-      <el-col :span="21">
+      <el-col :span="21" class="right-panel">
         <!-- 查询条件卡片 -->
         <el-card class="search-card">
           <div slot="header" class="clearfix flex justify-between">
@@ -242,41 +243,56 @@ export default {
 .car-in-manage-container {
   padding: 20px;
 
-  .list-group {
-  padding-left: 0;
-  margin-bottom: 0;
-}
+  .right-panel {
+    padding-left: 5px;
+  }
 
-.list-group-item {
-  position: relative;
-  display: block;
-  padding: 10px 15px;
-  margin-bottom: -1px;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  cursor: pointer;
-}
+  .left-panel {
+    .parking-area-card {
+      height: 700px;
 
-.list-group-item:hover {
-  background-color: #f5f5f5;
-}
+      .parking-area-list-wrapper {
+        height: 630px;
+        overflow-y: auto;
 
-.vc-node-selected {
-  background-color: #409EFF;
-  color: white;
-  border-color: #409EFF;
-}
+        &::-webkit-scrollbar {
+          width: 4px;
+        }
 
-  .parking-area-card {
-    height: 100%;
+        &::-webkit-scrollbar-thumb {
+          background: #dcdfe6;
+          border-radius: 2px;
+        }
 
-    .area-radio-group {
-      display: flex;
-      flex-direction: column;
+        &::-webkit-scrollbar-track {
+          background: transparent;
+        }
 
-      .area-radio-button {
-        margin-bottom: 10px;
-        text-align: center;
+        .parking-area-list {
+          list-style: none;
+          padding: 0 5px;
+          margin: 0;
+
+          .parking-area-item {
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            transition: all 0.3s;
+            font-size: 14px;
+            color: #606266;
+
+            &:hover {
+              background-color: #f5f7fa;
+            }
+
+            &.selected {
+              background-color: #409eff;
+              color: white;
+            }
+          }
+        }
       }
     }
   }

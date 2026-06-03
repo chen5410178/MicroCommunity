@@ -15,7 +15,7 @@
       </el-col>
     </el-row>
 
-    <el-table :data="feeDetailContractFeeRuleInfo.rules" class="rule-table" style="width: 100%; margin-top: 20px">
+    <el-table :data="feeDetailContractFeeRuleInfo.rules" class="rule-table" border stripe style="width: 100%; margin-top: 20px">
       <el-table-column :label="$t('feeDetailContractFeeRule.ruleId')" align="center" width="120">
         <template slot-scope="scope">
           <span class="hand" @click="viewRuleDetail(scope.row)">

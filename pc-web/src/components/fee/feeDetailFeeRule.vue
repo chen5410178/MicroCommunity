@@ -107,6 +107,8 @@
       :page-size="pageSize"
       layout="total, sizes, prev, pager, next, jumper"
       :total="total"
+      class="text-right"
+      style="margin-top: 20px"
     ></el-pagination>
 
     <edit-fee-rule ref="editFeeRule" @success="loadData"></edit-fee-rule>
@@ -277,3 +279,15 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.margin-top {
+  margin-top: 15px;
+}
+.margin-top-sm {
+  margin-top: 10px;
+}
+.text-right {
+  text-align: right;
+}
+</style>

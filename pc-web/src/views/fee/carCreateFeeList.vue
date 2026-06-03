@@ -8,6 +8,10 @@
       <el-row v-else :gutter="20">
         <el-col :span="4" class="left-panel">
           <el-card class="car-list-card">
+            <div class="car-search-input">
+              <el-input placeholder="车牌号，回车查询"
+                v-model="carCreateFeeInfo.conditions.carNumLike" @keyup.enter.native="_queryCar"></el-input>
+            </div>
             <div class="car-list-wrapper">
               <ul class="car-list">
                 <li v-for="(item, index) in carCreateFeeInfo.cars" :key="index" class="car-item"
@@ -39,10 +43,6 @@
 
             <div class="search-section">
               <el-row :gutter="20">
-                <el-col :span="4">
-                  <el-input :placeholder="$t('carCreateFee.enterCarNum')"
-                    v-model="carCreateFeeInfo.conditions.carNumLike" @keyup.enter.native="_queryCar"></el-input>
-                </el-col>
                 <el-col :span="4">
                   <el-select v-model="carCreateFeeInfo.conditions.paId"
                     :placeholder="$t('carCreateFee.selectParkingArea')" style="width:100%">
@@ -325,13 +325,31 @@ export default {
     .car-list-card {
       height: 700px;
 
+      .car-search-input {
+        margin-bottom: 10px;
+      }
+
       .car-list-wrapper {
-        height: 650px;
+        height: 600px;
         overflow-y: auto;
+
+        &::-webkit-scrollbar {
+          width: 4px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          background: #dcdfe6;
+          border-radius: 2px;
+        }
+
+        &::-webkit-scrollbar-track {
+          background: transparent;
+        }
 
         .car-list {
           list-style: none;
           padding: 0;
+          padding-right: 5px;
           margin: 0;
 
           .car-item {
@@ -342,6 +360,8 @@ export default {
             cursor: pointer;
             transition: all 0.3s;
             text-align: center;
+            font-size: 14px;
+            color: #606266;
 
             &:hover {
               background-color: #f5f7fa;

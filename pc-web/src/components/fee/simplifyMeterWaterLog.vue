@@ -33,10 +33,11 @@
       </el-table>
 
       <el-row>
-        <el-col :span="12"></el-col>
+        <el-col :span="12">&nbsp;</el-col>
         <el-col :span="12" class="text-right">
           <el-pagination @current-change="handleCurrentChange" :current-page="currentPage" :page-size="pageSize"
-            layout="total, prev, pager, next" :total="simplifyMeterWaterFeeInfo.total" style="margin-top: 20px"></el-pagination>
+            layout="total, prev, pager, next" :total="simplifyMeterWaterFeeInfo.total"
+            style="margin-top: 20px"></el-pagination>
         </el-col>
       </el-row>
     </div>
