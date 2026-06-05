@@ -73,7 +73,6 @@ export default [
     },
     {
         path: '/views/fee/shareReadingFee',
-        meta: { title: '公摊费用' },
         name: '/views/fee/shareReadingFee',
         component: () => import('@/views/fee/shareReadingFeeList.vue')
     },

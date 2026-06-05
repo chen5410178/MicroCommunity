@@ -27,6 +27,7 @@ import com.java110.job.adapt.DatabusAdaptImpl;
 import com.java110.job.msgNotify.MsgNotifyFactory;
 import com.java110.po.fee.FeeAttrPo;
 import com.java110.po.fee.PayFeePo;
+import com.java110.po.payFee.PayFeeRulePo;
 import com.java110.po.floorShareFee.FloorShareFeePo;
 import com.java110.po.floorShareMeter.FloorShareMeterPo;
 import com.java110.po.floorShareReading.FloorShareReadingPo;
@@ -90,6 +91,12 @@ public class FloorShareReadingAdapt extends DatabusAdaptImpl {
 
     @Autowired
     private IFeeAttrInnerServiceSMO feeAttrInnerServiceSMOImpl;
+
+    @Autowired
+    private IPayFeeRuleV1InnerServiceSMO payFeeRuleV1InnerServiceSMOImpl;
+
+    @Autowired
+    private IRuleGeneratorPayFeeBillV1InnerServiceSMO ruleGeneratorPayFeeBillV1InnerServiceSMOImpl;
 
     @Autowired
     private ICommunityInnerServiceSMO communityInnerServiceSMOImpl;
@@ -195,47 +202,62 @@ public class FloorShareReadingAdapt extends DatabusAdaptImpl {
                                   FeeConfigDto feeConfigDto,
                                   FloorShareReadingDto floorShareReadingDto,
                                   String batchId) {
-        List<PayFeePo> payFeePos = new ArrayList<>();
-        List<FeeAttrPo> feeAttrPos = new ArrayList<>();
-        List<FloorShareFeePo> floorShareFeePos = new ArrayList<>();
-        double roomDegree = 0.00;
-
-        for (RoomDto roomDto : roomDtos) {
-            // todo 计算房屋公摊度数
-            roomDegree = computeRoomDegree(roomDtos, roomDto, floorShareMeterDto, floorShareReadingDto);
-
-            doSharingFeeToRoom(floorShareMeterDto, floorShareReadingDto, roomDto, roomDegree, payFeePos, feeConfigDto, feeAttrPos,
-                    floorShareFeePos);
-        }
-
         CommunityDto communityDto = new CommunityDto();
         communityDto.setCommunityId(floorShareMeterDto.getCommunityId());
         List<CommunityDto> communityDtos = communityInnerServiceSMOImpl.queryCommunitys(communityDto);
-
         Assert.listOnlyOne(communityDtos, "未找到小区信息");
+        String storeId = communityDtos.get(0).getStoreId();
 
-        for (PayFeePo payFeePo : payFeePos) {
-            payFeePo.setBatchId(batchId);
-            payFeePo.setIncomeObjId(communityDtos.get(0).getStoreId());
+        List<PayFeeRulePo> payFeeRulePos = new ArrayList<>();
+        List<Double> roomDegrees = new ArrayList<>();
+
+        for (RoomDto roomDto : roomDtos) {
+            double roomDegree = computeRoomDegree(roomDtos, roomDto, floorShareMeterDto, floorShareReadingDto);
+            roomDegrees.add(roomDegree);
+
+            double roomAmount = new BigDecimal(roomDegree)
+                    .multiply(new BigDecimal(floorShareMeterDto.getSharePrice()))
+                    .setScale(2, BigDecimal.ROUND_HALF_UP)
+                    .doubleValue();
+
+            PayFeeRulePo rulePo = buildPayFeeRulePo(floorShareMeterDto, floorShareReadingDto,
+                    roomDto, feeConfigDto, roomAmount, batchId, storeId);
+            payFeeRulePos.add(rulePo);
         }
 
-        feeInnerServiceSMOImpl.saveFee(payFeePos);
+        payFeeRuleV1InnerServiceSMOImpl.savePayFeeRules(payFeeRulePos);
 
-        feeAttrInnerServiceSMOImpl.saveFeeAttrs(feeAttrPos);
+        for (int i = 0; i < payFeeRulePos.size(); i++) {
+            PayFeeRulePo rulePo = payFeeRulePos.get(i);
+            RoomDto roomDto = roomDtos.get(i);
+            double roomDegree = roomDegrees.get(i);
 
-        floorShareFeeV1InnerServiceSMOImpl.saveFloorShareFees(floorShareFeePos);
+            ruleGeneratorPayFeeBillV1InnerServiceSMOImpl.rulesGeneratePayFee(rulePo);
 
-        modifyShareMsg(floorShareReadingDto,"公摊完成");
+            FeeDto query = new FeeDto();
+            query.setRuleId(rulePo.getRuleId());
+            query.setCommunityId(floorShareMeterDto.getCommunityId());
+            List<FeeDto> feeDtos = feeInnerServiceSMOImpl.queryFees(query);
+            if (ListUtil.isNull(feeDtos)) {
+                throw new IllegalArgumentException("通过ruleId未查询到生成的费用，ruleId=" + rulePo.getRuleId());
+            }
+            String feeId = feeDtos.get(0).getFeeId();
 
+            saveFloorShareFeeAttrs(floorShareMeterDto, floorShareReadingDto, roomDto, feeId, roomDegree);
+
+            saveFloorShareFee(floorShareMeterDto, floorShareReadingDto, roomDto, feeConfigDto, roomDegree, feeId);
+        }
+
+        modifyShareMsg(floorShareReadingDto, "公摊完成");
     }
 
     private double computeRoomDegree(List<RoomDto> roomDtos, RoomDto curRoomDto, FloorShareMeterDto floorShareMeterDto, FloorShareReadingDto floorShareReadingDto) {
         BigDecimal totalDegree = new BigDecimal(floorShareReadingDto.getCurDegrees());
         totalDegree = totalDegree.subtract(new BigDecimal(floorShareReadingDto.getPreDegrees()));
-        if (FloorShareMeterDto.SHARE_TYPE_ROOM_COUNT.equals(floorShareMeterDto.getShareType())) { // 按户公摊
+        if (FloorShareMeterDto.SHARE_TYPE_ROOM_COUNT.equals(floorShareMeterDto.getShareType())) {
             totalDegree = totalDegree.divide(new BigDecimal(roomDtos.size() + ""), 4, BigDecimal.ROUND_HALF_UP);
             return totalDegree.doubleValue();
-        } else if (FloorShareMeterDto.SHARE_TYPE_ROOM_AREA.equals(floorShareMeterDto.getShareType())) { //按面积公摊
+        } else if (FloorShareMeterDto.SHARE_TYPE_ROOM_AREA.equals(floorShareMeterDto.getShareType())) {
             BigDecimal totalRoomArea = new BigDecimal("0");
             for (RoomDto roomDto : roomDtos) {
                 totalRoomArea = totalRoomArea.add(new BigDecimal(roomDto.getBuiltUpArea()));
@@ -247,123 +269,97 @@ public class FloorShareReadingAdapt extends DatabusAdaptImpl {
         return 0.00;
     }
 
-    private void doSharingFeeToRoom(FloorShareMeterDto floorShareMeterDto, FloorShareReadingDto floorShareReadingDto,
-                                    RoomDto roomDto, double roomDegree,
-                                    List<PayFeePo> payFeePos,
+    private PayFeeRulePo buildPayFeeRulePo(FloorShareMeterDto meterDto,
+                                            FloorShareReadingDto readingDto,
+                                            RoomDto roomDto,
+                                            FeeConfigDto feeConfigDto,
+                                            double roomAmount,
+                                            String batchId,
+                                            String storeId) {
+        PayFeeRulePo po = new PayFeeRulePo();
+        po.setRuleId(GenerateCodeFactory.getGeneratorId("11"));
+        po.setConfigId(feeConfigDto.getConfigId());
+        po.setCommunityId(meterDto.getCommunityId());
+        po.setFeeTypeCd(feeConfigDto.getFeeTypeCd());
+        po.setFeeFlag(FeeDto.FEE_FLAG_ONCE);
+        po.setAmount(roomAmount + "");
+        po.setStartTime(readingDto.getPreReadingTime());
+        po.setEndTime(readingDto.getPreReadingTime());
+        po.setMaxTime(readingDto.getCurReadingTime());
+        po.setBatchId(batchId);
+        po.setUserId("-1");
+        po.setIncomeObjId(storeId);
+        po.setState(FeeDto.STATE_DOING);
+        po.setDeductFrom(feeConfigDto.getDeductFrom());
+        po.setPayerObjId(roomDto.getRoomId());
+        po.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_ROOM);
+        po.setCurYearMonth(DateUtil.getFormatTimeStringB(
+                DateUtil.getDateFromStringB(po.getEndTime())));
+        return po;
+    }
+
+    private void saveFloorShareFeeAttrs(FloorShareMeterDto meterDto,
+                                         FloorShareReadingDto readingDto,
+                                         RoomDto roomDto,
+                                         String feeId,
+                                         double roomDegree) {
+        List<FeeAttrPo> attrPos = new ArrayList<>();
+        String communityId = meterDto.getCommunityId();
+
+        attrPos.add(buildFeeAttr(communityId, feeId,
+                FeeAttrDto.SPEC_CD_SHARE_DEGREES, roomDegree + ""));
+
+        BigDecimal totalDegree = new BigDecimal(readingDto.getCurDegrees())
+                .subtract(new BigDecimal(readingDto.getPreDegrees()));
+        attrPos.add(buildFeeAttr(communityId, feeId,
+                FeeAttrDto.SPEC_CD_TOTAL_DEGREES, totalDegree.doubleValue() + ""));
+
+        attrPos.add(buildFeeAttr(communityId, feeId,
+                FeeAttrDto.SPEC_CD_ONCE_FEE_DEADLINE_TIME, readingDto.getCurReadingTime()));
+
+        attrPos.add(buildFeeAttr(communityId, feeId,
+                FeeAttrDto.SPEC_CD_SHARE_FORMULA, meterDto.getShareTypeName()));
+
+        feeAttrInnerServiceSMOImpl.saveFeeAttrs(attrPos);
+    }
+
+    private FeeAttrPo buildFeeAttr(String communityId, String feeId,
+                                    String specCd, String value) {
+        FeeAttrPo po = new FeeAttrPo();
+        po.setCommunityId(communityId);
+        po.setAttrId(GenerateCodeFactory.getGeneratorId(
+                GenerateCodeFactory.CODE_PREFIX_attrId));
+        po.setSpecCd(specCd);
+        po.setValue(value);
+        po.setFeeId(feeId);
+        return po;
+    }
+
+    private void saveFloorShareFee(FloorShareMeterDto meterDto,
+                                    FloorShareReadingDto readingDto,
+                                    RoomDto roomDto,
                                     FeeConfigDto feeConfigDto,
-                                    List<FeeAttrPo> feeAttrPos,
-                                    List<FloorShareFeePo> floorShareFeePos) {
-
-        // todo 收费金额
+                                    double roomDegree,
+                                    String feeId) {
         double roomAmount = new BigDecimal(roomDegree)
-                .multiply(new BigDecimal(floorShareMeterDto.getSharePrice()))
-                .setScale(2, BigDecimal.ROUND_HALF_UP)
-                .doubleValue();
+                .multiply(new BigDecimal(meterDto.getSharePrice()))
+                .setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 
-        PayFeePo payFeePo = new PayFeePo();
-        payFeePo.setFeeId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_feeId));
-        payFeePo.setEndTime(floorShareReadingDto.getPreReadingTime());
-        payFeePo.setState(FeeDto.STATE_DOING);
-        payFeePo.setCommunityId(floorShareMeterDto.getCommunityId());
-        payFeePo.setConfigId(feeConfigDto.getConfigId());
-        payFeePo.setPayerObjId(roomDto.getRoomId());
-        payFeePo.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_ROOM);
-        payFeePo.setUserId("-1");
-        payFeePo.setFeeTypeCd(feeConfigDto.getFeeTypeCd());
-        payFeePo.setFeeFlag(FeeDto.FEE_FLAG_ONCE);
-        payFeePo.setAmount(roomAmount + "");
+        String ownerName = StringUtil.isEmpty(roomDto.getOwnerName())
+                ? "无" : roomDto.getOwnerName();
 
-        //payFeePo.setStartTime(importRoomFee.getStartTime());
-        payFeePo.setStartTime(floorShareReadingDto.getPreReadingTime());
-
-        payFeePos.add(payFeePo);
-
-        // 导入费用名称
-        FeeAttrPo feeAttrPo = new FeeAttrPo();
-        feeAttrPo.setCommunityId(floorShareMeterDto.getCommunityId());
-        feeAttrPo.setAttrId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_attrId));
-        feeAttrPo.setSpecCd(FeeAttrDto.SPEC_CD_PAY_OBJECT_NAME);
-        feeAttrPo.setValue(roomDto.getRoomName());
-        feeAttrPo.setFeeId(payFeePo.getFeeId());
-        feeAttrPos.add(feeAttrPo);
-
-        // 公摊用量
-        feeAttrPo = new FeeAttrPo();
-        feeAttrPo.setCommunityId(floorShareMeterDto.getCommunityId());
-        feeAttrPo.setAttrId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_attrId));
-        feeAttrPo.setSpecCd(FeeAttrDto.SPEC_CD_SHARE_DEGREES);
-        feeAttrPo.setValue(roomDegree + "");
-        feeAttrPo.setFeeId(payFeePo.getFeeId());
-        feeAttrPos.add(feeAttrPo);
-
-        // 公摊总用量
-        BigDecimal totalDegree = new BigDecimal(floorShareReadingDto.getCurDegrees());
-        totalDegree = totalDegree.subtract(new BigDecimal(floorShareReadingDto.getPreDegrees()));
-        feeAttrPo = new FeeAttrPo();
-        feeAttrPo.setCommunityId(floorShareMeterDto.getCommunityId());
-        feeAttrPo.setAttrId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_attrId));
-        feeAttrPo.setSpecCd(FeeAttrDto.SPEC_CD_TOTAL_DEGREES);
-        feeAttrPo.setValue(totalDegree.doubleValue() + "");
-        feeAttrPo.setFeeId(payFeePo.getFeeId());
-        feeAttrPos.add(feeAttrPo);
-
-
-        feeAttrPo = new FeeAttrPo();
-        feeAttrPo.setCommunityId(floorShareMeterDto.getCommunityId());
-        feeAttrPo.setAttrId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_attrId));
-        feeAttrPo.setSpecCd(FeeAttrDto.SPEC_CD_ONCE_FEE_DEADLINE_TIME);
-        feeAttrPo.setValue(floorShareReadingDto.getCurReadingTime());
-        feeAttrPo.setFeeId(payFeePo.getFeeId());
-        feeAttrPos.add(feeAttrPo);
-        String ownerName = "无";
-        if (!StringUtil.isEmpty(roomDto.getOwnerId())) {
-            feeAttrPo = new FeeAttrPo();
-            feeAttrPo.setCommunityId(floorShareMeterDto.getCommunityId());
-            feeAttrPo.setAttrId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_attrId));
-            feeAttrPo.setSpecCd(FeeAttrDto.SPEC_CD_OWNER_ID);
-            feeAttrPo.setValue(roomDto.getOwnerId());
-            feeAttrPo.setFeeId(payFeePo.getFeeId());
-            feeAttrPos.add(feeAttrPo);
-
-            feeAttrPo = new FeeAttrPo();
-            feeAttrPo.setCommunityId(floorShareMeterDto.getCommunityId());
-            feeAttrPo.setAttrId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_attrId));
-            feeAttrPo.setSpecCd(FeeAttrDto.SPEC_CD_OWNER_NAME);
-            feeAttrPo.setValue(roomDto.getOwnerName());
-            feeAttrPo.setFeeId(payFeePo.getFeeId());
-            feeAttrPos.add(feeAttrPo);
-            ownerName = roomDto.getOwnerName();
-            feeAttrPo = new FeeAttrPo();
-            feeAttrPo.setCommunityId(floorShareMeterDto.getCommunityId());
-            feeAttrPo.setAttrId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_attrId));
-            feeAttrPo.setSpecCd(FeeAttrDto.SPEC_CD_OWNER_LINK);
-            feeAttrPo.setValue(roomDto.getLink());
-            feeAttrPo.setFeeId(payFeePo.getFeeId());
-            feeAttrPos.add(feeAttrPo);
-        }
-
-        // 公摊公式
-        feeAttrPo = new FeeAttrPo();
-        feeAttrPo.setCommunityId(floorShareMeterDto.getCommunityId());
-        feeAttrPo.setAttrId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_attrId));
-        feeAttrPo.setSpecCd(FeeAttrDto.SPEC_CD_SHARE_FORMULA);
-        feeAttrPo.setValue(floorShareMeterDto.getShareTypeName());
-        feeAttrPo.setFeeId(payFeePo.getFeeId());
-        feeAttrPos.add(feeAttrPo);
-
-        FloorShareFeePo floorShareFeePo = new FloorShareFeePo();
-        floorShareFeePo.setAmount(roomAmount + "");
-        floorShareFeePo.setOwnerName(ownerName);
-        floorShareFeePo.setFsfId(GenerateCodeFactory.getGeneratorId("11"));
-        floorShareFeePo.setFsmId(floorShareMeterDto.getFsmId());
-        floorShareFeePo.setFeeName(feeConfigDto.getFeeName());
-        floorShareFeePo.setRemark("");
-        floorShareFeePo.setReadingId(floorShareReadingDto.getReadingId());
-        floorShareFeePo.setFeeId(payFeePo.getFeeId());
-        floorShareFeePo.setRoomName(roomDto.getRoomName());
-        floorShareFeePo.setDegrees(roomDegree + "");
-        floorShareFeePos.add(floorShareFeePo);
-
+        FloorShareFeePo po = new FloorShareFeePo();
+        po.setAmount(roomAmount + "");
+        po.setOwnerName(ownerName);
+        po.setFsfId(GenerateCodeFactory.getGeneratorId("11"));
+        po.setFsmId(meterDto.getFsmId());
+        po.setFeeName(feeConfigDto.getFeeName());
+        po.setRemark("");
+        po.setReadingId(readingDto.getReadingId());
+        po.setFeeId(feeId);
+        po.setRoomName(roomDto.getRoomName());
+        po.setDegrees(roomDegree + "");
+        floorShareFeeV1InnerServiceSMOImpl.saveFloorShareFee(po);
     }
 
     private void modifyShareMsg(FloorShareReadingDto floorShareReadingDto, String shareMsg) {
