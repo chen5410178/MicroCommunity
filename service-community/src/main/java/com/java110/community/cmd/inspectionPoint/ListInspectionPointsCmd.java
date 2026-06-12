@@ -96,7 +96,7 @@ public class ListInspectionPointsCmd extends Cmd {
         String staffWechatUrl = MappingCache.getValue(MappingConstant.URL_DOMAIN,"STAFF_WECHAT_URL");
         for (ApiInspectionPointDataVo apiInspectionPointDataVo : inspectionPoints) {
             apiInspectionPointDataVo.setUrl(staffWechatUrl
-                    + "pages/excuteOneQrCodeInspection/excuteOneQrCodeInspection?inspectionId="
+                    + "pages/inspection/excuteOneQrCodeInspection?inspectionId="
                     + apiInspectionPointDataVo.getInspectionId()
                     + "&inspectionName=" + apiInspectionPointDataVo.getInspectionName()
                     + "&itemId=" + apiInspectionPointDataVo.getItemId());

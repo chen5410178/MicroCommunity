@@ -269,7 +269,7 @@ public class NoticeStaffTaskTemplate extends TaskSystemQuartz {
             IMsgNotify msgNotify = MsgNotifyFactory.getMsgNotify(MsgNotifyFactory.NOTIFY_WAY_WECHAT);
             String staffWechatUrl = MappingCache.getValue(MappingConstant.URL_DOMAIN, "STAFF_WECHAT_URL");
             staffWechatUrl = staffWechatUrl
-                    + "pages/excuteOneQrCodeInspection/excuteOneQrCodeInspection?inspectionId="
+                    + "pages/inspection/excuteOneQrCodeInspection?inspectionId="
                     + tInspectionTaskDetailDto.getInspectionId()
                     + "&inspectionName=" + tInspectionTaskDetailDto.getInspectionName()
                     + "&itemId=" + tInspectionTaskDetailDto.getItemId();
