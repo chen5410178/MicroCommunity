@@ -56,6 +56,8 @@
 
 <script>
 import { queryMerchant } from '@/api/mall/merchantManageApi'
+import { jumpToMall } from '@/api/user/menuApi'
+
 
 export default {
   name: 'MerchantManageList',
@@ -112,7 +114,7 @@ export default {
       this.getList()
     },
     handleManage() {
-      this.$router.push('/mall/merchantManage')
+      jumpToMall('/#/pages/admin/merchantManage')
     },
     handleSizeChange(val) {
       this.page.size = val
