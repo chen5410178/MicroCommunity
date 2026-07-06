@@ -4,8 +4,8 @@ import com.java110.utils.cache.Jedis;
 import com.java110.utils.factory.ApplicationContextFactory;
 import org.springframework.stereotype.Component;
 import redis.clients.jedis.JedisCluster;
+import redis.clients.jedis.params.SetParams;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
@@ -26,7 +26,10 @@ public class JedisClientCluster implements Jedis {
     @Override
     public String set(String key, String value, String nxxx, String expx, int time) {
         JedisCluster jedisCluster = (JedisCluster) ApplicationContextFactory.getBean("jedisCluster");
-        return jedisCluster.set(key, value,nxxx,expx,time);
+        SetParams setParams = SetParams.setParams();
+        if ("NX".equals(nxxx)) setParams.nx(); else if ("XX".equals(nxxx)) setParams.xx();
+        if ("EX".equals(expx)) setParams.ex(time); else if ("PX".equals(expx)) setParams.px(time);
+        return jedisCluster.set(key, value, setParams);
     }
 
 
@@ -99,11 +102,7 @@ public class JedisClientCluster implements Jedis {
     @Override
     public void close() {
         JedisCluster jedisCluster = (JedisCluster) ApplicationContextFactory.getBean("jedisCluster");
-        try {
-            jedisCluster.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        jedisCluster.close();
     }
 
     @Override

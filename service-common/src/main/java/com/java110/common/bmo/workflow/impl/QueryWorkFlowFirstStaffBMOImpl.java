@@ -188,8 +188,8 @@ public class QueryWorkFlowFirstStaffBMOImpl implements IQueryWorkFlowFirstStaffB
                     .addInputStream(processName, in).deploy();
             deploymentid = deployment.getId();
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new IllegalArgumentException("流程未保存或者设置错误，请检查");
+            logger.error("流程部署失败", e);
+            throw new IllegalArgumentException("流程未保存或者设置错误，请检查：" + e.getMessage());
         }
         Assert.isTrue(!StringUtil.isEmpty(deploymentid), "流程部署出错");
         ProcessDefinition processDefinition = repositoryService

@@ -10,6 +10,7 @@ import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Component;
 import redis.clients.jedis.JedisCluster;
 import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.params.SetParams;
 
 import java.util.List;
 import java.util.Set;
@@ -44,14 +45,17 @@ public class JedisClientTemplate implements Jedis {
             public String doInRedis(RedisConnection connection) {
                 //redis.clients.jedis.Jedis jedis = (redis.clients.jedis.Jedis) connection.getNativeConnection();
                 Object nativeConnection = connection.getNativeConnection();
-                // 集群
+                SetParams setParams = SetParams.setParams();
+                if ("NX".equals(nxxx)) setParams.nx(); else if ("XX".equals(nxxx)) setParams.xx();
+                if ("EX".equals(expx)) setParams.ex(time); else if ("PX".equals(expx)) setParams.px(time);
+                // 集群模式
                 if (nativeConnection instanceof JedisCluster) {
-                    return ((JedisCluster) nativeConnection).set(key, value, nxxx, expx, time);
+                    return ((JedisCluster) nativeConnection).set(key, value, setParams);
                 }
 
-                // 单机
+                // 单机模式
                 if (nativeConnection instanceof redis.clients.jedis.Jedis) {
-                    return ((redis.clients.jedis.Jedis) nativeConnection).set(key, value, nxxx, expx, time);
+                    return ((redis.clients.jedis.Jedis) nativeConnection).set(key, value, setParams);
                 }
                 return "";
             }

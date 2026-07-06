@@ -4,14 +4,14 @@ module.exports = {
     open: true, // 自动打开浏览器
     proxy: {
      '/app': {
-       target: 'https://demo.homecommunity.cn/app', // 后端API地址
+       target: 'http://127.0.0.1:8008/app', // 后端API地址
        changeOrigin: true,
        pathRewrite: {
          '^/app': ''
        }
      },
      '/callComponent': {
-       target: 'https://demo.homecommunity.cn/callComponent', // 后端API地址
+       target: 'http://127.0.0.1:8008/callComponent', // 后端API地址
        changeOrigin: true,
        pathRewrite: {
          '^/callComponent': ''
