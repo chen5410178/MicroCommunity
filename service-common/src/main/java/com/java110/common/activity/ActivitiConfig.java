@@ -1,18 +1,18 @@
 package com.java110.common.activity;
 
-import org.activiti.engine.HistoryService;
-import org.activiti.engine.RepositoryService;
-import org.activiti.engine.RuntimeService;
-import org.activiti.engine.TaskService;
-import org.activiti.spring.ProcessEngineFactoryBean;
-import org.activiti.spring.SpringProcessEngineConfiguration;
+import org.flowable.engine.HistoryService;
+import org.flowable.engine.RepositoryService;
+import org.flowable.engine.RuntimeService;
+import org.flowable.engine.TaskService;
+import org.flowable.spring.ProcessEngineFactoryBean;
+import org.flowable.spring.SpringProcessEngineConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.activiti.spring.boot.ProcessEngineConfigurationConfigurer;
+import org.flowable.spring.boot.ProcessEngineConfigurationConfigurer;
 import javax.sql.DataSource;
 import java.io.IOException;
 

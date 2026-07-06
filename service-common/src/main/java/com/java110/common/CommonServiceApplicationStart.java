@@ -57,7 +57,7 @@ import java.nio.charset.Charset;
         "com.java110.db",
         "com.java110.doc"},
         exclude = {LiquibaseAutoConfiguration.class,
-                org.activiti.spring.boot.SecurityAutoConfiguration.class,
+                org.flowable.spring.boot.SecurityAutoConfiguration.class,
                 org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class}
         )
 @EnableDiscoveryClient

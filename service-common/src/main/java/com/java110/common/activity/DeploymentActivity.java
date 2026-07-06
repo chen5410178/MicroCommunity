@@ -1,8 +1,8 @@
 package com.java110.common.activity;
 
 import com.java110.utils.factory.ApplicationContextFactory;
-import org.activiti.engine.ProcessEngine;
-import org.activiti.engine.RepositoryService;
+import org.flowable.engine.ProcessEngine;
+import org.flowable.engine.RepositoryService;
 
 /**
  * 初始化 activity 流程信息

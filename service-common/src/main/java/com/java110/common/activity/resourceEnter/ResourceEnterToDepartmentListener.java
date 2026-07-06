@@ -1,10 +1,10 @@
 package com.java110.common.activity.resourceEnter;
 
 import com.java110.intf.common.IAuditUserInnerServiceSMO;
-import org.activiti.engine.delegate.DelegateExecution;
-import org.activiti.engine.delegate.DelegateTask;
-import org.activiti.engine.delegate.ExecutionListener;
-import org.activiti.engine.delegate.TaskListener;
+import org.flowable.engine.delegate.DelegateExecution;
+import org.flowable.engine.delegate.DelegateTask;
+import org.flowable.engine.delegate.ExecutionListener;
+import org.flowable.engine.delegate.TaskListener;
 import org.slf4j.Logger;
 import com.java110.core.log.LoggerFactory;
 

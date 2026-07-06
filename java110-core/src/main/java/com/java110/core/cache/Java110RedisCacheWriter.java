@@ -2,6 +2,8 @@ package com.java110.core.cache;
 
 import com.java110.utils.util.Assert;
 import org.springframework.dao.PessimisticLockingFailureException;
+import org.springframework.data.redis.cache.CacheStatistics;
+import org.springframework.data.redis.cache.CacheStatisticsCollector;
 import org.springframework.data.redis.cache.RedisCacheWriter;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -267,5 +269,19 @@ public class Java110RedisCacheWriter implements RedisCacheWriter {
 
     private static byte[] createCacheLockKey(String name) {
         return (name + "~lock").getBytes(StandardCharsets.UTF_8);
+    }
+
+    @Override
+    public RedisCacheWriter withStatisticsCollector(CacheStatisticsCollector cacheStatisticsCollector) {
+        return this;
+    }
+
+    @Override
+    public void clearStatistics(String name) {
+    }
+
+    @Override
+    public CacheStatistics getCacheStatistics(String name) {
+        return null;
     }
 }

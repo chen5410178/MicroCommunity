@@ -1,6 +1,6 @@
 package com.java110.common.activity;
 
-import org.activiti.engine.impl.cfg.IdGenerator;
+import org.flowable.engine.impl.cfg.IdGenerator;
 
 import java.util.UUID;
 
