@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.java110.common.bmo.workflow.IQueryWorkFlowFirstStaffBMO;
 import com.java110.dto.oaWorkflow.WorkflowModelDto;
 import com.java110.utils.util.BeanConvertUtil;
+import com.java110.vo.ResultVo;
 import org.flowable.common.engine.api.FlowableException;
 import org.flowable.engine.RepositoryService;
 import org.flowable.engine.repository.Model;
@@ -69,7 +70,12 @@ public class WorkflowApi {
         JSONObject reqJson = JSONObject.parseObject(reqString);
         WorkflowModelDto workflowModelDto = BeanConvertUtil.covertBean(reqJson, WorkflowModelDto.class);
         //部署model
-        return queryWorkFlowFirstStaffBMOImpl.deployModel(workflowModelDto);
+        try {
+            return queryWorkFlowFirstStaffBMOImpl.deployModel(workflowModelDto);
+        } catch (Exception e) {
+            logger.error("部署流程失败", e);
+            return ResultVo.error(e.getLocalizedMessage());
+        }
     }
 
 

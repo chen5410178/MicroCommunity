@@ -225,19 +225,16 @@ export default [
     },
     {
         path: '/views/oa/newOaWorkflow',
-        meta: { title: '新工作流' },
         name: '/views/oa/newOaWorkflow',
         component: () => import('@/views/oa/newOaWorkflowList.vue')
     },
     {
         path: '/views/oa/newOaWorkflowDetail',
-        meta: { title: '工作流详情' },
         name: '/views/oa/newOaWorkflowDetail',
         component: () => import('@/views/oa/newOaWorkflowDetailList.vue')
     },
     {
         path: '/views/oa/newOaWorkflowFormEdit',
-        meta: { title: '工作流编辑' },
         name: '/views/oa/newOaWorkflowFormEdit',
         component: () => import('@/views/oa/newOaWorkflowFormEditList.vue')
     },
