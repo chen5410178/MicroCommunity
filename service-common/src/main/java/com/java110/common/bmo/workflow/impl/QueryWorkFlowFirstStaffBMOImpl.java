@@ -31,7 +31,7 @@ import com.java110.utils.util.BeanConvertUtil;
 import com.java110.utils.util.StringUtil;
 import com.java110.vo.ResultVo;
 import org.flowable.editor.constants.ModelDataJsonConstants;
-import org.flowable.engine.ActivitiException;
+import org.flowable.common.engine.api.FlowableException;
 import org.flowable.engine.ProcessEngine;
 import org.flowable.engine.ProcessEngines;
 import org.flowable.engine.RepositoryService;
@@ -399,7 +399,7 @@ public class QueryWorkFlowFirstStaffBMOImpl implements IQueryWorkFlowFirstStaffB
 
         } catch (Exception e) {
             logger.error("Error saving model", e);
-            throw new ActivitiException("Error saving model", e);
+            throw new FlowableException("Error saving model", e);
         }
 
         OaWorkflowPo oaWorkflowPo = new OaWorkflowPo();

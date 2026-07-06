@@ -463,6 +463,11 @@
                 <artifactId>flowable5-compatibility</artifactId>
                 <version>6.8.1</version>
             </dependency>
+            <dependency>
+                <groupId>org.flowable</groupId>
+                <artifactId>flowable-json-converter</artifactId>
+                <version>6.8.1</version>
+            </dependency>
 
             <dependency>
                 <groupId>com.tencentcloudapi</groupId>

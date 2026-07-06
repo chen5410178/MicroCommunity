@@ -5,6 +5,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.unit.DataSize;
 
 import javax.servlet.MultipartConfigElement;
 
@@ -18,9 +19,9 @@ public class ServiceConfiguration {
     public MultipartConfigElement multipartConfigElement() {
         MultipartConfigFactory factory = new MultipartConfigFactory();
         //文件最大
-        factory.setMaxFileSize(1024*1024*50); //KB,MB
+        factory.setMaxFileSize(DataSize.ofMegabytes(50)); //KB,MB
         /// 设置总上传数据总大小
-        factory.setMaxRequestSize(1024*1024*50);
+        factory.setMaxRequestSize(DataSize.ofMegabytes(50));
         return factory.createMultipartConfig();
     }
     @Bean

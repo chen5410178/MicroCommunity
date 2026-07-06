@@ -87,9 +87,8 @@ import java.util.concurrent.TimeUnit;
         "com.java110.boot"
 },
         exclude = {LiquibaseAutoConfiguration.class,
-                org.activiti.spring.boot.SecurityAutoConfiguration.class,
-                org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class,
-                com.github.pagehelper.autoconfigure.MapperAutoConfiguration.class
+                org.flowable.spring.boot.FlowableSecurityAutoConfiguration.class,
+                org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class
         }
 
 )

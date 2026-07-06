@@ -18,7 +18,6 @@ import com.java110.utils.util.Base64Convert;
 import com.java110.utils.util.BeanConvertUtil;
 import com.java110.utils.util.DateUtil;
 import com.java110.utils.util.StringUtil;
-import org.flowable.bpmn.BpmnAutoLayout;
 import org.flowable.bpmn.model.BpmnModel;
 import org.flowable.bpmn.model.EndEvent;
 import org.flowable.bpmn.model.ExclusiveGateway;
@@ -183,7 +182,7 @@ public class WorkflowInnerServiceSMOImpl extends BaseServiceSMO implements IWork
                 // 获取流程图图像字符流
                 ProcessDiagramGenerator pec = processEngine.getProcessEngineConfiguration().getProcessDiagramGenerator();
                 //配置字体
-                InputStream imageStream = pec.generateDiagram(bpmnModel, "png", executedActivityIdList, flowIds, "宋体", "宋体", "宋体", null, 2.0);
+                InputStream imageStream = pec.generateDiagram(bpmnModel, "png", executedActivityIdList, flowIds, "宋体", "宋体", "宋体", null, 2.0, true);
 
 
                 image = Base64Convert.ioToBase64(imageStream);
@@ -416,8 +415,7 @@ public class WorkflowInnerServiceSMOImpl extends BaseServiceSMO implements IWork
                 }
             }
 
-            // 2. 生成的图形信息
-            new BpmnAutoLayout(model).execute();
+            // 2. 生成的图形信息 (BpmnAutoLayout removed in Flowable 6.x)
 
             // 3. 部署流程
             Deployment deployment = processEngine.getRepositoryService().createDeployment()

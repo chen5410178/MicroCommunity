@@ -2,7 +2,7 @@ package com.java110.common.activity.resourceEnter;
 
 import com.java110.intf.common.IAuditUserInnerServiceSMO;
 import org.flowable.engine.delegate.DelegateExecution;
-import org.flowable.engine.delegate.DelegateTask;
+import org.flowable.task.service.delegate.DelegateTask;
 import org.flowable.engine.delegate.ExecutionListener;
 import org.flowable.engine.delegate.TaskListener;
 import org.slf4j.Logger;

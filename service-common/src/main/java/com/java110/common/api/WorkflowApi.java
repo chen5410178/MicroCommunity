@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.java110.common.bmo.workflow.IQueryWorkFlowFirstStaffBMO;
 import com.java110.dto.oaWorkflow.WorkflowModelDto;
 import com.java110.utils.util.BeanConvertUtil;
-import org.flowable.engine.ActivitiException;
+import org.flowable.common.engine.api.FlowableException;
 import org.flowable.engine.RepositoryService;
 import org.flowable.engine.repository.Model;
 import org.apache.commons.lang3.StringUtils;
@@ -99,7 +99,7 @@ public class WorkflowApi {
                 modelNode.put("model", editorJsonNode);
             } catch (Exception e) {
                 logger.error("Error creating model JSON", e);
-                throw new ActivitiException("Error creating model JSON", e);
+                throw new FlowableException("Error creating model JSON", e);
             }
         }
         return new ResponseEntity(modelNode.toString(), HttpStatus.OK);

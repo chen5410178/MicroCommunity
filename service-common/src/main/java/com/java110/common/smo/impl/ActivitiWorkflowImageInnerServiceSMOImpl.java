@@ -12,7 +12,7 @@ import org.flowable.engine.RuntimeService;
 import org.flowable.engine.TaskService;
 import org.flowable.engine.history.HistoricProcessInstance;
 import org.flowable.engine.runtime.ProcessInstance;
-import org.flowable.engine.task.Task;
+import org.flowable.task.api.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -86,7 +86,7 @@ public class ActivitiWorkflowImageInnerServiceSMOImpl extends BaseServiceSMO imp
         InputStream is = processEngine.getProcessEngineConfiguration()
                 .getProcessDiagramGenerator()
                 .generateDiagram(model, "png", currentActs, new ArrayList<String>(),
-                        fontName, fontName, fontName, null, 1.0);
+                        fontName, fontName, fontName, null, 1.0, true);
         String image = "";
         try {
             image = Base64Convert.ioToBase64(is);

@@ -6,7 +6,7 @@ import com.java110.dto.resource.ResourceOrderDto;
 import com.java110.dto.audit.AuditUser;
 import com.java110.utils.factory.ApplicationContextFactory;
 import com.java110.utils.util.BeanConvertUtil;
-import org.flowable.engine.delegate.DelegateTask;
+import org.flowable.task.service.delegate.DelegateTask;
 import org.flowable.engine.delegate.TaskListener;
 
 import java.util.List;
