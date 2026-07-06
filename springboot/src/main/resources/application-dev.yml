@@ -8,8 +8,6 @@ spring:
     multipart:
       maxFileSize: 50MB
       maxRequestSize: 50MB
-  profiles:
-    active: share
   http:
     encoding:
       charset: UTF-8
