@@ -6,6 +6,8 @@ server:
 
 
 spring:
+  main:
+    allow-bean-definition-overriding: true
   servlet:
     multipart:
       maxFileSize: 50MB

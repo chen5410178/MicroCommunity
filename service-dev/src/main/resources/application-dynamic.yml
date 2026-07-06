@@ -16,8 +16,6 @@ server:
 
 
 spring:
-  profiles:
-    active: share
   http:
     encoding:
       charset: UTF-8
