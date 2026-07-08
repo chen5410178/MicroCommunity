@@ -170,7 +170,7 @@ public class MallInnerServiceSMOImpl extends BaseServiceSMO implements IMallInne
 
         paramIn.put("remark", deductionIntegralDto.getRemark());
 
-        paramIn.put("mallApiCode", "userIntegralToCommunity");
+        paramIn.put("mallApiCode", "userIntegralToCommunityBmoImpl");
         ResultVo resultVo = sendMallImpl.post("/mall/api/common.openCommonApi", paramIn);
 
         return resultVo;
