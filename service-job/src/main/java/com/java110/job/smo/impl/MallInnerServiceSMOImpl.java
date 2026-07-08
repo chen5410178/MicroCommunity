@@ -167,6 +167,7 @@ public class MallInnerServiceSMOImpl extends BaseServiceSMO implements IMallInne
         paramIn.put("link", deductionIntegralDto.getLink());
         paramIn.put("integral", deductionIntegralDto.getIntegral());
         paramIn.put("communityId", deductionIntegralDto.getCommunityId());
+        paramIn.put("orderId", deductionIntegralDto.getOrderId());
 
         paramIn.put("remark", deductionIntegralDto.getRemark());
 

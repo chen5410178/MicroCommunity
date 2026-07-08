@@ -31,10 +31,12 @@ public class DeductionIntegralImpl implements IDeductionIntegral {
             return 0;
         }
 
+        deductionIntegralDto.setOrderId(orderId);
+
 
         ResultVo resultVo = mallInnerServiceSMOImpl.userIntegralToCommunity(deductionIntegralDto);
 
-        if(resultVo.getCode() != ResultVo.CODE_OK){
+        if (resultVo.getCode() != ResultVo.CODE_OK) {
             throw new IllegalArgumentException(resultVo.getMsg());
         }
 

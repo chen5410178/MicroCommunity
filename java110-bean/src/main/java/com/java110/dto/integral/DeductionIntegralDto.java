@@ -14,6 +14,11 @@ public class DeductionIntegralDto implements Serializable {
 
     private String remark;
 
+    private String orderId;
+
+    public DeductionIntegralDto() {
+    }
+
     public DeductionIntegralDto(int integral, double money) {
         this.integral = integral;
         this.money = money;
@@ -57,5 +62,13 @@ public class DeductionIntegralDto implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 }
