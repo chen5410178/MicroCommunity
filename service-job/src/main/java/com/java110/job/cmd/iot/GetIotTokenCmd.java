@@ -94,7 +94,7 @@ public class GetIotTokenCmd extends Cmd {
 
         String iotUrl = MappingCache.getValue(URL_DOMAIN, IotConstant.IOT_URL);
         String targetUrl = iotUrl + reqJson.getString("targetUrl");
-        String url = iotUrl + "/sso.html?token=" + paramOut.getString("token") +"&communityId=" + reqJson.getString("communityId") + "&targetUrl=" + targetUrl;
+        String url = iotUrl + "/#/pages/frame/sso?token=" + paramOut.getString("token") +"&communityId=" + reqJson.getString("communityId") + "&targetUrl=" + targetUrl;
         paramOut.put("url", url);
         context.setResponseEntity(ResultVo.createResponseEntity(paramOut));
 
