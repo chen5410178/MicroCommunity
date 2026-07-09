@@ -29,7 +29,6 @@ import com.java110.po.owner.OwnerAttrPo;
 import com.java110.po.owner.OwnerPo;
 import com.java110.po.owner.OwnerRoomRelPo;
 import com.java110.po.user.UserPo;
-import com.java110.user.bmo.owner.IGeneratorOwnerUserBMO;
 import com.java110.utils.cache.MappingCache;
 import com.java110.utils.constant.MappingConstant;
 import com.java110.utils.constant.UserLevelConstant;
@@ -79,8 +78,6 @@ public class SaveRoomOwnerCmd extends Cmd {
     @Autowired
     private IOwnerRoomRelV1InnerServiceSMO ownerRoomRelV1InnerServiceSMOImpl;
 
-    @Autowired
-    private IGeneratorOwnerUserBMO generatorOwnerUserBMOImpl;
 
 
     @Override
@@ -185,8 +182,7 @@ public class SaveRoomOwnerCmd extends Cmd {
         //todo 保存和房屋关系
         saveOwnerRoomRel(ownerPo,reqJson.getString("roomId"));
 
-        //todo 生成登录账号
-        generatorOwnerUserBMOImpl.generator(ownerPo);
+
 
     }
 

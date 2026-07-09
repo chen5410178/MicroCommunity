@@ -32,7 +32,6 @@ import com.java110.po.owner.OwnerAttrPo;
 import com.java110.po.owner.OwnerPo;
 import com.java110.po.owner.OwnerRoomRelPo;
 import com.java110.po.user.UserPo;
-import com.java110.user.bmo.owner.IGeneratorOwnerUserBMO;
 import com.java110.utils.cache.MappingCache;
 import com.java110.utils.constant.MappingConstant;
 import com.java110.utils.constant.UserLevelConstant;
@@ -128,8 +127,6 @@ public class SaveOwnerCmd extends Cmd {
     @Autowired
     private IPhotoSMO photoSMOImpl;
 
-    @Autowired
-    private IGeneratorOwnerUserBMO generatorOwnerUserBMOImpl;
 
     @Override
     public void validate(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) throws CmdException {
@@ -192,9 +189,6 @@ public class SaveOwnerCmd extends Cmd {
 
         dealOwnerAttr(reqJson, memberId, cmdDataFlowContext);
 
-
-        //todo 生成登录账号
-        generatorOwnerUserBMOImpl.generator(ownerPo);
     }
 
 

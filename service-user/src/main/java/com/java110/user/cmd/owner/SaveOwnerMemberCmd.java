@@ -26,7 +26,6 @@ import com.java110.po.owner.OwnerAppUserPo;
 import com.java110.po.owner.OwnerAttrPo;
 import com.java110.po.owner.OwnerPo;
 import com.java110.po.user.UserPo;
-import com.java110.user.bmo.owner.IGeneratorOwnerUserBMO;
 import com.java110.utils.cache.MappingCache;
 import com.java110.utils.constant.MappingConstant;
 import com.java110.utils.constant.UserLevelConstant;
@@ -120,8 +119,7 @@ public class SaveOwnerMemberCmd extends Cmd {
     @Autowired
     private IPhotoSMO photoSMOImpl;
 
-    @Autowired
-    private IGeneratorOwnerUserBMO generatorOwnerUserBMOImpl;
+
 
 
     @Override
@@ -196,8 +194,6 @@ public class SaveOwnerMemberCmd extends Cmd {
         //todo 保存属性
         dealOwnerAttr(reqJson, context);
 
-        //todo 生成登录账号
-        generatorOwnerUserBMOImpl.generator(ownerPo);
 
     }
 
