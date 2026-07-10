@@ -17397,8 +17397,6 @@ CREATE TABLE `community_setting_key` (
 -- ----------------------------
 -- Records of community_setting_key
 -- ----------------------------
-INSERT INTO `community_setting_key` VALUES ('10', '2002', '账单模式', 'PAY_FEE_MONTH', 'ON 表示账单模式，周期费用按月生成一次性费用，比如物业费会生成12条，OFF 非账单模式，周期性费用一条费用，缴费延期计费起始时间', '2021-10-10 21:25:46', '0');
-INSERT INTO `community_setting_key` VALUES ('11', '2002', '账单周期', 'PAY_FEE_MONTH_CYCLE', '正整数，月的倍数，比如1个月生成一条账单请填写1', '2021-10-10 21:25:46', '0');
 INSERT INTO `community_setting_key` VALUES ('12', '2002', '线下收银开关', 'OFFLINE_PAY_FEE_SWITCH', '是否禁用缴费页面提交收费按钮 2禁用，1开启', '2021-10-10 21:25:46', '0');
 INSERT INTO `community_setting_key` VALUES ('17', '9010', '预约车辆归属停车场ID', 'ASCRIPTION_CAR_AREA_ID', '预约车辆归属停车场ID', '2022-04-15 15:38:22', '0');
 INSERT INTO `community_setting_key` VALUES ('18', '9020', '最大使用积分数', 'MAXIMUM_NUMBER', '积分账户最大使用积分数', '2022-05-07 11:32:55', '0');
@@ -41092,7 +41090,7 @@ CREATE TABLE `u_user` (
 -- Records of u_user
 -- ----------------------------
 INSERT INTO `u_user` VALUES ('21', '30518939884421922816', 'admin', 'sss@sf.com', 'ccc地方都是', '3ad352384261cbc2c7462210dbb3ce61', null, null, '0', '17797173944', '00', '202022030905502375', '2018-12-02 16:01:50', '0', null);
-INSERT INTO `u_user` VALUES ('23', '30520751775595118592', 'dev', '129@qq.com', 'Qingdao', '109c333b381580e1fe8a5ff630c398a7', null, '0', '0', '17797173942', '00', '202021111595270456', '2018-12-07 16:01:38', '0', null);
+INSERT INTO `u_user` VALUES ('23', '30520751775595118592', 'dev', '129@qq.com', 'Qingdao', '3ad352384261cbc2c7462210dbb3ce61', null, '0', '0', '17797173942', '00', '202021111595270456', '2018-12-07 16:01:38', '0', null);
 
 -- ----------------------------
 -- Table structure for u_user_address
