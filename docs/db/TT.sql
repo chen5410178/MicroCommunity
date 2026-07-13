@@ -7954,7 +7954,7 @@ INSERT INTO `c_mapping` VALUES ('90', 'ALI_SMS', '访问秘钥', 'accessSecret',
 INSERT INTO `c_mapping` VALUES ('91', 'ALI_SMS', '短信签名', 'signName', 'xxx', '', '2020-06-29 09:10:28', '0');
 INSERT INTO `c_mapping` VALUES ('92', 'SMS_DOMAIN', '短信服务商', 'SMS_COMPANY', 'TENCENT', '阿里为 ALI 腾讯为TENCENT', '2020-06-29 09:11:51', '0');
 INSERT INTO `c_mapping` VALUES ('93', 'ALI_SMS', '模板编码', 'TemplateCode', 'xxx', '', '2020-06-29 10:16:15', '0');
-INSERT INTO `c_mapping` VALUES ('94', 'URL_DOMAIN', '业主公众号地址', 'OWNER_WECHAT_URL', 'http://owner.homecommunity.cn', '公众号时写 公众号域名\n\n小程序时写 小程序appId', '2020-07-20 14:59:38', '0');
+INSERT INTO `c_mapping` VALUES ('94', 'URL_DOMAIN', '业主公众号地址', 'OWNER_WECHAT_URL', 'http://owner.homecommunity.cn', '公众号时写 公众号域名\n\n小程序时写 pcweb域名', '2020-07-20 14:59:38', '0');
 INSERT INTO `c_mapping` VALUES ('95', 'WECHAT', '微信支付商品名称', 'PAY_GOOD_NAME', 'HC智慧家园-', '', '2020-08-14 15:54:03', '0');
 INSERT INTO `c_mapping` VALUES ('96', 'WECHAT', '欠费推送页面', 'OWE_FEE_PAGE', '/#/pages/fee/oweFee?roomId=', '公众号时 配置 https://owner.demo.winqi.cn/#/pages/oweFee/oweFee?wAppId=wx43458162e3c31d92&roomId=\n\n小程序时 配置\nwxf83d66b0e9f5964d@@/pages/oweFee/oweFee?roomId=', '2020-10-13 17:24:30', '0');
 INSERT INTO `c_mapping` VALUES ('97', 'SYSTEM_SWITCH', 'api接口日志开关', 'LOG_SERVICE_CODE', 'OFF', 'ALL 标识记录所有，单个服务接口记录直接写 serviceCode 多个时用 | 分隔', '2020-11-16 00:22:35', '0');
