@@ -694,7 +694,7 @@
     </select>
 
     <select id="computeReportOweFeeItemAmount" parameterType="Map" resultType="Map">
-        select pfc.config_name configName,sum(t.owe_amount) totalOweAmount
+        select pfc.fee_name configName,sum(t.owe_amount) totalOweAmount
         from pay_fee t
         LEFT JOIN building_room br on t.payer_obj_id = br.room_id and br.status_cd = '0'
         LEFT JOIN building_unit bu on br.unit_id = bu.unit_id and bu.status_cd = '0'
@@ -774,7 +774,7 @@
         <if test="payerObjId !=null and payerObjId != ''">
             and t.payer_obj_id= #{payerObjId}
         </if>
-        GROUP BY t.config_id,pfc.config_name
+        GROUP BY t.config_id,pfc.fee_name
     </select>
 
     <!-- 查询无效费用 add by wuxw 2018-07-03 -->
