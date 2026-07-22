@@ -45,7 +45,7 @@
         <if test="staffId !=null and staffId != ''">
             and t.staff_id= #{staffId}
         </if>
-        order by t.create_time desc
+        order by t.create_time desc,t.sc_id desc
         <if test="page != -1 and page != null ">
             limit #{page}, #{row}
         </if>
