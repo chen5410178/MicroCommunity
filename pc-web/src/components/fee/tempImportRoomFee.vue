@@ -14,21 +14,11 @@
         <el-input v-model="form.objName" disabled :placeholder="$t('tempImportRoomFee.inputFeeObj')"></el-input>
       </el-form-item>
 
-      <el-form-item :label="$t('tempImportRoomFee.feeName')" v-if="form.feeNameFlag === 'S'">
+      <el-form-item :label="$t('tempImportRoomFee.feeName')">
         <el-select v-model="form.configId" :placeholder="$t('tempImportRoomFee.selectFeeItem')">
           <el-option v-for="(item, index) in feeConfigs" :key="index" :label="item.feeName"
             :value="item.configId"></el-option>
         </el-select>
-        <span>{{ $t('tempImportRoomFee.feeItemDesc') }}</span>
-      </el-form-item>
-
-      <el-form-item :label="$t('tempImportRoomFee.feeName')" v-else>
-        <el-col :span="18">
-          <el-input v-model="form.feeName" :placeholder="$t('tempImportRoomFee.inputFeeName')"></el-input>
-        </el-col>
-        <el-col :span="6">
-          <el-button @click="toggleFeeNameFlag">{{ $t('tempImportRoomFee.select') }}</el-button>
-        </el-col>
       </el-form-item>
 
       <el-form-item :label="$t('tempImportRoomFee.amount')">
@@ -54,9 +44,8 @@
 </template>
 
 <script>
-import { importTempData } from '@/api/fee/tempImportRoomFeeApi'
-import { getDict } from '@/api/community/communityApi'
-import { getCommunityId } from '@/api/community/communityApi'
+import { getDict, getCommunityId } from '@/api/community/communityApi'
+import { saveRoomCreateFee } from '@/api/fee/roomCreateFeeAddApi'
 import { listFeeConfigs } from '@/api/fee/feeConfigManageApi'
 export default {
   name: 'TempImportRoomFee',
@@ -74,8 +63,7 @@ export default {
         amount: '',
         startTime: this.formatDate(new Date()),
         endTime: this.addMonth(new Date(), 1),
-        feeConfigs: [],
-        feeNameFlag: 'S'
+        feeConfigs: []
       },
       feeTypeCds: [],
       feeConfigs: [],
@@ -119,15 +107,12 @@ export default {
         console.error('获取费用配置失败:', error)
       }
     },
-    toggleFeeNameFlag() {
-      this.form.feeNameFlag = this.form.feeNameFlag === 'S' ? 'I' : 'S'
-    },
     validateForm() {
       if (!this.form.feeTypeCd) {
         this.$message.warning(this.$t('tempImportRoomFee.feeTypeRequired'))
         return false
       }
-      if (!this.form.configId && this.form.feeNameFlag === 'S') {
+      if (!this.form.configId) {
         this.$message.warning(this.$t('tempImportRoomFee.feeNameRequired'))
         return false
       }
@@ -157,17 +142,23 @@ export default {
       if (!this.validateForm()) return
 
       try {
-        const res = await importTempData({
-          ...this.form,
-          communityId: this.communityId
-        })
-        if (res.code == 0) {
-          this.dialogVisible = false
-          this.$emit('success')
-          this.$message.success(this.$t('common.operationSuccess'))
-        } else {
-          this.$message.error(res.msg)
+        const params = {
+          communityId: this.communityId,
+          locationObjId: this.form.objId,
+          configId: this.form.configId,
+          amount: this.form.amount,
+          startTime: this.form.startTime,
+          endTime: this.form.endTime,
+          feeTypeCd: this.form.feeTypeCd
         }
+        const res = await saveRoomCreateFee(params)
+        if (res.code !== undefined && res.code != 0) {
+          this.$message.error(res.msg)
+          return
+        }
+        this.dialogVisible = false
+        this.$emit('success')
+        this.$message.success(this.$t('common.operationSuccess'))
       } catch (error) {
         console.error('请求失败:', error)
         this.$message.error(this.$t('tempImportRoomFee.createFailed'))
@@ -184,7 +175,6 @@ export default {
         amount: '',
         startTime: this.formatDate(new Date()),
         endTime: this.addMonth(new Date(), 1),
-        feeNameFlag: 'S',
         feeConfigs: []
       }
     },
