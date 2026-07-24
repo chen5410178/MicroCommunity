@@ -461,7 +461,7 @@
     <select id="getPropertyFeeSummaryDataCount" parameterType="Map" resultType="Map">
         select count(1) count
         from building_room br
-        left join building_unit bu on br.unit_id = br.unit_id and bu.status_cd = '0'
+        left join building_unit bu on br.unit_id = bu.unit_id and bu.status_cd = '0'
         left join f_floor f on bu.floor_id = f.floor_id and f.status_cd = '0'
         left join building_owner_room_rel borr on br.room_id = borr.room_id and borr.status_cd = '0'
         left join building_owner bo on borr.owner_id = bo.owner_id and bo.status_cd = '0' and bo.owner_type_cd = '1001'
@@ -506,7 +506,7 @@
         and pfdm.status_cd = '0' and pfdm.detail_id = '-1' and pfdm.cur_month_time &gt;=#{startTime} and pfdm.cur_month_time &lt; #{endTime}
         ) oweAmount
         from building_room br
-        left join building_unit bu on br.unit_id = br.unit_id and bu.status_cd = '0'
+        left join building_unit bu on br.unit_id = bu.unit_id and bu.status_cd = '0'
         left join f_floor f on bu.floor_id = f.floor_id and f.status_cd = '0'
         left join building_owner_room_rel borr on br.room_id = borr.room_id and borr.status_cd = '0'
         left join building_owner bo on borr.owner_id = bo.owner_id and bo.status_cd = '0' and bo.owner_type_cd = '1001'
