@@ -22,6 +22,7 @@ import com.java110.core.context.Environment;
 import com.java110.core.context.ICmdDataFlowContext;
 import com.java110.core.event.cmd.Cmd;
 import com.java110.core.event.cmd.CmdEvent;
+import com.java110.core.factory.AuthenticationFactory;
 import com.java110.core.factory.GenerateCodeFactory;
 import com.java110.doc.annotation.*;
 import com.java110.dto.org.OrgDto;
@@ -196,10 +197,24 @@ public class UpdatePropertyCmd extends Cmd {
             return;
         }
 
+        String userId = storeUserDtos.get(0).getUserId();
+
+        UserDto userDto = new UserDto();
+        userDto.setUserId(userId);
+        List<UserDto> userDtos = userV1InnerServiceSMOImpl.queryUsers(userDto);
+
+        String oldTel = (userDtos != null && userDtos.size() > 0) ? userDtos.get(0).getTel() : "";
+        String newTel = reqJson.getString("tel");
 
         UserPo userPo = new UserPo();
-        userPo.setUserId(storeUserDtos.get(0).getUserId());
+        userPo.setUserId(userId);
         userPo.setName(storePo.getName());
+
+        if (!StringUtil.isEmpty(newTel) && !newTel.equals(oldTel)) {
+            userPo.setTel(newTel);
+            userPo.setPassword(AuthenticationFactory.passwdMd5(newTel));
+        }
+
         userV1InnerServiceSMOImpl.updateUser(userPo);
 
 
