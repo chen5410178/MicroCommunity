@@ -120,7 +120,7 @@
         </el-table-column>
         <el-table-column prop="startTime" :label="$t('reportPayFeeDeposit.table.startTime')" align="center">
         </el-table-column>
-        <el-table-column prop="deadlineTime" :label="$t('reportPayFeeDeposit.table.endTime')" align="center">
+        <el-table-column prop="endTime" :label="$t('reportPayFeeDeposit.table.endTime')" align="center">
         </el-table-column>
         <el-table-column prop="createTime" :label="$t('reportPayFeeDeposit.table.createTime')" align="center">
         </el-table-column>
