@@ -88,6 +88,7 @@ public class ReportPayFeeDepositAdapt implements IExportDataAdapt {
     private List<ReportDeposit> getReportPayFeeDeposit(JSONObject reqJson) {
 
         ReportDeposit reportDeposit = BeanConvertUtil.covertBean(reqJson,ReportDeposit.class);
+        reportDeposit.setUserId(null);
         reportDeposit.setPage(1);
         reportDeposit.setRow(10000);
         List<ReportDeposit> reportDeposits = reportFeeMonthStatisticsInnerServiceSMOImpl.queryPayFeeDeposit(reportDeposit);
