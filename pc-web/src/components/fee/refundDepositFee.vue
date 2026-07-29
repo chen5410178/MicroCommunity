@@ -43,8 +43,9 @@ export default {
         this.refundData.communityId = await getCommunityId()
         
         const response = await refundFeeDeposit(this.refundData)
-        if (response.code === 0) {
+        if (response.code == 0) {
           this.$message.success(this.$t('common.operationSuccess'))
+          this.close()
           this.$emit('success')
         } else {
           this.$message.error(response.data.msg)
