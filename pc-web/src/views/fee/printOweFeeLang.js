@@ -12,7 +12,12 @@ export const messages = {
       unitPrice: 'Unit Price',
       amount: 'Amount',
       amountInWords: 'Amount in Words',
-      noData: 'No payment notice data available'
+      noData: 'No payment notice data available',
+      customPayment: 'Custom Payment Notice',
+      customPaymentTitle: 'Select Payment Items',
+      selectedCount: 'Selected {count} records',
+      selectedAmount: 'Total Amount',
+      selectAll: 'Select All'
     }
   },
   zh: {
@@ -28,7 +33,12 @@ export const messages = {
       unitPrice: '单价',
       amount: '金额',
       amountInWords: '大写人民币（元）',
-      noData: '当前没有缴费通知数据'
+      noData: '当前没有缴费通知数据',
+      customPayment: '自定义催缴',
+      customPaymentTitle: '选择催缴项目',
+      selectedCount: '已选 {count} 条',
+      selectedAmount: '合计金额',
+      selectAll: '全选'
 }
   },
   'zh-TW': {
@@ -44,7 +54,12 @@ export const messages = {
       unitPrice: '單價',
       amount: '金額',
       amountInWords: '大寫人民幣（元）',
-      noData: '目前沒有繳費通知資料'
+      noData: '目前沒有繳費通知資料',
+      customPayment: '自訂催繳',
+      customPaymentTitle: '選擇催繳項目',
+      selectedCount: '已選 {count} 筆',
+      selectedAmount: '合計金額',
+      selectAll: '全選'
     }
   }
 }

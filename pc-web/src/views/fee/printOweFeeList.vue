@@ -1,6 +1,6 @@
 <template>
   <div class="print-owe-fee-container">
-    <el-card>
+    <div>
       <div class="text-center">
         <h1>{{ printPayFeeInfo.printName }}{{ $t('printOweFee.paymentNotice') }}</h1>
       </div>
@@ -26,16 +26,16 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(row, idx) in printPayFeeInfo.fees" :key="idx">
+          <tr v-for="(row, idx) in displayFees" :key="idx">
             <td style="border: 1px solid #dcdfe6; text-align: center;">{{ row.payerObjName }}</td>
             <td style="border: 1px solid #dcdfe6; text-align: center;">{{ row.feeName }}</td>
             <td style="border: 1px solid #dcdfe6; text-align: center;">
               <div v-if="row.preDegrees">
-                {{ dateFormat(row.endTime) }}至{{ _getDeadlineTime(row) }}<br>
+                {{ dateFormat(row.startTime) }}至{{ dateFormat(row.endTime) }}<br>
                 {{ row.preDegrees }} 至 {{ row.curDegrees }}
               </div>
               <div v-else>
-                {{ dateFormat(row.endTime) }}至{{ _getDeadlineTime(row) }}
+                {{ dateFormat(row.startTime) }}至{{ dateFormat(row.endTime) }}
               </div>
             </td>
             <td style="border: 1px solid #dcdfe6; text-align: center;">元</td>
@@ -45,17 +45,17 @@
             <td style="border: 1px solid #dcdfe6; text-align: center;">
               {{ row.preDegrees && row.mwPrice > 0 ? row.mwPrice : `${row.squarePrice}/${row.additionalAmount}` }}
             </td>
-            <td style="border: 1px solid #dcdfe6; text-align: center;">{{ row.feeTotalPrice }}</td>
+            <td style="border: 1px solid #dcdfe6; text-align: center;">{{ row.oweAmount }}</td>
           </tr>
           <tr>
             <td style="border: 1px solid #dcdfe6; text-align: center;" >
               {{$t('printOweFee.amountInWords')}}
             </td>
             <td style="border: 1px solid #dcdfe6; text-align: center;" colspan="4">
-              {{ changeNumMoneyToChinese(printPayFeeInfo.feePrices) }}
+              {{ changeNumMoneyToChinese(displayTotal) }}
             </td>
             <td style="border: 1px solid #dcdfe6; text-align: center;" colspan="2">
-              {{ printPayFeeInfo.feePrices }}
+              {{ displayTotal }}
             </td>
           </tr>
           <tr v-if="printPayFeeInfo.content"> 
@@ -74,11 +74,15 @@
         <el-button type="primary" class="float-right" @click="_printPurchaseApplyDiv">
           <i class="el-icon-printer"></i>&nbsp;{{ $t('common.print') }}
         </el-button>
+        <el-button type="primary" class="float-right" style="margin-right:20px;" @click="handleCustomPayment">
+          {{ $t('printOweFee.customPayment') }}
+        </el-button>
         <el-button type="warning" class="float-right" style="margin-right:20px;" @click="_closePage">
           {{ $t('common.cancel') }}
         </el-button>
       </div>
-    </el-card>
+    </div>
+    <select-print-owe-fee ref="selectPrintOweFeeRef" @confirm="handleConfirmCustom" />
   </div>
 </template>
 
@@ -87,9 +91,11 @@ import { listOweFees, listRoomsWhereFeeSet, queryFeePrintSpec } from '@/api/fee/
 import { getCommunityId } from '@/api/community/communityApi'
 import { dateFormat } from '@/utils/dateUtil'
 import { changeNumMoneyToChinese } from '@/utils/moneyUtil'
+import SelectPrintOweFee from '@/components/fee/selectPrintOweFee.vue'
 
 export default {
   name: 'PrintOweFeeList',
+  components: { SelectPrintOweFee },
   data() {
     return {
       printPayFeeInfo: {
@@ -109,6 +115,8 @@ export default {
         printName: '',
         targetEndTime: '',
       },
+      displayFees: [],
+      displayTotal: 0,
       printFlag: '0',
       communityId: ''
     }
@@ -198,28 +206,34 @@ export default {
         const _fees = res.data
         if (_fees.length < 1) {
           this.printPayFeeInfo.oweFees = []
+          this.displayFees = []
+          this.displayTotal = 0
           this.$message.warning(this.$t('printOweFee.noData'))
           return
         }
         this.printPayFeeInfo.fees = _fees
+        this.displayFees = _fees.slice()
         let _totalAmount = 0.0
         this.printPayFeeInfo.fees.forEach(item => {
-          _totalAmount += item.feeTotalPrice
+          _totalAmount += parseFloat(item.oweAmount)
         })
         _totalAmount = Math.round(_totalAmount * 100) / 100
         this.printPayFeeInfo.feePrices = _totalAmount
+        this.displayTotal = _totalAmount
       }).catch(err => {
         console.error('请求失败:', err)
       })
     },
-    _getDeadlineTime(_fee) {
-      if (_fee.amountOwed === 0 && _fee.endTime === _fee.deadlineTime) {
-        return "-"
+    handleCustomPayment() {
+      if (this.$refs.selectPrintOweFeeRef) {
+        this.$refs.selectPrintOweFeeRef.open(this.printPayFeeInfo.fees)
       }
-      if (_fee.state === '2009001') {
-        return "-"
+    },
+    handleConfirmCustom(data) {
+      if (data) {
+        this.displayFees = data.selectedFees || []
+        this.displayTotal = data.totalAmount || 0
       }
-      return dateFormat(_fee.deadlineTime)
     },
     dateFormat,
     changeNumMoneyToChinese
