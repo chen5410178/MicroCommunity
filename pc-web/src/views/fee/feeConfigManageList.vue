@@ -175,9 +175,9 @@
     </el-row>
 
     <!-- 子组件 -->
-    <add-fee-config ref="addFeeConfig" />
-    <edit-fee-config ref="editFeeConfig" />
-    <delete-fee-config ref="deleteFeeConfig" />
+    <add-fee-config ref="addFeeConfig" @success="_queryFeeConfigMethod"/>
+    <edit-fee-config ref="editFeeConfig" @success="_queryFeeConfigMethod"/>
+    <delete-fee-config ref="deleteFeeConfig" @success="_queryFeeConfigMethod"/>
   </div>
 </template>
 

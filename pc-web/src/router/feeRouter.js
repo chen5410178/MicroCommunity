@@ -156,13 +156,11 @@ export default [
     },
     {
         path: '/views/fee/listApplyRoomDiscountRecordDetails',
-        meta: { title: '优惠详情' },
         name: '/views/fee/listApplyRoomDiscountRecordDetails',
         component: () => import('@/views/fee/listApplyRoomDiscountRecordDetailsList.vue')
     },
     {
         path: '/views/fee/roomOweFeeCallable',
-        meta: { title: '房屋催缴' },
         name: '/views/fee/roomOweFeeCallable',
         component: () => import('@/views/fee/roomOweFeeCallableList.vue')
     },

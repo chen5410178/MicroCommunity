@@ -37,6 +37,10 @@ public class ApiFeeConfigDataVo implements Serializable {
 
     private String state;
 
+    private String ftId;
+
+    private String ftName;
+
     public String getConfigId() {
         return configId;
     }
@@ -235,5 +239,21 @@ public class ApiFeeConfigDataVo implements Serializable {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public String getFtId() {
+        return ftId;
+    }
+
+    public void setFtId(String ftId) {
+        this.ftId = ftId;
+    }
+
+    public String getFtName() {
+        return ftName;
+    }
+
+    public void setFtName(String ftName) {
+        this.ftName = ftName;
     }
 }

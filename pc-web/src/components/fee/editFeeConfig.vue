@@ -1,93 +1,41 @@
 ﻿<template>
-  <el-dialog
-    :title="$t('editFeeConfig.title')"
-    :visible.sync="dialogVisible"
-    width="900px"
-    :before-close="handleClose"
-  >
-    <el-form
-      ref="editFeeConfigForm"
-      :model="editFeeConfigInfo"
-      :rules="rules"
-      label-width="120px"
-    >
+  <el-dialog :title="$t('editFeeConfig.title')" :visible.sync="dialogVisible" width="900px" :before-close="handleClose">
+    <el-form ref="editFeeConfigForm" :model="editFeeConfigInfo" :rules="rules" label-width="120px">
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item 
-            :label="$t('editFeeConfig.feeType')" 
-            prop="ftId"
-          >
-            <el-select
-              v-model="editFeeConfigInfo.ftId"
-              :placeholder="$t('editFeeConfig.feeTypePlaceholder')"
-              style="width: 100%"
-              @change="_changeEditFeeTypeCd"
-              :disabled="editFeeConfigInfo.isDefault === 'T'"
-              clearable
-            >
-              <el-option
-                v-for="(item, index) in editFeeConfigInfo.ftIds"
-                :key="index"
-                :label="item.ftName"
-                :value="item.ftId"
-              />
+          <el-form-item :label="$t('editFeeConfig.feeType')" prop="ftId">
+            <el-select v-model="editFeeConfigInfo.ftId" :placeholder="$t('editFeeConfig.feeTypePlaceholder')"
+              style="width: 100%" @change="_changeEditFeeTypeCd" :disabled="editFeeConfigInfo.isDefault === 'T'"
+              clearable>
+              <el-option v-for="(item, index) in editFeeConfigInfo.ftIds" :key="index" :label="item.ftName"
+                :value="item.ftId" />
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item 
-            :label="$t('editFeeConfig.feeName')" 
-            prop="feeName"
-          >
-            <el-input
-              v-model="editFeeConfigInfo.feeName"
-              :placeholder="$t('editFeeConfig.feeNamePlaceholder')"
-              :disabled="editFeeConfigInfo.isDefault === 'T'"
-              clearable
-            />
+          <el-form-item :label="$t('editFeeConfig.feeName')" prop="feeName">
+            <el-input v-model="editFeeConfigInfo.feeName" :placeholder="$t('editFeeConfig.feeNamePlaceholder')"
+              :disabled="editFeeConfigInfo.isDefault === 'T'" clearable />
           </el-form-item>
         </el-col>
       </el-row>
 
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item 
-            :label="$t('editFeeConfig.feeFlag')" 
-            prop="feeFlag"
-          >
-            <el-select
-              v-model="editFeeConfigInfo.feeFlag"
-              :placeholder="$t('editFeeConfig.feeFlagPlaceholder')"
-              style="width: 100%"
-              :disabled="editFeeConfigInfo.isDefault === 'T'"
-              clearable
-            >
-              <el-option
-                v-for="(item, index) in editFeeConfigInfo.feeFlags"
-                :key="index"
-                :label="item.name"
-                :value="item.statusCd"
-              />
+          <el-form-item :label="$t('editFeeConfig.feeFlag')" prop="feeFlag">
+            <el-select v-model="editFeeConfigInfo.feeFlag" :placeholder="$t('editFeeConfig.feeFlagPlaceholder')"
+              style="width: 100%" :disabled="editFeeConfigInfo.isDefault === 'T'" clearable>
+              <el-option v-for="(item, index) in editFeeConfigInfo.feeFlags" :key="index" :label="item.name"
+                :value="item.statusCd" />
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item 
-            :label="$t('editFeeConfig.paymentType')" 
-            prop="paymentCd"
-          >
-            <el-select
-              v-model="editFeeConfigInfo.paymentCd"
-              :placeholder="$t('editFeeConfig.paymentTypePlaceholder')"
-              style="width: 100%"
-              clearable
-            >
-              <el-option
-                v-for="(item, index) in editFeeConfigInfo.paymentCds"
-                :key="index"
-                :label="item.name"
-                :value="item.statusCd"
-              />
+          <el-form-item :label="$t('editFeeConfig.paymentType')" prop="paymentCd">
+            <el-select v-model="editFeeConfigInfo.paymentCd" :placeholder="$t('editFeeConfig.paymentTypePlaceholder')"
+              style="width: 100%" clearable>
+              <el-option v-for="(item, index) in editFeeConfigInfo.paymentCds" :key="index" :label="item.name"
+                :value="item.statusCd" />
             </el-select>
           </el-form-item>
         </el-col>
@@ -95,36 +43,18 @@
 
       <el-row :gutter="20" v-if="editFeeConfigInfo.feeFlag !== '2006012'">
         <el-col :span="12">
-          <el-form-item 
-            :label="$t('editFeeConfig.paymentCycle')" 
-            prop="paymentCycle"
-          >
-            <el-input
-              v-model="editFeeConfigInfo.paymentCycle"
-              :placeholder="$t('editFeeConfig.paymentCyclePlaceholder')"
-              clearable
-            >
+          <el-form-item :label="$t('editFeeConfig.paymentCycle')" prop="paymentCycle">
+            <el-input v-model="editFeeConfigInfo.paymentCycle"
+              :placeholder="$t('editFeeConfig.paymentCyclePlaceholder')" clearable>
               <template slot="append">月</template>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12" v-if="editFeeConfigInfo.feeFlag === '1003006'">
-          <el-form-item 
-            :label="$t('editFeeConfig.prepaymentPeriod')" 
-            prop="prepaymentPeriod"
-          >
-            <el-select
-              v-model="editFeeConfigInfo.prepaymentPeriod"
-              :placeholder="$t('editFeeConfig.prepaymentPeriodPlaceholder')"
-              style="width: 100%"
-              clearable
-            >
-              <el-option
-                v-for="n in 12"
-                :key="n"
-                :label="String(n)"
-                :value="String(n)"
-              />
+          <el-form-item :label="$t('editFeeConfig.prepaymentPeriod')" prop="prepaymentPeriod">
+            <el-select v-model="editFeeConfigInfo.prepaymentPeriod"
+              :placeholder="$t('editFeeConfig.prepaymentPeriodPlaceholder')" style="width: 100%" clearable>
+              <el-option v-for="n in 12" :key="n" :label="String(n)" :value="String(n)" />
             </el-select>
           </el-form-item>
         </el-col>
@@ -132,28 +62,14 @@
 
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item 
-            :label="$t('editFeeConfig.unit')" 
-            prop="units"
-          >
-            <el-input
-              v-model="editFeeConfigInfo.units"
-              :placeholder="$t('editFeeConfig.unitPlaceholder')"
-              clearable
-            />
+          <el-form-item :label="$t('editFeeConfig.unit')" prop="units">
+            <el-input v-model="editFeeConfigInfo.units" :placeholder="$t('editFeeConfig.unitPlaceholder')" clearable />
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item 
-            :label="$t('editFeeConfig.billing')" 
-            prop="deductFrom"
-          >
-            <el-select
-              v-model="editFeeConfigInfo.deductFrom"
-              :placeholder="$t('editFeeConfig.billingPlaceholder')"
-              style="width: 100%"
-              clearable
-            >
+          <el-form-item :label="$t('editFeeConfig.billing')" prop="deductFrom">
+            <el-select v-model="editFeeConfigInfo.deductFrom" :placeholder="$t('editFeeConfig.billingPlaceholder')"
+              style="width: 100%" clearable>
               <el-option :label="$t('editFeeConfig.currentMonth')" value="C" />
               <el-option :label="$t('editFeeConfig.lastMonth')" value="H" />
               <el-option :label="$t('editFeeConfig.nextMonth')" value="N" />
@@ -164,30 +80,16 @@
 
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item 
-            :label="$t('editFeeConfig.mobilePayment')" 
-            prop="payOnline"
-          >
-            <el-select
-              v-model="editFeeConfigInfo.payOnline"
-              style="width: 100%"
-              clearable
-            >
+          <el-form-item :label="$t('editFeeConfig.mobilePayment')" prop="payOnline">
+            <el-select v-model="editFeeConfigInfo.payOnline" style="width: 100%" clearable>
               <el-option :label="$t('common.yes')" value="Y" />
               <el-option :label="$t('common.no')" value="N" />
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item 
-            :label="$t('editFeeConfig.roundingMethod')" 
-            prop="scale"
-          >
-            <el-select
-              v-model="editFeeConfigInfo.scale"
-              style="width: 100%"
-              clearable
-            >
+          <el-form-item :label="$t('editFeeConfig.roundingMethod')" prop="scale">
+            <el-select v-model="editFeeConfigInfo.scale" style="width: 100%" clearable>
               <el-option :label="$t('editFeeConfig.roundHalfUp')" value="1" />
               <el-option :label="$t('editFeeConfig.roundUp')" value="3" />
               <el-option :label="$t('editFeeConfig.roundDown')" value="4" />
@@ -198,15 +100,8 @@
 
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item 
-            :label="$t('editFeeConfig.decimalPlaces')" 
-            prop="decimalPlace"
-          >
-            <el-select
-              v-model="editFeeConfigInfo.decimalPlace"
-              style="width: 100%"
-              clearable
-            >
+          <el-form-item :label="$t('editFeeConfig.decimalPlaces')" prop="decimalPlace">
+            <el-select v-model="editFeeConfigInfo.decimalPlace" style="width: 100%" clearable>
               <el-option :label="$t('editFeeConfig.integer')" value="0" />
               <el-option :label="$t('editFeeConfig.oneDecimal')" value="1" />
               <el-option :label="$t('editFeeConfig.twoDecimals')" value="2" />
@@ -218,15 +113,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item 
-            :label="$t('editFeeConfig.status')" 
-            prop="state"
-          >
-            <el-select
-              v-model="editFeeConfigInfo.state"
-              style="width: 100%"
-              clearable
-            >
+          <el-form-item :label="$t('editFeeConfig.status')" prop="state">
+            <el-select v-model="editFeeConfigInfo.state" style="width: 100%" clearable>
               <el-option :label="$t('editFeeConfig.enable')" value="Y" />
               <el-option :label="$t('editFeeConfig.disable')" value="N" />
               <el-option :label="$t('editFeeConfig.disableAndEnd')" value="NA" />
@@ -237,23 +125,12 @@
 
       <el-row :gutter="20">
         <el-col :span="24">
-          <el-form-item 
-            :label="$t('editFeeConfig.computingFormula')" 
-            prop="computingFormula"
-          >
-            <el-select
-              v-model="editFeeConfigInfo.computingFormula"
-              :placeholder="$t('editFeeConfig.computingFormulaPlaceholder')"
-              style="width: 100%"
-              :disabled="editFeeConfigInfo.isDefault === 'T'"
-              clearable
-            >
-              <el-option
-                v-for="(item, index) in editFeeConfigInfo.computingFormulas"
-                :key="index"
-                :label="item.name"
-                :value="item.statusCd"
-              />
+          <el-form-item :label="$t('editFeeConfig.computingFormula')" prop="computingFormula">
+            <el-select v-model="editFeeConfigInfo.computingFormula"
+              :placeholder="$t('editFeeConfig.computingFormulaPlaceholder')" style="width: 100%"
+              :disabled="editFeeConfigInfo.isDefault === 'T'" clearable>
+              <el-option v-for="(item, index) in editFeeConfigInfo.computingFormulas" :key="index" :label="item.name"
+                :value="item.statusCd" />
             </el-select>
           </el-form-item>
         </el-col>
@@ -261,15 +138,9 @@
 
       <el-row :gutter="20" v-show="showUnitPriceField">
         <el-col :span="24">
-          <el-form-item 
-            :label="$t('editFeeConfig.unitPrice')" 
-            prop="squarePrice"
-          >
-            <el-input
-              v-model="editFeeConfigInfo.squarePrice"
-              :placeholder="$t('editFeeConfig.unitPricePlaceholder')"
-              clearable
-            >
+          <el-form-item :label="$t('editFeeConfig.unitPrice')" prop="squarePrice">
+            <el-input v-model="editFeeConfigInfo.squarePrice" :placeholder="$t('editFeeConfig.unitPricePlaceholder')"
+              clearable>
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
@@ -278,15 +149,9 @@
 
       <el-row :gutter="20" v-show="showAdditionalAmountField">
         <el-col :span="24">
-          <el-form-item 
-            :label="additionalAmountLabel" 
-            prop="additionalAmount"
-          >
-            <el-input
-              v-model="editFeeConfigInfo.additionalAmount"
-              :placeholder="$t('editFeeConfig.additionalAmountPlaceholder')"
-              clearable
-            >
+          <el-form-item :label="additionalAmountLabel" prop="additionalAmount">
+            <el-input v-model="editFeeConfigInfo.additionalAmount"
+              :placeholder="$t('editFeeConfig.additionalAmountPlaceholder')" clearable>
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
@@ -295,16 +160,9 @@
 
       <el-row :gutter="20" v-show="editFeeConfigInfo.computingFormula === '7007'">
         <el-col :span="24">
-          <el-form-item 
-            :label="$t('editFeeConfig.formula')" 
-            prop="computingFormulaText"
-          >
-            <el-input
-              type="textarea"
-              v-model="editFeeConfigInfo.computingFormulaText"
-              :placeholder="$t('editFeeConfig.formulaPlaceholder')"
-              :rows="4"
-            />
+          <el-form-item :label="$t('editFeeConfig.formula')" prop="computingFormulaText">
+            <el-input type="textarea" v-model="editFeeConfigInfo.computingFormulaText"
+              :placeholder="$t('editFeeConfig.formulaPlaceholder')" :rows="4" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -326,7 +184,7 @@
         </el-col>
       </el-row>
     </el-form>
-    
+
     <div slot="footer" class="dialog-footer">
       <el-button @click="handleClose">
         {{ $t('editFeeConfig.cancel') }}
@@ -435,6 +293,7 @@ export default {
   },
   methods: {
     open(params) {
+      console.log('打开编辑费用配置对话框，参数:', params)  
       this.dialogVisible = true
       this.$nextTick(async () => {
         this.resetForm()
@@ -447,12 +306,12 @@ export default {
         await this._loadEditFeeType()
       })
     },
-    
+
     handleClose() {
       this.dialogVisible = false
       this.resetForm()
     },
-    
+
     resetForm() {
       this.editFeeConfigInfo = {
         configId: '',
@@ -486,7 +345,7 @@ export default {
         this.$refs.editFeeConfigForm.clearValidate()
       }
     },
-    
+
     formatDate(timestamp) {
       if (!timestamp) return ''
       const date = new Date(timestamp)
@@ -495,24 +354,24 @@ export default {
       const day = String(date.getDate()).padStart(2, '0')
       return `${year}-${month}-${day}`
     },
-    
+
     async loadDictData() {
       try {
         // 计算公式字典
         this.editFeeConfigInfo.computingFormulas = await getDict('pay_fee_config', 'computing_formula')
-        
+
         // 费用标识字典
         this.editFeeConfigInfo.feeFlags = await getDict('pay_fee_config', 'fee_flag')
-        
+
         // 付费类型字典
         this.editFeeConfigInfo.paymentCds = await getDict('pay_fee_config', 'payment_cd')
-        
+
       } catch (error) {
         console.error('加载字典数据失败:', error)
         this.$message.error(this.$t('editFeeConfig.loadDictError'))
       }
     },
-    
+
     async _loadEditFeeType() {
       try {
         const params = {
@@ -521,15 +380,15 @@ export default {
           page: 1,
           row: 100
         }
-        
+
         const { data } = await listFeeType(params)
         this.editFeeConfigInfo.ftIds = data
-        
+
       } catch (error) {
         console.error('加载费用类型失败:', error)
       }
     },
-    
+
     _changeEditFeeTypeCd() {
       const ftIds = this.editFeeConfigInfo.ftIds
       ftIds.forEach(ft => {
@@ -538,14 +397,14 @@ export default {
         }
       })
     },
-    
+
     async editFeeConfig() {
       try {
         const valid = await this.$refs.editFeeConfigForm.validate()
         if (!valid) return
-        
+
         this.loading = true
-        
+
         // 处理特殊公式的数据
         if (this.editFeeConfigInfo.computingFormula === '2002') {
           this.editFeeConfigInfo.squarePrice = "0.00"
@@ -565,22 +424,22 @@ export default {
         } else {
           this.editFeeConfigInfo.prepaymentPeriod = '1'
         }
-        
+
         const params = {
           ...this.editFeeConfigInfo,
           communityId: getCommunityId(),
           feeName: this.editFeeConfigInfo.feeName.trim(),
           paymentCycle: this.editFeeConfigInfo.paymentCycle.trim()
         }
-        
+
         await updateFeeConfig(params)
-        
+
         this.$message.success(this.$t('common.operationSuccess'))
         this.handleClose()
-        
+
         // 通知父组件刷新列表
-        this.$parent.$emit('listFeeConfig')
-        
+        this.$parent.$emit('success')
+
       } catch (error) {
         console.error('修改费用配置失败:', error)
         this.$message.error(error.message || this.$t('editFeeConfig.saveError'))
@@ -597,7 +456,7 @@ export default {
   font-size: 12px;
   line-height: 1.5;
   color: #666;
-  
+
   .example {
     margin-top: 10px;
     font-style: italic;
@@ -610,7 +469,7 @@ export default {
     max-height: 70vh;
     overflow-y: auto;
   }
-  
+
   .el-form-item {
     margin-bottom: 18px;
   }
