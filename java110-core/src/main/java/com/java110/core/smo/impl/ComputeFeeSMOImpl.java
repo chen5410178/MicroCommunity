@@ -1708,14 +1708,6 @@ public class ComputeFeeSMOImpl implements IComputeFeeSMO {
             return targetEndDateAndOweMonth;
         }
 
-        //todo 考虑费用项 费用提前生成
-        Calendar preEndTimeCal = Calendar.getInstance();
-        preEndTimeCal.setTime(feeDto.getEndTime());
-        if (StringUtil.isNumber(feeDto.getPrepaymentPeriod())) {
-            preEndTimeCal.add(Calendar.DAY_OF_MONTH, Integer.parseInt(feeDto.getPrepaymentPeriod()) * -1);
-        }
-        Date preEndTime = preEndTimeCal.getTime();
-
         //todo 当前费用为一次性费用
         Date maxEndTime = feeDto.getDeadlineTime();
         if (maxEndTime == null) {
@@ -1733,7 +1725,7 @@ public class ComputeFeeSMOImpl implements IComputeFeeSMO {
                 targetEndDate = feeDto.getImportFeeEndTime();
             }
             //说明欠费
-            if (preEndTime.getTime() <= DateUtil.getCurrentDate().getTime()) {
+            if (feeDto.getEndTime().getTime() <= DateUtil.getCurrentDate().getTime()) {
                 // 目标到期时间 - 到期时间 = 欠费月份
                 oweMonth = 1.0;
             }
@@ -1743,45 +1735,22 @@ public class ComputeFeeSMOImpl implements IComputeFeeSMO {
                 oweMonth = Integer.parseInt(feeDto.getMonthCycle());
             }
         } else {
-            Date billEndTime = DateUtil.getCurrentDate();
-            //建账时间
-            Date startDate = feeDto.getStartTime();
-            //计费起始时间
             Date endDate = feeDto.getEndTime();
-            //缴费周期
             long paymentCycle = Long.parseLong(feeDto.getPaymentCycle());
-            // 当前时间 - 开始时间  = 月份
-            double mulMonth = 0.0;
-            mulMonth = DateUtil.dayCompare(startDate, billEndTime);
 
-            // 月份/ 周期 = 轮数（向上取整）
-            double round = 0.0;
-            if ("1200".equals(feeDto.getPaymentCd())) { // 1200预付费
-                round = Math.floor(mulMonth / paymentCycle) + 1;
-            } else { //2100后付费
-                round = Math.floor(mulMonth / paymentCycle);
+            int generateCycles = 0;
+            if (StringUtil.isNumber(feeDto.getPrepaymentPeriod())) {
+                generateCycles = Integer.parseInt(feeDto.getPrepaymentPeriod());
             }
-            // 轮数 * 周期 * 30 + 开始时间 = 目标 到期时间
-            targetEndDate = getTargetEndTime(round * paymentCycle, startDate, false);//目标结束时间
-
-            //todo 如果 是预付费 到了 预付期 产生下个周期的费用
-            if ("1200".equals(feeDto.getPaymentCd())) {
-                if (DateUtil.getFormatTimeStringB(targetEndDate).equals(DateUtil.getFormatTimeStringB(endDate))
-                        && DateUtil.getCurrentDate().getTime() > preEndTime.getTime()
-                ) {
-                    targetEndDate = getTargetEndTime((round + 1) * paymentCycle, startDate, true);//目标结束时间
-                } else {
-                    targetEndDate = getTargetEndTime(round * paymentCycle, startDate, true);//目标结束时间
-                }
+            if (generateCycles <= 0) {
+                generateCycles = 1;
             }
+            targetEndDate = getTargetEndTime(generateCycles * paymentCycle, endDate, true);
 
-            //todo 费用项的结束时间<缴费的结束时间  费用快结束了   取费用项的结束时间
             if (maxEndTime.getTime() < targetEndDate.getTime()) {
                 targetEndDate = maxEndTime;
             }
-            //说明欠费
             if (endDate.getTime() < targetEndDate.getTime()) {
-                // 目标到期时间 - 到期时间 = 欠费月份
                 oweMonth = DateUtil.dayCompare(endDate, targetEndDate, true);
             }
 

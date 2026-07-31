@@ -23,7 +23,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -412,48 +411,24 @@ public class CycleConvertOnceFeeImpl implements ICycleConvertOnceFee {
             return DateUtil.getDateFromStringA(tmpPayFeeRulePo.getMaxTime());
         }
 
-        Calendar preEndTimeCal = Calendar.getInstance();
-        preEndTimeCal.setTime(DateUtil.getDateFromStringB(tmpPayFeeRulePo.getEndTime()));
-        if (StringUtil.isNumber(feeConfigDto.getPrepaymentPeriod())) {
-            preEndTimeCal.add(Calendar.DAY_OF_MONTH, Integer.parseInt(feeConfigDto.getPrepaymentPeriod()) * -1);
-        }
-        Date preEndTime = preEndTimeCal.getTime();
         String maxTime = tmpPayFeeRulePo.getMaxTime();
         if (maxTime.contains("23:59:59")) {
             maxTime = DateUtil.getNextSecTime(maxTime);
         }
         Date maxEndTime = DateUtil.getDateFromStringB(maxTime);
 
-        Date billEndTime = DateUtil.getCurrentDate();
-        //建账时间
-        Date startDate = DateUtil.getDateFromStringB(tmpPayFeeRulePo.getStartTime());
-        //计费起始时间
         Date endDate = DateUtil.getDateFromStringB(tmpPayFeeRulePo.getEndTime());
-        //缴费周期
         long paymentCycle = Long.parseLong(feeConfigDto.getPaymentCycle());
-        // 当前时间 - 开始时间  = 月份
-        double mulMonth = 0.0;
-        mulMonth = DateUtil.dayCompare(startDate, billEndTime);
 
-        // 月份/ 周期 = 轮数（向上取整）
-        double round = 0.0;
-        if ("1200".equals(feeConfigDto.getPaymentCd())) { // 1200预付费
-            round = Math.floor(mulMonth / paymentCycle) + 1;
-        } else { //2100后付费
-            round = Math.floor(mulMonth / paymentCycle);
+        int generateCycles = 0;
+        if (StringUtil.isNumber(feeConfigDto.getPrepaymentPeriod())) {
+            generateCycles = Integer.parseInt(feeConfigDto.getPrepaymentPeriod());
         }
-        // 轮数 * 周期 * 30 + 开始时间 = 目标 到期时间
-        targetEndDate = DateUtil.getTargetEndTime(round * paymentCycle, startDate);//目标结束时间
-
-        //todo 如果 到了 预付期 产生下个周期的费用
-        if (DateUtil.getFormatTimeStringB(targetEndDate).equals(DateUtil.getFormatTimeStringB(endDate))
-                && DateUtil.getCurrentDate().getTime() > preEndTime.getTime()
-        ) {
-            targetEndDate = DateUtil.getTargetEndTime((round + 1) * paymentCycle, startDate);//目标结束时间
+        if (generateCycles <= 0) {
+            generateCycles = 1;
         }
+        targetEndDate = DateUtil.getTargetEndTime(generateCycles * paymentCycle, endDate);
 
-
-        //todo 费用项的结束时间<缴费的结束时间  费用快结束了   取费用项的结束时间
         if (maxEndTime.getTime() < targetEndDate.getTime()) {
             targetEndDate = maxEndTime;
         }

@@ -108,18 +108,24 @@
             </el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="12" v-if="editFeeConfigInfo.paymentCd === '1200'">
+        <el-col :span="12" v-if="editFeeConfigInfo.feeFlag === '1003006'">
           <el-form-item 
             :label="$t('editFeeConfig.prepaymentPeriod')" 
             prop="prepaymentPeriod"
           >
-            <el-input
+            <el-select
               v-model="editFeeConfigInfo.prepaymentPeriod"
               :placeholder="$t('editFeeConfig.prepaymentPeriodPlaceholder')"
+              style="width: 100%"
               clearable
             >
-              <template slot="append">天</template>
-            </el-input>
+              <el-option
+                v-for="n in 12"
+                :key="n"
+                :label="String(n)"
+                :value="String(n)"
+              />
+            </el-select>
           </el-form-item>
         </el-col>
       </el-row>
@@ -551,13 +557,13 @@ export default {
         if (this.editFeeConfigInfo.feeFlag === '2006012') {
           this.editFeeConfigInfo.paymentCycle = '1'
         }
-        if (this.editFeeConfigInfo.paymentCd === '1200') {
+        if (this.editFeeConfigInfo.feeFlag === '1003006') {
           if (!this.editFeeConfigInfo.prepaymentPeriod) {
             this.$message.error(this.$t('editFeeConfig.validate.prepaymentPeriodRequired'))
             return
           }
         } else {
-          this.editFeeConfigInfo.prepaymentPeriod = '0'
+          this.editFeeConfigInfo.prepaymentPeriod = '1'
         }
         
         const params = {

@@ -105,18 +105,24 @@
             </el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="12" v-if="addFeeConfigInfo.paymentCd === '1200'">
+        <el-col :span="12" v-if="addFeeConfigInfo.feeFlag === '1003006'">
           <el-form-item 
             :label="$t('addFeeConfig.prepaymentPeriod')" 
             prop="prepaymentPeriod"
           >
-            <el-input
+            <el-select
               v-model="addFeeConfigInfo.prepaymentPeriod"
               :placeholder="$t('addFeeConfig.prepaymentPeriodPlaceholder')"
+              style="width: 100%"
               clearable
             >
-              <template slot="append">天</template>
-            </el-input>
+              <el-option
+                v-for="n in 12"
+                :key="n"
+                :label="String(n)"
+                :value="String(n)"
+              />
+            </el-select>
           </el-form-item>
         </el-col>
       </el-row>
@@ -359,7 +365,7 @@ export default {
         scale: '1',
         decimalPlace: '2',
         units: '元',
-        prepaymentPeriod: '0',
+        prepaymentPeriod: '1',
         state: 'Y',
         ftId: ''
       },
@@ -457,7 +463,7 @@ export default {
         scale: '1',
         decimalPlace: '2',
         units: '元',
-        prepaymentPeriod: '0',
+        prepaymentPeriod: '1',
         state: 'Y',
         ftId: ''
       }
@@ -567,8 +573,8 @@ export default {
         if (this.addFeeConfigInfo.feeFlag === '2006012') {
           this.addFeeConfigInfo.paymentCycle = '1'
         }
-        if (this.addFeeConfigInfo.paymentCd !== '1200') {
-          this.addFeeConfigInfo.prepaymentPeriod = '0'
+        if (this.addFeeConfigInfo.feeFlag !== '1003006') {
+          this.addFeeConfigInfo.prepaymentPeriod = '1'
         }
         
         const params = {
