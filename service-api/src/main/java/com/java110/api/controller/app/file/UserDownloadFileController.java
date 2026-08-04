@@ -7,6 +7,7 @@ import com.java110.intf.job.IUserDownloadFileV1InnerServiceSMO;
 import com.java110.utils.util.Assert;
 import com.java110.utils.util.DateUtil;
 import com.java110.utils.util.PayUtil;
+import com.java110.utils.util.StringUtil;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 
 /**
@@ -58,10 +61,23 @@ public class UserDownloadFileController {
         }
 
         String tempUrl = userDownloadFileDtos.get(0).getTempUrl();
-        String fileName = userDownloadFileDtos.get(0).getFileTypeName() + tempUrl.substring(tempUrl.lastIndexOf("/"));
+        if (StringUtil.isEmpty(tempUrl)) {
+            throw new IllegalArgumentException("文件不存在");
+        }
+        String fileName = tempUrl.substring(tempUrl.lastIndexOf("/") + 1);
+        String fileTypeName = userDownloadFileDtos.get(0).getFileTypeName();
+        if (!StringUtil.isEmpty(fileTypeName)) {
+            fileName = fileTypeName + fileName;
+        }
+        String encodeFileName;
+        try {
+            encodeFileName = URLEncoder.encode(fileName, "UTF-8").replaceAll("\\+", "%20");
+        } catch (UnsupportedEncodingException e) {
+            encodeFileName = fileName;
+        }
 
         response.setHeader("content-type", "application/octet-stream");
-        response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + encodeFileName + "\"; filename*=UTF-8''" + encodeFileName);
         response.setContentType("application/octet-stream");
 
         InputStream is = null;

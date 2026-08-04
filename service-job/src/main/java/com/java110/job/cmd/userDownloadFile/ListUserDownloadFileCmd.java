@@ -20,13 +20,13 @@ import com.java110.core.annotation.Java110Cmd;
 import com.java110.core.context.ICmdDataFlowContext;
 import com.java110.core.event.cmd.Cmd;
 import com.java110.core.event.cmd.CmdEvent;
-import com.java110.core.factory.GenerateCodeFactory;
 import com.java110.intf.job.IUserDownloadFileV1InnerServiceSMO;
+import com.java110.utils.cache.MappingCache;
+import com.java110.utils.constant.MappingConstant;
 import com.java110.utils.exception.CmdException;
 import com.java110.utils.util.Assert;
 import com.java110.utils.util.BeanConvertUtil;
-import com.java110.utils.util.DateUtil;
-import com.java110.utils.util.PayUtil;
+import com.java110.utils.util.StringUtil;
 import com.java110.vo.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.java110.dto.user.UserDownloadFileDto;
@@ -75,13 +75,20 @@ public class ListUserDownloadFileCmd extends Cmd {
 
         List<UserDownloadFileDto> userDownloadFileDtos = null;
 
-        String date = DateUtil.getFormatTimeStringB(DateUtil.getCurrentDate());
-        String token = "";
+        String imgUrl = MappingCache.getValue(MappingConstant.FILE_DOMAIN, "IMG_PATH");
         if (count > 0) {
             userDownloadFileDtos = userDownloadFileV1InnerServiceSMOImpl.queryUserDownloadFiles(userDownloadFileDto);
             for (UserDownloadFileDto tmpUserDownloadFileDto : userDownloadFileDtos) {
-                token = tmpUserDownloadFileDto.getDownloadId() + date;
-                tmpUserDownloadFileDto.setDownloadUrl("/app/file/userfile/download/" + tmpUserDownloadFileDto.getDownloadId() + "/" + PayUtil.md5(token));
+                String tempUrl = tmpUserDownloadFileDto.getTempUrl();
+                if (StringUtil.isEmpty(tempUrl) || StringUtil.isEmpty(imgUrl)) {
+                    tmpUserDownloadFileDto.setTempUrl("");
+                    continue;
+                }
+                // tempUrl 以 "hc/" 开头时去掉根前缀，与 IMG_PATH 尾部 "hc/" 去重
+                if (tempUrl.startsWith("hc/")) {
+                    tempUrl = tempUrl.substring(3);
+                }
+                tmpUserDownloadFileDto.setTempUrl(imgUrl + tempUrl);
             }
         } else {
             userDownloadFileDtos = new ArrayList<>();

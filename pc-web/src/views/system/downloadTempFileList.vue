@@ -90,7 +90,7 @@ export default {
         this.$message.error(this.$t('downloadTempFile.downloadFailed'))
         return
       }
-      window.open(file.downloadUrl, '_blank')
+      window.open(file.tempUrl, '_blank')
     },
     _openDeleteFileModel(file) {
       this.$refs.deleteDialog.open(file)
