@@ -38,6 +38,10 @@
                 <i class="el-icon-download"></i>
                 {{ $t('roomCreateFee.batchCollectionLetter') }}
               </el-button>
+              <el-button size="small" @click="_toManualBillGeneration">
+                <i class="el-icon-s-order"></i>
+                账单手工生成
+              </el-button>
             </div>
           </div>
 
@@ -319,6 +323,9 @@ export default {
     },
     _downloadCollectionLetterOrder() {
       this.$router.push('/views/fee/addOweFeeCallable?callableWay=EXCEL')
+    },
+    _toManualBillGeneration() {
+      this.$router.push('/pages/fee/manualBillGeneration')
     },
     _downloadRoomCollectionLetterOrder(room) {
       this.$refs.downloadCollectionLetterOrder.open({

@@ -146,6 +146,7 @@ import { messages as workI18n } from './workI18n'
 import { messages as feeI18n } from './feeI18n'
 import { menuMessages } from './menuLang'
 
+import { messages as manualBillGenerationMessages } from './manualBillGenerationI18n'
 import { messages as simplifyAcceptanceMessages } from '../views/simplify/simplifyAcceptanceLang'
 import { messages as simplifyCarFeeMessages } from '../views/simplify/simplifyCarFeeLang'
 import { messages as simplifyContractMessages } from '../views/simplify/simplifyContractLang'
@@ -291,6 +292,7 @@ const messages = {
     ...workI18n.en,
     ...feeI18n.en,
     ...menuMessages.en,
+    ...manualBillGenerationMessages.en,
     ...simplifyAcceptanceMessages.en,
     ...simplifyCarFeeMessages.en,
     ...simplifyContractMessages.en,
@@ -430,6 +432,7 @@ const messages = {
     ...workI18n.zh,
     ...feeI18n.zh,
     ...menuMessages.zh,
+    ...manualBillGenerationMessages.zh,
     ...simplifyAcceptanceMessages.zh,
     ...simplifyCarFeeMessages.zh,
     ...simplifyContractMessages.zh,
@@ -569,6 +572,7 @@ const messages = {
     ...workI18n['zh-TW'],
     ...feeI18n['zh-TW'],
     ...menuMessages['zh-TW'],
+    ...manualBillGenerationMessages['zh-TW'],
     ...simplifyAcceptanceMessages['zh-TW'],
     ...simplifyCarFeeMessages['zh-TW'],
     ...simplifyContractMessages['zh-TW'],

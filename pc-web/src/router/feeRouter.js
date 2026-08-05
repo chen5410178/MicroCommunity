@@ -198,4 +198,21 @@ export default [
         name: '/pages/property/shopCreateFee',
         component: () => import('@/views/fee/shopCreateFeeList.vue')
     },
+    {
+        path: '/pages/fee/manualBillGeneration',
+        meta: { title: '账单手工生成' },
+        name: '/pages/fee/manualBillGeneration',
+        component: () => import('@/views/fee/manualBillGenerationList.vue')
+    },
+    {
+        path: '/views/fee/manualBillGenerationDetail',
+        name: '/views/fee/manualBillGenerationDetail',
+        component: () => import('@/views/fee/manualBillGenerationDetail.vue')
+    },
+    {
+        path: '/pages/fee/manualBillGenerationManage',
+        meta: { title: '账单手工生成管理' },
+        name: '/pages/fee/manualBillGenerationManage',
+        component: () => import('@/views/fee/manualBillGenerationManageList.vue')
+    },
 ]
