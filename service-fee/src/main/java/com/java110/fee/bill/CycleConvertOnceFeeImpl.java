@@ -417,17 +417,35 @@ public class CycleConvertOnceFeeImpl implements ICycleConvertOnceFee {
         }
         Date maxEndTime = DateUtil.getDateFromStringB(maxTime);
 
+        Date billEndTime = DateUtil.getCurrentDate();
+        //建账时间
+        Date startDate = DateUtil.getDateFromStringB(tmpPayFeeRulePo.getStartTime());
+
         Date endDate = DateUtil.getDateFromStringB(tmpPayFeeRulePo.getEndTime());
         long paymentCycle = Long.parseLong(feeConfigDto.getPaymentCycle());
 
-        int generateCycles = 0;
+        // 当前时间 - 开始时间  = 月份
+        double mulMonth = 0.0;
+        mulMonth = DateUtil.dayCompare(startDate, billEndTime);
+
+        // 月份/ 周期 = 轮数（向上取整）
+        double round = 0.0;
+        if ("1200".equals(feeConfigDto.getPaymentCd())) { // 1200预付费
+            round = Math.floor(mulMonth / paymentCycle) + 1;
+        } else { //2100后付费
+            round = Math.floor(mulMonth / paymentCycle);
+        }
+        // 轮数 * 周期 * 30 + 开始时间 = 目标 到期时间
+        targetEndDate = DateUtil.getTargetEndTime(round * paymentCycle, startDate);//目标结束时间
+
+
+        int generateCycles = 1;
         if (StringUtil.isNumber(feeConfigDto.getPrepaymentPeriod())) {
             generateCycles = Integer.parseInt(feeConfigDto.getPrepaymentPeriod());
         }
-        if (generateCycles <= 0) {
-            generateCycles = 1;
+        if(generateCycles >1){
+            targetEndDate = DateUtil.getTargetEndTime((generateCycles-1) * paymentCycle, targetEndDate);
         }
-        targetEndDate = DateUtil.getTargetEndTime(generateCycles * paymentCycle, endDate);
 
         if (maxEndTime.getTime() < targetEndDate.getTime()) {
             targetEndDate = maxEndTime;

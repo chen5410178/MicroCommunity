@@ -150,7 +150,6 @@ export default [
     },
     {
         path: '/pages/fee/roomCreatePayFee',
-        meta: { title: '房屋缴费' },
         name: '/pages/fee/roomCreatePayFee',
         component: () => import('@/views/fee/roomCreatePayFeeList.vue')
     },
