@@ -162,7 +162,7 @@ export default {
         roomId: '',
         roomName: '',
         ownerName: '',
-        state: '2008001'
+        state: ''
       },
       currentPage: 1,
       pageSize: 10,

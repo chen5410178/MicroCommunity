@@ -200,7 +200,6 @@ export default [
     },
     {
         path: '/pages/fee/manualBillGeneration',
-        meta: { title: '账单手工生成' },
         name: '/pages/fee/manualBillGeneration',
         component: () => import('@/views/fee/manualBillGenerationList.vue')
     },
@@ -211,7 +210,6 @@ export default [
     },
     {
         path: '/pages/fee/manualBillGenerationManage',
-        meta: { title: '账单手工生成管理' },
         name: '/pages/fee/manualBillGenerationManage',
         component: () => import('@/views/fee/manualBillGenerationManageList.vue')
     },

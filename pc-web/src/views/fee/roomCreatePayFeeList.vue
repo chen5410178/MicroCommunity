@@ -80,7 +80,7 @@
               <el-col :span="12">
                 <el-form-item :label="$t('roomCreatePayFee.rateStartTime')">
                   <el-date-picker v-model="roomCreatePayFeeInfo.rateStartTime" type="date" style="width:100%"
-                    :placeholder="$t('roomCreatePayFee.selectRateStartTime')">
+                    value-format="yyyy-MM-dd" :placeholder="$t('roomCreatePayFee.selectRateStartTime')">
                   </el-date-picker>
                 </el-form-item>
               </el-col>
@@ -155,6 +155,7 @@ import {
   queryRooms,
   saveRoomCreatePayFee
 } from '@/api/fee/roomCreatePayFeeApi'
+import { dateFormat, addMonth } from '@/utils/dateUtil'
 
 export default {
   name: 'RoomCreatePayFeeList',
@@ -219,8 +220,8 @@ export default {
     },
     async changeFeeTypeCd(feeTypeCd) {
       if (feeTypeCd === '888800010006' || feeTypeCd === '888800010014') {
-        this.roomCreatePayFeeInfo.startTime = new Date()
-        this.roomCreatePayFeeInfo.endTime = this.addMonthDate(new Date(), 1)
+        this.roomCreatePayFeeInfo.startTime = dateFormat(new Date())
+        this.roomCreatePayFeeInfo.endTime = dateFormat(addMonth(new Date(), 1))
       }
       this.roomCreatePayFeeInfo.configId = ''
 
@@ -310,15 +311,20 @@ export default {
       if (!this.roomCreatePayFeeInfo.configId) {
         return false
       }
+      // 日期统一字符串化，防止 Date 对象序列化产生 UTC 时间偏移
+      if (this.roomCreatePayFeeInfo.startTime && typeof this.roomCreatePayFeeInfo.startTime !== 'string') {
+        this.roomCreatePayFeeInfo.startTime = dateFormat(this.roomCreatePayFeeInfo.startTime)
+      }
+      if (this.roomCreatePayFeeInfo.endTime && typeof this.roomCreatePayFeeInfo.endTime !== 'string') {
+        this.roomCreatePayFeeInfo.endTime = dateFormat(this.roomCreatePayFeeInfo.endTime)
+      }
+      if (this.roomCreatePayFeeInfo.rateStartTime && typeof this.roomCreatePayFeeInfo.rateStartTime !== 'string') {
+        this.roomCreatePayFeeInfo.rateStartTime = dateFormat(this.roomCreatePayFeeInfo.rateStartTime)
+      }
       return true
     },
     goBack() {
       this.$router.go(-1)
-    },
-    addMonthDate(date, months) {
-      const newDate = new Date(date)
-      newDate.setMonth(newDate.getMonth() + months)
-      return newDate
     }
   }
 }

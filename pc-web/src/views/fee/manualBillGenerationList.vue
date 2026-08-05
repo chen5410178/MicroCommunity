@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container">
+  <div class="app-container padding">
     <el-card>
       <div slot="header" class="flex justify-between">
         <span>{{ $t('manualBillGeneration.title') }}</span>
