@@ -16,7 +16,7 @@
       <el-table-column prop="userId" :label="$t('org.staffId')" align="center" />
     </el-table>
     <el-pagination v-show="total > 0" :total="total" :current-page.sync="queryParams.page"
-      :page-size.sync="queryParams.rows" @current-change="getList" @size-change="getList"
+      :page-size.sync="queryParams.row" @current-change="getList" @size-change="getList"
       layout="total, sizes, prev, pager, next, jumper" />
 
 
@@ -90,7 +90,7 @@ export default {
     handleClose() {
       this.queryParams = {
         page: 1,
-        rows: 10,
+        row: 10,
         staffName: ''
       }
       this.$refs.multipleTable.clearSelection()
