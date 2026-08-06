@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.java110.core.annotation.Java110Cmd;
 import com.java110.core.annotation.Java110Transactional;
+import com.java110.core.context.CmdContextUtils;
 import com.java110.core.context.ICmdDataFlowContext;
 import com.java110.core.event.cmd.Cmd;
 import com.java110.core.event.cmd.CmdEvent;
@@ -11,9 +12,11 @@ import com.java110.core.factory.GenerateCodeFactory;
 import com.java110.dto.fee.FeeConfigDto;
 import com.java110.dto.fee.FeeDto;
 import com.java110.dto.payFee.PayFeeRuleDto;
+import com.java110.dto.user.UserDto;
 import com.java110.intf.fee.IManualBillGenerationV1InnerServiceSMO;
 import com.java110.intf.fee.IPayFeeConfigV1InnerServiceSMO;
 import com.java110.intf.fee.IPayFeeRuleV1InnerServiceSMO;
+import com.java110.intf.user.IUserV1InnerServiceSMO;
 import com.java110.po.fee.ManualBillGenerationDetailPo;
 import com.java110.po.fee.ManualBillGenerationPo;
 import com.java110.utils.exception.CmdException;
@@ -38,6 +41,9 @@ public class SaveManualBillApplicationCmd extends Cmd {
     @Autowired
     private IPayFeeRuleV1InnerServiceSMO payFeeRuleV1InnerServiceSMOImpl;
 
+    @Autowired
+    private IUserV1InnerServiceSMO userV1InnerServiceSMOImpl;
+
     @Override
     public void validate(CmdEvent event, ICmdDataFlowContext context, JSONObject reqJson) throws CmdException {
         Assert.hasKeyAndValue(reqJson, "communityId", "未包含小区ID");
@@ -50,6 +56,14 @@ public class SaveManualBillApplicationCmd extends Cmd {
     @Override
     @Java110Transactional
     public void doCmd(CmdEvent event, ICmdDataFlowContext context, JSONObject reqJson) throws CmdException {
+        String userId = CmdContextUtils.getUserId(context);
+
+        UserDto userDto = new UserDto();
+        userDto.setUserId(userId);
+        List<UserDto> userDtos = userV1InnerServiceSMOImpl.queryUsers(userDto);
+
+        Assert.listOnlyOne(userDtos, "用户未登录");
+
         String communityId = reqJson.getString("communityId");
         String configId = reqJson.getString("configId");
         String billMonth = reqJson.getString("billMonth");
@@ -79,8 +93,8 @@ public class SaveManualBillApplicationCmd extends Cmd {
         applicationPo.setSuccessCount(0);
         applicationPo.setErrorCount(0);
         applicationPo.setRemark(remark);
-        applicationPo.setCreateUserId(reqJson.getString("userId"));
-        applicationPo.setCreateUserName(reqJson.getString("userName"));
+        applicationPo.setCreateUserId(userDtos.get(0).getUserId());
+        applicationPo.setCreateUserName(userDtos.get(0).getName());
         applicationPo.setCreateTime(new Date());
         applicationPo.setStatusCd("0");
 

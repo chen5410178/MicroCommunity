@@ -3,15 +3,18 @@ package com.java110.fee.cmd.manualBill;
 import com.alibaba.fastjson.JSONObject;
 import com.java110.core.annotation.Java110Cmd;
 import com.java110.core.annotation.Java110Transactional;
+import com.java110.core.context.CmdContextUtils;
 import com.java110.core.context.ICmdDataFlowContext;
 import com.java110.core.event.cmd.Cmd;
 import com.java110.core.event.cmd.CmdEvent;
 import com.java110.dto.fee.ManualBillGenerationDetailDto;
 import com.java110.dto.fee.ManualBillGenerationDto;
 import com.java110.dto.payFee.PayFeeRuleDto;
+import com.java110.dto.user.UserDto;
 import com.java110.fee.bill.ManualBillGenerator;
 import com.java110.intf.fee.IManualBillGenerationV1InnerServiceSMO;
 import com.java110.intf.fee.IPayFeeRuleV1InnerServiceSMO;
+import com.java110.intf.user.IUserV1InnerServiceSMO;
 import com.java110.po.fee.ManualBillGenerationDetailPo;
 import com.java110.po.fee.ManualBillGenerationPo;
 import com.java110.po.payFee.PayFeeRulePo;
@@ -36,6 +39,9 @@ public class AuditManualBillApplicationCmd extends Cmd {
     @Autowired
     private ManualBillGenerator manualBillGenerator;
 
+    @Autowired
+    private IUserV1InnerServiceSMO userV1InnerServiceSMOImpl;
+
     @Override
     public void validate(CmdEvent event, ICmdDataFlowContext context, JSONObject reqJson) throws CmdException {
         Assert.hasKeyAndValue(reqJson, "applicationId", "未包含申请ID");
@@ -54,6 +60,14 @@ public class AuditManualBillApplicationCmd extends Cmd {
     @Override
     @Java110Transactional
     public void doCmd(CmdEvent event, ICmdDataFlowContext context, JSONObject reqJson) throws CmdException {
+        String userId = CmdContextUtils.getUserId(context);
+
+        UserDto userDto = new UserDto();
+        userDto.setUserId(userId);
+        List<UserDto> userDtos = userV1InnerServiceSMOImpl.queryUsers(userDto);
+
+        Assert.listOnlyOne(userDtos, "用户未登录");
+
         String applicationId = reqJson.getString("applicationId");
         String state = reqJson.getString("state");
         String auditRemark = reqJson.getString("auditRemark");
@@ -74,8 +88,8 @@ public class AuditManualBillApplicationCmd extends Cmd {
             ManualBillGenerationPo updatePo = new ManualBillGenerationPo();
             updatePo.setApplicationId(applicationId);
             updatePo.setState("1003");
-            updatePo.setAuditUserId(reqJson.getString("userId"));
-            updatePo.setAuditUserName(reqJson.getString("userName"));
+            updatePo.setAuditUserId(userDtos.get(0).getUserId());
+            updatePo.setAuditUserName(userDtos.get(0).getName());
             updatePo.setAuditTime(new Date());
             updatePo.setAuditRemark(auditRemark);
             manualBillGenerationV1InnerServiceSMOImpl.updateManualBillGeneration(updatePo);
@@ -123,8 +137,8 @@ public class AuditManualBillApplicationCmd extends Cmd {
         ManualBillGenerationPo updatePo = new ManualBillGenerationPo();
         updatePo.setApplicationId(applicationId);
         updatePo.setState("1002");
-        updatePo.setAuditUserId(reqJson.getString("userId"));
-        updatePo.setAuditUserName(reqJson.getString("userName"));
+        updatePo.setAuditUserId(userDtos.get(0).getUserId());
+        updatePo.setAuditUserName(userDtos.get(0).getName());
         updatePo.setAuditTime(new Date());
         updatePo.setAuditRemark(auditRemark);
         updatePo.setSuccessCount(successCount);

@@ -65,9 +65,9 @@ CREATE TABLE `manual_bill_generation_detail` (
   `room_name` varchar(200) DEFAULT NULL COMMENT '房屋名称（冗余）',
   `owner_id` varchar(30) DEFAULT NULL COMMENT '业主ID',
   `owner_name` varchar(100) DEFAULT NULL COMMENT '业主姓名（冗余）',
-  `fee_type_cd` varchar(10) DEFAULT NULL COMMENT '费用类型',
+  `fee_type_cd` varchar(30) DEFAULT NULL COMMENT '费用类型',
   `fee_flag` varchar(10) DEFAULT NULL COMMENT '费用标识（固定1003006周期性）',
-  `cur_year_month` varchar(7) DEFAULT NULL COMMENT '当前账期YYYY-MM',
+  `cur_year_month` varchar(30) DEFAULT NULL COMMENT '当前账期/账单日（冗余自pay_fee_rule.cur_year_month）',
   `prepayment_period` int(11) DEFAULT NULL COMMENT '生成期数',
   `amount` decimal(10,2) DEFAULT NULL COMMENT '预计单期金额',
   `state` varchar(10) DEFAULT NULL COMMENT '明细状态：1001待生成/1002已生成/1003生成失败',
@@ -78,4 +78,19 @@ CREATE TABLE `manual_bill_generation_detail` (
   KEY `idx_application_id` (`application_id`),
   KEY `idx_rule_id` (`rule_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='账单手工生成明细表';
+
+ALTER TABLE `pay_fee_rule`
+  ADD COLUMN `owner_id` varchar(30) DEFAULT NULL COMMENT '业主ID',
+  ADD COLUMN `owner_name` varchar(50) DEFAULT NULL COMMENT '业主姓名',
+  ADD COLUMN `payer_obj_name` varchar(64) NOT NULL DEFAULT '' COMMENT '缴费对象名称';
+```
+
+## 2026-08-06 — 修复：manual_bill_generation_detail 列宽不足
+
+`fee_type_cd` 原 `varchar(10)` 无法容纳 12 位费用类型码（如 `888800010001`），`cur_year_month` 原 `varchar(7)` 无法容纳完整账期日期（如 `2026-09-22`），导致提交申请报 `Data too long`。两列同时扩宽至 `varchar(30)`，与 `pay_fee_detail.fee_type_cd`、`pay_fee_rule.cur_year_month` 保持一致。
+
+```sql
+ALTER TABLE `manual_bill_generation_detail`
+  MODIFY COLUMN `fee_type_cd` varchar(30) DEFAULT NULL COMMENT '费用类型',
+  MODIFY COLUMN `cur_year_month` varchar(30) DEFAULT NULL COMMENT '当前账期/账单日（冗余自 pay_fee_rule.cur_year_month）';
 ```

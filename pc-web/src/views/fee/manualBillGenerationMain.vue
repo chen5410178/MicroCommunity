@@ -1,38 +1,22 @@
 <template>
   <div class="app-container padding">
-    <el-row :gutter="16">
+    <el-row :gutter="20">
       <!-- 左侧分类导航 -->
-      <el-col :span="4">
-        <el-card>
-          <div slot="header" class="flex justify-between">
-            <span>{{ $t('manualBillGeneration.mainTitle') }}</span>
-          </div>
-          <el-menu :default-active="activeMenu" @select="handleMenuSelect">
-            <el-menu-item index="apply">
-              <i class="el-icon-document-add"></i>
-              <span>{{ $t('manualBillGeneration.menuApply') }}</span>
-            </el-menu-item>
-            <el-menu-item index="audit">
-              <i class="el-icon-check"></i>
-              <span>{{ $t('manualBillGeneration.menuAudit') }}</span>
-            </el-menu-item>
-            <el-menu-item index="done">
-              <i class="el-icon-finished"></i>
-              <span>{{ $t('manualBillGeneration.menuDone') }}</span>
-            </el-menu-item>
-          </el-menu>
+      <el-col :span="3">
+        <el-card class="role-card">
+          <ul class="role-list">
+            <li v-for="(item, index) in menus" :key="index" class="role-item"
+              :class="{ 'role-item-active': activeMenu === item.value }" @click="handleMenuSelect(item.value)">
+              {{ item.label }}
+            </li>
+          </ul>
         </el-card>
       </el-col>
       <!-- 右侧内容区 -->
-      <el-col :span="20">
+      <el-col :span="21">
         <keep-alive>
-          <component
-            :is="currentComponent"
-            :key="activeMenu"
-            :ref="activeMenu"
-            :tab-type="currentTabType"
-            @switchTab="handleSwitchTab"
-          />
+          <component :is="currentComponent" :key="activeMenu" :ref="activeMenu"
+            @switchTab="handleSwitchTab" />
         </keep-alive>
       </el-col>
     </el-row>
@@ -40,32 +24,36 @@
 </template>
 
 <script>
-import ManualBillGenerationList from './manualBillGenerationList.vue'
-import ManualBillGenerationManageList from './manualBillGenerationManageList.vue'
+import ManualBillGenerationApply from '@/components/fee/manualBillGenerationApply.vue'
+import ManualBillGenerationAudit from '@/components/fee/manualBillGenerationAudit.vue'
+import ManualBillGenerationDone from '@/components/fee/manualBillGenerationDone.vue'
 
 export default {
   name: 'ManualBillGenerationMain',
   components: {
-    ManualBillGenerationList,
-    ManualBillGenerationManageList
+    ManualBillGenerationApply,
+    ManualBillGenerationAudit,
+    ManualBillGenerationDone
   },
   data() {
     return {
-      activeMenu: 'apply'
+      activeMenu: 'apply',
+      menus: [
+        { value: 'apply', label: this.$t('manualBillGeneration.menuApply') },
+        { value: 'audit', label: this.$t('manualBillGeneration.menuAudit') },
+        { value: 'done', label: this.$t('manualBillGeneration.menuDone') }
+      ]
     }
   },
   computed: {
     currentComponent() {
       if (this.activeMenu === 'apply') {
-        return ManualBillGenerationList
+        return ManualBillGenerationApply
       }
-      return ManualBillGenerationManageList
-    },
-    currentTabType() {
-      if (this.activeMenu === 'audit' || this.activeMenu === 'done') {
-        return this.activeMenu
+      if (this.activeMenu === 'done') {
+        return ManualBillGenerationDone
       }
-      return ''
+      return ManualBillGenerationAudit
     }
   },
   activated() {
@@ -92,12 +80,31 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.el-menu {
-  border-right: none;
+.role-card {
+  height: 100%;
+}
 
-  .el-menu-item {
-    height: 44px;
-    line-height: 44px;
-  }
+.role-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.role-item {
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-bottom: 5px;
+  transition: all 0.3s;
+}
+
+.role-item:hover {
+  background-color: #f5f7fa;
+}
+
+.role-item-active {
+  background-color: #409eff;
+  color: white;
 }
 </style>

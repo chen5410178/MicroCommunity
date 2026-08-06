@@ -1,40 +1,45 @@
 <template>
-  <div class="app-container padding">
+  <div class="app-container ">
     <el-card>
       <div slot="header" class="flex justify-between">
-        <span>{{ $t('manualBillGeneration.title') }}</span>
+        <span>{{ $t('manualBillGeneration.menuApply') }}</span>
       </div>
-      <el-form :model="searchForm" label-width="120px">
+      <el-form :model="searchForm" label-width="0">
         <el-row :gutter="20">
-          <el-col :span="6">
-            <el-form-item :label="$t('manualBillGeneration.feeType')">
-              <el-select v-model="searchForm.feeTypeCd" :placeholder="$t('manualBillGeneration.selectFeeType')" filterable clearable style="width:100%" @change="handleFeeTypeChange">
-                <el-option v-for="item in feeTypes" :key="item.feeTypeCd" :label="item.text" :value="item.feeTypeCd"></el-option>
+          <el-col :span="5">
+            <el-form-item>
+              <el-select v-model="searchForm.feeTypeCd" :placeholder="$t('manualBillGeneration.selectFeeType')"
+                filterable clearable style="width:100%" @change="handleFeeTypeChange">
+                <el-option v-for="item in feeTypes" :key="item.feeTypeCd" :label="item.text"
+                  :value="item.feeTypeCd"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
-            <el-form-item :label="$t('manualBillGeneration.feeSubType')">
-              <el-select v-model="searchForm.ftId" :placeholder="$t('manualBillGeneration.selectFeeSubType')" filterable clearable style="width:100%" :disabled="!searchForm.feeTypeCd" @change="handleFtChange">
-                <el-option v-for="item in feeSubTypes" :key="item.ftId" :label="item.text" :value="item.ftId"></el-option>
+          <el-col :span="5">
+            <el-form-item>
+              <el-select v-model="searchForm.ftId" :placeholder="$t('manualBillGeneration.selectFeeSubType')" filterable
+                clearable style="width:100%" :disabled="!searchForm.feeTypeCd" @change="handleFtChange">
+                <el-option v-for="item in feeSubTypes" :key="item.ftId" :label="item.text"
+                  :value="item.ftId"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
-            <el-form-item :label="$t('manualBillGeneration.feeConfig')">
-              <el-select v-model="searchForm.configId" :placeholder="$t('manualBillGeneration.selectFeeConfig')" filterable clearable style="width:100%" :disabled="!searchForm.ftId">
-                <el-option v-for="item in feeConfigs" :key="item.configId" :label="item.feeName" :value="item.configId"></el-option>
+          <el-col :span="5">
+            <el-form-item>
+              <el-select v-model="searchForm.configId" :placeholder="$t('manualBillGeneration.selectFeeConfig')"
+                filterable clearable style="width:100%" :disabled="!searchForm.ftId">
+                <el-option v-for="item in feeConfigs" :key="item.configId" :label="item.feeName"
+                  :value="item.configId"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
-            <el-form-item :label="$t('manualBillGeneration.billMonth')">
-              <el-date-picker v-model="searchForm.billMonth" type="month" value-format="yyyy-MM" :placeholder="$t('manualBillGeneration.selectBillMonth')" style="width:100%"></el-date-picker>
+          <el-col :span="5">
+            <el-form-item>
+              <el-date-picker v-model="searchForm.billMonth" type="month" value-format="yyyy-MM"
+                :placeholder="$t('manualBillGeneration.selectBillMonth')" style="width:100%"></el-date-picker>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row :gutter="20">
-          <el-col :span="24" style="text-align:right">
+          <el-col :span="4" style="text-align:right">
             <el-form-item>
               <el-button type="primary" size="small" @click="handleSearch" :loading="searchLoading">
                 {{ $t('manualBillGeneration.search') }}
@@ -64,34 +69,29 @@
         <el-table-column type="selection" width="55" align="center"></el-table-column>
         <el-table-column prop="feeName" :label="$t('manualBillGeneration.feeName')" align="center"></el-table-column>
         <el-table-column prop="roomName" :label="$t('manualBillGeneration.roomName')" align="center"></el-table-column>
-        <el-table-column prop="ownerName" :label="$t('manualBillGeneration.ownerName')" align="center"></el-table-column>
-        <el-table-column prop="curYearMonth" :label="$t('manualBillGeneration.curYearMonth')" width="120" align="center"></el-table-column>
+        <el-table-column prop="ownerName" :label="$t('manualBillGeneration.ownerName')"
+          align="center"></el-table-column>
+        <el-table-column prop="curYearMonth" :label="$t('manualBillGeneration.curYearMonth')" width="120"
+          align="center"></el-table-column>
       </el-table>
-      <el-pagination
-        class="margin-top"
-        :current-page="pagination.page"
-        :page-size="pagination.row"
-        :total="pagination.total"
-        layout="total, prev, pager, next"
-        @current-change="handlePageChange"
-      ></el-pagination>
+      <el-pagination class="margin-top" :current-page="pagination.page" :page-size="pagination.row"
+        :total="pagination.total" layout="total, prev, pager, next" @current-change="handlePageChange"></el-pagination>
     </el-card>
 
-    <el-card class="margin-top" v-if="searchResult.length > 0">
-      <div slot="header">
-        <span>{{ $t('manualBillGeneration.remark') }}</span>
-      </div>
-      <el-input v-model="remark" type="textarea" :rows="3" :placeholder="$t('manualBillGeneration.remarkPlaceholder')"></el-input>
-    </el-card>
+    <submit-manual-bill-application ref="submitRef" @success="handleSubmitSuccess" />
   </div>
 </template>
 
 <script>
-import { searchManualBillTargets, saveManualBillApplication } from '@/api/fee/manualBillGenerationApi'
+import SubmitManualBillApplication from '@/components/fee/submitManualBillApplication.vue'
+import { searchManualBillTargets } from '@/api/fee/manualBillGenerationApi'
 import { queryFeeTypeTree, listFeeConfigs } from '@/api/fee/feeConfigManageApi'
 
 export default {
-  name: 'ManualBillGenerationList',
+  name: 'ManualBillGenerationApply',
+  components: {
+    SubmitManualBillApplication
+  },
   data() {
     return {
       searchForm: {
@@ -108,8 +108,7 @@ export default {
       searchResult: [],
       selectedRows: [],
       selectAll: false,
-      pagination: { page: 1, row: 20, total: 0 },
-      remark: ''
+      pagination: { page: 1, row: 20, total: 0 }
     }
   },
   mounted() {
@@ -196,6 +195,11 @@ export default {
         this.$message.error(this.$t('manualBillGeneration.searchFail'))
       })
     },
+    loadData() {
+      if (this.searchResult.length > 0) {
+        this.loadSearch()
+      }
+    },
     handlePageChange(val) {
       this.pagination.page = val
       this.selectedRows = []
@@ -209,7 +213,6 @@ export default {
       this.searchResult = []
       this.selectedRows = []
       this.selectAll = false
-      this.remark = ''
     },
     handleSelectAll(val) {
       if (val) {
@@ -233,28 +236,18 @@ export default {
         this.$message.warning(this.$t('manualBillGeneration.pleaseSelectRecords'))
         return
       }
-      this.$confirm(this.$t('manualBillGeneration.submitConfirm'), this.$t('common.tip'), {
-        confirmButtonText: this.$t('common.confirm'),
-        cancelButtonText: this.$t('common.cancel'),
-        type: 'warning'
-      }).then(() => {
-        saveManualBillApplication({
+      if (this.$refs.submitRef) {
+        this.$refs.submitRef.open({
           communityId: this.getCommunityId(),
           configId: this.searchForm.configId,
           billMonth: this.searchForm.billMonth,
-          remark: this.remark,
           details: this.selectedRows
-        }).then(res => {
-          if (res.code === 0) {
-            this.$message.success(this.$t('manualBillGeneration.submitSuccess'))
-            this.$emit('switchTab', 'audit')
-          } else {
-            this.$message.error(res.msg || this.$t('manualBillGeneration.submitFail'))
-          }
-        }).catch(() => {
-          this.$message.error(this.$t('manualBillGeneration.submitFail'))
         })
-      }).catch(() => {})
+      }
+    },
+    handleSubmitSuccess() {
+      this.$message.success(this.$t('manualBillGeneration.submitSuccess'))
+      this.$emit('switchTab', 'audit')
     }
   }
 }

@@ -2,14 +2,11 @@
   <div class="app-container">
     <el-card>
       <div slot="header" class="flex justify-between">
-        <span>{{ $t('manualBillGeneration.manageTitle') }}</span>
-        <el-button v-if="tabType === 'audit'" type="primary" size="small" @click="$emit('switchTab', 'apply')">
-          {{ $t('manualBillGeneration.createNew') }}
-        </el-button>
+        <span>{{ $t('manualBillGeneration.menuDone') }}</span>
       </div>
       <el-form :model="searchForm" label-width="0">
         <el-row :gutter="20">
-          <el-col :span="4" v-if="tabType === 'done'">
+          <el-col :span="4">
             <el-form-item>
               <el-select v-model="searchForm.state" :placeholder="$t('manualBillGeneration.state')" clearable style="width:100%">
                 <el-option :label="$t('manualBillGeneration.statePass')" value="1002"></el-option>
@@ -17,7 +14,27 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="4">
+          <el-col :span="5">
+            <el-form-item>
+              <el-date-picker v-model="searchForm.billMonth" type="month" value-format="yyyy-MM"
+                :placeholder="$t('manualBillGeneration.billMonth')" clearable style="width:100%"></el-date-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item>
+              <el-input v-model.trim="searchForm.applicationName" :placeholder="$t('manualBillGeneration.applicationNamePlaceholder')"
+                clearable @keyup.enter.native="handleSearch"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item>
+              <el-date-picker v-model="searchForm.createTimeRange" type="daterange" range-separator="~"
+                :start-placeholder="$t('manualBillGeneration.createTimeRange')"
+                :end-placeholder="$t('common.chooseDate')" value-format="yyyy-MM-dd"
+                style="width:100%"></el-date-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5" style="text-align:right">
             <el-form-item>
               <el-button type="primary" size="small" @click="handleSearch">
                 {{ $t('common.search') }}
@@ -47,13 +64,10 @@
         <el-table-column prop="successCount" :label="$t('manualBillGeneration.successCount')" width="80" align="center"></el-table-column>
         <el-table-column prop="createUserName" :label="$t('manualBillGeneration.createUser')" width="100" align="center"></el-table-column>
         <el-table-column prop="createTime" :label="$t('manualBillGeneration.createTime')" width="160" align="center"></el-table-column>
-        <el-table-column :label="$t('common.operation')" :width="tabType === 'audit' ? 200 : 100" align="center">
+        <el-table-column :label="$t('common.operation')" width="100" align="center">
           <template slot-scope="scope">
             <el-button type="text" @click="handleDetail(scope.row)">
               {{ $t('common.detail') }}
-            </el-button>
-            <el-button v-if="tabType === 'audit' && scope.row.state === '1001'" type="text" style="color:#f56c6c" @click="handleDelete(scope.row)">
-              {{ $t('common.delete') }}
             </el-button>
           </template>
         </el-table-column>
@@ -72,18 +86,18 @@
 </template>
 
 <script>
-import { listManualBillApplications, deleteManualBillApplication } from '@/api/fee/manualBillGenerationApi'
+import { listManualBillApplications } from '@/api/fee/manualBillGenerationApi'
 
 export default {
-  name: 'ManualBillGenerationManageList',
-  props: {
-    tabType: { type: String, default: 'audit' }
-  },
+  name: 'ManualBillGenerationDone',
   data() {
     return {
       loading: false,
       searchForm: {
-        state: this.tabType === 'audit' ? '1001' : ''
+        state: '',
+        billMonth: '',
+        applicationName: '',
+        createTimeRange: []
       },
       listData: [],
       pagination: { page: 1, row: 10, total: 0 }
@@ -98,12 +112,18 @@ export default {
       const params = {
         page: this.pagination.page,
         row: this.pagination.row,
-        communityId: this.getCommunityId()
+        communityId: this.getCommunityId(),
+        state: this.searchForm.state
       }
-      if (this.tabType === 'audit') {
-        params.state = '1001'
-      } else {
-        params.state = this.searchForm.state
+      if (this.searchForm.billMonth) {
+        params.billMonth = this.searchForm.billMonth
+      }
+      if (this.searchForm.applicationName) {
+        params.applicationName = this.searchForm.applicationName
+      }
+      if (this.searchForm.createTimeRange && this.searchForm.createTimeRange.length === 2) {
+        params.createTimeStart = this.searchForm.createTimeRange[0] + ' 00:00:00'
+        params.createTimeEnd = this.searchForm.createTimeRange[1] + ' 23:59:59'
       }
       listManualBillApplications(params).then(res => {
         if (res.code === 0) {
@@ -118,11 +138,7 @@ export default {
       this.loadData()
     },
     handleReset() {
-      if (this.tabType === 'audit') {
-        this.searchForm = { state: '1001' }
-      } else {
-        this.searchForm = { state: '' }
-      }
+      this.searchForm = { state: '', billMonth: '', applicationName: '', createTimeRange: [] }
       this.handleSearch()
     },
     handleDetail(row) {
@@ -130,25 +146,6 @@ export default {
         path: '/views/fee/manualBillGenerationDetail',
         query: { applicationId: row.applicationId }
       })
-    },
-    handleDelete(row) {
-      this.$confirm(this.$t('manualBillGeneration.deleteConfirm'), this.$t('common.tip'), {
-        confirmButtonText: this.$t('common.confirm'),
-        cancelButtonText: this.$t('common.cancel'),
-        type: 'warning'
-      }).then(() => {
-        deleteManualBillApplication({
-          applicationId: row.applicationId,
-          communityId: this.getCommunityId()
-        }).then(res => {
-          if (res.code === 0) {
-            this.$message.success(this.$t('common.deleteSuccess'))
-            this.loadData()
-          } else {
-            this.$message.error(res.msg || this.$t('common.deleteFail'))
-          }
-        })
-      }).catch(() => {})
     },
     handleSizeChange(val) {
       this.pagination.row = val

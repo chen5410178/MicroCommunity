@@ -30,6 +30,8 @@ public class ManualBillGenerationDto extends PageDto implements Serializable {
     private String createUserId;
     private String createUserName;
     private Date createTime;
+    private String createTimeStart;
+    private String createTimeEnd;
     private String statusCd = "0";
 
     public String getApplicationId() {
@@ -182,6 +184,22 @@ public class ManualBillGenerationDto extends PageDto implements Serializable {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getCreateTimeStart() {
+        return createTimeStart;
+    }
+
+    public void setCreateTimeStart(String createTimeStart) {
+        this.createTimeStart = createTimeStart;
+    }
+
+    public String getCreateTimeEnd() {
+        return createTimeEnd;
+    }
+
+    public void setCreateTimeEnd(String createTimeEnd) {
+        this.createTimeEnd = createTimeEnd;
     }
 
     public String getStatusCd() {

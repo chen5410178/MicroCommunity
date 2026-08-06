@@ -36,6 +36,18 @@
         <if test="statusCd != null and statusCd != ''">
             and t.status_cd = #{statusCd}
         </if>
+        <if test="billMonth != null and billMonth != ''">
+            and t.bill_month = #{billMonth}
+        </if>
+        <if test="applicationName != null and applicationName != ''">
+            and t.application_name like concat('%', #{applicationName}, '%')
+        </if>
+        <if test="createTimeStart != null and createTimeStart != ''">
+            and t.create_time &gt;= #{createTimeStart}
+        </if>
+        <if test="createTimeEnd != null and createTimeEnd != ''">
+            and t.create_time &lt;= #{createTimeEnd}
+        </if>
         order by t.create_time desc
         <if test="page != -1">
             limit #{page}, #{row}
@@ -59,6 +71,18 @@
         </if>
         <if test="statusCd != null and statusCd != ''">
             and t.status_cd = #{statusCd}
+        </if>
+        <if test="billMonth != null and billMonth != ''">
+            and t.bill_month = #{billMonth}
+        </if>
+        <if test="applicationName != null and applicationName != ''">
+            and t.application_name like concat('%', #{applicationName}, '%')
+        </if>
+        <if test="createTimeStart != null and createTimeStart != ''">
+            and t.create_time &gt;= #{createTimeStart}
+        </if>
+        <if test="createTimeEnd != null and createTimeEnd != ''">
+            and t.create_time &lt;= #{createTimeEnd}
         </if>
     </select>
 
