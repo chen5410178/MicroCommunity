@@ -6,12 +6,15 @@ import com.java110.dto.fee.FeeConfigDto;
 import com.java110.dto.fee.FeeDto;
 import com.java110.dto.importData.ImportCustomCreateFeeDto;
 import com.java110.dto.log.AssetImportLogDetailDto;
+import com.java110.dto.owner.OwnerDto;
 import com.java110.dto.shop.BuildingShopDto;
+import com.java110.dto.shop.BuildingShopOwnerDto;
 import com.java110.intf.community.IBuildingShopOwnerInnerServiceSMO;
 import com.java110.intf.community.IBuildingShopV1InnerServiceSMO;
 import com.java110.intf.fee.IFeeConfigInnerServiceSMO;
 import com.java110.intf.fee.IPayFeeRuleV1InnerServiceSMO;
 import com.java110.intf.fee.IRuleGeneratorPayFeeBillV1InnerServiceSMO;
+import com.java110.intf.user.IOwnerInnerServiceSMO;
 import com.java110.intf.user.IUserInnerServiceSMO;
 import com.java110.job.importData.DefaultImportData;
 import com.java110.job.importData.IImportDataAdapt;
@@ -40,6 +43,9 @@ public class ImportCustomShopFeeQueueDataAdapt extends DefaultImportData impleme
 
     @Autowired
     private IFeeConfigInnerServiceSMO feeConfigInnerServiceSMOImpl;
+
+    @Autowired
+    private IOwnerInnerServiceSMO ownerInnerServiceSMOImpl;
 
     @Autowired
     private IPayFeeRuleV1InnerServiceSMO payFeeRuleV1InnerServiceSMOImpl;
@@ -94,6 +100,20 @@ public class ImportCustomShopFeeQueueDataAdapt extends DefaultImportData impleme
 
         BuildingShopDto shop = shopDtos.get(0);
 
+        //todo 商铺补查业主信息，未绑定业主时置空
+        BuildingShopOwnerDto shopOwnerDto = new BuildingShopOwnerDto();
+        shopOwnerDto.setShopId(shop.getShopId());
+        List<BuildingShopOwnerDto> shopOwnerDtos = buildingShopOwnerInnerServiceSMOImpl.queryBuildingShopOwners(shopOwnerDto);
+        if (!ListUtil.isNull(shopOwnerDtos)) {
+            OwnerDto ownerDto = new OwnerDto();
+            ownerDto.setOwnerId(shopOwnerDtos.get(0).getOwnerId());
+            List<OwnerDto> ownerDtos = ownerInnerServiceSMOImpl.queryOwners(ownerDto);
+            if (!ListUtil.isNull(ownerDtos)) {
+                shop.setOwnerId(ownerDtos.get(0).getOwnerId());
+                shop.setOwnerName(ownerDtos.get(0).getName());
+            }
+        }
+
         FeeConfigDto feeConfigDto = new FeeConfigDto();
         feeConfigDto.setConfigId(importDto.getConfigId());
         feeConfigDto.setCommunityId(importDto.getCommunityId());
@@ -130,6 +150,9 @@ public class ImportCustomShopFeeQueueDataAdapt extends DefaultImportData impleme
         payFeeRulePo.setCommunityId(importDto.getCommunityId());
         payFeeRulePo.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_SHOP);
         payFeeRulePo.setPayerObjId(shopDto.getShopId());
+        payFeeRulePo.setOwnerId(shopDto.getOwnerId());
+        payFeeRulePo.setOwnerName(shopDto.getOwnerName());
+        payFeeRulePo.setPayerObjName(importDto.getObjName());
 
         String curYearMonth = DateUtil.getFormatTimeStringB(DateUtil.getDateFromStringB(payFeeRulePo.getEndTime()));
         if (FeeConfigDto.PAYMENT_CD_AFTER.equals(feeConfigDto.getPaymentCd())) {

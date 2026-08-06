@@ -198,6 +198,9 @@ public class SaveParkingSpaceCreateFeeCmd extends Cmd {
         payFeeRulePo.setCommunityId(paramInJson.getString("communityId"));
         payFeeRulePo.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_CAR);
         payFeeRulePo.setPayerObjId(ownerCarDto.getCarId());
+        payFeeRulePo.setOwnerId(ownerCarDto.getOwnerId());
+        payFeeRulePo.setOwnerName(ownerCarDto.getOwnerName());
+        payFeeRulePo.setPayerObjName(ownerCarDto.getCarNum());
         String curYearMonth  = DateUtil.getFormatTimeStringB(DateUtil.getDateFromStringB(payFeeRulePo.getEndTime()));
         payFeeRulePo.setCurYearMonth(curYearMonth);
         return payFeeRulePo;

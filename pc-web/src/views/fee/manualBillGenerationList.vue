@@ -66,7 +66,6 @@
         <el-table-column prop="roomName" :label="$t('manualBillGeneration.roomName')" align="center"></el-table-column>
         <el-table-column prop="ownerName" :label="$t('manualBillGeneration.ownerName')" align="center"></el-table-column>
         <el-table-column prop="curYearMonth" :label="$t('manualBillGeneration.curYearMonth')" width="120" align="center"></el-table-column>
-        <el-table-column prop="amount" :label="$t('manualBillGeneration.amount')" width="120" align="center"></el-table-column>
       </el-table>
       <el-pagination
         class="margin-top"

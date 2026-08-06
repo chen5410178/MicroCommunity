@@ -147,6 +147,7 @@ public class CycleConvertOnceFeeImpl implements ICycleConvertOnceFee {
             return 0;
         }
 
+
         for (PayFeeRulePo tmpPayFeeRulePo : payFeeRulePos) {
             try {
                 //todo 单个费用处理
@@ -158,6 +159,8 @@ public class CycleConvertOnceFeeImpl implements ICycleConvertOnceFee {
         }
         return payFeeRulePos.size();
     }
+
+
 
     /**
      * 规则生成费用

@@ -5,12 +5,14 @@ import com.alibaba.fastjson.JSONObject;
 import com.java110.core.factory.GenerateCodeFactory;
 import com.java110.dto.fee.FeeConfigDto;
 import com.java110.dto.fee.FeeDto;
+import com.java110.dto.owner.OwnerDto;
 import com.java110.dto.room.RoomDto;
 import com.java110.dto.system.Business;
 import com.java110.intf.community.IRoomInnerServiceSMO;
 import com.java110.intf.fee.IFeeConfigInnerServiceSMO;
 import com.java110.intf.fee.IPayFeeRuleV1InnerServiceSMO;
 import com.java110.intf.fee.IRuleGeneratorPayFeeBillV1InnerServiceSMO;
+import com.java110.intf.user.IOwnerInnerServiceSMO;
 import com.java110.job.adapt.DatabusAdaptImpl;
 import com.java110.po.payFee.PayFeeRulePo;
 import com.java110.utils.util.Assert;
@@ -35,6 +37,9 @@ public class RoomCreatePayFeeAdapt extends DatabusAdaptImpl {
 
     @Autowired
     private IFeeConfigInnerServiceSMO feeConfigInnerServiceSMOImpl;
+
+    @Autowired
+    private IOwnerInnerServiceSMO ownerInnerServiceSMOImpl;
 
     @Autowired
     private IPayFeeRuleV1InnerServiceSMO payFeeRuleV1InnerServiceSMOImpl;
@@ -73,6 +78,24 @@ public class RoomCreatePayFeeAdapt extends DatabusAdaptImpl {
         //todo 房屋不存在，这种场景一般执行不到
         if (roomDtos == null || roomDtos.isEmpty()) {
             throw new IllegalArgumentException("房屋不存在");
+        }
+
+        //todo 房屋批量刷入业主信息
+        List<String> tmpRoomIds = new ArrayList<>();
+        for (RoomDto tmpRoomDto : roomDtos) {
+            tmpRoomIds.add(tmpRoomDto.getRoomId());
+        }
+        OwnerDto ownerDto = new OwnerDto();
+        ownerDto.setCommunityId(data.getString("communityId"));
+        ownerDto.setRoomIds(tmpRoomIds.toArray(new String[tmpRoomIds.size()]));
+        List<OwnerDto> ownerDtos = ownerInnerServiceSMOImpl.queryOwnersByRoom(ownerDto);
+        for (RoomDto tmpRoomDto : roomDtos) {
+            for (OwnerDto tmpOwnerDto : ownerDtos) {
+                if (tmpRoomDto.getRoomId().equals(tmpOwnerDto.getRoomId())) {
+                    tmpRoomDto.setOwnerId(tmpOwnerDto.getOwnerId());
+                    tmpRoomDto.setOwnerName(tmpOwnerDto.getName());
+                }
+            }
         }
 
         //todo 查询费用项配置
@@ -140,6 +163,11 @@ public class RoomCreatePayFeeAdapt extends DatabusAdaptImpl {
         payFeeRulePo.setDeductFrom(feeConfigDto.getDeductFrom());
         payFeeRulePo.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_ROOM);
         payFeeRulePo.setPayerObjId(roomDto.getRoomId());
+        payFeeRulePo.setOwnerId(roomDto.getOwnerId());
+        payFeeRulePo.setOwnerName(roomDto.getOwnerName());
+        payFeeRulePo.setPayerObjName(StringUtil.isEmpty(roomDto.getRoomName())
+                ? roomDto.getFloorNum() + "-" + roomDto.getUnitNum() + "-" + roomDto.getRoomNum()
+                : roomDto.getRoomName());
         String curYearMonth = DateUtil.getFormatTimeStringB(DateUtil.getDateFromStringB(payFeeRulePo.getEndTime()));
         // 后付费
         if (FeeConfigDto.PAYMENT_CD_AFTER.equals(feeConfigDto.getPaymentCd())) {

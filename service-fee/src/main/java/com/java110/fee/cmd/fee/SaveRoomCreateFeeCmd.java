@@ -259,6 +259,11 @@ public class SaveRoomCreateFeeCmd extends Cmd {
         payFeeRulePo.setCommunityId(paramInJson.getString("communityId"));
         payFeeRulePo.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_ROOM);
         payFeeRulePo.setPayerObjId(roomDto.getRoomId());
+        payFeeRulePo.setOwnerId(roomDto.getOwnerId());
+        payFeeRulePo.setOwnerName(roomDto.getOwnerName());
+        payFeeRulePo.setPayerObjName(StringUtil.isEmpty(roomDto.getRoomName())
+                ? roomDto.getFloorNum() + "-" + roomDto.getUnitNum() + "-" + roomDto.getRoomNum()
+                : roomDto.getRoomName());
         String curYearMonth = DateUtil.getFormatTimeStringB(DateUtil.getDateFromStringB(payFeeRulePo.getEndTime()));
         // 后付费
         if(FeeConfigDto.PAYMENT_CD_AFTER.equals(feeConfigDtos.get(0).getPaymentCd())){

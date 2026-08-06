@@ -7,6 +7,7 @@ import com.java110.dto.fee.FeeDto;
 import com.java110.dto.importData.ImportFeeDto;
 import com.java110.dto.importData.ImportRoomFee;
 import com.java110.dto.log.AssetImportLogDetailDto;
+import com.java110.dto.owner.OwnerCarDto;
 import com.java110.dto.owner.OwnerDto;
 import com.java110.intf.community.IRoomInnerServiceSMO;
 import com.java110.intf.fee.*;
@@ -130,9 +131,9 @@ public class ImportRoomFeeQueueDataAdapt extends DefaultImportData implements II
         for (ImportRoomFee tmpImportRoomFee : importRoomFees) {
             for (OwnerDto tmpOwnerDto : ownerDtos) {
                 if (tmpImportRoomFee.getRoomId().equals(tmpOwnerDto.getRoomId())) {
-                    importRoomFee.setOwnerId(tmpOwnerDto.getOwnerId());
-                    importRoomFee.setOwnerName(tmpOwnerDto.getName());
-                    importRoomFee.setOwnerLink(tmpOwnerDto.getLink());
+                    tmpImportRoomFee.setOwnerId(tmpOwnerDto.getOwnerId());
+                    tmpImportRoomFee.setOwnerName(tmpOwnerDto.getName());
+                    tmpImportRoomFee.setOwnerLink(tmpOwnerDto.getLink());
                 }
             }
         }
@@ -159,6 +160,23 @@ public class ImportRoomFeeQueueDataAdapt extends DefaultImportData implements II
         for (ImportRoomFee tmpImportRoomFee : importRoomFees) {
             if (StringUtil.isEmpty(tmpImportRoomFee.getCarId())) {
                 throw new IllegalArgumentException(tmpImportRoomFee.getCarNum() + "不存在");
+            }
+        }
+        //todo 车辆导入补刷业主信息（queryOwnerCars join building_owner 真查询，禁止前端透传）
+        List<String> carIds = new ArrayList<>();
+        for (ImportRoomFee tmpImportRoomFee : importRoomFees) {
+            carIds.add(tmpImportRoomFee.getCarId());
+        }
+        OwnerCarDto ownerCarDto = new OwnerCarDto();
+        ownerCarDto.setCommunityId(importRoomFee.getCommunityId());
+        ownerCarDto.setCarIds(carIds.toArray(new String[carIds.size()]));
+        List<OwnerCarDto> ownerCarDtos = ownerCarInnerServiceSMOImpl.queryOwnerCars(ownerCarDto);
+        for (ImportRoomFee tmpImportRoomFee : importRoomFees) {
+            for (OwnerCarDto tmpOwnerCarDto : ownerCarDtos) {
+                if (tmpImportRoomFee.getCarId().equals(tmpOwnerCarDto.getCarId())) {
+                    tmpImportRoomFee.setOwnerId(tmpOwnerCarDto.getOwnerId());
+                    tmpImportRoomFee.setOwnerName(tmpOwnerCarDto.getOwnerName());
+                }
             }
         }
         doCreateFeeAndAttrs(importRoomFees.get(0), batchId);
@@ -218,6 +236,11 @@ public class ImportRoomFeeQueueDataAdapt extends DefaultImportData implements II
         payFeeRulePo.setIncomeObjId(importRoomFee.getStoreId());
         payFeeRulePo.setState(FeeDto.STATE_DOING);
         payFeeRulePo.setDeductFrom(feeConfigDto.getDeductFrom());
+        payFeeRulePo.setOwnerId(importRoomFee.getOwnerId());
+        payFeeRulePo.setOwnerName(importRoomFee.getOwnerName());
+        payFeeRulePo.setPayerObjName(StringUtil.isEmpty(importRoomFee.getPayerObjName())
+                ? importRoomFee.getFloorNum() + "-" + importRoomFee.getUnitNum() + "-" + importRoomFee.getRoomNum()
+                : importRoomFee.getPayerObjName());
 
         if (FeeDto.PAYER_OBJ_TYPE_CONTRACT.equals(importRoomFee.getObjType())) {
             payFeeRulePo.setPayerObjId(importRoomFee.getContractId());

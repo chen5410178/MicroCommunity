@@ -27,6 +27,7 @@ import com.java110.dto.room.RoomDto;
 import com.java110.dto.fee.FeeConfigDto;
 import com.java110.dto.fee.FeeDto;
 import com.java110.dto.payFee.PayFeeBatchDto;
+import com.java110.dto.owner.OwnerDto;
 import com.java110.dto.user.UserDto;
 import com.java110.fee.bill.ICycleConvertOnceFee;
 import com.java110.intf.community.IRoomInnerServiceSMO;
@@ -172,6 +173,16 @@ public class SaveMeterWaterCmd extends Cmd {
         payFeeRulePo.setCommunityId(reqJson.getString("communityId"));
         payFeeRulePo.setPayerObjType(reqJson.getString("objType"));
         payFeeRulePo.setPayerObjId(reqJson.getString("objId"));
+        //todo 抄表建费补查业主信息，未绑定业主时置空
+        OwnerDto ownerDto = new OwnerDto();
+        ownerDto.setCommunityId(communityId);
+        ownerDto.setRoomId(objId);
+        List<OwnerDto> ownerDtos = ownerInnerServiceSMOImpl.queryOwnersByRoom(ownerDto);
+        if (!ListUtil.isNull(ownerDtos)) {
+            payFeeRulePo.setOwnerId(ownerDtos.get(0).getOwnerId());
+            payFeeRulePo.setOwnerName(ownerDtos.get(0).getName());
+        }
+        payFeeRulePo.setPayerObjName(meterWaterPo.getObjName());
         payFeeRulePos.add(payFeeRulePo);
 
         //todo 设置费用

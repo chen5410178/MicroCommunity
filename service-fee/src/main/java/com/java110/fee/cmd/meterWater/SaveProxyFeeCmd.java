@@ -7,12 +7,26 @@ import com.java110.core.context.ICmdDataFlowContext;
 import com.java110.core.event.cmd.Cmd;
 import com.java110.core.event.cmd.CmdEvent;
 import com.java110.core.factory.GenerateCodeFactory;
+import com.java110.dto.contract.ContractDto;
+import com.java110.dto.contract.ContractRoomDto;
 import com.java110.dto.fee.FeeConfigDto;
 import com.java110.dto.fee.FeeDto;
+import com.java110.dto.owner.OwnerCarDto;
+import com.java110.dto.owner.OwnerDto;
 import com.java110.dto.payFee.PayFeeBatchDto;
+import com.java110.dto.room.RoomDto;
+import com.java110.dto.shop.BuildingShopDto;
+import com.java110.dto.shop.BuildingShopOwnerDto;
 import com.java110.dto.user.UserDto;
 import com.java110.fee.bill.ICycleConvertOnceFee;
+import com.java110.intf.community.IBuildingShopInnerServiceSMO;
+import com.java110.intf.community.IBuildingShopOwnerInnerServiceSMO;
+import com.java110.intf.community.IRoomInnerServiceSMO;
 import com.java110.intf.fee.*;
+import com.java110.intf.store.IContractInnerServiceSMO;
+import com.java110.intf.store.IContractRoomInnerServiceSMO;
+import com.java110.intf.user.IOwnerCarInnerServiceSMO;
+import com.java110.intf.user.IOwnerInnerServiceSMO;
 import com.java110.intf.user.IUserInnerServiceSMO;
 import com.java110.po.fee.FeeAttrPo;
 import com.java110.po.fee.PayFeePo;
@@ -20,6 +34,7 @@ import com.java110.po.payFee.PayFeeBatchPo;
 import com.java110.po.payFee.PayFeeRulePo;
 import com.java110.utils.exception.CmdException;
 import com.java110.utils.util.Assert;
+import com.java110.utils.util.ListUtil;
 import com.java110.utils.util.StringUtil;
 import com.java110.vo.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +60,27 @@ public class SaveProxyFeeCmd extends Cmd {
 
     @Autowired
     private IFeeConfigInnerServiceSMO feeConfigInnerServiceSMOImpl;
+
+    @Autowired
+    private IRoomInnerServiceSMO roomInnerServiceSMOImpl;
+
+    @Autowired
+    private IOwnerInnerServiceSMO ownerInnerServiceSMOImpl;
+
+    @Autowired
+    private IOwnerCarInnerServiceSMO ownerCarInnerServiceSMOImpl;
+
+    @Autowired
+    private IBuildingShopInnerServiceSMO buildingShopInnerServiceSMOImpl;
+
+    @Autowired
+    private IBuildingShopOwnerInnerServiceSMO buildingShopOwnerInnerServiceSMOImpl;
+
+    @Autowired
+    private IContractInnerServiceSMO contractInnerServiceSMOImpl;
+
+    @Autowired
+    private IContractRoomInnerServiceSMO contractRoomInnerServiceSMOImpl;
 
     @Override
     public void validate(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) {
@@ -98,6 +134,8 @@ public class SaveProxyFeeCmd extends Cmd {
         payFeeRulePo.setCommunityId(reqJson.getString("communityId"));
         payFeeRulePo.setPayerObjType(reqJson.getString("objType"));
         payFeeRulePo.setPayerObjId(reqJson.getString("objId"));
+        //todo 代收费用业主与对象名称统一按 objType 查询数据库，禁止前端透传
+        refreshPayerObjInfo(payFeeRulePo, reqJson);
         // 后付费
         if(FeeConfigDto.PAYMENT_CD_AFTER.equals(feeConfigDtos.get(0).getPaymentCd())){
             payFeeRulePo.setCurYearMonth(reqJson.getString("endTime"));
@@ -116,6 +154,81 @@ public class SaveProxyFeeCmd extends Cmd {
 
     }
 
+
+    /**
+     * 按 objType 查询真实业主与对象名称，写入 pay_fee_rule 三字段
+     * 业主查不到置空，对象名称必须查到，否则抛异常（禁止用对象ID兜底）
+     *
+     * @param payFeeRulePo
+     * @param reqJson
+     */
+    private void refreshPayerObjInfo(PayFeeRulePo payFeeRulePo, JSONObject reqJson) {
+        String objType = payFeeRulePo.getPayerObjType();
+        String objId = payFeeRulePo.getPayerObjId();
+        String communityId = reqJson.getString("communityId");
+        if (FeeDto.PAYER_OBJ_TYPE_ROOM.equals(objType)) {
+            // 3333 房屋
+            OwnerDto ownerDto = new OwnerDto();
+            ownerDto.setCommunityId(communityId);
+            ownerDto.setRoomId(objId);
+            List<OwnerDto> ownerDtos = ownerInnerServiceSMOImpl.queryOwnersByRoom(ownerDto);
+            if (!ListUtil.isNull(ownerDtos)) {
+                payFeeRulePo.setOwnerId(ownerDtos.get(0).getOwnerId());
+                payFeeRulePo.setOwnerName(ownerDtos.get(0).getName());
+            }
+            RoomDto roomDto = new RoomDto();
+            roomDto.setRoomId(objId);
+            List<RoomDto> roomDtos = roomInnerServiceSMOImpl.queryRooms(roomDto);
+            Assert.listOnlyOne(roomDtos, "查询房屋信息错误");
+            payFeeRulePo.setPayerObjName(roomDtos.get(0).getFloorNum() + "-"
+                    + roomDtos.get(0).getUnitNum() + "-" + roomDtos.get(0).getRoomNum());
+        } else if (FeeDto.PAYER_OBJ_TYPE_CAR.equals(objType)) {
+            // 6666 车辆
+            OwnerCarDto ownerCarDto = new OwnerCarDto();
+            ownerCarDto.setCarId(objId);
+            ownerCarDto.setCommunityId(communityId);
+            List<OwnerCarDto> carDtos = ownerCarInnerServiceSMOImpl.queryOwnerCars(ownerCarDto);
+            Assert.listOnlyOne(carDtos, "查询车辆信息错误");
+            payFeeRulePo.setOwnerId(carDtos.get(0).getOwnerId());
+            payFeeRulePo.setOwnerName(carDtos.get(0).getOwnerName());
+            payFeeRulePo.setPayerObjName(carDtos.get(0).getCarNum());
+        } else if (FeeDto.PAYER_OBJ_TYPE_SHOP.equals(objType)) {
+            // 4444 商铺
+            BuildingShopDto buildingShopDto = new BuildingShopDto();
+            buildingShopDto.setCommunityId(communityId);
+            buildingShopDto.setShopId(objId);
+            List<BuildingShopDto> shopDtos = buildingShopInnerServiceSMOImpl.queryBuildingShops(buildingShopDto);
+            Assert.listOnlyOne(shopDtos, "查询商铺信息错误");
+            BuildingShopOwnerDto shopOwnerDto = new BuildingShopOwnerDto();
+            shopOwnerDto.setShopId(objId);
+            List<BuildingShopOwnerDto> shopOwnerDtos = buildingShopOwnerInnerServiceSMOImpl.queryBuildingShopOwners(shopOwnerDto);
+            if (!ListUtil.isNull(shopOwnerDtos)) {
+                OwnerDto ownerDto = new OwnerDto();
+                ownerDto.setOwnerId(shopOwnerDtos.get(0).getOwnerId());
+                List<OwnerDto> ownerDtos = ownerInnerServiceSMOImpl.queryOwners(ownerDto);
+                if (!ListUtil.isNull(ownerDtos)) {
+                    payFeeRulePo.setOwnerId(ownerDtos.get(0).getOwnerId());
+                    payFeeRulePo.setOwnerName(ownerDtos.get(0).getName());
+                }
+            }
+            payFeeRulePo.setPayerObjName(shopDtos.get(0).getShopNum());
+        } else if (FeeDto.PAYER_OBJ_TYPE_CONTRACT.equals(objType)) {
+            // 7777 合同
+            ContractRoomDto contractRoomDto = new ContractRoomDto();
+            contractRoomDto.setContractId(objId);
+            List<ContractRoomDto> contractRoomDtos = contractRoomInnerServiceSMOImpl.queryContractRooms(contractRoomDto);
+            if (!ListUtil.isNull(contractRoomDtos)) {
+                payFeeRulePo.setOwnerId(contractRoomDtos.get(0).getOwnerId());
+                payFeeRulePo.setOwnerName(contractRoomDtos.get(0).getOwnerName());
+            }
+            ContractDto contractDto = new ContractDto();
+            contractDto.setContractId(objId);
+            List<ContractDto> contractDtos = contractInnerServiceSMOImpl.queryContracts(contractDto);
+            Assert.listOnlyOne(contractDtos, "查询合同信息错误");
+            payFeeRulePo.setPayerObjName(contractDtos.get(0).getContractName());
+        }
+        // 其他 objType 不支持，payerObjName 保持空，由 CycleConvertOnceFeeImpl 强校验报错阻断
+    }
 
     private void addFeeAttr(String specCd, String value, List<FeeAttrPo> feeAttrPos, PayFeePo payFeePo) {
 

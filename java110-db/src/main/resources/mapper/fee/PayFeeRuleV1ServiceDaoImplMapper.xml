@@ -9,23 +9,23 @@
     <insert id="savePayFeeRuleInfo" parameterType="Map">
         insert into pay_fee_rule(
         max_time,amount,fee_type_cd,cur_year_month,batch_id,user_id,income_obj_id,config_id,fee_flag,start_time,end_time,
-        state,rule_id,community_id,payer_obj_type,payer_obj_id,fee_remark
+        state,rule_id,community_id,payer_obj_type,payer_obj_id,fee_remark,owner_id,owner_name,payer_obj_name
         ) values (
         #{maxTime},#{amount},#{feeTypeCd},#{curYearMonth},#{batchId},#{userId},#{incomeObjId},#{configId},#{feeFlag},#{startTime},#{endTime},
-        #{state},#{ruleId},#{communityId},#{payerObjType},#{payerObjId},#{feeRemark}
+        #{state},#{ruleId},#{communityId},#{payerObjType},#{payerObjId},#{feeRemark},#{ownerId},#{ownerName},#{payerObjName}
         )
     </insert>
 
     <insert id="savePayFeeRules" parameterType="Map">
         insert into pay_fee_rule(
         max_time,amount,fee_type_cd,cur_year_month,batch_id,user_id,income_obj_id,config_id,fee_flag,
-        start_time,end_time,state,rule_id,community_id,payer_obj_type,payer_obj_id,fee_remark
+        start_time,end_time,state,rule_id,community_id,payer_obj_type,payer_obj_id,fee_remark,owner_id,owner_name,payer_obj_name
         ) values
         <foreach collection="payFeeRulePos" item="item" separator=",">
             (
             #{item.maxTime},#{item.amount},#{item.feeTypeCd},#{item.curYearMonth},#{item.batchId},#{item.userId},
             #{item.incomeObjId},#{item.configId},#{item.feeFlag},#{item.startTime},#{item.endTime},#{item.state},#{item.ruleId},
-            #{item.communityId},#{item.payerObjType},#{item.payerObjId},#{item.feeRemark}
+            #{item.communityId},#{item.payerObjType},#{item.payerObjId},#{item.feeRemark},#{item.ownerId},#{item.ownerName},#{item.payerObjName}
             )
         </foreach>
     </insert>
@@ -39,6 +39,7 @@
         configId,t.fee_flag,t.fee_flag feeFlag,t.start_time,t.start_time startTime,t.end_time,t.end_time
         endTime,t.state,t.rule_id,t.rule_id ruleId,t.community_id,t.community_id
         communityId,t.payer_obj_type,t.payer_obj_type payerObjType,t.payer_obj_id,t.payer_obj_id payerObjId,
+        t.owner_id ownerId,t.owner_name ownerName,t.payer_obj_name payerObjName,
         pfc.fee_name feeName,pfc.square_price squarePrice,pfc.additional_amount
         additionalAmount,pfc.fee_flag,pfc.fee_flag feeFlag,td1.name feeTypeCdName,td2.name stateName,td3.name feeFlagName,pfc.computing_formula
         computingFormula,pfc.computing_formula_text computingFormulaText,td4.name computingFormulaName,ft.ft_id ftId,ft.ft_name ftName,
@@ -255,6 +256,7 @@
         select t.rule_id ruleId, t.config_id configId, t.fee_type_cd feeTypeCd,
                t.fee_flag feeFlag, t.cur_year_month curYearMonth, t.amount,
                t.payer_obj_type payerObjType, t.payer_obj_id payerObjId,
+               t.owner_id ownerId, t.owner_name ownerName, t.payer_obj_name payerObjName,
                t.community_id communityId, t.state, t.fee_remark feeRemark,
                pfc.fee_name feeName
         from pay_fee_rule t

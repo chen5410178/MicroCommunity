@@ -293,6 +293,11 @@ public class FloorShareReadingAdapt extends DatabusAdaptImpl {
         po.setDeductFrom(feeConfigDto.getDeductFrom());
         po.setPayerObjId(roomDto.getRoomId());
         po.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_ROOM);
+        po.setOwnerId(roomDto.getOwnerId());
+        po.setOwnerName(roomDto.getOwnerName());
+        po.setPayerObjName(StringUtil.isEmpty(roomDto.getRoomName())
+                ? roomDto.getFloorNum() + "-" + roomDto.getUnitNum() + "-" + roomDto.getRoomNum()
+                : roomDto.getRoomName());
         po.setCurYearMonth(DateUtil.getFormatTimeStringB(
                 DateUtil.getDateFromStringB(po.getEndTime())));
         return po;

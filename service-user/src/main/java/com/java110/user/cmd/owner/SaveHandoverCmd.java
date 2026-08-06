@@ -217,6 +217,21 @@ public class SaveHandoverCmd extends Cmd {
         payFeeRulePo.setCommunityId(reqJson.getString("communityId"));
         payFeeRulePo.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_ROOM);
         payFeeRulePo.setPayerObjId(room.getString("roomId"));
+        //todo 交接建费回查业主表确认业主信息，禁止前端透传
+        OwnerDto ownerDto = new OwnerDto();
+        ownerDto.setOwnerId(reqJson.getString("ownerId"));
+        ownerDto.setCommunityId(reqJson.getString("communityId"));
+        List<OwnerDto> ownerDtos = ownerV1InnerServiceSMOImpl.queryOwners(ownerDto);
+        Assert.listOnlyOne(ownerDtos, "查询业主信息错误");
+        payFeeRulePo.setOwnerId(ownerDtos.get(0).getOwnerId());
+        payFeeRulePo.setOwnerName(ownerDtos.get(0).getName());
+        //todo 交接建费缴费对象名称经 queryRooms 查询房屋拼接，禁止 roomId 兜底
+        RoomDto roomDto = new RoomDto();
+        roomDto.setRoomId(room.getString("roomId"));
+        List<RoomDto> roomDtos = roomV1InnerServiceSMOImpl.queryRooms(roomDto);
+        Assert.listOnlyOne(roomDtos, "查询房屋信息错误");
+        payFeeRulePo.setPayerObjName(roomDtos.get(0).getFloorNum() + "-"
+                + roomDtos.get(0).getUnitNum() + "-" + roomDtos.get(0).getRoomNum());
 
         String curYearMonth = DateUtil.getFormatTimeStringB(DateUtil.getDateFromStringB(payFeeRulePo.getEndTime()));
         if (FeeConfigDto.PAYMENT_CD_AFTER.equals(feeConfigDto.getPaymentCd())) {

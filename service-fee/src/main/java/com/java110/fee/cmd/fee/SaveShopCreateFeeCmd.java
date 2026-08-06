@@ -236,6 +236,9 @@ public class SaveShopCreateFeeCmd extends Cmd {
         payFeeRulePo.setCommunityId(paramInJson.getString("communityId"));
         payFeeRulePo.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_SHOP);
         payFeeRulePo.setPayerObjId(shopDto.getShopId());
+        payFeeRulePo.setOwnerId(shopDto.getOwnerId());
+        payFeeRulePo.setOwnerName(shopDto.getOwnerName());
+        payFeeRulePo.setPayerObjName(shopDto.getShopNum());
 
         String curYearMonth = DateUtil.getFormatTimeStringB(DateUtil.getDateFromStringB(payFeeRulePo.getEndTime()));
         // 后付费

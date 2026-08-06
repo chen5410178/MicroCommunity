@@ -5,12 +5,9 @@ import com.java110.core.annotation.Java110Cmd;
 import com.java110.core.context.ICmdDataFlowContext;
 import com.java110.core.event.cmd.Cmd;
 import com.java110.core.event.cmd.CmdEvent;
-import com.java110.core.smo.IComputeFeeSMO;
 import com.java110.dto.fee.FeeConfigDto;
 import com.java110.dto.fee.FeeDto;
-import com.java110.dto.owner.OwnerDto;
 import com.java110.dto.payFee.PayFeeRuleDto;
-import com.java110.fee.bill.IComputeBillPrice;
 import com.java110.intf.fee.IPayFeeConfigV1InnerServiceSMO;
 import com.java110.intf.fee.IPayFeeRuleV1InnerServiceSMO;
 import com.java110.utils.exception.CmdException;
@@ -36,12 +33,6 @@ public class SearchManualBillTargetsCmd extends Cmd {
 
     @Autowired
     private IPayFeeConfigV1InnerServiceSMO payFeeConfigV1InnerServiceSMOImpl;
-
-    @Autowired
-    private IComputeBillPrice computeBillPriceImpl;
-
-    @Autowired
-    private IComputeFeeSMO computeFeeSMOImpl;
 
     @Override
     public void validate(CmdEvent event, ICmdDataFlowContext context, JSONObject reqJson) throws CmdException {
@@ -107,32 +98,13 @@ public class SearchManualBillTargetsCmd extends Cmd {
                 item.put("configId", rule.getConfigId());
                 item.put("feeName", config.getFeeName());
                 item.put("roomId", rule.getPayerObjId());
-                item.put("roomName", "");
-                item.put("ownerId", "");
-                item.put("ownerName", "");
+                item.put("roomName", rule.getPayerObjName());
+                item.put("ownerId", rule.getOwnerId());
+                item.put("ownerName", rule.getOwnerName());
                 item.put("feeTypeCd", rule.getFeeTypeCd());
                 item.put("feeFlag", rule.getFeeFlag());
                 item.put("curYearMonth", rule.getCurYearMonth());
                 item.put("prepaymentPeriod", prepaymentPeriod);
-
-                FeeDto feeDto = new FeeDto();
-                feeDto.setPayerObjType(rule.getPayerObjType());
-                feeDto.setCommunityId(communityId);
-                feeDto.setPayerObjId(rule.getPayerObjId());
-                OwnerDto ownerDto = computeFeeSMOImpl.getFeeOwnerDto(feeDto);
-                String payerObjName = computeFeeSMOImpl.getFeeObjName(feeDto);
-                item.put("roomName", payerObjName);
-                if (ownerDto != null) {
-                    item.put("ownerId", ownerDto.getOwnerId());
-                    item.put("ownerName", ownerDto.getName());
-                }
-
-                try {
-                    com.java110.dto.fee.FeeAmountDto feeAmountDto = computeBillPriceImpl.computeBillReceiveAmount(rule.getRuleId(), prepaymentPeriod);
-                    item.put("amount", feeAmountDto.getAmount() + "");
-                } catch (Exception e) {
-                    item.put("amount", rule.getAmount());
-                }
 
                 resultList.add(item);
             }

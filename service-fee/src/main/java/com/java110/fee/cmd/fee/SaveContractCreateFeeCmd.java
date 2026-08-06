@@ -8,6 +8,7 @@ import com.java110.core.event.cmd.Cmd;
 import com.java110.core.event.cmd.CmdEvent;
 import com.java110.core.factory.GenerateCodeFactory;
 import com.java110.dto.contract.ContractDto;
+import com.java110.dto.contract.ContractRoomDto;
 import com.java110.dto.fee.FeeConfigDto;
 import com.java110.dto.fee.FeeDto;
 import com.java110.dto.payFee.PayFeeBatchDto;
@@ -17,6 +18,7 @@ import com.java110.fee.bmo.fee.IFeeBMO;
 import com.java110.intf.community.IParkingSpaceInnerServiceSMO;
 import com.java110.intf.fee.*;
 import com.java110.intf.store.IContractInnerServiceSMO;
+import com.java110.intf.store.IContractRoomInnerServiceSMO;
 import com.java110.intf.user.IUserInnerServiceSMO;
 import com.java110.po.payFee.PayFeeBatchPo;
 import com.java110.po.payFee.PayFeeRulePo;
@@ -39,6 +41,9 @@ public class SaveContractCreateFeeCmd extends Cmd {
 
     @Autowired
     private IContractInnerServiceSMO contractInnerServiceSMOImpl;
+
+    @Autowired
+    private IContractRoomInnerServiceSMO contractRoomInnerServiceSMOImpl;
 
     @Autowired
     private IFeeConfigInnerServiceSMO feeConfigInnerServiceSMOImpl;
@@ -184,6 +189,15 @@ public class SaveContractCreateFeeCmd extends Cmd {
         payFeeRulePo.setCommunityId(paramInJson.getString("communityId"));
         payFeeRulePo.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_CONTRACT);
         payFeeRulePo.setPayerObjId(contractDto.getContractId());
+        //todo 合同冗余业主信息：查合同关联房屋业主，无业主场景（如车位合同）置空
+        ContractRoomDto contractRoomDto = new ContractRoomDto();
+        contractRoomDto.setContractId(contractDto.getContractId());
+        List<ContractRoomDto> contractRoomDtos = contractRoomInnerServiceSMOImpl.queryContractRooms(contractRoomDto);
+        if (!ListUtil.isNull(contractRoomDtos)) {
+            payFeeRulePo.setOwnerId(contractRoomDtos.get(0).getOwnerId());
+            payFeeRulePo.setOwnerName(contractRoomDtos.get(0).getOwnerName());
+        }
+        payFeeRulePo.setPayerObjName(contractDto.getContractName());
         String curYearMonth  = DateUtil.getFormatTimeStringB(DateUtil.getDateFromStringB(payFeeRulePo.getEndTime()));
         payFeeRulePo.setCurYearMonth(curYearMonth);
         return payFeeRulePo;

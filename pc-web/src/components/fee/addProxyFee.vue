@@ -229,7 +229,8 @@ export default {
 
         const params = {
           ...this.formData,
-          communityId: getCommunityId()
+          communityId: getCommunityId(),
+          payerObjName: this.formData.objName || this.formData.ownerName
         }
 
 

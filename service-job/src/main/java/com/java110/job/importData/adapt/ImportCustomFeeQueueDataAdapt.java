@@ -2,13 +2,18 @@ package com.java110.job.importData.adapt;
 
 import com.alibaba.fastjson.JSONObject;
 import com.java110.core.factory.GenerateCodeFactory;
+import com.java110.dto.contract.ContractDto;
+import com.java110.dto.contract.ContractRoomDto;
 import com.java110.dto.fee.FeeConfigDto;
 import com.java110.dto.fee.FeeDto;
 import com.java110.dto.importData.ImportCustomCreateFeeDto;
 import com.java110.dto.log.AssetImportLogDetailDto;
+import com.java110.dto.owner.OwnerCarDto;
 import com.java110.dto.owner.OwnerDto;
 import com.java110.intf.community.IRoomInnerServiceSMO;
 import com.java110.intf.fee.*;
+import com.java110.intf.store.IContractInnerServiceSMO;
+import com.java110.intf.store.IContractRoomInnerServiceSMO;
 import com.java110.intf.user.IOwnerCarInnerServiceSMO;
 import com.java110.intf.user.IOwnerInnerServiceSMO;
 import com.java110.intf.user.IUserInnerServiceSMO;
@@ -42,6 +47,12 @@ public class ImportCustomFeeQueueDataAdapt extends DefaultImportData implements 
 
     @Autowired
     private IOwnerCarInnerServiceSMO ownerCarInnerServiceSMOImpl;
+
+    @Autowired
+    private IContractInnerServiceSMO contractInnerServiceSMOImpl;
+
+    @Autowired
+    private IContractRoomInnerServiceSMO contractRoomInnerServiceSMOImpl;
 
     @Autowired
     private IPayFeeRuleV1InnerServiceSMO payFeeRuleV1InnerServiceSMOImpl;
@@ -80,6 +91,7 @@ public class ImportCustomFeeQueueDataAdapt extends DefaultImportData implements 
 
         doImportRoomCreateFee(importExportMeterWaterDto, batchId);
         doImportCarCreateFee(importExportMeterWaterDto, batchId);
+        doImportContractCreateFee(importExportMeterWaterDto, batchId);
 
 
     }
@@ -148,7 +160,57 @@ public class ImportCustomFeeQueueDataAdapt extends DefaultImportData implements 
 
         List<ImportCustomCreateFeeDto> importCustomCreateFeeDtos = ownerCarInnerServiceSMOImpl.freshCarIdsByImportCustomCreateFee(cars);
 
+        //todo 车辆导入补刷业主信息（queryOwnerCars join building_owner 真查询，禁止前端透传）
+        List<String> carIds = new ArrayList<>();
+        for (ImportCustomCreateFeeDto tmpImportCarFee : importCustomCreateFeeDtos) {
+            carIds.add(tmpImportCarFee.getPayObjId());
+        }
+        OwnerCarDto ownerCarDto = new OwnerCarDto();
+        ownerCarDto.setCommunityId(importCustomCreateFeeDto.getCommunityId());
+        ownerCarDto.setCarIds(carIds.toArray(new String[carIds.size()]));
+        List<OwnerCarDto> ownerCarDtos = ownerCarInnerServiceSMOImpl.queryOwnerCars(ownerCarDto);
+        for (ImportCustomCreateFeeDto tmpImportCarFee : importCustomCreateFeeDtos) {
+            for (OwnerCarDto tmpOwnerCarDto : ownerCarDtos) {
+                if (tmpImportCarFee.getPayObjId().equals(tmpOwnerCarDto.getCarId())) {
+                    tmpImportCarFee.setOwnerId(tmpOwnerCarDto.getOwnerId());
+                    tmpImportCarFee.setOwnerName(tmpOwnerCarDto.getOwnerName());
+                }
+            }
+        }
+
         doCreateFeeAndAttrs(importCustomCreateFeeDtos.get(0), batchId);
+    }
+
+    /**
+     * 创建合同费用（objType=3003）
+     * 业主信息经 queryContractRooms 查合同关联房屋冗余字段，payerObjName 取合同名称
+     *
+     * @param importCustomCreateFeeDto
+     * @param batchId
+     */
+    private void doImportContractCreateFee(ImportCustomCreateFeeDto importCustomCreateFeeDto, String batchId) {
+        if (!"3003".equals(importCustomCreateFeeDto.getObjType())) {
+            return;
+        }
+        String contractId = importCustomCreateFeeDto.getPayObjId();
+        if (StringUtil.isEmpty(contractId)) {
+            throw new IllegalArgumentException("合同不存在");
+        }
+        ContractRoomDto contractRoomDto = new ContractRoomDto();
+        contractRoomDto.setContractId(contractId);
+        List<ContractRoomDto> contractRoomDtos = contractRoomInnerServiceSMOImpl.queryContractRooms(contractRoomDto);
+        if (!ListUtil.isNull(contractRoomDtos)) {
+            importCustomCreateFeeDto.setOwnerId(contractRoomDtos.get(0).getOwnerId());
+            importCustomCreateFeeDto.setOwnerName(contractRoomDtos.get(0).getOwnerName());
+        }
+        ContractDto contractDto = new ContractDto();
+        contractDto.setContractId(contractId);
+        List<ContractDto> contractDtos = contractInnerServiceSMOImpl.queryContracts(contractDto);
+        if (ListUtil.isNull(contractDtos)) {
+            throw new IllegalArgumentException("合同不存在，" + contractId);
+        }
+        importCustomCreateFeeDto.setObjName(contractDtos.get(0).getContractName());
+        doCreateFeeAndAttrs(importCustomCreateFeeDto, batchId);
     }
 
 
@@ -196,6 +258,9 @@ public class ImportCustomFeeQueueDataAdapt extends DefaultImportData implements 
         payFeeRulePo.setIncomeObjId(importDto.getStoreId());
         payFeeRulePo.setState(FeeDto.STATE_DOING);
         payFeeRulePo.setDeductFrom(feeConfigDto.getDeductFrom());
+        payFeeRulePo.setOwnerId(importDto.getOwnerId());
+        payFeeRulePo.setOwnerName(importDto.getOwnerName());
+        payFeeRulePo.setPayerObjName(importDto.getObjName());
 
         payFeeRulePo.setPayerObjId(importDto.getPayObjId());
         if ("3003".equals(importDto.getObjType())) {

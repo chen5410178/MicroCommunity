@@ -9,6 +9,7 @@ import com.java110.dto.fee.FeeConfigDto;
 import com.java110.dto.fee.FeeDto;
 import com.java110.dto.importData.ImportFeeDto;
 import com.java110.dto.importData.ImportRoomFee;
+import com.java110.dto.owner.OwnerDto;
 import com.java110.fee.bmo.IImportRoomFee;
 import com.java110.intf.community.IRoomInnerServiceSMO;
 import com.java110.intf.fee.*;
@@ -138,6 +139,30 @@ public class ImportRoomFeeImpl implements IImportRoomFee {
 
         Assert.isNotNull(tmpImportRoomFees, "参数错误，未包含处理费用");
 
+        //todo 旧导入链路补刷房屋ID与业主信息，禁止前端透传业主
+        List<ImportRoomFee> freshRoomFees = roomInnerServiceSMOImpl.freshRoomIds(tmpImportRoomFees);
+        List<String> roomIds = new ArrayList<>();
+        for (ImportRoomFee tmpImportRoomFee : freshRoomFees) {
+            if (StringUtil.isEmpty(tmpImportRoomFee.getRoomId())) {
+                throw new IllegalArgumentException("房屋不存在，" + tmpImportRoomFee.getFloorNum() + "-"
+                        + tmpImportRoomFee.getUnitNum() + "-" + tmpImportRoomFee.getRoomNum());
+            }
+            roomIds.add(tmpImportRoomFee.getRoomId());
+        }
+        OwnerDto ownerDto = new OwnerDto();
+        ownerDto.setCommunityId(communityId);
+        ownerDto.setRoomIds(roomIds.toArray(new String[roomIds.size()]));
+        List<OwnerDto> ownerDtos = ownerInnerServiceSMOImpl.queryOwnersByRoom(ownerDto);
+        for (ImportRoomFee tmpImportRoomFee : freshRoomFees) {
+            for (OwnerDto tmpOwnerDto : ownerDtos) {
+                if (tmpImportRoomFee.getRoomId().equals(tmpOwnerDto.getRoomId())) {
+                    tmpImportRoomFee.setOwnerId(tmpOwnerDto.getOwnerId());
+                    tmpImportRoomFee.setOwnerName(tmpOwnerDto.getName());
+                    tmpImportRoomFee.setOwnerLink(tmpOwnerDto.getLink());
+                }
+            }
+        }
+
         List<PayFeeRulePo> payFeeRulePos = new ArrayList<>();
         List<ImportFeeDetailPo> importFeeDetailPos = new ArrayList<>();
         PayFeeRulePo payFeeRulePo = null;
@@ -166,6 +191,14 @@ public class ImportRoomFeeImpl implements IImportRoomFee {
             payFeeRulePo.setCommunityId(communityId);
             payFeeRulePo.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_ROOM);
             payFeeRulePo.setPayerObjId(importRoomFee.getRoomId());
+            //todo 业主信息已通过 queryOwnersByRoom 批量刷入，禁止前端透传
+            payFeeRulePo.setOwnerId(importRoomFee.getOwnerId());
+            payFeeRulePo.setOwnerName(importRoomFee.getOwnerName());
+            payFeeRulePo.setPayerObjName(StringUtil.isEmpty(importRoomFee.getPayerObjName())
+                    ? (!"0".equals(importRoomFee.getUnitNum())
+                        ? importRoomFee.getFloorNum() + "栋" + importRoomFee.getUnitNum() + "单元" + importRoomFee.getRoomNum() + "室"
+                        : importRoomFee.getFloorNum() + "栋" + importRoomFee.getRoomNum() + "室")
+                    : importRoomFee.getPayerObjName());
 
             payFeeRulePos.add(payFeeRulePo);
 
