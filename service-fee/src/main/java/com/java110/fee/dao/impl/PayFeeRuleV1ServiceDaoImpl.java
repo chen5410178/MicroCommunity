@@ -114,6 +114,35 @@ public class PayFeeRuleV1ServiceDaoImpl extends BaseServiceDao implements IPayFe
         return Integer.parseInt(businessPayFeeRuleInfos.get(0).get("count").toString());
     }
 
+    /**
+     * 查询手工账单目标费用规则列表（按账单日区间 + 分页）
+     * @param info 费用规则信息
+     * @return 费用规则列表
+     */
+    @Override
+    public List<Map> getManualBillTargetRulesInfo(Map info) {
+        logger.debug("查询 getManualBillTargetRulesInfo 入参 info : {}",info);
+
+        return sqlSessionTemplate.selectList("payFeeRuleV1ServiceDaoImpl.getManualBillTargetRulesInfo", info);
+    }
+
+    /**
+     * 查询手工账单目标费用规则数量
+     * @param info 费用规则信息
+     * @return 费用规则数量
+     */
+    @Override
+    public int queryManualBillTargetRulesCount(Map info) {
+        logger.debug("查询 queryManualBillTargetRulesCount 入参 info : {}",info);
+
+        List<Map> businessPayFeeRuleInfos = sqlSessionTemplate.selectList("payFeeRuleV1ServiceDaoImpl.queryManualBillTargetRulesCount", info);
+        if (businessPayFeeRuleInfos.size() < 1) {
+            return 0;
+        }
+
+        return Integer.parseInt(businessPayFeeRuleInfos.get(0).get("count").toString());
+    }
+
 
 
 }

@@ -19,7 +19,8 @@ export const messages = {
       deposit: 'Deposit',
       billingRules: 'Billing Rules',
       feeBills: 'Fee Bills',
-      prePayFee: 'Pre Pay Fee'
+      prePayFee: 'Pre Pay Fee',
+      onlyHasOwnerTip: 'Only rooms with owners are displayed'
     },
     inputSearchRoom: {
       noRoomFound: 'No room found'
@@ -528,7 +529,8 @@ export const messages = {
       deposit: '押金',
       billingRules: '设置费用',
       feeBills: '费用账单',
-      prePayFee: '预付收款'
+      prePayFee: '预付收款',
+      onlyHasOwnerTip: '仅显示有业主的房屋'
     },
     inputSearchRoom: {
       noRoomFound: '未查询到房屋'
@@ -1037,7 +1039,8 @@ export const messages = {
       deposit: '押金',
       billingRules: '設定費用',
       feeBills: '費用帳單',
-      prePayFee: '預付收款'
+      prePayFee: '預付收款',
+      onlyHasOwnerTip: '僅顯示有業主的房屋'
     },
     inputSearchRoom: {
       noRoomFound: '未查詢到房屋'

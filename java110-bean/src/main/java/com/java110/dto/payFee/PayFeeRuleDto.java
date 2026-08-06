@@ -20,6 +20,8 @@ public class PayFeeRuleDto extends FeeConfigDto implements Serializable {
 
     private String feeTypeCd;
     private String curYearMonth;
+    private String curYearMonthStart;
+    private String curYearMonthEnd;
     private String batchId;
     private String userId;
     private String incomeObjId;
@@ -68,6 +70,22 @@ public class PayFeeRuleDto extends FeeConfigDto implements Serializable {
 
     public void setCurYearMonth(String curYearMonth) {
         this.curYearMonth = curYearMonth;
+    }
+
+    public String getCurYearMonthStart() {
+        return curYearMonthStart;
+    }
+
+    public void setCurYearMonthStart(String curYearMonthStart) {
+        this.curYearMonthStart = curYearMonthStart;
+    }
+
+    public String getCurYearMonthEnd() {
+        return curYearMonthEnd;
+    }
+
+    public void setCurYearMonthEnd(String curYearMonthEnd) {
+        this.curYearMonthEnd = curYearMonthEnd;
     }
 
     public String getBatchId() {

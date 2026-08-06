@@ -3,18 +3,15 @@
     <el-card>
       <div slot="header" class="flex justify-between">
         <span>{{ $t('manualBillGeneration.manageTitle') }}</span>
-        <div>
-          <el-button type="primary" size="small" @click="$router.push('/pages/fee/manualBillGeneration')">
-            {{ $t('manualBillGeneration.createNew') }}
-          </el-button>
-        </div>
+        <el-button v-if="tabType === 'audit'" type="primary" size="small" @click="$emit('switchTab', 'apply')">
+          {{ $t('manualBillGeneration.createNew') }}
+        </el-button>
       </div>
       <el-form :model="searchForm" label-width="0">
         <el-row :gutter="20">
-          <el-col :span="4">
+          <el-col :span="4" v-if="tabType === 'done'">
             <el-form-item>
               <el-select v-model="searchForm.state" :placeholder="$t('manualBillGeneration.state')" clearable style="width:100%">
-                <el-option :label="$t('manualBillGeneration.stateWait')" value="1001"></el-option>
                 <el-option :label="$t('manualBillGeneration.statePass')" value="1002"></el-option>
                 <el-option :label="$t('manualBillGeneration.stateReject')" value="1003"></el-option>
               </el-select>
@@ -50,12 +47,12 @@
         <el-table-column prop="successCount" :label="$t('manualBillGeneration.successCount')" width="80" align="center"></el-table-column>
         <el-table-column prop="createUserName" :label="$t('manualBillGeneration.createUser')" width="100" align="center"></el-table-column>
         <el-table-column prop="createTime" :label="$t('manualBillGeneration.createTime')" width="160" align="center"></el-table-column>
-        <el-table-column :label="$t('common.operation')" width="200" align="center">
+        <el-table-column :label="$t('common.operation')" :width="tabType === 'audit' ? 200 : 100" align="center">
           <template slot-scope="scope">
             <el-button type="text" @click="handleDetail(scope.row)">
               {{ $t('common.detail') }}
             </el-button>
-            <el-button v-if="scope.row.state === '1001'" type="text" style="color:#f56c6c" @click="handleDelete(scope.row)">
+            <el-button v-if="tabType === 'audit' && scope.row.state === '1001'" type="text" style="color:#f56c6c" @click="handleDelete(scope.row)">
               {{ $t('common.delete') }}
             </el-button>
           </template>
@@ -79,11 +76,14 @@ import { listManualBillApplications, deleteManualBillApplication } from '@/api/f
 
 export default {
   name: 'ManualBillGenerationManageList',
+  props: {
+    tabType: { type: String, default: 'audit' }
+  },
   data() {
     return {
       loading: false,
       searchForm: {
-        state: ''
+        state: this.tabType === 'audit' ? '1001' : ''
       },
       listData: [],
       pagination: { page: 1, row: 10, total: 0 }
@@ -95,12 +95,17 @@ export default {
   methods: {
     loadData() {
       this.loading = true
-      listManualBillApplications({
+      const params = {
         page: this.pagination.page,
         row: this.pagination.row,
-        communityId: this.getCommunityId(),
-        state: this.searchForm.state
-      }).then(res => {
+        communityId: this.getCommunityId()
+      }
+      if (this.tabType === 'audit') {
+        params.state = '1001'
+      } else {
+        params.state = this.searchForm.state
+      }
+      listManualBillApplications(params).then(res => {
         if (res.code === 0) {
           this.listData = res.data || []
           this.pagination.total = res.total || 0
@@ -113,7 +118,11 @@ export default {
       this.loadData()
     },
     handleReset() {
-      this.searchForm = { state: '' }
+      if (this.tabType === 'audit') {
+        this.searchForm = { state: '1001' }
+      } else {
+        this.searchForm = { state: '' }
+      }
       this.handleSearch()
     },
     handleDetail(row) {

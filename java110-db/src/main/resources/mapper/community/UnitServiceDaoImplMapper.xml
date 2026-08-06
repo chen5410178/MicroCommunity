@@ -126,6 +126,14 @@
         <if test="userId !=null and userId != ''">
             and t.user_id= #{userId}
         </if>
+        <if test="hasOwnerRoom != null and hasOwnerRoom != ''">
+            and exists (
+                select 1 from building_room br
+                where br.unit_id = t.unit_id
+                  and br.status_cd = '0'
+                  and br.state != '2002'
+            )
+        </if>
         order by ff.seq,ff.floor_num,t.unit_num asc
         <!-- <if test="page != -1 and page != null ">
              limit #{page}, #{row}

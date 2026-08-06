@@ -200,16 +200,11 @@ export default [
     {
         path: '/pages/fee/manualBillGeneration',
         name: '/pages/fee/manualBillGeneration',
-        component: () => import('@/views/fee/manualBillGenerationList.vue')
+        component: () => import('@/views/fee/manualBillGenerationMain.vue')
     },
     {
         path: '/views/fee/manualBillGenerationDetail',
         name: '/views/fee/manualBillGenerationDetail',
         component: () => import('@/views/fee/manualBillGenerationDetail.vue')
-    },
-    {
-        path: '/pages/fee/manualBillGenerationManage',
-        name: '/pages/fee/manualBillGenerationManage',
-        component: () => import('@/views/fee/manualBillGenerationManageList.vue')
     },
 ]

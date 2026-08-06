@@ -2,7 +2,7 @@
   <div class="meter-water-manage-container">
     <el-row :gutter="20">
       <el-col :span="4" class="tree-container">
-        <room-tree-div ref="roomTree" @selectRoom="handleSelectRoom" />
+        <room-tree-div-has-owner ref="roomTree" @selectRoom="handleSelectRoom" />
       </el-col>
       <el-col :span="20">
         <el-card class="box-card">
@@ -94,7 +94,7 @@ import {
   listMeterTypes
 } from '@/api/fee/meterWaterManageApi'
 import { getCommunityId } from '@/api/community/communityApi'
-import RoomTreeDiv from '@/components/room/roomTreeDiv'
+import RoomTreeDivHasOwner from '@/components/room/roomTreeDivHasOwner'
 import AddMeterWater from '@/components/fee/addMeterWater'
 import EditMeterWater from '@/components/fee/editMeterWater'
 import DeleteMeterWater from '@/components/fee/deleteMeterWater'
@@ -105,7 +105,7 @@ import RoomMeterQrcode from '@/components/fee/roomMeterQrcode'
 export default {
   name: 'MeterWaterManageList',
   components: {
-    RoomTreeDiv,
+    RoomTreeDivHasOwner,
     AddMeterWater,
     EditMeterWater,
     DeleteMeterWater,

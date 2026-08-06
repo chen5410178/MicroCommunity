@@ -7,8 +7,22 @@
       <el-form :model="searchForm" label-width="120px">
         <el-row :gutter="20">
           <el-col :span="6">
+            <el-form-item :label="$t('manualBillGeneration.feeType')">
+              <el-select v-model="searchForm.feeTypeCd" :placeholder="$t('manualBillGeneration.selectFeeType')" filterable clearable style="width:100%" @change="handleFeeTypeChange">
+                <el-option v-for="item in feeTypes" :key="item.feeTypeCd" :label="item.text" :value="item.feeTypeCd"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item :label="$t('manualBillGeneration.feeSubType')">
+              <el-select v-model="searchForm.ftId" :placeholder="$t('manualBillGeneration.selectFeeSubType')" filterable clearable style="width:100%" :disabled="!searchForm.feeTypeCd" @change="handleFtChange">
+                <el-option v-for="item in feeSubTypes" :key="item.ftId" :label="item.text" :value="item.ftId"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
             <el-form-item :label="$t('manualBillGeneration.feeConfig')">
-              <el-select v-model="searchForm.configId" :placeholder="$t('manualBillGeneration.selectFeeConfig')" filterable clearable style="width:100%">
+              <el-select v-model="searchForm.configId" :placeholder="$t('manualBillGeneration.selectFeeConfig')" filterable clearable style="width:100%" :disabled="!searchForm.ftId">
                 <el-option v-for="item in feeConfigs" :key="item.configId" :label="item.feeName" :value="item.configId"></el-option>
               </el-select>
             </el-form-item>
@@ -18,7 +32,9 @@
               <el-date-picker v-model="searchForm.billMonth" type="month" value-format="yyyy-MM" :placeholder="$t('manualBillGeneration.selectBillMonth')" style="width:100%"></el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="24" style="text-align:right">
             <el-form-item>
               <el-button type="primary" size="small" @click="handleSearch" :loading="searchLoading">
                 {{ $t('manualBillGeneration.search') }}
@@ -34,7 +50,7 @@
 
     <el-card class="margin-top" v-if="searchResult.length > 0">
       <div slot="header" class="flex justify-between">
-        <span>{{ $t('manualBillGeneration.searchResult') }}（{{ searchResult.length }}）</span>
+        <span>{{ $t('manualBillGeneration.searchResult') }}（{{ pagination.total }}）</span>
         <div>
           <el-checkbox v-model="selectAll" @change="handleSelectAll">
             {{ $t('manualBillGeneration.selectAll') }}
@@ -52,6 +68,14 @@
         <el-table-column prop="curYearMonth" :label="$t('manualBillGeneration.curYearMonth')" width="120" align="center"></el-table-column>
         <el-table-column prop="amount" :label="$t('manualBillGeneration.amount')" width="120" align="center"></el-table-column>
       </el-table>
+      <el-pagination
+        class="margin-top"
+        :current-page="pagination.page"
+        :page-size="pagination.row"
+        :total="pagination.total"
+        layout="total, prev, pager, next"
+        @current-change="handlePageChange"
+      ></el-pagination>
     </el-card>
 
     <el-card class="margin-top" v-if="searchResult.length > 0">
@@ -65,41 +89,79 @@
 
 <script>
 import { searchManualBillTargets, saveManualBillApplication } from '@/api/fee/manualBillGenerationApi'
-import { listFeeConfigs } from '@/api/fee/feeConfigManageApi'
+import { queryFeeTypeTree, listFeeConfigs } from '@/api/fee/feeConfigManageApi'
 
 export default {
   name: 'ManualBillGenerationList',
   data() {
     return {
       searchForm: {
+        feeTypeCd: '',
+        ftId: '',
         configId: '',
         billMonth: ''
       },
+      feeTypes: [],
+      feeSubTypes: [],
+      feeTypeTree: [],
       feeConfigs: [],
       searchLoading: false,
       searchResult: [],
       selectedRows: [],
       selectAll: false,
+      pagination: { page: 1, row: 20, total: 0 },
       remark: ''
     }
   },
   mounted() {
-    this.loadFeeConfigs()
+    this.loadFeeTypeTree()
   },
   methods: {
-    loadFeeConfigs() {
+    loadFeeTypeTree() {
+      queryFeeTypeTree({ communityId: this.getCommunityId() }).then(res => {
+        if (res.code === 0) {
+          this.feeTypeTree = res.data || []
+          this.feeTypes = this.feeTypeTree.filter(item => item.feeTypeCd)
+        }
+      })
+    },
+    loadSubTypes(feeTypeCd) {
+      const node = this.feeTypeTree.find(item => item.feeTypeCd === feeTypeCd)
+      return (node && node.children) ? node.children : []
+    },
+    handleFeeTypeChange(feeTypeCd) {
+      this.searchForm.ftId = ''
+      this.searchForm.configId = ''
+      this.feeConfigs = []
+      this.feeSubTypes = this.loadSubTypes(feeTypeCd)
+    },
+    handleFtChange(ftId) {
+      this.searchForm.configId = ''
+      this.feeConfigs = []
+      if (ftId) {
+        this.loadFeeConfigs(ftId)
+      }
+    },
+    loadFeeConfigs(ftId) {
       listFeeConfigs({
         page: 1,
         row: 200,
         communityId: this.getCommunityId(),
+        ftId: ftId,
         feeFlag: '1003006'
       }).then(res => {
-        if (res.code === 0) {
-          this.feeConfigs = res.data || []
-        }
+        this.feeConfigs = (res && res.feeConfigs) ? res.feeConfigs : []
       })
     },
     handleSearch() {
+      if (!this.searchForm.feeTypeCd) {
+        this.$message.warning(this.$t('manualBillGeneration.pleaseSelectFeeType'))
+        return
+      }
+      if (!this.searchForm.ftId) {
+        this.$message.warning(this.$t('manualBillGeneration.pleaseSelectFeeSubType'))
+        return
+      }
       if (!this.searchForm.configId) {
         this.$message.warning(this.$t('manualBillGeneration.pleaseSelectFeeConfig'))
         return
@@ -108,6 +170,10 @@ export default {
         this.$message.warning(this.$t('manualBillGeneration.pleaseSelectBillMonth'))
         return
       }
+      this.pagination.page = 1
+      this.loadSearch()
+    },
+    loadSearch() {
       this.searchLoading = true
       this.searchResult = []
       this.selectedRows = []
@@ -115,10 +181,13 @@ export default {
       searchManualBillTargets({
         communityId: this.getCommunityId(),
         configId: this.searchForm.configId,
-        billMonth: this.searchForm.billMonth
+        billMonth: this.searchForm.billMonth,
+        page: this.pagination.page,
+        row: this.pagination.row
       }).then(res => {
         if (res.code === 0) {
           this.searchResult = res.data || []
+          this.pagination.total = res.total || 0
         } else {
           this.$message.error(res.msg || this.$t('manualBillGeneration.searchFail'))
         }
@@ -128,11 +197,20 @@ export default {
         this.$message.error(this.$t('manualBillGeneration.searchFail'))
       })
     },
+    handlePageChange(val) {
+      this.pagination.page = val
+      this.selectedRows = []
+      this.selectAll = false
+      this.loadSearch()
+    },
     handleReset() {
-      this.searchForm = { configId: '', billMonth: '' }
+      this.searchForm = { feeTypeCd: '', ftId: '', configId: '', billMonth: '' }
+      this.feeSubTypes = []
+      this.feeConfigs = []
       this.searchResult = []
       this.selectedRows = []
       this.selectAll = false
+      this.remark = ''
     },
     handleSelectAll(val) {
       if (val) {
@@ -170,7 +248,7 @@ export default {
         }).then(res => {
           if (res.code === 0) {
             this.$message.success(this.$t('manualBillGeneration.submitSuccess'))
-            this.$router.push('/pages/fee/manualBillGenerationManage')
+            this.$emit('switchTab', 'audit')
           } else {
             this.$message.error(res.msg || this.$t('manualBillGeneration.submitFail'))
           }

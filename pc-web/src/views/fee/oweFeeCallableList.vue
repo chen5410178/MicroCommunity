@@ -2,7 +2,7 @@
   <div class="owe-fee-callable-container">
     <el-row :gutter="20">
       <el-col :span="4" class="tree-container">
-        <room-tree-div ref="roomTree" @selectRoom="handleSelectRoom"></room-tree-div>
+        <room-tree-div-has-owner ref="roomTree" @selectRoom="handleSelectRoom"></room-tree-div-has-owner>
       </el-col>
       <el-col :span="20">
         <el-card class="search-card">
@@ -111,14 +111,14 @@
 <script>
 import { listOweFeeCallable } from '@/api/fee/oweFeeCallableApi'
 import { getCommunityId } from '@/api/community/communityApi'
-import RoomTreeDiv from '@/components/room/roomTreeDiv'
+import RoomTreeDivHasOwner from '@/components/room/roomTreeDivHasOwner'
 import WriteOweFeeCallable from '@/components/fee/writeOweFeeCallable'
 import DeleteOweFeeCallable from '@/components/fee/deleteOweFeeCallable'
 
 export default {
   name: 'OweFeeCallableList',
   components: {
-    RoomTreeDiv,
+    RoomTreeDivHasOwner,
     WriteOweFeeCallable,
     DeleteOweFeeCallable
   },

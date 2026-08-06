@@ -57,8 +57,18 @@ public class UnitDto extends PageDto implements Serializable {
 
     private String communityName;
 
+    /**
+     * 是否只查询下有已销售房屋的单元（1=是）
+     */
+    private String hasOwnerRoom;
 
+    public String getHasOwnerRoom() {
+        return hasOwnerRoom;
+    }
 
+    public void setHasOwnerRoom(String hasOwnerRoom) {
+        this.hasOwnerRoom = hasOwnerRoom;
+    }
 
     public String getUnitId() {
         return unitId;

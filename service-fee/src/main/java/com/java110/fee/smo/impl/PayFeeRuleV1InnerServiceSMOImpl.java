@@ -94,4 +94,23 @@ public class PayFeeRuleV1InnerServiceSMOImpl extends BaseServiceSMO implements I
     public int queryPayFeeRulesCount(@RequestBody PayFeeRuleDto payFeeRuleDto) {
         return payFeeRuleV1ServiceDaoImpl.queryPayFeeRulesCount(BeanConvertUtil.beanCovertMap(payFeeRuleDto));    }
 
+    @Override
+    public List<PayFeeRuleDto> queryManualBillTargetRules(@RequestBody PayFeeRuleDto payFeeRuleDto) {
+
+        int page = payFeeRuleDto.getPage();
+
+        if (page != PageDto.DEFAULT_PAGE) {
+            payFeeRuleDto.setPage((page - 1) * payFeeRuleDto.getRow());
+        }
+
+        List<PayFeeRuleDto> payFeeRules = BeanConvertUtil.covertBeanList(payFeeRuleV1ServiceDaoImpl.getManualBillTargetRulesInfo(BeanConvertUtil.beanCovertMap(payFeeRuleDto)), PayFeeRuleDto.class);
+
+        return payFeeRules;
+    }
+
+    @Override
+    public int queryManualBillTargetRulesCount(@RequestBody PayFeeRuleDto payFeeRuleDto) {
+        return payFeeRuleV1ServiceDaoImpl.queryManualBillTargetRulesCount(BeanConvertUtil.beanCovertMap(payFeeRuleDto));
+    }
+
 }

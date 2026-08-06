@@ -79,6 +79,23 @@ export function queryUnits(params) {
   })
 }
 
+// 查询有业主房屋的单元列表（过滤无已销售房屋的单元）
+export function queryUnitsHasOwner(params) {
+  return new Promise((resolve, reject) => {
+    params.communityId = getCommunityId()
+    request({
+      url: '/unit.queryUnitsHasOwner',
+      method: 'get',
+      params
+    }).then(response => {
+      const res = response.data
+      resolve(res)
+    }).catch(error => {
+      reject(error)
+    })
+  })
+}
+
 // 查询房屋列表
 export function queryRooms(params) {
   return new Promise((resolve, reject) => {

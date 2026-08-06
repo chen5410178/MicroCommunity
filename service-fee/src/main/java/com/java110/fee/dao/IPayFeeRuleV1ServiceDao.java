@@ -71,6 +71,22 @@ public interface IPayFeeRuleV1ServiceDao {
     int queryPayFeeRulesCount(Map info);
 
     /**
+     * 查询手工账单目标费用规则列表（按账单日区间 + 分页）
+     *
+     * @param info 费用规则信息
+     * @return 费用规则列表
+     */
+    List<Map> getManualBillTargetRulesInfo(Map info);
+
+    /**
+     * 查询手工账单目标费用规则总数（与 getManualBillTargetRulesInfo 条件一致）
+     *
+     * @param info 费用规则信息
+     * @return 费用规则数量
+     */
+    int queryManualBillTargetRulesCount(Map info);
+
+    /**
      * 保存创建费用规则
      *
      * @param info

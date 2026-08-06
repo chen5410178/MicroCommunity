@@ -71,5 +71,23 @@ public interface IPayFeeRuleV1InnerServiceSMO {
     @RequestMapping(value = "/queryPayFeeRulesCount", method = RequestMethod.POST)
     int queryPayFeeRulesCount(@RequestBody PayFeeRuleDto payFeeRuleDto);
 
+    /**
+     * 查询手工账单目标费用规则列表（按账单日区间 + 分页）
+     *
+     * @param payFeeRuleDto 数据对象分享
+     * @return PayFeeRuleDto 对象数据
+     */
+    @RequestMapping(value = "/queryManualBillTargetRules", method = RequestMethod.POST)
+    List<PayFeeRuleDto> queryManualBillTargetRules(@RequestBody PayFeeRuleDto payFeeRuleDto);
+
+    /**
+     * 查询手工账单目标费用规则总记录数（与 queryManualBillTargetRules 条件一致）
+     *
+     * @param payFeeRuleDto 数据对象分享
+     * @return 总记录数
+     */
+    @RequestMapping(value = "/queryManualBillTargetRulesCount", method = RequestMethod.POST)
+    int queryManualBillTargetRulesCount(@RequestBody PayFeeRuleDto payFeeRuleDto);
+
 
 }

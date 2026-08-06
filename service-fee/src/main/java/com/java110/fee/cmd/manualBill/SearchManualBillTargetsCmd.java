@@ -16,11 +16,14 @@ import com.java110.intf.fee.IPayFeeRuleV1InnerServiceSMO;
 import com.java110.utils.exception.CmdException;
 import com.java110.utils.util.Assert;
 import com.java110.utils.util.BeanConvertUtil;
+import com.java110.utils.util.DateUtil;
 import com.java110.utils.util.StringUtil;
 import com.java110.vo.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,6 +48,7 @@ public class SearchManualBillTargetsCmd extends Cmd {
         Assert.hasKeyAndValue(reqJson, "communityId", "未包含小区ID");
         Assert.hasKeyAndValue(reqJson, "configId", "未包含费用项ID");
         Assert.hasKeyAndValue(reqJson, "billMonth", "未包含目标账单月份");
+        super.validatePageInfo(reqJson);
         reqJson.remove("userId");
     }
 
@@ -73,17 +77,27 @@ public class SearchManualBillTargetsCmd extends Cmd {
             }
         }
 
-        PayFeeRuleDto payFeeRuleDto = new PayFeeRuleDto();
+        // billMonth 标准化为 yyyy-MM，并计算账单日区间 [startMonth, endMonth)
+        String startMonth = billMonth.length() == 7 ? billMonth : billMonth.substring(0, 5) + "0" + billMonth.substring(5);
+        Date startDate;
+        try {
+            startDate = DateUtil.getDateFromString(startMonth + "-01", DateUtil.DATE_FORMATE_STRING_B);
+        } catch (ParseException e) {
+            throw new CmdException("目标账单月份格式不正确：" + billMonth);
+        }
+        Date endDate = DateUtil.getNextMonthDate(startDate, 1);
+        String endMonth = DateUtil.getFormatTimeStringQ(endDate);
+
+        PayFeeRuleDto payFeeRuleDto = BeanConvertUtil.covertBean(reqJson, PayFeeRuleDto.class);
         payFeeRuleDto.setCommunityId(communityId);
         payFeeRuleDto.setConfigId(configId);
         payFeeRuleDto.setState(FeeDto.STATE_DOING);
         payFeeRuleDto.setFeeFlag(FeeDto.FEE_FLAG_CYCLE);
-        List<PayFeeRuleDto> payFeeRuleDtos = payFeeRuleV1InnerServiceSMOImpl.queryPayFeeRules(payFeeRuleDto);
+        payFeeRuleDto.setCurYearMonthStart(startMonth);
+        payFeeRuleDto.setCurYearMonthEnd(endMonth);
 
-        if (payFeeRuleDtos != null) {
-            payFeeRuleDtos.removeIf(rule ->
-                    rule.getCurYearMonth() != null && rule.getCurYearMonth().compareTo(billMonth) > 0);
-        }
+        int total = payFeeRuleV1InnerServiceSMOImpl.queryManualBillTargetRulesCount(payFeeRuleDto);
+        List<PayFeeRuleDto> payFeeRuleDtos = payFeeRuleV1InnerServiceSMOImpl.queryManualBillTargetRules(payFeeRuleDto);
 
         List<Map<String, Object>> resultList = new ArrayList<>();
         if (payFeeRuleDtos != null && !payFeeRuleDtos.isEmpty()) {
@@ -124,6 +138,7 @@ public class SearchManualBillTargetsCmd extends Cmd {
             }
         }
 
-        context.setResponseEntity(ResultVo.createResponseEntity(resultList));
+        int row = reqJson.getInteger("row");
+        context.setResponseEntity(ResultVo.createResponseEntity((int) Math.ceil((double) total / (double) row), total, resultList));
     }
 }

@@ -250,4 +250,63 @@
 
     </select>
 
+    <!-- 查询手工账单目标费用规则信息（按账单日区间 + 分页） add by txcode 2026-08-06 -->
+    <select id="getManualBillTargetRulesInfo" parameterType="Map" resultType="Map">
+        select t.rule_id ruleId, t.config_id configId, t.fee_type_cd feeTypeCd,
+               t.fee_flag feeFlag, t.cur_year_month curYearMonth, t.amount,
+               t.payer_obj_type payerObjType, t.payer_obj_id payerObjId,
+               t.community_id communityId, t.state, t.fee_remark feeRemark,
+               pfc.fee_name feeName
+        from pay_fee_rule t
+        left join pay_fee_config pfc on t.config_id = pfc.config_id and pfc.status_cd = '0'
+        where 1 = 1
+        <if test="communityId != null and communityId != ''">
+            and t.community_id = #{communityId}
+        </if>
+        <if test="configId != null and configId != ''">
+            and t.config_id = #{configId}
+        </if>
+        <if test="state != null and state != ''">
+            and t.state = #{state}
+        </if>
+        <if test="feeFlag != null and feeFlag != ''">
+            and t.fee_flag = #{feeFlag}
+        </if>
+        <if test="curYearMonthStart != null and curYearMonthStart != ''">
+            and t.cur_year_month &gt;= #{curYearMonthStart}
+        </if>
+        <if test="curYearMonthEnd != null and curYearMonthEnd != ''">
+            and t.cur_year_month &lt; #{curYearMonthEnd}
+        </if>
+        order by t.cur_year_month desc, t.create_time desc
+        <if test="page != -1 and page != null">
+            limit #{page}, #{row}
+        </if>
+    </select>
+
+    <!-- 查询手工账单目标费用规则数量（与 getManualBillTargetRulesInfo 条件一致） add by txcode 2026-08-06 -->
+    <select id="queryManualBillTargetRulesCount" parameterType="Map" resultType="Map">
+        select count(1) count
+        from pay_fee_rule t
+        where 1 = 1
+        <if test="communityId != null and communityId != ''">
+            and t.community_id = #{communityId}
+        </if>
+        <if test="configId != null and configId != ''">
+            and t.config_id = #{configId}
+        </if>
+        <if test="state != null and state != ''">
+            and t.state = #{state}
+        </if>
+        <if test="feeFlag != null and feeFlag != ''">
+            and t.fee_flag = #{feeFlag}
+        </if>
+        <if test="curYearMonthStart != null and curYearMonthStart != ''">
+            and t.cur_year_month &gt;= #{curYearMonthStart}
+        </if>
+        <if test="curYearMonthEnd != null and curYearMonthEnd != ''">
+            and t.cur_year_month &lt; #{curYearMonthEnd}
+        </if>
+    </select>
+
 </mapper>

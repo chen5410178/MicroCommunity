@@ -274,6 +274,9 @@
         <if test="communityId !=null and communityId != ''">
             and t.community_id= #{communityId}
         </if>
+        <if test="noState != null and noState != ''">
+            and t.state != #{noState}
+        </if>
         order by CONVERT(t.layer, SIGNED), CONVERT(t.room_num, SIGNED)
     </select>
 

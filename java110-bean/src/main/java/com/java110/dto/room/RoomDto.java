@@ -76,6 +76,11 @@ public class RoomDto extends PageDto implements Serializable {
     private String stateName;
     private String unitNum;
 
+    /**
+     * 排除的状态（state != noState），如传 2002 排除未销售房屋
+     */
+    private String noState;
+
     private List<RoomAttrDto> roomAttrDto;
 
     private List<FeeDto> fees;
@@ -255,6 +260,14 @@ public class RoomDto extends PageDto implements Serializable {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public String getNoState() {
+        return noState;
+    }
+
+    public void setNoState(String noState) {
+        this.noState = noState;
     }
 
     public String getOwnerId() {

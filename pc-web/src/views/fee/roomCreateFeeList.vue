@@ -8,7 +8,7 @@
       </el-card>
       <template v-else>
       <div class="tree-panel" :style="{ width: treeWidth + 'px' }">
-        <room-tree-div ref="roomTreeDiv" @selectRoom="handleSelectRoom" @treeEmpty="handleTreeEmpty"></room-tree-div>
+        <room-tree-div-has-owner ref="roomTreeDiv" @selectRoom="handleSelectRoom" @treeEmpty="handleTreeEmpty"></room-tree-div-has-owner>
       </div>
 
       <!-- 拖拽分隔线 -->
@@ -129,7 +129,7 @@
 </template>
 
 <script>
-import RoomTreeDiv from '@/components/room/roomTreeDiv'
+import RoomTreeDivHasOwner from '@/components/room/roomTreeDivHasOwner'
 import InputSearchRoom from '@/components/fee/inputSearchRoom'
 import InputSearchRoomByOwner from '@/components/fee/inputSearchRoomByOwner'
 import SimplifyRoomFee from '@/components/fee/simplifyRoomFee'
@@ -152,7 +152,7 @@ import { queryRooms } from '@/api/fee/roomCreateFeeApi'
 export default {
   name: 'RoomCreateFeeList',
   components: {
-    RoomTreeDiv,
+    RoomTreeDivHasOwner,
     InputSearchRoom,
     InputSearchRoomByOwner,
     SimplifyRoomFee,
