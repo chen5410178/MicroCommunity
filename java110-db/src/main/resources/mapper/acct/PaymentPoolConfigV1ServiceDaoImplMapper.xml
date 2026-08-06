@@ -69,6 +69,10 @@
         <if test="ppcId !=null and ppcId != ''">
             and t.ppc_id= #{ppcId}
         </if>
+        <if test="ppId !=null and ppId != ''">
+            and t.pp_id= #{ppId}
+        </if>
+
 
     </update>
 
