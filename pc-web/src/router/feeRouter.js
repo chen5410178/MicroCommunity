@@ -109,7 +109,6 @@ export default [
     },
     {
         path: '/views/fee/batchPayFeeOrder',
-        meta: { title: '批量缴费' },
         name: '/views/fee/batchPayFeeOrder',
         component: () => import('@/views/fee/batchPayFeeOrderList.vue')
     },
