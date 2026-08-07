@@ -88,6 +88,11 @@ public class SaveFloorShareMeterCmd extends Cmd {
         List<FeeConfigDto> feeConfigDtos = feeConfigInnerServiceSMOImpl.queryFeeConfigs(feeConfigDto);
         Assert.listOnlyOne(feeConfigDtos, "未包含费用项");
 
+        // 校验公摊费用项公式必须为动态费用
+        if (!FeeConfigDto.COMPUTING_FORMULA_DYNAMIC.equals(feeConfigDtos.get(0).getComputingFormula())) {
+            throw new CmdException("公摊费用项必须选择'动态费用'公式，当前费用项公式不适用公摊，请更换费用项");
+        }
+
         FloorDto floorDto = new FloorDto();
         floorDto.setFloorId(reqJson.getString("floorId"));
         floorDto.setCommunityId(reqJson.getString("communityId"));

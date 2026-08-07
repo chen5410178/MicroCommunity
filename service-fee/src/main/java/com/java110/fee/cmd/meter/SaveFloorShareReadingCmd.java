@@ -25,7 +25,9 @@ import com.java110.core.event.cmd.CmdEvent;
 import com.java110.core.factory.GenerateCodeFactory;
 import com.java110.dto.floorShareMeter.FloorShareMeterDto;
 import com.java110.dto.floorShareReading.FloorShareReadingDto;
+import com.java110.dto.fee.FeeConfigDto;
 import com.java110.dto.user.UserDto;
+import com.java110.intf.fee.IFeeConfigInnerServiceSMO;
 import com.java110.intf.fee.IFloorShareMeterV1InnerServiceSMO;
 import com.java110.intf.fee.IFloorShareReadingV1InnerServiceSMO;
 import com.java110.intf.user.IUserV1InnerServiceSMO;
@@ -69,6 +71,9 @@ public class SaveFloorShareReadingCmd extends Cmd {
     @Autowired
     private IUserV1InnerServiceSMO userV1InnerServiceSMOImpl;
 
+    @Autowired
+    private IFeeConfigInnerServiceSMO feeConfigInnerServiceSMOImpl;
+
     @Override
     public void validate(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) {
         Assert.hasKeyAndValue(reqJson, "fsmId", "请求报文中未包含fsmId");
@@ -100,6 +105,15 @@ public class SaveFloorShareReadingCmd extends Cmd {
         List<FloorShareMeterDto> floorShareMeterDtos = floorShareMeterV1InnerServiceSMOImpl.queryFloorShareMeters(floorShareMeterDto);
         if (ListUtil.isNull(floorShareMeterDtos)) {
             throw new CmdException("未包含公摊表");
+        }
+
+        // 校验公摊表费用项公式必须为动态费用
+        FeeConfigDto feeConfigDto = new FeeConfigDto();
+        feeConfigDto.setConfigId(floorShareMeterDtos.get(0).getConfigId());
+        List<FeeConfigDto> feeConfigDtos = feeConfigInnerServiceSMOImpl.queryFeeConfigs(feeConfigDto);
+        Assert.listOnlyOne(feeConfigDtos, "费用项不存在");
+        if (!FeeConfigDto.COMPUTING_FORMULA_DYNAMIC.equals(feeConfigDtos.get(0).getComputingFormula())) {
+            throw new CmdException("公摊费用项必须选择'动态费用'公式，请先在公摊表管理中修改费用项后重试");
         }
 
         FloorShareReadingPo floorShareReadingPo = BeanConvertUtil.covertBean(reqJson, FloorShareReadingPo.class);

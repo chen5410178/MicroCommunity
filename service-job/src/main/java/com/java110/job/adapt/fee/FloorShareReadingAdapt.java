@@ -243,6 +243,14 @@ public class FloorShareReadingAdapt extends DatabusAdaptImpl {
             }
             String feeId = feeDtos.get(0).getFeeId();
 
+            // 刷 pay_fee 说明：公摊度数 + 公摊单价（金额由动态费用公式保证 = 公摊度数 × 公摊单价）
+            PayFeePo updateFeePo = new PayFeePo();
+            updateFeePo.setFeeId(feeId);
+            updateFeePo.setCommunityId(floorShareMeterDto.getCommunityId());
+            String remark = "公摊度数：" + roomDegree + "度\n公摊单价：" + floorShareMeterDto.getSharePrice() + "元/度";
+            updateFeePo.setRemark(remark);
+            feeInnerServiceSMOImpl.updateFee(updateFeePo);
+
             saveFloorShareFeeAttrs(floorShareMeterDto, floorShareReadingDto, roomDto, feeId, roomDegree);
 
             saveFloorShareFee(floorShareMeterDto, floorShareReadingDto, roomDto, feeConfigDto, roomDegree, feeId);
