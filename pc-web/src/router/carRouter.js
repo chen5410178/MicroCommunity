@@ -37,7 +37,6 @@ export default [
       },
       {
         path: '/views/car/hireParkingSpace',
-        meta: { title: '租车位' },
         name: '/views/car/hireParkingSpace',
         component: () => import('@/views/car/hireParkingSpaceList.vue')
       },
@@ -48,7 +47,6 @@ export default [
       },
       {
         path: '/views/fee/buyCarMonthCard',
-        meta: { title: '购买月卡' },
         name: '/views/fee/buyCarMonthCard',
         component: () => import('@/views/fee/buyCarMonthCardList.vue')
       },
