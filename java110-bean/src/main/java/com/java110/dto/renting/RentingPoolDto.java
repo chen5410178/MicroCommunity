@@ -30,7 +30,6 @@ public class RentingPoolDto extends PageDto implements Serializable {
 
     private String latitude;
     private String ownerTel;
-    private String rentingConfigId;
     private String rentingDesc;
     private String rentingTitle;
     private String checkIn;
@@ -52,20 +51,9 @@ public class RentingPoolDto extends PageDto implements Serializable {
     private String communityName;
     private String longitude;
 
-    private String rentingType;
-
-
     private Date createTime;
 
     private String statusCd = "0";
-
-    private String serviceOwnerRate;
-    private String serviceTenantRate;
-    private String adminSeparateRate;
-    private String proxySeparateRate;
-    private String propertySeparateRate;
-    private String servicePrice;
-    private String rentingFormula;
 
     List<String> photos;
 
@@ -84,14 +72,6 @@ public class RentingPoolDto extends PageDto implements Serializable {
 
     public void setOwnerTel(String ownerTel) {
         this.ownerTel = ownerTel;
-    }
-
-    public String getRentingConfigId() {
-        return rentingConfigId;
-    }
-
-    public void setRentingConfigId(String rentingConfigId) {
-        this.rentingConfigId = rentingConfigId;
     }
 
     public String getRentingDesc() {
@@ -223,76 +203,12 @@ public class RentingPoolDto extends PageDto implements Serializable {
         this.paymentTypeName = paymentTypeName;
     }
 
-    public String getRentingType() {
-        return rentingType;
-    }
-
-    public void setRentingType(String rentingType) {
-        this.rentingType = rentingType;
-    }
-
     public String getRoomName() {
         return roomName;
     }
 
     public void setRoomName(String roomName) {
         this.roomName = roomName;
-    }
-
-    public String getServiceOwnerRate() {
-        return serviceOwnerRate;
-    }
-
-    public void setServiceOwnerRate(String serviceOwnerRate) {
-        this.serviceOwnerRate = serviceOwnerRate;
-    }
-
-    public String getServiceTenantRate() {
-        return serviceTenantRate;
-    }
-
-    public void setServiceTenantRate(String serviceTenantRate) {
-        this.serviceTenantRate = serviceTenantRate;
-    }
-
-    public String getAdminSeparateRate() {
-        return adminSeparateRate;
-    }
-
-    public void setAdminSeparateRate(String adminSeparateRate) {
-        this.adminSeparateRate = adminSeparateRate;
-    }
-
-    public String getProxySeparateRate() {
-        return proxySeparateRate;
-    }
-
-    public void setProxySeparateRate(String proxySeparateRate) {
-        this.proxySeparateRate = proxySeparateRate;
-    }
-
-    public String getPropertySeparateRate() {
-        return propertySeparateRate;
-    }
-
-    public void setPropertySeparateRate(String propertySeparateRate) {
-        this.propertySeparateRate = propertySeparateRate;
-    }
-
-    public String getServicePrice() {
-        return servicePrice;
-    }
-
-    public void setServicePrice(String servicePrice) {
-        this.servicePrice = servicePrice;
-    }
-
-    public String getRentingFormula() {
-        return rentingFormula;
-    }
-
-    public void setRentingFormula(String rentingFormula) {
-        this.rentingFormula = rentingFormula;
     }
 
     public String getBuiltUpArea() {

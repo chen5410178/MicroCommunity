@@ -16,7 +16,7 @@
               <ul class="car-list">
                 <li v-for="(item, index) in carCreateFeeInfo.cars" :key="index" class="car-item"
                   :class="{ 'selected': carCreateFeeInfo.carId === item.carId }" @click="swatchCar(item)">
-                  {{ item.carNum }}({{ item.num }})--{{ item.ownerName }}
+                  {{ item.carNum }}({{ item.num ? item.num : item.areaNum }})--{{ item.ownerName }}
                 </li>
               </ul>
             </div>

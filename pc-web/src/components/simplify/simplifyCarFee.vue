@@ -280,7 +280,9 @@ export default {
             this.simplifyCarFeeInfo.carId = this.simplifyCarFeeInfo.ownerCars[0].carId
             this.simplifyCarFeeInfo.carNum = this.simplifyCarFeeInfo.ownerCars[0].carNum
             this.simplifyCarFeeInfo.num = this.simplifyCarFeeInfo.ownerCars[0].num
-            this.simplifyCarFeeInfo.parkingName = this.simplifyCarFeeInfo.ownerCars[0].areaNum + '停车场' + this.simplifyCarFeeInfo.ownerCars[0].num + '停车位'
+            this.simplifyCarFeeInfo.parkingName = this.simplifyCarFeeInfo.ownerCars[0].num
+              ? this.simplifyCarFeeInfo.ownerCars[0].areaNum + '停车场' + this.simplifyCarFeeInfo.ownerCars[0].num + '停车位'
+              : (this.simplifyCarFeeInfo.ownerCars[0].areaNum ? this.simplifyCarFeeInfo.ownerCars[0].areaNum + '停车场' : '')
           }
         }
       } catch (error) {
@@ -294,7 +296,9 @@ export default {
 
       this.simplifyCarFeeInfo.carNum = car.carNum
       this.simplifyCarFeeInfo.num = car.num
-      this.simplifyCarFeeInfo.parkingName = car.areaNum + '停车场' + car.num + '停车位'
+      this.simplifyCarFeeInfo.parkingName = car.num
+        ? car.areaNum + '停车场' + car.num + '停车位'
+        : (car.areaNum ? car.areaNum + '停车场' : '')
       this._listSimplifyCarFee(this.currentPage, this.pageSize)
     },
 

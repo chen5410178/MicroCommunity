@@ -73,6 +73,8 @@ public class CarAddParkingSpaceCmd extends Cmd {
         if (!StringUtil.isEmpty(state) && !state.equals("F")) { //如果车位状态不是空闲的，就不能续租
             throw new IllegalArgumentException("车位已被使用，无法继续续租！");
         }
+        //回填车位所属停车场ID
+        ownerCarPo.setPaId(parkingSpaceDtos.get(0).getPaId());
         ownerCarPo.setState(OwnerCarDto.STATE_NORMAL);
         int flag = ownerCarV1InnerServiceSMOImpl.updateOwnerCar(ownerCarPo);
         if (flag < 1) {

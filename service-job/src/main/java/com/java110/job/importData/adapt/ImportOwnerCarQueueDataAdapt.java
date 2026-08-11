@@ -85,6 +85,15 @@ public class ImportOwnerCarQueueDataAdapt extends DefaultImportData implements I
         ownerCarPo.setEndTime(ownerCarDto.getLogEndTime());
         //获取房屋名称
         ownerCarPo.setCarTypeCd("1001"); //主车辆
+        ownerCarPo.setOwnerId(ownerCarDto.getOwnerId());
+        ownerCarPo.setCommunityId(ownerCarDto.getCommunityId());
+        ownerCarPo.setCarId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_carId));
+        ownerCarPo.setMemberId(ownerCarPo.getCarId());
+        ownerCarPo.setState("1001"); //1001 正常状态，2002 车位释放欠费状态，3003 车位释放
+        ownerCarPo.setLeaseType(ownerCarDto.getSpaceSate());
+        //联系人/电话回填（与"添加车辆选业主默认带出"逻辑一致）
+        ownerCarPo.setContact(ownerCarDto.getOwnerName());
+        ownerCarPo.setTel(ownerCarDto.getLink());
         ParkingAreaDto parkingAreaDto = new ParkingAreaDto();
         parkingAreaDto.setNum(ownerCarDto.getAreaNum());
         parkingAreaDto.setTypeCd(ownerCarDto.getTypeCd());
@@ -105,6 +114,14 @@ public class ImportOwnerCarQueueDataAdapt extends DefaultImportData implements I
             parkingAreaV1InnerServiceSMOImpl.saveParkingArea(parkingAreaPo);
         } else {
             paId = parkingAreaDtos.get(0).getPaId();
+        }
+        ownerCarPo.setPaId(paId);
+
+        //无车位：psId 置 -1，不创建停车位、不校验状态、不更新车位状态
+        if (StringUtil.isEmpty(ownerCarDto.getNum())) {
+            ownerCarPo.setPsId("-1");
+            ownerCarV1InnerServiceSMOImpl.saveOwnerCar(ownerCarPo);
+            return;
         }
         ParkingSpaceDto parkingSpaceDto = new ParkingSpaceDto();
         parkingSpaceDto.setNum(ownerCarDto.getNum());
@@ -137,12 +154,6 @@ public class ImportOwnerCarQueueDataAdapt extends DefaultImportData implements I
             throw new IllegalArgumentException(ownerCarDto.getAreaNum() + "停车场-" + ownerCarDto.getNum() + "停车位不是空闲状态！");
         }
         ownerCarPo.setPsId(psId);
-        ownerCarPo.setOwnerId(ownerCarDto.getOwnerId());
-        ownerCarPo.setCommunityId(ownerCarDto.getCommunityId());
-        ownerCarPo.setCarId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_carId));
-        ownerCarPo.setMemberId(ownerCarPo.getCarId());
-        ownerCarPo.setState("1001"); //1001 正常状态，2002 车位释放欠费状态，3003 车位释放
-        ownerCarPo.setLeaseType(ownerCarDto.getSpaceSate());
         ownerCarV1InnerServiceSMOImpl.saveOwnerCar(ownerCarPo);
         ParkingSpacePo parkingSpacePo = new ParkingSpacePo();
         parkingSpacePo.setPsId(psId); //车位id

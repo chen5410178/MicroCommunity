@@ -25,13 +25,16 @@
       <el-table-column prop="carColor" :label="$t('simplifyOwnerCar.color')" align="center"></el-table-column>
       <el-table-column :label="$t('simplifyOwnerCar.owner')" align="center">
         <template #default="{row}">
-          {{row.ownerName}}({{row.link}})
+          {{row.contact || row.ownerName}}({{row.tel || row.link}})
         </template>
       </el-table-column>
       <el-table-column :label="$t('simplifyOwnerCar.parkingSpace')" align="center">
         <template #default="{row}">
-          <span v-if="row.areaNum">
+          <span v-if="row.num">
             {{row.areaNum}}{{$t('simplifyOwnerCar.parkingLot')}}{{row.num}}{{$t('simplifyOwnerCar.space')}}
+          </span>
+          <span v-else-if="row.areaNum">
+            {{row.areaNum}}{{$t('simplifyOwnerCar.parkingLot')}}
           </span>
           <span v-else>{{ $t('simplifyOwnerCar.none') }}</span>
         </template>

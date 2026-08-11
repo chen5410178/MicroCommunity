@@ -106,6 +106,8 @@ public class SendCarDataToIotAdapt extends DatabusAdaptImpl {
         car.put("startTime", DateUtil.getFormatTimeStringA(tmpOwnerCarDto.getStartTime()));
         car.put("endTime", DateUtil.getFormatTimeStringA(tmpOwnerCarDto.getEndTime()));
         car.put("leaseType", tmpOwnerCarDto.getLeaseType());
+        car.put("contact", tmpOwnerCarDto.getContact());
+        car.put("tel", tmpOwnerCarDto.getTel());
 
         ResultVo resultVo = sendIotImpl.post("/iot/api/car.addCarApi", car);
         if (resultVo.getCode() != ResultVo.CODE_OK) {

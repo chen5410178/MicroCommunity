@@ -108,7 +108,7 @@
             <el-table-column :label="$t('listOwnerCar.parkingSpace')" align="center">
               <template slot-scope="scope">
                 <span v-if="scope.row.areaNum && scope.row.state === '1001'">
-                  {{ scope.row.areaNum }}-{{ scope.row.num }}
+                  {{ scope.row.num ? scope.row.areaNum + '-' + scope.row.num : scope.row.areaNum + $t('listOwnerCar.parkingAreaSuffix') }}
                 </span>
                 <span v-else>{{ $t('listOwnerCar.parkingSpaceReleased') }}</span>
               </template>

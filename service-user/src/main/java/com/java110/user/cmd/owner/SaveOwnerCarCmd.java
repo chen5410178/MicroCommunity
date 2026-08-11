@@ -10,8 +10,10 @@ import com.java110.core.event.cmd.CmdEvent;
 import com.java110.core.factory.GenerateCodeFactory;
 import com.java110.dto.machine.CarInoutDto;
 import com.java110.dto.owner.OwnerCarDto;
+import com.java110.dto.parking.ParkingAreaDto;
 import com.java110.dto.parking.ParkingSpaceDto;
 import com.java110.intf.common.ICarInoutInnerServiceSMO;
+import com.java110.intf.community.IParkingAreaInnerServiceSMO;
 import com.java110.intf.community.IParkingSpaceInnerServiceSMO;
 import com.java110.intf.community.IParkingSpaceV1InnerServiceSMO;
 import com.java110.intf.fee.IFeeConfigInnerServiceSMO;
@@ -37,6 +39,9 @@ public class SaveOwnerCarCmd extends Cmd {
     private IFeeConfigInnerServiceSMO feeConfigInnerServiceSMOImpl;
 
     @Autowired
+    private IParkingAreaInnerServiceSMO parkingAreaInnerServiceSMOImpl;
+
+    @Autowired
     private IParkingSpaceInnerServiceSMO parkingSpaceInnerServiceSMOImpl;
 
     @Autowired
@@ -60,7 +65,13 @@ public class SaveOwnerCarCmd extends Cmd {
         Assert.hasKeyAndValue(reqJson, "ownerId", "请求报文中未包含ownerId");
         Assert.hasKeyAndValue(reqJson, "carNum", "请求报文中未包含carNum");
         Assert.hasKeyAndValue(reqJson, "carType", "请求报文中未包含carType");
-        Assert.hasKeyAndValue(reqJson, "psId", "未包含psId");
+        Assert.hasKeyAndValue(reqJson, "paId", "未包含paId");
+
+        //校验停车场是否存在
+        ParkingAreaDto parkingAreaDto = new ParkingAreaDto();
+        parkingAreaDto.setPaId(reqJson.getString("paId"));
+        List<ParkingAreaDto> parkingAreaDtos = parkingAreaInnerServiceSMOImpl.queryParkingAreas(parkingAreaDto);
+        Assert.listOnlyOne(parkingAreaDtos, "查询停车场错误！");
 
         if (OwnerCarDto.LEASE_TYPE_MONTH.equals(reqJson.getString("leaseType"))) {
             Assert.hasKeyAndValue(reqJson, "startTime", "请求报文中未包含开始时间");
@@ -80,22 +91,33 @@ public class SaveOwnerCarCmd extends Cmd {
             reqJson.put("endTime",endTime);
         }
 
-        //检查车位是否是空闲状态
-        ParkingSpaceDto parkingSpaceDto = new ParkingSpaceDto();
-        parkingSpaceDto.setPsId(reqJson.getString("psId"));
-        List<ParkingSpaceDto> parkingSpaceDtos = parkingSpaceInnerServiceSMOImpl.queryParkingSpaces(parkingSpaceDto);
-        Assert.listOnlyOne(parkingSpaceDtos, "查询车位错误！");
-        //获取车位状态
-        String state = parkingSpaceDtos.get(0).getState();
-        if (StringUtil.isEmpty(state) || !ParkingSpaceDto.STATE_FREE.equals(state)) {
-            throw new IllegalArgumentException("该车位不是空闲状态！");
+        //联系电话格式校验
+        if (!StringUtil.isEmpty(reqJson.getString("tel")) && !ValidatorUtil.isMobile(reqJson.getString("tel"))) {
+            throw new IllegalArgumentException("联系电话格式不正确");
+        }
+
+        //检查车位是否是空闲状态（psId 为空时跳过）
+        if (!StringUtil.isEmpty(reqJson.getString("psId")) && !"-1".equals(reqJson.getString("psId"))) {
+            ParkingSpaceDto parkingSpaceDto = new ParkingSpaceDto();
+            parkingSpaceDto.setPsId(reqJson.getString("psId"));
+            List<ParkingSpaceDto> parkingSpaceDtos = parkingSpaceInnerServiceSMOImpl.queryParkingSpaces(parkingSpaceDto);
+            Assert.listOnlyOne(parkingSpaceDtos, "查询车位错误！");
+            //获取车位状态
+            String state = parkingSpaceDtos.get(0).getState();
+            if (StringUtil.isEmpty(state) || !ParkingSpaceDto.STATE_FREE.equals(state)) {
+                throw new IllegalArgumentException("该车位不是空闲状态！");
+            }
+            //校验所选车位是否属于所选停车场
+            if (!reqJson.getString("paId").equals(parkingSpaceDtos.get(0).getPaId())) {
+                throw new IllegalArgumentException("所选车位不属于所选停车场！");
+            }
         }
 
         //校验车牌号是否存在
         OwnerCarDto ownerCarDto = new OwnerCarDto();
         ownerCarDto.setCommunityId(reqJson.getString("communityId"));
         ownerCarDto.setCarNum(reqJson.getString("carNum"));
-        ownerCarDto.setPaIds(new String[]{parkingSpaceDtos.get(0).getPaId()});
+        ownerCarDto.setPaIds(new String[]{reqJson.getString("paId")});
         ownerCarDto.setCarTypeCds(new String[]{OwnerCarDto.CAR_TYPE_PRIMARY, OwnerCarDto.CAR_TYPE_MEMBER}); // 临时车除外
         int count = ownerCarInnerServiceSMOImpl.queryOwnerCarsCount(ownerCarDto);
 
@@ -135,6 +157,11 @@ public class SaveOwnerCarCmd extends Cmd {
             reqJson.put("leaseType", OwnerCarDto.LEASE_TYPE_MONTH);
         }
 
+        //没有选择车位时置为 -1
+        if (StringUtil.isEmpty(reqJson.getString("psId"))) {
+            reqJson.put("psId", "-1");
+        }
+
         JSONObject businessOwnerCar = new JSONObject();
         businessOwnerCar.putAll(reqJson);
         businessOwnerCar.put("memberId", GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_carId));
@@ -155,6 +182,11 @@ public class SaveOwnerCarCmd extends Cmd {
         int flag = ownerCarV1InnerServiceSMOImpl.saveOwnerCar(ownerCarPo);
         if (flag < 1) {
             throw new CmdException("保存车辆属性失败");
+        }
+
+        //没有选择车位时，不更新车位状态
+        if (StringUtil.isEmpty(ownerCarPo.getPsId()) || "-1".equals(ownerCarPo.getPsId())) {
+            return;
         }
 
         ParkingSpaceDto parkingSpaceDto = new ParkingSpaceDto();

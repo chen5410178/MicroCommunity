@@ -66,6 +66,8 @@ public class ExportOwnerCarAdapt implements IExportDataAdapt {
         row.createCell(8).setCellValue("有效期");
         row.createCell(9).setCellValue("状态");
         row.createCell(10).setCellValue("备注");
+        row.createCell(11).setCellValue("联系人");
+        row.createCell(12).setCellValue("联系电话");
         JSONObject reqJson = exportDataDto.getReqJson();
         if (reqJson.containsKey("num") && !StringUtil.isEmpty(reqJson.getString("num"))) {
             ParkingSpaceDto parkingSpaceDto = new ParkingSpaceDto();
@@ -116,7 +118,11 @@ public class ExportOwnerCarAdapt implements IExportDataAdapt {
             row.createCell(5).setCellValue(dataObj.getCarColor());
             row.createCell(6).setCellValue(dataObj.getOwnerName() + "(" + dataObj.getLink() + ")");
             if (!StringUtil.isEmpty(dataObj.getAreaNum()) && dataObj.getState().equals("1001")) {
-                row.createCell(7).setCellValue(dataObj.getAreaNum() + "-" + dataObj.getNum());
+                if (StringUtil.isEmpty(dataObj.getNum())) { //无车位：显示停车场
+                    row.createCell(7).setCellValue(dataObj.getAreaNum() + "停车场");
+                } else { //有车位：停车场-车位
+                    row.createCell(7).setCellValue(dataObj.getAreaNum() + "-" + dataObj.getNum());
+                }
             } else {
                 row.createCell(7).setCellValue("车位已释放");
             }
@@ -136,6 +142,8 @@ public class ExportOwnerCarAdapt implements IExportDataAdapt {
                 row.createCell(9).setCellValue("到期");
             }
             row.createCell(10).setCellValue(dataObj.getRemark());
+            row.createCell(11).setCellValue(StringUtil.isEmpty(dataObj.getContact()) ? dataObj.getOwnerName() : dataObj.getContact());
+            row.createCell(12).setCellValue(StringUtil.isEmpty(dataObj.getTel()) ? dataObj.getLink() : dataObj.getTel());
         }
     }
 

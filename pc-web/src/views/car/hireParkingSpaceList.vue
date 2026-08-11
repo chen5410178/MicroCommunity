@@ -87,6 +87,18 @@
               </el-button>
             </div>
           </el-col>
+          <el-col :span="12">
+            <el-form-item :label="$t('hireParkingSpace.parkingArea')" prop="paId">
+              <el-select v-model="hireParkingSpaceInfo.paId" class="w-full"
+                :placeholder="$t('hireParkingSpace.parkingAreaPlaceholder')">
+                <el-option v-for="item in hireParkingSpaceInfo.parkingAreas" :key="item.paId" :label="item.num"
+                  :value="item.paId" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item :label="$t('hireParkingSpace.parkingSpace')" prop="psName">
               <el-input v-model="hireParkingSpaceInfo.psName" disabled
@@ -97,6 +109,18 @@
             <el-button type="primary" size="small" @click="openSearchParkingSpaceModel">
               {{ $t('common.select') }}
             </el-button>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item :label="$t('hireParkingSpace.contact')" prop="contact">
+              <el-input v-model="hireParkingSpaceInfo.contact"
+                :placeholder="$t('hireParkingSpace.contactPlaceholder')" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item :label="$t('hireParkingSpace.tel')" prop="tel">
+              <el-input v-model="hireParkingSpaceInfo.tel"
+                :placeholder="$t('hireParkingSpace.telPlaceholder')" />
+            </el-form-item>
           </el-col>
         </el-row>
 
@@ -136,7 +160,7 @@
 </template>
 
 <script>
-import { saveOwnerCar } from '@/api/car/hireParkingSpaceApi'
+import { saveOwnerCar, listParkingAreas } from '@/api/car/hireParkingSpaceApi'
 import { getCommunityId, getDict } from '@/api/community/communityApi'
 import SearchOwner from '@/components/owner/SearchOwner'
 import SearchParkingSpace from '@/components/car/SearchParkingSpace'
@@ -161,10 +185,14 @@ export default {
         leaseType: 'H',
         ownerId: '',
         ownerName: '',
+        paId: '',
         psId: '',
         psName: '',
+        contact: '',
+        tel: '',
         attrs: [],
-        carTypes: []
+        carTypes: [],
+        parkingAreas: []
       },
     }
   },
@@ -186,8 +214,20 @@ export default {
         ownerName: [
           { required: true, message: this.$t('hireParkingSpace.validate.owner'), trigger: 'change' }
         ],
-        psName: [
-          { required: true, message: this.$t('hireParkingSpace.validate.parkingSpace'), trigger: 'change' }
+        paId: [
+          { required: true, message: this.$t('hireParkingSpace.validate.parkingArea'), trigger: 'change' }
+        ],
+        tel: [
+          {
+            validator: (rule, value, callback) => {
+              if (value && !/^1[3-9]\d{9}$/.test(value)) {
+                callback(new Error(this.$t('hireParkingSpace.validate.tel')))
+              } else {
+                callback()
+              }
+            },
+            trigger: 'blur'
+          }
         ]
       }
 
@@ -215,6 +255,19 @@ export default {
   methods: {
     async initData() {
       this.communityId = getCommunityId()
+
+      // 加载停车场列表
+      try {
+        const params = {
+          page: 1,
+          row: 100,
+          communityId: this.communityId
+        }
+        const res = await listParkingAreas(params)
+        this.hireParkingSpaceInfo.parkingAreas = res.data || res.parkingAreas || []
+      } catch (error) {
+        console.error('加载停车场失败:', error)
+      }
 
       // 加载车辆类型字典
       try {
@@ -270,6 +323,9 @@ export default {
     handleChooseOwner(owner) {
       this.hireParkingSpaceInfo.ownerName = owner.name
       this.hireParkingSpaceInfo.ownerId = owner.memberId
+      // 默认带出业主姓名与联系电话，可手工修改
+      this.hireParkingSpaceInfo.contact = owner.name
+      this.hireParkingSpaceInfo.tel = owner.link
       // 触发表单验证
       this.$refs.form.validateField('ownerId')
     },
@@ -279,10 +335,19 @@ export default {
     },
 
     handleChooseParkingSpace(parkingSpace) {
+      // 校验所选车位是否属于已选停车场
+      if (this.hireParkingSpaceInfo.paId && parkingSpace.paId && this.hireParkingSpaceInfo.paId !== parkingSpace.paId) {
+        this.$message.warning(this.$t('hireParkingSpace.validate.parkingAreaMismatch'))
+        return
+      }
       this.hireParkingSpaceInfo.psName = `${parkingSpace.areaNum}-${parkingSpace.num}`
       this.hireParkingSpaceInfo.psId = parkingSpace.psId
+      if (parkingSpace.paId) {
+        this.hireParkingSpaceInfo.paId = parkingSpace.paId
+      }
       // 触发表单验证
       this.$refs.form.validateField('psId')
+      this.$refs.form.validateField('paId')
     },
 
     async saveAddCarInfo() {

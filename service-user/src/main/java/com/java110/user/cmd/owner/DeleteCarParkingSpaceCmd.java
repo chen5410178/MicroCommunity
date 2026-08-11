@@ -99,7 +99,7 @@ public class DeleteCarParkingSpaceCmd extends Cmd {
 
 
         OwnerCarPo ownerCarPo = new OwnerCarPo();
-//        ownerCarPo.setPsId("-1");
+        ownerCarPo.setPsId("-1"); //解除车位后车辆为"无车位"，仍归属停车场（pa_id 不更新）
         ownerCarPo.setCarId(reqJson.getString("carId"));
         ownerCarPo.setMemberId(reqJson.getString("memberId"));
         ownerCarPo.setCommunityId(reqJson.getString("communityId"));

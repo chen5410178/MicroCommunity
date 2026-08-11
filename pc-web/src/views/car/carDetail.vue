@@ -70,7 +70,9 @@
             </el-col>
             <el-col :span="6">
               <el-form-item :label="$t('carDetail.parkingSpace')">
-                <label>{{ carDetailInfo.num || '-' }}</label>
+                <label v-if="carDetailInfo.num">{{ carDetailInfo.num }}</label>
+                <label v-else-if="carDetailInfo.areaNum">{{ carDetailInfo.areaNum }}{{ $t('carDetail.parkingAreaSuffix') }}</label>
+                <label v-else>{{ $t('carDetail.noFixedSpace') }}</label>
               </el-form-item>
             </el-col>
             <el-col :span="6">
@@ -81,6 +83,19 @@
             <el-col :span="6">
               <el-form-item :label="$t('carDetail.relatedHouse')">
                 <label>{{ carDetailInfo.roomName || '-' }}</label>
+              </el-form-item>
+            </el-col>
+          </el-row>
+
+          <el-row :gutter="20">
+            <el-col :span="6">
+              <el-form-item :label="$t('carDetail.contact')">
+                <label>{{ carDetailInfo.contact || carDetailInfo.ownerName || '-' }}</label>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item :label="$t('carDetail.tel')">
+                <label>{{ carDetailInfo.tel || carDetailInfo.link || '-' }}</label>
               </el-form-item>
             </el-col>
           </el-row>

@@ -35,6 +35,18 @@
           v-model="form.carColor" 
           :placeholder="$t('listOwnerCar.inputCarColor')" />
       </el-form-item>
+
+      <el-form-item :label="$t('listOwnerCar.contact')">
+        <el-input 
+          v-model="form.contact" 
+          :placeholder="$t('listOwnerCar.inputContact')" />
+      </el-form-item>
+
+      <el-form-item :label="$t('listOwnerCar.tel')">
+        <el-input 
+          v-model="form.tel" 
+          :placeholder="$t('listOwnerCar.inputTel')" />
+      </el-form-item>
       
       <el-form-item :label="$t('listOwnerCar.licensePlateType')" required>
         <el-select 
@@ -105,6 +117,8 @@ export default {
         carBrand: '',
         carType: '',
         carColor: '',
+        contact: '',
+        tel: '',
         remark: '',
         startTime: '',
         endTime: '',
@@ -174,6 +188,11 @@ export default {
         return false
       }
       
+      if (this.form.tel && !/^1[3-9]\d{9}$/.test(this.form.tel)) {
+        this.$message.warning(this.$t('listOwnerCar.telFormat'))
+        return false
+      }
+
       if (this.form.startTime && this.form.endTime) {
         const start = new Date(this.form.startTime)
         const end = new Date(this.form.endTime)
@@ -194,6 +213,8 @@ export default {
         carBrand: '',
         carType: '',
         carColor: '',
+        contact: '',
+        tel: '',
         remark: '',
         startTime: '',
         endTime: '',

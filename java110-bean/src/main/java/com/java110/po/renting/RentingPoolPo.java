@@ -6,7 +6,6 @@ public class RentingPoolPo implements Serializable {
 
     private String latitude;
     private String ownerTel;
-    private String rentingConfigId;
     private String rentingDesc;
     private String statusCd = "0";
     private String rentingTitle;
@@ -35,14 +34,6 @@ public class RentingPoolPo implements Serializable {
 
     public void setOwnerTel(String ownerTel) {
         this.ownerTel = ownerTel;
-    }
-
-    public String getRentingConfigId() {
-        return rentingConfigId;
-    }
-
-    public void setRentingConfigId(String rentingConfigId) {
-        this.rentingConfigId = rentingConfigId;
     }
 
     public String getRentingDesc() {

@@ -78,11 +78,6 @@ public class EditOwnerCarCmd extends Cmd {
 
         Assert.listOnlyOne(ownerCarDtos, "未找到车辆信息");
 
-        String psId = ownerCarDtos.get(0).getPsId();
-
-        if (StringUtil.isEmpty(psId) || "-1".equals(psId)) {
-            throw new IllegalArgumentException("车位已经被释放，不允许修改车辆信息");
-        }
         if (!reqJson.containsKey("leaseType")) {
             reqJson.put("leaseType", OwnerCarDto.LEASE_TYPE_MONTH);
         }
