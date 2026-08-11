@@ -275,7 +275,7 @@
             t.car_num,t.ps_id,t.pa_id,t.contact,t.tel,t.remark,t.status_cd,t.owner_id,
             t.b_id,t.user_id,t.car_id,t.create_time
             ,t.community_id ,bow.name,bow.id_card ,bow.link,t2.name,t.start_time,t.end_time,t.state,
-            t.car_type_cd,t.member_id,ps.num,t.lease_type ,
+            t.car_type_cd,t.member_id,ps.num,pa.num,t.lease_type ,
             t3.name ,t4.name
         </if>
         order by t.create_time desc
