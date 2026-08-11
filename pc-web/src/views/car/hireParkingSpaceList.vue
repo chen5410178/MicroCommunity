@@ -327,7 +327,7 @@ export default {
       this.hireParkingSpaceInfo.contact = owner.name
       this.hireParkingSpaceInfo.tel = owner.link
       // 触发表单验证
-      this.$refs.form.validateField('ownerId')
+      this.$refs.form.validateField('ownerName')
     },
 
     openSearchParkingSpaceModel() {
@@ -355,7 +355,7 @@ export default {
         this.hireParkingSpaceInfo.paId = parkingSpace.paId
       }
       // 触发表单验证
-      this.$refs.form.validateField('psId')
+      this.$refs.form.validateField('psName')
       this.$refs.form.validateField('paId')
     },
 

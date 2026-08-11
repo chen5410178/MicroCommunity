@@ -112,7 +112,6 @@ export default {
             carNum: carData.carNum || '',
             psId: carData.psId || ''
           }
-          this.$refs.viewSelectParkingSpace.handleShowParkingSpace(carData)
         }
       } catch (error) {
         console.error('Failed to load car info:', error)

@@ -85,9 +85,9 @@ export default {
   computed: {
     filteredParkingAreas() {
       if (!this.parkingAreaId) {
-        return this.parkingAreas
+        return this.parkingAreas || []
       }
-      return this.parkingAreas.filter(item => item.paId === this.parkingAreaId)
+      return (this.parkingAreas || []).filter(item => item.paId === this.parkingAreaId)
     }
   },
   async created() {
@@ -97,9 +97,13 @@ export default {
     open(paId) {
       this.parkingAreaId = paId || ''
       this.visible = true
-      this.resetParkingSpaces()
+      // 重置查询条件（不重置 parkingAreaId）
+      this.searchParkingSpaceInfo.carNum = ''
+      this.searchParkingSpaceInfo.num = ''
+      this.searchParkingSpaceInfo.areaNum = ''
+      this.pagination.currentPage = 1
       if (this.parkingAreaId) {
-        const area = this.parkingAreas.find(item => item.paId === this.parkingAreaId)
+        const area = (this.parkingAreas || []).find(item => item.paId === this.parkingAreaId)
         this.searchParkingSpaceInfo.areaNum = area ? area.num : ''
       }
       this.loadAllParkingSpaceInfo()
@@ -117,8 +121,8 @@ export default {
           communityId: getCommunityId()
         }
 
-        const { data } = await listParkingAreas(params)
-        this.parkingAreas = data
+        const res = await listParkingAreas(params)
+        this.parkingAreas = res.data || res.parkingAreas || []
       } catch (error) {
         console.error('加载停车场区域失败:', error)
       }
