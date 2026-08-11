@@ -1,93 +1,127 @@
-﻿<template>
+<template>
   <el-dialog 
     :title="$t('listOwnerCar.editCar')" 
     :visible.sync="visible" 
-    width="600px"
+    width="800px"
     @close="resetForm">
-    <el-form :model="form" label-width="120px">
-      <el-form-item :label="$t('listOwnerCar.carNum')" required>
-        <el-input 
-          v-model="form.carNum" 
-          :placeholder="$t('listOwnerCar.inputCarNumRequired')" />
-      </el-form-item>
-      
-      <el-form-item :label="$t('listOwnerCar.carBrand')">
-        <el-input 
-          v-model="form.carBrand" 
-          :placeholder="$t('listOwnerCar.inputCarBrand')" />
-      </el-form-item>
-      
-      <el-form-item :label="$t('listOwnerCar.carType')" required>
-        <el-select 
-          v-model="form.carType" 
-          :placeholder="$t('listOwnerCar.selectType')"
-          style="width: 100%">
-          <el-option 
-            v-for="item in carTypes" 
-            :key="item.statusCd" 
-            :label="item.name" 
-            :value="item.statusCd" />
-        </el-select>
-      </el-form-item>
-      
-      <el-form-item :label="$t('listOwnerCar.color')">
-        <el-input 
-          v-model="form.carColor" 
-          :placeholder="$t('listOwnerCar.inputCarColor')" />
-      </el-form-item>
+    <el-form :model="form" label-width="110px">
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item :label="$t('listOwnerCar.carNum')" required>
+            <el-input 
+              v-model="form.carNum" 
+              :placeholder="$t('listOwnerCar.inputCarNumRequired')" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item :label="$t('listOwnerCar.carBrand')">
+            <el-input 
+              v-model="form.carBrand" 
+              :placeholder="$t('listOwnerCar.inputCarBrand')" />
+          </el-form-item>
+        </el-col>
+      </el-row>
 
-      <el-form-item :label="$t('listOwnerCar.contact')">
-        <el-input 
-          v-model="form.contact" 
-          :placeholder="$t('listOwnerCar.inputContact')" />
-      </el-form-item>
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item :label="$t('listOwnerCar.carType')" required>
+            <el-select 
+              v-model="form.carType" 
+              :placeholder="$t('listOwnerCar.selectType')"
+              style="width: 100%">
+              <el-option 
+                v-for="item in carTypes" 
+                :key="item.statusCd" 
+                :label="item.name" 
+                :value="item.statusCd" />
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item :label="$t('listOwnerCar.color')">
+            <el-input 
+              v-model="form.carColor" 
+              :placeholder="$t('listOwnerCar.inputCarColor')" />
+          </el-form-item>
+        </el-col>
+      </el-row>
 
-      <el-form-item :label="$t('listOwnerCar.tel')">
-        <el-input 
-          v-model="form.tel" 
-          :placeholder="$t('listOwnerCar.inputTel')" />
-      </el-form-item>
-      
-      <el-form-item :label="$t('listOwnerCar.licensePlateType')" required>
-        <el-select 
-          v-model="form.leaseType" 
-          :placeholder="$t('listOwnerCar.selectLicensePlateType')"
-          style="width: 100%">
-          <el-option value="H" :label="$t('listOwnerCar.monthlyRentCar')"></el-option>
-          <el-option value="S" :label="$t('listOwnerCar.soldCar')"></el-option>
-          <el-option value="I" :label="$t('listOwnerCar.internalCar')"></el-option>
-          <el-option value="NM" :label="$t('listOwnerCar.freeCar')"></el-option>
-        </el-select>
-      </el-form-item>
-      
-      <template v-if="form.leaseType === 'H' || form.leaseType === 'S'">
-        <el-form-item :label="$t('listOwnerCar.startRentTime')" required>
-          <el-date-picker
-            v-model="form.startTime"
-            type="datetime"
-            :placeholder="$t('listOwnerCar.inputStartRentTime')"
-            style="width: 100%"
-            value-format="yyyy-MM-dd HH:mm:ss" />
-        </el-form-item>
-        
-        <el-form-item :label="$t('listOwnerCar.endRentTime')" required>
-          <el-date-picker
-            v-model="form.endTime"
-            type="datetime"
-            :placeholder="$t('listOwnerCar.inputEndRentTime')"
-            style="width: 100%"
-            value-format="yyyy-MM-dd HH:mm:ss"
-            :disabledDate="disabledEndDate" />
-        </el-form-item>
-      </template>
-      
-      <el-form-item :label="$t('listOwnerCar.remark')">
-        <el-input 
-          v-model="form.remark" 
-          type="textarea" 
-          :rows="3" 
-          :placeholder="$t('listOwnerCar.inputRemark')" />
-      </el-form-item>
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item :label="$t('listOwnerCar.contact')">
+            <el-input 
+              v-model="form.contact" 
+              :placeholder="$t('listOwnerCar.inputContact')" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item :label="$t('listOwnerCar.tel')">
+            <el-input 
+              v-model="form.tel" 
+              :placeholder="$t('listOwnerCar.inputTel')" />
+          </el-form-item>
+        </el-col>
+      </el-row>
+
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item :label="$t('listOwnerCar.licensePlateType')" required>
+            <el-select 
+              v-model="form.leaseType" 
+              :placeholder="$t('listOwnerCar.selectLicensePlateType')"
+              style="width: 100%">
+              <el-option value="H" :label="$t('listOwnerCar.monthlyRentCar')"></el-option>
+              <el-option value="S" :label="$t('listOwnerCar.soldCar')"></el-option>
+              <el-option value="I" :label="$t('listOwnerCar.internalCar')"></el-option>
+              <el-option value="NM" :label="$t('listOwnerCar.freeCar')"></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item :label="$t('listOwnerCar.parkingArea')">
+            <el-select v-model="form.paId" style="width: 100%" clearable
+              :placeholder="$t('listOwnerCar.selectParkingArea')">
+              <el-option v-for="item in parkingAreas" :key="item.paId" :label="item.num" :value="item.paId" />
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
+
+      <el-row v-if="form.leaseType === 'H' || form.leaseType === 'S'" :gutter="20">
+        <el-col :span="12">
+          <el-form-item :label="$t('listOwnerCar.startRentTime')" required>
+            <el-date-picker
+              v-model="form.startTime"
+              type="datetime"
+              :placeholder="$t('listOwnerCar.inputStartRentTime')"
+              style="width: 100%"
+              value-format="yyyy-MM-dd HH:mm:ss" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item :label="$t('listOwnerCar.endRentTime')" required>
+            <el-date-picker
+              v-model="form.endTime"
+              type="datetime"
+              :placeholder="$t('listOwnerCar.inputEndRentTime')"
+              style="width: 100%"
+              value-format="yyyy-MM-dd HH:mm:ss"
+              :disabledDate="disabledEndDate" />
+          </el-form-item>
+        </el-col>
+      </el-row>
+
+      <el-row :gutter="20">
+        <el-col :span="24">
+          <el-form-item :label="$t('listOwnerCar.remark')">
+            <el-input 
+              v-model="form.remark" 
+              type="textarea" 
+              :rows="3" 
+              :placeholder="$t('listOwnerCar.inputRemark')" />
+          </el-form-item>
+        </el-col>
+      </el-row>
     </el-form>
     
     <div slot="footer" class="dialog-footer">
@@ -102,6 +136,7 @@
 <script>
 import { editOwnerCar } from '@/api/car/listOwnerCarApi'
 import { getDict } from '@/api/community/communityApi'
+import { listParkingAreas } from '@/api/car/hireParkingSpaceApi'
 
 export default {
   name: 'EditCar',
@@ -110,6 +145,7 @@ export default {
       visible: false,
       loading: false,
       carTypes: [],
+      parkingAreas: [],
       form: {
         carId: '',
         memberId: '',
@@ -122,7 +158,8 @@ export default {
         remark: '',
         startTime: '',
         endTime: '',
-        leaseType: ''
+        leaseType: '',
+        paId: ''
       }
     }
   },
@@ -130,9 +167,19 @@ export default {
     this.getCarTypes()
   },
   methods: {
-    open(carInfo) {
+    async open(carInfo) {
       this.form = { ...carInfo }
       this.visible = true
+      await this.getParkingAreas()
+    },
+
+    async getParkingAreas() {
+      try {
+        const res = await listParkingAreas({ page: 1, row: 50 })
+        this.parkingAreas = res.data || res.parkingAreas || []
+      } catch (error) {
+        console.error('加载停车场列表失败:', error)
+      }
     },
     
     async getCarTypes() {
@@ -218,7 +265,8 @@ export default {
         remark: '',
         startTime: '',
         endTime: '',
-        leaseType: ''
+        leaseType: '',
+        paId: ''
       }
     }
   }

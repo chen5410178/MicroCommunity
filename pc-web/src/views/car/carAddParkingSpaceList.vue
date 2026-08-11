@@ -10,6 +10,15 @@
             <el-form label-width="120px">
               <el-row :gutter="20">
                 <el-col :span="12">
+                  <el-form-item :label="$t('carAddParkingSpace.parkingLot')">
+                    <el-input v-model="carAddParkingSpaceInfo.areaNum" disabled
+                      :placeholder="$t('hireParkingSpace.parkingAreaPlaceholder')" />
+                  </el-form-item>
+                </el-col>
+              </el-row>
+
+              <el-row :gutter="20">
+                <el-col :span="12">
                   <el-form-item :label="$t('hireParkingSpace.parkingSpace')" prop="psName" required>
                     <el-input v-model="carAddParkingSpaceInfo.psName" disabled style="width: 80%;"
                       :placeholder="$t('hireParkingSpace.parkingSpacePlaceholder')" />
@@ -87,7 +96,9 @@ export default {
         carId: '',
         psId: '',
         psName: '',
-        memberId: ''
+        memberId: '',
+        paId: '',
+        areaNum: ''
       }
     }
   },
@@ -110,7 +121,9 @@ export default {
           this.carAddParkingSpaceInfo = {
             ...this.carAddParkingSpaceInfo,
             carNum: carData.carNum || '',
-            psId: carData.psId || ''
+            psId: carData.psId || '',
+            paId: carData.paId || '',
+            areaNum: carData.areaNum || ''
           }
         }
       } catch (error) {
@@ -169,7 +182,7 @@ export default {
       }
     },
     openSearchParkingSpaceModel() {
-      this.$refs.searchParkingSpace.open()
+      this.$refs.searchParkingSpace.open(this.carAddParkingSpaceInfo.paId)
     },
     handleChooseParkingSpace(parkingSpace) {
       this.carAddParkingSpaceInfo.psName = `${parkingSpace.areaNum}-${parkingSpace.num}`

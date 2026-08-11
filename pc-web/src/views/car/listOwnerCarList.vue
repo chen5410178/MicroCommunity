@@ -105,11 +105,15 @@
                 </router-link>
               </template>
             </el-table-column>
+            <el-table-column :label="$t('listOwnerCar.parkingArea')" align="center">
+              <template slot-scope="scope">
+                <span v-if="scope.row.areaNum">{{ scope.row.areaNum }}</span>
+                <span v-else>--</span>
+              </template>
+            </el-table-column>
             <el-table-column :label="$t('listOwnerCar.parkingSpace')" align="center">
               <template slot-scope="scope">
-                <span v-if="scope.row.areaNum && scope.row.state === '1001'">
-                  {{ scope.row.num ? scope.row.areaNum + '-' + scope.row.num : scope.row.areaNum + $t('listOwnerCar.parkingAreaSuffix') }}
-                </span>
+                <span v-if="scope.row.num">{{ scope.row.num }}</span>
                 <span v-else>{{ $t('listOwnerCar.parkingSpaceReleased') }}</span>
               </template>
             </el-table-column>
