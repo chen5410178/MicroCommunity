@@ -87,29 +87,6 @@
               </el-button>
             </div>
           </el-col>
-          <el-col :span="12">
-            <el-form-item :label="$t('hireParkingSpace.parkingArea')" prop="paId">
-              <el-select v-model="hireParkingSpaceInfo.paId" class="w-full"
-                :placeholder="$t('hireParkingSpace.parkingAreaPlaceholder')">
-                <el-option v-for="item in hireParkingSpaceInfo.parkingAreas" :key="item.paId" :label="item.num"
-                  :value="item.paId" />
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
-
-        <el-row :gutter="20">
-          <el-col :span="8">
-            <el-form-item :label="$t('hireParkingSpace.parkingSpace')" prop="psName">
-              <el-input v-model="hireParkingSpaceInfo.psName" disabled
-                :placeholder="$t('hireParkingSpace.parkingSpacePlaceholder')" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="4">
-            <el-button type="primary" size="small" @click="openSearchParkingSpaceModel">
-              {{ $t('common.select') }}
-            </el-button>
-          </el-col>
           <el-col :span="6">
             <el-form-item :label="$t('hireParkingSpace.contact')" prop="contact">
               <el-input v-model="hireParkingSpaceInfo.contact"
@@ -121,6 +98,29 @@
               <el-input v-model="hireParkingSpaceInfo.tel"
                 :placeholder="$t('hireParkingSpace.telPlaceholder')" />
             </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item :label="$t('hireParkingSpace.parkingArea')" prop="paId">
+              <el-select v-model="hireParkingSpaceInfo.paId" class="w-full"
+                :placeholder="$t('hireParkingSpace.parkingAreaPlaceholder')" @change="handleParkingAreaChange">
+                <el-option v-for="item in hireParkingSpaceInfo.parkingAreas" :key="item.paId" :label="item.num"
+                  :value="item.paId" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item :label="$t('hireParkingSpace.parkingSpace')" prop="psName">
+              <el-input v-model="hireParkingSpaceInfo.psName" disabled
+                :placeholder="$t('hireParkingSpace.parkingSpacePlaceholder')" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-button type="primary" size="small" @click="openSearchParkingSpaceModel">
+              {{ $t('common.select') }}
+            </el-button>
           </el-col>
         </el-row>
 
@@ -331,7 +331,16 @@ export default {
     },
 
     openSearchParkingSpaceModel() {
-      this.$refs.searchParkingSpace.open()
+      this.$refs.searchParkingSpace.open(this.hireParkingSpaceInfo.paId)
+    },
+
+    handleParkingAreaChange() {
+      // 切换停车场后清空已选车位，避免与旧停车场不匹配
+      this.hireParkingSpaceInfo.psId = ''
+      this.hireParkingSpaceInfo.psName = ''
+      this.$nextTick(() => {
+        this.$refs.form.clearValidate(['psName'])
+      })
     },
 
     handleChooseParkingSpace(parkingSpace) {

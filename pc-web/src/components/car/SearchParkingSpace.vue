@@ -5,7 +5,7 @@
         <el-col :span="8">
           <el-select v-model="searchParkingSpaceInfo.areaNum" class="w-full"
             :placeholder="$t('searchParkingSpace.parkingAreaPlaceholder')">
-            <el-option v-for="item in parkingAreas" :key="item.num" :label="item.num" :value="item.num" />
+            <el-option v-for="item in filteredParkingAreas" :key="item.num" :label="item.num" :value="item.num" />
           </el-select>
         </el-col>
         <el-col :span="8">
@@ -67,6 +67,7 @@ export default {
   data() {
     return {
       visible: false,
+      parkingAreaId: '',
       searchParkingSpaceInfo: {
         parkingSpaces: [],
         areaNum: '',
@@ -81,13 +82,26 @@ export default {
       }
     }
   },
+  computed: {
+    filteredParkingAreas() {
+      if (!this.parkingAreaId) {
+        return this.parkingAreas
+      }
+      return this.parkingAreas.filter(item => item.paId === this.parkingAreaId)
+    }
+  },
   async created() {
     await this.listParkingAreas()
   },
   methods: {
-    open() {
+    open(paId) {
+      this.parkingAreaId = paId || ''
       this.visible = true
       this.resetParkingSpaces()
+      if (this.parkingAreaId) {
+        const area = this.parkingAreas.find(item => item.paId === this.parkingAreaId)
+        this.searchParkingSpaceInfo.areaNum = area ? area.num : ''
+      }
       this.loadAllParkingSpaceInfo()
     },
 
@@ -119,6 +133,7 @@ export default {
           num: this.searchParkingSpaceInfo.num,
           areaNum: this.searchParkingSpaceInfo.areaNum,
           carNum: this.searchParkingSpaceInfo.carNum,
+          paId: this.parkingAreaId,
           state: this.parkingSpaceFlag
         }
 
