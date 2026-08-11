@@ -97,6 +97,11 @@
           </el-button>
         </el-form-item>
 
+        <el-form-item v-if="formData.state === '3003' && formData.areaNum"
+          :label="$t('auditParkingSpaceApply.belongParkingLot')">
+          <span>{{ formData.areaNum }}</span>
+        </el-form-item>
+
         <el-form-item :label="$t('auditParkingSpaceApply.auditOpinion')">
           <el-input v-model="formData.remark2" type="textarea" :placeholder="$t('auditParkingSpaceApply.optional')"
             :rows="3" />
@@ -138,6 +143,8 @@ export default {
         communityId: getCommunityId(),
         psId: '',
         psName: '',
+        paId: '',
+        areaNum: '',
         carNum: '',
         carBrand: '',
         carType: '',
@@ -183,6 +190,8 @@ export default {
       console.log('选择车位', parkingSpace)
       this.formData.psId = parkingSpace.psId
       this.formData.psName = parkingSpace.num
+      this.formData.paId = parkingSpace.paId || ''
+      this.formData.areaNum = parkingSpace.areaNum || ''
     },
     async doAudit() {
       // 验证逻辑

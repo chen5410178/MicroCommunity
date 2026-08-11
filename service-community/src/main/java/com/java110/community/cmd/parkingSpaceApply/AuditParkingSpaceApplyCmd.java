@@ -44,6 +44,7 @@ import com.java110.utils.exception.CmdException;
 import com.java110.utils.util.Assert;
 import com.java110.utils.util.BeanConvertUtil;
 import com.java110.utils.util.ListUtil;
+import com.java110.utils.util.StringUtil;
 import com.java110.vo.ResultVo;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,7 +90,10 @@ public class AuditParkingSpaceApplyCmd extends Cmd {
     public void validate(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) {
         Assert.hasKeyAndValue(reqJson, "applyId", "applyId不能为空");
         Assert.hasKeyAndValue(reqJson, "communityId", "communityId不能为空");
-
+        //审核通过必须选择车位
+        if (ParkingSpaceApplyDto.STATE_SUCCESS.equals(reqJson.getString("state"))) {
+            Assert.hasKeyAndValue(reqJson, "psId", "审核通过必须选择车位");
+        }
     }
 
     @Override
@@ -120,6 +124,16 @@ public class AuditParkingSpaceApplyCmd extends Cmd {
             throw new CmdException("未查询到申请单，请联系管理员");
         }
         ParkingSpaceApplyDto parkingSpaceApply = parkingSpaceApplyDtos.get(0);
+        //父方案联动：申请单未带出所属停车场时按 psId 反查车位所属停车场
+        if (StringUtil.isEmpty(parkingSpaceApply.getPaId())) {
+            ParkingSpaceDto parkingSpaceDto = new ParkingSpaceDto();
+            parkingSpaceDto.setPsId(parkingSpaceApply.getPsId());
+            List<ParkingSpaceDto> parkingSpaceDtos = parkingSpaceV1InnerServiceSMOImpl.queryParkingSpaces(parkingSpaceDto);
+            if (ListUtil.isNull(parkingSpaceDtos)) {
+                throw new CmdException("未查询到所选车位信息，请联系管理员");
+            }
+            parkingSpaceApply.setPaId(parkingSpaceDtos.get(0).getPaId());
+        }
         //2、审核的时，判断车辆是否在owner_car中有，有就跳过。  没有的话写入owner_car，--都要写入pay_fee。
         OwnerCarDto ownerCarDto = new OwnerCarDto();
         ownerCarDto.setCarNum(parkingSpaceApplyPo.getCarNum());
@@ -142,6 +156,11 @@ public class AuditParkingSpaceApplyCmd extends Cmd {
             ownerCarPo.setStartTime(parkingSpaceApply.getStartTime());
             ownerCarPo.setEndTime(parkingSpaceApply.getEndTime());
             ownerCarPo.setPsId(parkingSpaceApply.getPsId());
+            //父方案联动：回填车辆归属停车场
+            ownerCarPo.setPaId(parkingSpaceApply.getPaId());
+            //父方案联动：回填车辆维度联系人/电话
+            ownerCarPo.setContact(parkingSpaceApply.getApplyPersonName());
+            ownerCarPo.setTel(parkingSpaceApply.getApplyPersonLink());
             ownerCarPo.setState("1001");
             ownerCarPo.setUserId(userId);
             ownerCarPo.setRemark("车位申请，系统自动写入");
@@ -152,7 +171,26 @@ public class AuditParkingSpaceApplyCmd extends Cmd {
             }
             catId = ownerCarPo.getCarId();
         } else {
-            catId = ownerCarDtos.get(0).getCarId();
+            OwnerCarDto existCar = ownerCarDtos.get(0);
+            catId = existCar.getCarId();
+            if (StringUtil.isEmpty(existCar.getPsId()) || "-1".equals(existCar.getPsId())) {
+                //父方案联动：无车位车辆绑定申请车位并回填停车场
+                OwnerCarPo updateCar = new OwnerCarPo();
+                updateCar.setCarId(existCar.getCarId());
+                updateCar.setPsId(parkingSpaceApply.getPsId());
+                updateCar.setPaId(parkingSpaceApply.getPaId());
+                updateCar.setState(OwnerCarDto.STATE_NORMAL);
+                updateCar.setStartTime(parkingSpaceApply.getStartTime());
+                updateCar.setEndTime(parkingSpaceApply.getEndTime());
+                flag = ownerCarV1InnerServiceSMOImpl.updateOwnerCar(updateCar);
+                if (flag < 1) {
+                    throw new CmdException("更新车辆数据失败");
+                }
+            } else if (StringUtil.isEmpty(existCar.getPaId()) || !parkingSpaceApply.getPaId().equals(existCar.getPaId())) {
+                //父方案联动：已有车位但属不同停车场，阻止审核，事务回滚
+                throw new CmdException("该车牌已绑定其他停车场车位，请先释放后再审核");
+            }
+            //同停车场已有车位：跳过（幂等）
         }
         // 将车位状态 修改为已出租状态
         ParkingSpacePo parkingSpacePo = new ParkingSpacePo();
