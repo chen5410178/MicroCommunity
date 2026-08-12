@@ -11002,6 +11002,13 @@ INSERT INTO `c_route` VALUES ('3060', '992020061452450002', '982025040398000022'
 INSERT INTO `c_route` VALUES ('3061', '992020061452450002', '982026051402961840', 'D', '1000', 'S', '2026-05-14 14:04:15', '1');
 INSERT INTO `c_route` VALUES ('3062', '8000418004', '982026051402961840', 'D', '1000', 'S', '2026-05-14 15:36:06', '0');
 INSERT INTO `c_route` VALUES ('3063', '992024042871530002', '982026070667620256', 'D', '1000', 'S', '2026-07-06 15:56:27', '0');
+INSERT INTO `c_route` VALUES ('3070', '8000418004', '982026080614340001', 'Q', '1000', 'S', '2026-08-06 09:50:43', '0');
+INSERT INTO `c_route` VALUES ('3065', '8000418004', '982026073100000002', 'D', '1000', 'S', '2026-08-06 09:32:22', '0');
+INSERT INTO `c_route` VALUES ('3069', '8000418004', '982026073100000006', 'D', '1000', 'S', '2026-08-06 09:32:22', '0');
+INSERT INTO `c_route` VALUES ('3067', '8000418004', '982026073100000004', 'Q', '1000', 'S', '2026-08-06 09:32:22', '0');
+INSERT INTO `c_route` VALUES ('3068', '8000418004', '982026073100000005', 'D', '1000', 'S', '2026-08-06 09:32:22', '0');
+INSERT INTO `c_route` VALUES ('3064', '8000418004', '982026073100000001', 'Q', '1000', 'S', '2026-08-06 09:32:22', '0');
+INSERT INTO `c_route` VALUES ('3066', '8000418004', '982026073100000003', 'Q', '1000', 'S', '2026-08-06 09:32:22', '0');
 
 -- ----------------------------
 -- Table structure for c_service
@@ -13050,6 +13057,14 @@ INSERT INTO `c_service` VALUES ('2074', '982026041448360507', 'prePayFee.queryPh
 INSERT INTO `c_service` VALUES ('2075', '9820260428903617316', 'owner.changeCarOwner', 'API', '修改车辆业主', '1', null, 'CMD', 'http://user-service', 'POST', '60', '3', '8000418002', '2026-04-28 12:06:57', '0');
 INSERT INTO `c_service` VALUES ('2076', '982026051402961840', 'ownerRepair.repairEnd', 'API', '结束报修', '1', null, 'CMD', 'http://community-service', 'POST', '60', '3', '8000418002', '2026-05-14 14:04:03', '0');
 INSERT INTO `c_service` VALUES ('2077', '982026070667620256', 'payment.cashierForMall', 'API', '通过商城缴费', '1', null, 'CMD', 'http://acct-service', 'POST', '60', '3', '8000418002', '2026-07-06 15:54:34', '0');
+INSERT INTO `c_service` VALUES ('2084', '982026080614340001', 'unit.queryUnitsHasOwner', 'API', '查询有业主的单元', '1', NULL, 'CMD', 'http://community-service', 'GET', '60', '3', '8000418002', '2026-08-06 09:50:28', '0');
+INSERT INTO `c_service` VALUES ('2083', '982026073100000006', 'fee.deleteManualBillApplication', 'API', '删除手工账单申请', '1', NULL, 'CMD', 'http://fee-service', 'POST', '60', '3', '8000418002', '2026-08-06 09:32:14', '0');
+INSERT INTO `c_service` VALUES ('2082', '982026073100000005', 'fee.auditManualBillApplication', 'API', '审核手工账单生成申请', '1', NULL, 'CMD', 'http://fee-service', 'POST', '60', '3', '8000418002', '2026-08-06 09:32:14', '0');
+INSERT INTO `c_service` VALUES ('2078', '982026073100000001', 'fee.searchManualBillTargets', 'API', '查询手工账单生成目标', '1', NULL, 'CMD', 'http://fee-service', 'GET', '60', '3', '8000418002', '2026-08-06 09:32:13', '0');
+INSERT INTO `c_service` VALUES ('2079', '982026073100000002', 'fee.saveManualBillApplication', 'API', '提交手工账单生成申请', '1', NULL, 'CMD', 'http://fee-service', 'POST', '60', '3', '8000418002', '2026-08-06 09:32:13', '0');
+INSERT INTO `c_service` VALUES ('2080', '982026073100000003', 'fee.listManualBillApplications', 'API', '查询手工账单申请列表', '1', NULL, 'CMD', 'http://fee-service', 'GET', '60', '3', '8000418002', '2026-08-06 09:32:13', '0');
+INSERT INTO `c_service` VALUES ('2081', '982026073100000004', 'fee.getManualBillApplication', 'API', '查询手工账单申请详情', '1', NULL, 'CMD', 'http://fee-service', 'GET', '60', '3', '8000418002', '2026-08-06 09:32:13', '0');
+
 
 -- ----------------------------
 -- Table structure for c_service_business
