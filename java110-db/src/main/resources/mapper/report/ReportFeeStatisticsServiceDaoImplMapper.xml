@@ -1034,7 +1034,7 @@
 
     <!-- 月实收 查询-->
     <select id="getMonthReceivedDetailInfo" parameterType="Map" resultType="Map">
-        select concat(f.floor_num,'-',bu.unit_num,'-',br.room_num) objName,pfd.cashier_name ownerName,pfd.link,
+        select concat(f.floor_num,'-',bu.unit_num,'-',br.room_num) objName,pf.owner_name ownerName,
         pfc.fee_name feeName, pfd.start_time startTime,pfd.end_time endTime,
         pfd.pay_order_id payOrderId,pfd.cashier_name cashierName,
         pf.receivable_amount receivableAmount,pfd.received_amount receivedAmount,pfd.create_time
@@ -1062,10 +1062,7 @@
             and concat(f.floor_num,'-',bu.unit_num,'-',br.room_num) like concat('%',#{objName},'%')
         </if>
         <if test="ownerName != null and ownerName != ''">
-            and pfd.cashier_name like concat('%',#{ownerName},'%')
-        </if>
-        <if test="link != null and link != ''">
-            and pfd.link = #{link}
+            and pf.owner_name like concat('%',#{ownerName},'%')
         </if>
         order by objName,fee_name,createTime
         <if test="page != -1 and page != null ">
