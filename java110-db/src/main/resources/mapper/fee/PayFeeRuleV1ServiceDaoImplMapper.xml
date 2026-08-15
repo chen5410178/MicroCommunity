@@ -67,7 +67,9 @@
             and t.cur_year_month= #{curYearMonth}
         </if>
         <if test="valid !=null and valid != ''">
-            and t.cur_year_month &lt;=  DATE_ADD(NOW(), INTERVAL pfc.prepayment_period DAY)
+            and t.cur_year_month &lt;= IF(pfc.prepayment_period = '1231',
+                DATE_FORMAT(NOW(), '%Y-12-31'),
+                DATE_ADD(NOW(), INTERVAL pfc.prepayment_period DAY))
         </if>
         <if test="statusCd !=null and statusCd != ''">
             and t.status_cd= #{statusCd}

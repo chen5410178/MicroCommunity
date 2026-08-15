@@ -55,6 +55,7 @@
             <el-select v-model="editFeeConfigInfo.prepaymentPeriod"
               :placeholder="$t('editFeeConfig.prepaymentPeriodPlaceholder')" style="width: 100%" clearable>
               <el-option v-for="n in 12" :key="n" :label="String(n)" :value="String(n)" />
+              <el-option :label="$t('editFeeConfig.toYearEnd')" value="1231" />
             </el-select>
           </el-form-item>
         </el-col>

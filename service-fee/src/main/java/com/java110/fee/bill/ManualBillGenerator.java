@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -242,7 +243,14 @@ public class ManualBillGenerator {
         Date maxEndTime = DateUtil.getDateFromStringB(maxTime);
 
         // 按 prepaymentPeriod * paymentCycle 计算目标截止时间
-        Date targetEndDate = DateUtil.getTargetEndTime(prepaymentPeriod * paymentCycle, endDate);
+        int generateCycles = prepaymentPeriod;
+        if (generateCycles == 1231) {
+            // 特殊处理：1231（到当年12月）换算为当年的实际期数 = 12 - 当前月份 + 1
+            Calendar calendar = Calendar.getInstance();
+            int curMonth = calendar.get(Calendar.MONTH) + 1;   // 1~12
+            generateCycles = 12 - curMonth + 1;
+        }
+        Date targetEndDate = DateUtil.getTargetEndTime(generateCycles * paymentCycle, endDate);
 
         // 确保至少覆盖到用户选择的目标月份
         Date targetMonthDate = DateUtil.getDateFromStringB(targetMonth + "-01");

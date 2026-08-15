@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -445,6 +446,12 @@ public class CycleConvertOnceFeeImpl implements ICycleConvertOnceFee {
         int generateCycles = 1;
         if (StringUtil.isNumber(feeConfigDto.getPrepaymentPeriod())) {
             generateCycles = Integer.parseInt(feeConfigDto.getPrepaymentPeriod());
+        }
+        if (generateCycles == 1231) {
+            // 特殊处理：1231（到当年12月）换算为当年的实际期数 = 12 - 当前月份 + 1
+            Calendar calendar = Calendar.getInstance();
+            int curMonth = calendar.get(Calendar.MONTH) + 1;   // 1~12
+            generateCycles = 12 - curMonth + 1;
         }
         if(generateCycles >1){
             targetEndDate = DateUtil.getTargetEndTime((generateCycles-1) * paymentCycle, targetEndDate);

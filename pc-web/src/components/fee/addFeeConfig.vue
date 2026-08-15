@@ -122,6 +122,7 @@
                 :label="String(n)"
                 :value="String(n)"
               />
+              <el-option :label="$t('addFeeConfig.toYearEnd')" value="1231" />
             </el-select>
           </el-form-item>
         </el-col>
