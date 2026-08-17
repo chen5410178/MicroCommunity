@@ -269,7 +269,7 @@ export default {
         const data = await exportPayFeeOrder(params)
         this.$message.success(data.msg)
         if (data.code === 0) {
-          this.$router.push('/#/pages/property/downloadTempFile?tab=下载中心')
+          this.$router.push('/pages/property/downloadTempFile?tab=下载中心')
         }
       } catch (error) {
         console.error('导出失败', error)

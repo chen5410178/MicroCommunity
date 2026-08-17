@@ -4,28 +4,6 @@
 
 ### DDL：新增两张表
 
-### c_service / c_route 注册（6 个接口）
-
-```sql
--- c_service 注册
-INSERT INTO `c_service` VALUES ('2078', '982026073100000001', 'fee.searchManualBillTargets', 'API', '查询手工账单生成目标', '1', null, 'CMD', 'http://fee-service', 'GET', '60', '3', '8000418002', now(), '0');
-INSERT INTO `c_service` VALUES ('2079', '982026073100000002', 'fee.saveManualBillApplication', 'API', '提交手工账单生成申请', '1', null, 'CMD', 'http://fee-service', 'POST', '60', '3', '8000418002', now(), '0');
-INSERT INTO `c_service` VALUES ('2080', '982026073100000003', 'fee.listManualBillApplications', 'API', '查询手工账单申请列表', '1', null, 'CMD', 'http://fee-service', 'GET', '60', '3', '8000418002', now(), '0');
-INSERT INTO `c_service` VALUES ('2081', '982026073100000004', 'fee.getManualBillApplication', 'API', '查询手工账单申请详情', '1', null, 'CMD', 'http://fee-service', 'GET', '60', '3', '8000418002', now(), '0');
-INSERT INTO `c_service` VALUES ('2082', '982026073100000005', 'fee.auditManualBillApplication', 'API', '审核手工账单生成申请', '1', null, 'CMD', 'http://fee-service', 'POST', '60', '3', '8000418002', now(), '0');
-INSERT INTO `c_service` VALUES ('2083', '982026073100000006', 'fee.deleteManualBillApplication', 'API', '删除手工账单申请', '1', null, 'CMD', 'http://fee-service', 'POST', '60', '3', '8000418002', now(), '0');
-
--- c_route 注册（PC 端 app_id = 8000418004）
-INSERT INTO `c_route` VALUES ('3064', '8000418004', '982026073100000001', 'Q', '1000', 'S', now(), '0');
-INSERT INTO `c_route` VALUES ('3065', '8000418004', '982026073100000002', 'D', '1000', 'S', now(), '0');
-INSERT INTO `c_route` VALUES ('3066', '8000418004', '982026073100000003', 'Q', '1000', 'S', now(), '0');
-INSERT INTO `c_route` VALUES ('3067', '8000418004', '982026073100000004', 'Q', '1000', 'S', now(), '0');
-INSERT INTO `c_route` VALUES ('3068', '8000418004', '982026073100000005', 'D', '1000', 'S', now(), '0');
-INSERT INTO `c_route` VALUES ('3069', '8000418004', '982026073100000006', 'D', '1000', 'S', now(), '0');
-```
-
-### DDL：新增两张表
-
 ```sql
 -- 账单手工生成申请主表
 CREATE TABLE `manual_bill_generation` (
