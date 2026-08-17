@@ -50,6 +50,8 @@ public class QueryAppUserIntegralCmd extends Cmd {
         Assert.listOnlyOne(userDtos, "用户不存在");
 
         reqJson.put("link", userDtos.get(0).getTel());
+        // 物业缴费场景，按 scene=FEE 校验商城积分设置缴费开关
+        reqJson.put("scene", "FEE");
         ResultVo resultVo = mallInnerServiceSMOImpl.postMallData(new MallDataDto("queryAppUserIntegralBmoImpl", reqJson));
         context.setResponseEntity(ResultVo.createResponseEntity(resultVo));
 

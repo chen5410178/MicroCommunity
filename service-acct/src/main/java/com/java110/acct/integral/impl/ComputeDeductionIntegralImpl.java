@@ -48,6 +48,8 @@ public class ComputeDeductionIntegralImpl implements IComputeDeductionIntegral {
 
         JSONObject reqJson = new JSONObject();
         reqJson.put("link", userDtos.get(0).getTel());
+        // 物业缴费场景，按 scene=FEE 校验商城积分设置缴费开关
+        reqJson.put("scene", "FEE");
         ResultVo resultVo = mallInnerServiceSMOImpl.postMallData(new MallDataDto("queryAppUserIntegralBmoImpl", reqJson));
 
         if (resultVo.getCode() != ResultVo.CODE_OK) {
