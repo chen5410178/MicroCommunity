@@ -189,8 +189,8 @@ public class BatchPayFeeImpl implements IBatchPayFee {
         // 处理优惠折扣
         if (discountAmount.doubleValue() > 0 && discountAmount.doubleValue() >= receivedAmount.doubleValue()) {
             deductionAmount = receivedAmount.doubleValue();
-            receivedAmount = new BigDecimal("0");
             discountAmount = discountAmount.subtract(receivedAmount);
+            receivedAmount = new BigDecimal("0");
         } else if (discountAmount.doubleValue() > 0 && discountAmount.doubleValue() < receivedAmount.doubleValue()) {
             deductionAmount = discountAmount.doubleValue();
             receivedAmount = receivedAmount.subtract(discountAmount);

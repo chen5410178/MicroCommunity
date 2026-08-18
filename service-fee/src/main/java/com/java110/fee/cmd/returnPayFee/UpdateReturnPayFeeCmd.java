@@ -262,7 +262,6 @@ public class UpdateReturnPayFeeCmd extends Cmd {
             oweAmount = oweAmount.add(new BigDecimal(feeDetailDtos.get(0).getReceivedAmount()))
                     .add(new BigDecimal(feeDetailDtos.get(0).getAcctAmount()))
                     .add(new BigDecimal(feeDetailDtos.get(0).getDeductionAmount()))
-                    .add(new BigDecimal(feeDetailDtos.get(0).getDeductionAmount()))
                     .add(new BigDecimal(feeDetailDtos.get(0).getGiftAmount()));
             payFeePo = new PayFeePo();
             payFeePo.setFeeId(feeDetailDtos.get(0).getFeeId());
