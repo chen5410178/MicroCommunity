@@ -9,11 +9,7 @@ export function listCommunitys(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code == 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || '获取小区列表失败'))
-      }
+      resolve(res)
     }).catch(error => {
       reject(error)
     })
@@ -32,7 +28,7 @@ export function initializeCommunity(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '初始化小区数据失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)

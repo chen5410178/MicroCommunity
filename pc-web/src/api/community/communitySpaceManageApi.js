@@ -33,7 +33,7 @@ export function saveCommunityVenue(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '添加场馆失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -54,7 +54,7 @@ export function updateCommunityVenue(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '修改场馆失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -75,10 +75,10 @@ export function deleteCommunityVenue(venueId) {
       data
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
+      if (res.code == 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '删除场馆失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -96,11 +96,7 @@ export function listCommunitySpace(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || '获取场地列表失败'))
-      }
+      resolve(res)
     }).catch(error => {
       reject(error)
     })
@@ -120,7 +116,7 @@ export function saveCommunitySpace(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '添加场地失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -138,10 +134,10 @@ export function updateCommunitySpace(data) {
       data
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
+      if (res.code == 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '修改场地失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -165,7 +161,7 @@ export function deleteCommunitySpace(spaceId) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '删除场地失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -186,7 +182,7 @@ export function updateCommunitySpaceOpenTime(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '更新开放时间失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)

@@ -9,14 +9,10 @@ export function queryAdminRoom(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve({
-          data: res.data,
-          total: res.total
-        })
-      } else {
-        reject(new Error(res.msg || '查询小区房屋列表失败'))
-      }
+      resolve({
+        data: res.data,
+        total: res.total
+      })
     }).catch(error => {
       reject(error)
     })
@@ -32,11 +28,7 @@ export function queryCommunityUnitTree(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || '查询小区单元树失败'))
-      }
+      resolve(res)
     }).catch(error => {
       reject(error)
     })

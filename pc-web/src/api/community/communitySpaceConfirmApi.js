@@ -9,14 +9,10 @@ export function listCommunitySpaceConfirmOrder(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve({
-          data: res.data,
-          total: res.total
-        })
-      } else {
-        reject(new Error(res.msg || '获取核销列表失败'))
-      }
+      resolve({
+        data: res.data,
+        total: res.total
+      })
     }).catch(error => {
       reject(error)
     })
@@ -35,7 +31,7 @@ export function saveCommunitySpaceConfirmOrder(data) {
       if (res.code == 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)

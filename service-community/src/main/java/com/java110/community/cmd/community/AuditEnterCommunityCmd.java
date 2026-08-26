@@ -13,6 +13,7 @@ import com.java110.po.community.CommunityMemberPo;
 import com.java110.utils.exception.CmdException;
 import com.java110.utils.util.Assert;
 import com.java110.utils.util.BeanConvertUtil;
+import com.java110.vo.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -51,5 +52,7 @@ public class AuditEnterCommunityCmd  extends Cmd {
         if (flag < 1) {
             throw new CmdException("更新小区失败");
         }
+
+        context.setResponseEntity(ResultVo.success());
     }
 }

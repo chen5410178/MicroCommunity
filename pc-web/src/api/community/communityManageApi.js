@@ -9,11 +9,7 @@ export function listCommunitys(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || '获取小区列表失败'))
-      }
+      resolve(res)
     }).catch(error => {
       reject(error)
     })
@@ -47,10 +43,10 @@ export function saveCommunity(data) {
       data
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
+      if (res.code == 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '保存小区失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -67,8 +63,11 @@ export function updateCommunity(data) {
       data
     }).then(response => {
       const res = response.data
-      resolve(res)
-
+      if (res.code == 0) {
+        resolve(res)
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })
@@ -84,8 +83,11 @@ export function deleteCommunity(data) {
       data
     }).then(response => {
       const res = response.data
-      resolve(res)
-
+      if (res.code == 0) {
+        resolve(res)
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })
@@ -101,8 +103,11 @@ export function sendCommunityToIot(data) {
       data
     }).then(response => {
       const res = response.data
-      resolve(res)
-
+      if (res.code == 0) {
+        resolve(res)
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })
@@ -118,9 +123,11 @@ export function auditEnterCommunity(data) {
       data
     }).then(response => {
       const res = response.data
-
-      resolve(res)
-
+      if (res.code == 0) {
+        resolve(res)
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })

@@ -120,11 +120,13 @@ public class UpdateCommunityCmd extends Cmd {
         communityBMOImpl.updateCommunityOne(reqJson, cmdDataFlowContext);
 
         if (!reqJson.containsKey("attrs")) {
+            cmdDataFlowContext.setResponseEntity(ResultVo.success());
             return;
         }
 
         JSONArray attrs = reqJson.getJSONArray("attrs");
         if (attrs == null || attrs.size() < 1) {
+            cmdDataFlowContext.setResponseEntity(ResultVo.success());
             return;
         }
 
@@ -142,6 +144,7 @@ public class UpdateCommunityCmd extends Cmd {
 
         //todo 如果没有修改名称直接返回
         if (StringUtil.isEmpty(reqJson.getString("name"))) {
+            cmdDataFlowContext.setResponseEntity(ResultVo.success());
             return;
         }
 
@@ -152,6 +155,7 @@ public class UpdateCommunityCmd extends Cmd {
         List<RoleCommunityDto> roleCommunityDtos = roleCommunityV1InnerServiceSMOImpl.queryRoleCommunitys(roleCommunityDto);
 
         if (roleCommunityDtos == null || roleCommunityDtos.size() < 1) {
+            cmdDataFlowContext.setResponseEntity(ResultVo.success());
             return;
         }
         RoleCommunityPo roleCommunityPo = null;

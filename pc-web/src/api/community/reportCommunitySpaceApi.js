@@ -9,11 +9,7 @@ export function listCommunityVenue(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve(res.data)
-      } else {
-        reject(new Error(res.msg || '获取场馆列表失败'))
-      }
+      resolve(res.data)
     }).catch(error => {
       reject(error)
     })
@@ -29,11 +25,7 @@ export function listCommunitySpace(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve(res.data)
-      } else {
-        reject(new Error(res.msg || '获取场地列表失败'))
-      }
+      resolve(res.data)
     }).catch(error => {
       reject(error)
     })
@@ -49,11 +41,7 @@ export function listCommunitySpacePerson(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve(res.data)
-      } else {
-        reject(new Error(res.msg || '获取场地预约记录失败'))
-      }
+      resolve(res.data)
     }).catch(error => {
       reject(error)
     })
@@ -72,7 +60,7 @@ export function saveCommunitySpacePerson(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '保存场地预约失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
