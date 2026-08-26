@@ -148,7 +148,7 @@ export default {
           endTime: this.feeDetailInfo.endTime
         }
 
-        const { feeDetails, total, records } = await queryFeeDetail(params)
+        const { data: feeDetails, total, records } = await queryFeeDetail(params)
         this.feeDetailInfo.feeDetails = feeDetails
         this.feeDetailInfo.total = total
         this.feeDetailInfo.records = records

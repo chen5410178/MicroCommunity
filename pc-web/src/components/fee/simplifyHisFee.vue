@@ -170,26 +170,24 @@ export default {
       if (!date) return ''
       return dateFormat(date)
     },
-    _listSimplifyFeeDetails(page, row) {
-      const params = {
-        page,
-        row,
-        communityId: this.communityId,
-        ownerId: this.simplifyHisFeeInfo.ownerId,
-        payerObjId: this.simplifyHisFeeInfo.payerObjId
-      }
+    async _listSimplifyFeeDetails(page, row) {
+      try {
+        const params = {
+          page,
+          row,
+          communityId: this.communityId,
+          ownerId: this.simplifyHisFeeInfo.ownerId,
+          payerObjId: this.simplifyHisFeeInfo.payerObjId
+        }
 
-      queryFeeDetail(params)
-        .then(response => {
-          const res = response.data
-          this.simplifyHisFeeInfo.total = res.total
-          this.simplifyHisFeeInfo.records = res.records
-          this.simplifyHisFeeInfo.feeDetails = res.feeDetails
-          this.currentPage = page
-        })
-        .catch(error => {
-          console.error('请求失败处理', error)
-        })
+        const { data: feeDetails, total, records } = await queryFeeDetail(params)
+        this.simplifyHisFeeInfo.total = total
+        this.simplifyHisFeeInfo.records = records
+        this.simplifyHisFeeInfo.feeDetails = feeDetails
+        this.currentPage = page
+      } catch (error) {
+        console.error('请求失败处理', error)
+      }
     },
     clearSimplifyHisFeeInfo() {
       this.simplifyHisFeeInfo = {

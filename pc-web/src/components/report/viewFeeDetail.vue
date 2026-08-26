@@ -76,7 +76,7 @@ export default {
           payerObjId: this.viewFeeDetailInfo.payerObjId
         }
 
-        const { feeDetails, total } = await queryFeeDetail(params)
+        const { data: feeDetails, total } = await queryFeeDetail(params)
 
         this.viewFeeDetailInfo.feeDetails = feeDetails
         this.pagination.total = total

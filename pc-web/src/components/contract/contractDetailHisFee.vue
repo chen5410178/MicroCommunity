@@ -73,22 +73,23 @@ export default {
       this.contractDetailHisFeeInfo.contractId = data.contractId
       this._listContractDetailHisFeeDetails(1, this.pagination.pageSize)
     },
-    _listContractDetailHisFeeDetails(page, row) {
-      const params = {
-        page: page || 1,
-        row: row || 10,
-        communityId: this.communityId,
-        payerObjId: this.contractDetailHisFeeInfo.contractId,
-      }
+    async _listContractDetailHisFeeDetails(page, row) {
+      try {
+        const params = {
+          page: page || 1,
+          row: row || 10,
+          communityId: this.communityId,
+          payerObjId: this.contractDetailHisFeeInfo.contractId,
+        }
 
-      queryFeeDetail(params).then(response => {
-        this.contractDetailHisFeeInfo.total = response.total
-        this.contractDetailHisFeeInfo.records = response.records
-        this.contractDetailHisFeeInfo.feeDetails = response.feeDetails
-        this.pagination.total = response.total
-      }).catch(error => {
+        const { data: feeDetails, total, records } = await queryFeeDetail(params)
+        this.contractDetailHisFeeInfo.total = total
+        this.contractDetailHisFeeInfo.records = records
+        this.contractDetailHisFeeInfo.feeDetails = feeDetails
+        this.pagination.total = total
+      } catch (error) {
         console.error('请求失败:', error)
-      })
+      }
     },
     clearContractDetailHisFeeInfo() {
       this.contractDetailHisFeeInfo = {

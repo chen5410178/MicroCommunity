@@ -81,20 +81,21 @@ export default {
       this.feeDetailHisFeeInfo.feeId = params.feeId
       this._loadFeeDetailHisFeeData()
     },
-    _loadFeeDetailHisFeeData() {
-      const params = {
-        communityId: getCommunityId(),
-        feeId: this.feeDetailHisFeeInfo.feeId,
-        page: this.pagination.currentPage,
-        row: this.pagination.pageSize
-      }
+    async _loadFeeDetailHisFeeData() {
+      try {
+        const params = {
+          communityId: getCommunityId(),
+          feeId: this.feeDetailHisFeeInfo.feeId,
+          page: this.pagination.currentPage,
+          row: this.pagination.pageSize
+        }
 
-      queryFeeDetail(params).then(res => {
-        this.feeDetailHisFeeInfo.feeDetails = res.feeDetails
-        this.pagination.total = res.total
-      }).catch(error => {
+        const { data: feeDetails, total } = await queryFeeDetail(params)
+        this.feeDetailHisFeeInfo.feeDetails = feeDetails
+        this.pagination.total = total
+      } catch (error) {
         console.error('Failed to load fee detail history:', error)
-      })
+      }
     },
     handleCurrentChange(val) {
       this.pagination.currentPage = val

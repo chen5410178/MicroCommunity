@@ -205,8 +205,8 @@ export default {
           openInvoice: 'N'
         }
 
-        const res = await queryFeeDetail(params)
-        this.feeDetails = res.feeDetails || []
+        const { data: feeDetails } = await queryFeeDetail(params)
+        this.feeDetails = feeDetails || []
 
         // 默认全选
         this.formData.detailIds = this.feeDetails.map(item => item.detailId)

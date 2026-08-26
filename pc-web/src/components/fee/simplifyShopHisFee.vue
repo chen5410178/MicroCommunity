@@ -170,27 +170,25 @@ export default {
       if (!date) return ''
       return dateFormat(date)
     },
-    _listSimplifyShopFeeDetails(page, row) {
-      const params = {
-        page,
-        row,
-        communityId: this.communityId,
-        ownerId: this.simplifyShopHisFeeInfo.ownerId,
-        payerObjId: this.simplifyShopHisFeeInfo.payerObjId || this.simplifyShopHisFeeInfo.shopId,
-        payerObjType: '4444'
-      }
+    async _listSimplifyShopFeeDetails(page, row) {
+      try {
+        const params = {
+          page,
+          row,
+          communityId: this.communityId,
+          ownerId: this.simplifyShopHisFeeInfo.ownerId,
+          payerObjId: this.simplifyShopHisFeeInfo.payerObjId || this.simplifyShopHisFeeInfo.shopId,
+          payerObjType: '4444'
+        }
 
-      queryFeeDetail(params)
-        .then(response => {
-          const res = response.data
-          this.simplifyShopHisFeeInfo.total = res.total
-          this.simplifyShopHisFeeInfo.records = res.records
-          this.simplifyShopHisFeeInfo.feeDetails = res.feeDetails
-          this.currentPage = page
-        })
-        .catch(error => {
-          console.error('Request failed:', error)
-        })
+        const { data: feeDetails, total, records } = await queryFeeDetail(params)
+        this.simplifyShopHisFeeInfo.total = total
+        this.simplifyShopHisFeeInfo.records = records
+        this.simplifyShopHisFeeInfo.feeDetails = feeDetails
+        this.currentPage = page
+      } catch (error) {
+        console.error('Request failed:', error)
+      }
     },
     clearSimplifyShopHisFeeInfo() {
       this.simplifyShopHisFeeInfo = {

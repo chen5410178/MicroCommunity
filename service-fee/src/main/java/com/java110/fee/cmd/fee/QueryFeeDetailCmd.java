@@ -16,10 +16,10 @@ import com.java110.utils.util.Assert;
 import com.java110.utils.util.BeanConvertUtil;
 import com.java110.utils.util.DateUtil;
 import com.java110.utils.util.StringUtil;
+import com.java110.vo.ResultVo;
 import com.java110.vo.api.ApiFeeDetailDataVo;
 import com.java110.vo.api.ApiFeeDetailVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
@@ -107,8 +107,11 @@ public class QueryFeeDetailCmd extends Cmd {
             apiFeeDetailVo.setFeeDetails(feeDetails);
         }
         int row = reqJson.getInteger("row");
-        apiFeeDetailVo.setRecords((int) Math.ceil((double) total / (double) row));
-        ResponseEntity<String> responseEntity = new ResponseEntity<String>(JSONObject.toJSONString(apiFeeDetailVo), HttpStatus.OK);
+        List<ApiFeeDetailDataVo> feeDetails = apiFeeDetailVo.getFeeDetails();
+        if (feeDetails == null) {
+            feeDetails = new ArrayList<>();
+        }
+        ResponseEntity<String> responseEntity = ResultVo.createResponseEntity((int) Math.ceil((double) total / (double) row), total, feeDetails);
 
         context.setResponseEntity(responseEntity);
     }

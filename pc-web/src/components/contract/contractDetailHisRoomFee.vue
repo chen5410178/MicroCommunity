@@ -85,22 +85,23 @@ export default {
       this.pageSize = val
       this._listContractDetailHisRoomFeeDetails()
     },
-    _listContractDetailHisRoomFeeDetails() {
-      const params = {
-        page: this.currentPage,
-        row: this.pageSize,
-        communityId: this.communityId,
-        ownerId: this.contractDetailHisRoomFeeInfo.ownerId,
-        payerObjType: '3333'
-      }
+    async _listContractDetailHisRoomFeeDetails() {
+      try {
+        const params = {
+          page: this.currentPage,
+          row: this.pageSize,
+          communityId: this.communityId,
+          ownerId: this.contractDetailHisRoomFeeInfo.ownerId,
+          payerObjType: '3333'
+        }
 
-      queryFeeDetail(params).then(response => {
-        this.contractDetailHisRoomFeeInfo.total = response.total
-        this.contractDetailHisRoomFeeInfo.records = response.records
-        this.contractDetailHisRoomFeeInfo.feeDetails = response.feeDetails
-      }).catch(error => {
+        const { data: feeDetails, total, records } = await queryFeeDetail(params)
+        this.contractDetailHisRoomFeeInfo.total = total
+        this.contractDetailHisRoomFeeInfo.records = records
+        this.contractDetailHisRoomFeeInfo.feeDetails = feeDetails
+      } catch (error) {
         console.error('请求失败:', error)
-      })
+      }
     },
     clearContractDetailHisRoomFeeInfo() {
       this.contractDetailHisRoomFeeInfo = {

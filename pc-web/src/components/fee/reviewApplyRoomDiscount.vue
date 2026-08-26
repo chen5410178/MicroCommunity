@@ -229,7 +229,7 @@ export default {
     },
     async loadFees() {
       try {
-        const { feeDetails } = await queryFeeDetail({
+        const { data: feeDetails } = await queryFeeDetail({
           page: 1,
           row: 50,
           communityId: this.form.communityId,

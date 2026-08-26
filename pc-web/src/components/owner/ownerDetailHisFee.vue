@@ -87,20 +87,21 @@ export default {
       this.ownerDetailHisFeeInfo.ownerId = ownerId
       this._listOwnerDetailFeeDetails(this.currentPage, this.pageSize)
     },
-    _listOwnerDetailFeeDetails(page, row) {
-      const param = {
-        page: page,
-        row: row,
-        communityId: this.communityId,
-        ownerId: this.ownerDetailHisFeeInfo.ownerId
-      }
+    async _listOwnerDetailFeeDetails(page, row) {
+      try {
+        const param = {
+          page: page,
+          row: row,
+          communityId: this.communityId,
+          ownerId: this.ownerDetailHisFeeInfo.ownerId
+        }
 
-      queryFeeDetail(param).then(response => {
-        this.ownerDetailHisFeeInfo.feeDetails = response.feeDetails
-        this.total = response.total
-      }).catch(error => {
+        const { data: feeDetails, total } = await queryFeeDetail(param)
+        this.ownerDetailHisFeeInfo.feeDetails = feeDetails
+        this.total = total
+      } catch (error) {
         console.error('请求失败:', error)
-      })
+      }
     },
     clearOwnerDetailHisFeeInfo() {
       this.ownerDetailHisFeeInfo = {
