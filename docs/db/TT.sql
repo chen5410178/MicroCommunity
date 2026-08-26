@@ -40725,6 +40725,7 @@ INSERT INTO `t_dict` VALUES ('626348', '2002', '消息通知', '消息通知', '
 INSERT INTO `t_dict` VALUES ('626349', '1002', '建筑面积*单价*比例系数', '建筑面积*单价*比例系数', '2020-01-30 12:37:38', 'pay_fee_config', 'computing_formula');
 INSERT INTO `t_dict` VALUES ('626350', '2101', '未售需收费', '未售需收费', '2019-10-30 20:57:36', 'building_room', 'state');
 INSERT INTO `t_dict` VALUES ('626351', 'importShop', '商铺导入', '商铺导入', '2020-05-12 13:46:12', 'asset_import_log', 'log_type');
+INSERT INTO `t_dict` VALUES ('626352', '11', '预付款扣', '预付款扣', '2024-05-31 16:17:51', 'pay_fee_detail', 'prime_rate');
 
 -- ----------------------------
 -- Table structure for t_dict_spec

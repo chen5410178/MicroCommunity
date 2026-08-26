@@ -27,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -102,6 +103,20 @@ public class GeneratorFeeReceiptInnerServiceSMOImpl extends BaseServiceSMO imple
             }
             feeReceiptDetailPo.setFeeMonth(feeMonth);
             feeReceiptDetailPo.setPayWay(payFeeDetailPo.getPrimeRate());
+            //补充字段，参照 FeeReceiptBmoImpl.savePayFeeReceipt
+            feeReceiptDetailPo.setRemark(payFeeDetailPo.getRemark());
+            feeReceiptDetailPo.setLateAmount(payFeeDetailPo.getLateAmount());
+            BigDecimal deductionAmount = new BigDecimal(payFeeDetailPo.getDeductionAmount());
+            deductionAmount = deductionAmount.add(new BigDecimal(payFeeDetailPo.getDiscountAmount()));
+            feeReceiptDetailPo.setDeductionAmount(deductionAmount.doubleValue() + "");
+            feeReceiptDetailPo.setStartDegree(feeDto.getPreDegrees());
+            feeReceiptDetailPo.setEndDegree(feeDto.getCurDegrees());
+            feeReceiptDetailPo.setFtName(feeDto.getFtName());
+            if (StringUtil.isEmpty(feeReceiptDetailPo.getFtName())) {
+                feeReceiptDetailPo.setFtName("费用");
+            }
+            feeReceiptDetailPo.setAcctAmount(payFeeDetailPo.getAcctAmount());
+            feeReceiptDetailPo.setPrintCount("0");
             //处理 小数点后 0
             feeDto.setSquarePrice(Double.parseDouble(feeDto.getSquarePrice()) + "");
             feeDto.setAdditionalAmount(Double.parseDouble(feeDto.getAdditionalAmount()) + "");
