@@ -109,7 +109,7 @@
 
 <script>
 import { getCommunityId } from '@/api/community/communityApi'
-import { queryOwners } from '@/api/owner/deleteOwnerRoomApi'
+import { queryOwners } from '@/api/owner/ownerApi'
 import SearchOwner from './SearchOwner'
 
 export default {

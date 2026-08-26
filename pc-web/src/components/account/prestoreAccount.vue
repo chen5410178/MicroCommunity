@@ -51,7 +51,8 @@
 </template>
 
 <script>
-import { ownerPrestoreAccount, queryOwners, queryRoomsByOwner } from '@/api/account/accountManageApi'
+import { ownerPrestoreAccount, queryRoomsByOwner } from '@/api/account/accountManageApi'
+import { queryOwners } from '@/api/owner/ownerApi'
 import { getDict } from '@/api/community/communityApi'
 export default {
   name: 'PrestoreAccount',
@@ -132,7 +133,8 @@ export default {
         const res = await queryOwners({
           row: 50,
           page: 1,
-          link: this.formData.tel
+          link: this.formData.tel,
+          ownerTypeCd: '1001'
         })
 
         this.owners = res.data

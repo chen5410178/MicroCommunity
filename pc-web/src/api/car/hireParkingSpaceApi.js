@@ -24,28 +24,6 @@ export function saveOwnerCar(data) {
   })
 }
 
-// 查询业主列表
-export function queryOwners(params) {
-  return new Promise((resolve, reject) => {
-    request({
-      url: '/owner.queryOwners',
-      method: 'get',
-      params: {
-        ...params,
-        communityId: getCommunityId()
-      }
-    }).then(response => {
-      const res = response.data
-      resolve({
-        data: res.data,
-        total: res.total
-      })
-    }).catch(error => {
-      reject(error)
-    })
-  })
-}
-
 // 查询停车位列表
 export function queryParkingSpaces(params) {
   return new Promise((resolve, reject) => {

@@ -78,7 +78,7 @@
 </template>
 
 <script>
-import { queryOwners } from '@/api/fee/feeDetailOwnerApi'
+import { queryOwners } from '@/api/owner/ownerApi'
 import OwnerRooms from '@/components/owner/ownerRooms'
 import OwnerMembers from '@/components/owner/ownerMembers'
 import OwnerCars from '@/components/owner/ownerCars'

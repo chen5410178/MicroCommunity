@@ -100,7 +100,7 @@
 
 <script>
 import { getCommunityId } from '@/api/community/communityApi'
-import { queryOwners } from '@/api/fee/carDetailOwnerApi'
+import { queryOwners } from '@/api/owner/ownerApi'
 
 export default {
   name: 'CarDetailOwner',

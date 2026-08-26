@@ -121,7 +121,8 @@
 
 <script>
 import { getCommunityId } from '@/api/community/communityApi'
-import { getRoomInfo, getOwnerList, auditAuthOwner } from '@/api/owner/auditAuthOwnerUndoApi'
+import { getRoomInfo, auditAuthOwner } from '@/api/owner/auditAuthOwnerUndoApi'
+import { queryOwners } from '@/api/owner/ownerApi'
 
 export default {
   name: 'AuditAuthOwnerUndoList',
@@ -175,7 +176,7 @@ export default {
           roomId: this.auditAuthOwnerUndoInfo.roomId,
           communityId: getCommunityId()
         }
-        const res = await getOwnerList(params)
+        const res = await queryOwners(params)
         this.auditAuthOwnerUndoInfo.owners = res.data
       } catch (error) {
         console.error('Failed to load owners:', error)

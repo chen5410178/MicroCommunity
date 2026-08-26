@@ -31,7 +31,7 @@
 
 <script>
 import { saveOwnerShops } from '@/api/room/shopsApi'
-import {queryOwners} from '@/api/owner/roomBindOwnerApi'
+import {queryOwners} from '@/api/owner/ownerApi'
 import {getCommunityId} from '@/api/community/communityApi'
 import {getDateYYYYMMDD} from '@/utils/dateUtil'
 

@@ -19,20 +19,6 @@ export function ownerPrestoreAccount(data) {
   })
 }
 
-export function queryOwners(params) {
-  return new Promise((resolve, reject) => {
-    request({
-      url: '/owner.queryOwners',
-      method: 'get',
-      params
-    }).then(response => {
-      resolve(response.data)
-    }).catch(error => {
-      reject(error)
-    })
-  })
-}
-
 export function queryRoomsByOwner(params) {
   return new Promise((resolve, reject) => {
     request({

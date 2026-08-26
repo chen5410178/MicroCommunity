@@ -179,19 +179,3 @@ export function queryRoomsWithOutSell(params) {
     })
   })
 }
-
-// 查询业主信息
-export function queryOwners(params) {
-  return new Promise((resolve, reject) => {
-    request({
-      url: '/owner.queryOwners',
-      method: 'get',
-      params
-    }).then(response => {
-      const res = response.data
-      resolve(res)
-    }).catch(error => {
-      reject(error)
-    })
-  })
-}

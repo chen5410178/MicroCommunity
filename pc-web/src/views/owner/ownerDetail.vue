@@ -175,7 +175,7 @@ import DeleteFee from '@/components/fee/deleteFee'
 import EditFee from '@/components/fee/editFee'
 //import FinishFee from '@/components/fee/finishFee'
 import { getCommunityId } from '@/api/community/communityApi'
-import { queryOwners } from '@/api/owner/ownerDetailApi'
+import { queryOwners } from '@/api/owner/ownerApi'
 import divider from '@/components/system/divider'
 
 export default {

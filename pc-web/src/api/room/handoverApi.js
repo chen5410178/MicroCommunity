@@ -16,25 +16,6 @@ export function saveHandover(data) {
   })
 }
 
-// 查询业主列表
-export function queryOwners(params) {
-  return new Promise((resolve, reject) => {
-    request({
-      url: '/owner.queryOwners',
-      method: 'get',
-      params
-    }).then(response => {
-      const res = response.data
-      resolve({
-        data: res.data,
-        total: res.total
-      })
-    }).catch(error => {
-      reject(error)
-    })
-  })
-}
-
 // 查询房屋列表
 export function queryRooms(params) {
   return new Promise((resolve, reject) => {

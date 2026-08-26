@@ -69,7 +69,7 @@
 
 <script>
 import { getCommunityId } from '@/api/community/communityApi'
-import { queryOwners } from '@/api/fee/carDetailOwnerApi'
+import { queryOwners } from '@/api/owner/ownerApi'
 import { getShopOwnerInfo } from '@/api/shop/shopCreateFeeApi'
 
 export default {

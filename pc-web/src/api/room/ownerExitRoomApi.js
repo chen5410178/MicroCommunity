@@ -41,27 +41,6 @@ export function queryRoomsByOwner(params) {
   })
 }
 
-// 查询业主列表
-export function queryOwners(params) {
-  return new Promise((resolve, reject) => {
-    const defaultParams = {
-      communityId: getCommunityId(),
-      page: 1,
-      row: 10
-    }
-    request({
-      url: '/owner.queryOwners',
-      method: 'get',
-      params: { ...defaultParams, ...params }
-    }).then(response => {
-      const res = response.data
-      resolve(res)
-    }).catch(error => {
-      reject(error)
-    })
-  })
-}
-
 // 查询费用列表
 export function listFee(params) {
   return new Promise((resolve, reject) => {

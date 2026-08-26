@@ -118,7 +118,7 @@ import OwnerRepairs from '@/components/owner/ownerRepairs'
 import OwnerOweFees from '@/components/owner/ownerOweFees'
 import RoomContracts from '@/components/room/roomContracts'
 import ViewImage from '@/components/system/viewImage'
-import { queryOwners } from '@/api/contract/contractDetailOwnerApi'
+import { queryOwners } from '@/api/owner/ownerApi'
 import { getCommunityId } from '@/api/community/communityApi'
 
 export default {

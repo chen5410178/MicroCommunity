@@ -20,25 +20,6 @@ export function getRoomInfo(params) {
   })
 }
 
-// 获取业主列表
-export function getOwnerList(params) {
-  return new Promise((resolve, reject) => {
-    request({
-      url: '/owner.queryOwners',
-      method: 'get',
-      params: {
-        ...params,
-        communityId: getCommunityId()
-      }
-    }).then(response => {
-      const res = response.data
-      resolve(res)
-    }).catch(error => {
-      reject(error)
-    })
-  })
-}
-
 // 提交审核
 export function auditAuthOwner(data) {
   return new Promise((resolve, reject) => {

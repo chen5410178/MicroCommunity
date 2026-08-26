@@ -88,8 +88,7 @@
             disabled
           ></el-option>
           <el-option
-            v-for="(item,index) in prestoreAccountInfo.primeRates"
-            v-if="item.statusCd != '5' && item.statusCd != '6'"
+            v-for="(item,index) in primeRateOptions"
             :key="index"
             :label="item.name"
             :value="item.statusCd"
@@ -115,7 +114,8 @@
 </template>
 
 <script>
-import { ownerPrestoreAccount, queryOwners, queryRoomsByOwner } from '@/api/fee/prestoreAccountApi'
+import { ownerPrestoreAccount, queryRoomsByOwner } from '@/api/fee/prestoreAccountApi'
+import { queryOwners } from '@/api/owner/ownerApi'
 import { getDict } from '@/api/community/communityApi'
 import { getCommunityId } from '@/api/community/communityApi'
 
@@ -147,6 +147,11 @@ export default {
         primeRate: [{ required: true, message: this.$t('prestoreAccount.selectPaymentMethod'), trigger: 'change' }],
         remark: [{ max: 200, message: this.$t('prestoreAccount.validateRemark'), trigger: 'blur' }]
       }
+    }
+  },
+  computed: {
+    primeRateOptions() {
+      return this.prestoreAccountInfo.primeRates.filter(item => item.statusCd != '5' && item.statusCd != '6')
     }
   },
   created() {

@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import { queryOwners } from '@/api/room/addRoomViewApi'
+import { queryOwners } from '@/api/owner/ownerApi'
 import { getCommunityId } from '@/api/community/communityApi'
 
 export default {
