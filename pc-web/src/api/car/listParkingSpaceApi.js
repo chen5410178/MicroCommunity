@@ -32,7 +32,7 @@ export function saveParkingSpace(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '添加停车位失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -53,7 +53,7 @@ export function editParkingSpace(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '编辑停车位失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -74,7 +74,7 @@ export function deleteParkingSpace(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '删除停车位失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -112,7 +112,7 @@ export function batchSaveParkingSpace(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '批量添加停车位失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)

@@ -25,15 +25,11 @@ export function getCarInoutPaymentList(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve({
-          data: res.data,
-          total: res.total,
-          records: res.records
-        })
-      } else {
-        reject(new Error(res.msg || '获取车辆进出支付列表失败'))
-      }
+      resolve({
+        data: res.data,
+        total: res.total,
+        records: res.records
+      })
     }).catch(error => {
       reject(error)
     })

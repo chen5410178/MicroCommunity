@@ -9,11 +9,7 @@ export function getParkingSpaceApplyDetail(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code == 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || '获取申请详情失败'))
-      }
+      resolve(res)
     }).catch(error => {
       reject(error)
     })
@@ -32,7 +28,7 @@ export function auditParkingSpaceApply(data) {
       if (res.code == 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '审核失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -49,11 +45,7 @@ export function queryParkingSpaces(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code == 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || '查询停车位失败'))
-      }
+      resolve(res)
     }).catch(error => {
       reject(error)
     })
@@ -69,11 +61,7 @@ export function listParkingAreas(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code == 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || '查询停车场失败'))
-      }
+      resolve(res)
     }).catch(error => {
       reject(error)
     })

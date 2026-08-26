@@ -14,11 +14,7 @@ export function queryOwnerCars(params) {
       }
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || '查询业主车辆失败'))
-      }
+      resolve(res)
     }).catch(error => {
       reject(error)
     })
@@ -41,7 +37,7 @@ export function deleteOwnerCars(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '删除业主车辆失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -65,7 +61,7 @@ export function deleteCarParkingSpace(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '释放车位失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -94,7 +90,7 @@ export function importData(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(res.msg)
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error.response.data)
@@ -118,7 +114,7 @@ export function editOwnerCar(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '修改车辆信息失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -144,8 +140,8 @@ export function exportData(params) {
         resolve(res)
       } else {
         reject(new Error(res.msg || '导出失败'))
-      }
-    }).catch(error => {
+      }  
+      }).catch(error => {
       reject(error)
     })
   })

@@ -8,11 +8,7 @@ export function listParkingCouponCarOrder(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || '获取优惠券核销订单失败'))
-      }
+      resolve(res)
     }).catch(error => {
       reject(error)
     })

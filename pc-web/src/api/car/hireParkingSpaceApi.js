@@ -16,7 +16,7 @@ export function saveOwnerCar(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '保存车辆信息失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -36,14 +36,10 @@ export function queryOwners(params) {
       }
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve({
-          data: res.data,
-          total: res.total
-        })
-      } else {
-        reject(new Error(res.msg || '查询业主列表失败'))
-      }
+      resolve({
+        data: res.data,
+        total: res.total
+      })
     }).catch(error => {
       reject(error)
     })
@@ -100,11 +96,7 @@ export function getCarAttrSpec() {
       }
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve(res.data)
-      } else {
-        reject(new Error(res.msg || '获取车辆属性规格失败'))
-      }
+      resolve(res.data)
     }).catch(error => {
       reject(error)
     })
@@ -124,11 +116,7 @@ export function getDict(dictType, dictCd) {
       }
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve(res.data)
-      } else {
-        reject(new Error(res.msg || '获取字典数据失败'))
-      }
+      resolve(res.data)
     }).catch(error => {
       reject(error)
     })

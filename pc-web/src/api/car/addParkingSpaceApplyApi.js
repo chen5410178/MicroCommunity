@@ -9,16 +9,12 @@ export function queryOwners(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve({
-          data: res.data,
-          total: res.total,
-          currentPage: params.page,
-          pageSize: params.row
-        })
-      } else {
-        reject(new Error(res.msg || 'Failed to query owners'))
-      }
+      resolve({
+        data: res.data,
+        total: res.total,
+        currentPage: params.page,
+        pageSize: params.row
+      })
     }).catch(error => {
       reject(error)
     })
@@ -37,7 +33,7 @@ export function saveParkingSpaceApply(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || 'Failed to save parking space apply'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)

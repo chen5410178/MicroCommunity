@@ -9,15 +9,11 @@ export function queryAdminOwnerCars(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve({
-          data: res.data,
-          total: res.total,
-          records: res.records
-        })
-      } else {
-        reject(new Error(res.msg || 'Failed to query community cars'))
-      }
+      resolve({
+        data: res.data,
+        total: res.total,
+        records: res.records
+      })
     }).catch(error => {
       reject(error)
     })
@@ -33,11 +29,7 @@ export function queryCommunityParkingTree(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || 'Failed to query parking tree'))
-      }
+      resolve(res)
     }).catch(error => {
       reject(error)
     })

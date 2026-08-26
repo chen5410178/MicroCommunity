@@ -15,11 +15,7 @@ export function getParkingBoxList(params) {
       }
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || '获取岗亭列表失败'))
-      }
+      resolve(res)
     }).catch(error => {
       reject(error)
     })
@@ -42,7 +38,7 @@ export function addParkingBox(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '添加岗亭失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -66,7 +62,7 @@ export function updateParkingBox(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '更新岗亭失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -90,7 +86,7 @@ export function deleteParkingBox(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '删除岗亭失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -112,11 +108,7 @@ export function getParkingAreaList() {
       }
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve(res.data.parkingAreas || [])
-      } else {
-        reject(new Error(res.msg || '获取停车场列表失败'))
-      }
+      resolve(res.data.parkingAreas || [])
     }).catch(error => {
       reject(error)
     })

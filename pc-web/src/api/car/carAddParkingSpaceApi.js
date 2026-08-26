@@ -13,11 +13,7 @@ export function getCarInfo(params) {
       }
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || '获取车辆信息失败'))
-      }
+      resolve(res)
     }).catch(error => {
       reject(error)
     })
@@ -39,7 +35,7 @@ export function addCarParkingSpace(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '添加停车位失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -59,11 +55,7 @@ export function queryParkingSpaces(params) {
       }
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || '查询停车位失败'))
-      }
+      resolve(res)
     }).catch(error => {
       reject(error)
     })
@@ -83,11 +75,7 @@ export function listParkingAreas() {
       }
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || '查询停车场失败'))
-      }
+      resolve(res)
     }).catch(error => {
       reject(error)
     })
