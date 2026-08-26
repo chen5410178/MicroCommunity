@@ -94,18 +94,3 @@ export function queryRoomsByOwner(params) {
   })
 }
 
-// 获取字典数据
-export function getDict(dictType, dictName) {
-  return new Promise((resolve, reject) => {
-    request({
-      url: '/dict.getDict',
-      method: 'get',
-      params: { dictType, dictName }
-    }).then(response => {
-      const res = response.data
-      resolve(res.data)
-    }).catch(error => {
-      reject(error)
-    })
-  })
-}

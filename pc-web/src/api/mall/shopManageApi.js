@@ -23,29 +23,6 @@ export function getShopList(params) {
   })
 }
 
-// 获取店铺类型
-export function getStoreTypes() {
-  return new Promise((resolve, reject) => {
-    request({
-      url: '/dict/getDict',
-      method: 'get',
-      params: {
-        type: 's_shop',
-        name: 'stop_type'
-      }
-    }).then(response => {
-      const res = response.data
-      if (res.code === 0) {
-        resolve(res.data)
-      } else {
-        reject(new Error(res.msg || '获取店铺类型失败'))
-      }
-    }).catch(error => {
-      reject(error)
-    })
-  })
-}
-
 // 审核店铺
 export function auditShop(data) {
   return new Promise((resolve, reject) => {

@@ -1,21 +1,7 @@
 import request from '@/utils/request'
 import { getCommunityId } from '@/api/community/communityApi'
 
-// 获取字典数据
-export function getDict(dictType, state) {
-  return new Promise((resolve, reject) => {
-    request({
-      url: '/dict.listDict',
-      method: 'get',
-      params: { dictType, state }
-    }).then(response => {
-      const res = response.data
-      resolve(res)
-    }).catch(error => {
-      reject(error)
-    })
-  })
-}
+
 
 // 查询巡检计划列表
 export function listInspectionPlans(params) {

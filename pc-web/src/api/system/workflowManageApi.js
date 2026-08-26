@@ -42,26 +42,7 @@ export function listWorkflowImage(params) {
       resolve({
         data: res.data
       })
-    }).catch(error => {
-      reject(error)
-    })
-  })
-}
-
-// 获取流程类型字典
-export function getFlowTypeDict() {
-  return new Promise((resolve, reject) => {
-    request({
-      url: '/dict.getDict',
-      method: 'get',
-      params: {
-        dictType: 'workflow',
-        dictCd: 'flow_type'
-      }
-    }).then(response => {
-      const res = response.data
-      resolve(res)
-    }).catch(error => {
+}).catch(error => {
       reject(error)
     })
   })

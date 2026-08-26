@@ -90,23 +90,7 @@ export function listOrgs(params) {
   })
 }
 
-// 获取字典数据
-export function getDict(dictName, dictType) {
-  return new Promise((resolve, reject) => {
-    request({
-      url: '/dict.getDict',
-      method: 'get',
-      params: { dictName, dictType }
-    }).then(response => {
-      const res = response.data
 
-        resolve(res)
-
-    }).catch(error => {
-      reject(error)
-    })
-  })
-}
 
 // 上传文件
 export function uploadImage(data) {

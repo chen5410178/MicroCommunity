@@ -58,22 +58,3 @@ export function listFeeConfigs(params) {
   })
 }
 
-// 获取字典数据
-export function getDict(dictType, dictName) {
-  return new Promise((resolve, reject) => {
-    request({
-      url: '/dict/getDict',
-      method: 'get',
-      params: {
-        dictType,
-        dictName,
-        communityId: getCommunityId()
-      }
-    }).then(response => {
-      const res = response.data
-      resolve(res)
-    }).catch(error => {
-      reject(error)
-    })
-  })
-}

@@ -72,29 +72,4 @@ export function saveReturnPayFee(data) {
     })
   })
 }
-
-/**
- * 获取押金状态字典
- * @returns {Promise}
- */
-export function getDepositStates() {
-  return new Promise((resolve, reject) => {
-    request({
-      url: '/dict/getDict',
-      method: 'get',
-      params: {
-        dictType: 'fee_state',
-        dictCode: 'deposit'
-      }
-    }).then(response => {
-      const res = response.data
-      if (res.code === 0) {
-        resolve(res.data)
-      } else {
-        reject(new Error(res.msg || 'Failed to get deposit states'))
-      }
-    }).catch(error => {
-      reject(error)
-    })
-  })
-}
+

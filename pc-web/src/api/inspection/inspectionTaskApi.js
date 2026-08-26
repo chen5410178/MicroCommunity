@@ -113,25 +113,3 @@ export function deleteInspectionTask(data) {
   })
 }
 
-// 获取字典数据
-export function getDict(dictType, dictCd) {
-  return new Promise((resolve, reject) => {
-    request({
-      url: '/dict.getDict',
-      method: 'get',
-      params: {
-        dictType,
-        dictCd
-      }
-    }).then(response => {
-      const res = response.data
-      if (res.code === 0) {
-        resolve(res.data)
-      } else {
-        reject(new Error(res.msg || '获取字典数据失败'))
-      }
-    }).catch(error => {
-      reject(error)
-    })
-  })
-}

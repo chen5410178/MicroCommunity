@@ -49,23 +49,4 @@ export function listRoomStructure(params) {
     })
   })
 }
-
-/**
- * 获取房间状态字典
- * @returns {Promise}
- */
-export function getRoomStateDict() {
-  return new Promise((resolve, reject) => {
-    request({
-      url: '/dict.getDict',
-      method: 'get',
-      params: {
-        dictType: 'room_state'
-      }
-    }).then(response => {
-      resolve(response.data)
-    }).catch(error => {
-      reject(error)
-    })
-  })
-}
+

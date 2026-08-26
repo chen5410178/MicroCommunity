@@ -94,26 +94,4 @@ export function deleteMaintainanceTask(data) {
     })
   })
 }
-
-/**
- * 获取保养任务状态字典
- * @param {String} dictType 字典类型
- * @param {String} dictName 字典名称
- * @returns {Promise}
- */
-export function getMaintainanceTaskDict(dictType, dictName) {
-  return new Promise((resolve, reject) => {
-    request({
-      url: '/dict.getDict',
-      method: 'get',
-      params: {
-        dictType,
-        dictName
-      }
-    }).then(response => {
-      resolve(response.data)
-    }).catch(error => {
-      reject(error)
-    })
-  })
-}
+

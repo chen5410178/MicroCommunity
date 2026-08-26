@@ -71,26 +71,7 @@ export function deleteSmallWeChat(data) {
     }).then(response => {
       const res = response.data
       resolve(res)
-    }).catch(error => {
-      reject(error)
-    })
-  })
-}
-
-// 获取小程序字典数据
-export function getSmallWeChatDict(dictType, dictCode) {
-  return new Promise((resolve, reject) => {
-    request({
-      url: '/dict.getDict',
-      method: 'get',
-      params: {
-        dictType,
-        dictCode
-      }
-    }).then(response => {
-      const res = response.data
-      resolve(res)
-    }).catch(error => {
+}).catch(error => {
       reject(error)
     })
   })

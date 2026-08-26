@@ -9,14 +9,10 @@ export function listAdminComplaints(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve({
-          data: res.data,
-          total: res.total
-        })
-      } else {
-        reject(new Error(res.msg || 'Failed to get complaint list'))
-      }
+      resolve({
+        data: res.data,
+        total: res.total
+      })
     }).catch(error => {
       reject(error)
     })
@@ -32,13 +28,9 @@ export function listAdminCommunitys(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve({
-          data: res.data
-        })
-      } else {
-        reject(new Error(res.msg || 'Failed to get community list'))
-      }
+      resolve({
+        data: res.data
+      })
     }).catch(error => {
       reject(error)
     })
