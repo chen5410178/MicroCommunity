@@ -27,10 +27,10 @@ export function addMenu(data) {
       data
     }).then(response => {
       const res = response.data
-      if (!res.code || res.code == 0) {
+      if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '添加菜单失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -47,9 +47,11 @@ export function updateMenu(data) {
       data
     }).then(response => {
       const res = response.data
-
+      if (res.code === 0) {
         resolve(res)
-
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })
@@ -65,10 +67,10 @@ export function deleteMenu(mId,pId) {
       data: { mId,pId }
     }).then(response => {
       const res = response.data
-      if (!res.code || res.code == 0) {
+      if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '删除菜单失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)

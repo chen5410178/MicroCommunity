@@ -26,9 +26,11 @@ export function addService(data) {
       data
     }).then(response => {
       const res = response.data
-
+      if (res.code === 0) {
         resolve(res)
-
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })
@@ -44,9 +46,11 @@ export function updateService(data) {
       data
     }).then(response => {
       const res = response.data
-
+      if (res.code === 0) {
         resolve(res)
-
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })
@@ -62,9 +66,11 @@ export function deleteService(serviceId) {
       data: { serviceId }
     }).then(response => {
       const res = response.data
-
+      if (res.code === 0) {
         resolve(res)
-   
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })

@@ -9,11 +9,7 @@ export function getAttrSpecList(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code == 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || '获取属性列表失败'))
-      }
+      resolve(res)
     }).catch(error => {
       reject(error)
     })
@@ -29,10 +25,10 @@ export function addAttrSpec(data) {
       data
     }).then(response => {
       const res = response.data
-      if (res.code == 0) {
+      if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '添加属性失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -49,10 +45,10 @@ export function updateAttrSpec(data) {
       data
     }).then(response => {
       const res = response.data
-      if (res.code == 0) {
+      if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '更新属性失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -69,10 +65,10 @@ export function deleteAttrSpec(specId) {
       data: { specId }
     }).then(response => {
       const res = response.data
-      if (res.code == 0) {
+      if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '删除属性失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)

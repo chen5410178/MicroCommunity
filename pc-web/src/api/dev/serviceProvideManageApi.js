@@ -27,9 +27,11 @@ export function updateServiceProvide(data) {
       data
     }).then(response => {
       const res = response.data
-
+      if (res.code === 0) {
         resolve(res)
-
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })
@@ -44,9 +46,11 @@ export function addServiceProvide(data) {
       data
     }).then(response => {
       const res = response.data
-
+      if (res.code === 0) {
         resolve(res)
-
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })
@@ -62,11 +66,7 @@ export function getServiceProvideDetail(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve(res.data)
-      } else {
-        reject(new Error(res.msg || '获取服务提供详情失败'))
-      }
+      resolve(res.data)
     }).catch(error => {
       reject(error)
     })
@@ -80,7 +80,11 @@ export function deleteServiceProvide(data) {
       data
     }).then(response => {
       const res = response.data
-      resolve(res)
+      if (res.code === 0) {
+        resolve(res)
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })

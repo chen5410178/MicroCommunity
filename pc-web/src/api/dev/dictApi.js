@@ -9,11 +9,7 @@ export function getDictList(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code == 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || '获取字典列表失败'))
-      }
+      resolve(res)
     }).catch(error => {
       reject(error)
     })
@@ -29,10 +25,10 @@ export function addDict(data) {
       data
     }).then(response => {
       const res = response.data
-      if (res.code == 0) {
+      if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '添加字典失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -49,10 +45,10 @@ export function updateDict(data) {
       data
     }).then(response => {
       const res = response.data
-      if (res.code == 0) {
+      if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '更新字典失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -69,10 +65,10 @@ export function deleteDict(id) {
       data: { id }
     }).then(response => {
       const res = response.data
-      if (res.code == 0) {
+      if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '删除字典失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -90,11 +86,7 @@ export function getDictSpecList(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code == 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || '获取字典列表失败'))
-      }
+      resolve(res)
     }).catch(error => {
       reject(error)
     })

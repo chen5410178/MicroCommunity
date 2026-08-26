@@ -27,9 +27,11 @@ export function addMenuGroup(data) {
       data
     }).then(response => {
       const res = response.data
-
+      if (res.code === 0) {
         resolve(res)
-
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })
@@ -45,9 +47,11 @@ export function updateMenuGroup(data) {
       data
     }).then(response => {
       const res = response.data
-
+      if (res.code === 0) {
         resolve(res)
-
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })
@@ -63,9 +67,11 @@ export function deleteMenuGroup(gId) {
       data: { gId }
     }).then(response => {
       const res = response.data
-
+      if (res.code === 0) {
         resolve(res)
-
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })

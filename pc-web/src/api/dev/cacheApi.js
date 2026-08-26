@@ -25,10 +25,10 @@ export function flushCache(data) {
       data
     }).then(response => {
       const res = response.data
-      if (res.code == 0) {
+      if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '刷新缓存失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -45,10 +45,10 @@ export function updateCache(data) {
       data
     }).then(response => {
       const res = response.data
-      if (res.code == 0) {
+      if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '更新刷新缓存失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -65,10 +65,10 @@ export function deleteCache() {
       data: {  }
     }).then(response => {
       const res = response.data
-      if (res.code == 0) {
+      if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '删除刷新缓存失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)

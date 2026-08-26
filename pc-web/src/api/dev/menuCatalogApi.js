@@ -9,11 +9,7 @@ export function getMenuCatalogList(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code == 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || '获取菜单目录列表失败'))
-      }
+      resolve(res)
     }).catch(error => {
       reject(error)
     })
@@ -29,10 +25,10 @@ export function addMenuCatalog(data) {
       data
     }).then(response => {
       const res = response.data
-      if (res.code == 0) {
+      if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '添加菜单目录失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -49,10 +45,10 @@ export function updateMenuCatalog(data) {
       data
     }).then(response => {
       const res = response.data
-      if (res.code == 0) {
+      if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '更新菜单目录失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -69,10 +65,10 @@ export function deleteMenuCatalog(caId,storeType) {
       data: { caId ,storeType}
     }).then(response => {
       const res = response.data
-      if (res.code == 0) {
+      if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '删除菜单目录失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)

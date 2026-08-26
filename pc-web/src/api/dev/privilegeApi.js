@@ -27,9 +27,11 @@ export function addPrivilege(data) {
       data
     }).then(response => {
       const res = response.data
-
+      if (res.code === 0) {
         resolve(res)
-
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })
@@ -45,9 +47,11 @@ export function updatePrivilege(data) {
       data
     }).then(response => {
       const res = response.data
-   
+      if (res.code === 0) {
         resolve(res)
-
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })
@@ -63,9 +67,11 @@ export function deletePrivilege(pId) {
       data: { pId }
     }).then(response => {
       const res = response.data
-
+      if (res.code === 0) {
         resolve(res)
-
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })

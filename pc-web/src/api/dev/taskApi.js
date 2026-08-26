@@ -9,11 +9,7 @@ export function getTaskList(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code == 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || '获取定时任务列表失败'))
-      }
+      resolve(res)
     }).catch(error => {
       reject(error)
     })
@@ -29,10 +25,10 @@ export function addTask(data) {
       data
     }).then(response => {
       const res = response.data
-      if (res.code == 0) {
+      if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '添加定时任务失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -49,10 +45,10 @@ export function updateTask(data) {
       data
     }).then(response => {
       const res = response.data
-      if (res.code == 0) {
+      if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '更新定时任务失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -69,10 +65,10 @@ export function deleteTask(taskId) {
       data: { taskId }
     }).then(response => {
       const res = response.data
-      if (res.code == 0) {
+      if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '删除定时任务失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -88,10 +84,10 @@ export function startTask(taskId) {
       data: { taskId }
     }).then(response => {
       const res = response.data
-      if (res.code == 0) {
+      if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '删除定时任务失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -107,10 +103,10 @@ export function stopTask(taskId) {
       data: { taskId }
     }).then(response => {
       const res = response.data
-      if (res.code == 0) {
+      if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '删除定时任务失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -125,10 +121,10 @@ export function runTask(taskId) {
       data: { taskId }
     }).then(response => {
       const res = response.data
-      if (res.code == 0) {
+      if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '执行定时任务失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -145,11 +141,7 @@ export function getTaskTemplateList(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code == 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || '获取定时任务列表失败'))
-      }
+      resolve(res)
     }).catch(error => {
       reject(error)
     })
