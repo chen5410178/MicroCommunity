@@ -120,7 +120,6 @@ export default [
     },
     {
         path: '/views/fee/payFeeOrder',
-        meta: { title: '缴费订单' },
         name: '/views/fee/payFeeOrder',
         component: () => import('@/views/fee/payFeeOrderList.vue')
     },
