@@ -216,9 +216,9 @@ export default {
 
       generatorReceipt(data)
         .then(response => {
-          const res = response.data
+          const res = response
           this.$message.success(res.msg)
-          if (res.code !== '0') {
+          if (res.code != '0') {
             return
           }
           this.receiptDialogVisible = false

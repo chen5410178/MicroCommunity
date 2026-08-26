@@ -19,6 +19,7 @@ import com.java110.po.log.LogSystemErrorPo;
 import com.java110.service.smo.ISaveSystemErrorSMO;
 import com.java110.utils.cache.CommonCache;
 import com.java110.utils.util.Assert;
+import com.java110.utils.util.DateUtil;
 import com.java110.utils.util.ExceptionUtil;
 import com.java110.utils.util.StringUtil;
 import org.slf4j.Logger;
@@ -95,6 +96,11 @@ public class GeneratorFeeReceiptInnerServiceSMOImpl extends BaseServiceSMO imple
             feeReceiptDetailPo.setStartTime(payFeeDetailPo.getStartTime());
             feeReceiptDetailPo.setReceiptId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_receiptId));
             feeReceiptDetailPo.setCreateTime(payFeeDetailPo.getCreateTime());
+            String feeMonth = "";
+            if (feeDto.getFeeTime() != null) {
+                feeMonth = DateUtil.getFormatTimeStringQ(feeDto.getFeeTime());
+            }
+            feeReceiptDetailPo.setFeeMonth(feeMonth);
             //处理 小数点后 0
             feeDto.setSquarePrice(Double.parseDouble(feeDto.getSquarePrice()) + "");
             feeDto.setAdditionalAmount(Double.parseDouble(feeDto.getAdditionalAmount()) + "");
@@ -110,6 +116,7 @@ public class GeneratorFeeReceiptInnerServiceSMOImpl extends BaseServiceSMO imple
             feeReceiptPo.setPayObjName(ownerDto.getName());
             feeReceiptPo.setCreateTime(payFeeDetailPo.getCreateTime());
             feeReceiptPo.setReceiptCode(receiptCode);
+
             //这里只是写入 收据表，暂不考虑 事务一致性问题，就算写入失败 也只是影响 收据打印，如果 贵公司对 收据要求 比较高，不能有失败的情况 请加入事务管理
             feeReceiptDetailInnerServiceSMOImpl.saveFeeReceiptDetail(feeReceiptDetailPo);
             feeReceiptInnerServiceSMOImpl.saveFeeReceipt(feeReceiptPo);
