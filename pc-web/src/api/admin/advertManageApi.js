@@ -31,7 +31,7 @@ export function saveAdvert(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || 'Failed to save advertisement'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -51,7 +51,7 @@ export function updateAdvert(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || 'Failed to update advertisement'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -71,7 +71,7 @@ export function deleteAdvert(advertId) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || 'Failed to delete advertisement'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -91,11 +91,7 @@ export function uploadFile(data) {
       }
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve(res.data)
-      } else {
-        reject(new Error(res.msg || 'Failed to upload file'))
-      }
+      resolve(res)
     }).catch(error => {
       reject(error)
     })
@@ -110,11 +106,7 @@ export function getAdvertDetail(advertId) {
       params: { advertId }
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve(res.data)
-      } else {
-        reject(new Error(res.msg || 'Failed to get advertisement detail'))
-      }
+      resolve(res.data)
     }).catch(error => {
       reject(error)
     })
@@ -146,11 +138,7 @@ export function getLocationTypes() {
       params: { type: 'location_type_cd' }
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve(res.data)
-      } else {
-        reject(new Error(res.msg || 'Failed to get location types'))
-      }
+      resolve(res.data)
     }).catch(error => {
       reject(error)
     })
