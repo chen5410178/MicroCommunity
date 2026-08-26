@@ -103,6 +103,9 @@ public class GeneratorFeeReceiptInnerServiceSMOImpl extends BaseServiceSMO imple
             }
             feeReceiptDetailPo.setFeeMonth(feeMonth);
             feeReceiptDetailPo.setPayWay(payFeeDetailPo.getPrimeRate());
+            if (feeReceiptDetailPo.getPayWay().contains(".00")) {
+                feeReceiptDetailPo.setPayWay(Integer.parseInt(feeReceiptDetailPo.getPayWay()) + "");
+            }
             //补充字段，参照 FeeReceiptBmoImpl.savePayFeeReceipt
             feeReceiptDetailPo.setRemark(payFeeDetailPo.getRemark());
             feeReceiptDetailPo.setLateAmount(payFeeDetailPo.getLateAmount());
