@@ -9,11 +9,7 @@ export function getOwnerDetail(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || '获取业主详情失败'))
-      }
+      resolve(res)
     }).catch(error => {
       reject(error)
     })
@@ -32,7 +28,7 @@ export function updateOwnerInfo(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '更新业主信息失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -49,11 +45,7 @@ export function getOwnerAttributes(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || '获取业主属性列表失败'))
-      }
+      resolve(res)
     }).catch(error => {
       reject(error)
     })

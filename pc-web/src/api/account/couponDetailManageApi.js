@@ -9,14 +9,10 @@ export function listCouponDetail(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve({
-          data: res.data,
-          total: res.total
-        })
-      } else {
-        reject(new Error(res.msg || '获取优惠券详情列表失败'))
-      }
+      resolve({
+        data: res.data,
+        total: res.total
+      })
     }).catch(error => {
       reject(error)
     })
@@ -35,7 +31,7 @@ export function saveCouponDetail(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '添加优惠券详情失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -55,7 +51,7 @@ export function updateCouponDetail(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '更新优惠券详情失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -75,7 +71,7 @@ export function deleteCouponDetail(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '删除优惠券详情失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)

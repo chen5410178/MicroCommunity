@@ -9,11 +9,7 @@ export function getOwnerCarInfo(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || 'Failed to get owner car info'))
-      }
+      resolve(res)
     }).catch(error => {
       reject(error)
     })
@@ -29,11 +25,7 @@ export function getCarFeeList(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || 'Failed to get car fee list'))
-      }
+      resolve(res)
     }).catch(error => {
       reject(error)
     })
@@ -49,11 +41,7 @@ export function getCarPaymentHistory(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || 'Failed to get car payment history'))
-      }
+      resolve(res)
     }).catch(error => {
       reject(error)
     })
@@ -69,11 +57,7 @@ export function getCarModificationHistory(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || 'Failed to get car modification history'))
-      }
+      resolve(res)
     }).catch(error => {
       reject(error)
     })
@@ -92,7 +76,7 @@ export function syncLicensePlate(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || 'Failed to sync license plate'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)

@@ -9,11 +9,7 @@ export function getRoomDetail(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || '获取房屋详情失败'))
-      }
+      resolve(res)
     }).catch(error => {
       reject(error)
     })
@@ -29,11 +25,7 @@ export function getOwnerInfo(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || '获取业主信息失败'))
-      }
+      resolve(res)
     }).catch(error => {
       reject(error)
     })
@@ -49,11 +41,7 @@ export function getMemberList(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || '获取家庭成员列表失败'))
-      }
+      resolve(res)
     }).catch(error => {
       reject(error)
     })
@@ -69,11 +57,7 @@ export function getCarList(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || '获取业主车辆列表失败'))
-      }
+      resolve(res)
     }).catch(error => {
       reject(error)
     })

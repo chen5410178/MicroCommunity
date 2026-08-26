@@ -12,6 +12,7 @@ import com.java110.intf.acct.IAccountInnerServiceSMO;
 import com.java110.po.account.AccountDetailPo;
 import com.java110.utils.exception.CmdException;
 import com.java110.utils.util.Assert;
+import com.java110.vo.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.text.ParseException;
@@ -60,5 +61,7 @@ public class CancelAccountDetailCmd extends Cmd {
         if (flag < 1) {
             throw new CmdException("撤销失败");
         }
+
+        context.setResponseEntity(ResultVo.success());
     }
 }

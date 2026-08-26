@@ -14,11 +14,7 @@ export function queryOwnerAccountDetail(params) {
       }
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || '查询账户明细失败'))
-      }
+      resolve(res)
     }).catch(error => {
       reject(error)
     })
@@ -41,7 +37,7 @@ export function cancelAccountDetail(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '撤销操作失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)

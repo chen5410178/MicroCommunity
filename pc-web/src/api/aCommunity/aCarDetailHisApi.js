@@ -8,11 +8,7 @@ export function queryAdminHisOwnerCar(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code == 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || 'Failed to get car history'))
-      }
+      resolve(res)
     }).catch(error => {
       reject(error)
     })

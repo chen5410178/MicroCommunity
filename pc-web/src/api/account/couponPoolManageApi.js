@@ -9,11 +9,7 @@ export function listCouponPool(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || '获取优惠券池列表失败'))
-      }
+      resolve(res)
     }).catch(error => {
       reject(error)
     })
@@ -32,7 +28,7 @@ export function saveCouponPool(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '添加优惠券池失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -52,7 +48,7 @@ export function updateCouponPool(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '更新优惠券池失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -72,7 +68,7 @@ export function deleteCouponPool(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '删除优惠券池失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)

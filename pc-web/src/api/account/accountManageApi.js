@@ -11,11 +11,7 @@ export function queryCommunityOwnerAccount(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || '查询账户列表失败'))
-      }
+      resolve(res)
     }).catch(error => {
       reject(error)
     })
@@ -35,7 +31,7 @@ export function ownerPrestoreAccount(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '预存账户失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -55,7 +51,7 @@ export function deleteAccount(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '删除账户失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -74,11 +70,7 @@ export function queryOwners(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code == 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || '查询业主列表失败'))
-      }
+      resolve(res)
     }).catch(error => {
       reject(error)
     })
@@ -111,11 +103,7 @@ export function getDict(dictType, dictName) {
       params: { dictType, dictName }
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve(res.data)
-      } else {
-        reject(new Error(res.msg || '获取字典数据失败'))
-      }
+      resolve(res.data)
     }).catch(error => {
       reject(error)
     })

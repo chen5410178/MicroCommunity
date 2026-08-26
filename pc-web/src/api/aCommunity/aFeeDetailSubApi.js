@@ -9,11 +9,7 @@ export function listAdminPayFeeSub(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || '获取子费用列表失败'))
-      }
+      resolve(res)
     }).catch(error => {
       reject(error)
     })
@@ -29,11 +25,7 @@ export function listAdminFee(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || '获取费用信息失败'))
-      }
+      resolve(res)
     }).catch(error => {
       reject(error)
     })
