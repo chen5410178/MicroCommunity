@@ -91,7 +91,11 @@ export function saveApplyRoomDiscount(data) {
       }
     }).then(response => {
       const res = response.data
-      resolve(res)
+      if (res.code === 0) {
+        resolve(res)
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })
@@ -110,7 +114,11 @@ export function updateApplyRoomDiscount(data) {
       }
     }).then(response => {
       const res = response.data
-      resolve(res)
+      if (res.code === 0) {
+        resolve(res)
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })
@@ -129,7 +137,11 @@ export function updateReviewApplyRoomDiscount(data) {
       }
     }).then(response => {
       const res = response.data
-      resolve(res)
+      if (res.code === 0) {
+        resolve(res)
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })
@@ -148,7 +160,11 @@ export function deleteApplyRoomDiscount(data) {
       }
     }).then(response => {
       const res = response.data
-      resolve(res)
+      if (res.code === 0) {
+        resolve(res)
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })
@@ -167,7 +183,11 @@ export function dealWithRefundAmount(data) {
       }
     }).then(response => {
       const res = response.data
-      resolve(res)
+      if (res.code === 0) {
+        resolve(res)
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })

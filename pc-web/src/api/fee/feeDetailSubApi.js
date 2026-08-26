@@ -8,11 +8,7 @@ export function listPayFeeSub(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || 'Failed to get fee sub list'))
-      }
+      resolve(res)
     }).catch(error => {
       reject(error)
     })
@@ -27,11 +23,7 @@ export function listFee(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || 'Failed to get fee list'))
-      }
+      resolve(res)
     }).catch(error => {
       reject(error)
     })

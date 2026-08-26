@@ -11,14 +11,10 @@ export function getPayFeeConfigDiscountList(params) {
       params: { ...params, communityId }
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve({
-          data: res.data,
-          total: res.total
-        })
-      } else {
-        reject(new Error(res.msg || '获取费用折扣列表失败'))
-      }
+      resolve({
+        data: res.data,
+        total: res.total
+      })
     }).catch(error => {
       reject(error)
     })
@@ -35,14 +31,10 @@ export function getFeeDiscountList(params) {
       params: { ...params, communityId }
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve({
-          data: res.data,
-          total: res.total
-        })
-      } else {
-        reject(new Error(res.msg || '获取折扣列表失败'))
-      }
+      resolve({
+        data: res.data,
+        total: res.total
+      })
     }).catch(error => {
       reject(error)
     })
@@ -62,7 +54,7 @@ export function savePayFeeConfigDiscount(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '保存费用折扣失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -83,7 +75,7 @@ export function deletePayFeeConfigDiscount(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '删除费用折扣失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)

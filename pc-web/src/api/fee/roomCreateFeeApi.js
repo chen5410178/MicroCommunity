@@ -53,7 +53,7 @@ export function importCreateFee(data) {
         if (res.code === 0) {
           resolve(res)
         } else {
-          reject(new Error(res.msg || '导入费用失败'))
+          reject(new Error(res.msg || 'error'))
         }
       })
       .catch(error => {
@@ -75,7 +75,7 @@ export function batchCreateFee(data) {
         if (res.code === 0) {
           resolve(res)
         } else {
-          reject(new Error(res.msg || '批量创建费用失败'))
+          reject(new Error(res.msg || 'error'))
         }
       })
       .catch(error => {
@@ -94,11 +94,7 @@ export function downloadCollectionLetter(params) {
     })
       .then(response => {
         const res = response.data
-        if (res.code === 0) {
-          resolve(res)
-        } else {
-          reject(new Error(res.msg || '下载催缴单失败'))
-        }
+        resolve(res)
       })
       .catch(error => {
         reject(error)

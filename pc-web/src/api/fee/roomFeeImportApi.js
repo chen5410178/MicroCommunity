@@ -96,11 +96,7 @@ export function getImportFeeDetail(importFeeId) {
       }
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve(res.data)
-      } else {
-        reject(new Error(res.msg))
-      }
+      resolve(res.data)
     }).catch(error => {
       reject(error)
     })

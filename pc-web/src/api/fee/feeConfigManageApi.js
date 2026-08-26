@@ -41,7 +41,11 @@ export function saveFeeType(data) {
       data
     }).then(response => {
       const res = response.data
-      resolve(res)
+      if (res.code === 0) {
+        resolve(res)
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })
@@ -57,7 +61,11 @@ export function updateFeeType(data) {
       data
     }).then(response => {
       const res = response.data
-      resolve(res)
+      if (res.code === 0) {
+        resolve(res)
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })
@@ -73,7 +81,11 @@ export function deleteFeeType(data) {
       data
     }).then(response => {
       const res = response.data
-      resolve(res)
+      if (res.code === 0) {
+        resolve(res)
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })
@@ -105,7 +117,11 @@ export function saveFeeConfig(data) {
       data
     }).then(response => {
       const res = response.data
-      resolve(res)
+      if (res.code === 0) {
+        resolve(res)
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })
@@ -121,7 +137,11 @@ export function updateFeeConfig(data) {
       data
     }).then(response => {
       const res = response.data
-      resolve(res)
+      if (res.code === 0) {
+        resolve(res)
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })
@@ -137,7 +157,11 @@ export function deleteFeeConfig(data) {
       data
     }).then(response => {
       const res = response.data
-      resolve(res)
+      if (res.code === 0) {
+        resolve(res)
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })

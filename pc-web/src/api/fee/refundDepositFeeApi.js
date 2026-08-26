@@ -24,15 +24,11 @@ export function queryFeeDeposit(params) {
       }
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve({
-          data: res.data,
-          total: res.total,
-          records: res.records
-        })
-      } else {
-        reject(new Error(res.msg || 'Failed to fetch deposit fees'))
-      }
+      resolve({
+        data: res.data,
+        total: res.total,
+        records: res.records
+      })
     }).catch(error => {
       reject(error)
     })
@@ -65,7 +61,7 @@ export function saveReturnPayFee(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || 'Failed to save refund application'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)

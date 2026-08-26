@@ -14,11 +14,7 @@ export function queryOwnerCars(params) {
       }
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || '查询车辆收费信息失败'))
-      }
+      resolve(res)
     }).catch(error => {
       reject(error)
     })
@@ -38,8 +34,11 @@ export function saveParkingSpaceCreateFee(data) {
       }
     }).then(response => {
       const res = response.data
-
+      if (res.code === 0) {
         resolve(res)
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })
@@ -123,13 +122,13 @@ export function importCustomFee(data) {
         'Content-Type': 'multipart/form-data'
       }
     }).then(response => {
-      const res = response.data
-      if (res.code === 0) {
+      const res = response.data    
+        if (res.code === 0) {
         resolve(res)
       } else {
         reject(new Error(res.msg || '导入自定义费用失败'))
-      }
-    }).catch(error => {
+      }   
+     }).catch(error => {
       reject(error.response.data)
     })
   })

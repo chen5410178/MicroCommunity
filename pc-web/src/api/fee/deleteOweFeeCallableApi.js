@@ -8,10 +8,10 @@ export function deleteOweFeeCallable(data) {
       data
     }).then(response => {
       const res = response.data
-      if (res.code == 0) {
+      if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || 'Failed to delete owe fee callable'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)

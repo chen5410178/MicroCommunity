@@ -32,7 +32,11 @@ export function saveFloorShareMeter(data) {
       }
     }).then(response => {
       const res = response.data
-      resolve(res)
+      if (res.code === 0) {
+        resolve(res)
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })
@@ -51,7 +55,11 @@ export function updateFloorShareMeter(data) {
       }
     }).then(response => {
       const res = response.data
-      resolve(res)
+      if (res.code === 0) {
+        resolve(res)
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })
@@ -70,7 +78,11 @@ export function deleteFloorShareMeter(data) {
       }
     }).then(response => {
       const res = response.data
-      resolve(res)
+      if (res.code === 0) {
+        resolve(res)
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })

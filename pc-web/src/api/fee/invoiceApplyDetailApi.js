@@ -15,11 +15,7 @@ export function getInvoiceApplyDetail(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || '获取发票申请详情失败'))
-      }
+      resolve(res)
     }).catch(error => {
       reject(error)
     })
@@ -40,11 +36,7 @@ export function getInvoiceApplyItemList(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || '获取发票申请费用明细失败'))
-      }
+      resolve(res)
     }).catch(error => {
       reject(error)
     })
@@ -65,11 +57,7 @@ export function getInvoiceEventList(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || '获取发票申请审核记录失败'))
-      }
+      resolve(res)
     }).catch(error => {
       reject(error)
     })

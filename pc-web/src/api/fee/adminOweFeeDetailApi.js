@@ -9,21 +9,16 @@ export function queryAdminOweFeeDetail(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve({
-          data: res.data,
-          total: res.total
-        })
-      } else {
-        reject(new Error(res.msg || '查询欠费明细失败'))
-      }
+      resolve({
+        data: res.data,
+        total: res.total
+      })
     }).catch(error => {
       reject(error)
     })
   })
 }
 
-// 查询小区楼层树
 export function queryCommunityFloorTree(params) {
   return new Promise((resolve, reject) => {
     request({
@@ -32,11 +27,7 @@ export function queryCommunityFloorTree(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || '查询小区楼层树失败'))
-      }
+      resolve(res)
     }).catch(error => {
       reject(error)
     })

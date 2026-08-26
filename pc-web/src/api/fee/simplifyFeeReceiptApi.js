@@ -7,12 +7,7 @@ export function queryFeeReceipt(params) {
       method: 'get',
       params
     }).then(response => {
-      const res = response.data
-      if (res.code == 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || 'Failed to query fee receipt'))
-      }
+      resolve(response.data)
     }).catch(error => {
       reject(error)
     })
@@ -26,12 +21,7 @@ export function listFeePrintPage(params) {
       method: 'get',
       params
     }).then(response => {
-      const res = response.data
-      if (res.code == 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || 'Failed to list fee print pages'))
-      }
+      resolve(response.data)
     }).catch(error => {
       reject(error)
     })
@@ -45,12 +35,7 @@ export function queryOwnerCars(params) {
       method: 'get',
       params
     }).then(response => {
-      const res = response.data
-      if (res.code == 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || 'Failed to query owner cars'))
-      }
+      resolve(response.data)
     }).catch(error => {
       reject(error)
     })
@@ -64,12 +49,7 @@ export function queryContract(params) {
       method: 'get',
       params
     }).then(response => {
-      const res = response.data
-      if (res.code == 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || 'Failed to query contract'))
-      }
+      resolve(response.data)
     }).catch(error => {
       reject(error)
     })

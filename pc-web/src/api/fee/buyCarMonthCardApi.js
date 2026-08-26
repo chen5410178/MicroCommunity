@@ -16,7 +16,7 @@ export function buyCarMonthOrder(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '购买月卡失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -37,11 +37,7 @@ export function queryOwnerCars(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || '查询车主车辆失败'))
-      }
+      resolve(res)
     }).catch(error => {
       reject(error)
     })
@@ -61,11 +57,7 @@ export function getOpenApi(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || '获取月卡列表失败'))
-      }
+      resolve(res)
     }).catch(error => {
       reject(error)
     })

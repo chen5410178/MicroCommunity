@@ -14,7 +14,7 @@ export function importData(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(res.msg)
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error.response.data)

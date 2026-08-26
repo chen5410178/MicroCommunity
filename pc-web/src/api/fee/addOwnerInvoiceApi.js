@@ -12,7 +12,7 @@ export function saveOwnerInvoice(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '保存发票信息失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -29,14 +29,10 @@ export function queryOwners(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve({
-          data: res.data,
-          total: res.total
-        })
-      } else {
-        reject(new Error(res.msg || '查询业主失败'))
-      }
+      resolve({
+        data: res.data,
+        total: res.total
+      })
     }).catch(error => {
       reject(error)
     })

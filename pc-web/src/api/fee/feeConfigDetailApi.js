@@ -25,15 +25,11 @@ export function queryHisFeeConfig(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve({
-          data: res.data,
-          total: res.total,
-          records: res.total
-        })
-      } else {
-        reject(new Error(res.msg || '查询历史记录失败'))
-      }
+      resolve({
+        data: res.data,
+        total: res.total,
+        records: res.total
+      })
     }).catch(error => {
       reject(error)
     })
@@ -49,15 +45,11 @@ export function listConfigFeeObjs(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve({
-          data: res.data,
-          total: res.total,
-          records: res.total
-        })
-      } else {
-        reject(new Error(res.msg || '查询费用对象失败'))
-      }
+      resolve({
+        data: res.data,
+        total: res.total,
+        records: res.total
+      })
     }).catch(error => {
       reject(error)
     })
@@ -73,15 +65,11 @@ export function queryPayFeeConfigDiscount(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve({
-          data: res.data,
-          total: res.total,
-          records: res.total
-        })
-      } else {
-        reject(new Error(res.msg || '查询折扣信息失败'))
-      }
+      resolve({
+        data: res.data,
+        total: res.total,
+        records: res.total
+      })
     }).catch(error => {
       reject(error)
     })
@@ -100,7 +88,7 @@ export function deletePayFeeConfigDiscount(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '删除折扣失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)

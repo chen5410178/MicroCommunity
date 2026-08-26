@@ -39,7 +39,7 @@ export function writeOweFeeCallable(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -63,7 +63,7 @@ export function deleteOweFeeCallable(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -84,11 +84,7 @@ export function getOweFeeCallableDetail(ofcId) {
       params: { ofcId }
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve(res.data)
-      } else {
-        reject(new Error(res.msg))
-      }
+      resolve(res.data)
     }).catch(error => {
       reject(error)
     })
@@ -111,7 +107,7 @@ export function updateOweFeeCallableState(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)

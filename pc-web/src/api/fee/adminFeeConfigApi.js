@@ -27,13 +27,9 @@ export function queryCommunityFeeTypeTree(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve({
-          data: res.data
-        })
-      } else {
-        reject(new Error(res.msg || 'Failed to query community fee type tree'))
-      }
+      resolve({
+        data: res.data
+      })
     }).catch(error => {
       reject(error)
     })

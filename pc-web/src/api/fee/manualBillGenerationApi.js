@@ -21,7 +21,12 @@ export function saveManualBillApplication(data) {
       method: 'post',
       data
     }).then(response => {
-      resolve(response.data)
+      const res = response.data
+      if (res.code === 0) {
+        resolve(res)
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })
@@ -63,7 +68,12 @@ export function auditManualBillApplication(data) {
       method: 'post',
       data
     }).then(response => {
-      resolve(response.data)
+      const res = response.data
+      if (res.code === 0) {
+        resolve(res)
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })
@@ -77,7 +87,12 @@ export function deleteManualBillApplication(data) {
       method: 'post',
       data
     }).then(response => {
-      resolve(response.data)
+      const res = response.data
+      if (res.code === 0) {
+        resolve(res)
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })

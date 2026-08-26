@@ -25,7 +25,11 @@ export function payBatchFee(data) {
       data
     }).then(response => {
       const res = response.data
-      resolve(res)
+      if (res.code === 0) {
+        resolve(res)
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })
@@ -137,7 +141,11 @@ export function computeFeeDiscount(data) {
       data
     }).then(response => {
       const res = response.data
-      resolve(res)
+      if (res.code === 0) {
+        resolve(res)
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })

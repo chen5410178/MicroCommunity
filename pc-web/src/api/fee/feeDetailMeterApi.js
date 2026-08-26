@@ -8,11 +8,7 @@ export function listMeterWaters(params) {
       params
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || 'Failed to list meter waters'))
-      }
+      resolve(res)
     }).catch(error => {
       reject(error)
     })

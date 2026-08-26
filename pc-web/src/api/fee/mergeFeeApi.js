@@ -11,7 +11,7 @@ export function mergePayFee(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || 'Failed to merge fee'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)

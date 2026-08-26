@@ -14,11 +14,7 @@ export function listInvoiceApply(params) {
       }
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || '获取发票申请列表失败'))
-      }
+      resolve(res)
     }).catch(error => {
       reject(error)
     })
@@ -41,7 +37,7 @@ export function auditInvoiceApply(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '审核发票申请失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -65,7 +61,7 @@ export function deleteInvoiceApply(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '删除发票申请失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -89,7 +85,7 @@ export function uploadInvoicePhoto(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '上传发票照片失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -113,7 +109,7 @@ export function writeInvoiceEvent(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg || '写入发票事件失败'))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -136,7 +132,7 @@ export function uploadImage(formData) {
       }
     }).then(response => {
       const res = response.data
-      if (res.code === 0) {
+            if (res.code === 0) {
         resolve(res.data)
       } else {
         reject(new Error(res.msg || '上传图片失败'))
