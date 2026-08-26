@@ -16,8 +16,8 @@
       <el-form-item :label="$t('propertyCompanyManage.foundingTime')" prop="foundingTime" required>
         <el-date-picker v-model="formData.foundingTime" type="date" value-format="yyyy-MM-dd" style="width: 100%" />
       </el-form-item>
-      <el-form-item :label="$t('propertyCompanyManage.landmark')" prop="nearbyLandmarks" required>
-        <el-input v-model="formData.nearbyLandmarks" />
+      <el-form-item :label="$t('propertyCompanyManage.landmark')" prop="nearByLandmarks" required>
+        <el-input v-model="formData.nearByLandmarks" />
       </el-form-item>
     </el-form>
     <div slot="footer">

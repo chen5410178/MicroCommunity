@@ -16,8 +16,8 @@
       <el-form-item :label="$t('propertyCompanyManage.foundingTime')" prop="foundingTime">
         <el-date-picker v-model="formData.foundingTime" type="date" value-format="yyyy-MM-dd" style="width: 100%" />
       </el-form-item>
-      <el-form-item :label="$t('propertyCompanyManage.landmark')" prop="nearbyLandmarks">
-        <el-input v-model="formData.nearbyLandmarks" />
+      <el-form-item :label="$t('propertyCompanyManage.landmark')" prop="nearByLandmarks">
+        <el-input v-model="formData.nearByLandmarks" />
       </el-form-item>
       <el-form-item :label="$t('propertyCompanyManage.communities')">
         <el-select v-model="formData.communityIds" multiple filterable style="width: 100%"
@@ -68,7 +68,7 @@ export default {
         foundingTime: [
           { required: true, message: this.$t('propertyCompanyManage.validate.foundingTime'), trigger: 'blur' }
         ],
-        nearbyLandmarks: [
+        nearByLandmarks: [
           { required: true, message: this.$t('propertyCompanyManage.validate.nearbyLandmarks'), trigger: 'blur' }
         ]
       },
@@ -78,7 +78,7 @@ export default {
         tel: '',
         corporation: '',
         foundingTime: '',
-        nearbyLandmarks: '',
+        nearByLandmarks: '',
         communityIds: [],
         menuGroups: [],
         groupIds: [],
@@ -142,7 +142,7 @@ export default {
         tel: '',
         corporation: '',
         foundingTime: '',
-        nearbyLandmarks: '',
+        nearByLandmarks: '',
         communityIds: [],
         menuGroups: [],
         groupIds: [],

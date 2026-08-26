@@ -43,7 +43,7 @@
         <el-table-column prop="tel" :label="$t('propertyCompanyManage.tel')" align="center" />
         <el-table-column prop="corporation" :label="$t('propertyCompanyManage.corporation')" align="center" />
         <el-table-column prop="foundingTime" :label="$t('propertyCompanyManage.foundingTime')" align="center" />
-        <el-table-column prop="nearbyLandmarks" :label="$t('propertyCompanyManage.landmark')" align="center" />
+        <el-table-column prop="nearByLandmarks" :label="$t('propertyCompanyManage.landmark')" align="center" />
         <el-table-column prop="createTime" :label="$t('propertyCompanyManage.createTime')" align="center" />
         <el-table-column :label="$t('propertyCompanyManage.operation')" align="center" width="300">
           <template #default="scope">
