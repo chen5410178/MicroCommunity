@@ -101,6 +101,7 @@ public class GeneratorFeeReceiptInnerServiceSMOImpl extends BaseServiceSMO imple
                 feeMonth = DateUtil.getFormatTimeStringQ(feeDto.getFeeTime());
             }
             feeReceiptDetailPo.setFeeMonth(feeMonth);
+            feeReceiptDetailPo.setPayWay(payFeeDetailPo.getPrimeRate());
             //处理 小数点后 0
             feeDto.setSquarePrice(Double.parseDouble(feeDto.getSquarePrice()) + "");
             feeDto.setAdditionalAmount(Double.parseDouble(feeDto.getAdditionalAmount()) + "");
