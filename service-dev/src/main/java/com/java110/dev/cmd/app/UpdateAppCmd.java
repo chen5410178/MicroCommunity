@@ -12,9 +12,8 @@ import com.java110.utils.exception.CmdException;
 import com.java110.utils.exception.ListenerExecuteException;
 import com.java110.utils.util.Assert;
 import com.java110.utils.util.BeanConvertUtil;
+import com.java110.vo.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 @Java110Cmd(serviceCode = "app.updateApp")
 public class UpdateAppCmd extends Cmd {
@@ -32,10 +31,9 @@ public class UpdateAppCmd extends Cmd {
     public void doCmd(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) throws CmdException {
         AppDto appDto = BeanConvertUtil.covertBean(reqJson, AppDto.class);
         int count = appInnerServiceSMOImpl.updateApp(appDto);
-        if (count < 1) {
+if (count < 1) {
             throw new ListenerExecuteException(ResponseConstant.RESULT_CODE_ERROR, "修改数据失败");
         }
-        ResponseEntity<String> responseEntity = new ResponseEntity<String>("", HttpStatus.OK);
-        cmdDataFlowContext.setResponseEntity(responseEntity);
+        cmdDataFlowContext.setResponseEntity(ResultVo.success());
     }
 }

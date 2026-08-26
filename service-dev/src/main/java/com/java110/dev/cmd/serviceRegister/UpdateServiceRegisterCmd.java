@@ -12,9 +12,8 @@ import com.java110.utils.exception.CmdException;
 import com.java110.utils.exception.ListenerExecuteException;
 import com.java110.utils.util.Assert;
 import com.java110.utils.util.BeanConvertUtil;
+import com.java110.vo.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 @Java110Cmd(serviceCode = "serviceRegister.updateServiceRegister")
 public class UpdateServiceRegisterCmd extends Cmd {
@@ -38,12 +37,10 @@ public class UpdateServiceRegisterCmd extends Cmd {
         int count = routeInnerServiceSMOImpl.updateRoute(routeDto);
 
 
-        if (count < 1) {
+if (count < 1) {
             throw new ListenerExecuteException(ResponseConstant.RESULT_CODE_ERROR, "修改数据失败");
         }
 
-        ResponseEntity<String> responseEntity = new ResponseEntity<String>("", HttpStatus.OK);
-
-        context.setResponseEntity(responseEntity);
+        context.setResponseEntity(ResultVo.success());
     }
 }

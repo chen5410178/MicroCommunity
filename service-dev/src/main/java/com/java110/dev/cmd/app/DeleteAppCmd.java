@@ -13,9 +13,8 @@ import com.java110.utils.exception.CmdException;
 import com.java110.utils.exception.ListenerExecuteException;
 import com.java110.utils.util.Assert;
 import com.java110.utils.util.BeanConvertUtil;
+import com.java110.vo.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 @Java110Cmd(serviceCode = "app.deleteApp")
 public class DeleteAppCmd extends Cmd {
@@ -34,10 +33,9 @@ public class DeleteAppCmd extends Cmd {
         AppDto appDto = BeanConvertUtil.covertBean(reqJson, AppDto.class);
         appDto.setStatusCd(StatusConstant.STATUS_CD_INVALID);
         int count = appInnerServiceSMOImpl.deleteApp(appDto);
-        if (count < 1) {
+if (count < 1) {
             throw new ListenerExecuteException(ResponseConstant.RESULT_CODE_ERROR, "删除数据失败");
         }
-        ResponseEntity<String> responseEntity = new ResponseEntity<String>("", HttpStatus.OK);
-        cmdDataFlowContext.setResponseEntity(responseEntity);
+        cmdDataFlowContext.setResponseEntity(ResultVo.success());
     }
 }
