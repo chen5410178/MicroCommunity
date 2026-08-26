@@ -1,5 +1,5 @@
 ﻿<template>
-    <div class="add-app-api-container">
+    <div class="add-app-api-container padding">
         <el-card class="box-card">
             <div class="card-title" slot="header">
                 <span>
@@ -173,18 +173,18 @@ export default {
                 url: this.service.url,
             });
             let _orderTypeCd = "D"
-            if(this.service.method == 'GET'){
+            if (this.service.method == 'GET') {
                 _orderTypeCd = "Q"
             }
             data.push({
-                flowComponent:"addRouteView",
-                invokeLimitTimes:"1000",
-                invokeModel:"S",
-                orderTypeCd:_orderTypeCd
+                flowComponent: "addRouteView",
+                invokeLimitTimes: "1000",
+                invokeModel: "S",
+                orderTypeCd: _orderTypeCd
             })
             try {
                 await addRoute({
-                    data:data
+                    data: data
                 })
                 this.$message.success(this.$t('common.operationSuccess'))
                 this.$emit('success')
@@ -199,9 +199,6 @@ export default {
 
 <style lang="scss" scoped>
 .add-app-api-container {
-    width: 100%;
-    padding: 40px 0 0 0;
-
     .box-card {
         width: 100%;
         box-sizing: border-box;
@@ -209,8 +206,6 @@ export default {
         .card-title {
             text-align: left;
             font-size: 18px;
-            font-weight: bold;
-            color: #333;
         }
 
         .api-info-list {
