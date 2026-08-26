@@ -19,13 +19,17 @@ export function queryContractTask(params) {
 // 合同审批
 export function needAuditContract(data) {
   return new Promise((resolve, reject) => {
-    request({
+request({
       url: '/contract/needAuditContract',
       method: 'post',
       data
     }).then(response => {
       const res = response.data
-      resolve(res)
+      if (res.code === 0) {
+        resolve(res)
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })

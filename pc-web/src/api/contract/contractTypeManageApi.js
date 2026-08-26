@@ -19,13 +19,17 @@ export function queryContractType(params) {
 // 添加合同类型
 export function saveContractType(data) {
   return new Promise((resolve, reject) => {
-    request({
+request({
       url: '/contract/saveContractType',
       method: 'post',
       data
     }).then(response => {
       const res = response.data
-      resolve(res)
+      if (res.code === 0) {
+        resolve(res)
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })
@@ -35,13 +39,17 @@ export function saveContractType(data) {
 // 修改合同类型
 export function updateContractType(data) {
   return new Promise((resolve, reject) => {
-    request({
+request({
       url: '/contract/updateContractType',
       method: 'post',
       data
     }).then(response => {
       const res = response.data
-      resolve(res)
+      if (res.code === 0) {
+        resolve(res)
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })
@@ -51,13 +59,17 @@ export function updateContractType(data) {
 // 删除合同类型
 export function deleteContractType(data) {
   return new Promise((resolve, reject) => {
-    request({
+request({
       url: '/contract/deleteContractType',
       method: 'post',
       data
     }).then(response => {
       const res = response.data
-      resolve(res)
+      if (res.code === 0) {
+        resolve(res)
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })
@@ -83,13 +95,17 @@ export function queryContractTypeTemplate(params) {
 // 保存合同类型模板
 export function saveContractTypeTemplate(data) {
   return new Promise((resolve, reject) => {
-    request({
+request({
       url: '/contract/saveContractTypeTemplate',
       method: 'post',
       data
     }).then(response => {
       const res = response.data
-      resolve(res)
+      if (res.code === 0) {
+        resolve(res)
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })
@@ -99,13 +115,17 @@ export function saveContractTypeTemplate(data) {
 // 更新合同类型模板
 export function updateContractTypeTemplate(data) {
   return new Promise((resolve, reject) => {
-    request({
+request({
       url: '/contract/updateContractTypeTemplate',
       method: 'post',
       data
     }).then(response => {
       const res = response.data
-      resolve(res)
+      if (res.code === 0) {
+        resolve(res)
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })

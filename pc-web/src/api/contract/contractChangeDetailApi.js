@@ -97,12 +97,17 @@ export function getFirstStaff(params) {
 // 保存合同变更计划
 export function saveContractChangePlan(data) {
   return new Promise((resolve, reject) => {
-    request({
+request({
       url: '/contract/saveContractChangePlan',
       method: 'post',
       data
     }).then(response => {
-      resolve(response.data)
+      const res = response.data
+      if (res.code === 0) {
+        resolve(res)
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })

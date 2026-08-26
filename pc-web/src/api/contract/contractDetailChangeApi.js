@@ -8,12 +8,8 @@ export function queryContractChangePlan(params) {
       method: 'get',
       params
     }).then(response => {
-      const res = response.data
-      if (res.code === 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || '查询合同变更计划失败'))
-      }
+const res = response.data
+      resolve(res)
     }).catch(error => {
       reject(error)
     })

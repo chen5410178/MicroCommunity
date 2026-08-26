@@ -23,7 +23,7 @@ export function queryContractTypeSpec(params) {
 // 添加合同类型规格
 export function saveContractTypeSpec(data) {
   return new Promise((resolve, reject) => {
-    request({
+request({
       url: '/contract/saveContractTypeSpec',
       method: 'post',
       data: {
@@ -32,7 +32,11 @@ export function saveContractTypeSpec(data) {
       }
     }).then(response => {
       const res = response.data
-      resolve(res)
+      if (res.code === 0) {
+        resolve(res)
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })
@@ -42,7 +46,7 @@ export function saveContractTypeSpec(data) {
 // 修改合同类型规格
 export function updateContractTypeSpec(data) {
   return new Promise((resolve, reject) => {
-    request({
+request({
       url: '/contract/updateContractTypeSpec',
       method: 'post',
       data: {
@@ -51,7 +55,11 @@ export function updateContractTypeSpec(data) {
       }
     }).then(response => {
       const res = response.data
-      resolve(res)
+      if (res.code === 0) {
+        resolve(res)
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })
@@ -61,7 +69,7 @@ export function updateContractTypeSpec(data) {
 // 删除合同类型规格
 export function deleteContractTypeSpec(data) {
   return new Promise((resolve, reject) => {
-    request({
+request({
       url: '/contract/deleteContractTypeSpec',
       method: 'post',
       data: {
@@ -70,7 +78,11 @@ export function deleteContractTypeSpec(data) {
       }
     }).then(response => {
       const res = response.data
-      resolve(res)
+      if (res.code === 0) {
+        resolve(res)
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })

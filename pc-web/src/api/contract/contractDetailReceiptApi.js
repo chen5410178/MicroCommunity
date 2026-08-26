@@ -7,12 +7,8 @@ export function queryFeeReceipt(params) {
       method: 'get',
       params
     }).then(response => {
-      const res = response.data
-      if (res.code === 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || '获取收据列表失败'))
-      }
+const res = response.data
+      resolve(res)
     }).catch(error => {
       reject(error)
     })
@@ -26,12 +22,8 @@ export function listFeePrintPage(params) {
       method: 'get',
       params
     }).then(response => {
-      const res = response.data
-      if (res.code === 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || '获取打印页面列表失败'))
-      }
+const res = response.data
+      resolve(res)
     }).catch(error => {
       reject(error)
     })

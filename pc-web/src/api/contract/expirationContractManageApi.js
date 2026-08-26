@@ -35,13 +35,17 @@ export function queryContractType(params) {
 // 终止合同
 export function stopContract(data) {
   return new Promise((resolve, reject) => {
-    request({
+request({
       url: '/contract/stopContract',
       method: 'post',
       data
     }).then(response => {
       const res = response.data
-      resolve(res)
+      if (res.code === 0) {
+        resolve(res)
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })

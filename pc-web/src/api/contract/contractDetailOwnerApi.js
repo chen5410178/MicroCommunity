@@ -7,12 +7,8 @@ export function queryOwners(params) {
       method: 'get',
       params
     }).then(response => {
-      const res = response.data
-      if (res.code === 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || '获取业主列表失败'))
-      }
+const res = response.data
+      resolve(res)
     }).catch(error => {
       reject(error)
     })

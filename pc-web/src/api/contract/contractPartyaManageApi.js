@@ -23,7 +23,7 @@ export function queryContractPartya(params) {
 // 添加合同甲方
 export function saveContractPartya(data) {
   return new Promise((resolve, reject) => {
-    request({
+request({
       url: '/contractPartya/saveContractPartya',
       method: 'post',
       data: {
@@ -32,7 +32,11 @@ export function saveContractPartya(data) {
       }
     }).then(response => {
       const res = response.data
-      resolve(res)
+      if (res.code === 0) {
+        resolve(res)
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })
@@ -42,7 +46,7 @@ export function saveContractPartya(data) {
 // 修改合同甲方
 export function updateContractPartya(data) {
   return new Promise((resolve, reject) => {
-    request({
+request({
       url: '/contractPartya/updateContractPartya',
       method: 'post',
       data: {
@@ -51,7 +55,11 @@ export function updateContractPartya(data) {
       }
     }).then(response => {
       const res = response.data
-      resolve(res)
+      if (res.code === 0) {
+        resolve(res)
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })
@@ -61,7 +69,7 @@ export function updateContractPartya(data) {
 // 删除合同甲方
 export function deleteContractPartya(data) {
   return new Promise((resolve, reject) => {
-    request({
+request({
       url: '/contractPartya/deleteContractPartya',
       method: 'post',
       data: {
@@ -70,7 +78,11 @@ export function deleteContractPartya(data) {
       }
     }).then(response => {
       const res = response.data
-      resolve(res)
+      if (res.code === 0) {
+        resolve(res)
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })

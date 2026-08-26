@@ -51,13 +51,17 @@ export function getContractTypeSpec(params) {
 // 更新合同信息
 export function updateContract(data) {
   return new Promise((resolve, reject) => {
-    request({
+request({
       url: '/contract/updateContract',
       method: 'post',
       data
     }).then(response => {
       const res = response.data
-      resolve(res)
+      if (res.code === 0) {
+        resolve(res)
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })
@@ -67,13 +71,17 @@ export function updateContract(data) {
 // 删除合同
 export function deleteContract(data) {
   return new Promise((resolve, reject) => {
-    request({
+request({
       url: '/contract/deleteContract',
       method: 'post',
       data
     }).then(response => {
       const res = response.data
-      resolve(res)
+      if (res.code === 0) {
+        resolve(res)
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
     }).catch(error => {
       reject(error)
     })

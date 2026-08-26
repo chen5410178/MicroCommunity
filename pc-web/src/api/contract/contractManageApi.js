@@ -85,7 +85,7 @@ export function updateContract(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)
@@ -105,7 +105,7 @@ export function deleteContract(data) {
       if (res.code === 0) {
         resolve(res)
       } else {
-        reject(new Error(res.msg))
+        reject(new Error(res.msg || 'error'))
       }
     }).catch(error => {
       reject(error)

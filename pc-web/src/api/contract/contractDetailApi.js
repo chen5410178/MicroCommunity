@@ -8,12 +8,8 @@ export function queryContract(params) {
       method: 'get',
       params
     }).then(response => {
-      const res = response.data
-      if (res.code === 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || '查询合同详情失败'))
-      }
+const res = response.data
+      resolve(res)
     }).catch(error => {
       reject(error)
     })
@@ -28,12 +24,8 @@ export function getContractRooms(params) {
       method: 'get',
       params
     }).then(response => {
-      const res = response.data
-      if (res.code === 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || '获取合同房屋列表失败'))
-      }
+const res = response.data
+      resolve(res)
     }).catch(error => {
       reject(error)
     })
@@ -48,12 +40,8 @@ export function getContractFiles(params) {
       method: 'get',
       params
     }).then(response => {
-      const res = response.data
-      if (res.code === 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || '获取合同附件列表失败'))
-      }
+const res = response.data
+      resolve(res)
     }).catch(error => {
       reject(error)
     })
@@ -68,12 +56,8 @@ export function getContractFees(params) {
       method: 'get',
       params
     }).then(response => {
-      const res = response.data
-      if (res.code === 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || '获取合同费用列表失败'))
-      }
+const res = response.data
+      resolve(res)
     }).catch(error => {
       reject(error)
     })
@@ -88,12 +72,8 @@ export function getContractHisFees(params) {
       method: 'get',
       params
     }).then(response => {
-      const res = response.data
-      if (res.code === 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || '获取合同历史缴费记录失败'))
-      }
+const res = response.data
+      resolve(res)
     }).catch(error => {
       reject(error)
     })
