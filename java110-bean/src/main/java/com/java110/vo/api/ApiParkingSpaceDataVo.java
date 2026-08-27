@@ -273,11 +273,6 @@ public class ApiParkingSpaceDataVo extends Vo {
     public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
-}
-
-    public void setLink(String link) {
-        this.link = link;
-    }
 
     public String getParkingType() {
         return parkingType;
