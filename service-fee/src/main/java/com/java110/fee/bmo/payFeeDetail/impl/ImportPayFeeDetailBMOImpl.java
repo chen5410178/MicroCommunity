@@ -142,7 +142,7 @@ public class ImportPayFeeDetailBMOImpl implements IImportPayFeeBMODetail {
         feeDto.setConfigId(tmpFeeConfigDto.getConfigId());
         feeDto.setCommunityId(importRoomFee.getCommunityId());
         feeDto.setPayerObjId(importRoomFee.getCarId());
-        feeDto.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_CAR);
+        feeDto.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE);
         List<FeeDto> feeDtos = feeInnerServiceSMOImpl.queryFees(feeDto);
 
         List<PayFeePo> payFeePos = null;
@@ -151,7 +151,7 @@ public class ImportPayFeeDetailBMOImpl implements IImportPayFeeBMODetail {
                 PayFeePo payFeePo = new PayFeePo();
                 payFeePo.setCommunityId(importRoomFee.getCommunityId());
                 payFeePo.setConfigId(feeDto.getConfigId());
-                payFeePo.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_CAR);
+                payFeePo.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE);
                 payFeePo.setStartTime(importRoomFee.getStartTime());
                 payFeePo.setEndTime(importRoomFee.getEndTime());
                 payFeePo.setAmount(importRoomFee.getAmount());

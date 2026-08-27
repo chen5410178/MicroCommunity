@@ -105,7 +105,7 @@ public class ReportPayFeeDepositAdapt implements IExportDataAdapt {
                 deposit.setObjName(deposit.getFloorNum()
                         + "栋" + deposit.getUnitNum()
                         + "单元" + deposit.getRoomNum() + "室");
-            } else if (FeeDto.PAYER_OBJ_TYPE_CAR.equals(deposit.getPayerObjType())) {
+            } else if (FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE.equals(deposit.getPayerObjType())) {
                 deposit.setObjName(deposit.getCarNum());
             }
         }

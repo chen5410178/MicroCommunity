@@ -198,7 +198,7 @@ public class GeneratorFeeYearStatisticsInnerServiceSMOImpl implements IGenerator
     private void doDealCarFees(ReportCarDto tmpReportCarDto) {
         ReportFeeDto reportFeeDto = new ReportFeeDto();
         reportFeeDto.setPayerObjId(tmpReportCarDto.getCarId());
-        reportFeeDto.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_CAR);
+        reportFeeDto.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE);
         //reportFeeDto.setState(FeeDto.STATE_DOING);
         //reportFeeDto.setFeeFlag(FeeDto.FEE_FLAG_CYCLE);
         List<ReportFeeDto> feeDtos = reportFeeServiceDaoImpl.getFees(reportFeeDto);
@@ -236,7 +236,7 @@ public class GeneratorFeeYearStatisticsInnerServiceSMOImpl implements IGenerator
             reportFeeYearCollectionPo.setConfigId(tmpReportFeeDto.getConfigId());
             reportFeeYearCollectionPo.setFeeId(tmpReportFeeDto.getFeeId());
             reportFeeYearCollectionPo.setObjId(tmpReportCarDto.getCarId());
-            reportFeeYearCollectionPo.setObjType(FeeDto.PAYER_OBJ_TYPE_CAR);
+            reportFeeYearCollectionPo.setObjType(FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE);
             reportFeeYearCollectionPo.setFeeName(StringUtil.isEmpty(tmpReportFeeDto.getImportFeeName()) ? tmpReportFeeDto.getFeeName() : tmpReportFeeDto.getImportFeeName());
             reportFeeYearCollectionPo.setObjName(tmpReportCarDto.getCarNum());
             reportFeeYearCollectionPo.setOwnerId(tmpReportCarDto.getOwnerId());

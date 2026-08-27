@@ -407,7 +407,7 @@ public class GetReportFeeMonthStatisticsBMOImpl implements IGetReportFeeMonthSta
         List<OwnerDto> ownerDtos = reportFeeMonthStatisticsInnerServiceSMOImpl.queryRoomAndParkingSpace(ownerDto);
         String objName = "";
         for (ReportFeeMonthStatisticsDto reportFeeMonthStatisticsDto : reportFeeMonthStatisticsDtos) {
-            if (!FeeDto.PAYER_OBJ_TYPE_CAR.equals(reportFeeMonthStatisticsDto.getPayerObjType())) {
+            if (!FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE.equals(reportFeeMonthStatisticsDto.getPayerObjType())) {
                 continue;
             }
             for (OwnerDto ownerDto1 : ownerDtos) {
@@ -739,7 +739,7 @@ public class GetReportFeeMonthStatisticsBMOImpl implements IGetReportFeeMonthSta
                 deposit.setObjName(deposit.getFloorNum()
                         + "栋" + deposit.getUnitNum()
                         + "单元" + deposit.getRoomNum() + "室");
-            } else if (FeeDto.PAYER_OBJ_TYPE_CAR.equals(deposit.getPayerObjType())) {
+            } else if (FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE.equals(deposit.getPayerObjType())) {
                 deposit.setObjName(deposit.getCarNum());
             }
             //收费中（未交费）

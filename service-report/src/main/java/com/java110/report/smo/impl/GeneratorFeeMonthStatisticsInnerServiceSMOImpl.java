@@ -234,7 +234,7 @@ public class GeneratorFeeMonthStatisticsInnerServiceSMOImpl implements IGenerato
     private void doDealCarFees(ReportCarDto tmpReportCarDto) {
         ReportFeeDto reportFeeDto = new ReportFeeDto();
         reportFeeDto.setPayerObjId(tmpReportCarDto.getCarId());
-        reportFeeDto.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_CAR);
+        reportFeeDto.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE);
         //reportFeeDto.setState(FeeDto.STATE_DOING);
         List<ReportFeeDto> feeDtos = reportFeeServiceDaoImpl.getFees(reportFeeDto);
 
@@ -319,7 +319,7 @@ public class GeneratorFeeMonthStatisticsInnerServiceSMOImpl implements IGenerato
             reportFeeMonthStatisticsPo.setFeeYear(DateUtil.getYear() + "");
             reportFeeMonthStatisticsPo.setCurMaxTime(DateUtil.getNextMonthFirstDay(DateUtil.DATE_FORMATE_STRING_A));
             reportFeeMonthStatisticsPo.setObjId(tmpReportCarDto.getCarId());
-            reportFeeMonthStatisticsPo.setObjType(FeeDto.PAYER_OBJ_TYPE_CAR);
+            reportFeeMonthStatisticsPo.setObjType(FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE);
             reportFeeMonthStatisticsPo.setFeeName(tmpReportFeeDto.getFeeName());
             reportFeeMonthStatisticsPo.setObjName(tmpReportCarDto.getCarNum() + "(" + tmpReportCarDto.getAreaNum() + "停车场" + tmpReportCarDto.getNum() + "车位)");
             reportFeeMonthStatisticsPo.setObjNameNum(tmpReportCarDto.getAreaNum() + "-" + tmpReportCarDto.getNum() + "-" + tmpReportCarDto.getCarNum());

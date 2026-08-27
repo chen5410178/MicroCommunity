@@ -43,6 +43,7 @@ import com.java110.utils.util.Assert;
 import com.java110.utils.util.BeanConvertUtil;
 import com.java110.utils.util.DateUtil;
 import com.java110.utils.util.ListUtil;
+import com.java110.utils.util.StringUtil;
 import com.java110.vo.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.slf4j.Logger;
@@ -196,9 +197,12 @@ public class PrePayFeeCmd extends Cmd {
                         ownerDtos.get(0), payOrderId, prePayFeePos, receiptCode);
             }
         }
-        String payerObjType = FeeDto.PAYER_OBJ_TYPE_ROOM;
-        if (!payerObjName.contains("-")) {
-            payerObjType = FeeDto.PAYER_OBJ_TYPE_CAR;
+        String payerObjType = reqJson.getString("payerObjType");
+        if (StringUtil.isEmpty(payerObjType)) {
+            payerObjType = FeeDto.PAYER_OBJ_TYPE_ROOM;
+            if (!payerObjName.contains("-")) {
+                payerObjType = FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE;
+            }
         }
         generatorPayFeeOrderImpl.generatorPrePayFeeOrder(prePayFeePos, payerObjType);
 

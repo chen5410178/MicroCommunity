@@ -191,7 +191,7 @@ public class MachinePaymentNoticeAdapt extends DatabusAdaptImpl {
         String num = "";
         //车位
         String spaceNum = "";
-        if (FeeDto.PAYER_OBJ_TYPE_CAR.equals(payerObjType)) {
+        if (FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE.equals(payerObjType)) {
             String[] split = payerObjName.split("-");
             //获取车牌
             carNum = split[0];
@@ -204,7 +204,7 @@ public class MachinePaymentNoticeAdapt extends DatabusAdaptImpl {
         String name = communityDtos.get(0).getName();
         JSONObject paramIn = new JSONObject();
         paramIn.put("payFeeRoom", name + "-" + payerObjName);
-        if (FeeDto.PAYER_OBJ_TYPE_CAR.equals(payerObjType)) {
+        if (FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE.equals(payerObjType)) {
             paramIn.put("payFeeRoom", name + "-" + carNum);
         }
         paramIn.put("feeTypeCdName", feeTypeCdName);
@@ -361,7 +361,7 @@ public class MachinePaymentNoticeAdapt extends DatabusAdaptImpl {
             }
             //取得业主id
             ownerId = ownerRoomRelDtos.get(0).getOwnerId();
-        } else if (FeeDto.PAYER_OBJ_TYPE_CAR.equals(payerObjType)) {
+        } else if (FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE.equals(payerObjType)) {
             OwnerCarDto ownerCarDto = new OwnerCarDto();
             ownerCarDto.setCarId(payerObjId);
             List<OwnerCarDto> ownerCarDtos = ownerCarInnerServiceSMO.queryOwnerCars(ownerCarDto);

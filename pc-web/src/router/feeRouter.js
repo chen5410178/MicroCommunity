@@ -163,13 +163,11 @@ export default [
     },
     {
         path: '/views/fee/prePayFeeOrder',
-        meta: { title: '预缴订单' },
         name: '/views/fee/prePayFeeOrder',
         component: () => import('@/views/fee/prePayFeeOrder.vue')
     },
     {
         path: '/views/fee/prePayFeeDeductionDetail',
-        meta: { title: '预缴扣费详情' },
         name: '/views/fee/prePayFeeDeductionDetail',
         component: () => import('@/views/fee/prePayFeeDeductionDetail.vue')
     },
@@ -181,7 +179,6 @@ export default [
     },
     {
         path: '/views/fee/wirteRuleFeeRemark',
-        meta: { title: '费用规则备注' },
         name: '/views/fee/wirteRuleFeeRemark',
         component: () => import('@/views/fee/wirteRuleFeeRemarkList.vue')
     },

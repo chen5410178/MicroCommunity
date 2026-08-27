@@ -339,7 +339,7 @@ public class FeeBMOImpl extends ApiBaseBMO implements IFeeBMO {
         businessUnit.put("endTime", time);
         businessUnit.put("communityId", paramInJson.getString("communityId"));
         businessUnit.put("payerObjId", ownerCarDto.getCarId());
-        businessUnit.put("payerObjType", FeeDto.PAYER_OBJ_TYPE_CAR);
+        businessUnit.put("payerObjType", FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE);
         businessUnit.put("feeFlag", paramInJson.getString("feeFlag"));
         businessUnit.put("state", "2008001");
         businessUnit.put("batchId", paramInJson.getString("batchId"));

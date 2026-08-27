@@ -64,7 +64,7 @@ public class DeleteOwnerCarsCmd extends Cmd {
         FeeDto feeDto = new FeeDto();
         feeDto.setPayerObjId(reqJson.getString("memberId"));
         feeDto.setCommunityId(reqJson.getString("communityId"));
-        feeDto.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_CAR);
+        feeDto.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE);
         List<FeeDto> feeDtoList = feeInnerServiceSMOImpl.queryFees(feeDto);
 
         for (FeeDto tmpFeeDto : feeDtoList) {
@@ -105,7 +105,7 @@ public class DeleteOwnerCarsCmd extends Cmd {
         }
         PayFeeDto feeDto = new PayFeeDto();
         feeDto.setPayerObjId(reqJson.getString("carId"));
-        feeDto.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_CAR);
+        feeDto.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE);
         feeDto.setCommunityId(reqJson.getString("communityId"));
         List<PayFeeDto> feeDtos = payFeeV1InnerServiceSMOImpl.queryPayFees(feeDto);
 

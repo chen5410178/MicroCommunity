@@ -148,7 +148,7 @@ public class ImportRoomFeeQueueDataAdapt extends DefaultImportData implements II
      * @param batchId
      */
     private void doImportCarCreateFee(ImportRoomFee importRoomFee, String batchId) {
-        if (!FeeDto.PAYER_OBJ_TYPE_CAR.equals(importRoomFee.getObjType())) {
+        if (!FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE.equals(importRoomFee.getObjType())) {
             return;
         }
         List<ImportRoomFee> cars = new ArrayList<>();
@@ -245,9 +245,9 @@ public class ImportRoomFeeQueueDataAdapt extends DefaultImportData implements II
         if (FeeDto.PAYER_OBJ_TYPE_CONTRACT.equals(importRoomFee.getObjType())) {
             payFeeRulePo.setPayerObjId(importRoomFee.getContractId());
             payFeeRulePo.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_CONTRACT);
-        } else if (FeeDto.PAYER_OBJ_TYPE_CAR.equals(importRoomFee.getObjType())) {
+        } else if (FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE.equals(importRoomFee.getObjType())) {
             payFeeRulePo.setPayerObjId(importRoomFee.getCarId());
-            payFeeRulePo.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_CAR);
+            payFeeRulePo.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE);
         } else {
             payFeeRulePo.setPayerObjId(importRoomFee.getRoomId());
             payFeeRulePo.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_ROOM);
@@ -281,7 +281,7 @@ public class ImportRoomFeeQueueDataAdapt extends DefaultImportData implements II
             importFeeDetailPo.setRoomId(importRoomFee.getContractId());
             importFeeDetailPo.setObjId(importRoomFee.getContractId());
             importFeeDetailPo.setObjName(importRoomFee.getContractId());
-        } else if (FeeDto.PAYER_OBJ_TYPE_CAR.equals(importRoomFee.getObjType())) {
+        } else if (FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE.equals(importRoomFee.getObjType())) {
             importFeeDetailPo.setFloorNum("无");
             importFeeDetailPo.setUnitNum("无");
             importFeeDetailPo.setRoomNum(importRoomFee.getCarNum());

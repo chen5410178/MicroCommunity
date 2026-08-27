@@ -73,7 +73,7 @@ public class GetPayFeeAuditBMOImpl implements IGetPayFeeAuditBMO {
             return true;
         }
 
-        if (!FeeDto.PAYER_OBJ_TYPE_CAR.equals(payFeeAuditDto.getPayerObjId())) {
+        if (!FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE.equals(payFeeAuditDto.getPayerObjId())) {
             return true;
         }
 

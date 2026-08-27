@@ -50,7 +50,7 @@ public class FeeFormulaRentImpl implements IFeeFormula {
         String monthFlag = CommunitySettingFactory.getValue(feeConfigDto.getCommunityId(), "FEE_MONTH_FLAG");
         if (FeeDto.PAYER_OBJ_TYPE_ROOM.equals(payerObjType)) { //房屋相关
             amount = computeRoomAmount(feeConfigDto, payerObjId, payerObjType, cycle, monthFlag);
-        } else if (FeeDto.PAYER_OBJ_TYPE_CAR.equals(payerObjType)) {
+        } else if (FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE.equals(payerObjType)) {
             amount = computeCarAmount(feeConfigDto, payerObjId, payerObjType, cycle, monthFlag);
 
         } else if (FeeDto.PAYER_OBJ_TYPE_CONTRACT.equals(payerObjType)) {

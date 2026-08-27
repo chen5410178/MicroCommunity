@@ -197,7 +197,7 @@ public class CreateFeeByComboCmd extends Cmd {
                 tel = ownerDtos.get(0).getLink();
                 name = ownerDtos.get(0).getName();
             }
-        } else if (FeeDto.PAYER_OBJ_TYPE_CAR.equals(reqJson.getString("payerObjType"))) {
+        } else if (FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE.equals(reqJson.getString("payerObjType"))) {
             OwnerCarDto ownerCarDto = new OwnerCarDto();
             ownerCarDto.setCarId(reqJson.getString("payerObjId"));
             ownerCarDto.setCommunityId(reqJson.getString("communityId"));

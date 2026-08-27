@@ -450,6 +450,7 @@ export default {
         remark: this.prePayFeeOrderInfo.remark,
         communityId: this.prePayFeeOrderInfo.communityId,
         payerObjId: this.prePayFeeOrderInfo.payerObjId,
+        payerObjType: this.prePayFeeOrderInfo.payerObjType,
         ownerId: this.prePayFeeOrderInfo.ownerId,
         payerObjName: this.prePayFeeOrderInfo.payerObjName,
         receivedAmount: this.prePayFeeOrderInfo.receivedAmount,

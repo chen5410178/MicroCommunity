@@ -211,7 +211,7 @@ public class CorrectionDataTemplate extends TaskSystemQuartz {
                 tel = ownerDtos.get(0).getLink();
                 name = ownerDtos.get(0).getName();
             }
-        } else if (FeeDto.PAYER_OBJ_TYPE_CAR.equals(feeDto.getPayerObjType())) {
+        } else if (FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE.equals(feeDto.getPayerObjType())) {
             OwnerCarDto ownerCarDto = new OwnerCarDto();
             ownerCarDto.setCarId(feeDto.getPayerObjId());
             ownerCarDto.setCommunityId(feeDto.getCommunityId());

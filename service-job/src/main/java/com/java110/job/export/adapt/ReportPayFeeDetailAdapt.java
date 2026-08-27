@@ -122,7 +122,7 @@ public class ReportPayFeeDetailAdapt implements IExportDataAdapt {
             dataObj = reportFeeMonthStatisticsDtos.getJSONObject(roomIndex);
 //            dataObj = JSONObject.parseObject(JSONObject.toJSONString(reportFeeMonthStatisticsDtos.get(roomIndex)));
             row.createCell(0).setCellValue(dataObj.getString("oId"));
-            if (FeeDto.PAYER_OBJ_TYPE_CAR.equals(dataObj.getString("payerObjType"))) {
+            if (FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE.equals(dataObj.getString("payerObjType"))) {
                 String payerObjName = dataObj.getString("payerObjName");
                 payerObjName += doFreshRoomInfo(dataObj.getString("payerObjId"));
                 row.createCell(1).setCellValue(payerObjName);

@@ -29,7 +29,6 @@ import com.java110.intf.fee.ITempCarFeeConfigAttrInnerServiceSMO;
 import com.java110.intf.fee.ITempCarFeeConfigInnerServiceSMO;
 import com.java110.intf.store.IContractInnerServiceSMO;
 import com.java110.intf.store.IContractRoomInnerServiceSMO;
-import com.java110.intf.user.IOwnerCarInnerServiceSMO;
 import com.java110.intf.user.IOwnerInnerServiceSMO;
 import com.java110.po.fee.FeeReceiptDetailPo;
 import com.java110.utils.constant.FeeConfigConstant;
@@ -71,9 +70,6 @@ public class ComputeFeeSMOImpl implements IComputeFeeSMO {
 
     @Autowired(required = false)
     private IRoomInnerServiceSMO roomInnerServiceSMOImpl;
-
-    @Autowired(required = false)
-    private IOwnerCarInnerServiceSMO ownerCarInnerServiceSMOImpl;
 
     @Autowired(required = false)
     private IParkingSpaceInnerServiceSMO parkingSpaceInnerServiceSMOImpl;
@@ -305,23 +301,12 @@ public class ComputeFeeSMOImpl implements IComputeFeeSMO {
                 feeReceiptDetailPo.setSquarePrice(roomDtos.get(0).getRoomRent());
             } else {
             }
-        } else if (FeeDto.PAYER_OBJ_TYPE_CAR.equals(feeDto.getPayerObjType())) {//车位相关
+        } else if (FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE.equals(feeDto.getPayerObjType())) {//车位相关
             String computingFormula = feeDto.getComputingFormula();
-            OwnerCarDto ownerCarDto = new OwnerCarDto();
-            ownerCarDto.setCommunityId(feeDto.getCommunityId());
-            ownerCarDto.setCarId(feeDto.getPayerObjId());
-            ownerCarDto.setCarTypeCd(OwnerCarDto.CAR_TYPE_PRIMARY);
-            List<OwnerCarDto> ownerCarDtos = ownerCarInnerServiceSMOImpl.queryOwnerCars(ownerCarDto);
-            Assert.listOnlyOne(ownerCarDtos, "未找到车辆信息");
+            ParkingSpaceDto parkingSpaceDto = getParkingSpaceByPayerObjId(feeDto);
+            Assert.listOnlyOne(parkingSpaceDto == null ? null : Arrays.asList(parkingSpaceDto), "车位不存在");
             if ("1001".equals(computingFormula)) { //面积*单价+附加费
-                ParkingSpaceDto parkingSpaceDto = new ParkingSpaceDto();
-                parkingSpaceDto.setCommunityId(feeDto.getCommunityId());
-                parkingSpaceDto.setPsId(ownerCarDtos.get(0).getPsId());
-                List<ParkingSpaceDto> parkingSpaceDtos = parkingSpaceInnerServiceSMOImpl.queryParkingSpaces(parkingSpaceDto);
-                if (parkingSpaceDtos == null || parkingSpaceDtos.size() < 1) { //数据有问题
-                    return;
-                }
-                feeReceiptDetailPo.setArea(parkingSpaceDtos.get(0).getArea());
+                feeReceiptDetailPo.setArea(parkingSpaceDto.getArea());
                 feeReceiptDetailPo.setSquarePrice(feeDto.getSquarePrice() + "/" + feeDto.getAdditionalAmount());
             } else if ("2002".equals(computingFormula)) { // 固定费用
                 feeReceiptDetailPo.setArea("");
@@ -356,14 +341,7 @@ public class ComputeFeeSMOImpl implements IComputeFeeSMO {
                 feeReceiptDetailPo.setArea(value);
                 feeReceiptDetailPo.setSquarePrice(feeDto.getSquarePrice() + "/" + feeDto.getAdditionalAmount());
             } else if ("7007".equals(computingFormula)) { //自定义公式
-                ParkingSpaceDto parkingSpaceDto = new ParkingSpaceDto();
-                parkingSpaceDto.setCommunityId(feeDto.getCommunityId());
-                parkingSpaceDto.setPsId(ownerCarDtos.get(0).getPsId());
-                List<ParkingSpaceDto> parkingSpaceDtos = parkingSpaceInnerServiceSMOImpl.queryParkingSpaces(parkingSpaceDto);
-                if (parkingSpaceDtos == null || parkingSpaceDtos.size() < 1) { //数据有问题
-                    return;
-                }
-                feeReceiptDetailPo.setArea(parkingSpaceDtos.get(0).getArea());
+                feeReceiptDetailPo.setArea(parkingSpaceDto.getArea());
                 feeReceiptDetailPo.setSquarePrice(feeDto.getComputingFormulaText());
             } else if ("9009".equals(computingFormula)) {
                 if (StringUtil.isEmpty(feeDto.getCurDegrees())) {
@@ -483,25 +461,17 @@ public class ComputeFeeSMOImpl implements IComputeFeeSMO {
             } else {
                 objName = roomDto.getFloorNum() + "-" + roomDto.getRoomNum();
             }
-        } else if (FeeDto.PAYER_OBJ_TYPE_CAR.equals(feeDto.getPayerObjType())) {//车位相关
+        } else if (FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE.equals(feeDto.getPayerObjType())) {//车位相关
 
-            OwnerCarDto ownerCarDto = new OwnerCarDto();
-            ownerCarDto.setCommunityId(feeDto.getCommunityId());
-            ownerCarDto.setCarId(feeDto.getPayerObjId());
-            List<OwnerCarDto> ownerCarDtos = ownerCarInnerServiceSMOImpl.queryOwnerCars(ownerCarDto);
-            if (ownerCarDtos == null || ownerCarDtos.size() < 1) {
+            ParkingSpaceDto parkingSpaceDto = getParkingSpaceByPayerObjId(feeDto);
+            if (parkingSpaceDto == null) {
                 return objName;
             }
 
-            objName = ownerCarDtos.get(0).getCarNum();
-            ParkingSpaceDto parkingSpaceDto = new ParkingSpaceDto();
-            parkingSpaceDto.setCommunityId(feeDto.getCommunityId());
-            parkingSpaceDto.setPsId(ownerCarDtos.get(0).getPsId());
-            List<ParkingSpaceDto> parkingSpaceDtos = parkingSpaceInnerServiceSMOImpl.queryParkingSpaces(parkingSpaceDto);
-            if (ListUtil.isNull(parkingSpaceDtos)) { //数据有问题
-                return objName;
+            objName = parkingSpaceDto.getAreaNum() + "-" + parkingSpaceDto.getSectionName() + "-" + parkingSpaceDto.getNum();
+            if (StringUtil.isEmpty(parkingSpaceDto.getSectionName())) {
+                objName = parkingSpaceDto.getAreaNum() + "-" + parkingSpaceDto.getNum();
             }
-            objName = objName + "-" + parkingSpaceDtos.get(0).getAreaNum() + "停车场" + "-" + parkingSpaceDtos.get(0).getNum() + "车位";
         } else if (FeeDto.PAYER_OBJ_TYPE_CONTRACT.equals(feeDto.getPayerObjType())) {
             ContractDto contractDto = new ContractDto();
             contractDto.setContractId(feeDto.getPayerObjId());
@@ -555,15 +525,11 @@ public class ComputeFeeSMOImpl implements IComputeFeeSMO {
             return ownerDtos.get(0);
         }
 
-        if (FeeDto.PAYER_OBJ_TYPE_CAR.equals(feeDto.getPayerObjType())) {
-            OwnerCarDto ownerCarDto = new OwnerCarDto();
-            ownerCarDto.setCarId(feeDto.getPayerObjId());
-            ownerCarDto.setCommunityId(feeDto.getCommunityId());
-            List<OwnerCarDto> ownerCarDtos = ownerCarInnerServiceSMOImpl.queryOwnerCars(ownerCarDto);
-
-            Assert.listOnlyOne(ownerCarDtos, "车辆不存在");
+        if (FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE.equals(feeDto.getPayerObjType())) {
+            ParkingSpaceDto parkingSpaceDto = getParkingSpaceByPayerObjId(feeDto);
+            Assert.listOnlyOne(parkingSpaceDto == null ? null : Arrays.asList(parkingSpaceDto), "车位不存在");
             ownerDto = new OwnerDto();
-            ownerDto.setMemberId(ownerCarDtos.get(0).getOwnerId());
+            ownerDto.setMemberId(parkingSpaceDto.getOwnerId());
             ownerDto.setCommunityId(feeDto.getCommunityId());
             List<OwnerDto> ownerDtos = ownerInnerServiceSMOImpl.queryOwners(ownerDto);
             Assert.listOnlyOne(ownerDtos, "业主不存在");
@@ -608,6 +574,26 @@ public class ComputeFeeSMOImpl implements IComputeFeeSMO {
         return null;
     }
 
+    /**
+     * 6666 即车位：直接按 psId 查车位
+     *
+     * @param feeDto
+     * @return
+     */
+    private ParkingSpaceDto getParkingSpaceByPayerObjId(FeeDto feeDto) {
+        if (feeDto == null || StringUtil.isEmpty(feeDto.getPayerObjId())) {
+            return null;
+        }
+        ParkingSpaceDto parkingSpaceDto = new ParkingSpaceDto();
+        parkingSpaceDto.setCommunityId(feeDto.getCommunityId());
+        parkingSpaceDto.setPsId(feeDto.getPayerObjId());
+        List<ParkingSpaceDto> parkingSpaceDtos = parkingSpaceInnerServiceSMOImpl.queryParkingSpaces(parkingSpaceDto);
+        if (ListUtil.isNull(parkingSpaceDtos)) {
+            return null;
+        }
+        return parkingSpaceDtos.get(0);
+    }
+
     private OwnerDto getOwnerDtoByFeeAttr(FeeDto feeDto) {
         List<FeeAttrDto> feeAttrDtos = feeDto.getFeeAttrDtos();
 
@@ -641,91 +627,56 @@ public class ComputeFeeSMOImpl implements IComputeFeeSMO {
     public void freshFeeObjName(List<FeeDto> feeDtos) {
 
         List<String> roomIds = new ArrayList<>();
-        List<String> carIds = new ArrayList<>();
+        List<String> psIds = new ArrayList<>();
         for (FeeDto feeDto : feeDtos) {
             if (FeeDto.PAYER_OBJ_TYPE_ROOM.equals(feeDto.getPayerObjType())) {
                 roomIds.add(feeDto.getPayerObjId());
-            } else if (FeeDto.PAYER_OBJ_TYPE_CAR.equals(feeDto.getPayerObjType())) {
-                carIds.add(feeDto.getPayerObjId());
+            } else if (FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE.equals(feeDto.getPayerObjType())) {
+                psIds.add(feeDto.getPayerObjId());
             }
         }
 
         // 用房屋信息刷 费用付费对象
         freshFeeObjNameByRoomId(feeDtos, roomIds);
 
-        // 用车辆车位 刷 付费对象
-        freshFeeObjNameByCarId(feeDtos, carIds);
+        // 用车位信息刷 付费对象
+        freshFeeObjNameByPsId(feeDtos, psIds);
 
     }
 
     /**
-     * 刷费用
+     * 用车位信息刷费用付费对象名称
      *
      * @param feeDtos
-     * @param carIds
+     * @param psIds
      */
-    private void freshFeeObjNameByCarId(List<FeeDto> feeDtos, List<String> carIds) {
+    private void freshFeeObjNameByPsId(List<FeeDto> feeDtos, List<String> psIds) {
 
-        if (carIds.size() < 1) {
-            return;
-        }
-
-
-        OwnerCarDto ownerCarDto = new OwnerCarDto();
-        ownerCarDto.setCommunityId(feeDtos.get(0).getCommunityId());
-        ownerCarDto.setCarIds(carIds.toArray(new String[carIds.size()]));
-        List<OwnerCarDto> ownerCarDtos = ownerCarInnerServiceSMOImpl.queryOwnerCars(ownerCarDto);
-
-        if (ownerCarDtos == null || ownerCarDtos.size() < 1) {
-            return;
-        }
-
-        List<String> psIds = new ArrayList<>();
-
-        for (OwnerCarDto tmpOwnerCarDto : ownerCarDtos) {
-            if (StringUtil.isEmpty(tmpOwnerCarDto.getPsId()) || tmpOwnerCarDto.getPsId().startsWith("-")) {
-                continue;
-            }
-            psIds.add(tmpOwnerCarDto.getPsId());
-        }
-
-        //没有车位情况下
         if (psIds.size() < 1) {
-            for (OwnerCarDto tmpOwnerCarDto : ownerCarDtos) {
-                for (FeeDto feeDto : feeDtos) {
-                    if (!FeeDto.PAYER_OBJ_TYPE_CAR.equals(feeDto.getPayerObjType())) {
-                        continue;
-                    }
-
-                    if (feeDto.getPayerObjId().equals(tmpOwnerCarDto.getCarId())) {
-                        feeDto.setPayerObjName(tmpOwnerCarDto.getCarNum());
-                    }
-                }
-            }
             return;
         }
-
 
         ParkingSpaceDto parkingSpaceDto = new ParkingSpaceDto();
         parkingSpaceDto.setCommunityId(feeDtos.get(0).getCommunityId());
         parkingSpaceDto.setPsIds(psIds.toArray(new String[psIds.size()]));
         List<ParkingSpaceDto> parkingSpaceDtos = parkingSpaceInnerServiceSMOImpl.queryParkingSpaces(parkingSpaceDto);
-        for (OwnerCarDto tmpOwnerCarDto : ownerCarDtos) {
-            for (ParkingSpaceDto tmpParkingSpaceDto : parkingSpaceDtos) {
-                if (tmpParkingSpaceDto.getPsId().equals(tmpOwnerCarDto.getPsId())) {
-                    tmpOwnerCarDto.setAreaNum(tmpParkingSpaceDto.getAreaNum());
-                    tmpOwnerCarDto.setNum(tmpParkingSpaceDto.getNum());
-                }
-            }
+
+        if (ListUtil.isNull(parkingSpaceDtos)) {
+            return;
         }
-        for (OwnerCarDto tmpOwnerCarDto : ownerCarDtos) {
+
+        for (ParkingSpaceDto tmpParkingSpaceDto : parkingSpaceDtos) {
             for (FeeDto feeDto : feeDtos) {
-                if (!FeeDto.PAYER_OBJ_TYPE_CAR.equals(feeDto.getPayerObjType())) {
+                if (!FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE.equals(feeDto.getPayerObjType())) {
                     continue;
                 }
 
-                if (feeDto.getPayerObjId().equals(tmpOwnerCarDto.getCarId())) {
-                    feeDto.setPayerObjName(tmpOwnerCarDto.getCarNum() + "(" + tmpOwnerCarDto.getAreaNum() + "停车场" + tmpOwnerCarDto.getNum() + "车位)");
+                if (feeDto.getPayerObjId().equals(tmpParkingSpaceDto.getPsId())) {
+                    String objName = tmpParkingSpaceDto.getAreaNum() + "-" + tmpParkingSpaceDto.getSectionName() + "-" + tmpParkingSpaceDto.getNum();
+                    if (StringUtil.isEmpty(tmpParkingSpaceDto.getSectionName())) {
+                        objName = tmpParkingSpaceDto.getAreaNum() + "-" + tmpParkingSpaceDto.getNum();
+                    }
+                    feeDto.setPayerObjName(objName);
                 }
             }
         }
@@ -898,7 +849,7 @@ public class ComputeFeeSMOImpl implements IComputeFeeSMO {
             } else {
                 throw new IllegalArgumentException("暂不支持该类公式");
             }
-        } else if (FeeDto.PAYER_OBJ_TYPE_CAR.equals(tmpReportFeeDto.getPayerObjType())) {//车位相关
+        } else if (FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE.equals(tmpReportFeeDto.getPayerObjType())) {//车位相关
             String computingFormula = tmpReportFeeDto.getComputingFormula();
 
             if ("1001".equals(computingFormula)) { //面积*单价+附加费
@@ -935,7 +886,7 @@ public class ComputeFeeSMOImpl implements IComputeFeeSMO {
             } else if ("6006".equals(computingFormula)) {
                 feePrice = new BigDecimal(Double.parseDouble(tmpReportFeeDto.getAmount()));
             } else if ("7007".equals(computingFormula)) { //自定义公式
-                feePrice = computeCarCustomizeFormula(BeanConvertUtil.covertBean(tmpReportFeeDto, FeeDto.class), BeanConvertUtil.covertBean(reportCarDto, OwnerCarDto.class));
+                feePrice = computeParkingSpaceCustomizeFormula(BeanConvertUtil.covertBean(tmpReportFeeDto, FeeDto.class), BeanConvertUtil.covertBean(reportCarDto, OwnerCarDto.class));
             } else if ("9009".equals(computingFormula)) {
                 if (StringUtil.isEmpty(tmpReportFeeDto.getCurDegrees())) {
                     throw new IllegalArgumentException("抄表数据异常");
@@ -1168,25 +1119,14 @@ public class ComputeFeeSMOImpl implements IComputeFeeSMO {
             } else {
                 throw new IllegalArgumentException("暂不支持该类公式");
             }
-        } else if (FeeDto.PAYER_OBJ_TYPE_CAR.equals(feeDto.getPayerObjType())) {//车位相关
+        } else if (FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE.equals(feeDto.getPayerObjType())) {//车位相关
             String computingFormula = feeDto.getComputingFormula();
 
-            OwnerCarDto ownerCarDto = new OwnerCarDto();
-            ownerCarDto.setCarTypeCd("1001"); //业主车辆
-            ownerCarDto.setCommunityId(feeDto.getCommunityId());
-            ownerCarDto.setCarId(feeDto.getPayerObjId());
-            List<OwnerCarDto> ownerCarDtos = ownerCarInnerServiceSMOImpl.queryOwnerCars(ownerCarDto);
-            Assert.listOnlyOne(ownerCarDtos, "未找到车辆信息");
             if ("1001".equals(computingFormula)) { //面积*单价+附加费
-                ParkingSpaceDto parkingSpaceDto = new ParkingSpaceDto();
-                parkingSpaceDto.setCommunityId(feeDto.getCommunityId());
-                parkingSpaceDto.setPsId(ownerCarDtos.get(0).getPsId());
-                List<ParkingSpaceDto> parkingSpaceDtos = parkingSpaceInnerServiceSMOImpl.queryParkingSpaces(parkingSpaceDto);
-                if (parkingSpaceDtos == null || parkingSpaceDtos.size() < 1) { //数据有问题
-                    throw new ListenerExecuteException(ResponseConstant.RESULT_CODE_ERROR, "未查到停车位信息，查询多条数据");
-                }
+                ParkingSpaceDto parkingSpaceDto = getParkingSpaceByPayerObjId(feeDto);
+                Assert.listOnlyOne(parkingSpaceDto == null ? null : Arrays.asList(parkingSpaceDto), "车位不存在");
                 BigDecimal squarePrice = new BigDecimal(Double.parseDouble(feeDto.getSquarePrice()));
-                BigDecimal builtUpArea = new BigDecimal(Double.parseDouble(parkingSpaceDtos.get(0).getArea()));
+                BigDecimal builtUpArea = new BigDecimal(Double.parseDouble(parkingSpaceDto.getArea()));
                 BigDecimal additionalAmount = new BigDecimal(Double.parseDouble(feeDto.getAdditionalAmount()));
                 feePrice = squarePrice.multiply(builtUpArea).add(additionalAmount).setScale(FeeConfigConstant.FEE_SCALE, BigDecimal.ROUND_HALF_UP);
                 BigDecimal cycle = null;
@@ -1300,7 +1240,7 @@ public class ComputeFeeSMOImpl implements IComputeFeeSMO {
                     feeTotalPrice = feePrice.multiply(cycle).setScale(FeeConfigConstant.FEE_SCALE, BigDecimal.ROUND_HALF_UP);
                 }
             } else if ("7007".equals(computingFormula)) { //自定义公式
-                feePrice = computeCarCustomizeFormula(feeDto, ownerCarDtos.get(0));
+                feePrice = computeParkingSpaceCustomizeFormula(feeDto, null);
 
                 BigDecimal cycle = null;
                 if (!StringUtil.isEmpty(feeDto.getCycle())) {
@@ -1529,15 +1469,15 @@ public class ComputeFeeSMOImpl implements IComputeFeeSMO {
     }
 
     /**
-     * C 代表房屋对应小区面积
+     * C 代表小区面积
      * <p>
-     * R 代表房屋面积
+     * R 代表车位面积
      *
      * @param feeDto
      * @param ownerCarDto
      * @return
      */
-    private BigDecimal computeCarCustomizeFormula(FeeDto feeDto, OwnerCarDto ownerCarDto) {
+    private BigDecimal computeParkingSpaceCustomizeFormula(FeeDto feeDto, OwnerCarDto ownerCarDto) {
         String value = feeDto.getComputingFormulaText();
         value = value.replace("\n", "")
                 .replace("\r", "")
@@ -1552,16 +1492,12 @@ public class ComputeFeeSMOImpl implements IComputeFeeSMO {
             } else {
                 value = value.replace("C", communityDtos.get(0).getCommunityArea());
             }
-        } else if (value.contains("R")) { //处理 房屋面积
-            ParkingSpaceDto parkingSpaceDto = new ParkingSpaceDto();
-            parkingSpaceDto.setCommunityId(feeDto.getCommunityId());
-            parkingSpaceDto.setPsId(ownerCarDto.getPsId());
-            List<ParkingSpaceDto> parkingSpaceDtos = parkingSpaceInnerServiceSMOImpl.queryParkingSpaces(parkingSpaceDto);
-            if (parkingSpaceDtos == null || parkingSpaceDtos.size() < 1) { //数据有问题
-                //throw new ListenerExecuteException(ResponseConstant.RESULT_CODE_ERROR, "未查到停车位信息，查询多条数据");
+        } else if (value.contains("R")) { //处理 车位面积
+            ParkingSpaceDto parkingSpaceDto = getParkingSpaceByPayerObjId(feeDto);
+            if (parkingSpaceDto == null) { //数据有问题
                 value = value.replace("R", "0");
             } else {
-                value = value.replace("R", parkingSpaceDtos.get(0).getArea());
+                value = value.replace("R", parkingSpaceDto.getArea());
             }
         }
 

@@ -34,17 +34,12 @@
         </el-button>
       </el-col>
       <el-col :span="6" class="text-right" v-if="simplifyParkingSpaceFeeInfo.psId || simplifyParkingSpaceFeeInfo.ownerId">
-        <el-button type="primary" size="small" @click="_openBatchPayParkingSpaceFeeModal">
+        <el-button type="primary" size="small"  v-if="hasPrivilege('502020082314267912')" @click="_openBatchPayParkingSpaceFeeModal">
           {{ $t('simplifyRoomFee.batchPayment') }}
         </el-button>
-        <el-button v-if="hasPrivilege('502020080570210194')" type="primary" size="small" @click="_toPrePayFeeOrder">
+        <el-button v-if="hasPrivilege('502020082314267912')" type="primary" size="small" @click="_toPrePayFeeOrder">
           <i class="el-icon-plus"></i>
           {{ $t('simplifyRoomFee.prePayFee') }}
-        </el-button>
-        <el-button v-if="hasPrivilege('502022073007100003') && simplifyParkingSpaceFeeInfo.from === 'simplifyAcceptance'"
-          type="primary" size="small" @click="_openSimplpifyParkingSpaceTempFeeModal">
-          <i class="el-icon-plus"></i>
-          {{ $t('simplifyParkingSpaceFee.tempFee') }}
         </el-button>
       </el-col>
     </el-row>
@@ -447,13 +442,13 @@ export default {
     },
 
     _toPrePayFeeOrder() {
-      const payerObjId = this.simplifyParkingSpaceFeeInfo.psId || this.simplifyParkingSpaceFeeInfo.carId
+      const payerObjId = this.simplifyParkingSpaceFeeInfo.psId
       this.$router.push(`/views/fee/prePayFeeOrder?payerObjId=${payerObjId}&payerObjType=6666`)
     },
 
     _openSimplpifyParkingSpaceTempFeeModal() {
       this.$emit('tempFee', {
-        roomId: this.simplifyParkingSpaceFeeInfo.psId || this.simplifyParkingSpaceFeeInfo.carId,
+        roomId: this.simplifyParkingSpaceFeeInfo.psId,
         roomName: this.simplifyParkingSpaceFeeInfo.psName || this.simplifyParkingSpaceFeeInfo.carNum,
         ownerName: this.simplifyParkingSpaceFeeInfo.name,
         objType: '6666'

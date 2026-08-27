@@ -279,7 +279,7 @@ public class ImportCustomCreateFeeSMOImpl extends DefaultAbstractComponentSMO im
             if("3003".equals(importRoomFee.getObjType())) {
                 payFeePo.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_CONTRACT);
             }else if("2002".equals(importRoomFee.getObjType())) {
-                payFeePo.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_CAR);
+                payFeePo.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE);
             }else{
                 payFeePo.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_ROOM);
             }

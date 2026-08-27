@@ -336,7 +336,7 @@ public class ImportRoomFeeImpl implements IImportRoomFee {
             payFeePo.setCommunityId(communityId);
             payFeePo.setConfigId(feeConfigDto.getConfigId());
             payFeePo.setPayerObjId(importCarFee.getCarId());
-            payFeePo.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_CAR);
+            payFeePo.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE);
             payFeePo.setUserId(userId);
             payFeePo.setIncomeObjId(storeId);
             payFeePo.setFeeTypeCd(feeTypeCd);
@@ -404,7 +404,7 @@ public class ImportRoomFeeImpl implements IImportRoomFee {
             importFeeDetailPo.setRoomNum("-");
             importFeeDetailPo.setRoomId("-");
             importFeeDetailPo.setObjId(importCarFee.getCarId());
-            importFeeDetailPo.setObjType(FeeDto.PAYER_OBJ_TYPE_CAR);
+            importFeeDetailPo.setObjType(FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE);
             importFeeDetailPo.setObjName(importCarFee.getCarNum());
             importFeeDetailPo.setStartTime(importCarFee.getCreateTime());
             importFeeDetailPo.setIfdId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_IfdId));

@@ -594,7 +594,7 @@ public class MachineUploadCarLogCmd extends Cmd {
         payFeePo.setCommunityId(reqJson.getString("communityId"));
         payFeePo.setConfigId(tempCarFeeConfigDto.getFeeConfigId());
         payFeePo.setPayerObjId(reqJson.getString("carId"));
-        payFeePo.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_CAR);
+        payFeePo.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE);
         payFeePo.setUserId("-1");
         payFeePo.setIncomeObjId(communityMemberDtos.get(0).getMemberId());
         payFeePo.setFeeTypeCd(FeeConfigDto.FEE_TYPE_CD_PARKING);

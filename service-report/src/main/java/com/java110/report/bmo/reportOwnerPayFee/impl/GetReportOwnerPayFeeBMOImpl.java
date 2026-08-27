@@ -64,7 +64,7 @@ public class GetReportOwnerPayFeeBMOImpl implements IGetReportOwnerPayFeeBMO {
             }
             if (FeeDto.PAYER_OBJ_TYPE_ROOM.equals(reportOwnerPayFeeDto.getPayerObjType())) {
                 reportOwnerPayFeeDto.setObjName(reportOwnerPayFeeDto.getRoomName());
-            } else if (FeeDto.PAYER_OBJ_TYPE_CAR.equals(reportOwnerPayFeeDto.getPayerObjType())) {
+            } else if (FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE.equals(reportOwnerPayFeeDto.getPayerObjType())) {
                 reportOwnerPayFeeDto.setObjName(reportOwnerPayFeeDto.getCarNum());
             } else if (FeeDto.PAYER_OBJ_TYPE_CONTRACT.equals(reportOwnerPayFeeDto.getPayerObjType())) {
                 reportOwnerPayFeeDto.setObjName(reportOwnerPayFeeDto.getContractCode());

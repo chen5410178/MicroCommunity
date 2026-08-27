@@ -198,7 +198,7 @@ public class BuyCarMonthCardPaymentBusiness implements IPaymentBusiness {
         PayFeePo payFeePo = new PayFeePo();
         payFeePo.setCommunityId(reqJson.getString("communityId"));
         payFeePo.setConfigId(feeConfigDto.getConfigId());
-        payFeePo.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_CAR);
+        payFeePo.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE);
         payFeePo.setStartTime(DateUtil.getFormatTimeStringA(startTime));
         payFeePo.setEndTime(endTime);
         payFeePo.setAmount(reqJson.getString("receivedAmount"));

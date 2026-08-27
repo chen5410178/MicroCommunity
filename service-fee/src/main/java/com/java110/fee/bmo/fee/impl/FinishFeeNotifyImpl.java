@@ -24,6 +24,7 @@ import com.java110.po.car.OwnerCarPo;
 import com.java110.po.owner.OwnerRoomRelPo;
 import com.java110.po.owner.RepairPoolPo;
 import com.java110.po.owner.RepairUserPo;
+import com.java110.po.parking.ParkingSpacePo;
 import com.java110.utils.exception.CmdException;
 import com.java110.utils.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,7 +73,6 @@ public class FinishFeeNotifyImpl implements IFinishFeeNotify {
 
     @Override
     public void updateCarEndTime(String feeId, String communityId) {
-        int flag;
         FeeDto feeDto = new FeeDto();
         feeDto.setFeeId(feeId);
         feeDto.setCommunityId(communityId);
@@ -81,54 +81,71 @@ public class FinishFeeNotifyImpl implements IFinishFeeNotify {
         if (ListUtil.isNull(feeDtos)) {
             return;
         }
-        if (!FeeDto.PAYER_OBJ_TYPE_CAR.equals(feeDtos.get(0).getPayerObjType())) {
+        if (!FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE.equals(feeDtos.get(0).getPayerObjType())) {
             return;
         }
         Date feeEndTime = feeDtos.get(0).getEndTime();
+        //6666 即车位：直接按 psId 查车位
+        ParkingSpaceDto parkingSpaceDto = new ParkingSpaceDto();
+        parkingSpaceDto.setPsId(feeDtos.get(0).getPayerObjId());
+        parkingSpaceDto.setCommunityId(communityId);
+        List<ParkingSpaceDto> parkingSpaceDtos = parkingSpaceInnerServiceSMOImpl.queryParkingSpaces(parkingSpaceDto);
+
+        if (ListUtil.isNull(parkingSpaceDtos)) {
+            return;
+        }
+        //后付费 加一个月
+        if (FeeConfigDto.PAYMENT_CD_AFTER.equals(feeDtos.get(0).getPaymentCd())) {
+            Calendar endTimeCalendar = Calendar.getInstance();
+            endTimeCalendar.setTime(feeEndTime);
+            endTimeCalendar.add(Calendar.MONTH, 1);
+            feeEndTime = endTimeCalendar.getTime();
+        }
+        //车位已有到期时间大于等于缴费结束时间，无需续期
+        boolean needUpdateParkingSpace = true;
+        if (!StringUtil.isEmpty(parkingSpaceDtos.get(0).getEndTime())) {
+            Date psEndTime = DateUtil.getDateFromStringA(parkingSpaceDtos.get(0).getEndTime());
+            if (psEndTime.getTime() >= feeEndTime.getTime()) {
+                needUpdateParkingSpace = false;
+            }
+        }
+        if (needUpdateParkingSpace) {
+            ParkingSpacePo parkingSpacePo = new ParkingSpacePo();
+            parkingSpacePo.setPsId(parkingSpaceDtos.get(0).getPsId());
+            parkingSpacePo.setEndTime(DateUtil.getFormatTimeStringA(feeEndTime));
+            parkingSpaceInnerServiceSMOImpl.updateParkingSpace(parkingSpacePo);
+            //车位延期后，车位绑定的车辆同步延期
+            updateCarEndTimeByParkingSpace(parkingSpaceDtos.get(0).getCarId(), communityId, feeEndTime);
+        }
+    }
+
+    /**
+     * 车位延期后，同步延期车位绑定的车辆
+     *
+     * @param carId      车位绑定车辆ID
+     * @param communityId
+     * @param feeEndTime 车位续期后的到期时间
+     */
+    private void updateCarEndTimeByParkingSpace(String carId, String communityId, Date feeEndTime) {
+        if (StringUtil.isEmpty(carId)) {
+            return;
+        }
         OwnerCarDto ownerCarDto = new OwnerCarDto();
+        ownerCarDto.setCarId(carId);
         ownerCarDto.setCommunityId(communityId);
-        ownerCarDto.setCarId(feeDtos.get(0).getPayerObjId());
-        //ownerCarDto.setCarTypeCd("1001"); //业主车辆
         List<OwnerCarDto> ownerCarDtos = ownerCarInnerServiceSMOImpl.queryOwnerCars(ownerCarDto);
 
         if (ListUtil.isNull(ownerCarDtos)) {
             return;
         }
-        //获取车位id
-        String psId = ownerCarDtos.get(0).getPsId();
-        //todo 获取车辆状态(1001 正常状态，2002 欠费状态  3003 车位释放)
-        String carState = ownerCarDtos.get(0).getState();
-        if (!StringUtil.isEmpty(psId) && "3003".equals(carState)) {
-            ParkingSpaceDto parkingSpaceDto = new ParkingSpaceDto();
-            parkingSpaceDto.setPsId(psId);
-            List<ParkingSpaceDto> parkingSpaceDtos = parkingSpaceInnerServiceSMOImpl.queryParkingSpaces(parkingSpaceDto);
-            Assert.listOnlyOne(parkingSpaceDtos, "查询车位信息错误！");
-            //获取车位状态(出售 S，出租 H ，空闲 F)
-            String state = parkingSpaceDtos.get(0).getState();
-            if (!StringUtil.isEmpty(state) && !state.equals("F")) {
-                throw new IllegalArgumentException("车位已被使用，不能再缴费！");
-            }
-        }
-
-
-        Calendar endTimeCalendar = null;
-        //todo 车位费用续租
         for (OwnerCarDto tmpOwnerCarDto : ownerCarDtos) {
-            //后付费 或者信用期车辆 加一个月
-            if (FeeConfigDto.PAYMENT_CD_AFTER.equals(feeDtos.get(0).getPaymentCd())
-                    || OwnerCarDto.CAR_TYPE_CREDIT.equals(tmpOwnerCarDto.getCarType())) {
-                endTimeCalendar = Calendar.getInstance();
-                endTimeCalendar.setTime(feeEndTime);
-                endTimeCalendar.add(Calendar.MONTH, 1);
-                feeEndTime = endTimeCalendar.getTime();
-            }
-            if (tmpOwnerCarDto.getEndTime().getTime() >= feeEndTime.getTime()) {
+            if (tmpOwnerCarDto.getEndTime() != null && tmpOwnerCarDto.getEndTime().getTime() >= feeEndTime.getTime()) {
                 continue;
             }
             OwnerCarPo ownerCarPo = new OwnerCarPo();
             ownerCarPo.setMemberId(tmpOwnerCarDto.getMemberId());
             ownerCarPo.setEndTime(DateUtil.getFormatTimeStringA(feeEndTime));
-            flag = ownerCarNewV1InnerServiceSMOImpl.updateOwnerCarNew(ownerCarPo);
+            int flag = ownerCarNewV1InnerServiceSMOImpl.updateOwnerCarNew(ownerCarPo);
             if (flag < 1) {
                 throw new CmdException("缴费失败");
             }

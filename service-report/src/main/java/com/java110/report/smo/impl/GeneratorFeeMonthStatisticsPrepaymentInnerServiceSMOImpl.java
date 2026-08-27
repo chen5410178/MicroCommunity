@@ -228,7 +228,7 @@ public class GeneratorFeeMonthStatisticsPrepaymentInnerServiceSMOImpl implements
     private void doDealCarFees(ReportCarDto tmpReportCarDto) {
         ReportFeeDto reportFeeDto = new ReportFeeDto();
         reportFeeDto.setPayerObjId(tmpReportCarDto.getCarId());
-        reportFeeDto.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_CAR);
+        reportFeeDto.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE);
         List<ReportFeeDto> feeDtos = reportFeeServiceDaoImpl.getFees(reportFeeDto);
         if (feeDtos == null || feeDtos.size() < 1) {
             return;

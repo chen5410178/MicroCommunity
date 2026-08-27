@@ -124,7 +124,7 @@ public class QueryCommunityOwnerAccountCmd extends Cmd {
                 throw new CmdException("房屋未绑定业主关系");
             }
             ownerId = ownerRoomRelDtos.get(0).getOwnerId();
-        } else if (FeeDto.PAYER_OBJ_TYPE_CAR.equals(payerObjType)) {
+        } else if (FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE.equals(payerObjType)) {
             OwnerCarDto ownerCarDto = new OwnerCarDto();
             ownerCarDto.setCarId(payerObjId);
             List<OwnerCarDto> ownerCarDtos = ownerCarInnerServiceSMOImpl.queryOwnerCars(ownerCarDto);

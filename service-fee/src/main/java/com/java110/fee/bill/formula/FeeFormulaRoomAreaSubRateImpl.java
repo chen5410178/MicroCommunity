@@ -49,7 +49,7 @@ public class FeeFormulaRoomAreaSubRateImpl implements IFeeFormula {
         String monthFlag = CommunitySettingFactory.getValue(feeConfigDto.getCommunityId(), "FEE_MONTH_FLAG");
         if (FeeDto.PAYER_OBJ_TYPE_ROOM.equals(payerObjType)) { //房屋相关
             amount = computeRoomAmount(feeConfigDto, payerObjId, payerObjType, cycle, monthFlag);
-        } else if (FeeDto.PAYER_OBJ_TYPE_CAR.equals(payerObjType)) {
+        } else if (FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE.equals(payerObjType)) {
             // 车辆没有建筑面积和室内面积，直接返回0
             amount = new FeeAmountDto(0.0, "车辆无建筑面积和室内面积");
 

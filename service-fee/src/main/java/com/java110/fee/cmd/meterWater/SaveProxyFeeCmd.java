@@ -182,7 +182,7 @@ public class SaveProxyFeeCmd extends Cmd {
             Assert.listOnlyOne(roomDtos, "查询房屋信息错误");
             payFeeRulePo.setPayerObjName(roomDtos.get(0).getFloorNum() + "-"
                     + roomDtos.get(0).getUnitNum() + "-" + roomDtos.get(0).getRoomNum());
-        } else if (FeeDto.PAYER_OBJ_TYPE_CAR.equals(objType)) {
+        } else if (FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE.equals(objType)) {
             // 6666 车辆
             OwnerCarDto ownerCarDto = new OwnerCarDto();
             ownerCarDto.setCarId(objId);

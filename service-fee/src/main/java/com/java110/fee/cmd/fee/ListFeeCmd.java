@@ -132,7 +132,7 @@ public class ListFeeCmd extends Cmd {
             for (ApiFeeDataVo apiFeeDataVo : apiFeeDataVos) {
                 //获取付费对象类型
                 String payerObjType = apiFeeDataVo.getPayerObjType();
-                if (FeeDto.PAYER_OBJ_TYPE_CAR.equals(payerObjType)) {
+                if (FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE.equals(payerObjType)) {
                     apiFeeDataVo.setCarTypeCd("1001");
                 }
                 if (!StringUtil.isEmpty(apiFeeDataVo.getFeeTime())) {

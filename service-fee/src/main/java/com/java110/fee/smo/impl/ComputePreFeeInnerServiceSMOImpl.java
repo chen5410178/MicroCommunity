@@ -5,9 +5,9 @@ import com.java110.core.factory.GenerateCodeFactory;
 import com.java110.dto.fee.FeeAmountDto;
 import com.java110.dto.fee.FeeDetailDto;
 import com.java110.dto.fee.FeeDto;
-import com.java110.dto.owner.OwnerCarDto;
 import com.java110.dto.owner.OwnerDto;
 import com.java110.dto.owner.OwnerRoomRelDto;
+import com.java110.dto.parking.ParkingSpaceDto;
 import com.java110.dto.payFee.PayFeeRuleDto;
 import com.java110.dto.prePayFee.PrePayFeeDto;
 import com.java110.dto.room.RoomDto;
@@ -15,18 +15,19 @@ import com.java110.fee.bill.IComputeBillPrice;
 import com.java110.fee.bill.IDeductionPrePayFee;
 import com.java110.fee.bmo.fee.IGeneratorPayFeeOrder;
 import com.java110.fee.bmo.receipt.IFeeReceiptBmo;
+import com.java110.intf.community.IParkingSpaceInnerServiceSMO;
 import com.java110.intf.community.IRoomV1InnerServiceSMO;
 import com.java110.intf.fee.IComputePreFeeInnerServiceSMO;
 import com.java110.intf.fee.IFeeReceiptInnerServiceSMO;
 import com.java110.intf.fee.IPayFeeRuleV1InnerServiceSMO;
 import com.java110.intf.fee.IPrePayFeeV1InnerServiceSMO;
-import com.java110.intf.user.IOwnerCarInnerServiceSMO;
 import com.java110.intf.user.IOwnerRoomRelV1InnerServiceSMO;
 import com.java110.intf.user.IOwnerV1InnerServiceSMO;
 import com.java110.po.prePayFee.PrePayFeePo;
 import com.java110.utils.exception.CmdException;
 import com.java110.utils.util.DateUtil;
 import com.java110.utils.util.ListUtil;
+import com.java110.utils.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -62,7 +63,7 @@ public class ComputePreFeeInnerServiceSMOImpl implements IComputePreFeeInnerServ
     private IGeneratorPayFeeOrder generatorPayFeeOrderImpl;
 
     @Autowired
-    private IOwnerCarInnerServiceSMO ownerCarInnerServiceSMOImpl;
+    private IParkingSpaceInnerServiceSMO parkingSpaceInnerServiceSMOImpl;
 
     @Autowired
     private IRoomV1InnerServiceSMO roomV1InnerServiceSMOImpl;
@@ -110,7 +111,7 @@ public class ComputePreFeeInnerServiceSMOImpl implements IComputePreFeeInnerServ
         String startMonth = payFeeRuleDtos.get(0).getCurYearMonth();
 
         computeRoomInfo(paramIn, payFeeRuleDtos.get(0).getPayerObjId(), payFeeRuleDtos.get(0).getPayerObjType(), communityId);
-        computeCarInfo(paramIn, payFeeRuleDtos.get(0).getPayerObjId(), payFeeRuleDtos.get(0).getPayerObjType(), communityId);
+        computeParkingSpaceInfo(paramIn, payFeeRuleDtos.get(0).getPayerObjId(), payFeeRuleDtos.get(0).getPayerObjType(), communityId);
         String ownerId = paramIn.getString("ownerId");
         String ownerName = paramIn.getString("ownerName");
         String payerObjName = paramIn.getString("payerObjName");
@@ -232,24 +233,36 @@ public class ComputePreFeeInnerServiceSMOImpl implements IComputePreFeeInnerServ
 
     }
 
-    private void computeCarInfo(JSONObject paramOut, String payerObjId, String payerObjType, String communityId) {
-        if (!FeeDto.PAYER_OBJ_TYPE_CAR.equals(payerObjType)) {
+    /**
+     * 6666 即车位：直接按 psId 查车位
+     *
+     * @param paramOut
+     * @param payerObjId
+     * @param payerObjType
+     * @param communityId
+     */
+    private void computeParkingSpaceInfo(JSONObject paramOut, String payerObjId, String payerObjType, String communityId) {
+        if (!FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE.equals(payerObjType)) {
             return;
         }
 
-        OwnerCarDto ownerCarDto = new OwnerCarDto();
-        ownerCarDto.setMemberId(payerObjId);
-        ownerCarDto.setCommunityId(communityId);
-        List<OwnerCarDto> ownerCarDtos = ownerCarInnerServiceSMOImpl.queryOwnerCars(ownerCarDto);
-        if (ListUtil.isNull(ownerCarDtos)) {
-            throw new CmdException("车辆不存在");
+        ParkingSpaceDto parkingSpaceDto = new ParkingSpaceDto();
+        parkingSpaceDto.setPsId(payerObjId);
+        parkingSpaceDto.setCommunityId(communityId);
+        List<ParkingSpaceDto> parkingSpaceDtos = parkingSpaceInnerServiceSMOImpl.queryParkingSpaces(parkingSpaceDto);
+        if (ListUtil.isNull(parkingSpaceDtos)) {
+            throw new CmdException("车位不存在");
         }
-        paramOut.put("payerObjName", ownerCarDtos.get(0).getCarNum());
-        paramOut.put("areaNum", ownerCarDtos.get(0).getAreaNum());
-        paramOut.put("num", ownerCarDtos.get(0).getNum());
+        String payerObjName = parkingSpaceDtos.get(0).getAreaNum() + "-" + parkingSpaceDtos.get(0).getSectionName() + "-" + parkingSpaceDtos.get(0).getNum();
+        if (StringUtil.isEmpty(parkingSpaceDtos.get(0).getSectionName())) {
+            payerObjName = parkingSpaceDtos.get(0).getAreaNum() + "-" + parkingSpaceDtos.get(0).getNum();
+        }
+        paramOut.put("payerObjName", payerObjName);
+        paramOut.put("areaNum", parkingSpaceDtos.get(0).getAreaNum());
+        paramOut.put("num", parkingSpaceDtos.get(0).getNum());
 
         OwnerDto ownerDto = new OwnerDto();
-        ownerDto.setMemberId(ownerCarDtos.get(0).getOwnerId());
+        ownerDto.setMemberId(parkingSpaceDtos.get(0).getOwnerId());
         ownerDto.setCommunityId(communityId);
         List<OwnerDto> ownerDtos = ownerV1InnerServiceSMOImpl.queryOwners(ownerDto);
         if (ListUtil.isNull(ownerDtos)) {

@@ -266,7 +266,7 @@ public class ImportCustomFeeQueueDataAdapt extends DefaultImportData implements 
         if ("3003".equals(importDto.getObjType())) {
             payFeeRulePo.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_CONTRACT);
         } else if ("2002".equals(importDto.getObjType())) {
-            payFeeRulePo.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_CAR);
+            payFeeRulePo.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE);
         } else {
             payFeeRulePo.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_ROOM);
         }

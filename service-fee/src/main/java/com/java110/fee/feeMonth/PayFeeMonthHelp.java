@@ -5,15 +5,15 @@ import com.java110.core.smo.IComputeFeeSMO;
 import com.java110.dto.contract.ContractDto;
 import com.java110.dto.fee.FeeDto;
 import com.java110.dto.fee.PayFeeDetailDto;
-import com.java110.dto.owner.OwnerCarDto;
 import com.java110.dto.owner.OwnerDto;
+import com.java110.dto.parking.ParkingSpaceDto;
 import com.java110.dto.payFee.PayFeeMonthOwnerDto;
 import com.java110.dto.room.RoomDto;
+import com.java110.intf.community.IParkingSpaceInnerServiceSMO;
 import com.java110.intf.community.IRoomInnerServiceSMO;
 import com.java110.intf.fee.IPayFeeDetailMonthInnerServiceSMO;
 import com.java110.intf.fee.IPayFeeDetailV1InnerServiceSMO;
 import com.java110.intf.store.IContractInnerServiceSMO;
-import com.java110.intf.user.IOwnerCarInnerServiceSMO;
 import com.java110.intf.user.IOwnerV1InnerServiceSMO;
 import com.java110.po.payFee.PayFeeDetailMonthPo;
 import com.java110.utils.util.DateUtil;
@@ -34,7 +34,7 @@ public class PayFeeMonthHelp implements IPayFeeMonthHelp {
     private IRoomInnerServiceSMO roomInnerServiceSMOImpl;
 
     @Autowired
-    private IOwnerCarInnerServiceSMO ownerCarInnerServiceSMOImpl;
+    private IParkingSpaceInnerServiceSMO parkingSpaceInnerServiceSMOImpl;
 
     @Autowired
     private IContractInnerServiceSMO contractInnerServiceSMOImpl;
@@ -85,14 +85,15 @@ public class PayFeeMonthHelp implements IPayFeeMonthHelp {
             if (!ListUtil.isNull(roomDtos)) {
                 payFeeMonthOwnerDto.setObjFpcId(roomDtos.get(0).getFloorId());
             }
-        } else if (FeeDto.PAYER_OBJ_TYPE_CAR.equals(feeDto.getPayerObjType())) {
+        } else if (FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE.equals(feeDto.getPayerObjType())) {
 
-            OwnerCarDto ownerCarDto = new OwnerCarDto();
-            ownerCarDto.setMemberId(feeDto.getPayerObjId());
-            ownerCarDto.setCommunityId(feeDto.getCommunityId());
-            List<OwnerCarDto> ownerCarDtos = ownerCarInnerServiceSMOImpl.queryOwnerCars(ownerCarDto);
-            if (!ListUtil.isNull(ownerCarDtos)) {
-                payFeeMonthOwnerDto.setObjFpcId(ownerCarDtos.get(0).getPaId());
+            //6666 即车位：直接按 psId 查车位
+            ParkingSpaceDto parkingSpaceDto = new ParkingSpaceDto();
+            parkingSpaceDto.setPsId(feeDto.getPayerObjId());
+            parkingSpaceDto.setCommunityId(feeDto.getCommunityId());
+            List<ParkingSpaceDto> parkingSpaceDtos = parkingSpaceInnerServiceSMOImpl.queryParkingSpaces(parkingSpaceDto);
+            if (!ListUtil.isNull(parkingSpaceDtos)) {
+                payFeeMonthOwnerDto.setObjFpcId(parkingSpaceDtos.get(0).getPaId());
             }
         } else {
             ContractDto contractDto = new ContractDto();

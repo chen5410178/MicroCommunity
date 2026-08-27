@@ -9,14 +9,14 @@ import com.java110.doc.annotation.*;
 import com.java110.dto.contract.ContractDto;
 import com.java110.dto.fee.FeeDto;
 import com.java110.dto.fee.PayFeeDto;
-import com.java110.dto.owner.OwnerCarDto;
 import com.java110.dto.owner.OwnerDto;
 import com.java110.dto.owner.OwnerRoomRelDto;
+import com.java110.dto.parking.ParkingSpaceDto;
 import com.java110.dto.room.RoomDto;
+import com.java110.intf.community.IParkingSpaceInnerServiceSMO;
 import com.java110.intf.community.IRoomV1InnerServiceSMO;
 import com.java110.intf.fee.IPayFeeV1InnerServiceSMO;
 import com.java110.intf.store.IContractInnerServiceSMO;
-import com.java110.intf.user.IOwnerCarV1InnerServiceSMO;
 import com.java110.intf.user.IOwnerRoomRelV1InnerServiceSMO;
 import com.java110.intf.user.IOwnerV1InnerServiceSMO;
 import com.java110.utils.exception.CmdException;
@@ -98,7 +98,7 @@ public class ListFeePayerObjCmd extends Cmd {
     private IOwnerRoomRelV1InnerServiceSMO ownerRoomRelV1InnerServiceSMOImpl;
 
     @Autowired
-    private IOwnerCarV1InnerServiceSMO ownerCarV1InnerServiceSMOImpl;
+    private IParkingSpaceInnerServiceSMO parkingSpaceInnerServiceSMOImpl;
 
     @Autowired
     private IContractInnerServiceSMO contractInnerServiceSMOImpl;
@@ -124,8 +124,8 @@ public class ListFeePayerObjCmd extends Cmd {
         // todo 如果是房屋
         ifRoom(payerObjId, payerObjType, reqJson, data);
 
-        // todo 如果是车辆
-        ifCar(payerObjId, payerObjType, reqJson, data);
+        // todo 如果是车位
+        ifParkingSpace(payerObjId, payerObjType, reqJson, data);
 
         // todo 如果是合同
         ifContract(payerObjId, payerObjType, reqJson, data);
@@ -177,31 +177,35 @@ public class ListFeePayerObjCmd extends Cmd {
     }
 
     /**
-     * 如果是车辆
+     * 如果是车位（6666 即车位，payerObjId 为 psId）
      *
      * @param reqJson
      * @param data
      */
-    private void ifCar(String payerObjId, String payerObjType, JSONObject reqJson, JSONObject data) {
+    private void ifParkingSpace(String payerObjId, String payerObjType, JSONObject reqJson, JSONObject data) {
 
-        //todo 如果不是车辆 直接返回
-        if (!FeeDto.PAYER_OBJ_TYPE_CAR.equals(payerObjType)) {
+        //todo 如果不是车位 直接返回
+        if (!FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE.equals(payerObjType)) {
             return;
         }
 
-        OwnerCarDto ownerCarDto = new OwnerCarDto();
-        ownerCarDto.setMemberId(payerObjId);
-        ownerCarDto.setCommunityId(reqJson.getString("communityId"));
-        List<OwnerCarDto> ownerCarDtos = ownerCarV1InnerServiceSMOImpl.queryOwnerCars(ownerCarDto);
+        ParkingSpaceDto parkingSpaceDto = new ParkingSpaceDto();
+        parkingSpaceDto.setPsId(payerObjId);
+        parkingSpaceDto.setCommunityId(reqJson.getString("communityId"));
+        List<ParkingSpaceDto> parkingSpaceDtos = parkingSpaceInnerServiceSMOImpl.queryParkingSpaces(parkingSpaceDto);
 
-        Assert.listOnlyOne(ownerCarDtos, "车辆不存在");
+        Assert.listOnlyOne(parkingSpaceDtos, "车位不存在");
 
-        data.putAll(BeanConvertUtil.beanCovertJson(ownerCarDtos.get(0)));
-        data.put("payerObjName", ownerCarDtos.get(0).getCarNum());
+        data.putAll(BeanConvertUtil.beanCovertJson(parkingSpaceDtos.get(0)));
+        String payerObjName = parkingSpaceDtos.get(0).getAreaNum() + "-" + parkingSpaceDtos.get(0).getSectionName() + "-" + parkingSpaceDtos.get(0).getNum();
+        if (StringUtil.isEmpty(parkingSpaceDtos.get(0).getSectionName())) {
+            payerObjName = parkingSpaceDtos.get(0).getAreaNum() + "-" + parkingSpaceDtos.get(0).getNum();
+        }
+        data.put("payerObjName", payerObjName);
 
 
         OwnerDto ownerDto = new OwnerDto();
-        ownerDto.setMemberId(ownerCarDtos.get(0).getOwnerId());
+        ownerDto.setMemberId(parkingSpaceDtos.get(0).getOwnerId());
         ownerDto.setCommunityId(reqJson.getString("communityId"));
         List<OwnerDto> ownerDtos = ownerV1InnerServiceSMOImpl.queryOwners(ownerDto);
 
