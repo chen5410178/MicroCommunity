@@ -114,7 +114,7 @@ import { messages as ownerApplyInvoiceMessages } from '../views/fee/ownerApplyIn
 import { messages as invoiceApplyDetailMessages } from '../views/fee/invoiceApplyDetailLang'
 import { messages as feeConfigDetailMessages } from '../views/fee/feeConfigDetailLang'
 
-import { messages as carCreateFeeMessages } from '../views/fee/carCreateFeeLang'
+import { messages as parkingSpaceCreateFeeMessages } from '../views/fee/parkingSpaceCreateFeeLang'
 import { messages as listCarFeeMessages } from '../views/fee/listCarFeeLang'
 import { messages as repairSettingMessages } from '../views/work/repairSettingLang'
 import { messages as repairTypeUserMessages } from '../views/work/repairTypeUserLang'
@@ -148,7 +148,7 @@ import { menuMessages } from './menuLang'
 
 import { messages as manualBillGenerationMessages } from './manualBillGenerationI18n'
 import { messages as simplifyAcceptanceMessages } from '../views/simplify/simplifyAcceptanceLang'
-import { messages as simplifyCarFeeMessages } from '../views/simplify/simplifyCarFeeLang'
+import { messages as simplifyParkingSpaceFeeMessages } from '../views/simplify/simplifyParkingSpaceFeeLang'
 import { messages as simplifyContractMessages } from '../views/simplify/simplifyContractLang'
 
 Vue.use(VueI18n)
@@ -263,7 +263,7 @@ const messages = {
     ...invoiceApplyDetailMessages.en,
     ...feeConfigDetailMessages.en,
    
-    ...carCreateFeeMessages.en,
+    ...parkingSpaceCreateFeeMessages.en,
     ...listCarFeeMessages.en,
     ...repairSettingMessages.en,
     ...repairTypeUserMessages.en,
@@ -294,7 +294,7 @@ const messages = {
     ...menuMessages.en,
     ...manualBillGenerationMessages.en,
     ...simplifyAcceptanceMessages.en,
-    ...simplifyCarFeeMessages.en,
+    ...simplifyParkingSpaceFeeMessages.en,
     ...simplifyContractMessages.en,
   },
   zh: {
@@ -404,7 +404,7 @@ const messages = {
     ...ownerApplyInvoiceMessages.zh,
     ...invoiceApplyDetailMessages.zh,
     ...feeConfigDetailMessages.zh,
-    ...carCreateFeeMessages.zh,
+    ...parkingSpaceCreateFeeMessages.zh,
     ...listCarFeeMessages.zh,
     ...repairSettingMessages.zh,
     ...repairTypeUserMessages.zh,
@@ -434,7 +434,7 @@ const messages = {
     ...menuMessages.zh,
     ...manualBillGenerationMessages.zh,
     ...simplifyAcceptanceMessages.zh,
-    ...simplifyCarFeeMessages.zh,
+    ...simplifyParkingSpaceFeeMessages.zh,
     ...simplifyContractMessages.zh,
   },
   'zh-TW': {
@@ -544,7 +544,7 @@ const messages = {
     ...ownerApplyInvoiceMessages['zh-TW'],
     ...invoiceApplyDetailMessages['zh-TW'],
     ...feeConfigDetailMessages['zh-TW'],
-    ...carCreateFeeMessages['zh-TW'],
+    ...parkingSpaceCreateFeeMessages['zh-TW'],
     ...listCarFeeMessages['zh-TW'],
     ...repairSettingMessages['zh-TW'],
     ...repairTypeUserMessages['zh-TW'],
@@ -574,7 +574,7 @@ const messages = {
     ...menuMessages['zh-TW'],
     ...manualBillGenerationMessages['zh-TW'],
     ...simplifyAcceptanceMessages['zh-TW'],
-    ...simplifyCarFeeMessages['zh-TW'],
+    ...simplifyParkingSpaceFeeMessages['zh-TW'],
     ...simplifyContractMessages['zh-TW'],
   }
 }

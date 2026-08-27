@@ -6,7 +6,7 @@
           <span>{{ $t('listCarFee.fee') }}</span>({{ listCarFeeInfo.parkingName }})
         </div>
         <div class="" style="top:10px;">
-          <el-button type="primary" size="small" style="margin-left:10px" @click="_openCarCreateFeeAddModal">
+          <el-button type="primary" size="small" style="margin-left:10px" @click="_openParkingSpaceCreateFeeAddModal">
             <i class="el-icon-plus"></i>
             <span>{{ $t('listCarFee.createFee') }}</span>
           </el-button>
@@ -105,7 +105,7 @@
     <delete-fee ref="deleteFee" @success="handleSuccess"></delete-fee>
     <edit-fee ref="editFee" @success="handleSuccess"></edit-fee>
     <split-fee ref="splitFee" @success="handleSuccess"></split-fee>
-    <car-create-fee-add ref="carCreateFeeAdd" @success="handleSuccess"></car-create-fee-add>
+    <parking-space-create-fee-add ref="parkingSpaceCreateFeeAdd" @success="handleSuccess"></parking-space-create-fee-add>
     <!-- <add-meter-water ref="addMeterWater"></add-meter-water> -->
   </div>
 </template>
@@ -115,7 +115,7 @@ import { listFee } from '@/api/fee/listCarFeeApi'
 import DeleteFee from '@/components/fee/deleteFee'
 import EditFee from '@/components/fee/editFee'
 import SplitFee from '@/components/fee/splitFee'
-import CarCreateFeeAdd from '@/components/fee/carCreateFeeAdd'
+import ParkingSpaceCreateFeeAdd from '@/components/fee/parkingSpaceCreateFeeAdd'
 //import AddMeterWater from '@/components/fee/addMeterWater'
 import { getCommunityId } from '@/api/community/communityApi'
 import {dateFormat} from '@/utils/dateUtil'
@@ -126,7 +126,7 @@ export default {
     DeleteFee,
     EditFee,
     SplitFee,
-    CarCreateFeeAdd,
+    ParkingSpaceCreateFeeAdd,
     // AddMeterWater
   },
   data() {
@@ -202,8 +202,8 @@ export default {
         feeId: fee.feeId
       })
     },
-    _openCarCreateFeeAddModal() {
-      this.$refs.carCreateFeeAdd.open({
+    _openParkingSpaceCreateFeeAddModal() {
+      this.$refs.parkingSpaceCreateFeeAdd.open({
         isMore: false,
         car: this.listCarFeeInfo
       })

@@ -8,7 +8,7 @@ import com.java110.core.event.cmd.CmdEvent;
 import com.java110.core.factory.GenerateCodeFactory;
 import com.java110.dto.fee.FeeConfigDto;
 import com.java110.dto.fee.FeeDto;
-import com.java110.dto.owner.OwnerCarDto;
+import com.java110.dto.parking.ParkingSpaceDto;
 import com.java110.dto.payFee.PayFeeBatchDto;
 import com.java110.dto.user.UserDto;
 import com.java110.fee.bill.ICycleConvertOnceFee;
@@ -16,7 +16,6 @@ import com.java110.fee.bmo.fee.IFeeBMO;
 import com.java110.fee.feeMonth.IPayFeeMonth;
 import com.java110.intf.community.IParkingSpaceInnerServiceSMO;
 import com.java110.intf.fee.*;
-import com.java110.intf.user.IOwnerCarInnerServiceSMO;
 import com.java110.intf.user.IUserInnerServiceSMO;
 import com.java110.po.payFee.PayFeeBatchPo;
 import com.java110.po.payFee.PayFeeRulePo;
@@ -39,9 +38,6 @@ public class SaveParkingSpaceCreateFeeCmd extends Cmd {
 
     @Autowired
     private IParkingSpaceInnerServiceSMO parkingSpaceInnerServiceSMOImpl;
-
-    @Autowired
-    private IOwnerCarInnerServiceSMO ownerCarInnerServiceSMOImpl;
 
     @Autowired
     private IFeeConfigInnerServiceSMO feeConfigInnerServiceSMOImpl;
@@ -75,7 +71,7 @@ public class SaveParkingSpaceCreateFeeCmd extends Cmd {
     public void validate(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) {
         // super.validatePageInfo(pd);
         Assert.hasKeyAndValue(reqJson, "communityId", "未包含小区ID");
-        Assert.hasKeyAndValue(reqJson, "carId", "未包含收费对象");
+        Assert.hasKeyAndValue(reqJson, "psId", "未包含收费对象");
         Assert.hasKeyAndValue(reqJson, "configId", "未包含收费项目");
         Assert.hasKeyAndValue(reqJson, "startTime", "未包含费用起始时间");
         Assert.hasKeyAndValue(reqJson, "endTime", "未包含费用结束时间");
@@ -89,7 +85,7 @@ public class SaveParkingSpaceCreateFeeCmd extends Cmd {
 
     @Override
     public void doCmd(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) throws CmdException {
-        List<OwnerCarDto> ownerCarDtos = null;
+        List<ParkingSpaceDto> parkingSpaceDtos = null;
         FeeConfigDto feeConfigDto = new FeeConfigDto();
         feeConfigDto.setCommunityId(reqJson.getString("communityId"));
         feeConfigDto.setConfigId(reqJson.getString("configId"));
@@ -102,26 +98,28 @@ public class SaveParkingSpaceCreateFeeCmd extends Cmd {
         //生成批次
         generatorBatch(reqJson);
         //判断收费范围
-        OwnerCarDto ownerCarDto = new OwnerCarDto();
-        ownerCarDto.setCarTypeCd("1001"); //1001 业主车辆   1002 成员车辆
-        ownerCarDto.setCommunityId(reqJson.getString("communityId"));
-        ownerCarDto.setCarId(reqJson.getString("carId"));
-        ownerCarDtos = ownerCarInnerServiceSMOImpl.queryOwnerCars(ownerCarDto);
+        ParkingSpaceDto parkingSpaceDto = new ParkingSpaceDto();
+        parkingSpaceDto.setCommunityId(reqJson.getString("communityId"));
+        parkingSpaceDto.setPsId(reqJson.getString("psId"));
+        parkingSpaceDtos = parkingSpaceInnerServiceSMOImpl.queryParkingSpaces(parkingSpaceDto);
 
-
-        if (ListUtil.isNull(ownerCarDtos)) {
-            throw new IllegalArgumentException("未查到需要付费的车位车辆");
+        if (ListUtil.isNull(parkingSpaceDtos)) {
+            throw new IllegalArgumentException("未查到需要收费的车位");
         }
-        dealParkingSpaceFee(ownerCarDtos.get(0), cmdDataFlowContext, reqJson, event);
+        if (!ParkingSpaceDto.STATE_HIRE.equals(parkingSpaceDtos.get(0).getState())
+                && !ParkingSpaceDto.STATE_SELL.equals(parkingSpaceDtos.get(0).getState())) {
+            throw new IllegalArgumentException("当前车位未出租或出售，不能收费");
+        }
+        dealParkingSpaceFee(parkingSpaceDtos.get(0), cmdDataFlowContext, reqJson, event);
     }
 
-    private void dealParkingSpaceFee(OwnerCarDto ownerCarDto, ICmdDataFlowContext context, JSONObject reqJson, CmdEvent event) {
+    private void dealParkingSpaceFee(ParkingSpaceDto parkingSpaceDto, ICmdDataFlowContext context, JSONObject reqJson, CmdEvent event) {
 
 
         List<PayFeeRulePo> payFeeRulePos = new ArrayList<>();
         ResponseEntity<String> responseEntity = null;
 
-        PayFeeRulePo payFeeRulePo = createPayFeeRulePo(ownerCarDto, reqJson);
+        PayFeeRulePo payFeeRulePo = createPayFeeRulePo(parkingSpaceDto, reqJson);
 
         //todo 加入 房屋费用
         payFeeRulePos.add(payFeeRulePo);
@@ -161,7 +159,7 @@ public class SaveParkingSpaceCreateFeeCmd extends Cmd {
 
 
 
-    private PayFeeRulePo createPayFeeRulePo(OwnerCarDto ownerCarDto, JSONObject paramInJson) {
+    private PayFeeRulePo createPayFeeRulePo(ParkingSpaceDto parkingSpaceDto, JSONObject paramInJson) {
 
         String time = DateUtil.getNow(DateUtil.DATE_FORMATE_STRING_A);
         if (paramInJson.containsKey("feeEndDate")) {
@@ -191,16 +189,17 @@ public class SaveParkingSpaceCreateFeeCmd extends Cmd {
         payFeeRulePo.setStartTime(time);
         payFeeRulePo.setEndTime(time);
         payFeeRulePo.setState(FeeDto.STATE_DOING);
-//        if (FeeDto.FEE_FLAG_CYCLE.equals(feeConfigDtos.get(0).getFeeFlag())) {
-//            payFeeRulePo.setState(FeeDto.STATE_FINISH);
-//        }
         payFeeRulePo.setRuleId(GenerateCodeFactory.getGeneratorId("11"));
         payFeeRulePo.setCommunityId(paramInJson.getString("communityId"));
-        payFeeRulePo.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_CAR);
-        payFeeRulePo.setPayerObjId(ownerCarDto.getCarId());
-        payFeeRulePo.setOwnerId(ownerCarDto.getOwnerId());
-        payFeeRulePo.setOwnerName(ownerCarDto.getOwnerName());
-        payFeeRulePo.setPayerObjName(ownerCarDto.getCarNum());
+        payFeeRulePo.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE);
+        payFeeRulePo.setPayerObjId(parkingSpaceDto.getPsId());
+        payFeeRulePo.setOwnerId(parkingSpaceDto.getOwnerId());
+        payFeeRulePo.setOwnerName(parkingSpaceDto.getOwnerName());
+        String payerObjName = parkingSpaceDto.getAreaNum() + "-" + parkingSpaceDto.getSectionName() + "-" + parkingSpaceDto.getNum();
+        if (StringUtil.isEmpty(parkingSpaceDto.getSectionName())) {
+            payerObjName = parkingSpaceDto.getAreaNum() + "-" + parkingSpaceDto.getNum();
+        }
+        payFeeRulePo.setPayerObjName(payerObjName);
         String curYearMonth  = DateUtil.getFormatTimeStringB(DateUtil.getDateFromStringB(payFeeRulePo.getEndTime()));
         payFeeRulePo.setCurYearMonth(curYearMonth);
         return payFeeRulePo;

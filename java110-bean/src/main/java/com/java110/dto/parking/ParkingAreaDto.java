@@ -21,6 +21,7 @@ public class ParkingAreaDto extends PageDto implements Serializable {
     private String[] paIds;
     private String remark;
     private String communityId;
+    private String hasOwnerSpace;
     private String[] communityIds;
     private String communityName;
     private List<ParkingAreaAttrDto> attrs;
@@ -117,5 +118,13 @@ public class ParkingAreaDto extends PageDto implements Serializable {
 
     public void setCommunityIds(String[] communityIds) {
         this.communityIds = communityIds;
+    }
+
+    public String getHasOwnerSpace() {
+        return hasOwnerSpace;
+    }
+
+    public void setHasOwnerSpace(String hasOwnerSpace) {
+        this.hasOwnerSpace = hasOwnerSpace;
     }
 }

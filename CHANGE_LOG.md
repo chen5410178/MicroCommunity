@@ -178,3 +178,36 @@ VALUES ('8000418004', '9820260827000002', 'Q', NULL, 'S', NOW(), '0');
 UPDATE p_privilege SET resource = '/app/cache.queryCache' WHERE p_id = '502021111540930062';  -- 缓存查询
 UPDATE p_privilege SET resource = '/app/cache.flushCache' WHERE p_id = '502021111510430063';  -- 刷新缓存
 ```
+
+## 2026-08-27 车辆费用修改为车位费用
+```sql
+UPDATE `m_menu`
+SET `name` = '车位收费',
+    `url` = '/#/pages/property/parkingSpaceCreateFee'
+WHERE `m_id` = '702020013091330005';
+
+-- 2. m_menu_user：菜单名与 url 同步修改（两条）
+UPDATE `m_menu_user`
+SET `name` = '车位收费',
+    `url` = '/#/pages/property/parkingSpaceCreateFee'
+WHERE `mu_id` IN ('102026061600146693', '102026061699016707');
+
+-- 3. m_menu_org：url 统一改为新地址（菜单名已是"车位收费"）
+UPDATE `m_menu_org`
+SET `url` = '/#/pages/property/parkingSpaceCreateFee'
+WHERE `m_id` = '702020013091330005';
+
+-- 4. sys_document：帮助文档地址与标题同步修改
+UPDATE `sys_document`
+SET `doc_code` = '/pages/property/parkingSpaceCreateFee',
+    `doc_title` = '车位收费'
+WHERE `doc_id` = '8620210101192317775';
+
+```
+
+## 2026-08-28 车位收费页面体验对齐房屋收费
+```sql
+-- 1. c_service 注册新接口（查询有主车位的停车场及停车区域，SQL exists 过滤无 S/H 车位的停车场/区域）
+INSERT INTO `c_service` VALUES ('2093', '982026082700000009', 'parkingArea.queryParkingAreaAndSectionsHasOwner', 'API', '查询有主车位的停车场及停车区域', '1', NULL, 'CMD', 'http://community-service', 'GET', '60', '3', '8000418002', '2026-08-28 09:00:00', '0');
+INSERT INTO `c_route` VALUES ('3079', '8000418004', '982026082700000009', 'Q', '1000', 'S', '2026-08-28 09:00:00', '0');
+```

@@ -2,7 +2,7 @@
   <div>
     <el-row>
       <el-col :span="24" class="text-right">
-        <el-button type="primary" size="small" style="margin-left:10px" @click="_openCarCreateFeeAddModal()">
+        <el-button type="primary" size="small" style="margin-left:10px" @click="_openParkingSpaceCreateFeeAddModal()">
           {{ $t('carDetailFee.createFee') }}
         </el-button>
       </el-col>
@@ -90,7 +90,7 @@
     </div>
 
     <add-meter-water ref="addMeterWater" @success="notify"></add-meter-water>
-    <car-create-fee-add ref="carCreateFeeAdd" @success="notify"></car-create-fee-add>
+    <parking-space-create-fee-add ref="parkingSpaceCreateFeeAdd" @success="notify"></parking-space-create-fee-add>
     <delete-fee ref="deleteFee"></delete-fee>
     <edit-fee ref="editFee"></edit-fee>
   </div>
@@ -99,7 +99,7 @@
 <script>
 import { listFee } from '@/api/car/carDetailFeeApi'
 import AddMeterWater from '@/components/fee/addMeterWater'
-import CarCreateFeeAdd from '@/components/fee/carCreateFeeAdd'
+import ParkingSpaceCreateFeeAdd from '@/components/fee/parkingSpaceCreateFeeAdd'
 import DeleteFee from '@/components/fee/deleteFee'
 import EditFee from '@/components/fee/editFee'
 import { getCommunityId } from '@/api/community/communityApi'
@@ -108,7 +108,7 @@ export default {
   name: 'CarDetailFee',
   components: {
     AddMeterWater,
-    CarCreateFeeAdd,
+    ParkingSpaceCreateFeeAdd,
     DeleteFee,
     EditFee
   },
@@ -181,8 +181,8 @@ export default {
         feeId: fee.feeId
       })
     },
-    _openCarCreateFeeAddModal() {
-      this.$refs.carCreateFeeAdd.open({
+    _openParkingSpaceCreateFeeAddModal() {
+      this.$refs.parkingSpaceCreateFeeAdd.open({
         isMore: false,
         car: this.carDetailFeeInfo
       })

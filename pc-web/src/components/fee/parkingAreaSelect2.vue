@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { listParkingAreas } from '@/api/fee/carCreateFeeApi'
+import { listParkingAreas } from '@/api/fee/parkingSpaceCreateFeeApi'
 
 export default {
   name: 'ParkingAreaSelect2',

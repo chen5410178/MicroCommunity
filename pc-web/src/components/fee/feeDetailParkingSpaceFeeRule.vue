@@ -1,79 +1,79 @@
 <template>
-  <div class="fee-detail-car-fee-rule">
+  <div class="fee-detail-parking-space-fee-rule">
     <el-row class="toolbar">
       <el-col :span="24" class="text-right">
         <el-button v-if="hasPrivilege('502022073096990007')" type="primary" size="small"
-          @click="_openCarCreateFeeAddModal">
+          @click="_openParkingSpaceCreateFeeAddModal">
           <i class="el-icon-plus"></i>
-          {{ $t('feeDetailCarFeeRule.createFee') }}
+          {{ $t('feeDetailParkingSpaceFeeRule.createFee') }}
         </el-button>
         <el-button v-if="hasPrivilege('502022073007100003')" type="primary" size="small"
           @click="_openTempImportRoomFeeModal">
           <i class="el-icon-plus"></i>
-          {{ $t('feeDetailCarFeeRule.tempFee') }}
+          {{ $t('feeDetailParkingSpaceFeeRule.tempFee') }}
         </el-button>
       </el-col>
     </el-row>
 
-    <el-table :data="feeDetailCarFeeRuleInfo.rules" class="rule-table" style="width: 100%; margin-top: 20px">
-      <el-table-column :label="$t('feeDetailCarFeeRule.ruleId')" align="center" width="120">
+    <el-table :data="feeDetailParkingSpaceFeeRuleInfo.rules" class="rule-table" style="width: 100%; margin-top: 20px">
+      <el-table-column :label="$t('feeDetailParkingSpaceFeeRule.ruleId')" align="center" width="120">
         <template slot-scope="scope">
           <span class="hand" @click="viewRuleDetail(scope.row)">
             {{ scope.row.ruleId }}
           </span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('feeDetailCarFeeRule.feeItem')" align="center">
+      <el-table-column :label="$t('feeDetailParkingSpaceFeeRule.feeItem')" align="center">
         <template slot-scope="scope">
           <span class="hand" @click="viewRuleDetail(scope.row)">
             {{ scope.row.feeTypeCdName }}>{{ scope.row.feeName }}
           </span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('feeDetailCarFeeRule.feeFlag')" prop="feeFlagName" align="center" />
-      <el-table-column :label="$t('feeDetailCarFeeRule.createTime')" prop="startTime" align="center" />
-      <el-table-column :label="$t('feeDetailCarFeeRule.validity')" align="center" width="200">
+      <el-table-column :label="$t('feeDetailParkingSpaceFeeRule.feeFlag')" prop="feeFlagName" align="center" />
+      <el-table-column :label="$t('feeDetailParkingSpaceFeeRule.createTime')" prop="startTime" align="center" />
+      <el-table-column :label="$t('feeDetailParkingSpaceFeeRule.validity')" align="center" width="200">
         <template slot-scope="scope">
           {{ scope.row.endTime }}<br>~{{ scope.row.maxTime }}
         </template>
       </el-table-column>
-      <el-table-column :label="$t('feeDetailCarFeeRule.formula')" prop="computingFormulaName" align="center" />
-      <el-table-column :label="$t('feeDetailCarFeeRule.unitPrice')" align="center">
+      <el-table-column :label="$t('feeDetailParkingSpaceFeeRule.formula')" prop="computingFormulaName" align="center" />
+      <el-table-column :label="$t('feeDetailParkingSpaceFeeRule.unitPrice')" align="center">
         <template slot-scope="scope">
           {{ scope.row.computingFormula === '2002' ? '-' : scope.row.squarePrice }}
         </template>
       </el-table-column>
-      <el-table-column :label="$t('feeDetailCarFeeRule.additionalFee')" prop="additionalAmount" align="center" />
-      <el-table-column :label="$t('feeDetailCarFeeRule.status')" align="center" width="80">
+      <el-table-column :label="$t('feeDetailParkingSpaceFeeRule.additionalFee')" prop="additionalAmount" align="center" />
+      <el-table-column :label="$t('feeDetailParkingSpaceFeeRule.status')" align="center" width="80">
         <template slot-scope="scope">
-          <span v-if="scope.row.state === '2008001'">{{ $t('feeDetailCarFeeRule.valid') }}</span>
-          <span v-else>{{ $t('feeDetailCarFeeRule.invalid') }}</span>
+          <span v-if="scope.row.state === '2008001'">{{ $t('feeDetailParkingSpaceFeeRule.valid') }}</span>
+          <span v-else>{{ $t('feeDetailParkingSpaceFeeRule.invalid') }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('feeDetailCarFeeRule.billDate')" prop="curYearMonth" align="center" />
-      <el-table-column :label="$t('feeDetailCarFeeRule.billCycle')" align="center">
-        <template>{{ $t('feeDetailCarFeeRule.monthly') }}</template>
+      <el-table-column :label="$t('feeDetailParkingSpaceFeeRule.billDate')" prop="curYearMonth" align="center" />
+      <el-table-column :label="$t('feeDetailParkingSpaceFeeRule.billCycle')" align="center">
+        <template>{{ $t('feeDetailParkingSpaceFeeRule.monthly') }}</template>
       </el-table-column>
-      <el-table-column :label="$t('feeDetailCarFeeRule.operation')" align="center" width="200">
+      <el-table-column :label="$t('feeDetailParkingSpaceFeeRule.operation')" align="center" width="200">
         <template slot-scope="scope">
           <div v-if="scope.row.state !== '2009001'">
             <el-button v-if="hasPrivilege('502020090427190001')" type="text" size="mini"
               @click="_updateFeeRule(scope.row)">
-              {{ $t('feeDetailCarFeeRule.change') }}
+              {{ $t('feeDetailParkingSpaceFeeRule.change') }}
             </el-button>
             <el-button v-if="hasPrivilege('502021070488970005')" type="text" size="mini"
               @click="_finishFeeRule(scope.row)">
-              {{ $t('feeDetailCarFeeRule.manualFinish') }}
+              {{ $t('feeDetailParkingSpaceFeeRule.manualFinish') }}
             </el-button>
             <el-button v-if="hasPrivilege('502020090604200029')" type="text" size="mini"
               @click="_deleteFeeRule(scope.row)">
-              {{ $t('feeDetailCarFeeRule.cancel') }}
+              {{ $t('feeDetailParkingSpaceFeeRule.cancel') }}
             </el-button>
           </div>
           <div v-else>
             <el-button v-if="hasPrivilege('502020090604200029')" type="text" size="mini"
               @click="_deleteFeeRule(scope.row)">
-              {{ $t('feeDetailCarFeeRule.cancel') }}
+              {{ $t('feeDetailParkingSpaceFeeRule.cancel') }}
             </el-button>
           </div>
         </template>
@@ -89,56 +89,56 @@
     <edit-fee-rule ref="editFeeRule" @success="handleSuccess" />
     <finish-fee-rule ref="finishFeeRule" @success="handleSuccess" />
     <temp-import-room-fee ref="tempImportRoomFee" @success="handleSuccess" />
-    <car-create-fee-add ref="carCreateFeeAdd" @success="handleSuccess" />
+    <parking-space-create-fee-add ref="parkingSpaceCreateFeeAdd" @success="handleSuccess" />
 
   </div>
 </template>
 
 <script>
 import { getCommunityId } from '@/api/community/communityApi'
-import { listPayFeeRule } from '@/api/fee/carCreateFeeApi'
+import { listPayFeeRule } from '@/api/fee/parkingSpaceCreateFeeApi'
 import DeleteFeeRule from './deleteFeeRule.vue'
 import EditFeeRule from './editFeeRule.vue'
 import FinishFeeRule from './finishFeeRule.vue'
 import TempImportRoomFee from './tempImportRoomFee.vue'
-import CarCreateFeeAdd from '@/components/fee/carCreateFeeAdd'
+import ParkingSpaceCreateFeeAdd from '@/components/fee/parkingSpaceCreateFeeAdd'
 
 export default {
-  name: 'FeeDetailCarFeeRule',
+  name: 'FeeDetailParkingSpaceFeeRule',
   components: {
     DeleteFeeRule,
     EditFeeRule,
     FinishFeeRule,
-    CarCreateFeeAdd,
+    ParkingSpaceCreateFeeAdd,
     TempImportRoomFee
   },
 
   data() {
     return {
-      carId: '',
-      carNum: '',
+      psId: '',
+      psName: '',
       ownerId: '',
       ownerName: '',
       communityId: '',
       currentPage: 1,
       pageSize: 10,
       total: 0,
-      feeDetailCarFeeRuleInfo: {
+      feeDetailParkingSpaceFeeRuleInfo: {
         rules: [],
         feeId: '',
-        carId: '',
-        carNum: '',
+        psId: '',
+        psName: '',
         ownerId: '',
         ownerName: ''
       }
     }
   },
   watch: {
-    carId: {
+    psId: {
       immediate: true,
       handler(newVal) {
         if (newVal) {
-          this.switchCarFeeRule()
+          this.switchParkingSpaceFeeRule()
         }
       }
     }
@@ -148,30 +148,30 @@ export default {
   },
   methods: {
     open(params) {
-      this.feeDetailCarFeeRuleInfo.carId = params.carId
-      this.feeDetailCarFeeRuleInfo.carNum = params.carNum
-      this.feeDetailCarFeeRuleInfo.ownerId = params.ownerId
-      this.feeDetailCarFeeRuleInfo.ownerName = params.ownerName
-      this.switchCarFeeRule()
+      this.feeDetailParkingSpaceFeeRuleInfo.psId = params.psId
+      this.feeDetailParkingSpaceFeeRuleInfo.psName = params.psName
+      this.feeDetailParkingSpaceFeeRuleInfo.ownerId = params.ownerId
+      this.feeDetailParkingSpaceFeeRuleInfo.ownerName = params.ownerName
+      this.switchParkingSpaceFeeRule()
     },
-    async switchCarFeeRule() {
+    async switchParkingSpaceFeeRule() {
 
-      await this._loadFeeDetailCarFeeRuleData(this.currentPage, this.pageSize)
+      await this._loadFeeDetailParkingSpaceFeeRuleData(this.currentPage, this.pageSize)
     },
 
-    async _loadFeeDetailCarFeeRuleData(page, row) {
+    async _loadFeeDetailParkingSpaceFeeRuleData(page, row) {
       try {
         const params = {
           communityId: this.communityId,
-          feeId: this.feeDetailCarFeeRuleInfo.feeId,
-          payerObjId: this.feeDetailCarFeeRuleInfo.carId,
+          feeId: this.feeDetailParkingSpaceFeeRuleInfo.feeId,
+          payerObjId: this.feeDetailParkingSpaceFeeRuleInfo.psId,
           detailId: '-1',
           page,
           row
         }
 
         const response = await listPayFeeRule(params)
-        this.feeDetailCarFeeRuleInfo.rules = response.data || []
+        this.feeDetailParkingSpaceFeeRuleInfo.rules = response.data || []
         this.total = response.records || 0
       } catch (error) {
         console.error('获取车辆费用规则失败:', error)
@@ -181,11 +181,11 @@ export default {
 
     handlePageChange(page) {
       this.currentPage = page
-      this._loadFeeDetailCarFeeRuleData(page, this.pageSize)
+      this._loadFeeDetailParkingSpaceFeeRuleData(page, this.pageSize)
     },
 
-    _qureyFeeDetailCarFeeRule() {
-      this._loadFeeDetailCarFeeRuleData(this.currentPage, this.pageSize)
+    _qureyFeeDetailParkingSpaceFeeRule() {
+      this._loadFeeDetailParkingSpaceFeeRuleData(this.currentPage, this.pageSize)
     },
 
     _deleteFeeRule(fee) {
@@ -202,19 +202,19 @@ export default {
 
     _openTempImportRoomFeeModal() {
       this.$refs.tempImportRoomFee.open({
-        roomId: this.feeDetailCarFeeRuleInfo.carId,
-        roomName: this.feeDetailCarFeeRuleInfo.carNum,
-        ownerName: this.feeDetailCarFeeRuleInfo.ownerName,
+        roomId: this.feeDetailParkingSpaceFeeRuleInfo.psId,
+        roomName: this.feeDetailParkingSpaceFeeRuleInfo.psName,
+        ownerName: this.feeDetailParkingSpaceFeeRuleInfo.ownerName,
         objType: '6666'
       })
     },
 
-    _openCarCreateFeeAddModal() {
-      this.$refs.carCreateFeeAdd.open({
-        carId: this.feeDetailCarFeeRuleInfo.carId,
-        carNum: this.feeDetailCarFeeRuleInfo.carNum,
-        ownerId: this.feeDetailCarFeeRuleInfo.ownerId,
-        ownerName: this.feeDetailCarFeeRuleInfo.ownerName
+    _openParkingSpaceCreateFeeAddModal() {
+      this.$refs.parkingSpaceCreateFeeAdd.open({
+        psId: this.feeDetailParkingSpaceFeeRuleInfo.psId,
+        psName: this.feeDetailParkingSpaceFeeRuleInfo.psName,
+        ownerId: this.feeDetailParkingSpaceFeeRuleInfo.ownerId,
+        ownerName: this.feeDetailParkingSpaceFeeRuleInfo.ownerName
       })
     },
 
@@ -224,7 +224,7 @@ export default {
     },
 
     handleSuccess() {
-      this._loadFeeDetailCarFeeRuleData(this.currentPage, this.pageSize)
+      this._loadFeeDetailParkingSpaceFeeRuleData(this.currentPage, this.pageSize)
     },
 
 
@@ -233,7 +233,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.fee-detail-car-fee-rule {
+.fee-detail-parking-space-fee-rule {
   .toolbar {
     margin-bottom: 20px;
   }

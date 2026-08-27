@@ -113,7 +113,7 @@ export const messages = {
       successMessage: 'Fee finished successfully',
       errorMessage: 'Failed to finish fee'
     },
-    simplifyCarFee: {
+    simplifyParkingSpaceFee: {
       selectStatus: 'Select status',
       valid: 'Valid',
       feeEnd: 'Fee End',
@@ -362,7 +362,7 @@ export const messages = {
       successMessage: '结束费用成功',
       errorMessage: '结束费用失败'
     },
-    simplifyCarFee: {
+    simplifyParkingSpaceFee: {
       selectStatus: '请选择状态',
       valid: '有效',
       feeEnd: '收费结束',
@@ -611,7 +611,7 @@ export const messages = {
       successMessage: '結束費用成功',
       errorMessage: '結束費用失敗'
     },
-    simplifyCarFee: {
+    simplifyParkingSpaceFee: {
       selectStatus: '請選擇狀態',
       valid: '有效',
       feeEnd: '收費結束',

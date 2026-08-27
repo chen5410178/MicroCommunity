@@ -84,7 +84,7 @@
             size="small"
             @click="_finishFeeRule(scope.row)"
           >
-            {{ $t('feeDetailCarFeeRule.manualFinish') }}
+            {{ $t('feeDetailParkingSpaceFeeRule.manualFinish') }}
           </el-button>
           <el-button
             v-if="hasPrivilege('502020090604200029')"

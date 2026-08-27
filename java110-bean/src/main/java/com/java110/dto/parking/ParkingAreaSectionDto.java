@@ -22,6 +22,7 @@ public class ParkingAreaSectionDto extends PageDto implements Serializable {
     private String sectionNum;
     private String sectionName;
     private String remark;
+    private String hasOwnerSpace;
 
     private Date createTime;
 
@@ -97,5 +98,13 @@ public class ParkingAreaSectionDto extends PageDto implements Serializable {
 
     public void setStatusCd(String statusCd) {
         this.statusCd = statusCd;
+    }
+
+    public String getHasOwnerSpace() {
+        return hasOwnerSpace;
+    }
+
+    public void setHasOwnerSpace(String hasOwnerSpace) {
+        this.hasOwnerSpace = hasOwnerSpace;
     }
 }

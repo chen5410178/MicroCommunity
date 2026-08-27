@@ -1,6 +1,6 @@
 export const messages = {
   en: {
-    carCreateFee: {
+    parkingSpaceCreateFee: {
       customTemplate: 'Custom Template',
       customImport: 'Custom Import',
       enterCarNum: 'Enter license plate number',
@@ -10,17 +10,25 @@ export const messages = {
       selectParkingSpaceStatus: 'Select parking space status',
       search: 'Search',
       vehicleFee: 'Vehicle Fee',
+      parkingSpaceFee: 'Parking Space Fee',
+      parkingSpaceCar: 'Parking Space Car',
       paymentHistory: 'Payment History',
       prepayment: 'Prepayment',
       setFee: 'Set Fee',
       house: 'House',
       owner: 'Owner',
-      reprintReceipt: 'Reprint Receipt'
+      reprintReceipt: 'Reprint Receipt',
+      parkingSpaceEmpty: 'Please add parking spaces first',
+      parkingSpaceTreeTip: 'Only rented/sold parking spaces are displayed',
+      loadTreeError: 'Failed to load parking area tree',
+      loadParkingSpaceError: 'Failed to load parking spaces'
     },
-    carCreateFeeAdd: {
+    parkingSpaceCreateFeeAdd: {
       createFee: 'Create Fee',
       car: 'Car',
       enterCar: 'Enter car',
+      parkingSpace: 'Parking Space',
+      enterParkingSpace: 'Enter parking space',
       feeType: 'Fee Type',
       selectFeeType: 'Select fee type',
       feeItem: 'Fee Item',
@@ -42,7 +50,7 @@ export const messages = {
       createSuccess: 'Create successful',
       createFailed: 'Create failed'
     },
-    exportCarFeeImportExcel: {
+    exportParkingSpaceFeeImportExcel: {
       templateExport: "Template Export",
       parkingLot: "Parking Lot",
       all: "All",
@@ -61,7 +69,7 @@ export const messages = {
     parkingAreaSelect2: {
       parkingLotPlaceholder: "Required, please select parking lot"
     },
-    feeDetailCarFeeRule: {
+    feeDetailParkingSpaceFeeRule: {
       createFee: 'Create Fee',
       tempFee: 'Temporary Fee',
       ruleId: 'Rule ID',
@@ -83,9 +91,18 @@ export const messages = {
       manualFinish: 'Manual Finish',
       cancel: 'Cancel'
     },
+    parkingSpaceCarDetail: {
+      carNum: 'License Plate Number',
+      carType: 'Vehicle Type',
+      owner: 'Owner',
+      leasePeriod: 'Lease Period',
+      status: 'Status',
+      noCarTip: 'No vehicle is bound to this parking space',
+      loadError: 'Failed to load vehicle information'
+    },
   },
   zh: {
-    carCreateFee: {
+    parkingSpaceCreateFee: {
       customTemplate: '自定义模板',
       customImport: '自定义导入',
       enterCarNum: '请填写车牌号',
@@ -95,17 +112,25 @@ export const messages = {
       selectParkingSpaceStatus: '请选择车位状态',
       search: '查询',
       vehicleFee: '车辆费用',
+      parkingSpaceFee: '车位费用',
+      parkingSpaceCar: '车位车辆',
       paymentHistory: '缴费历史',
       prepayment: '预付收款',
       setFee: '设置费用',
       house: '房屋',
       owner: '业主',
-      reprintReceipt: '补打收据'
+      reprintReceipt: '补打收据',
+      parkingSpaceEmpty: '请先添加车位',
+      parkingSpaceTreeTip: '仅展示已出租/已出售的车位',
+      loadTreeError: '获取停车场区域树失败',
+      loadParkingSpaceError: '获取车位失败'
     },
-    carCreateFeeAdd: {
+    parkingSpaceCreateFeeAdd: {
       createFee: '创建费用',
       car: '车辆',
       enterCar: '必填，请填写车辆',
+      parkingSpace: '车位',
+      enterParkingSpace: '必填，请填写车位',
       feeType: '费用类型',
       selectFeeType: '必填，请选择费用类型',
       feeItem: '收费项目',
@@ -127,7 +152,7 @@ export const messages = {
       createSuccess: '创建收费成功',
       createFailed: '创建收费失败'
     },
-    exportCarFeeImportExcel: {
+    exportParkingSpaceFeeImportExcel: {
       templateExport: "模板导出",
       parkingLot: "停车场",
       all: "全部",
@@ -146,7 +171,7 @@ export const messages = {
     parkingAreaSelect2: {
       parkingLotPlaceholder: "必填，请选择停车场"
     },
-    feeDetailCarFeeRule: {
+    feeDetailParkingSpaceFeeRule: {
       createFee: '创建费用',
       tempFee: '临时收费',
       ruleId: '规则编号',
@@ -165,12 +190,21 @@ export const messages = {
       monthly: '按月',
       operation: '操作',
       change: '变更',
-manualFinish: '手工结束',
+      manualFinish: '手工结束',
       cancel: '取消'
+    },
+    parkingSpaceCarDetail: {
+      carNum: '车牌号',
+      carType: '车辆类型',
+      owner: '业主',
+      leasePeriod: '租期',
+      status: '状态',
+      noCarTip: '当前车位未绑定车辆',
+      loadError: '获取车辆信息失败'
     },
   },
   'zh-TW': {
-    carCreateFee: {
+    parkingSpaceCreateFee: {
       customTemplate: '自訂義模板',
       customImport: '自訂義導入',
       enterCarNum: '請填寫車牌號',
@@ -180,17 +214,25 @@ manualFinish: '手工结束',
       selectParkingSpaceStatus: '請選擇車位狀態',
       search: '查詢',
       vehicleFee: '車輛費用',
+      parkingSpaceFee: '車位費用',
+      parkingSpaceCar: '車位車輛',
       paymentHistory: '繳費歷史',
       prepayment: '預付收款',
       setFee: '設置費用',
       house: '房屋',
       owner: '業主',
-      reprintReceipt: '補打收據'
+      reprintReceipt: '補打收據',
+      parkingSpaceEmpty: '請先添加車位',
+      parkingSpaceTreeTip: '僅展示已出租/已出售的車位',
+      loadTreeError: '獲取停車場區域樹失敗',
+      loadParkingSpaceError: '獲取車位失敗'
     },
-    carCreateFeeAdd: {
+    parkingSpaceCreateFeeAdd: {
       createFee: '創建費用',
       car: '車輛',
       enterCar: '必填，請填寫車輛',
+      parkingSpace: '車位',
+      enterParkingSpace: '必填，請填寫車位',
       feeType: '費用類型',
       selectFeeType: '必填，請選擇費用類型',
       feeItem: '收費項目',
@@ -212,7 +254,7 @@ manualFinish: '手工结束',
       createSuccess: '創建收費成功',
       createFailed: '創建收費失敗'
     },
-    exportCarFeeImportExcel: {
+    exportParkingSpaceFeeImportExcel: {
       templateExport: "模板導出",
       parkingLot: "停車場",
       all: "全部",
@@ -231,7 +273,7 @@ manualFinish: '手工结束',
     parkingAreaSelect2: {
       parkingLotPlaceholder: "必填，請選擇停車場"
     },
-    feeDetailCarFeeRule: {
+    feeDetailParkingSpaceFeeRule: {
       createFee: '創建費用',
       tempFee: '臨時收費',
       ruleId: '規則編號',
@@ -252,6 +294,15 @@ manualFinish: '手工结束',
       change: '變更',
       manualFinish: '手工結束',
       cancel: '取消'
+    },
+    parkingSpaceCarDetail: {
+      carNum: '車牌號',
+      carType: '車輛類型',
+      owner: '業主',
+      leasePeriod: '租期',
+      status: '狀態',
+      noCarTip: '當前車位未綁定車輛',
+      loadError: '獲取車輛信息失敗'
     },
   }
 }

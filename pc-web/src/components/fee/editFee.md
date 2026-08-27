@@ -140,7 +140,7 @@
                             vc.emit('listParkingSpaceFee', 'notify', {});
                             vc.emit('listContractFee', 'notify', {});
                             vc.emit('simplifyRoomFee', 'notify', {});
-                            vc.emit('simplifyCarFee', 'notify', {});
+                            vc.emit('simplifyParkingSpaceFee', 'notify', {});
                             vc.emit('simplifyContractFee', 'notify', {});
                             vc.emit('carDetailFee', 'notify', {});
                             vc.emit('contractDetailRoomFee', 'notify', {});

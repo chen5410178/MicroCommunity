@@ -39,6 +39,15 @@
         <if test="communityId !=null and communityId != ''">
             and t.community_id= #{communityId}
         </if>
+        <if test="hasOwnerSpace != null and hasOwnerSpace != ''">
+            and exists (
+                select 1 from parking_space ps
+                where ps.pa_id = t.pa_id
+                  and ps.status_cd = '0'
+                  and ps.state in ('S','H')
+                  and ps.owner_id is not null and ps.owner_id != ''
+            )
+        </if>
         order by t.create_time desc
         <if test="page != -1 and page != null ">
             limit #{page}, #{row}

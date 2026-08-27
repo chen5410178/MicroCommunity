@@ -1,23 +1,23 @@
 ﻿<template>
-  <el-dialog :title="$t('exportCarFeeImportExcel.templateExport')" :visible.sync="visible" width="50%">
+  <el-dialog :title="$t('exportParkingSpaceFeeImportExcel.templateExport')" :visible.sync="visible" width="50%">
     <el-form label-width="150px" class="text-left">
-      <el-form-item :label="$t('exportCarFeeImportExcel.parkingLot')">
+      <el-form-item :label="$t('exportParkingSpaceFeeImportExcel.parkingLot')">
         <div>
           <el-checkbox v-model="isParkingAreaAll" @change="changeAllParkingAreas">
-            {{ $t('exportCarFeeImportExcel.all') }}
+            {{ $t('exportParkingSpaceFeeImportExcel.all') }}
           </el-checkbox>
           <el-checkbox-group v-model="selectedParkingAreas" @change="changeItemParkingArea">
             <el-checkbox v-for="item in parkingAreas" :key="item.paId" :label="item.paId" style="margin-left:15px">
-              {{ item.num }}{{ $t('exportCarFeeImportExcel.parkingLotPlaceholder') }}
+              {{ item.num }}{{ $t('exportParkingSpaceFeeImportExcel.parkingLotPlaceholder') }}
             </el-checkbox>
           </el-checkbox-group>
         </div>
       </el-form-item>
 
-      <el-form-item :label="$t('exportCarFeeImportExcel.feeItem')">
+      <el-form-item :label="$t('exportParkingSpaceFeeImportExcel.feeItem')">
         <div>
           <el-checkbox v-model="isConfigAll" @change="changeAllConfigs">
-            {{ $t('exportCarFeeImportExcel.all') }}
+            {{ $t('exportParkingSpaceFeeImportExcel.all') }}
           </el-checkbox>
           <el-checkbox-group v-model="selectedConfigs" @change="changeItemConfig">
             <template v-for="item in configs">
@@ -32,17 +32,17 @@
     </el-form>
 
     <div slot="footer" class="dialog-footer">
-      <el-button @click="visible = false">{{ $t('exportCarFeeImportExcel.cancel') }}</el-button>
-      <el-button type="primary" @click="handleExport">{{ $t('exportCarFeeImportExcel.export') }}</el-button>
+      <el-button @click="visible = false">{{ $t('exportParkingSpaceFeeImportExcel.cancel') }}</el-button>
+      <el-button type="primary" @click="handleExport">{{ $t('exportParkingSpaceFeeImportExcel.export') }}</el-button>
     </div>
   </el-dialog>
 </template>
 
 <script>
-import { listParkingAreas, listFeeConfigs, exportCarFeeExcel } from '@/api/fee/carCreateFeeApi'
+import { listParkingAreas, listFeeConfigs, exportParkingSpaceFeeExcel } from '@/api/fee/parkingSpaceCreateFeeApi'
 
 export default {
-  name: 'ExportCarFeeImportExcel',
+  name: 'ExportParkingSpaceFeeImportExcel',
   data() {
     return {
       visible: false,
@@ -115,7 +115,7 @@ export default {
         const paIds = this.selectedParkingAreas.join(',')
         const configIds = this.selectedConfigs.join(',')
 
-        await exportCarFeeExcel({
+        await exportParkingSpaceFeeExcel({
           paIds,
           configIds
         })

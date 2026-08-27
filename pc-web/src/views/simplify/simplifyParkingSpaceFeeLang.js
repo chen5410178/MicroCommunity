@@ -1,10 +1,11 @@
 export const messages = {
   en: {
-    simplifyCarFee: {
+    simplifyParkingSpaceFee: {
+      selectFeeType: 'Select fee type',
+      selectFeeItem: 'Select fee item',
       selectStatus: 'Select status',
       valid: 'Valid',
       feeEnd: 'Fee End',
-      buyMonthCard: 'Buy Month Card',
       batchPay: 'Batch Payment',
       prePay: 'Prepayment',
       tempFee: 'Temporary Fee',
@@ -29,11 +30,12 @@ export const messages = {
     }
   },
   zh: {
-    simplifyCarFee: {
+    simplifyParkingSpaceFee: {
+      selectFeeType: '选择费用',
+      selectFeeItem: '选择收费',
       selectStatus: '请选择状态',
       valid: '有效',
       feeEnd: '收费结束',
-      buyMonthCard: '买月卡',
       batchPay: '批量缴费',
       prePay: '预付收款',
       tempFee: '临时收费',
@@ -58,11 +60,12 @@ export const messages = {
     }
   },
   'zh-TW': {
-    simplifyCarFee: {
+    simplifyParkingSpaceFee: {
+      selectFeeType: '選擇費用',
+      selectFeeItem: '選擇收費',
       selectStatus: '請選擇狀態',
       valid: '有效',
       feeEnd: '收費結束',
-      buyMonthCard: '買月卡',
       batchPay: '批量繳費',
       prePay: '預付收款',
       tempFee: '臨時收費',

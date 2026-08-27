@@ -1,5 +1,5 @@
 **目标**
-改造合同收费页面，布局类似于车辆收费页面D:\project\hcv2\MicroCommunityWebV2\src\views\fee\carCreateFeeList.vue
+改造合同收费页面，布局类似于车位收费页面D:\project\hcv2\MicroCommunityV2\pc-web\src\views\fee\parkingSpaceCreateFeeList.vue
 **要求**
 1、布局方式和车辆收费布局方式一样，左右布局；
 2、左边是合同列表；

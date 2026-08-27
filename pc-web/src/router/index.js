@@ -649,10 +649,10 @@ const routes = [
       },
 
       {
-        path: '/pages/property/carCreateFee',
-        name: '/pages/property/carCreateFee',
-        component: () => import('@/views/fee/carCreateFeeList.vue'),
-        meta: { title: '车辆收费' }
+        path: '/pages/property/parkingSpaceCreateFee',
+        name: '/pages/property/parkingSpaceCreateFee',
+        component: () => import('@/views/fee/parkingSpaceCreateFeeList.vue'),
+        meta: { title: '车位收费' }
       },
       {
         path: '/views/fee/listCarFee',

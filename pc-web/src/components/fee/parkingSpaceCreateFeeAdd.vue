@@ -1,43 +1,43 @@
 ﻿<template>
-  <div class="car-create-fee-add">
-    <el-dialog :title="$t('carCreateFeeAdd.createFee')" :visible.sync="dialogVisible" width="800px"
+  <div class="parking-space-create-fee-add">
+    <el-dialog :title="$t('parkingSpaceCreateFeeAdd.createFee')" :visible.sync="dialogVisible" width="800px"
       :before-close="handleClose">
-      <el-form :model="carCreateFeeAddInfo" :rules="rules" ref="createForm" label-width="120px">
-        <el-form-item :label="$t('carCreateFeeAdd.car')">
-          <el-input v-model="carCreateFeeAddInfo.locationTypeCdName" disabled
-            :placeholder="$t('carCreateFeeAdd.enterCar')"></el-input>
+      <el-form :model="parkingSpaceCreateFeeAddInfo" :rules="rules" ref="createForm" label-width="120px">
+        <el-form-item :label="$t('parkingSpaceCreateFeeAdd.parkingSpace')">
+          <el-input v-model="parkingSpaceCreateFeeAddInfo.locationTypeCdName" disabled
+            :placeholder="$t('parkingSpaceCreateFeeAdd.enterParkingSpace')"></el-input>
         </el-form-item>
 
-        <el-form-item :label="$t('carCreateFeeAdd.feeType')" prop="feeTypeCd">
-          <el-select v-model="carCreateFeeAddInfo.feeTypeCd" @change="_changeCarFeeTypeCd" style="width:100%">
-            <el-option :label="$t('carCreateFeeAdd.selectFeeType')" value="" disabled></el-option>
+        <el-form-item :label="$t('parkingSpaceCreateFeeAdd.feeType')" prop="feeTypeCd">
+          <el-select v-model="parkingSpaceCreateFeeAddInfo.feeTypeCd" @change="_changeParkingSpaceFeeTypeCd" style="width:100%">
+            <el-option :label="$t('parkingSpaceCreateFeeAdd.selectFeeType')" value="" disabled></el-option>
             <el-option v-for="(item, index) in filteredFeeTypeCds" :key="index" :label="item.name"
               :value="item.statusCd"></el-option>
           </el-select>
         </el-form-item>
 
-        <el-form-item :label="$t('carCreateFeeAdd.feeItem')" prop="configId">
-          <el-select v-model="carCreateFeeAddInfo.configId" @change="_carCreateFeeAddIfOnceFee" style="width:100%">
-            <el-option :label="$t('carCreateFeeAdd.selectFeeItem')" value="" disabled></el-option>
-            <el-option v-for="(item, index) in carCreateFeeAddInfo.feeConfigs" :key="index" :label="item.feeName"
+        <el-form-item :label="$t('parkingSpaceCreateFeeAdd.feeItem')" prop="configId">
+          <el-select v-model="parkingSpaceCreateFeeAddInfo.configId" @change="_parkingSpaceCreateFeeAddIfOnceFee" style="width:100%">
+            <el-option :label="$t('parkingSpaceCreateFeeAdd.selectFeeItem')" value="" disabled></el-option>
+            <el-option v-for="(item, index) in parkingSpaceCreateFeeAddInfo.feeConfigs" :key="index" :label="item.feeName"
               :value="item.configId"></el-option>
           </el-select>
         </el-form-item>
 
-        <el-form-item v-if="carCreateFeeAddInfo.computingFormula === '4004'" :label="$t('carCreateFeeAdd.feeAmount')"
+        <el-form-item v-if="parkingSpaceCreateFeeAddInfo.computingFormula === '4004'" :label="$t('parkingSpaceCreateFeeAdd.feeAmount')"
           prop="amount">
-          <el-input v-model="carCreateFeeAddInfo.amount" :placeholder="$t('carCreateFeeAdd.enterFeeAmount')"></el-input>
+          <el-input v-model="parkingSpaceCreateFeeAddInfo.amount" :placeholder="$t('parkingSpaceCreateFeeAdd.enterFeeAmount')"></el-input>
         </el-form-item>
 
-        <el-form-item :label="$t('carCreateFeeAdd.billingStartTime')" prop="startTime">
-          <el-date-picker v-model="carCreateFeeAddInfo.startTime" type="datetime"
-            :placeholder="$t('carCreateFeeAdd.enterBillingStartTime')" value-format="yyyy-MM-dd HH:mm:ss"
+        <el-form-item :label="$t('parkingSpaceCreateFeeAdd.billingStartTime')" prop="startTime">
+          <el-date-picker v-model="parkingSpaceCreateFeeAddInfo.startTime" type="datetime"
+            :placeholder="$t('parkingSpaceCreateFeeAdd.enterBillingStartTime')" value-format="yyyy-MM-dd HH:mm:ss"
             style="width:100%" @change="validateStartTime"></el-date-picker>
         </el-form-item>
 
-        <el-form-item :label="$t('carCreateFeeAdd.billingEndTime')" prop="endTime">
-          <el-date-picker v-model="carCreateFeeAddInfo.endTime" type="datetime"
-            :placeholder="$t('carCreateFeeAdd.enterBillingEndTime')" value-format="yyyy-MM-dd HH:mm:ss"
+        <el-form-item :label="$t('parkingSpaceCreateFeeAdd.billingEndTime')" prop="endTime">
+          <el-date-picker v-model="parkingSpaceCreateFeeAddInfo.endTime" type="datetime"
+            :placeholder="$t('parkingSpaceCreateFeeAdd.enterBillingEndTime')" value-format="yyyy-MM-dd HH:mm:ss"
             style="width:100%" @change="validateEndTime"></el-date-picker>
         </el-form-item>
       </el-form>
@@ -57,21 +57,22 @@
 <script>
 import { getCommunityId } from '@/api/community/communityApi'
 import { getDict } from '@/api/community/communityApi'
-import { saveParkingSpaceCreateFee, listFeeConfigs, listParkingAreas } from '@/api/fee/carCreateFeeApi'
+import { saveParkingSpaceCreateFee, listFeeConfigs, listParkingAreas } from '@/api/fee/parkingSpaceCreateFeeApi'
 
 export default {
-  name: 'CarCreateFeeAdd',
+  name: 'ParkingSpaceCreateFeeAdd',
   data() {
     return {
       communityId: '',
       dialogVisible: false,
       loading: false,
-      carCreateFeeAddInfo: {
+      parkingSpaceCreateFeeAddInfo: {
         feeTypeCds: [],
         feeConfigs: [],
         parkingAreas: [],
         locationObjId: '',
         locationTypeCd: '2000',
+        psId: '',
         carId: '',
         feeTypeCd: '',
         configId: '',
@@ -87,28 +88,28 @@ export default {
       },
       rules: {
         feeTypeCd: [
-          { required: true, message: this.$t('carCreateFeeAdd.feeTypeRequired'), trigger: 'change' }
+          { required: true, message: this.$t('parkingSpaceCreateFeeAdd.feeTypeRequired'), trigger: 'change' }
         ],
         configId: [
-          { required: true, message: this.$t('carCreateFeeAdd.feeItemRequired'), trigger: 'change' }
+          { required: true, message: this.$t('parkingSpaceCreateFeeAdd.feeItemRequired'), trigger: 'change' }
         ],
         carState: [
-          { required: true, message: this.$t('carCreateFeeAdd.billingTypeRequired') }
+          { required: true, message: this.$t('parkingSpaceCreateFeeAdd.billingTypeRequired') }
         ],
         startTime: [
-          { required: true, message: this.$t('carCreateFeeAdd.billingStartTimeRequired'), trigger: 'change' },
+          { required: true, message: this.$t('parkingSpaceCreateFeeAdd.billingStartTimeRequired'), trigger: 'change' },
           { validator: this.validateDate, trigger: 'change' }
         ],
         amount: [
-          { required: true, message: this.$t('carCreateFeeAdd.amountRequired'), trigger: 'blur' },
-          { pattern: /^\d+(\.\d{1,2})?$/, message: this.$t('carCreateFeeAdd.amountFormatError'), trigger: 'blur' }
+          { required: true, message: this.$t('parkingSpaceCreateFeeAdd.amountRequired'), trigger: 'blur' },
+          { pattern: /^\d+(\.\d{1,2})?$/, message: this.$t('parkingSpaceCreateFeeAdd.amountFormatError'), trigger: 'blur' }
         ]
       }
     }
   },
   computed: {
     filteredFeeTypeCds() {
-      return (this.carCreateFeeAddInfo.feeTypeCds || []).filter(item =>
+      return (this.parkingSpaceCreateFeeAddInfo.feeTypeCds || []).filter(item =>
         item.statusCd !== '888800010009' && item.statusCd !== '888800010011'
       )
     }
@@ -117,13 +118,13 @@ export default {
     this.communityId = await getCommunityId()
     await this.loadDictData()
     await this.loadParkingAreas()
-    this.carCreateFeeAddInfo.startTime = this.formatDateTime(new Date())
+    this.parkingSpaceCreateFeeAddInfo.startTime = this.formatDateTime(new Date())
   },
   methods: {
     async loadDictData() {
       try {
         const data = await getDict('pay_fee_config', 'fee_type_cd')
-        this.carCreateFeeAddInfo.feeTypeCds = data
+        this.parkingSpaceCreateFeeAddInfo.feeTypeCds = data
       } catch (error) {
         console.error('获取字典数据失败:', error)
       }
@@ -138,7 +139,7 @@ export default {
         }
 
         const response = await listParkingAreas(params)
-        this.carCreateFeeAddInfo.parkingAreas = response.parkingAreas || []
+        this.parkingSpaceCreateFeeAddInfo.parkingAreas = response.parkingAreas || []
       } catch (error) {
         console.error('获取停车场数据失败:', error)
       }
@@ -146,11 +147,15 @@ export default {
 
     open(createData) {
       this.clearAddFeeConfigInfo()
-      this.carCreateFeeAddInfo.locationTypeCd = '2000'
-      this.carCreateFeeAddInfo.locationObjId = createData.carId || createData.car.carId
-      this.carCreateFeeAddInfo.carId = createData.carId || createData.car.carId
-      this.carCreateFeeAddInfo.locationTypeCdName = createData.carNum || createData.car.carNum
-      this.carCreateFeeAddInfo.isMore = createData.isMore || false
+      this.parkingSpaceCreateFeeAddInfo.locationTypeCd = '2000'
+      const carData = createData.car || {}
+      const psId = createData.psId || createData.carId || carData.carId || ''
+      const psName = createData.psName || createData.carNum || carData.carNum || ''
+      this.parkingSpaceCreateFeeAddInfo.locationObjId = psId
+      this.parkingSpaceCreateFeeAddInfo.psId = psId
+      this.parkingSpaceCreateFeeAddInfo.carId = createData.carId || carData.carId || ''
+      this.parkingSpaceCreateFeeAddInfo.locationTypeCdName = psName
+      this.parkingSpaceCreateFeeAddInfo.isMore = createData.isMore || false
 
       this.dialogVisible = true
 
@@ -161,7 +166,7 @@ export default {
       })
     },
 
-    async _changeCarFeeTypeCd(feeTypeCd) {
+    async _changeParkingSpaceFeeTypeCd(feeTypeCd) {
       if (!feeTypeCd) return
 
       try {
@@ -175,39 +180,39 @@ export default {
         }
 
         const response = await listFeeConfigs(params)
-        this.carCreateFeeAddInfo.feeConfigs = response.feeConfigs || []
+        this.parkingSpaceCreateFeeAddInfo.feeConfigs = response.feeConfigs || []
       } catch (error) {
         console.error('获取费用配置失败:', error)
       }
     },
 
-    _carCreateFeeAddIfOnceFee(configId) {
-      this.carCreateFeeAddInfo.endTime = ''
-      const config = this.carCreateFeeAddInfo.feeConfigs.find(item => item.configId === configId)
+    _parkingSpaceCreateFeeAddIfOnceFee(configId) {
+      this.parkingSpaceCreateFeeAddInfo.endTime = ''
+      const config = this.parkingSpaceCreateFeeAddInfo.feeConfigs.find(item => item.configId === configId)
       if (config) {
-        this.carCreateFeeAddInfo.feeFlag = config.feeFlag
-        this.carCreateFeeAddInfo.computingFormula = config.computingFormula
+        this.parkingSpaceCreateFeeAddInfo.feeFlag = config.feeFlag
+        this.parkingSpaceCreateFeeAddInfo.computingFormula = config.computingFormula
       }
     },
 
     validateStartTime() {
-      if (this.carCreateFeeAddInfo.startTime && this.carCreateFeeAddInfo.endTime) {
-        const start = new Date(this.carCreateFeeAddInfo.startTime)
-        const end = new Date(this.carCreateFeeAddInfo.endTime)
+      if (this.parkingSpaceCreateFeeAddInfo.startTime && this.parkingSpaceCreateFeeAddInfo.endTime) {
+        const start = new Date(this.parkingSpaceCreateFeeAddInfo.startTime)
+        const end = new Date(this.parkingSpaceCreateFeeAddInfo.endTime)
         if (start >= end) {
-          this.$message.warning(this.$t('carCreateFeeAdd.endTimeAfterStart'))
-          this.carCreateFeeAddInfo.endTime = ''
+          this.$message.warning(this.$t('parkingSpaceCreateFeeAdd.endTimeAfterStart'))
+          this.parkingSpaceCreateFeeAddInfo.endTime = ''
         }
       }
     },
 
     validateEndTime() {
-      if (this.carCreateFeeAddInfo.startTime && this.carCreateFeeAddInfo.endTime) {
-        const start = new Date(this.carCreateFeeAddInfo.startTime)
-        const end = new Date(this.carCreateFeeAddInfo.endTime)
+      if (this.parkingSpaceCreateFeeAddInfo.startTime && this.parkingSpaceCreateFeeAddInfo.endTime) {
+        const start = new Date(this.parkingSpaceCreateFeeAddInfo.startTime)
+        const end = new Date(this.parkingSpaceCreateFeeAddInfo.endTime)
         if (start >= end) {
-          this.$message.warning(this.$t('carCreateFeeAdd.endTimeAfterStart'))
-          this.carCreateFeeAddInfo.endTime = ''
+          this.$message.warning(this.$t('parkingSpaceCreateFeeAdd.endTimeAfterStart'))
+          this.parkingSpaceCreateFeeAddInfo.endTime = ''
         }
       }
     },
@@ -220,7 +225,7 @@ export default {
 
       const date = new Date(value)
       if (isNaN(date.getTime())) {
-        callback(new Error(this.$t('carCreateFeeAdd.dateFormatError')))
+        callback(new Error(this.$t('parkingSpaceCreateFeeAdd.dateFormatError')))
         return
       }
 
@@ -236,7 +241,7 @@ export default {
         try {
           this.loading = true
           const data = {
-            ...this.carCreateFeeAddInfo,
+            ...this.parkingSpaceCreateFeeAddInfo,
             communityId: this.communityId
           }
 
@@ -248,7 +253,7 @@ export default {
 
         } catch (error) {
           console.error('创建车辆费用失败:', error)
-          this.$message.error(this.$t('carCreateFeeAdd.createFailed'))
+          this.$message.error(this.$t('parkingSpaceCreateFeeAdd.createFailed'))
         } finally {
           this.loading = false
         }
@@ -267,14 +272,15 @@ export default {
     },
 
     clearAddFeeConfigInfo() {
-      const feeTypeCds = this.carCreateFeeAddInfo.feeTypeCds
-      const parkingAreas = this.carCreateFeeAddInfo.parkingAreas
-      this.carCreateFeeAddInfo = {
+      const feeTypeCds = this.parkingSpaceCreateFeeAddInfo.feeTypeCds
+      const parkingAreas = this.parkingSpaceCreateFeeAddInfo.parkingAreas
+      this.parkingSpaceCreateFeeAddInfo = {
         feeTypeCds: feeTypeCds,
         feeConfigs: [],
         parkingAreas: parkingAreas,
         locationTypeCd: '2000',
         locationObjId: '',
+        psId: '',
         carId: '',
         feeTypeCd: '',
         configId: '',
@@ -304,7 +310,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.car-create-fee-add {
+.parking-space-create-fee-add {
   .dialog-footer {
     text-align: right;
   }

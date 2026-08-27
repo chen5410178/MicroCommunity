@@ -202,8 +202,8 @@
           <el-tab-pane :label="$t('simplifyAcceptance.houseFee')" name="simplifyRoomFee">
             <simplify-room-fee ref="simplifyRoomFee"></simplify-room-fee>
           </el-tab-pane>
-          <el-tab-pane :label="$t('simplifyAcceptance.parkingFee')" name="simplifyCarFee">
-            <simplify-car-fee ref="simplifyCarFee"></simplify-car-fee>
+          <el-tab-pane :label="$t('simplifyAcceptance.parkingFee')" name="simplifyParkingSpaceFee">
+            <simplify-parking-space-fee ref="simplifyParkingSpaceFee"></simplify-parking-space-fee>
           </el-tab-pane>
           <el-tab-pane :label="$t('simplifyAcceptance.paymentHistory')" name="simplifyHisFee">
             <simplify-his-fee ref="simplifyHisFee"></simplify-his-fee>
@@ -261,7 +261,7 @@
     <edit-fee ref="editFee"></edit-fee>
     <finish-fee ref="finishFee"></finish-fee>
     <room-create-fee-add ref="roomCreateFeeAdd"></room-create-fee-add>
-    <car-create-fee-add ref="carCreateFeeAdd"></car-create-fee-add>
+    <parking-space-create-fee-add ref="parkingSpaceCreateFeeAdd"></parking-space-create-fee-add>
     <add-meter-water ref="addMeterWater"></add-meter-water>
     <add-proxy-fee ref="addProxyFee"></add-proxy-fee>
     <edit-machine-translate ref="editMachineTranslate"></edit-machine-translate>
@@ -274,7 +274,7 @@
 import { getCommunityId } from '@/api/community/communityApi'
 import { comprehensiveQuery, queryFeeDeposit } from '@/api/simplify/simplifyAcceptanceApi'
 import SimplifyRoomFee from '@/components/fee/simplifyRoomFee'
-import SimplifyCarFee from '@/components/simplify/simplifyCarFee'
+import SimplifyParkingSpaceFee from '@/components/simplify/simplifyParkingSpaceFee'
 import SimplifyHisFee from '@/components/fee/simplifyHisFee'
 import SimplifyOwnerRooms from '@/components/fee/simplifyOwnerRooms'
 import SimplifyOwnerShopFee from '@/components/simplify/simplifyOwnerShopFee'
@@ -293,7 +293,7 @@ import DeleteFee from '@/components/fee/deleteFee'
 import EditFee from '@/components/fee/editFee'
 import FinishFee from '@/components/fee/finishFee'
 import RoomCreateFeeAdd from '@/components/fee/roomCreateFeeAdd'
-import CarCreateFeeAdd from '@/components/fee/carCreateFeeAdd'
+import ParkingSpaceCreateFeeAdd from '@/components/fee/parkingSpaceCreateFeeAdd'
 import AddMeterWater from '@/components/fee/addMeterWater'
 import AddProxyFee from '@/components/fee/addProxyFee'
 import roomTree from '@/components/room/roomTree'
@@ -306,7 +306,7 @@ export default {
   name: 'SimplifyAcceptanceList',
   components: {
     SimplifyRoomFee,
-    SimplifyCarFee,
+    SimplifyParkingSpaceFee,
     SimplifyHisFee,
     SimplifyOwnerRooms,
     SimplifyOwnerShopFee,
@@ -325,7 +325,7 @@ export default {
     EditFee,
     FinishFee,
     RoomCreateFeeAdd,
-    CarCreateFeeAdd,
+    ParkingSpaceCreateFeeAdd,
     AddMeterWater,
     AddProxyFee,
     roomTree,

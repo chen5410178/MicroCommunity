@@ -96,7 +96,7 @@
 
 <script>
 import { getCommunityId } from '@/api/community/communityApi'
-import { listPayFeeRule } from '@/api/fee/carCreateFeeApi'
+import { listPayFeeRule } from '@/api/fee/parkingSpaceCreateFeeApi'
 import DeleteFeeRule from './deleteFeeRule.vue'
 import EditFeeRule from './editFeeRule.vue'
 import FinishFeeRule from './finishFeeRule.vue'
