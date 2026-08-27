@@ -29,6 +29,7 @@ import com.java110.intf.fee.ITempCarFeeConfigAttrInnerServiceSMO;
 import com.java110.intf.fee.ITempCarFeeConfigInnerServiceSMO;
 import com.java110.intf.store.IContractInnerServiceSMO;
 import com.java110.intf.store.IContractRoomInnerServiceSMO;
+import com.java110.intf.user.IOwnerCarInnerServiceSMO;
 import com.java110.intf.user.IOwnerInnerServiceSMO;
 import com.java110.po.fee.FeeReceiptDetailPo;
 import com.java110.utils.constant.FeeConfigConstant;
@@ -79,6 +80,9 @@ public class ComputeFeeSMOImpl implements IComputeFeeSMO {
 
     @Autowired(required = false)
     private IOwnerInnerServiceSMO ownerInnerServiceSMOImpl;
+
+    @Autowired(required = false)
+    private IOwnerCarInnerServiceSMO ownerCarInnerServiceSMOImpl;
 
     @Autowired(required = false)
     private IContractRoomInnerServiceSMO contractRoomInnerServiceSMOImpl;
@@ -492,6 +496,15 @@ public class ComputeFeeSMOImpl implements IComputeFeeSMO {
             }
             objName = buildingShopDtos.get(0).getLocationName() + "-" + buildingShopDtos.get(0).getShopNum();
 
+        } else if (FeeDto.PAYER_OBJ_TYPE_CAR.equals(feeDto.getPayerObjType())) {//车辆相关
+            OwnerCarDto ownerCarDto = new OwnerCarDto();
+            ownerCarDto.setCarId(feeDto.getPayerObjId());
+            ownerCarDto.setCommunityId(feeDto.getCommunityId());
+            List<OwnerCarDto> ownerCarDtos = ownerCarInnerServiceSMOImpl.queryOwnerCars(ownerCarDto);
+            if (ListUtil.isNull(ownerCarDtos)) {
+                return objName;
+            }
+            objName = ownerCarDtos.get(0).getCarNum();
         }
         return objName;
     }

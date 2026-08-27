@@ -81,7 +81,7 @@
       <div class="margin-top-sm">
         <el-tabs v-model="carDetailInfo._currentTab" @tab-click="changeTab(carDetailInfo._currentTab)">
           <el-tab-pane :label="$t('carDetail.vehicleFee')" name="carDetailFee"></el-tab-pane>
-          <el-tab-pane :label="$t('carDetail.paymentRecord')" name="ownerDetailHisFee"></el-tab-pane>
+          <el-tab-pane :label="$t('carDetail.paymentRecord')" name="carDetailHisFee"></el-tab-pane>
           <el-tab-pane :label="$t('carDetail.modificationRecord')" name="carDetailHis"></el-tab-pane>
           <el-tab-pane :label="$t('carDetail.memberVehicle')" name="carDetailMember"></el-tab-pane>
           <el-tab-pane :label="$t('carDetail.ownerInfo')" name="carDetailOwner"></el-tab-pane>
@@ -104,8 +104,8 @@
       <owner-detail-car v-if="carDetailInfo._currentTab === 'ownerDetailCar'" ref="ownerDetailCar"></owner-detail-car>
       <owner-detail-owe-fee v-if="carDetailInfo._currentTab === 'ownerDetailOweFee'"
         ref="ownerDetailOweFee"></owner-detail-owe-fee>
-      <owner-detail-his-fee v-if="carDetailInfo._currentTab === 'ownerDetailHisFee'"
-        ref="ownerDetailHisFee"></owner-detail-his-fee>
+      <car-detail-his-fee v-if="carDetailInfo._currentTab === 'carDetailHisFee'"
+        ref="carDetailHisFee"></car-detail-his-fee>
       <car-detail-his v-if="carDetailInfo._currentTab === 'carDetailHis'" ref="carDetailHis"></car-detail-his>
       <car-detail-member v-if="carDetailInfo._currentTab === 'carDetailMember'"
         ref="carDetailMember"></car-detail-member>
@@ -131,7 +131,7 @@ import CarDetailFee from '@/components/car/carDetailFee'
 import OwnerDetailRoom from '@/components/owner/ownerDetailRoom'
 import OwnerDetailCar from '@/components/owner/ownerDetailCar'
 import OwnerDetailOweFee from '@/components/car/ownerDetailOweFee'
-import OwnerDetailHisFee from '@/components/owner/ownerDetailHisFee'
+import CarDetailHisFee from '@/components/car/carDetailHisFee'
 import CarDetailHis from '@/components/system/carDetailHis'
 import CarDetailMember from '@/components/car/carDetailMember'
 import CarDetailOwner from '@/components/fee/carDetailOwner'
@@ -152,7 +152,7 @@ export default {
     OwnerDetailRoom,
     OwnerDetailCar,
     OwnerDetailOweFee,
-    OwnerDetailHisFee,
+    CarDetailHisFee,
     CarDetailHis,
     CarDetailMember,
     CarDetailOwner,
@@ -197,6 +197,9 @@ export default {
     this.carDetailInfo.memberId = this.$route.query.memberId
     let tab = this.$route.query.tab
     if (tab) {
+      if (tab === 'ownerDetailHisFee') {
+        tab = 'carDetailHisFee'
+      }
       this.carDetailInfo._currentTab = tab
     }
     if (this.carDetailInfo.memberId) {
@@ -234,7 +237,7 @@ export default {
       }
       setTimeout(() => {
         if (this.$refs[tab]) {
-          if (tab === 'ownerDetailHisFee' || tab == 'ownerDetailRoom' || tab == 'ownerDetailCar') {
+          if (tab == 'ownerDetailRoom' || tab == 'ownerDetailCar') {
             this.$refs[tab].open(this.carDetailInfo.ownerId)
           } else {
             this.$refs[tab].open(tabData)

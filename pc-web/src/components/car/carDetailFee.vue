@@ -2,7 +2,7 @@
   <div>
     <el-row>
       <el-col :span="24" class="text-right">
-        <el-button type="primary" size="small" style="margin-left:10px" @click="_openParkingSpaceCreateFeeAddModal()">
+        <el-button type="primary" size="small" style="margin-left:10px" @click="_buyMonthCard()">
           {{ $t('carDetailFee.createFee') }}
         </el-button>
       </el-col>
@@ -90,7 +90,6 @@
     </div>
 
     <add-meter-water ref="addMeterWater" @success="notify"></add-meter-water>
-    <parking-space-create-fee-add ref="parkingSpaceCreateFeeAdd" @success="notify"></parking-space-create-fee-add>
     <delete-fee ref="deleteFee"></delete-fee>
     <edit-fee ref="editFee"></edit-fee>
   </div>
@@ -99,7 +98,6 @@
 <script>
 import { listFee } from '@/api/car/carDetailFeeApi'
 import AddMeterWater from '@/components/fee/addMeterWater'
-import ParkingSpaceCreateFeeAdd from '@/components/fee/parkingSpaceCreateFeeAdd'
 import DeleteFee from '@/components/fee/deleteFee'
 import EditFee from '@/components/fee/editFee'
 import { getCommunityId } from '@/api/community/communityApi'
@@ -108,7 +106,6 @@ export default {
   name: 'CarDetailFee',
   components: {
     AddMeterWater,
-    ParkingSpaceCreateFeeAdd,
     DeleteFee,
     EditFee
   },
@@ -153,7 +150,8 @@ export default {
     _loadCarDetailFeeData(page, row) {
       const params = {
         communityId: this.communityId,
-        payerObjId: this.carDetailFeeInfo.memberId,
+        payerObjId: this.carDetailFeeInfo.carId,
+        payerObjType: '5555',
         page: page,
         row: row
       }
@@ -181,11 +179,8 @@ export default {
         feeId: fee.feeId
       })
     },
-    _openParkingSpaceCreateFeeAddModal() {
-      this.$refs.parkingSpaceCreateFeeAdd.open({
-        isMore: false,
-        car: this.carDetailFeeInfo
-      })
+    _buyMonthCard() {
+      this.$router.push(`/views/fee/buyCarMonthCard?carNum=${this.carDetailFeeInfo.carNum}`)
     },
     _openAddMeterWaterModal() {
       this.$refs.addMeterWater.open({

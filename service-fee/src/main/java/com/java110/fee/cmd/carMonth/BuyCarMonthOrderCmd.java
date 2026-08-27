@@ -18,20 +18,25 @@ import com.java110.dto.fee.FeeDto;
 import com.java110.dto.owner.OwnerCarDto;
 import com.java110.dto.owner.OwnerDto;
 import com.java110.dto.parking.ParkingSpaceDto;
+import com.java110.dto.payFee.PayFeeBatchDto;
 import com.java110.dto.user.UserDto;
+import com.java110.fee.bill.ICycleConvertOnceFee;
 import com.java110.intf.community.ICommunityMemberV1InnerServiceSMO;
 import com.java110.intf.community.IParkingSpaceInnerServiceSMO;
 import com.java110.intf.fee.IFeeAttrInnerServiceSMO;
 import com.java110.intf.fee.IFeeInnerServiceSMO;
+import com.java110.intf.fee.IPayFeeBatchV1InnerServiceSMO;
 import com.java110.intf.fee.IPayFeeConfigV1InnerServiceSMO;
 import com.java110.intf.fee.IPayFeeDetailV1InnerServiceSMO;
+import com.java110.intf.fee.IPayFeeRuleV1InnerServiceSMO;
 import com.java110.intf.job.IIotInnerServiceSMO;
 import com.java110.intf.user.*;
 import com.java110.po.car.OwnerCarPo;
 import com.java110.po.fee.FeeAttrPo;
-import com.java110.po.fee.PayFeeConfigPo;
 import com.java110.po.fee.PayFeeDetailPo;
 import com.java110.po.fee.PayFeePo;
+import com.java110.po.payFee.PayFeeBatchPo;
+import com.java110.po.payFee.PayFeeRulePo;
 import com.java110.utils.exception.CmdException;
 import com.java110.utils.util.Assert;
 import com.java110.utils.util.DateUtil;
@@ -82,6 +87,15 @@ public class BuyCarMonthOrderCmd extends Cmd {
 
     @Autowired
     private IUserV1InnerServiceSMO userV1InnerServiceSMOImpl;
+
+    @Autowired
+    private IPayFeeBatchV1InnerServiceSMO payFeeBatchV1InnerServiceSMOImpl;
+
+    @Autowired
+    private IPayFeeRuleV1InnerServiceSMO payFeeRuleV1InnerServiceSMOImpl;
+
+    @Autowired
+    private ICycleConvertOnceFee cycleConvertOnceFeeImpl;
 
 
     @Override
@@ -165,7 +179,7 @@ public class BuyCarMonthOrderCmd extends Cmd {
         String endTime = DateUtil.getAddMonthStringA(startTime, reqJson.getIntValue("cardMonth"));
 
 
-        //todo 查询 是否存在 名称为月租车月卡 公式为动态费用，费用类型为停车费的费用项，如果没有默认建一个
+        //todo 查询 名称为月租车月卡 公式为动态费用，费用类型为停车费的费用项，查不到直接报错
 
         FeeConfigDto feeConfigDto = getFeeConfigDto(reqJson.getString("communityId"));
 
@@ -177,35 +191,80 @@ public class BuyCarMonthOrderCmd extends Cmd {
 
         Assert.listOnlyOne(communityMemberDtos, "物业不存在");
 
+        //todo 查询车辆信息
+        OwnerCarDto ownerCarDto = new OwnerCarDto();
+        ownerCarDto.setCommunityId(reqJson.getString("communityId"));
+        ownerCarDto.setCarId(reqJson.getString("carId"));
+        List<OwnerCarDto> ownerCarDtos = ownerCarInnerServiceSMOImpl.queryOwnerCars(ownerCarDto);
 
+        if (ListUtil.isNull(ownerCarDtos)) {
+            throw new CmdException("车辆不存在");
+        }
+
+        //todo 生成批次
+        PayFeeBatchPo payFeeBatchPo = new PayFeeBatchPo();
+        payFeeBatchPo.setBatchId(GenerateCodeFactory.getGeneratorId("12"));
+        payFeeBatchPo.setCommunityId(reqJson.getString("communityId"));
+        payFeeBatchPo.setCreateUserId(userId);
+        payFeeBatchPo.setCreateUserName(userDtos.get(0).getName());
+        payFeeBatchPo.setState(PayFeeBatchDto.STATE_NORMAL);
+        payFeeBatchPo.setMsg("正常");
+        int batchFlag = payFeeBatchV1InnerServiceSMOImpl.savePayFeeBatch(payFeeBatchPo);
+
+        if (batchFlag < 1) {
+            throw new CmdException("生成批次失败");
+        }
+
+        //todo 创建账单规则（费用挂载车辆 5555）
+        List<PayFeeRulePo> payFeeRulePos = new ArrayList<>();
+        PayFeeRulePo payFeeRulePo = new PayFeeRulePo();
+        payFeeRulePo.setRuleId(GenerateCodeFactory.getGeneratorId("11"));
+        payFeeRulePo.setCommunityId(reqJson.getString("communityId"));
+        payFeeRulePo.setConfigId(feeConfigDto.getConfigId());
+        payFeeRulePo.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_CAR);
+        payFeeRulePo.setPayerObjId(reqJson.getString("carId"));
+        payFeeRulePo.setPayerObjName(reqJson.getString("carNum"));
+        payFeeRulePo.setOwnerId(ownerCarDtos.get(0).getOwnerId());
+        payFeeRulePo.setOwnerName(ownerCarDtos.get(0).getOwnerName());
+        payFeeRulePo.setAmount(reqJson.getString("receivedAmount"));
+        payFeeRulePo.setFeeTypeCd(feeConfigDto.getFeeTypeCd());
+        payFeeRulePo.setFeeFlag(feeConfigDto.getFeeFlag());
+        payFeeRulePo.setStartTime(DateUtil.getFormatTimeStringA(startTime));
+        payFeeRulePo.setEndTime(endTime);
+        payFeeRulePo.setMaxTime(endTime);
+        payFeeRulePo.setState(FeeDto.STATE_DOING);
+        payFeeRulePo.setBatchId(payFeeBatchPo.getBatchId());
+        payFeeRulePo.setIncomeObjId(communityMemberDtos.get(0).getMemberId());
+        payFeeRulePo.setUserId("-1");
+        payFeeRulePo.setCurYearMonth(DateUtil.getFormatTimeStringB(startTime));
+        payFeeRulePos.add(payFeeRulePo);
+
+        //todo 保存账单规则
+        payFeeRuleV1InnerServiceSMOImpl.savePayFeeRules(payFeeRulePos);
+
+        //todo 生成账单（pay_fee）
+        cycleConvertOnceFeeImpl.rulesGeneratePayFees(payFeeRulePos);
+
+        //todo 查询生成的费用
+        FeeDto feeDto = new FeeDto();
+        feeDto.setCommunityId(reqJson.getString("communityId"));
+        feeDto.setPayerObjId(reqJson.getString("carId"));
+        feeDto.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_CAR);
+        feeDto.setConfigId(feeConfigDto.getConfigId());
+        feeDto.setState(FeeDto.STATE_DOING);
+        feeDto.setStartTime(DateUtil.getDateFromStringB(DateUtil.getFormatTimeStringB(startTime)));
+        List<FeeDto> feeDtos = feeInnerServiceSMOImpl.queryFees(feeDto);
+
+        Assert.listOnlyOne(feeDtos, "生成账单失败");
+
+        //todo 缴费对象载体
         PayFeePo payFeePo = new PayFeePo();
-        payFeePo.setCommunityId(reqJson.getString("communityId"));
-        payFeePo.setConfigId(feeConfigDto.getConfigId());
-        payFeePo.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE);
-        payFeePo.setStartTime(DateUtil.getFormatTimeStringA(startTime));
-        payFeePo.setEndTime(endTime);
-        payFeePo.setAmount(reqJson.getString("receivedAmount"));
-        payFeePo.setFeeFlag(feeConfigDto.getFeeFlag());
-        payFeePo.setFeeTypeCd(feeConfigDto.getFeeTypeCd());
-        payFeePo.setIncomeObjId(communityMemberDtos.get(0).getMemberId());
-        payFeePo.setBatchId("-1");
-        payFeePo.setState(FeeDto.STATE_FINISH);
-
-        payFeePo.setFeeId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_feeId));
-        payFeePo.setPayerObjId(reqJson.getString("carId"));
-        payFeePo.setUserId("-1");
-        payFeePo.setCreateTime(DateUtil.getNow(DateUtil.DATE_FORMATE_STRING_A));
-        List<PayFeePo> payFeePos = new ArrayList<>();
-        payFeePos.add(payFeePo);
-        feeInnerServiceSMOImpl.saveFee(payFeePos);
+        payFeePo.setFeeId(feeDtos.get(0).getFeeId());
+        payFeePo.setCommunityId(feeDtos.get(0).getCommunityId());
+        payFeePo.setEndTime(DateUtil.getFormatTimeStringA(feeDtos.get(0).getEndTime()));
 
         //todo 计算用量
         List<FeeAttrPo> feeAttrsPos = new ArrayList<>();
-        //todo 查询房屋信息
-        OwnerCarDto ownerCarDto = new OwnerCarDto();
-        ownerCarDto.setCommunityId(feeConfigDto.getCommunityId());
-        ownerCarDto.setMemberId(reqJson.getString("carId"));
-        List<OwnerCarDto> ownerCarDtos = ownerCarInnerServiceSMOImpl.queryOwnerCars(ownerCarDto);
         if (!ListUtil.isNull(ownerCarDtos)) {
             feeAttrsPos.add(addFeeAttr(payFeePo, FeeAttrDto.SPEC_CD_PAY_OBJECT_NAME,
                     ownerCarDtos.get(0).getAreaNum() + "-" + ownerCarDtos.get(0).getNum() + "(" + ownerCarDtos.get(0).getCarNum() + ")"));
@@ -240,8 +299,8 @@ public class BuyCarMonthOrderCmd extends Cmd {
         payFeeDetailPo.setCycles("1");
         payFeeDetailPo.setPrimeRate(reqJson.getString("primeRate"));
         payFeeDetailPo.setFeeId(payFeePo.getFeeId());
-        payFeeDetailPo.setStartTime(payFeePo.getStartTime());
-        payFeeDetailPo.setEndTime(DateUtil.getPreSecTime(payFeePo.getEndTime()));
+        payFeeDetailPo.setStartTime(DateUtil.getFormatTimeStringA(feeDtos.get(0).getStartTime()));
+        payFeeDetailPo.setEndTime(DateUtil.getPreSecTime(DateUtil.getFormatTimeStringA(feeDtos.get(0).getEndTime())));
         payFeeDetailPo.setRemark(reqJson.getString("remark"));
         payFeeDetailPo.setCreateTime(DateUtil.getNow(DateUtil.DATE_FORMATE_STRING_A));
         payFeeDetailPo.setState("1400");
@@ -252,8 +311,8 @@ public class BuyCarMonthOrderCmd extends Cmd {
         payFeeDetailPo.setGiftAmount("0");
         payFeeDetailPo.setDiscountAmount("0");
         payFeeDetailPo.setLateAmount("0");
-        if (!StringUtil.isEmpty(payFeePo.getFeeTime())) {
-            payFeeDetailPo.setFeeTime(payFeePo.getFeeTime());
+        if (feeDtos.get(0).getFeeTime() != null) {
+            payFeeDetailPo.setFeeTime(DateUtil.getFormatTimeStringA(feeDtos.get(0).getFeeTime()));
         }
         payFeeDetailPo.setCashierName(userDtos.get(0).getName());
         payFeeDetailPo.setCashierId("-1");
@@ -299,41 +358,9 @@ public class BuyCarMonthOrderCmd extends Cmd {
         feeConfigDto.setComputingFormula(FeeConfigDto.COMPUTING_FORMULA_DYNAMIC);
         List<FeeConfigDto> feeConfigDtos = payFeeConfigV1InnerServiceSMOImpl.queryPayFeeConfigs(feeConfigDto);
 
-        if (!ListUtil.isNull(feeConfigDtos)) {
-            return feeConfigDtos.get(0);
+        if (ListUtil.isNull(feeConfigDtos)) {
+            throw new CmdException("在停车费类型下，添加名称为 月租车月卡 费用项名称 并且是公式为动态费用的 费用项");
         }
-
-        PayFeeConfigPo payFeeConfigPo = new PayFeeConfigPo();
-        payFeeConfigPo.setConfigId(GenerateCodeFactory.getGeneratorId("11"));
-        payFeeConfigPo.setCommunityId(communityId);
-        payFeeConfigPo.setFeeTypeCd(FeeConfigDto.FEE_TYPE_CD_PARKING);
-        payFeeConfigPo.setSquarePrice("0");
-        payFeeConfigPo.setAdditionalAmount("0");
-        payFeeConfigPo.setIsDefault(FeeConfigDto.DEFAULT_FEE_CONFIG);
-        payFeeConfigPo.setStartTime(DateUtil.getNow(DateUtil.DATE_FORMATE_STRING_A));
-        payFeeConfigPo.setEndTime(DateUtil.getLastTime());
-        payFeeConfigPo.setFeeFlag(FeeDto.FEE_FLAG_ONCE);
-        payFeeConfigPo.setFeeName(feeName);
-        payFeeConfigPo.setComputingFormula(FeeConfigDto.COMPUTING_FORMULA_DYNAMIC);
-        payFeeConfigPo.setBillType(FeeConfigDto.BILL_TYPE_YEAR);
-        payFeeConfigPo.setPaymentCd(FeeConfigDto.PAYMENT_CD_PRE);
-        payFeeConfigPo.setPaymentCycle("1");
-        payFeeConfigPo.setComputingFormulaText("");
-        payFeeConfigPo.setDeductFrom(FeeConfigDto.DEDUCT_FROM_N);
-        payFeeConfigPo.setPayOnline("Y");
-        payFeeConfigPo.setScale("1");
-        payFeeConfigPo.setDecimalPlace("2");
-        payFeeConfigPo.setUnits("元");
-        payFeeConfigPo.setPrepaymentPeriod("1");
-        payFeeConfigPo.setState("Y");
-        payFeeConfigV1InnerServiceSMOImpl.savePayFeeConfig(payFeeConfigPo);
-
-        feeConfigDto = new FeeConfigDto();
-        feeConfigDto.setFeeName(feeName);
-        feeConfigDto.setCommunityId(communityId);
-        feeConfigDto.setFeeTypeCd(FeeConfigDto.FEE_TYPE_CD_PARKING);
-        feeConfigDto.setComputingFormula(FeeConfigDto.COMPUTING_FORMULA_DYNAMIC);
-        feeConfigDtos = payFeeConfigV1InnerServiceSMOImpl.queryPayFeeConfigs(feeConfigDto);
 
         return feeConfigDtos.get(0);
 

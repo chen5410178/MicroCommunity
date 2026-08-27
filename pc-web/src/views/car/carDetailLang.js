@@ -14,8 +14,8 @@ export const messages = {
       relatedHouse: 'Related House:',
       contact: 'Contact Person:',
       tel: 'Contact Phone:',
-      vehicleFee: 'Vehicle Fee',
-      paymentRecord: 'Payment Record',
+      vehicleFee: 'Vehicle Month Card',
+      paymentRecord: 'Month Card Payment Record',
       modificationRecord: 'Modification Record',
       memberVehicle: 'Member Vehicle',
       ownerInfo: 'Owner Info',
@@ -29,7 +29,7 @@ export const messages = {
       couponVerification: 'Coupon Verification'
     },
     carDetailFee: {
-      createFee: 'Create Fee',
+      createFee: 'Buy Month Card',
       feeItem: 'Fee Item',
       feeFlag: 'Fee Flag',
       feeType: 'Fee Type',
@@ -50,6 +50,21 @@ export const messages = {
       change: 'Change',
       detail: 'Detail',
       paymentNotice: 'Please go to the business acceptance page for payment'
+    },
+    carDetailHisFee: {
+      feeItem: 'Fee Item',
+      chargeObject: 'Charge Object',
+      cycle: 'Cycle (months)',
+      receivableAmount: 'Receivable/Received (yuan)',
+      paymentMethod: 'Payment Method',
+      paymentPeriod: 'Payment Period',
+      paymentTime: 'Payment Time',
+      cashier: 'Cashier',
+      status: 'Status',
+      remark: 'Remark',
+      operation: 'Operation',
+      detail: 'Detail',
+      accountDeduction: 'Account Deduction'
     },
     carDetailTransactionCar: {
       syncId: 'Sync ID',
@@ -159,8 +174,8 @@ export const messages = {
       relatedHouse: '关联房屋：',
       contact: '联系人：',
       tel: '联系电话：',
-      vehicleFee: '车辆费用',
-      paymentRecord: '缴费记录',
+      vehicleFee: '车辆月卡',
+      paymentRecord: '月卡缴费记录',
       modificationRecord: '修改记录',
       memberVehicle: '成员车辆',
       ownerInfo: '业主信息',
@@ -174,7 +189,7 @@ export const messages = {
       couponVerification: '优惠券核销'
     },
     carDetailFee: {
-      createFee: '创建费用',
+      createFee: '购买月卡',
       feeItem: '费用项目',
       feeFlag: '费用标识',
       feeType: '费用类型',
@@ -195,6 +210,21 @@ export const messages = {
       change: '变更',
       detail: '详情',
       paymentNotice: '缴费请到业务受理页面缴费'
+    },
+    carDetailHisFee: {
+      feeItem: '费用项目',
+      chargeObject: '收费对象',
+      cycle: '周期(月)',
+      receivableAmount: '应收/实收(元)',
+      paymentMethod: '支付方式',
+      paymentPeriod: '缴费周期',
+      paymentTime: '缴费时间',
+      cashier: '收费员',
+      status: '状态',
+      remark: '备注',
+      operation: '操作',
+      detail: '详情',
+      accountDeduction: '账户扣减'
     },
     carDetailTransactionCar: {
       syncId: '同步ID',
@@ -304,8 +334,8 @@ batchPayment: '批量缴费'
       relatedHouse: '關聯房屋：',
       contact: '聯絡人：',
       tel: '聯絡電話：',
-      vehicleFee: '車輛費用',
-      paymentRecord: '繳費記錄',
+      vehicleFee: '車輛月卡',
+      paymentRecord: '月卡繳費記錄',
       modificationRecord: '修改記錄',
       memberVehicle: '成員車輛',
       ownerInfo: '業主信息',
@@ -319,7 +349,7 @@ batchPayment: '批量缴费'
       couponVerification: '優惠券核銷'
     },
     carDetailFee: {
-      createFee: '創建費用',
+      createFee: '購買月卡',
       feeItem: '費用項目',
       feeFlag: '費用標識',
       feeType: '費用類型',
@@ -340,6 +370,21 @@ batchPayment: '批量缴费'
       change: '變更',
       detail: '詳情',
       paymentNotice: '繳費請到業務受理頁面繳費'
+    },
+    carDetailHisFee: {
+      feeItem: '費用項目',
+      chargeObject: '收費對象',
+      cycle: '週期(月)',
+      receivableAmount: '應收/實收(元)',
+      paymentMethod: '支付方式',
+      paymentPeriod: '繳費週期',
+      paymentTime: '繳費時間',
+      cashier: '收費員',
+      status: '狀態',
+      remark: '備註',
+      operation: '操作',
+      detail: '詳情',
+      accountDeduction: '賬戶扣減'
     },
     carDetailTransactionCar: {
       syncId: '同步ID',
