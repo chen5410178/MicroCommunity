@@ -112,32 +112,32 @@
                 </template>
               </el-table-column>
               <el-table-column prop="createTime" :label="$t('listParkingSpace.createTime')" align="center" />
-              <el-table-column :label="$t('listParkingSpace.operation')" align="center" width="300">
+              <el-table-column :label="$t('listParkingSpace.operation')" align="center" width="200">
                 <template slot-scope="scope">
-                  <el-button-group>
-                    <el-button size="mini" type="success" v-if="scope.row.state === 'F'"
+                  <div class="parking-space-op">
+                    <el-button size="mini" v-if="scope.row.state === 'F'"
                       @click="openRentParkingSpace(scope.row)">
                       {{ $t('listParkingSpace.rent') }}
                     </el-button>
-                    <el-button size="mini" type="warning" v-if="scope.row.state === 'F'"
+                    <el-button size="mini" v-if="scope.row.state === 'F'"
                       @click="openSellParkingSpace(scope.row)">
                       {{ $t('listParkingSpace.sell') }}
                     </el-button>
-                    <el-button size="mini" type="info" v-if="scope.row.state === 'S' || scope.row.state === 'H'"
+                    <el-button size="mini" v-if="scope.row.state === 'S' || scope.row.state === 'H'"
                       @click="handleReleaseParkingSpace(scope.row)">
                       {{ $t('listParkingSpace.release') }}
                     </el-button>
-                    <el-button size="mini" type="primary" v-if="scope.row.state === 'S' || scope.row.state === 'H'"
+                    <el-button size="mini" v-if="scope.row.state === 'S' || scope.row.state === 'H'"
                       @click="openUpdateParkingSpaceCar(scope.row)">
                       {{ $t('listParkingSpace.updateCar') }}
                     </el-button>
-                    <el-button size="mini" type="primary" @click="openEditParkingSpaceModel(scope.row)">
+                    <el-button size="mini" @click="openEditParkingSpaceModel(scope.row)">
                       {{ $t('listParkingSpace.modify') }}
                     </el-button>
-                    <el-button size="mini" type="danger" @click="openDelParkingSpaceModel(scope.row)">
+                    <el-button size="mini" @click="openDelParkingSpaceModel(scope.row)">
                       {{ $t('listParkingSpace.delete') }}
                     </el-button>
-                  </el-button-group>
+                  </div>
                 </template>
               </el-table-column>
             </el-table>
@@ -356,16 +356,7 @@ export default {
     openUpdateParkingSpaceCar(row) {
       this.$router.push({
         path: '/views/car/updateParkingSpaceCar',
-        query: {
-          psId: row.psId,
-          num: row.num,
-          paId: row.paId,
-          state: row.state,
-          carNum: row.carNum || '',
-          ownerName: row.ownerName || '',
-          startTime: row.startTime || '',
-          endTime: row.endTime || ''
-        }
+        query: { psId: row.psId }
       })
     },
 
@@ -421,13 +412,22 @@ export default {
   margin-left: 10px;
 }
 
+.parking-space-op {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.parking-space-op .el-button {
+  margin: 0 8px 8px 0;
+}
+
 .right-panel {
   padding-left: 5px;
 }
 
 .left-panel {
   .parking-area-card {
-    height: 700px;
+    height: 500px;
 
     .parking-area-list-wrapper {
       height: 630px;

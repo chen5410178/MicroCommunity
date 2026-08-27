@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white margin-top-xs padding border-radius tree-div">
+  <div class="bg-white  border-radius tree-div">
     <el-tree
       v-if="treeData.length > 0"
       :data="treeData"

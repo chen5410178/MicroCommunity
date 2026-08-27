@@ -102,10 +102,10 @@
             , t.car_num= #{carNum}
         </if>
         <if test="startTime !=null">
-            , t.start_time= #{startTime}
+            , t.start_time= nullif(#{startTime}, '')
         </if>
         <if test="endTime !=null">
-            , t.end_time= #{endTime}
+            , t.end_time= nullif(#{endTime}, '')
         </if>
         <if test="remark !=null and remark != ''">
             , t.remark= #{remark}

@@ -142,13 +142,8 @@ public class SellParkingSpaceCmd extends Cmd {
         businessParkingSpace.put("ownerName", queryOwnerName(paramInJson.getString("ownerId"), paramInJson.getString("communityId")));
         businessParkingSpace.put("carId", paramInJson.getString("carId"));
         businessParkingSpace.put("carNum", paramInJson.getString("carNum"));
-        if ("H".equals(paramInJson.getString("carNumType"))) {
-            businessParkingSpace.put("startTime", paramInJson.getString("startTime"));
-            businessParkingSpace.put("endTime", paramInJson.getString("endTime"));
-        } else {
-            businessParkingSpace.put("startTime", "");
-            businessParkingSpace.put("endTime", "");
-        }
+        businessParkingSpace.put("startTime", paramInJson.getString("startTime"));
+        businessParkingSpace.put("endTime", paramInJson.getString("endTime"));
         ParkingSpacePo parkingSpacePo = BeanConvertUtil.covertBean(businessParkingSpace, ParkingSpacePo.class);
         int flag = parkingSpaceV1InnerServiceSMOImpl.updateParkingSpace(parkingSpacePo);
         if (flag < 1) {
