@@ -66,8 +66,8 @@ export default {
           page: this.page.current,
           row: this.page.size,
         }
-        const { caches, total } = await getCacheList(params)
-        this.tableData = caches
+        const { data, total } = await getCacheList(params)
+        this.tableData = data
         this.page.total = total
       } catch (error) {
         this.$message.error(this.$t('cache.fetchError'))

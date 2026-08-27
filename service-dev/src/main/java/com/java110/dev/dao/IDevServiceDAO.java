@@ -1,5 +1,6 @@
 package com.java110.dev.dao;
 
+import com.java110.dto.cache.CacheDto;
 import com.java110.dto.privilege.BasePrivilegeDto;
 import com.java110.dto.system.BusinessDatabusDto;
 import com.java110.dto.system.BusinessTableHisDto;
@@ -45,6 +46,30 @@ public interface IDevServiceDAO {
      * @return
      */
     public List<BusinessTableHisDto> getBusinessTableHisAll();
+
+    /**
+     * 分页查询缓存列表
+     *
+     * @param info 分页参数 page(row 偏移)/row
+     * @return
+     */
+    public List<CacheDto> getCaches(Map info);
+
+    /**
+     * 查询缓存总数
+     *
+     * @param info
+     * @return
+     */
+    public int getCachesCount(Map info);
+
+    /**
+     * 按id查询缓存
+     *
+     * @param info
+     * @return
+     */
+    public CacheDto getCacheById(Map info);
 
 
 

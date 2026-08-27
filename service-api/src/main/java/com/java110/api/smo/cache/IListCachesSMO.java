@@ -18,13 +18,4 @@ public interface IListCachesSMO {
      * @throws SMOException 业务代码层 异常
      */
     ResponseEntity<String> listCaches(IPageData pd) throws SMOException;
-
-
-    /**
-     * 刷新缓存
-     * @param pd 页面数据封装
-     * @return ResponseEntity 对象数据
-     * @throws SMOException 业务代码层 异常
-     */
-    ResponseEntity<String> flushCache(IPageData pd) throws SMOException;
 }

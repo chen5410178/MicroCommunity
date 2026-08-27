@@ -65,4 +65,32 @@
         ]]>
     </select>
 
+    <!--查询缓存总数-->
+    <select id="getCachesCount" parameterType="Map" resultType="int">
+        SELECT COUNT(1)
+        FROM c_cache c
+        WHERE c.status_cd = '0'
+        AND c.`group` = 'COMMON'
+    </select>
+
+    <!--分页查询缓存列表-->
+    <select id="getCaches" parameterType="Map" resultType="com.java110.dto.cache.CacheDto">
+        SELECT c.id, c.cache_code cacheCode, c.service_code serviceCode, c.name, c.name cacheName,
+               c.seq, c.`group`, c.url, c.status_cd statusCd
+        FROM c_cache c
+        WHERE c.status_cd = '0'
+        AND c.`group` = 'COMMON'
+        ORDER BY c.seq ASC
+        LIMIT #{page}, #{row}
+    </select>
+
+    <!--按id查询缓存-->
+    <select id="getCacheById" parameterType="Map" resultType="com.java110.dto.cache.CacheDto">
+        SELECT c.id, c.cache_code cacheCode, c.service_code serviceCode, c.name, c.name cacheName,
+               c.seq, c.`group`, c.url, c.status_cd statusCd
+        FROM c_cache c
+        WHERE c.status_cd = '0'
+        AND c.id = #{id}
+    </select>
+
 </mapper>

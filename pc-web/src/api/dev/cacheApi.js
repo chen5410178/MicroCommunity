@@ -4,7 +4,7 @@ import request from '@/utils/request'
 export function getCacheList(params) {
   return new Promise((resolve, reject) => {
     request({
-      url: '/query.console.caches',
+      url: '/cache.queryCache',
       method: 'get',
       params
     }).then(response => {
@@ -20,7 +20,7 @@ export function getCacheList(params) {
 export function flushCache(data) {
   return new Promise((resolve, reject) => {
     request({
-      url: '/callComponent/cacheManage/flushCache',
+      url: '/cache.flushCache',
       method: 'post',
       data
     }).then(response => {

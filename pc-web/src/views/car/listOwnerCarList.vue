@@ -6,8 +6,7 @@
           <div class="parking-area-list-wrapper">
             <ul class="parking-area-list">
               <li v-for="(item, index) in leaseTypes" :key="index" @click="switchLeaseType(item)"
-                :class="{ 'selected': conditions.leaseType === item.statusCd }"
-                class="parking-area-item">
+                :class="{ 'selected': conditions.leaseType === item.statusCd }" class="parking-area-item">
                 {{ item.name }}
               </li>
             </ul>
@@ -24,15 +23,17 @@
               <el-input v-model.trim="conditions.carNumLike" :placeholder="$t('listOwnerCar.inputCarNum')" clearable />
             </el-col>
             <el-col :span="4">
-              <el-select v-model="conditions.valid" :placeholder="$t('listOwnerCar.selectParkingSpaceStatus')" clearable>
+              <el-select v-model="conditions.valid" :placeholder="$t('listOwnerCar.selectParkingSpaceStatus')"
+                clearable>
                 <el-option value="1" :label="$t('listOwnerCar.normal')"></el-option>
                 <el-option value="3" :label="$t('listOwnerCar.expired')"></el-option>
               </el-select>
             </el-col>
             <el-col :span="4">
-              <el-input v-model.trim="conditions.ownerName" :placeholder="$t('listOwnerCar.inputOwnerName')" clearable />
+              <el-input v-model.trim="conditions.ownerName" :placeholder="$t('listOwnerCar.inputOwnerName')"
+                clearable />
             </el-col>
- 
+
             <el-col :span="4">
               <el-input v-model.trim="conditions.link" :placeholder="$t('listOwnerCar.inputContact')" clearable />
             </el-col>
@@ -48,7 +49,7 @@
               <el-input v-model.trim="conditions.memberCarNumLike" :placeholder="$t('listOwnerCar.inputMemberCarNum')"
                 clearable />
             </el-col>
-           
+
           </el-row>
         </el-card>
 
@@ -120,23 +121,29 @@
             <el-table-column prop="remark" :label="$t('listOwnerCar.remark')" align="center" />
             <el-table-column :label="$t('listOwnerCar.operation')" align="center" width="300">
               <template slot-scope="scope">
-                <el-button size="mini" type="primary" @click="toCarDetail(scope.row)">
-                  {{ $t('listOwnerCar.detail') }}
-                </el-button>
-                <el-button v-if="scope.row.leaseType === 'H'" size="mini" @click="toBuyCarMonthCard(scope.row)">
-                  {{ $t('listOwnerCar.buyMonthlyCard') }}
-                </el-button>
-                <el-button v-if="scope.row.carTypeCd !== '1003' && hasPrivilege('502023032804261679')" size="mini"
-                  @click="openEditOwnerCar(scope.row)">
-                  {{ $t('listOwnerCar.modify') }}
-                </el-button>
-                <el-button size="mini" type="primary" v-if="scope.row.carTypeCd !== '1003' && hasPrivilege('502023032804261679')"  @click="openChangeOwnerDialog(scope.row)">
-                  {{ $t('listOwnerCar.changeOwner') }}
-                </el-button>
-                <el-button v-if="hasPrivilege('502023032822121680')"   size="mini" type="danger"
-                  @click="openDelOwnerCarModel(scope.row)">
-                  {{ $t('listOwnerCar.delete') }}
-                </el-button>
+                <div>
+                  <el-button v-if="scope.row.leaseType === 'H'" size="mini" @click="toBuyCarMonthCard(scope.row)">
+                    {{ $t('listOwnerCar.buyMonthlyCard') }}
+                  </el-button>
+                  <el-button v-if="scope.row.carTypeCd !== '1003' && hasPrivilege('502023032804261679')" size="mini"
+                    @click="openEditOwnerCar(scope.row)">
+                    {{ $t('listOwnerCar.modify') }}
+                  </el-button>
+                  <el-button v-if="hasPrivilege('502023032822121680')" size="mini"
+                    @click="openDelOwnerCarModel(scope.row)">
+                    {{ $t('listOwnerCar.delete') }}
+                  </el-button>
+                </div>
+                <div class="margin-top-sm">
+                  <el-button size="mini" v-if="scope.row.carTypeCd !== '1003' && hasPrivilege('502023032804261679')"
+                    @click="openChangeOwnerDialog(scope.row)">
+                    {{ $t('listOwnerCar.changeOwner') }}
+                  </el-button>
+
+                  <el-button size="mini" @click="toCarDetail(scope.row)">
+                    {{ $t('listOwnerCar.detail') }}
+                  </el-button>
+                </div>
               </template>
             </el-table-column>
           </el-table>
@@ -286,7 +293,7 @@ export default {
     },
 
     toCarDetail(car) {
-      window.open(`/views/car/carDetail?memberId=${car.memberId}`)
+      window.open(`/#/views/car/carDetail?memberId=${car.memberId}`)
     },
     openChangeOwnerDialog(car) {
       this.$refs.changeOwnerDialog.open(car)

@@ -5,6 +5,8 @@ import com.java110.core.factory.DataTransactionFactory;
 import com.java110.db.dao.IQueryServiceDAO;
 import com.java110.dev.dao.IDevServiceDAO;
 import com.java110.dev.smo.IDevServiceCacheSMO;
+import com.java110.dto.PageDto;
+import com.java110.dto.cache.CacheDto;
 import com.java110.dto.privilege.BasePrivilegeDto;
 import com.java110.dto.system.*;
 import com.java110.dto.mapping.Mapping;
@@ -14,6 +16,8 @@ import com.java110.utils.constant.CommonConstant;
 import com.java110.utils.constant.ResponseConstant;
 import com.java110.utils.exception.SMOException;
 import com.java110.utils.util.Assert;
+import com.java110.utils.util.BeanConvertUtil;
+import com.java110.utils.util.StringUtil;
 import org.slf4j.Logger;
 import com.java110.core.log.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,10 +97,89 @@ public class DevServiceCacheSMOImpl implements IDevServiceCacheSMO {
     }
 
     /**
+     * 查询缓存总数
+     *
+     * @param cacheDto
+     * @return
+     */
+    @Override
+    public int queryCachesCount(CacheDto cacheDto) {
+        return devServiceDAOImpl.getCachesCount(BeanConvertUtil.beanCovertMap(cacheDto));
+    }
+
+    /**
+     * 分页查询缓存列表
+     *
+     * @param cacheDto
+     * @return
+     */
+    @Override
+    public List<CacheDto> queryCaches(CacheDto cacheDto) {
+        //处理分页 offset
+        if (cacheDto.getPage() != PageDto.DEFAULT_PAGE) {
+            cacheDto.setPage((cacheDto.getPage() - 1) * cacheDto.getRow());
+        }
+        return devServiceDAOImpl.getCaches(BeanConvertUtil.beanCovertMap(cacheDto));
+    }
+
+    /**
+     * 按id查询缓存
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public CacheDto getCacheById(String id) {
+        Map info = new HashMap();
+        info.put("id", id);
+        return devServiceDAOImpl.getCacheById(info);
+    }
+
+    /**
+     * 按id刷新缓存
+     *
+     * @param id
+     */
+    @Override
+    public void flushCacheById(String id) {
+        CacheDto cacheDto = getCacheById(id);
+        Assert.notNull(cacheDto, "查询缓存失败，缓存不存在");
+        String url = cacheDto.getUrl();
+        String cacheParam = parseCacheParam(url);
+        Assert.hasLength(cacheParam, "查询缓存失败，未包含cache参数");
+        Map<String, String> headers = new HashMap<>();
+        headers.put(CommonConstant.CACHE_PARAM, cacheParam);
+        flush(headers);
+    }
+
+    /**
+     * 解析刷新地址中 cache= 参数值
+     * 如 cache.flushCache?cache=MAPPING 返回 MAPPING
+     *
+     * @param url
+     * @return
+     */
+    private String parseCacheParam(String url) {
+        if (StringUtil.isEmpty(url) || url.indexOf("?") < 0) {
+            return null;
+        }
+        String paramsStr = url.substring(url.indexOf("?") + 1);
+        String[] params = paramsStr.split("&");
+        for (String param : params) {
+            String[] keyValue = param.split("=");
+            if (keyValue.length == 2 && CommonConstant.CACHE_PARAM.equals(keyValue[0])) {
+                return keyValue[1];
+            }
+        }
+        return null;
+    }
+
+    /**
      * 用来系统启动刷新
      */
     @Override
     public void startFlush() {
+
         //1.0 封装 AppRoute
         doFlushAppRoute();
 

@@ -32,17 +32,6 @@ public class CacheManageComponent {
         return listCachesSMOImpl.listCaches(pd);
     }
 
-
-    /**
-     * 刷新缓存
-     * @param pd
-     * @return
-     */
-    public ResponseEntity<String> flushCache(IPageData pd){
-        return listCachesSMOImpl.flushCache(pd);
-
-    }
-
     public IListCachesSMO getListCachesSMOImpl() {
         return listCachesSMOImpl;
     }

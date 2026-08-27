@@ -2,6 +2,7 @@ package com.java110.dev.dao.impl;
 
 import com.java110.core.base.dao.BaseServiceDao;
 import com.java110.dev.dao.IDevServiceDAO;
+import com.java110.dto.cache.CacheDto;
 import com.java110.dto.privilege.BasePrivilegeDto;
 import com.java110.dto.system.BusinessDatabusDto;
 import com.java110.dto.system.BusinessTableHisDto;
@@ -54,6 +55,21 @@ public class DevServiceDAOImpl extends BaseServiceDao implements IDevServiceDAO 
     @Override
     public List<BusinessTableHisDto> getBusinessTableHisAll() {
         return sqlSessionTemplate.selectList("devServiceDAOImpl.getBusinessTableHisAll");
+    }
+
+    @Override
+    public List<CacheDto> getCaches(Map info) {
+        return sqlSessionTemplate.selectList("devServiceDAOImpl.getCaches", info);
+    }
+
+    @Override
+    public int getCachesCount(Map info) {
+        return sqlSessionTemplate.selectOne("devServiceDAOImpl.getCachesCount", info);
+    }
+
+    @Override
+    public CacheDto getCacheById(Map info) {
+        return sqlSessionTemplate.selectOne("devServiceDAOImpl.getCacheById", info);
     }
 
 }
