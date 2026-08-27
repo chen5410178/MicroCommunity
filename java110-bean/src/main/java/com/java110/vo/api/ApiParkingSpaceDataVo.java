@@ -44,6 +44,11 @@ public class ApiParkingSpaceDataVo extends Vo {
     private String ownerName;
     private String idCard;
     private String link;
+    private String sectionId;
+    private String sectionName;
+    private String sectionNum;
+    private String startTime;
+    private String endTime;
 
     public String getArea() {
         return area;
@@ -224,6 +229,51 @@ public class ApiParkingSpaceDataVo extends Vo {
     public String getLink() {
         return link;
     }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
+    public String getSectionId() {
+        return sectionId;
+    }
+
+    public void setSectionId(String sectionId) {
+        this.sectionId = sectionId;
+    }
+
+    public String getSectionName() {
+        return sectionName;
+    }
+
+    public void setSectionName(String sectionName) {
+        this.sectionName = sectionName;
+    }
+
+    public String getSectionNum() {
+        return sectionNum;
+    }
+
+    public void setSectionNum(String sectionNum) {
+        this.sectionNum = sectionNum;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+}
 
     public void setLink(String link) {
         this.link = link;

@@ -6,8 +6,10 @@ import com.java110.core.annotation.Java110Transactional;
 import com.java110.core.context.ICmdDataFlowContext;
 import com.java110.core.event.cmd.Cmd;
 import com.java110.core.event.cmd.CmdEvent;
+import com.java110.dto.parking.ParkingAreaSectionDto;
 import com.java110.dto.parking.ParkingSpaceDto;
 import com.java110.intf.community.IParkingAreaAttrV1InnerServiceSMO;
+import com.java110.intf.community.IParkingAreaSectionV1InnerServiceSMO;
 import com.java110.intf.community.IParkingAreaV1InnerServiceSMO;
 import com.java110.intf.community.IParkingSpaceInnerServiceSMO;
 import com.java110.po.parking.ParkingAreaPo;
@@ -30,6 +32,9 @@ public class DeleteParkingAreaCmd extends Cmd {
     @Autowired
     private IParkingSpaceInnerServiceSMO parkingSpaceInnerServiceSMOImpl;
 
+    @Autowired
+    private IParkingAreaSectionV1InnerServiceSMO parkingAreaSectionV1InnerServiceSMOImpl;
+
     @Override
     public void validate(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) throws CmdException {
         //Assert.hasKeyAndValue(reqJson, "xxx", "xxx");
@@ -46,6 +51,13 @@ public class DeleteParkingAreaCmd extends Cmd {
         List<ParkingSpaceDto> parkingSpaceDtos = parkingSpaceInnerServiceSMOImpl.queryParkingSpaces(parkingSpaceDto);
         if (parkingSpaceDtos != null && parkingSpaceDtos.size() > 0) {
             throw new IllegalArgumentException("请先删除该停车场下的停车位！");
+        }
+        ParkingAreaSectionDto parkingAreaSectionDto = new ParkingAreaSectionDto();
+        parkingAreaSectionDto.setPaId(parkingAreaPo.getPaId());
+        parkingAreaSectionDto.setCommunityId(parkingAreaPo.getCommunityId());
+        List<ParkingAreaSectionDto> parkingAreaSectionDtos = parkingAreaSectionV1InnerServiceSMOImpl.queryParkingAreaSections(parkingAreaSectionDto);
+        if (parkingAreaSectionDtos != null && parkingAreaSectionDtos.size() > 0) {
+            throw new IllegalArgumentException("请先删除该停车场下的停车区域！");
         }
         int flag = parkingAreaV1InnerServiceSMOImpl.deleteParkingArea(parkingAreaPo);
         if (flag < 1) {

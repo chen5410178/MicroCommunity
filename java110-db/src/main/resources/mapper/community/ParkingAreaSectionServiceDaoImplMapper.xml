@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="parkingAreaSectionServiceDaoImpl">
+
+    <!-- 保存停车区域新信息 add by wuxw 2026-08-27 -->
+    <insert id="saveParkingAreaSectionInfo" parameterType="Map">
+        insert into parking_area_section(
+        section_id,pa_id,community_id,section_num,section_name,remark,status_cd
+        ) values (
+        #{sectionId},#{paId},#{communityId},#{sectionNum},#{sectionName},#{remark},#{statusCd}
+        )
+    </insert>
+
+    <!-- 查询停车区域新信息 add by wuxw 2026-08-27 -->
+    <select id="getParkingAreaSectionInfo" parameterType="Map" resultType="Map">
+        select t.section_id,t.section_id sectionId,t.pa_id,t.pa_id paId,t.community_id,t.community_id
+        communityId,t.section_num,t.section_num sectionNum,t.section_name,t.section_name sectionName,t.remark,t.status_cd,t.status_cd
+        statusCd,pa.num paName
+        from parking_area_section t
+        left join parking_area pa on t.pa_id = pa.pa_id and pa.status_cd = '0'
+        where 1 =1
+        <if test="sectionId !=null and sectionId != ''">
+            and t.section_id= #{sectionId}
+        </if>
+        <if test="paId !=null and paId != ''">
+            and t.pa_id= #{paId}
+        </if>
+        <if test="communityId !=null and communityId != ''">
+            and t.community_id= #{communityId}
+        </if>
+        <if test="sectionNum !=null and sectionNum != ''">
+            and t.section_num= #{sectionNum}
+        </if>
+        <if test="sectionName !=null and sectionName != ''">
+            and t.section_name= #{sectionName}
+        </if>
+        <if test="remark !=null and remark != ''">
+            and t.remark= #{remark}
+        </if>
+        <if test="statusCd !=null and statusCd != ''">
+            and t.status_cd= #{statusCd}
+        </if>
+        order by t.create_time desc
+        <if test="page != -1 and page != null ">
+            limit #{page}, #{row}
+        </if>
+    </select>
+
+    <!-- 修改停车区域新信息 add by wuxw 2026-08-27 -->
+    <update id="updateParkingAreaSectionInfo" parameterType="Map">
+        update parking_area_section t set t.status_cd = #{statusCd}
+        <if test="paId !=null and paId != ''">
+            , t.pa_id= #{paId}
+        </if>
+        <if test="sectionNum !=null and sectionNum != ''">
+            , t.section_num= #{sectionNum}
+        </if>
+        <if test="sectionName !=null and sectionName != ''">
+            , t.section_name= #{sectionName}
+        </if>
+        <if test="remark !=null and remark != ''">
+            , t.remark= #{remark}
+        </if>
+        <if test="communityId !=null and communityId != ''">
+            , t.community_id= #{communityId}
+        </if>
+        where 1=1
+        <if test="sectionId !=null and sectionId != ''">
+            and t.section_id= #{sectionId}
+        </if>
+    </update>
+
+    <!-- 查询停车区域新数量 add by wuxw 2026-08-27 -->
+    <select id="queryParkingAreaSectionsCount" parameterType="Map" resultType="Map">
+        select count(1) count
+        from parking_area_section t
+        where 1 =1
+        <if test="sectionId !=null and sectionId != ''">
+            and t.section_id= #{sectionId}
+        </if>
+        <if test="paId !=null and paId != ''">
+            and t.pa_id= #{paId}
+        </if>
+        <if test="communityId !=null and communityId != ''">
+            and t.community_id= #{communityId}
+        </if>
+        <if test="sectionNum !=null and sectionNum != ''">
+            and t.section_num= #{sectionNum}
+        </if>
+        <if test="sectionName !=null and sectionName != ''">
+            and t.section_name= #{sectionName}
+        </if>
+        <if test="remark !=null and remark != ''">
+            and t.remark= #{remark}
+        </if>
+        <if test="statusCd !=null and statusCd != ''">
+            and t.status_cd= #{statusCd}
+        </if>
+    </select>
+
+</mapper>

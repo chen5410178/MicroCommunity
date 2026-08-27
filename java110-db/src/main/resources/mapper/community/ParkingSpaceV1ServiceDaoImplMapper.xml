@@ -5,15 +5,20 @@
 
     <!-- 保存车位信息 add by wuxw 2018-07-03 -->
     <insert id="saveParkingSpaceInfo" parameterType="Map">
-        insert into parking_space(area, parking_type, num, pa_id, ps_id, remark, state, community_id)
-        values (#{area}, #{parkingType}, #{num}, #{paId}, #{psId}, #{remark}, #{state}, #{communityId})
+        insert into parking_space(area, parking_type, num, pa_id, section_id, ps_id, remark, state, community_id)
+        values (#{area}, #{parkingType}, #{num}, #{paId}, #{sectionId}, #{psId}, #{remark}, #{state}, #{communityId})
     </insert>
 
     <!-- 查询车位信息 add by wuxw 2018-07-03 -->
     <select id="getParkingSpaceInfo" parameterType="Map" resultType="Map">
-        select t.area,t.parking_type,t.parking_type parkingType,t.num,t.pa_id,t.pa_id paId,t.ps_id,t.ps_id
-        psId,t.remark,t.status_cd,t.status_cd statusCd,t.state,t.community_id,t.community_id communityId
+        select t.area,t.parking_type,t.parking_type parkingType,t.num,t.pa_id,t.pa_id paId,t.section_id,t.section_id
+        sectionId,t.owner_id,t.owner_id ownerId,t.owner_name,t.owner_name ownerName,t.car_id,t.car_id carId,t.car_num,t.car_num
+        carNum,t.start_time,t.start_time startTime,t.end_time,t.end_time endTime,t.ps_id,t.ps_id
+        psId,t.remark,t.status_cd,t.status_cd statusCd,t.state,t.community_id,t.community_id communityId,
+        pa.num paName,pa.num areaNum,s.section_num sectionNum,s.section_name sectionName
         from parking_space t
+        left join parking_area pa on t.pa_id = pa.pa_id and pa.status_cd = '0'
+        left join parking_area_section s on t.section_id = s.section_id and s.status_cd = '0'
         where 1 =1
         <if test="area !=null and area != ''">
             and t.area= #{area}
@@ -32,6 +37,9 @@
         </if>
         <if test="paId !=null and paId != ''">
             and t.pa_id= #{paId}
+        </if>
+        <if test="sectionId !=null and sectionId != ''">
+            and t.section_id= #{sectionId}
         </if>
         <if test="psId !=null and psId != ''">
             and t.ps_id= #{psId}
@@ -78,6 +86,27 @@
         <if test="paId !=null and paId != ''">
             , t.pa_id= #{paId}
         </if>
+        <if test="sectionId !=null and sectionId != ''">
+            , t.section_id= #{sectionId}
+        </if>
+        <if test="ownerId !=null and ownerId != ''">
+            , t.owner_id= #{ownerId}
+        </if>
+        <if test="ownerName !=null and ownerName != ''">
+            , t.owner_name= #{ownerName}
+        </if>
+        <if test="carId !=null and carId != ''">
+            , t.car_id= #{carId}
+        </if>
+        <if test="carNum !=null and carNum != ''">
+            , t.car_num= #{carNum}
+        </if>
+        <if test="startTime !=null">
+            , t.start_time= #{startTime}
+        </if>
+        <if test="endTime !=null">
+            , t.end_time= #{endTime}
+        </if>
         <if test="remark !=null and remark != ''">
             , t.remark= #{remark}
         </if>
@@ -116,6 +145,9 @@
         <if test="paId !=null and paId != ''">
             and t.pa_id= #{paId}
         </if>
+        <if test="sectionId !=null and sectionId != ''">
+            and t.section_id= #{sectionId}
+        </if>
         <if test="psId !=null and psId != ''">
             and t.ps_id= #{psId}
         </if>
@@ -142,10 +174,10 @@
     <!-- 保存车位信息 add by wuxw 2018-07-03 -->
     <insert id="saveParkingSpaceInfos" parameterType="Map">
         insert into parking_space(
-        area,parking_type,num,pa_id,ps_id,remark,state,community_id,create_time
+        area,parking_type,num,pa_id,section_id,ps_id,remark,state,community_id,create_time
         ) values
         <foreach collection="parkingSpacePos" item="item" separator=",">
-            (#{item.area},#{item.parkingType},#{item.num},#{item.paId},#{item.psId},#{item.remark},#{item.state},#{item.communityId},#{item.createTime})
+            (#{item.area},#{item.parkingType},#{item.num},#{item.paId},#{item.sectionId},#{item.psId},#{item.remark},#{item.state},#{item.communityId},#{item.createTime})
         </foreach>
     </insert>
 </mapper>

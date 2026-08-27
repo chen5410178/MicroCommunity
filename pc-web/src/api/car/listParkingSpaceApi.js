@@ -119,3 +119,121 @@ export function batchSaveParkingSpace(data) {
     })
   })
 }
+
+// 查询停车场及停车区域（两级树接口）
+export function queryParkingAreaAndSections() {
+  return new Promise((resolve, reject) => {
+    const communityId = getCommunityId()
+    request({
+      url: '/parkingArea.queryParkingAreaAndSections',
+      method: 'get',
+      params: { communityId }
+    }).then(response => {
+      const res = response.data
+      resolve(res)
+    }).catch(error => {
+      reject(error)
+    })
+  })
+}
+
+// 查询停车区域列表
+export function listParkingAreaSections(params) {
+  return new Promise((resolve, reject) => {
+    const communityId = getCommunityId()
+    request({
+      url: '/parkingArea.listParkingAreaSections',
+      method: 'get',
+      params: { ...params, communityId }
+    }).then(response => {
+      const res = response.data
+      resolve(res)
+    }).catch(error => {
+      reject(error)
+    })
+  })
+}
+
+// 添加停车区域
+export function saveParkingAreaSection(data) {
+  return new Promise((resolve, reject) => {
+    const communityId = getCommunityId()
+    request({
+      url: '/parkingArea.saveParkingAreaSection',
+      method: 'post',
+      data: { ...data, communityId }
+    }).then(response => {
+      const res = response.data
+      if (res.code === 0) {
+        resolve(res)
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
+    }).catch(error => {
+      reject(error)
+    })
+  })
+}
+
+// 修改停车区域
+export function updateParkingAreaSection(data) {
+  return new Promise((resolve, reject) => {
+    const communityId = getCommunityId()
+    request({
+      url: '/parkingArea.updateParkingAreaSection',
+      method: 'post',
+      data: { ...data, communityId }
+    }).then(response => {
+      const res = response.data
+      if (res.code === 0) {
+        resolve(res)
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
+    }).catch(error => {
+      reject(error)
+    })
+  })
+}
+
+// 删除停车区域
+export function deleteParkingAreaSection(data) {
+  return new Promise((resolve, reject) => {
+    const communityId = getCommunityId()
+    request({
+      url: '/parkingArea.deleteParkingAreaSection',
+      method: 'post',
+      data: { ...data, communityId }
+    }).then(response => {
+      const res = response.data
+      if (res.code === 0) {
+        resolve(res)
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
+    }).catch(error => {
+      reject(error)
+    })
+  })
+}
+
+// 出租/出售车位
+export function sellParkingSpace(data) {
+  return new Promise((resolve, reject) => {
+    const communityId = getCommunityId()
+    request({
+      url: '/parkingSpace.sellParkingSpace',
+      method: 'post',
+      data: { ...data, communityId }
+    }).then(response => {
+      const res = response.data
+      if (res.code === 0) {
+        resolve(res)
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
+    }).catch(error => {
+      reject(error)
+    })
+  })
+}

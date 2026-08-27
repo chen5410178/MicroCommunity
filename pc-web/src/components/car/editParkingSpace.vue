@@ -23,12 +23,29 @@
           v-model="form.paId" 
           :placeholder="$t('editParkingSpace.parkingLotPlaceholder')"
           style="width:100%"
+          @change="handlePaIdChange"
         >
           <el-option 
             v-for="item in parkingAreas" 
             :key="item.paId"
             :label="item.num" 
             :value="item.paId"
+          ></el-option>
+        </el-select>
+      </el-form-item>
+
+      <el-form-item :label="$t('editParkingSpace.section')" prop="sectionId">
+        <el-select 
+          v-model="form.sectionId" 
+          :placeholder="$t('editParkingSpace.sectionPlaceholder')"
+          style="width:100%"
+          clearable
+        >
+          <el-option 
+            v-for="item in sections" 
+            :key="item.sectionId"
+            :label="item.sectionName || item.sectionNum" 
+            :value="item.sectionId"
           ></el-option>
         </el-select>
       </el-form-item>
@@ -83,7 +100,7 @@
 </template>
 
 <script>
-import { editParkingSpace } from '@/api/car/listParkingSpaceApi'
+import { editParkingSpace, listParkingAreaSections } from '@/api/car/listParkingSpaceApi'
 import { listParkingAreas } from '@/api/car/listParkingSpaceApi'
 import { getDict } from '@/api/community/communityApi'
 import { getCommunityId } from '@/api/community/communityApi'
@@ -98,21 +115,35 @@ export default {
         psId: '',
         num: '',
         paId: '',
+        sectionId: '',
         parkingType: '',
         area: '',
         remark: '',
         communityId: getCommunityId()
       },
       parkingTypes: [],
-      parkingAreas: []
+      parkingAreas: [],
+      sections: []
     }
   },
   methods: {
     open(row) {
       this.form = { ...row, communityId: getCommunityId() }
+      if (!this.form.sectionId) {
+        this.form.sectionId = ''
+      }
       this.visible = true
       this.loadParkingTypes()
       this.loadParkingAreas()
+    },
+
+    handlePaIdChange(paId) {
+      this.form.sectionId = ''
+      if (paId) {
+        this.loadSections(paId)
+      } else {
+        this.sections = []
+      }
     },
     
     async loadParkingTypes() {
@@ -133,6 +164,24 @@ export default {
         }
         const res = await listParkingAreas(params)
         this.parkingAreas = res.parkingAreas
+        if (this.form.paId) {
+          this.loadSections(this.form.paId)
+        }
+      } catch (error) {
+        this.$message.error(this.$t('common.loadError'))
+      }
+    },
+
+    async loadSections(paId) {
+      try {
+        const params = {
+          page: 1,
+          row: 100,
+          paId: paId,
+          communityId: getCommunityId()
+        }
+        const res = await listParkingAreaSections(params)
+        this.sections = res.data || []
       } catch (error) {
         this.$message.error(this.$t('common.loadError'))
       }
@@ -159,11 +208,14 @@ export default {
     },
     
     closeDialog() {
-      this.$refs.form.resetFields()
+      if (this.$refs.form) {
+        this.$refs.form.resetFields()
+      }
       this.form = {
         psId: '',
         num: '',
         paId: '',
+        sectionId: '',
         parkingType: '',
         area: '',
         remark: '',

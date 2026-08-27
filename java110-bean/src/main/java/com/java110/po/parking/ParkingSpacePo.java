@@ -15,6 +15,15 @@ public class ParkingSpacePo implements Serializable {
     private String communityId;
     private String num;
     private String paId;
+    private String paName;
+    private String sectionId;
+    private String sectionName;
+    private String ownerId;
+    private String ownerName;
+    private String carId;
+    private String carNum;
+    private String startTime;
+    private String endTime;
     private String state;
     private String area;
     private String remark;
@@ -54,6 +63,78 @@ public class ParkingSpacePo implements Serializable {
 
     public void setPaId(String paId) {
         this.paId = paId;
+    }
+
+    public String getPaName() {
+        return paName;
+    }
+
+    public void setPaName(String paName) {
+        this.paName = paName;
+    }
+
+    public String getSectionId() {
+        return sectionId;
+    }
+
+    public void setSectionId(String sectionId) {
+        this.sectionId = sectionId;
+    }
+
+    public String getSectionName() {
+        return sectionName;
+    }
+
+    public void setSectionName(String sectionName) {
+        this.sectionName = sectionName;
+    }
+
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
+    }
+
+    public String getCarId() {
+        return carId;
+    }
+
+    public void setCarId(String carId) {
+        this.carId = carId;
+    }
+
+    public String getCarNum() {
+        return carNum;
+    }
+
+    public void setCarNum(String carNum) {
+        this.carNum = carNum;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
 
     public String getState() {

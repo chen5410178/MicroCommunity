@@ -5,7 +5,9 @@ import com.java110.core.annotation.Java110Cmd;
 import com.java110.core.context.ICmdDataFlowContext;
 import com.java110.core.event.cmd.Cmd;
 import com.java110.core.event.cmd.CmdEvent;
+import com.java110.dto.parking.ParkingAreaSectionDto;
 import com.java110.dto.parking.ParkingSpaceDto;
+import com.java110.intf.community.IParkingAreaSectionV1InnerServiceSMO;
 import com.java110.intf.community.IParkingSpaceInnerServiceSMO;
 import com.java110.intf.community.IParkingSpaceV1InnerServiceSMO;
 import com.java110.po.parking.ParkingSpacePo;
@@ -15,6 +17,7 @@ import com.java110.utils.exception.CmdException;
 import com.java110.utils.exception.ListenerExecuteException;
 import com.java110.utils.util.Assert;
 import com.java110.utils.util.BeanConvertUtil;
+import com.java110.utils.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.text.ParseException;
@@ -28,6 +31,9 @@ public class EditParkingSpaceCmd extends Cmd {
 
     @Autowired
     private IParkingSpaceV1InnerServiceSMO parkingSpaceV1InnerServiceSMOImpl;
+
+    @Autowired
+    private IParkingAreaSectionV1InnerServiceSMO parkingAreaSectionV1InnerServiceSMOImpl;
 
 
     @Override
@@ -43,6 +49,18 @@ public class EditParkingSpaceCmd extends Cmd {
 
         if (reqJson.getString("psId").startsWith("-")) {
             throw new ListenerExecuteException(ResponseConstant.RESULT_CODE_ERROR, "停车位ID必须为已有ID");
+        }
+
+        //校验区域 属于该停车场
+        if (reqJson.containsKey("sectionId") && !StringUtil.isEmpty(reqJson.getString("sectionId"))) {
+            ParkingAreaSectionDto parkingAreaSectionDto = new ParkingAreaSectionDto();
+            parkingAreaSectionDto.setCommunityId(reqJson.getString("communityId"));
+            parkingAreaSectionDto.setPaId(reqJson.getString("paId"));
+            parkingAreaSectionDto.setSectionId(reqJson.getString("sectionId"));
+            int count = parkingAreaSectionV1InnerServiceSMOImpl.queryParkingAreaSectionsCount(parkingAreaSectionDto);
+            if (count < 1) {
+                throw new IllegalArgumentException("传入停车区域不是该停车场的区域");
+            }
         }
 
         ParkingSpaceDto parkingSpaceDto = new ParkingSpaceDto();

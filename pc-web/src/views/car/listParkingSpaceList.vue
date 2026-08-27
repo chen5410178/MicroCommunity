@@ -1,25 +1,36 @@
 <template>
   <div class="animated fadeInRight ecommerce">
-    <el-row :gutter="20">
-      <el-col :span="3" class="left-panel">
+    <div class="bg-white padding-sm text-left">
+      <el-button type="primary" size="small" @click="openAddParkingAreaModal">
+        <i class="el-icon-plus"></i>{{ $t('listParkingSpace.addParkingArea') }}
+      </el-button>
+      <el-button type="primary" size="small" @click="openEditParkingAreaModal" v-if="conditions.paId && !conditions.sectionId">
+        <i class="el-icon-edit"></i>{{ $t('listParkingSpace.editParkingArea') }}
+      </el-button>
+      <el-button type="primary" size="small" @click="openDeleteParkingAreaModal" v-if="conditions.paId && !conditions.sectionId">
+        <i class="el-icon-close"></i>{{ $t('listParkingSpace.deleteParkingArea') }}
+      </el-button>
+      <el-button type="primary" size="small" class="margin-left-sm" @click="openAddSectionModal" v-if="conditions.paId && !conditions.sectionId">
+        <i class="el-icon-plus"></i>{{ $t('listParkingSpace.addSection') }}
+      </el-button>
+      <el-button type="primary" size="small" class="margin-left-sm" @click="openEditSectionModal" v-if="conditions.sectionId">
+        <i class="el-icon-edit"></i>{{ $t('listParkingSpace.editSection') }}
+      </el-button>
+      <el-button type="primary" size="small" class="margin-left-sm" @click="openDeleteSectionModal" v-if="conditions.sectionId">
+        <i class="el-icon-close"></i>{{ $t('listParkingSpace.deleteSection') }}
+      </el-button>
+    </div>
+
+    <el-row :gutter="20" class="margin-top-xs">
+      <el-col :span="5" class="left-panel">
         <el-card class="parking-area-card">
-          <div class="parking-area-list-wrapper">
-            <ul class="parking-area-list">
-              <li @click="_switchParkingArea({ paId: '', num: '' })"
-                :class="{ 'selected': selectedPaId === '' }"
-                class="parking-area-item">
-                {{ $t('listParkingSpace.all') }}
-              </li>
-              <li v-for="(item, index) in parkingAreas" :key="index" @click="_switchParkingArea(item)"
-                :class="{ 'selected': selectedPaId === item.paId }"
-                class="parking-area-item">
-                {{ item.num }}
-              </li>
-            </ul>
+          <div slot="header" class="clearfix text-left">
+            <span>{{ $t('listParkingSpace.parkingAreaTreeTitle') }}</span>
           </div>
+          <parking-area-tree ref="parkingAreaTree" @switchParkingAreaSection="switchParkingAreaSection" />
         </el-card>
       </el-col>
-      <el-col :span="21" class="right-panel">
+      <el-col :span="19" class="right-panel">
         <el-card class="box-card">
           <div slot="header" class="clearfix flex justify-between">
             <div>{{ $t('listParkingSpace.queryCondition') }}</div>
@@ -72,6 +83,11 @@
           <div class="">
             <el-table :data="listParkingSpaceInfo.parkingSpaces" border stripe style="width: 100%" v-loading="loading">
               <el-table-column prop="areaNum" :label="$t('listParkingSpace.parkingLot')" align="center" />
+              <el-table-column :label="$t('listParkingSpace.section')" align="center">
+                <template slot-scope="scope">
+                  {{ scope.row.sectionName || scope.row.sectionNum || '-' }}
+                </template>
+              </el-table-column>
               <el-table-column prop="num" :label="$t('listParkingSpace.parkingSpace')" align="center" />
               <el-table-column :label="$t('listParkingSpace.parkingSpaceState')" align="center">
                 <template slot-scope="scope">
@@ -80,10 +96,36 @@
               </el-table-column>
               <el-table-column prop="parkingTypeName" :label="$t('listParkingSpace.parkingSpaceType')" align="center" />
               <el-table-column prop="area" :label="$t('listParkingSpace.area')" align="center" />
+              <el-table-column prop="ownerName" :label="$t('listParkingSpace.owner')" align="center">
+                <template slot-scope="scope">
+                  {{ scope.row.ownerName || '-' }}
+                </template>
+              </el-table-column>
+              <el-table-column prop="carNum" :label="$t('listParkingSpace.carNum')" align="center">
+                <template slot-scope="scope">
+                  {{ scope.row.carNum || '-' }}
+                </template>
+              </el-table-column>
+              <el-table-column :label="$t('listParkingSpace.rentTime')" align="center">
+                <template slot-scope="scope">
+                  <div v-if="scope.row.state === 'H'">
+                    {{ scope.row.startTime || '-' }}<br>~{{ scope.row.endTime || '-' }}
+                  </div>
+                  <div v-else>-</div>
+                </template>
+              </el-table-column>
               <el-table-column prop="createTime" :label="$t('listParkingSpace.createTime')" align="center" />
-              <el-table-column :label="$t('listParkingSpace.operation')" align="center" width="200">
+              <el-table-column :label="$t('listParkingSpace.operation')" align="center" width="260">
                 <template slot-scope="scope">
                   <el-button-group>
+                    <el-button size="mini" type="success" v-if="scope.row.state === 'F'"
+                      @click="openSellParkingSpaceModal(scope.row, 'H')">
+                      {{ $t('listParkingSpace.rent') }}
+                    </el-button>
+                    <el-button size="mini" type="warning" v-if="scope.row.state === 'F'"
+                      @click="openSellParkingSpaceModal(scope.row, 'S')">
+                      {{ $t('listParkingSpace.sell') }}
+                    </el-button>
                     <el-button size="mini" type="primary" @click="openEditParkingSpaceModel(scope.row)">
                       {{ $t('listParkingSpace.modify') }}
                     </el-button>
@@ -104,34 +146,61 @@
       </el-col>
     </el-row>
 
-    <add-parking-space ref="addParkingSpace" @success="handleAddSuccess" />
-    <edit-parking-space ref="editParkingSpace" @success="handleEditSuccess" />
-    <delete-parking-space ref="deleteParkingSpace" @success="handleDeleteSuccess" />
-    <batch-add-parking-space ref="batchAddParkingSpace" @success="handleBatchAddSuccess" />
+    <add-parking-area ref="addParkingArea" @success="handleSuccess" />
+    <edit-parking-area ref="editParkingArea" @success="handleSuccess" />
+    <delete-parking-area ref="deleteParkingArea" @success="handleSuccess" />
+    <add-section ref="addSection" @success="handleSuccess" />
+    <edit-section ref="editSection" @success="handleSuccess" />
+    <delete-section ref="deleteSection" @success="handleSuccess" />
+    <add-parking-space ref="addParkingSpace" @success="handleSuccess" />
+    <edit-parking-space ref="editParkingSpace" @success="handleSuccess" />
+    <delete-parking-space ref="deleteParkingSpace" @success="handleSuccess" />
+    <batch-add-parking-space ref="batchAddParkingSpace" @success="handleSuccess" />
+    <sell-parking-space ref="sellParkingSpace" @success="handleSuccess" />
   </div>
 </template>
 
 <script>
-import { listParkingSpaces, listParkingAreas } from '@/api/car/listParkingSpaceApi'
+import { listParkingSpaces } from '@/api/car/listParkingSpaceApi'
+import { getParkingAreaList } from '@/api/car/parkingAreaManageApi'
 import { getCommunityId } from '@/api/community/communityApi'
+import ParkingAreaTree from '@/components/car/parkingAreaTree'
+import AddParkingArea from '@/components/car/addParkingArea'
+import EditParkingArea from '@/components/car/editParkingArea'
+import DeleteParkingArea from '@/components/car/deleteParkingArea'
+import AddSection from '@/components/car/addSection'
+import EditSection from '@/components/car/editSection'
+import DeleteSection from '@/components/car/deleteSection'
 import AddParkingSpace from '@/components/car/addParkingSpace'
 import EditParkingSpace from '@/components/car/editParkingSpace'
 import DeleteParkingSpace from '@/components/car/deleteParkingSpace'
 import BatchAddParkingSpace from '@/components/car/batchAddParkingSpace'
+import SellParkingSpace from '@/components/car/sellParkingSpace'
 
 export default {
   name: 'ListParkingSpace',
   components: {
+    ParkingAreaTree,
+    AddParkingArea,
+    EditParkingArea,
+    DeleteParkingArea,
+    AddSection,
+    EditSection,
+    DeleteSection,
     AddParkingSpace,
     EditParkingSpace,
     DeleteParkingSpace,
-    BatchAddParkingSpace
+    BatchAddParkingSpace,
+    SellParkingSpace
   },
   data() {
     return {
       loading: false,
-      selectedPaId: '',
-      parkingAreas: [],
+      selectedNode: {},
+      conditions: {
+        paId: '',
+        sectionId: ''
+      },
       listParkingSpaceInfo: {
         parkingSpaces: [],
         total: 0,
@@ -149,30 +218,23 @@ export default {
     }
   },
   created() {
-    this._loadParkingAreas()
     this.loadParkingSpaceData()
   },
   methods: {
-    async _loadParkingAreas() {
-      try {
-        const params = {
-          page: 1,
-          row: 100,
-          communityId: getCommunityId()
-        }
-        const res = await listParkingAreas(params)
-        this.parkingAreas = res.parkingAreas
-      } catch (error) {
-        console.error('获取停车场失败:', error)
-      }
-    },
-
-    _switchParkingArea(item) {
-      this.selectedPaId = item.paId
-      this.listParkingSpaceInfo.conditions.paId = item.paId
-      this.listParkingSpaceInfo.conditions.areaNum = ''
+    switchParkingAreaSection(data) {
+      this.selectedNode = data
+      this.conditions.paId = data.paId
+      this.conditions.sectionId = data.sectionId
+      this.listParkingSpaceInfo.conditions.paId = data.paId
+      this.listParkingSpaceInfo.conditions.sectionId = data.sectionId
       this.listParkingSpaceInfo.currentPage = 1
       this.loadParkingSpaceData()
+    },
+
+    refreshTree() {
+      if (this.$refs.parkingAreaTree) {
+        this.$refs.parkingAreaTree.refreshTree()
+      }
     },
 
     async loadParkingSpaceData() {
@@ -186,6 +248,7 @@ export default {
           psId: this.listParkingSpaceInfo.conditions.psId,
           area: this.listParkingSpaceInfo.conditions.area,
           paId: this.listParkingSpaceInfo.conditions.paId,
+          sectionId: this.listParkingSpaceInfo.conditions.sectionId,
           state: this.listParkingSpaceInfo.conditions.state
         }
 
@@ -218,8 +281,48 @@ export default {
       this.loadParkingSpaceData()
     },
 
+    openAddParkingAreaModal() {
+      this.$refs.addParkingArea.open()
+    },
+
+    async openEditParkingAreaModal() {
+      try {
+        const params = {
+          page: 1,
+          row: 1,
+          communityId: getCommunityId(),
+          paId: this.conditions.paId
+        }
+        const res = await getParkingAreaList(params)
+        if (res.parkingAreas && res.parkingAreas.length > 0) {
+          this.$refs.editParkingArea.open(res.parkingAreas[0])
+        } else {
+          this.$message.warning(this.$t('listParkingSpace.parkingAreaNotFound'))
+        }
+      } catch (error) {
+        console.error('加载停车场信息失败:', error)
+        this.$message.error(this.$t('common.loadError'))
+      }
+    },
+
+    openDeleteParkingAreaModal() {
+      this.$refs.deleteParkingArea.open({ paId: this.conditions.paId })
+    },
+
+    openAddSectionModal() {
+      this.$refs.addSection.open({ paId: this.conditions.paId, paName: this.selectedNode.num })
+    },
+
+    openEditSectionModal() {
+      this.$refs.editSection.open(this.selectedNode)
+    },
+
+    openDeleteSectionModal() {
+      this.$refs.deleteSection.open(this.selectedNode)
+    },
+
     openAddParkingSpaceModal() {
-      this.$refs.addParkingSpace.open()
+      this.$refs.addParkingSpace.open({ paId: this.conditions.paId, sectionId: this.conditions.sectionId })
     },
 
     openEditParkingSpaceModel(row) {
@@ -231,26 +334,16 @@ export default {
     },
 
     openBatchAddParkingSpaceModal() {
-      this.$refs.batchAddParkingSpace.open()
+      this.$refs.batchAddParkingSpace.open({ paId: this.conditions.paId, sectionId: this.conditions.sectionId })
     },
 
-    handleAddSuccess() {
-      this._loadParkingAreas()
-      this.loadParkingSpaceData()
+    openSellParkingSpaceModal(row, sellOrHire) {
+      const data = { ...row, sellOrHire }
+      this.$refs.sellParkingSpace.open(data)
     },
 
-    handleEditSuccess() {
-      this._loadParkingAreas()
-      this.loadParkingSpaceData()
-    },
-
-    handleDeleteSuccess() {
-      this._loadParkingAreas()
-      this.loadParkingSpaceData()
-    },
-
-    handleBatchAddSuccess() {
-      this._loadParkingAreas()
+    handleSuccess() {
+      this.refreshTree()
       this.loadParkingSpaceData()
     },
 
@@ -276,6 +369,14 @@ export default {
   margin-top: 20px;
 }
 
+.margin-top-xs {
+  margin-top: 10px;
+}
+
+.margin-left-sm {
+  margin-left: 10px;
+}
+
 .right-panel {
   padding-left: 5px;
 }
@@ -284,48 +385,9 @@ export default {
   .parking-area-card {
     height: 700px;
 
-      .parking-area-list-wrapper {
+    .parking-area-list-wrapper {
       height: 630px;
       overflow-y: auto;
-
-      &::-webkit-scrollbar {
-        width: 4px;
-      }
-
-      &::-webkit-scrollbar-thumb {
-        background: #dcdfe6;
-        border-radius: 2px;
-      }
-
-      &::-webkit-scrollbar-track {
-        background: transparent;
-      }
-
-      .parking-area-list {
-        list-style: none;
-        padding: 0 5px;
-        margin: 0;
-
-        .parking-area-item {
-          padding: 10px;
-          text-align: center;
-          cursor: pointer;
-          border-radius: 4px;
-          margin-bottom: 5px;
-          transition: all 0.3s;
-          font-size: 14px;
-          color: #606266;
-
-          &:hover {
-            background-color: #f5f7fa;
-          }
-
-          &.selected {
-            background-color: #409eff;
-            color: white;
-          }
-        }
-      }
     }
   }
 }

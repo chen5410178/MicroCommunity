@@ -6,12 +6,15 @@ import com.java110.core.context.ICmdDataFlowContext;
 import com.java110.core.event.cmd.Cmd;
 import com.java110.core.event.cmd.CmdEvent;
 import com.java110.core.factory.GenerateCodeFactory;
+import com.java110.dto.parking.ParkingAreaSectionDto;
 import com.java110.dto.parking.ParkingSpaceDto;
+import com.java110.intf.community.IParkingAreaSectionV1InnerServiceSMO;
 import com.java110.intf.community.IParkingSpaceV1InnerServiceSMO;
 import com.java110.po.parking.ParkingSpacePo;
 import com.java110.utils.exception.CmdException;
 import com.java110.utils.util.Assert;
 import com.java110.utils.util.BeanConvertUtil;
+import com.java110.utils.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
@@ -22,6 +25,9 @@ public class SaveParkingSpaceCmd extends Cmd {
     @Autowired
     private IParkingSpaceV1InnerServiceSMO parkingSpaceV1InnerServiceSMOImpl;
 
+    @Autowired
+    private IParkingAreaSectionV1InnerServiceSMO parkingAreaSectionV1InnerServiceSMOImpl;
+
     @Override
     public void validate(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) throws CmdException {
         Assert.jsonObjectHaveKey(reqJson, "communityId", "未包含小区ID");
@@ -29,6 +35,18 @@ public class SaveParkingSpaceCmd extends Cmd {
         Assert.jsonObjectHaveKey(reqJson, "area", "请求报文中未包含name");
         Assert.jsonObjectHaveKey(reqJson, "userId", "请求报文中未包含userId");
         Assert.jsonObjectHaveKey(reqJson, "paId", "请求报文中未包含停车场信息");
+
+        //校验区域 属于该停车场
+        if (reqJson.containsKey("sectionId") && !StringUtil.isEmpty(reqJson.getString("sectionId"))) {
+            ParkingAreaSectionDto parkingAreaSectionDto = new ParkingAreaSectionDto();
+            parkingAreaSectionDto.setCommunityId(reqJson.getString("communityId"));
+            parkingAreaSectionDto.setPaId(reqJson.getString("paId"));
+            parkingAreaSectionDto.setSectionId(reqJson.getString("sectionId"));
+            int count = parkingAreaSectionV1InnerServiceSMOImpl.queryParkingAreaSectionsCount(parkingAreaSectionDto);
+            if (count < 1) {
+                throw new IllegalArgumentException("传入停车区域不是该停车场的区域");
+            }
+        }
     }
 
     @Override

@@ -31,6 +31,9 @@ public class ParkingSpaceDto extends PageDto implements Serializable {
     private String[] nums;
     private String psId;
     private String paId;
+    private String paName;
+    private String sectionId;
+    private String sectionName;
     private String remark;
     private String state;
     private String stateName;
@@ -38,8 +41,11 @@ public class ParkingSpaceDto extends PageDto implements Serializable {
     private String userId;
     private String areaNum;
     private String carNum;
+    private String carId;
     private String ownerId;
     private String ownerName;
+    private String startTime;
+    private String endTime;
     private String idCard;
     private String link;
     private String parkingType;
@@ -177,6 +183,54 @@ public class ParkingSpaceDto extends PageDto implements Serializable {
 
     public void setPaId(String paId) {
         this.paId = paId;
+    }
+
+    public String getPaName() {
+        return paName;
+    }
+
+    public void setPaName(String paName) {
+        this.paName = paName;
+    }
+
+    public String getSectionId() {
+        return sectionId;
+    }
+
+    public void setSectionId(String sectionId) {
+        this.sectionId = sectionId;
+    }
+
+    public String getSectionName() {
+        return sectionName;
+    }
+
+    public void setSectionName(String sectionName) {
+        this.sectionName = sectionName;
+    }
+
+    public String getCarId() {
+        return carId;
+    }
+
+    public void setCarId(String carId) {
+        this.carId = carId;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
 
     public String getAreaNum() {

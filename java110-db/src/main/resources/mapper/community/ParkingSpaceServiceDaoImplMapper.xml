@@ -104,6 +104,20 @@
         t.ps_id,
         t.pa_id paId,
         t.pa_id,
+        t.section_id sectionId,
+        t.section_id,
+        t.owner_id ownerId,
+        t.owner_id,
+        t.owner_name ownerName,
+        t.owner_name,
+        t.car_id carId,
+        t.car_id,
+        t.car_num carNum,
+        t.car_num,
+        t.start_time startTime,
+        t.start_time,
+        t.end_time endTime,
+        t.end_time,
         t.remark,
         t.status_cd statusCd,
         t.status_cd,
@@ -118,12 +132,16 @@
         td1.NAME stateName,
         pa.num areaNum,
         pa.type_cd typeCd,
+        s.section_num sectionNum,
+        s.section_name sectionName,
         t.create_time createTime
         FROM parking_space t
         LEFT JOIN t_dict td1 ON t.state = td1.status_cd AND td1.table_name = 'parking_space' AND td1.table_columns = 'state'
         LEFT JOIN t_dict td2 ON t.parking_type = td2.status_cd AND td2.table_name = 'parking_space' AND td2.table_columns = 'parking_type'
         LEFT JOIN parking_area pa ON t.pa_id = pa.pa_id
         AND pa.status_cd = '0'
+        LEFT JOIN parking_area_section s ON t.section_id = s.section_id
+        AND s.status_cd = '0'
         <where>
             <if test="area !=null and area != ''">
                 and t.area= #{area}
@@ -139,6 +157,9 @@
             </if>
             <if test="paId !=null and paId != ''">
                 and t.pa_id= #{paId}
+            </if>
+            <if test="sectionId !=null and sectionId != ''">
+                and t.section_id= #{sectionId}
             </if>
             <if test="remark !=null and remark != ''">
                 and t.remark= #{remark}
@@ -247,6 +268,9 @@
             </if>
             <if test="paId !=null and paId != ''">
                 and t.pa_id= #{paId}
+            </if>
+            <if test="sectionId !=null and sectionId != ''">
+                and t.section_id= #{sectionId}
             </if>
             <if test="remark !=null and remark != ''">
                 and t.remark= #{remark}

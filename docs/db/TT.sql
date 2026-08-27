@@ -11003,6 +11003,11 @@ INSERT INTO `c_route` VALUES ('3061', '992020061452450002', '982026051402961840'
 INSERT INTO `c_route` VALUES ('3062', '8000418004', '982026051402961840', 'D', '1000', 'S', '2026-05-14 15:36:06', '0');
 INSERT INTO `c_route` VALUES ('3063', '992024042871530002', '982026070667620256', 'D', '1000', 'S', '2026-07-06 15:56:27', '0');
 INSERT INTO `c_route` VALUES ('3070', '8000418004', '982026080614340001', 'Q', '1000', 'S', '2026-08-06 09:50:43', '0');
+INSERT INTO `c_route` VALUES ('3071', '8000418004', '982026082700000001', 'D', '1000', 'S', '2026-08-27 09:34:00', '0');
+INSERT INTO `c_route` VALUES ('3072', '8000418004', '982026082700000002', 'D', '1000', 'S', '2026-08-27 09:34:00', '0');
+INSERT INTO `c_route` VALUES ('3073', '8000418004', '982026082700000003', 'D', '1000', 'S', '2026-08-27 09:34:00', '0');
+INSERT INTO `c_route` VALUES ('3074', '8000418004', '982026082700000004', 'Q', '1000', 'S', '2026-08-27 09:34:00', '0');
+INSERT INTO `c_route` VALUES ('3075', '8000418004', '982026082700000005', 'Q', '1000', 'S', '2026-08-27 09:34:00', '0');
 INSERT INTO `c_route` VALUES ('3065', '8000418004', '982026073100000002', 'D', '1000', 'S', '2026-08-06 09:32:22', '0');
 INSERT INTO `c_route` VALUES ('3069', '8000418004', '982026073100000006', 'D', '1000', 'S', '2026-08-06 09:32:22', '0');
 INSERT INTO `c_route` VALUES ('3067', '8000418004', '982026073100000004', 'Q', '1000', 'S', '2026-08-06 09:32:22', '0');
@@ -13058,6 +13063,11 @@ INSERT INTO `c_service` VALUES ('2075', '9820260428903617316', 'owner.changeCarO
 INSERT INTO `c_service` VALUES ('2076', '982026051402961840', 'ownerRepair.repairEnd', 'API', '结束报修', '1', null, 'CMD', 'http://community-service', 'POST', '60', '3', '8000418002', '2026-05-14 14:04:03', '0');
 INSERT INTO `c_service` VALUES ('2077', '982026070667620256', 'payment.cashierForMall', 'API', '通过商城缴费', '1', null, 'CMD', 'http://acct-service', 'POST', '60', '3', '8000418002', '2026-07-06 15:54:34', '0');
 INSERT INTO `c_service` VALUES ('2084', '982026080614340001', 'unit.queryUnitsHasOwner', 'API', '查询有业主的单元', '1', NULL, 'CMD', 'http://community-service', 'GET', '60', '3', '8000418002', '2026-08-06 09:50:28', '0');
+INSERT INTO `c_service` VALUES ('2085', '982026082700000001', 'parkingArea.saveParkingAreaSection', 'API', '添加停车区域', '1', NULL, 'CMD', 'http://community-service', 'POST', '60', '3', '8000418002', '2026-08-27 09:34:00', '0');
+INSERT INTO `c_service` VALUES ('2086', '982026082700000002', 'parkingArea.updateParkingAreaSection', 'API', '修改停车区域', '1', NULL, 'CMD', 'http://community-service', 'POST', '60', '3', '8000418002', '2026-08-27 09:34:00', '0');
+INSERT INTO `c_service` VALUES ('2087', '982026082700000003', 'parkingArea.deleteParkingAreaSection', 'API', '删除停车区域', '1', NULL, 'CMD', 'http://community-service', 'POST', '60', '3', '8000418002', '2026-08-27 09:34:00', '0');
+INSERT INTO `c_service` VALUES ('2088', '982026082700000004', 'parkingArea.listParkingAreaSections', 'API', '查询停车区域', '1', NULL, 'CMD', 'http://community-service', 'GET', '60', '3', '8000418002', '2026-08-27 09:34:00', '0');
+INSERT INTO `c_service` VALUES ('2089', '982026082700000005', 'parkingArea.queryParkingAreaAndSections', 'API', '查询停车场及停车区域', '1', NULL, 'CMD', 'http://community-service', 'GET', '60', '3', '8000418002', '2026-08-27 09:34:00', '0');
 INSERT INTO `c_service` VALUES ('2083', '982026073100000006', 'fee.deleteManualBillApplication', 'API', '删除手工账单申请', '1', NULL, 'CMD', 'http://fee-service', 'POST', '60', '3', '8000418002', '2026-08-06 09:32:14', '0');
 INSERT INTO `c_service` VALUES ('2082', '982026073100000005', 'fee.auditManualBillApplication', 'API', '审核手工账单生成申请', '1', NULL, 'CMD', 'http://fee-service', 'POST', '60', '3', '8000418002', '2026-08-06 09:32:14', '0');
 INSERT INTO `c_service` VALUES ('2078', '982026073100000001', 'fee.searchManualBillTargets', 'API', '查询手工账单生成目标', '1', NULL, 'CMD', 'http://fee-service', 'GET', '60', '3', '8000418002', '2026-08-06 09:32:13', '0');
@@ -34578,6 +34588,27 @@ CREATE TABLE `parking_area` (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for parking_area_section
+-- ----------------------------
+DROP TABLE IF EXISTS `parking_area_section`;
+CREATE TABLE `parking_area_section` (
+  `section_id` varchar(30) NOT NULL COMMENT '区域ID',
+  `pa_id` varchar(30) NOT NULL COMMENT '停车场ID',
+  `community_id` varchar(30) NOT NULL COMMENT '小区ID',
+  `section_num` varchar(12) NOT NULL COMMENT '区域编号',
+  `section_name` varchar(64) DEFAULT NULL COMMENT '区域名称',
+  `remark` varchar(300) DEFAULT NULL COMMENT '备注',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态 0在用 1失效',
+  PRIMARY KEY (`section_id`),
+  KEY `idx_pa_id` (`pa_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of parking_area_section
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for parking_area_attr
 -- ----------------------------
 DROP TABLE IF EXISTS `parking_area_attr`;
@@ -34862,6 +34893,13 @@ CREATE TABLE `parking_space` (
   `community_id` varchar(30) NOT NULL COMMENT '小区ID',
   `num` varchar(12) NOT NULL COMMENT '车位编号',
   `pa_id` varchar(30) NOT NULL COMMENT '停车场ID',
+  `section_id` varchar(30) DEFAULT NULL COMMENT '停车区域ID',
+  `owner_id` varchar(30) DEFAULT NULL COMMENT '业主ID',
+  `owner_name` varchar(64) DEFAULT NULL COMMENT '业主名称',
+  `car_id` varchar(30) DEFAULT NULL COMMENT '车辆ID',
+  `car_num` varchar(12) DEFAULT NULL COMMENT '车牌号',
+  `start_time` datetime DEFAULT NULL COMMENT '出租开始时间',
+  `end_time` datetime DEFAULT NULL COMMENT '出租结束时间',
   `state` varchar(4) NOT NULL COMMENT '车位状态 出售 S，出租 H ，空闲 F',
   `area` decimal(7,2) NOT NULL COMMENT '车位面积',
   `remark` varchar(300) DEFAULT NULL COMMENT '备注',
