@@ -237,3 +237,62 @@ export function sellParkingSpace(data) {
     })
   })
 }
+
+// 释放车位
+export function releaseParkingSpace(data) {
+  return new Promise((resolve, reject) => {
+    const communityId = getCommunityId()
+    request({
+      url: '/parkingSpace.releaseParkingSpace',
+      method: 'post',
+      data: { ...data, communityId }
+    }).then(response => {
+      const res = response.data
+      if (res.code === 0) {
+        resolve(res)
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
+    }).catch(error => {
+      reject(error)
+    })
+  })
+}
+
+// 修改车位车辆/租期
+export function updateParkingSpaceCar(data) {
+  return new Promise((resolve, reject) => {
+    const communityId = getCommunityId()
+    request({
+      url: '/parkingSpace.updateParkingSpaceCar',
+      method: 'post',
+      data: { ...data, communityId }
+    }).then(response => {
+      const res = response.data
+      if (res.code === 0) {
+        resolve(res)
+      } else {
+        reject(new Error(res.msg || 'error'))
+      }
+    }).catch(error => {
+      reject(error)
+    })
+  })
+}
+
+// 查询业主车辆（供出租/出售/修改车辆选择）
+export function queryOwnerCars(params) {
+  return new Promise((resolve, reject) => {
+    const communityId = getCommunityId()
+    request({
+      url: '/owner.queryOwnerCars',
+      method: 'get',
+      params: { ...params, communityId }
+    }).then(response => {
+      const res = response.data
+      resolve(res)
+    }).catch(error => {
+      reject(error)
+    })
+  })
+}

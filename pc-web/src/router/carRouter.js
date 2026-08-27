@@ -41,6 +41,21 @@ export default [
         component: () => import('@/views/car/hireParkingSpaceList.vue')
       },
       {
+        path: '/views/car/rentParkingSpace',
+        name: '/views/car/rentParkingSpace',
+        component: () => import('@/views/car/rentParkingSpaceList.vue')
+      },
+      {
+        path: '/views/car/sellParkingSpace',
+        name: '/views/car/sellParkingSpace',
+        component: () => import('@/views/car/sellParkingSpaceList.vue')
+      },
+      {
+        path: '/views/car/updateParkingSpaceCar',
+        name: '/views/car/updateParkingSpaceCar',
+        component: () => import('@/views/car/updateParkingSpaceCarList.vue')
+      },
+      {
         path: '/views/car/carAddParkingSpace',
         name: '/views/car/carAddParkingSpace',
         component: () => import('@/views/car/carAddParkingSpaceList.vue')

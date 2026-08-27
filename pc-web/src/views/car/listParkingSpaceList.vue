@@ -22,15 +22,12 @@
     </div>
 
     <el-row :gutter="20" class="margin-top-xs">
-      <el-col :span="5" class="left-panel">
+      <el-col :span="3" class="left-panel">
         <el-card class="parking-area-card">
-          <div slot="header" class="clearfix text-left">
-            <span>{{ $t('listParkingSpace.parkingAreaTreeTitle') }}</span>
-          </div>
           <parking-area-tree ref="parkingAreaTree" @switchParkingAreaSection="switchParkingAreaSection" />
         </el-card>
       </el-col>
-      <el-col :span="19" class="right-panel">
+      <el-col :span="21" class="right-panel">
         <el-card class="box-card">
           <div slot="header" class="clearfix flex justify-between">
             <div>{{ $t('listParkingSpace.queryCondition') }}</div>
@@ -115,16 +112,24 @@
                 </template>
               </el-table-column>
               <el-table-column prop="createTime" :label="$t('listParkingSpace.createTime')" align="center" />
-              <el-table-column :label="$t('listParkingSpace.operation')" align="center" width="260">
+              <el-table-column :label="$t('listParkingSpace.operation')" align="center" width="300">
                 <template slot-scope="scope">
                   <el-button-group>
                     <el-button size="mini" type="success" v-if="scope.row.state === 'F'"
-                      @click="openSellParkingSpaceModal(scope.row, 'H')">
+                      @click="openRentParkingSpace(scope.row)">
                       {{ $t('listParkingSpace.rent') }}
                     </el-button>
                     <el-button size="mini" type="warning" v-if="scope.row.state === 'F'"
-                      @click="openSellParkingSpaceModal(scope.row, 'S')">
+                      @click="openSellParkingSpace(scope.row)">
                       {{ $t('listParkingSpace.sell') }}
+                    </el-button>
+                    <el-button size="mini" type="info" v-if="scope.row.state === 'S' || scope.row.state === 'H'"
+                      @click="handleReleaseParkingSpace(scope.row)">
+                      {{ $t('listParkingSpace.release') }}
+                    </el-button>
+                    <el-button size="mini" type="primary" v-if="scope.row.state === 'S' || scope.row.state === 'H'"
+                      @click="openUpdateParkingSpaceCar(scope.row)">
+                      {{ $t('listParkingSpace.updateCar') }}
                     </el-button>
                     <el-button size="mini" type="primary" @click="openEditParkingSpaceModel(scope.row)">
                       {{ $t('listParkingSpace.modify') }}
@@ -156,12 +161,11 @@
     <edit-parking-space ref="editParkingSpace" @success="handleSuccess" />
     <delete-parking-space ref="deleteParkingSpace" @success="handleSuccess" />
     <batch-add-parking-space ref="batchAddParkingSpace" @success="handleSuccess" />
-    <sell-parking-space ref="sellParkingSpace" @success="handleSuccess" />
   </div>
 </template>
 
 <script>
-import { listParkingSpaces } from '@/api/car/listParkingSpaceApi'
+import { listParkingSpaces, releaseParkingSpace } from '@/api/car/listParkingSpaceApi'
 import { getParkingAreaList } from '@/api/car/parkingAreaManageApi'
 import { getCommunityId } from '@/api/community/communityApi'
 import ParkingAreaTree from '@/components/car/parkingAreaTree'
@@ -175,7 +179,6 @@ import AddParkingSpace from '@/components/car/addParkingSpace'
 import EditParkingSpace from '@/components/car/editParkingSpace'
 import DeleteParkingSpace from '@/components/car/deleteParkingSpace'
 import BatchAddParkingSpace from '@/components/car/batchAddParkingSpace'
-import SellParkingSpace from '@/components/car/sellParkingSpace'
 
 export default {
   name: 'ListParkingSpace',
@@ -190,8 +193,7 @@ export default {
     AddParkingSpace,
     EditParkingSpace,
     DeleteParkingSpace,
-    BatchAddParkingSpace,
-    SellParkingSpace
+    BatchAddParkingSpace
   },
   data() {
     return {
@@ -337,9 +339,51 @@ export default {
       this.$refs.batchAddParkingSpace.open({ paId: this.conditions.paId, sectionId: this.conditions.sectionId })
     },
 
-    openSellParkingSpaceModal(row, sellOrHire) {
-      const data = { ...row, sellOrHire }
-      this.$refs.sellParkingSpace.open(data)
+    openRentParkingSpace(row) {
+      this.$router.push({
+        path: '/views/car/rentParkingSpace',
+        query: { psId: row.psId, num: row.num, paId: row.paId, state: row.state }
+      })
+    },
+
+    openSellParkingSpace(row) {
+      this.$router.push({
+        path: '/views/car/sellParkingSpace',
+        query: { psId: row.psId, num: row.num, paId: row.paId, state: row.state }
+      })
+    },
+
+    openUpdateParkingSpaceCar(row) {
+      this.$router.push({
+        path: '/views/car/updateParkingSpaceCar',
+        query: {
+          psId: row.psId,
+          num: row.num,
+          paId: row.paId,
+          state: row.state,
+          carNum: row.carNum || '',
+          ownerName: row.ownerName || '',
+          startTime: row.startTime || '',
+          endTime: row.endTime || ''
+        }
+      })
+    },
+
+    handleReleaseParkingSpace(row) {
+      this.$confirm(this.$t('listParkingSpace.releaseConfirm'), this.$t('listParkingSpace.release'), {
+        confirmButtonText: this.$t('common.confirm'),
+        cancelButtonText: this.$t('common.cancel'),
+        type: 'warning'
+      }).then(() => {
+        return releaseParkingSpace({ psId: row.psId })
+      }).then(() => {
+        this.$message.success(this.$t('listParkingSpace.releaseSuccess'))
+        this.handleSuccess()
+      }).catch(error => {
+        if (error && error.message) {
+          this.$message.error(error.message || this.$t('listParkingSpace.releaseError'))
+        }
+      })
     },
 
     handleSuccess() {

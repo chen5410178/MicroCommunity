@@ -72,6 +72,7 @@ export default {
             id: `sec_${item.sectionId}`,
             sectionId: item.sectionId,
             paId: item.paId,
+            num: item.num,
             sectionNum: item.sectionNum,
             sectionName: item.sectionName,
             text: item.sectionName || item.sectionNum,
