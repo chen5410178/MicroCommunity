@@ -16,12 +16,12 @@ import com.java110.dto.payFee.PayFeeBatchDto;
 import com.java110.dto.user.UserDto;
 import com.java110.dto.importData.ImportCustomCreateFeeDto;
 import com.java110.dto.system.ComponentValidateResult;
+import com.java110.intf.community.IParkingSpaceInnerServiceSMO;
 import com.java110.intf.community.IRoomInnerServiceSMO;
 import com.java110.intf.fee.IFeeAttrInnerServiceSMO;
 import com.java110.intf.fee.IFeeInnerServiceSMO;
 import com.java110.intf.fee.IPayFeeBatchV1InnerServiceSMO;
 import com.java110.intf.fee.IPayFeeConfigV1InnerServiceSMO;
-import com.java110.intf.user.IOwnerCarInnerServiceSMO;
 import com.java110.intf.user.IOwnerInnerServiceSMO;
 import com.java110.intf.user.IUserInnerServiceSMO;
 import com.java110.po.fee.FeeAttrPo;
@@ -81,6 +81,9 @@ public class ImportCustomCreateFeeSMOImpl extends DefaultAbstractComponentSMO im
     private IRoomInnerServiceSMO roomInnerServiceSMOImpl;
 
     @Autowired
+    private IParkingSpaceInnerServiceSMO parkingSpaceInnerServiceSMOImpl;
+
+    @Autowired
     private IOwnerInnerServiceSMO ownerInnerServiceSMOImpl;
 
     @Autowired
@@ -91,9 +94,6 @@ public class ImportCustomCreateFeeSMOImpl extends DefaultAbstractComponentSMO im
 
     @Autowired
     private IFeeAttrInnerServiceSMO feeAttrInnerServiceSMOImpl;
-
-    @Autowired
-    private IOwnerCarInnerServiceSMO ownerCarInnerServiceSMOImpl;
 
     @Override
     public ResponseEntity<String> importCustomExcelData(IPageData pd, MultipartFile uploadFile) throws Exception {
@@ -165,7 +165,8 @@ public class ImportCustomCreateFeeSMOImpl extends DefaultAbstractComponentSMO im
     }
 
     /**
-     * 创建房屋费用
+     * 创建车位费用（objType=2002）
+     * 按 停车场-停车区域-车位编号 定位车位，费用挂在车位（psId）上
      *
      * @param importCustomCreateFeeDtos
      * @param batchId
@@ -173,22 +174,31 @@ public class ImportCustomCreateFeeSMOImpl extends DefaultAbstractComponentSMO im
     private void doImportCarCreateFee(List<ImportCustomCreateFeeDto> importCustomCreateFeeDtos, String batchId, ComponentValidateResult result) {
         int successCount = 0;
         int errorCount = 0;
-        List<ImportCustomCreateFeeDto> cars = new ArrayList<>();
-
+        List<ImportCustomCreateFeeDto> parkingSpaces = new ArrayList<>();
+        String[] objNames;
         for (ImportCustomCreateFeeDto importCustomCreateFeeDto : importCustomCreateFeeDtos) {
             if (!ImportCustomCreateFeeDto.TYPE_CAR.equals(importCustomCreateFeeDto.getObjType())) {
                 continue;
             }
-            importCustomCreateFeeDto.setCarNum(importCustomCreateFeeDto.getObjName());
-
-            cars.add(importCustomCreateFeeDto);
+            objNames = importCustomCreateFeeDto.getObjName().split("-");
+            if (objNames.length == 3) {
+                importCustomCreateFeeDto.setAreaNum(objNames[0]);
+                importCustomCreateFeeDto.setSectionName(objNames[1]);
+                importCustomCreateFeeDto.setNum(objNames[2]);
+            } else if (objNames.length == 2) {
+                importCustomCreateFeeDto.setAreaNum(objNames[0]);
+                importCustomCreateFeeDto.setNum(objNames[1]);
+            } else {
+                continue;
+            }
+            parkingSpaces.add(importCustomCreateFeeDto);
         }
 
-        if (cars.size() < 1) {
+        if (parkingSpaces.size() < 1) {
             return;
         }
 
-        importCustomCreateFeeDtos = ownerCarInnerServiceSMOImpl.freshCarIdsByImportCustomCreateFee(cars);
+        importCustomCreateFeeDtos = parkingSpaceInnerServiceSMOImpl.freshPsIdsByImportCustomCreateFee(parkingSpaces);
 
         doCreateFeeAndAttrs(importCustomCreateFeeDtos, batchId, result, successCount, errorCount);
     }

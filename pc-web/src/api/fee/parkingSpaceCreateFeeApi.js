@@ -85,20 +85,26 @@ export function listParkingAreas(params) {
   })
 }
 
-// 导出车位收费Excel
+// 导出车位收费Excel（异步导出，成功后到下载中心下载）
 export function exportParkingSpaceFeeExcel(params) {
   return new Promise((resolve, reject) => {
     const communityId = getCommunityId()
     request({
-      url: '/callComponent/importAndExportFee/exportData',
+      url: '/export.exportData',
       method: 'get',
       params: {
         ...params,
         communityId,
-        type: '2002'
+        type: '2002',
+        pagePath: 'exportCreateParkingSpaceFeeTemplate'
       }
     }).then(response => {
-      resolve(response)
+      const res = response.data
+      if (res.code === 0) {
+        resolve(res)
+      } else {
+        reject(new Error(res.msg || 'Failed to export data'))
+      }
     }).catch(error => {
       reject(error)
     })

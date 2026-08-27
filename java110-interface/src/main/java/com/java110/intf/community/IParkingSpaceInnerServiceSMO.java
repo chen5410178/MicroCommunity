@@ -1,6 +1,7 @@
 package com.java110.intf.community;
 
 import com.java110.config.feign.FeignConfiguration;
+import com.java110.dto.importData.ImportCustomCreateFeeDto;
 import com.java110.dto.parking.ParkingSpaceDto;
 import com.java110.po.parking.ParkingSpacePo;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -45,4 +46,12 @@ public interface IParkingSpaceInnerServiceSMO {
 
     @RequestMapping(value = "/updateParkingSpace", method = RequestMethod.POST)
     void updateParkingSpace(@RequestBody ParkingSpacePo parkingSpacePo);
+
+    /**
+     * <p>根据停车场-停车区域-车位编号刷新车位ID</p>
+     *
+     * @param importCustomCreateFeeDtos 数据对象分享
+     */
+    @RequestMapping(value = "/freshPsIdsByImportCustomCreateFee", method = RequestMethod.POST)
+    List<ImportCustomCreateFeeDto> freshPsIdsByImportCustomCreateFee(@RequestBody List<ImportCustomCreateFeeDto> importCustomCreateFeeDtos);
 }

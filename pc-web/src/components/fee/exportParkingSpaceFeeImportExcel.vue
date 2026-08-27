@@ -115,15 +115,18 @@ export default {
         const paIds = this.selectedParkingAreas.join(',')
         const configIds = this.selectedConfigs.join(',')
 
-        await exportParkingSpaceFeeExcel({
+        const res = await exportParkingSpaceFeeExcel({
           paIds,
           configIds
         })
 
-        this.$message.success(this.$t('common.operationSuccess'))
-        this.visible = false
+        this.$message.success(res.msg || this.$t('common.operationSuccess'))
+        if (res.code === 0) {
+          this.visible = false
+          this.$router.push('/pages/property/downloadTempFile?tab=下载中心')
+        }
       } catch (error) {
-        this.$message.error(this.$t('common.exportError'))
+        this.$message.error(error.message || this.$t('common.exportError'))
       }
     }
   }

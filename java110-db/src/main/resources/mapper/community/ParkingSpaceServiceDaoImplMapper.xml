@@ -152,6 +152,9 @@
             <if test="areaNum !=null and areaNum != ''">
                 and pa.num= #{areaNum}
             </if>
+            <if test="sectionName !=null and sectionName != ''">
+                and s.section_name= #{sectionName}
+            </if>
             <if test="psId !=null and psId != ''">
                 and t.ps_id= #{psId}
             </if>

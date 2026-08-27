@@ -14,6 +14,9 @@ public class ImportCustomCreateFeeDto implements Serializable {
     private String roomNum;
     private String carNum;
     private String shopNum;
+    private String areaNum;
+    private String sectionName;
+    private String num;
     private String locationId;
     private String locationName;
 
@@ -153,6 +156,30 @@ public class ImportCustomCreateFeeDto implements Serializable {
 
     public void setCarNum(String carNum) {
         this.carNum = carNum;
+    }
+
+    public String getAreaNum() {
+        return areaNum;
+    }
+
+    public void setAreaNum(String areaNum) {
+        this.areaNum = areaNum;
+    }
+
+    public String getSectionName() {
+        return sectionName;
+    }
+
+    public void setSectionName(String sectionName) {
+        this.sectionName = sectionName;
+    }
+
+    public String getNum() {
+        return num;
+    }
+
+    public void setNum(String num) {
+        this.num = num;
     }
 
     public String getBatchId() {

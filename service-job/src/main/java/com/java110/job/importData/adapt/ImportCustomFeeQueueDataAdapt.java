@@ -8,13 +8,12 @@ import com.java110.dto.fee.FeeConfigDto;
 import com.java110.dto.fee.FeeDto;
 import com.java110.dto.importData.ImportCustomCreateFeeDto;
 import com.java110.dto.log.AssetImportLogDetailDto;
-import com.java110.dto.owner.OwnerCarDto;
 import com.java110.dto.owner.OwnerDto;
+import com.java110.intf.community.IParkingSpaceInnerServiceSMO;
 import com.java110.intf.community.IRoomInnerServiceSMO;
 import com.java110.intf.fee.*;
 import com.java110.intf.store.IContractInnerServiceSMO;
 import com.java110.intf.store.IContractRoomInnerServiceSMO;
-import com.java110.intf.user.IOwnerCarInnerServiceSMO;
 import com.java110.intf.user.IOwnerInnerServiceSMO;
 import com.java110.intf.user.IUserInnerServiceSMO;
 import com.java110.job.importData.DefaultImportData;
@@ -40,13 +39,13 @@ public class ImportCustomFeeQueueDataAdapt extends DefaultImportData implements 
     private IRoomInnerServiceSMO roomInnerServiceSMOImpl;
 
     @Autowired
+    private IParkingSpaceInnerServiceSMO parkingSpaceInnerServiceSMOImpl;
+
+    @Autowired
     private IOwnerInnerServiceSMO ownerInnerServiceSMOImpl;
 
     @Autowired
     private IPayFeeConfigV1InnerServiceSMO payFeeConfigV1InnerServiceSMOImpl;
-
-    @Autowired
-    private IOwnerCarInnerServiceSMO ownerCarInnerServiceSMOImpl;
 
     @Autowired
     private IContractInnerServiceSMO contractInnerServiceSMOImpl;
@@ -141,7 +140,8 @@ public class ImportCustomFeeQueueDataAdapt extends DefaultImportData implements 
 
 
     /**
-     * 创建车辆费用
+     * 创建车位费用（objType=2002）
+     * 按 停车场-停车区域-车位编号 定位车位，费用挂在车位（psId）上
      *
      * @param importCustomCreateFeeDto
      * @param batchId
@@ -150,33 +150,23 @@ public class ImportCustomFeeQueueDataAdapt extends DefaultImportData implements 
         if (!ImportCustomCreateFeeDto.TYPE_CAR.equals(importCustomCreateFeeDto.getObjType())) {
             return;
         }
-        List<ImportCustomCreateFeeDto> cars = new ArrayList<>();
+        List<ImportCustomCreateFeeDto> parkingSpaces = new ArrayList<>();
 
-
-        importCustomCreateFeeDto.setCarNum(importCustomCreateFeeDto.getObjName());
-
-        cars.add(importCustomCreateFeeDto);
-
-
-        List<ImportCustomCreateFeeDto> importCustomCreateFeeDtos = ownerCarInnerServiceSMOImpl.freshCarIdsByImportCustomCreateFee(cars);
-
-        //todo 车辆导入补刷业主信息（queryOwnerCars join building_owner 真查询，禁止前端透传）
-        List<String> carIds = new ArrayList<>();
-        for (ImportCustomCreateFeeDto tmpImportCarFee : importCustomCreateFeeDtos) {
-            carIds.add(tmpImportCarFee.getPayObjId());
+        String[] objNames = importCustomCreateFeeDto.getObjName().split("-");
+        if (objNames.length == 3) {
+            importCustomCreateFeeDto.setAreaNum(objNames[0]);
+            importCustomCreateFeeDto.setSectionName(objNames[1]);
+            importCustomCreateFeeDto.setNum(objNames[2]);
+        } else if (objNames.length == 2) {
+            importCustomCreateFeeDto.setAreaNum(objNames[0]);
+            importCustomCreateFeeDto.setNum(objNames[1]);
+        } else {
+            throw new IllegalArgumentException("收费对象格式错误：" + importCustomCreateFeeDto.getObjName());
         }
-        OwnerCarDto ownerCarDto = new OwnerCarDto();
-        ownerCarDto.setCommunityId(importCustomCreateFeeDto.getCommunityId());
-        ownerCarDto.setCarIds(carIds.toArray(new String[carIds.size()]));
-        List<OwnerCarDto> ownerCarDtos = ownerCarInnerServiceSMOImpl.queryOwnerCars(ownerCarDto);
-        for (ImportCustomCreateFeeDto tmpImportCarFee : importCustomCreateFeeDtos) {
-            for (OwnerCarDto tmpOwnerCarDto : ownerCarDtos) {
-                if (tmpImportCarFee.getPayObjId().equals(tmpOwnerCarDto.getCarId())) {
-                    tmpImportCarFee.setOwnerId(tmpOwnerCarDto.getOwnerId());
-                    tmpImportCarFee.setOwnerName(tmpOwnerCarDto.getOwnerName());
-                }
-            }
-        }
+
+        parkingSpaces.add(importCustomCreateFeeDto);
+
+        List<ImportCustomCreateFeeDto> importCustomCreateFeeDtos = parkingSpaceInnerServiceSMOImpl.freshPsIdsByImportCustomCreateFee(parkingSpaces);
 
         doCreateFeeAndAttrs(importCustomCreateFeeDtos.get(0), batchId);
     }
