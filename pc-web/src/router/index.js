@@ -510,7 +510,6 @@ const routes = [
         path: '/views/fee/payFeeConfigDiscountManage',
         name: '/views/fee/payFeeConfigDiscountManage',
         component: () => import('@/views/fee/payFeeConfigDiscountManageList.vue'),
-        meta: { title: '费用折扣' }
       },
       {
         path: '/pages/property/room',

@@ -97,9 +97,9 @@
 <script>
 import {
   listRepairSettings,
-  listOwnerRepairs,
-  getDict
+  listOwnerRepairs
 } from '@/api/work/repairForceFinishManageApi'
+import { getDict } from '@/api/community/communityApi'
 import ForceFinishRepair from '@/components/work/forceFinishRepair'
 
 export default {

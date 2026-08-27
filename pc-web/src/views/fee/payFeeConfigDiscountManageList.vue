@@ -1,5 +1,5 @@
 <template>
-  <el-card class="pay-fee-config-discount-manage">
+  <el-card class="pay-fee-config-discount-manage margin">
     <div slot="header">
       <el-row type="flex" justify="space-between" align="middle">
         <el-col :span="12" class="text-left">
