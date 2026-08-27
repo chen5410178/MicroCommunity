@@ -37,6 +37,10 @@
             <el-col :span="4">
               <el-input v-model.trim="conditions.link" :placeholder="$t('listOwnerCar.inputContact')" clearable />
             </el-col>
+             <el-col :span="4" >
+              <el-input v-model.trim="conditions.memberCarNumLike" :placeholder="$t('listOwnerCar.inputMemberCarNum')"
+                clearable />
+            </el-col>
             <el-col :span="4" class="text-left">
               <el-button type="primary" @click="queryMethod" icon="el-icon-search">
                 {{ $t('listOwnerCar.query') }}
@@ -45,10 +49,7 @@
                 {{ $t('listOwnerCar.reset') }}
               </el-button>
             </el-col>
-            <el-col :span="4" class="margin-top">
-              <el-input v-model.trim="conditions.memberCarNumLike" :placeholder="$t('listOwnerCar.inputMemberCarNum')"
-                clearable />
-            </el-col>
+           
 
           </el-row>
         </el-card>

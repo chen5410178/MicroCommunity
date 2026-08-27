@@ -5,12 +5,6 @@
         <div class="text-title">
           {{ $t('carDetail.vehicleInfo') }}
         </div>
-        <div>
-          <el-button type="primary" size="small" style="margin-left:10px" v-if="hasPrivilege('502023032804261679')"
-            @click="_openEditDetailOwnerCar()">
-            {{ $t('common.edit') }}
-          </el-button>
-        </div>
       </el-row>
 
       <!-- Vehicle Information -->
