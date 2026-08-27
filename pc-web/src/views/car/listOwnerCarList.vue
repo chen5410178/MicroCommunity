@@ -69,13 +69,7 @@
           </div>
 
           <el-table :data="ownerCars" border v-loading="loading">
-            <el-table-column prop="carNum" :label="$t('listOwnerCar.carNum')" align="center">
-              <template slot-scope="scope">
-                <router-link :to="`/views/car/carDetail?memberId=${scope.row.memberId}`" target="_blank">
-                  {{ scope.row.carNum }}
-                </router-link>
-              </template>
-            </el-table-column>
+            <el-table-column prop="carNum" :label="$t('listOwnerCar.carNum')" align="center" />
             <el-table-column prop="memberCarCount" :label="$t('listOwnerCar.memberCar')" align="center">
               <template slot-scope="scope">
                 <a href="javascript:void(0)" @click="toCarMember(scope.row)">
@@ -104,6 +98,7 @@
               <template slot-scope="scope">
                 <span v-if="scope.row.areaNum">{{ scope.row.areaNum }}</span>
                 <span v-else>--</span>
+                <span v-if="scope.row.psNum">（{{ scope.row.psNum }}）</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('listOwnerCar.validity')" align="center">
@@ -123,8 +118,11 @@
               </template>
             </el-table-column>
             <el-table-column prop="remark" :label="$t('listOwnerCar.remark')" align="center" />
-            <el-table-column :label="$t('listOwnerCar.operation')" align="center" width="250">
+            <el-table-column :label="$t('listOwnerCar.operation')" align="center" width="300">
               <template slot-scope="scope">
+                <el-button size="mini" type="primary" @click="toCarDetail(scope.row)">
+                  {{ $t('listOwnerCar.detail') }}
+                </el-button>
                 <el-button v-if="scope.row.leaseType === 'H'" size="mini" @click="toBuyCarMonthCard(scope.row)">
                   {{ $t('listOwnerCar.buyMonthlyCard') }}
                 </el-button>
@@ -285,6 +283,10 @@ export default {
 
     toCarMember(car) {
       this.$router.push(`/views/car/carDetail?memberId=${car.carId}&tab=carDetailMember`)
+    },
+
+    toCarDetail(car) {
+      window.open(`/views/car/carDetail?memberId=${car.memberId}`)
     },
     openChangeOwnerDialog(car) {
       this.$refs.changeOwnerDialog.open(car)

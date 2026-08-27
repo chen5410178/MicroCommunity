@@ -71,4 +71,20 @@ public interface IOwnerCarServiceDao {
      * @return 车辆管理数量
      */
     int queryOwnerCarsCount(Map info);
+
+    /**
+     * 查询无车位车辆列表（出租/出售/修改车辆选择使用）
+     *
+     * @param info 车辆管理信息
+     * @return 无车位车辆列表
+     */
+    List<Map> getOwnerCarInfoWithoutParkingSpace(Map info);
+
+    /**
+     * 查询无车位车辆总数
+     *
+     * @param info 车辆管理信息
+     * @return 无车位车辆数量
+     */
+    int queryCarsWithoutParkingSpaceCount(Map info);
 }

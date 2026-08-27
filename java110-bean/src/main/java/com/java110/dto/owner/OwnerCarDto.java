@@ -75,6 +75,8 @@ public class OwnerCarDto extends PageDto implements Serializable {
 
     private String num;
 
+    private String psNum;
+
     private Date createTime;
 
     private String statusCd = "0";
@@ -291,6 +293,14 @@ public class OwnerCarDto extends PageDto implements Serializable {
 
     public void setNum(String num) {
         this.num = num;
+    }
+
+    public String getPsNum() {
+        return psNum;
+    }
+
+    public void setPsNum(String psNum) {
+        this.psNum = psNum;
     }
 
     public String getStateName() {

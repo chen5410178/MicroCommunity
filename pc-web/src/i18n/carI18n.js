@@ -14,6 +14,7 @@ import { messages as parkingSpaceApplyManageMessages } from '../views/car/parkin
 import { messages as addParkingSpaceApplyMessages } from '../views/car/addParkingSpaceApplyLang'
 import { messages as auditParkingSpaceApplyMessages } from '../views/car/auditParkingSpaceApplyLang'
 import { messages as carDetailMessages } from '../views/car/carDetailLang.js'
+import { messages as selectNoPsCarMessages } from '../views/car/selectNoPsCarLang'
 
 export const messages = {
     en: {
@@ -33,6 +34,7 @@ export const messages = {
         ...addParkingSpaceApplyMessages.en,
         ...auditParkingSpaceApplyMessages.en,
         ...carDetailMessages.en,
+        ...selectNoPsCarMessages.en,
     },
     zh: {
         ...adminCarMessages.zh,
@@ -51,6 +53,7 @@ export const messages = {
         ...addParkingSpaceApplyMessages.zh,
         ...auditParkingSpaceApplyMessages.zh,
 ...carDetailMessages.zh,
+        ...selectNoPsCarMessages.zh,
     },
     'zh-TW': {
         ...adminCarMessages['zh-TW'],
@@ -69,5 +72,6 @@ export const messages = {
         ...addParkingSpaceApplyMessages['zh-TW'],
         ...auditParkingSpaceApplyMessages['zh-TW'],
         ...carDetailMessages['zh-TW'],
+        ...selectNoPsCarMessages['zh-TW'],
     }
 }

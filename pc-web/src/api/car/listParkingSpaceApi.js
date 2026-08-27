@@ -296,3 +296,20 @@ export function queryOwnerCars(params) {
     })
   })
 }
+
+// 查询无车位车辆（供出租/出售/修改车辆选择）
+export function queryCarsWithoutParkingSpace(params) {
+  return new Promise((resolve, reject) => {
+    const communityId = getCommunityId()
+    request({
+      url: '/owner.queryCarsWithoutParkingSpace',
+      method: 'get',
+      params: { ...params, communityId }
+    }).then(response => {
+      const res = response.data
+      resolve(res)
+    }).catch(error => {
+      reject(error)
+    })
+  })
+}

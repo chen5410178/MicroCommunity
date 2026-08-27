@@ -51,53 +51,22 @@
       </el-button>
     </div>
 
-    <el-dialog :title="$t('sellParkingSpace.selectCar')" :visible.sync="carDialogVisible" width="800px"
-      @close="handleCarDialogClose">
-      <el-form :inline="true" class="margin-bottom-sm">
-        <el-form-item :label="$t('sellParkingSpace.carNum')">
-          <el-input v-model="carQuery.carNum" clearable
-            :placeholder="$t('sellParkingSpace.carNumQueryPlaceholder')" @keyup.enter.native="searchCars"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="searchCars">{{ $t('common.search') }}</el-button>
-        </el-form-item>
-      </el-form>
-      <el-table v-loading="carLoading" :data="carList" border highlight-current-row @row-click="selectCar">
-        <el-table-column prop="carNum" :label="$t('sellParkingSpace.carNum')" align="center"></el-table-column>
-        <el-table-column prop="ownerName" :label="$t('sellParkingSpace.owner')" align="center"></el-table-column>
-        <el-table-column :label="$t('common.operation')" align="center" width="120">
-          <template slot-scope="scope">
-            <el-button type="text" @click.stop="selectCar(scope.row)">{{ $t('common.select') }}</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <el-pagination
-        class="text-right margin-top-sm"
-        :current-page="carPagination.page"
-        :page-size="carPagination.row"
-        :total="carPagination.total"
-        layout="total, prev, pager, next"
-        @current-change="handleCarPageChange"
-      />
-    </el-dialog>
+    <select-no-ps-car ref="selectNoPsCarRef" @select="onSelectCar" />
   </div>
 </template>
 
 <script>
-import { sellParkingSpace, queryOwnerCars } from '@/api/car/listParkingSpaceApi'
+import SelectNoPsCar from '@/components/car/selectNoPsCar'
+import { sellParkingSpace } from '@/api/car/listParkingSpaceApi'
 import { getDateStr } from '@/utils/dateUtil'
 
 export default {
   name: 'SellParkingSpaceList',
+  components: { SelectNoPsCar },
   data() {
     return {
       saving: false,
       selectedCarNum: '',
-      carDialogVisible: false,
-      carLoading: false,
-      carQuery: { carNum: '' },
-      carList: [],
-      carPagination: { page: 1, row: 10, total: 0 },
       sellParkingSpaceInfo: {
         psId: '',
         num: '',
@@ -121,49 +90,13 @@ export default {
   },
   methods: {
     openCarDialog() {
-      this.carQuery.carNum = ''
-      this.carPagination.page = 1
-      this.carDialogVisible = true
-      this.loadCars()
+      this.$refs.selectNoPsCarRef.open()
     },
-    searchCars() {
-      this.carPagination.page = 1
-      this.loadCars()
-    },
-    loadCars() {
-      this.carLoading = true
-      const params = {
-        page: this.carPagination.page,
-        row: this.carPagination.row
-      }
-      if (this.carQuery.carNum) {
-        params.carNumLike = this.carQuery.carNum
-      }
-      queryOwnerCars(params).then(res => {
-        this.carList = res.data || []
-        this.carPagination.total = res.total || 0
-      }).catch(error => {
-        console.error('查询车辆列表失败:', error)
-        this.$message.error(error.message || this.$t('sellParkingSpace.errorMessage'))
-      }).finally(() => {
-        this.carLoading = false
-      })
-    },
-    selectCar(row) {
+    onSelectCar(row) {
       this.sellParkingSpaceInfo.carId = row.carId || ''
       this.sellParkingSpaceInfo.ownerId = row.ownerId || ''
       this.sellParkingSpaceInfo.ownerName = row.ownerName || ''
       this.selectedCarNum = row.carNum || ''
-      this.carDialogVisible = false
-    },
-    handleCarPageChange(page) {
-      this.carPagination.page = page
-      this.loadCars()
-    },
-    handleCarDialogClose() {
-      this.carQuery.carNum = ''
-      this.carPagination.page = 1
-      this.carPagination.total = 0
     },
     goBack() {
       this.$router.go(-1)
