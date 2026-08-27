@@ -30,12 +30,12 @@ import java.util.Calendar;
 import java.util.List;
 
 /**
- * 车辆缴费信息导入 适配器
+ * 车位缴费信息导入 适配器
  * 前端请求 时 必须传入
  * param.append('importAdapt', "importRoomOwner");
  */
 @Service("importCarHistoryFeeDetailQueueData")
-public class ImportCarHistoryFeeDetailQueueDataAdapt extends DefaultImportData implements IImportDataAdapt {
+public class ImportParkingSpaceHistoryFeeDetailQueueDataAdapt extends DefaultImportData implements IImportDataAdapt {
 
 
     @Autowired
@@ -82,22 +82,22 @@ public class ImportCarHistoryFeeDetailQueueDataAdapt extends DefaultImportData i
             return;
         }
 
-        importCarFeeDetails(importRoomFees.get(0).getStoreId(), importRoomFees.get(0).getUserId(), importRoomFees, importRoomFees.get(0).getBatchId());
+        importParkingSpaceFeeDetails(importRoomFees.get(0).getStoreId(), importRoomFees.get(0).getUserId(), importRoomFees, importRoomFees.get(0).getBatchId());
     }
 
-    private void importCarFeeDetails(String storeId, String userId, List<ImportRoomFee> importCarFees, String batchId) {
+    private void importParkingSpaceFeeDetails(String storeId, String userId, List<ImportRoomFee> importParkingSpaceFees, String batchId) {
 
-        importCarFees = ownerCarInnerServiceSMOImpl.freshCarIds(importCarFees);
-        for (ImportRoomFee importCarFee : importCarFees) {
+        importParkingSpaceFees = ownerCarInnerServiceSMOImpl.freshCarIds(importParkingSpaceFees);
+        for (ImportRoomFee importParkingSpaceFee : importParkingSpaceFees) {
             try {
-                if (StringUtil.isEmpty(importCarFee.getCarId())) {
+                if (StringUtil.isEmpty(importParkingSpaceFee.getCarId())) {
                     throw new IllegalArgumentException("车辆不存在");
                 }
-                importCarFeeDetail(importCarFee, storeId, userId, batchId);
-                updateImportLogDetailState(importCarFee.getDetailId());
+                importParkingSpaceFeeDetail(importParkingSpaceFee, storeId, userId, batchId);
+                updateImportLogDetailState(importParkingSpaceFee.getDetailId());
             } catch (Exception e) {
                 e.printStackTrace();
-                updateImportLogDetailState(importCarFee.getDetailId(), e);
+                updateImportLogDetailState(importParkingSpaceFee.getDetailId(), e);
             }
         }
     }
@@ -107,7 +107,7 @@ public class ImportCarHistoryFeeDetailQueueDataAdapt extends DefaultImportData i
      *
      * @param importRoomFee
      */
-    private void importCarFeeDetail(ImportRoomFee importRoomFee, String storeId, String userId, String batchId) {
+    private void importParkingSpaceFeeDetail(ImportRoomFee importRoomFee, String storeId, String userId, String batchId) {
 
         FeeConfigDto feeConfigDto = new FeeConfigDto();
         feeConfigDto.setFeeNameEq(importRoomFee.getFeeName().trim());

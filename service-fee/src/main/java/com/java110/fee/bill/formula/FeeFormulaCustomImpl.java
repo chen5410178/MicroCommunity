@@ -7,7 +7,6 @@ import com.java110.dto.contract.ContractRoomDto;
 import com.java110.dto.fee.FeeAmountDto;
 import com.java110.dto.fee.FeeConfigDto;
 import com.java110.dto.fee.FeeDto;
-import com.java110.dto.owner.OwnerCarDto;
 import com.java110.dto.parking.ParkingSpaceDto;
 import com.java110.dto.room.RoomAttrDto;
 import com.java110.dto.room.RoomDto;
@@ -18,7 +17,6 @@ import com.java110.intf.community.ICommunityInnerServiceSMO;
 import com.java110.intf.community.IParkingSpaceInnerServiceSMO;
 import com.java110.intf.community.IRoomInnerServiceSMO;
 import com.java110.intf.store.IContractRoomInnerServiceSMO;
-import com.java110.intf.user.IOwnerCarInnerServiceSMO;
 import com.java110.utils.constant.FeeConfigConstant;
 import com.java110.utils.util.Assert;
 import com.java110.utils.util.ListUtil;
@@ -48,9 +46,6 @@ public class FeeFormulaCustomImpl implements IFeeFormula {
     private IParkingSpaceInnerServiceSMO parkingSpaceInnerServiceSMOImpl;
 
     @Autowired
-    private IOwnerCarInnerServiceSMO ownerCarInnerServiceSMOImpl;
-
-    @Autowired
     private IContractRoomInnerServiceSMO contractRoomInnerServiceSMOImpl;
 
     @Autowired
@@ -66,7 +61,7 @@ public class FeeFormulaCustomImpl implements IFeeFormula {
         if (FeeDto.PAYER_OBJ_TYPE_ROOM.equals(payerObjType)) { //房屋相关
             amount = computeRoomAmount(feeConfigDto, payerObjId, payerObjType, cycle, monthFlag);
         } else if (FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE.equals(payerObjType)) {
-            amount = computeCarAmount(feeConfigDto, payerObjId, payerObjType, cycle, monthFlag);
+            amount = computeParkingSpaceAmount(feeConfigDto, payerObjId, payerObjType, cycle, monthFlag);
 
         } else if (FeeDto.PAYER_OBJ_TYPE_CONTRACT.equals(payerObjType)) {
             amount = computeContractAmount(feeConfigDto, payerObjId, payerObjType, cycle, monthFlag);
@@ -107,15 +102,14 @@ public class FeeFormulaCustomImpl implements IFeeFormula {
 
     }
 
-    private FeeAmountDto computeCarAmount(FeeConfigDto feeConfigDto, String payerObjId, String payerObjType, int cycleValue, String monthFlag) {
-        OwnerCarDto ownerCarDto = new OwnerCarDto();
-        ownerCarDto.setCarTypeCd("1001"); //业主车辆
-        ownerCarDto.setCommunityId(feeConfigDto.getCommunityId());
-        ownerCarDto.setCarId(payerObjId);
-        List<OwnerCarDto> ownerCarDtos = ownerCarInnerServiceSMOImpl.queryOwnerCars(ownerCarDto);
-        Assert.listOnlyOne(ownerCarDtos, "未找到车辆信息");
+    private FeeAmountDto computeParkingSpaceAmount(FeeConfigDto feeConfigDto, String payerObjId, String payerObjType, int cycleValue, String monthFlag) {
+        ParkingSpaceDto parkingSpaceDto = new ParkingSpaceDto();
+        parkingSpaceDto.setCommunityId(feeConfigDto.getCommunityId());
+        parkingSpaceDto.setPsId(payerObjId);
+        List<ParkingSpaceDto> parkingSpaceDtos = parkingSpaceInnerServiceSMOImpl.queryParkingSpaces(parkingSpaceDto);
+        Assert.listOnlyOne(parkingSpaceDtos, "车位不存在");
 
-        BigDecimal feePrice = computeCarCustomizeFormula(feeConfigDto, ownerCarDtos.get(0));
+        BigDecimal feePrice = computeParkingSpaceCustomizeFormula(feeConfigDto, parkingSpaceDtos.get(0));
         BigDecimal cycleDec = new BigDecimal(cycleValue);
         
         // 添加monthFlag逻辑处理
@@ -244,15 +238,15 @@ public class FeeFormulaCustomImpl implements IFeeFormula {
     }
 
     /**
-     * C 代表房屋对应小区面积
+     * C 代表小区面积
      * <p>
-     * R 代表房屋面积
+     * R 代表车位面积
      *
      * @param feeConfigDto
-     * @param ownerCarDto
+     * @param parkingSpaceDto
      * @return
      */
-    private BigDecimal computeCarCustomizeFormula(FeeConfigDto feeConfigDto, OwnerCarDto ownerCarDto) {
+    private BigDecimal computeParkingSpaceCustomizeFormula(FeeConfigDto feeConfigDto, ParkingSpaceDto parkingSpaceDto) {
         String value = feeConfigDto.getComputingFormulaText();
         value = value.replace("\n", "")
                 .replace("\r", "")
@@ -267,17 +261,8 @@ public class FeeFormulaCustomImpl implements IFeeFormula {
             } else {
                 value = value.replace("C", communityDtos.get(0).getCommunityArea());
             }
-        } else if (value.contains("R")) { //处理 房屋面积
-            ParkingSpaceDto parkingSpaceDto = new ParkingSpaceDto();
-            parkingSpaceDto.setCommunityId(feeConfigDto.getCommunityId());
-            parkingSpaceDto.setPsId(ownerCarDto.getPsId());
-            List<ParkingSpaceDto> parkingSpaceDtos = parkingSpaceInnerServiceSMOImpl.queryParkingSpaces(parkingSpaceDto);
-            if (parkingSpaceDtos == null || parkingSpaceDtos.size() < 1) { //数据有问题
-                //throw new ListenerExecuteException(ResponseConstant.RESULT_CODE_ERROR, "未查到停车位信息，查询多条数据");
-                value = value.replace("R", "0");
-            } else {
-                value = value.replace("R", parkingSpaceDtos.get(0).getArea());
-            }
+        } else if (value.contains("R")) { //处理 车位面积
+            value = value.replace("R", StringUtil.isEmpty(parkingSpaceDto.getArea()) ? "0" : parkingSpaceDto.getArea());
         }
 
         ScriptEngineManager manager = new ScriptEngineManager();

@@ -49,7 +49,7 @@ public class ListParkingSpacesWhereFeeSetCmd extends Cmd {
         ApiParkingSpaceVo apiParkingSpaceVo = new ApiParkingSpaceVo();
         //根据 业主来定位房屋信息
         if (reqJson.containsKey("carNum")) {
-            queryParkingSpaceByCarInfo(apiParkingSpaceVo, reqJson, context);
+            queryParkingSpaceByCarNum(apiParkingSpaceVo, reqJson, context);
             return;
         }
 
@@ -74,12 +74,12 @@ public class ListParkingSpacesWhereFeeSetCmd extends Cmd {
     }
 
     /**
-     * 根据业主查询 房屋信息
+     * 根据车牌查询 车位信息
      *
      * @param apiParkingSpaceVo
      * @param reqJson
      */
-    private void queryParkingSpaceByCarInfo(ApiParkingSpaceVo apiParkingSpaceVo, JSONObject reqJson, ICmdDataFlowContext context) {
+    private void queryParkingSpaceByCarNum(ApiParkingSpaceVo apiParkingSpaceVo, JSONObject reqJson, ICmdDataFlowContext context) {
 
         OwnerCarDto ownerCarDto = BeanConvertUtil.covertBean(reqJson, OwnerCarDto.class);
         //ownerCarDto.setByOwnerInfo(true);
@@ -90,7 +90,7 @@ public class ListParkingSpacesWhereFeeSetCmd extends Cmd {
             List<OwnerCarDto> ownerCarDtos = ownerCarInnerServiceSMOImpl.queryOwnerCars(ownerCarDto);
             List<ParkingSpaceDto> parkingSpaceDtos = null;
 
-            parkingSpaceDtos = refreshCarParkingSpaces(reqJson.getString("communityId"), ownerCarDtos);
+            parkingSpaceDtos = refreshParkingSpacesByCarNum(reqJson.getString("communityId"), ownerCarDtos);
 
             apiParkingSpaceVo.setParkingSpaces(BeanConvertUtil.covertBeanList(parkingSpaceDtos, ApiParkingSpaceDataVo.class));
         }
@@ -101,7 +101,7 @@ public class ListParkingSpacesWhereFeeSetCmd extends Cmd {
         context.setResponseEntity(responseEntity);
     }
 
-    private List<ParkingSpaceDto> refreshCarParkingSpaces(String communityId, List<OwnerCarDto> ownerCarDtos) {
+    private List<ParkingSpaceDto> refreshParkingSpacesByCarNum(String communityId, List<OwnerCarDto> ownerCarDtos) {
 
         List<String> psIds = new ArrayList<>();
 

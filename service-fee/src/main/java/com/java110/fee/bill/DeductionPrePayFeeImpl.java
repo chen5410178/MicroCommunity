@@ -252,8 +252,8 @@ public class DeductionPrePayFeeImpl implements IDeductionPrePayFee {
         prePayFeePo.setDiscountAmount(preDiscountAmount + "");
         prePayFeeV1InnerServiceSMOImpl.updatePrePayFee(prePayFeePo);
 
-        //todo 修改车辆
-        finishFeeNotifyImpl.updateCarEndTime(payFeeDetailPo.getFeeId(), payFeeDetailPo.getCommunityId());
+        //todo 修改车位到期时间
+        finishFeeNotifyImpl.updateParkingSpaceEndTime(payFeeDetailPo.getFeeId(), payFeeDetailPo.getCommunityId());
         //todo 租金延期房屋结束时间
         finishFeeNotifyImpl.updateRoomEndTime(payFeeDetailPo.getFeeId(), payFeeDetailPo.getCommunityId());
 

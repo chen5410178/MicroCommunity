@@ -290,7 +290,7 @@ public class FeeApi extends BaseController {
     }
 
     /**
-     * 车辆费用导入
+     * 车位费用导入
      * /feeApi/importCarFees
      * path /app/feeApi/importCarFees
      *
@@ -298,7 +298,7 @@ public class FeeApi extends BaseController {
      * @return
      */
     @RequestMapping(value = "/importCarFees", method = RequestMethod.POST)
-    public ResponseEntity<String> importCarFees(@RequestBody String reqString) {
+    public ResponseEntity<String> importParkingSpaceFees(@RequestBody String reqString) {
 
         JSONObject reqJson = JSONObject.parseObject(reqString);
         Assert.hasKeyAndValue(reqJson, "communityId", "未包含小区信息");
@@ -307,7 +307,7 @@ public class FeeApi extends BaseController {
         Assert.hasKeyAndValue(reqJson, "userId", "未包含用户信息");
         Assert.hasKeyAndValue(reqJson, "batchId", "未包含批次信息");
 
-        return importRoomFeeImpl.importCarFee(reqJson);
+        return importRoomFeeImpl.importParkingSpaceFee(reqJson);
     }
 
     /**

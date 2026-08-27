@@ -72,7 +72,7 @@ public class FinishFeeNotifyImpl implements IFinishFeeNotify {
     private IOwnerRoomRelInnerServiceSMO ownerRoomRelInnerServiceSMOImpl;
 
     @Override
-    public void updateCarEndTime(String feeId, String communityId) {
+    public void updateParkingSpaceEndTime(String feeId, String communityId) {
         FeeDto feeDto = new FeeDto();
         feeDto.setFeeId(feeId);
         feeDto.setCommunityId(communityId);
@@ -115,7 +115,7 @@ public class FinishFeeNotifyImpl implements IFinishFeeNotify {
             parkingSpacePo.setEndTime(DateUtil.getFormatTimeStringA(feeEndTime));
             parkingSpaceInnerServiceSMOImpl.updateParkingSpace(parkingSpacePo);
             //车位延期后，车位绑定的车辆同步延期
-            updateCarEndTimeByParkingSpace(parkingSpaceDtos.get(0).getCarId(), communityId, feeEndTime);
+            syncBoundCarEndTime(parkingSpaceDtos.get(0).getCarId(), communityId, feeEndTime);
         }
     }
 
@@ -126,7 +126,7 @@ public class FinishFeeNotifyImpl implements IFinishFeeNotify {
      * @param communityId
      * @param feeEndTime 车位续期后的到期时间
      */
-    private void updateCarEndTimeByParkingSpace(String carId, String communityId, Date feeEndTime) {
+    private void syncBoundCarEndTime(String carId, String communityId, Date feeEndTime) {
         if (StringUtil.isEmpty(carId)) {
             return;
         }

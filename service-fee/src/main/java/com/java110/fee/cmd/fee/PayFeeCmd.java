@@ -304,7 +304,7 @@ public class PayFeeCmd extends Cmd {
 
 
         //todo 为停车费单独处理
-        finishFeeNotifyImpl.updateCarEndTime(paramObj.getString("feeId"), paramObj.getString("communityId"));
+        finishFeeNotifyImpl.updateParkingSpaceEndTime(paramObj.getString("feeId"), paramObj.getString("communityId"));
 
         //todo 修改报修单
         finishFeeNotifyImpl.updateRepair(paramObj.getString("feeId"), paramObj.getString("communityId"), paramObj.getString("receivedAmount"));

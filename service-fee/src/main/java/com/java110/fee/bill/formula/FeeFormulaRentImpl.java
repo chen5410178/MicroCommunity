@@ -12,7 +12,6 @@ import com.java110.intf.community.IBuildingShopInnerServiceSMO;
 import com.java110.intf.community.IParkingSpaceInnerServiceSMO;
 import com.java110.intf.community.IRoomInnerServiceSMO;
 import com.java110.intf.store.IContractRoomInnerServiceSMO;
-import com.java110.intf.user.IOwnerCarInnerServiceSMO;
 import com.java110.utils.constant.FeeConfigConstant;
 import com.java110.utils.util.Assert;
 import com.java110.utils.util.ListUtil;
@@ -36,9 +35,6 @@ public class FeeFormulaRentImpl implements IFeeFormula {
     private IParkingSpaceInnerServiceSMO parkingSpaceInnerServiceSMOImpl;
 
     @Autowired
-    private IOwnerCarInnerServiceSMO ownerCarInnerServiceSMOImpl;
-
-    @Autowired
     private IContractRoomInnerServiceSMO contractRoomInnerServiceSMOImpl;
 
     @Autowired
@@ -51,7 +47,7 @@ public class FeeFormulaRentImpl implements IFeeFormula {
         if (FeeDto.PAYER_OBJ_TYPE_ROOM.equals(payerObjType)) { //房屋相关
             amount = computeRoomAmount(feeConfigDto, payerObjId, payerObjType, cycle, monthFlag);
         } else if (FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE.equals(payerObjType)) {
-            amount = computeCarAmount(feeConfigDto, payerObjId, payerObjType, cycle, monthFlag);
+            amount = computeParkingSpaceAmount(feeConfigDto, payerObjId, payerObjType, cycle, monthFlag);
 
         } else if (FeeDto.PAYER_OBJ_TYPE_CONTRACT.equals(payerObjType)) {
             amount = computeContractAmount(feeConfigDto, payerObjId, payerObjType, cycle, monthFlag);
@@ -95,7 +91,7 @@ public class FeeFormulaRentImpl implements IFeeFormula {
         return new FeeAmountDto(feeTotalPrice.doubleValue(), remark);
     }
 
-    private FeeAmountDto computeCarAmount(FeeConfigDto feeConfigDto, String payerObjId, String payerObjType, int cycleValue, String monthFlag) {
+    private FeeAmountDto computeParkingSpaceAmount(FeeConfigDto feeConfigDto, String payerObjId, String payerObjType, int cycleValue, String monthFlag) {
         String remark = "车位租金：" + 0;
 
         return new FeeAmountDto(0.0, remark);

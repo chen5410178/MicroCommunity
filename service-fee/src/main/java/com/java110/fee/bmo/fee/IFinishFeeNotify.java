@@ -6,11 +6,11 @@ import com.java110.dto.fee.PayFeeDataDto;
 public interface IFinishFeeNotify {
 
     /**
-     * 修改 车辆结束时间
+     * 修改 车位结束时间
      * @param feeId
      * @param communityId
      */
-    void updateCarEndTime(String feeId,String communityId);
+    void updateParkingSpaceEndTime(String feeId,String communityId);
 
     /**
      * 修改 房屋结束时间

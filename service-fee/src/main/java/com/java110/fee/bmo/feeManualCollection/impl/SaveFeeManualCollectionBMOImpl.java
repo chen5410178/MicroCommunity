@@ -107,7 +107,7 @@ public class SaveFeeManualCollectionBMOImpl implements ISaveFeeManualCollectionB
         ownerCarDto.setCommunityId(feeManualCollectionPo.getCommunityId());
         ownerCarDto.setOwnerId(ownerDtos.get(0).getOwnerId());
         List<OwnerCarDto> ownerCarDtos = ownerCarInnerServiceSMOImpl.queryOwnerCars(ownerCarDto);
-        addOwnerCarFee(ownerCarDtos, tmpFeeDtos);
+        addParkingSpaceFee(ownerCarDtos, tmpFeeDtos);
 
         if (tmpFeeDtos.size() < 1) {
             return ResultVo.createResponseEntity(ResultVo.CODE_ERROR, "当前房屋不存在托收费用");
@@ -173,7 +173,7 @@ public class SaveFeeManualCollectionBMOImpl implements ISaveFeeManualCollectionB
      * @param ownerCarDtos
      * @param tmpFeeDtos
      */
-    private void addOwnerCarFee(List<OwnerCarDto> ownerCarDtos, List<FeeDto> tmpFeeDtos) {
+    private void addParkingSpaceFee(List<OwnerCarDto> ownerCarDtos, List<FeeDto> tmpFeeDtos) {
 
         if (ownerCarDtos == null || ownerCarDtos.size() < 1) {
             return;

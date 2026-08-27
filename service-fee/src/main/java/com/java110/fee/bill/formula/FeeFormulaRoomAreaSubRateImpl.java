@@ -11,7 +11,6 @@ import com.java110.intf.community.IBuildingShopInnerServiceSMO;
 import com.java110.intf.community.IParkingSpaceInnerServiceSMO;
 import com.java110.intf.community.IRoomInnerServiceSMO;
 import com.java110.intf.store.IContractRoomInnerServiceSMO;
-import com.java110.intf.user.IOwnerCarInnerServiceSMO;
 import com.java110.utils.constant.FeeConfigConstant;
 import com.java110.utils.util.Assert;
 import com.java110.utils.util.ListUtil;
@@ -35,9 +34,6 @@ public class FeeFormulaRoomAreaSubRateImpl implements IFeeFormula {
     private IParkingSpaceInnerServiceSMO parkingSpaceInnerServiceSMOImpl;
 
     @Autowired
-    private IOwnerCarInnerServiceSMO ownerCarInnerServiceSMOImpl;
-
-    @Autowired
     private IContractRoomInnerServiceSMO contractRoomInnerServiceSMOImpl;
 
     @Autowired
@@ -50,8 +46,8 @@ public class FeeFormulaRoomAreaSubRateImpl implements IFeeFormula {
         if (FeeDto.PAYER_OBJ_TYPE_ROOM.equals(payerObjType)) { //房屋相关
             amount = computeRoomAmount(feeConfigDto, payerObjId, payerObjType, cycle, monthFlag);
         } else if (FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE.equals(payerObjType)) {
-            // 车辆没有建筑面积和室内面积，直接返回0
-            amount = new FeeAmountDto(0.0, "车辆无建筑面积和室内面积");
+            // 车位没有建筑面积和室内面积，直接返回0
+            amount = new FeeAmountDto(0.0, "车位无建筑面积和室内面积");
 
         } else if (FeeDto.PAYER_OBJ_TYPE_CONTRACT.equals(payerObjType)) {
             // 合同暂时不处理，直接返回0
@@ -106,9 +102,9 @@ public class FeeFormulaRoomAreaSubRateImpl implements IFeeFormula {
 
     }
 
-    private FeeAmountDto computeCarAmount(FeeConfigDto feeConfigDto, String payerObjId, String payerObjType, int cycleValue) {
-        // 车辆没有建筑面积和室内面积，直接返回0
-        return new FeeAmountDto(0.0, "车辆无建筑面积和室内面积");
+    private FeeAmountDto computeParkingSpaceAmount(FeeConfigDto feeConfigDto, String payerObjId, String payerObjType, int cycleValue) {
+        // 车位没有建筑面积和室内面积，直接返回0
+        return new FeeAmountDto(0.0, "车位无建筑面积和室内面积");
     }
 
     private FeeAmountDto computeContractAmount(FeeConfigDto feeConfigDto, String payerObjId, String payerObjType, int cycleValue) {

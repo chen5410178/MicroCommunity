@@ -87,7 +87,7 @@ public class ImportPayFeeDetailBMOImpl implements IImportPayFeeBMODetail {
         if (FeeDto.PAYER_OBJ_TYPE_ROOM.equals(objType)) {
             importFeeDetails(storeId, userId, importRoomFees, batchId);
         } else {
-            importCarFeeDetails(storeId, userId, importRoomFees, batchId);
+            importParkingSpaceFeeDetails(storeId, userId, importRoomFees, batchId);
         }
 
         return ResultVo.success();
@@ -109,14 +109,14 @@ public class ImportPayFeeDetailBMOImpl implements IImportPayFeeBMODetail {
     }
 
 
-    private void importCarFeeDetails(String storeId, String userId, List<ImportRoomFee> importCarFees, String batchId) {
+    private void importParkingSpaceFeeDetails(String storeId, String userId, List<ImportRoomFee> importParkingSpaceFees, String batchId) {
 
-        importCarFees = ownerCarInnerServiceSMOImpl.freshCarIds(importCarFees);
-        for (ImportRoomFee importCarFee : importCarFees) {
-            if (StringUtil.isEmpty(importCarFee.getCarId())) {
+        importParkingSpaceFees = ownerCarInnerServiceSMOImpl.freshCarIds(importParkingSpaceFees);
+        for (ImportRoomFee importParkingSpaceFee : importParkingSpaceFees) {
+            if (StringUtil.isEmpty(importParkingSpaceFee.getCarId())) {
                 continue;
             }
-            importCarFeeDetail(importCarFee, storeId, userId, batchId);
+            importParkingSpaceFeeDetail(importParkingSpaceFee, storeId, userId, batchId);
         }
     }
 
@@ -125,7 +125,7 @@ public class ImportPayFeeDetailBMOImpl implements IImportPayFeeBMODetail {
      *
      * @param importRoomFee
      */
-    private void importCarFeeDetail(ImportRoomFee importRoomFee, String storeId, String userId, String batchId) {
+    private void importParkingSpaceFeeDetail(ImportRoomFee importRoomFee, String storeId, String userId, String batchId) {
 
         FeeConfigDto feeConfigDto = new FeeConfigDto();
         feeConfigDto.setFeeNameEq(importRoomFee.getFeeName().trim());

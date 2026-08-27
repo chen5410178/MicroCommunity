@@ -302,8 +302,8 @@ public class ImportRoomFeeSMOImpl extends DefaultAbstractComponentSMO implements
         int successCount = paramOut.getInteger("successCount");
         int errorCount = paramOut.getInteger("errorCount");
 
-        JSONArray importCarFees = JSONArray.parseArray(JSONObject.toJSONString(tmpImportCarFee));
-        data.put("importCarFees", importCarFees);
+        JSONArray importParkingSpaceFees = JSONArray.parseArray(JSONObject.toJSONString(tmpImportCarFee));
+        data.put("importParkingSpaceFees", importParkingSpaceFees);
 
         String apiUrl = "/feeApi/importCarFees";
 

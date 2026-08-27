@@ -5,7 +5,6 @@ import com.java110.dto.contract.ContractRoomDto;
 import com.java110.dto.fee.FeeAmountDto;
 import com.java110.dto.fee.FeeConfigDto;
 import com.java110.dto.fee.FeeDto;
-import com.java110.dto.owner.OwnerCarDto;
 import com.java110.dto.parking.ParkingSpaceDto;
 import com.java110.dto.room.RoomDto;
 import com.java110.dto.shop.BuildingShopDto;
@@ -14,10 +13,7 @@ import com.java110.intf.community.IBuildingShopInnerServiceSMO;
 import com.java110.intf.community.IParkingSpaceInnerServiceSMO;
 import com.java110.intf.community.IRoomInnerServiceSMO;
 import com.java110.intf.store.IContractRoomInnerServiceSMO;
-import com.java110.intf.user.IOwnerCarInnerServiceSMO;
 import com.java110.utils.constant.FeeConfigConstant;
-import com.java110.utils.constant.ResponseConstant;
-import com.java110.utils.exception.ListenerExecuteException;
 import com.java110.utils.util.Assert;
 import com.java110.utils.util.ListUtil;
 import com.java110.utils.util.MoneyUtil;
@@ -40,9 +36,6 @@ public class FeeFormulaRoomAreaPriceImpl implements IFeeFormula {
     private IParkingSpaceInnerServiceSMO parkingSpaceInnerServiceSMOImpl;
 
     @Autowired
-    private IOwnerCarInnerServiceSMO ownerCarInnerServiceSMOImpl;
-
-    @Autowired
     private IContractRoomInnerServiceSMO contractRoomInnerServiceSMOImpl;
 
     @Autowired
@@ -55,7 +48,7 @@ public class FeeFormulaRoomAreaPriceImpl implements IFeeFormula {
         if (FeeDto.PAYER_OBJ_TYPE_ROOM.equals(payerObjType)) { //房屋相关
             amount = computeRoomAmount(feeConfigDto, payerObjId, payerObjType, cycle, monthFlag);
         } else if (FeeDto.PAYER_OBJ_TYPE_PARKING_SPACE.equals(payerObjType)) {
-            amount = computeCarAmount(feeConfigDto, payerObjId, payerObjType, cycle, monthFlag);
+            amount = computeParkingSpaceAmount(feeConfigDto, payerObjId, payerObjType, cycle, monthFlag);
 
         } else if (FeeDto.PAYER_OBJ_TYPE_CONTRACT.equals(payerObjType)) {
             amount = computeContractAmount(feeConfigDto, payerObjId, payerObjType, cycle, monthFlag);
@@ -100,21 +93,12 @@ public class FeeFormulaRoomAreaPriceImpl implements IFeeFormula {
 
     }
 
-    private FeeAmountDto computeCarAmount(FeeConfigDto feeConfigDto, String payerObjId, String payerObjType, int cycleValue, String monthFlag) {
-        OwnerCarDto ownerCarDto = new OwnerCarDto();
-        ownerCarDto.setCarTypeCd("1001"); //业主车辆
-        ownerCarDto.setCommunityId(feeConfigDto.getCommunityId());
-        ownerCarDto.setCarId(payerObjId);
-        List<OwnerCarDto> ownerCarDtos = ownerCarInnerServiceSMOImpl.queryOwnerCars(ownerCarDto);
-        Assert.listOnlyOne(ownerCarDtos, "未找到车辆信息");
-
+    private FeeAmountDto computeParkingSpaceAmount(FeeConfigDto feeConfigDto, String payerObjId, String payerObjType, int cycleValue, String monthFlag) {
         ParkingSpaceDto parkingSpaceDto = new ParkingSpaceDto();
         parkingSpaceDto.setCommunityId(feeConfigDto.getCommunityId());
-        parkingSpaceDto.setPsId(ownerCarDtos.get(0).getPsId());
+        parkingSpaceDto.setPsId(payerObjId);
         List<ParkingSpaceDto> parkingSpaceDtos = parkingSpaceInnerServiceSMOImpl.queryParkingSpaces(parkingSpaceDto);
-        if (ListUtil.isNull(parkingSpaceDtos)) { //数据有问题
-            throw new ListenerExecuteException(ResponseConstant.RESULT_CODE_ERROR, "未查到停车位信息，查询多条数据");
-        }
+        Assert.listOnlyOne(parkingSpaceDtos, "车位不存在");
         BigDecimal squarePrice = new BigDecimal(Double.parseDouble(feeConfigDto.getSquarePrice()));
         BigDecimal builtUpArea = new BigDecimal(Double.parseDouble(parkingSpaceDtos.get(0).getArea()));
         BigDecimal additionalAmount = new BigDecimal(Double.parseDouble(feeConfigDto.getAdditionalAmount()));

@@ -114,8 +114,8 @@ public class BatchPayFeeImpl implements IBatchPayFee {
                 }
             }
             feeId = getFeeIdWithMaxEndTime(payFees);
-            //todo 修改车辆
-            finishFeeNotifyImpl.updateCarEndTime(feeId, communityId);
+            //todo 修改车位到期时间
+            finishFeeNotifyImpl.updateParkingSpaceEndTime(feeId, communityId);
             //todo 租金延期房屋结束时间
             finishFeeNotifyImpl.updateRoomEndTime(feeId, communityId);
         }
