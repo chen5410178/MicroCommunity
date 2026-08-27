@@ -29,9 +29,8 @@ import com.java110.utils.util.Assert;
 import com.java110.utils.util.DateUtil;
 import com.java110.utils.util.ListUtil;
 import com.java110.utils.util.StringUtil;
+import com.java110.vo.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -180,25 +179,13 @@ public class SaveShopCreateFeeCmd extends Cmd {
             throw new IllegalArgumentException("小区不存在");
         }
 
-        // 业务处理
-        JSONObject paramOut = new JSONObject();
-        paramOut.put("totalRoom", 1);
-        paramOut.put("successRoom", 1);
-        paramOut.put("errorRoom", 0);
-        ResponseEntity<String> responseEntity = new ResponseEntity<>(paramOut.toJSONString(), HttpStatus.OK);
-
-        if (payFeeRulePos.isEmpty()) {
-            context.setResponseEntity(responseEntity);
-            return;
-        }
-
         // 保存费用规则
         payFeeRuleV1InnerServiceSMOImpl.savePayFeeRules(payFeeRulePos);
 
         // 走账单模式
         cycleConvertOnceFeeImpl.rulesGeneratePayFees(payFeeRulePos);
 
-        context.setResponseEntity(responseEntity);
+        context.setResponseEntity(ResultVo.success());
     }
 
     private PayFeeRulePo createPayFeeRulePo(BuildingShopDto shopDto, JSONObject paramInJson) {

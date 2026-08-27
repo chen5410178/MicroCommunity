@@ -21,9 +21,8 @@ import com.java110.po.payFee.PayFeeBatchPo;
 import com.java110.po.payFee.PayFeeRulePo;
 import com.java110.utils.exception.CmdException;
 import com.java110.utils.util.*;
+import com.java110.vo.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -117,7 +116,6 @@ public class SaveParkingSpaceCreateFeeCmd extends Cmd {
 
 
         List<PayFeeRulePo> payFeeRulePos = new ArrayList<>();
-        ResponseEntity<String> responseEntity = null;
 
         PayFeeRulePo payFeeRulePo = createPayFeeRulePo(parkingSpaceDto, reqJson);
 
@@ -134,18 +132,6 @@ public class SaveParkingSpaceCreateFeeCmd extends Cmd {
             throw new IllegalArgumentException("小区不存在");
         }
 
-        //todo 业务处理
-        JSONObject paramOut = new JSONObject();
-        paramOut.put("totalCar", 1);
-        paramOut.put("successCar", 1);
-        paramOut.put("errorCar", 0);
-        responseEntity = new ResponseEntity<>(paramOut.toJSONString(), HttpStatus.OK);
-
-        if (payFeeRulePos.isEmpty()) {
-            context.setResponseEntity(responseEntity);
-            return;
-        }
-
         //todo 设置费用
         payFeeRuleV1InnerServiceSMOImpl.savePayFeeRules(payFeeRulePos);
 
@@ -153,7 +139,7 @@ public class SaveParkingSpaceCreateFeeCmd extends Cmd {
         //todo 走账单模式
         cycleConvertOnceFeeImpl.rulesGeneratePayFees(payFeeRulePos);
 
-        context.setResponseEntity(responseEntity);
+        context.setResponseEntity(ResultVo.success());
     }
 
 

@@ -25,9 +25,8 @@ import com.java110.po.payFee.PayFeeRulePo;
 import com.java110.utils.constant.CommonConstant;
 import com.java110.utils.exception.CmdException;
 import com.java110.utils.util.*;
+import com.java110.vo.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -181,7 +180,6 @@ public class SaveRoomCreateFeeCmd extends Cmd {
         roomDto.setLink(ownerDtos.get(0).getLink());
 
         List<PayFeeRulePo> payFeeRulePos = new ArrayList<>();
-        ResponseEntity<String> responseEntity = null;
 
         PayFeeRulePo payFeeRulePo = createPayFeeRulePo(roomDto, reqJson);
 
@@ -198,18 +196,6 @@ public class SaveRoomCreateFeeCmd extends Cmd {
             throw new IllegalArgumentException("小区不存在");
         }
 
-        //todo 业务处理
-        JSONObject paramOut = new JSONObject();
-        paramOut.put("totalRoom", 1);
-        paramOut.put("successRoom", 1);
-        paramOut.put("errorRoom", 0);
-        responseEntity = new ResponseEntity<>(paramOut.toJSONString(), HttpStatus.OK);
-
-        if (payFeeRulePos.isEmpty()) {
-            context.setResponseEntity(responseEntity);
-            return;
-        }
-
         //todo 设置费用
         payFeeRuleV1InnerServiceSMOImpl.savePayFeeRules(payFeeRulePos);
 
@@ -217,7 +203,7 @@ public class SaveRoomCreateFeeCmd extends Cmd {
         //todo 走账单模式
         cycleConvertOnceFeeImpl.rulesGeneratePayFees(payFeeRulePos);
 
-        context.setResponseEntity(responseEntity);
+        context.setResponseEntity(ResultVo.success());
 
     }
 
