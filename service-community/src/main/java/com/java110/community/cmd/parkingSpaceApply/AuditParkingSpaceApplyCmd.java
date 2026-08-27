@@ -147,15 +147,12 @@ public class AuditParkingSpaceApplyCmd extends Cmd {
             ownerCarPo.setOwnerId(parkingSpaceApply.getApplyPersonId());
             ownerCarPo.setbId("-1");
             ownerCarPo.setCarNum(parkingSpaceApply.getCarNum());
-            ownerCarPo.setCarColor(parkingSpaceApply.getCarColor());
-            ownerCarPo.setCarBrand(parkingSpaceApply.getCarBrand());
             ownerCarPo.setCarType(parkingSpaceApply.getCarType());
             ownerCarPo.setCarTypeCd("1001");
             ownerCarPo.setCommunityId(parkingSpaceApply.getCommunityId());
             ownerCarPo.setMemberId(ownerCarPo.getCarId());
             ownerCarPo.setStartTime(parkingSpaceApply.getStartTime());
             ownerCarPo.setEndTime(parkingSpaceApply.getEndTime());
-            ownerCarPo.setPsId(parkingSpaceApply.getPsId());
             //父方案联动：回填车辆归属停车场
             ownerCarPo.setPaId(parkingSpaceApply.getPaId());
             //父方案联动：回填车辆维度联系人/电话
@@ -173,11 +170,10 @@ public class AuditParkingSpaceApplyCmd extends Cmd {
         } else {
             OwnerCarDto existCar = ownerCarDtos.get(0);
             catId = existCar.getCarId();
-            if (StringUtil.isEmpty(existCar.getPsId()) || "-1".equals(existCar.getPsId())) {
-                //父方案联动：无车位车辆绑定申请车位并回填停车场
+            if (StringUtil.isEmpty(existCar.getPaId()) || !parkingSpaceApply.getPaId().equals(existCar.getPaId())) {
+                //父方案联动：车辆未归属该停车场时回填停车场并更新租期
                 OwnerCarPo updateCar = new OwnerCarPo();
                 updateCar.setCarId(existCar.getCarId());
-                updateCar.setPsId(parkingSpaceApply.getPsId());
                 updateCar.setPaId(parkingSpaceApply.getPaId());
                 updateCar.setState(OwnerCarDto.STATE_NORMAL);
                 updateCar.setStartTime(parkingSpaceApply.getStartTime());
@@ -186,11 +182,8 @@ public class AuditParkingSpaceApplyCmd extends Cmd {
                 if (flag < 1) {
                     throw new CmdException("更新车辆数据失败");
                 }
-            } else if (StringUtil.isEmpty(existCar.getPaId()) || !parkingSpaceApply.getPaId().equals(existCar.getPaId())) {
-                //父方案联动：已有车位但属不同停车场，阻止审核，事务回滚
-                throw new CmdException("该车牌已绑定其他停车场车位，请先释放后再审核");
             }
-            //同停车场已有车位：跳过（幂等）
+            //同一停车场已有车辆：跳过（幂等）
         }
         // 将车位状态 修改为已出租状态
         ParkingSpacePo parkingSpacePo = new ParkingSpacePo();

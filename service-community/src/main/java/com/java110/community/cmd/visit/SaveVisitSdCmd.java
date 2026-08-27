@@ -245,10 +245,7 @@ public class SaveVisitSdCmd extends Cmd {
             ownerCarPo.setOwnerId(reqJson.getString("ownerId"));
             ownerCarPo.setbId("-1");
             ownerCarPo.setCarNum(reqJson.getString("carNum"));
-            ownerCarPo.setCarBrand("无（预约车）");
             ownerCarPo.setCarType("9901");
-            ownerCarPo.setCarColor("无（预约车）");
-            ownerCarPo.setPsId(reqJson.getString("psId"));
             ownerCarPo.setUserId(userId);
             ownerCarPo.setRemark("访客登记预约车");
             ownerCarPo.setCommunityId(reqJson.getString("communityId"));

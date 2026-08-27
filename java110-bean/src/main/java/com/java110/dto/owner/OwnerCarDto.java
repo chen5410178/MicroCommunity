@@ -36,8 +36,6 @@ public class OwnerCarDto extends PageDto implements Serializable {
 
     public static final String CAR_TYPE_CREDIT = "9906"; //信用期车牌
 
-    private String carColor;
-    private String carBrand;
     private String carType;
     private String carTypeName;
     private String carNum;
@@ -118,22 +116,6 @@ public class OwnerCarDto extends PageDto implements Serializable {
     private String tel;
 
     private List<OwnerCarAttrDto> ownerCarAttrDto;
-
-    public String getCarColor() {
-        return carColor;
-    }
-
-    public void setCarColor(String carColor) {
-        this.carColor = carColor;
-    }
-
-    public String getCarBrand() {
-        return carBrand;
-    }
-
-    public void setCarBrand(String carBrand) {
-        this.carBrand = carBrand;
-    }
 
     public String getCarType() {
         return carType;

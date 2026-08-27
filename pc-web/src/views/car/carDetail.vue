@@ -23,23 +23,10 @@
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item :label="$t('carDetail.carBrand')">
-                <label>{{ carDetailInfo.carBrand || '-' }}</label>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
               <el-form-item :label="$t('carDetail.carType')">
                 <label>{{ carDetailInfo.leaseTypeName || '-' }}</label>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
-              <el-form-item :label="$t('carDetail.color')">
-                <label>{{ carDetailInfo.carColor || '-' }}</label>
-              </el-form-item>
-            </el-col>
-          </el-row>
-
-          <el-row :gutter="20">
             <el-col :span="6">
               <el-form-item :label="$t('carDetail.licenseType')">
                 <label>{{ carDetailInfo.carTypeName || '-' }}</label>
@@ -50,6 +37,9 @@
                 <label>{{ carDetailInfo.startTime || '-' }}</label>
               </el-form-item>
             </el-col>
+          </el-row>
+
+          <el-row :gutter="20">
             <el-col :span="6">
               <el-form-item :label="$t('carDetail.leaseEnd')">
                 <label>{{ carDetailInfo.endTime || '-' }}</label>
@@ -60,19 +50,9 @@
                 <label>{{ carDetailInfo.remark || '-' }}</label>
               </el-form-item>
             </el-col>
-          </el-row>
-
-          <el-row :gutter="20">
             <el-col :span="6">
               <el-form-item :label="$t('carDetail.parkingLot')">
                 <label>{{ carDetailInfo.areaNum || '-' }}</label>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item :label="$t('carDetail.parkingSpace')">
-                <label v-if="carDetailInfo.num">{{ carDetailInfo.num }}</label>
-                <label v-else-if="carDetailInfo.areaNum">{{ carDetailInfo.areaNum }}{{ $t('carDetail.parkingAreaSuffix') }}</label>
-                <label v-else>{{ $t('carDetail.noFixedSpace') }}</label>
               </el-form-item>
             </el-col>
             <el-col :span="6">
@@ -80,14 +60,14 @@
                 <label>{{ carDetailInfo.stateName || '-' }}</label>
               </el-form-item>
             </el-col>
+          </el-row>
+
+          <el-row :gutter="20">
             <el-col :span="6">
               <el-form-item :label="$t('carDetail.relatedHouse')">
                 <label>{{ carDetailInfo.roomName || '-' }}</label>
               </el-form-item>
             </el-col>
-          </el-row>
-
-          <el-row :gutter="20">
             <el-col :span="6">
               <el-form-item :label="$t('carDetail.contact')">
                 <label>{{ carDetailInfo.contact || carDetailInfo.ownerName || '-' }}</label>
@@ -208,8 +188,6 @@ export default {
         num: '',
         remark: '',
         stateName: '',
-        carColor: '',
-        carBrand: '',
         ownerId: '',
         roomName: '',
         carNumType: '',

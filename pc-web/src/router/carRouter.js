@@ -56,11 +56,6 @@ export default [
         component: () => import('@/views/car/updateParkingSpaceCarList.vue')
       },
       {
-        path: '/views/car/carAddParkingSpace',
-        name: '/views/car/carAddParkingSpace',
-        component: () => import('@/views/car/carAddParkingSpaceList.vue')
-      },
-      {
         path: '/views/fee/buyCarMonthCard',
         name: '/views/fee/buyCarMonthCard',
         component: () => import('@/views/fee/buyCarMonthCardList.vue')

@@ -13,13 +13,6 @@
               :placeholder="$t('listOwnerCar.inputCarNumRequired')" />
           </el-form-item>
         </el-col>
-        <el-col :span="12">
-          <el-form-item :label="$t('listOwnerCar.carBrand')">
-            <el-input 
-              v-model="form.carBrand" 
-              :placeholder="$t('listOwnerCar.inputCarBrand')" />
-          </el-form-item>
-        </el-col>
       </el-row>
 
       <el-row :gutter="20">
@@ -35,13 +28,6 @@
                 :label="item.name" 
                 :value="item.statusCd" />
             </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item :label="$t('listOwnerCar.color')">
-            <el-input 
-              v-model="form.carColor" 
-              :placeholder="$t('listOwnerCar.inputCarColor')" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -71,7 +57,6 @@
               :placeholder="$t('listOwnerCar.selectLicensePlateType')"
               style="width: 100%">
               <el-option value="H" :label="$t('listOwnerCar.monthlyRentCar')"></el-option>
-              <el-option value="S" :label="$t('listOwnerCar.soldCar')"></el-option>
               <el-option value="I" :label="$t('listOwnerCar.internalCar')"></el-option>
               <el-option value="NM" :label="$t('listOwnerCar.freeCar')"></el-option>
             </el-select>
@@ -87,7 +72,7 @@
         </el-col>
       </el-row>
 
-      <el-row v-if="form.leaseType === 'H' || form.leaseType === 'S'" :gutter="20">
+      <el-row v-if="form.leaseType === 'H'" :gutter="20">
         <el-col :span="12">
           <el-form-item :label="$t('listOwnerCar.startRentTime')" required>
             <el-date-picker
@@ -150,9 +135,7 @@ export default {
         carId: '',
         memberId: '',
         carNum: '',
-        carBrand: '',
         carType: '',
-        carColor: '',
         contact: '',
         tel: '',
         remark: '',
@@ -229,7 +212,7 @@ export default {
         return false
       }
       
-      if ((this.form.leaseType === 'H' || this.form.leaseType === 'S') && 
+      if ((this.form.leaseType === 'H') && 
           (!this.form.startTime || !this.form.endTime)) {
         this.$message.warning(this.$t('listOwnerCar.rentTimeRequired'))
         return false
@@ -257,9 +240,7 @@ export default {
         carId: '',
         memberId: '',
         carNum: '',
-        carBrand: '',
         carType: '',
-        carColor: '',
         contact: '',
         tel: '',
         remark: '',

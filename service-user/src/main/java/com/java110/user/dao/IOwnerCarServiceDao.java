@@ -71,6 +71,4 @@ public interface IOwnerCarServiceDao {
      * @return 车辆管理数量
      */
     int queryOwnerCarsCount(Map info);
-
-    long queryOwnerParkingSpaceCount(Map beanCovertMap);
 }

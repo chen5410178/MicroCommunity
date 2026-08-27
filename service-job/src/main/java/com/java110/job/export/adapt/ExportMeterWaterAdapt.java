@@ -118,12 +118,11 @@ public class ExportMeterWaterAdapt implements IExportDataAdapt {
             row.createCell(0).setCellValue(dataObj.getCarNum());
             row.createCell(1).setCellValue(dataObj.getRoomName());
             row.createCell(2).setCellValue(dataObj.getCarTypeName());
-            row.createCell(3).setCellValue(dataObj.getCarColor());
-            row.createCell(4).setCellValue(dataObj.getOwnerName());
-            row.createCell(5).setCellValue(dataObj.getLink());
-            row.createCell(6).setCellValue(dataObj.getAreaNum() + "-" + dataObj.getNum());
-            row.createCell(7).setCellValue(DateUtil.getFormatTimeStringA(dataObj.getStartTime()));
-            row.createCell(8).setCellValue(DateUtil.getFormatTimeStringA(dataObj.getEndTime()));
+            row.createCell(3).setCellValue(dataObj.getOwnerName());
+            row.createCell(4).setCellValue(dataObj.getLink());
+            row.createCell(5).setCellValue(dataObj.getAreaNum());
+            row.createCell(6).setCellValue(DateUtil.getFormatTimeStringA(dataObj.getStartTime()));
+            row.createCell(7).setCellValue(DateUtil.getFormatTimeStringA(dataObj.getEndTime()));
         }
 
     }

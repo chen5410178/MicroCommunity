@@ -702,12 +702,9 @@ public class MachineUploadCarLogCmd extends Cmd {
         ownerCarPo.setCarId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_carId));
         ownerCarPo.setState(OwnerCarDto.STATE_NORMAL);
         ownerCarPo.setCommunityId(machineDto.getCommunityId());
-        ownerCarPo.setPsId("-1");
         ownerCarPo.setMemberId(ownerCarPo.getCarId());
         ownerCarPo.setCarTypeCd(OwnerCarDto.CAR_TYPE_CD_TEMP);
         ownerCarPo.setCarType("9901");
-        ownerCarPo.setCarBrand("未知");
-        ownerCarPo.setCarColor("未知");
         ownerCarPo.setCarNum(reqJson.getString("carNum"));
         ownerCarPo.setOwnerId(reqJson.getString("ownerId"));
         ownerCarPo.setRemark("临时车 物联网同步");

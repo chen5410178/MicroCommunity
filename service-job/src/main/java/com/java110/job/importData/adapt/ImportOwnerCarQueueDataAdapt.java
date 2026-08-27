@@ -6,9 +6,7 @@ import com.java110.dto.log.AssetImportLogDetailDto;
 import com.java110.dto.owner.OwnerCarDto;
 import com.java110.dto.owner.OwnerDto;
 import com.java110.dto.parking.ParkingAreaDto;
-import com.java110.dto.parking.ParkingSpaceDto;
 import com.java110.intf.community.IParkingAreaV1InnerServiceSMO;
-import com.java110.intf.community.IParkingSpaceV1InnerServiceSMO;
 import com.java110.intf.user.IOwnerCarV1InnerServiceSMO;
 import com.java110.intf.user.IOwnerV1InnerServiceSMO;
 import com.java110.job.importData.DefaultImportData;
@@ -16,7 +14,6 @@ import com.java110.job.importData.IImportDataAdapt;
 import com.java110.po.car.OwnerCarPo;
 import com.java110.po.owner.OwnerPo;
 import com.java110.po.parking.ParkingAreaPo;
-import com.java110.po.parking.ParkingSpacePo;
 import com.java110.utils.util.BeanConvertUtil;
 import com.java110.utils.util.ListUtil;
 import com.java110.utils.util.StringUtil;
@@ -40,9 +37,6 @@ public class ImportOwnerCarQueueDataAdapt extends DefaultImportData implements I
     @Autowired
     private IOwnerV1InnerServiceSMO ownerV1InnerServiceSMOImpl;
 
-
-    @Autowired
-    private IParkingSpaceV1InnerServiceSMO parkingSpaceV1InnerServiceSMOImpl;
 
     @Autowired
     private IParkingAreaV1InnerServiceSMO parkingAreaV1InnerServiceSMOImpl;
@@ -116,49 +110,7 @@ public class ImportOwnerCarQueueDataAdapt extends DefaultImportData implements I
             paId = parkingAreaDtos.get(0).getPaId();
         }
         ownerCarPo.setPaId(paId);
-
-        //无车位：psId 置 -1，不创建停车位、不校验状态、不更新车位状态
-        if (StringUtil.isEmpty(ownerCarDto.getNum())) {
-            ownerCarPo.setPsId("-1");
-            ownerCarV1InnerServiceSMOImpl.saveOwnerCar(ownerCarPo);
-            return;
-        }
-        ParkingSpaceDto parkingSpaceDto = new ParkingSpaceDto();
-        parkingSpaceDto.setNum(ownerCarDto.getNum());
-        parkingSpaceDto.setPaId(paId);
-        parkingSpaceDto.setCommunityId(ownerCarDto.getCommunityId());
-        //查询停车位
-        List<ParkingSpaceDto> parkingSpaceDtos = parkingSpaceV1InnerServiceSMOImpl.queryParkingSpaces(parkingSpaceDto);
-        String state = "";
-        String psId = "";
-        if (ListUtil.isNull(parkingSpaceDtos)) {
-            psId = GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_psId);
-            ParkingSpacePo parkingSpacePo = new ParkingSpacePo();
-            parkingSpacePo.setCommunityId(ownerCarDto.getCommunityId());
-            parkingSpacePo.setNum(ownerCarDto.getNum());
-            parkingSpacePo.setPaId(paId);
-            parkingSpacePo.setParkingType(ParkingSpaceDto.TYPE_CD_COMMON);
-            parkingSpacePo.setState(ParkingSpaceDto.STATE_FREE);
-            parkingSpacePo.setArea("1");
-            parkingSpacePo.setPsId(psId);
-            parkingSpacePo.setRemark("导入数据");
-            parkingSpaceV1InnerServiceSMOImpl.saveParkingSpace(parkingSpacePo);
-            state = ParkingSpaceDto.STATE_FREE;
-        } else {
-            psId = parkingSpaceDtos.get(0).getPsId();
-            //获取停车位状态(出售 S，出租 H ，空闲 F)
-            state = parkingSpaceDtos.get(0).getState();
-        }
-
-        if (!StringUtil.isEmpty(state) && !state.equals("F")) {
-            throw new IllegalArgumentException(ownerCarDto.getAreaNum() + "停车场-" + ownerCarDto.getNum() + "停车位不是空闲状态！");
-        }
-        ownerCarPo.setPsId(psId);
         ownerCarV1InnerServiceSMOImpl.saveOwnerCar(ownerCarPo);
-        ParkingSpacePo parkingSpacePo = new ParkingSpacePo();
-        parkingSpacePo.setPsId(psId); //车位id
-        parkingSpacePo.setState(ownerCarDto.getSpaceSate());
-        parkingSpaceV1InnerServiceSMOImpl.updateParkingSpace(parkingSpacePo);
     }
 
     private void importOwnerData(OwnerCarDto ownerCarDto) {

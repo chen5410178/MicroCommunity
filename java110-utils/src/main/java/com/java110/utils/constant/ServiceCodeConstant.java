@@ -504,12 +504,6 @@ public class ServiceCodeConstant {
     //编辑业主车辆
     public static final String SERVICE_CODE_EDIT_OWNER_CAR = "owner.editOwnerCar";
 
-    //释放车位
-    public static final String SERVICE_CODE_DELETE_CAR_PARKING_SPACE = "owner.deleteCarParkingSpace";
-
-    //续租车位
-    public static final String SERVICE_CODE_CAR_ADD_PARKING_SPACE = "owner.carAddParkingSpace";
-
     //查询业主成员
     public static final String SERVICE_CODE_QUERY_OWNER_MEMBER = "owner.queryOwnerMembers";
 

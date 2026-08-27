@@ -20,9 +20,7 @@
           </router-link>
         </template>
       </el-table-column>
-      <el-table-column prop="carBrand" :label="$t('simplifyOwnerCar.carBrand')" align="center"></el-table-column>
       <el-table-column prop="carTypeName" :label="$t('simplifyOwnerCar.carType')" align="center"></el-table-column>
-      <el-table-column prop="carColor" :label="$t('simplifyOwnerCar.color')" align="center"></el-table-column>
       <el-table-column :label="$t('simplifyOwnerCar.owner')" align="center">
         <template #default="{row}">
           {{row.contact || row.ownerName}}({{row.tel || row.link}})
@@ -30,11 +28,8 @@
       </el-table-column>
       <el-table-column :label="$t('simplifyOwnerCar.parkingSpace')" align="center">
         <template #default="{row}">
-          <span v-if="row.num">
-            {{row.areaNum}}{{$t('simplifyOwnerCar.parkingLot')}}{{row.num}}{{$t('simplifyOwnerCar.space')}}
-          </span>
-          <span v-else-if="row.areaNum">
-            {{row.areaNum}}{{$t('simplifyOwnerCar.parkingLot')}}
+          <span v-if="row.areaNum">
+            {{row.areaNum}}
           </span>
           <span v-else>{{ $t('simplifyOwnerCar.none') }}</span>
         </template>
@@ -44,18 +39,6 @@
       <el-table-column prop="stateName" :label="$t('simplifyOwnerCar.status')" align="center"></el-table-column>
       <el-table-column :label="$t('simplifyOwnerCar.operation')" align="center">
         <template #default="{row}">
-          <el-button 
-            v-if="row.psId != '-1' && row.state == '1001' && hasPrivilege('502023032855861676')" 
-            type="text" 
-            @click="_deleteCarParkingSpace(row)">
-            {{ $t('simplifyOwnerCar.releaseSpace') }}
-          </el-button>
-          <el-button 
-            v-if="row.psId != '-1' && row.state == '3003' && hasPrivilege('502023032809021678')" 
-            type="text" 
-            @click="_addCarParkingSpace(row)">
-            {{ $t('simplifyOwnerCar.renewSpace') }}
-          </el-button>
           <el-button type="text" @click="_openEditOwnerCar(row)" v-if="hasPrivilege('502023032804261679')">
             {{ $t('simplifyOwnerCar.edit') }}
           </el-button>
@@ -83,7 +66,7 @@
 
 <script>
 import { getCommunityId } from '@/api/community/communityApi'
-import { queryOwnerCars, deleteCarParkingSpace } from '@/api/simplify/simplifyOwnerCarApi'
+import { queryOwnerCars } from '@/api/simplify/simplifyOwnerCarApi'
 import EditCar from '@/components/car/editCar'
 import DeleteOwnerCar from '@/components/car/deleteOwnerCar'
 
@@ -146,17 +129,6 @@ export default {
     },
     _openDelOwnerCarModel(car) {
       this.$refs.deleteOwnerCar.open(car)
-    },
-    _deleteCarParkingSpace(car) {
-      deleteCarParkingSpace(car).then(() => {
-        this.$message.success(this.$t('common.operationSuccess'))
-        this.listSimplifyOwnerCar(this.currentPage, this.pageSize)
-      }).catch(err => {
-        this.$message.error(err)
-      })
-    },
-    _addCarParkingSpace(car) {
-      this.$router.push(`/pages/property/carAddParkingSpace?carId=${car.carId}`)
     },
     clearSimplifyOwnerCarInfo() {
       this.simplifyOwnerCarInfo = {

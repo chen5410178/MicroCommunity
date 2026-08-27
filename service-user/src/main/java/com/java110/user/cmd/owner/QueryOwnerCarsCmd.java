@@ -11,10 +11,8 @@ import com.java110.dto.privilege.BasePrivilegeDto;
 import com.java110.dto.machine.MachineTranslateDto;
 import com.java110.dto.owner.OwnerCarDto;
 import com.java110.dto.owner.OwnerRoomRelDto;
-import com.java110.dto.parking.ParkingSpaceDto;
 import com.java110.intf.common.IMachineTranslateV1InnerServiceSMO;
 import com.java110.intf.community.IMenuInnerServiceSMO;
-import com.java110.intf.community.IParkingSpaceInnerServiceSMO;
 import com.java110.intf.community.IRoomInnerServiceSMO;
 import com.java110.intf.user.IOwnerCarInnerServiceSMO;
 import com.java110.intf.user.IOwnerRoomRelInnerServiceSMO;
@@ -41,9 +39,6 @@ public class QueryOwnerCarsCmd extends Cmd {
     private IMenuInnerServiceSMO menuInnerServiceSMOImpl;
 
     @Autowired
-    private IParkingSpaceInnerServiceSMO parkingSpaceInnerServiceSMOImpl;
-
-    @Autowired
     private IOwnerRoomRelInnerServiceSMO ownerRoomRelInnerServiceSMOImpl;
 
     @Autowired
@@ -65,19 +60,6 @@ public class QueryOwnerCarsCmd extends Cmd {
     @Override
     public void doCmd(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) throws CmdException {
         int row = reqJson.getInteger("row");
-        if (reqJson.containsKey("num") && !StringUtil.isEmpty(reqJson.getString("num"))) {
-            ParkingSpaceDto parkingSpaceDto = new ParkingSpaceDto();
-            parkingSpaceDto.setAreaNum(reqJson.getString("areaNum"));
-            parkingSpaceDto.setNum(reqJson.getString("num"));
-            parkingSpaceDto.setCommunityId(reqJson.getString("communityId"));
-            List<ParkingSpaceDto> parkingSpaceDtos = parkingSpaceInnerServiceSMOImpl.queryParkingSpaces(parkingSpaceDto);
-            if (ListUtil.isNull(parkingSpaceDtos)) {
-                ResponseEntity<String> responseEntity = ResultVo.createResponseEntity(1, 1, new JSONArray());
-                cmdDataFlowContext.setResponseEntity(responseEntity);
-                return;
-            }
-            reqJson.put("psId", parkingSpaceDtos.get(0).getPsId());
-        }
         OwnerCarDto ownerCarDto = BeanConvertUtil.covertBean(reqJson, OwnerCarDto.class);
         if (reqJson.containsKey("carTypeCds")) {
             ownerCarDto.setCarTypeCd("");
@@ -89,9 +71,8 @@ public class QueryOwnerCarsCmd extends Cmd {
         List<OwnerCarDto> ownerCarDtoList = null;
         if (total > 0) {
             ownerCarDtoList = ownerCarInnerServiceSMOImpl.queryOwnerCars(ownerCarDto);
-            //小区20条时刷房屋和车位信息
+            //小区20条时刷房屋和物联网状态
             if (row < 20) {
-                freshPs(ownerCarDtoList);
                 freshRoomInfo(ownerCarDtoList);
                 //刷入同步物联网状态
                 freshTransactionIotState(ownerCarDtoList);
@@ -124,9 +105,6 @@ public class QueryOwnerCarsCmd extends Cmd {
         }
         List<String> memberIds = new ArrayList<>();
         for (OwnerCarDto ownerCarDto : ownerCarDtoList) {
-            if (StringUtil.isEmpty(ownerCarDto.getPsId())) {
-                continue;
-            }
             memberIds.add(ownerCarDto.getMemberId());
         }
 
@@ -149,32 +127,6 @@ public class QueryOwnerCarsCmd extends Cmd {
         }
 
 
-    }
-
-    private void freshPs(List<OwnerCarDto> ownerCarDtoList) {
-        if (ownerCarDtoList == null || ownerCarDtoList.size() < 1) {
-            return;
-        }
-        List<String> psIds = new ArrayList<>();
-        for (OwnerCarDto ownerCarDto : ownerCarDtoList) {
-            if (StringUtil.isEmpty(ownerCarDto.getPsId())) {
-                continue;
-            }
-            psIds.add(ownerCarDto.getPsId());
-        }
-        ParkingSpaceDto parkingSpaceDto = new ParkingSpaceDto();
-        parkingSpaceDto.setCommunityId(ownerCarDtoList.get(0).getCommunityId());
-        parkingSpaceDto.setPsIds(psIds.toArray(new String[psIds.size()]));
-        List<ParkingSpaceDto> parkingSpaceDtos = parkingSpaceInnerServiceSMOImpl.queryParkingSpaces(parkingSpaceDto);
-        for (ParkingSpaceDto tmpParkingSpaceDto : parkingSpaceDtos) {
-            for (OwnerCarDto ownerCarDto : ownerCarDtoList) {
-                if (tmpParkingSpaceDto.getPsId().equals(ownerCarDto.getPsId())) {
-                    ownerCarDto.setAreaNum(tmpParkingSpaceDto.getAreaNum());
-                    ownerCarDto.setNum(tmpParkingSpaceDto.getNum());
-                    ownerCarDto.setParkingType(tmpParkingSpaceDto.getParkingType());
-                }
-            }
-        }
     }
 
     /**

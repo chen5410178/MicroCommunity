@@ -45,30 +45,6 @@ export function deleteOwnerCars(data) {
   })
 }
 
-// 释放车位
-export function deleteCarParkingSpace(data) {
-  return new Promise((resolve, reject) => {
-    const communityId = getCommunityId()
-    request({
-      url: '/owner.deleteCarParkingSpace',
-      method: 'post',
-      data: {
-        ...data,
-        communityId
-      }
-    }).then(response => {
-      const res = response.data
-      if (res.code === 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || 'error'))
-      }
-    }).catch(error => {
-      reject(error)
-    })
-  })
-}
-
 // 导入车辆数据
 export function importData(data) {
   return new Promise((resolve, reject) => {

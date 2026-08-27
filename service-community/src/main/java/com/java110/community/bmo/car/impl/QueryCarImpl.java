@@ -72,8 +72,6 @@ public class QueryCarImpl implements IQueryCar {
             dataObj.put("certificationCode", "");
             dataObj.put("content", "");
         }
-        dataObj.put("brand", tmpOwnerCar.getCarBrand());
-        dataObj.put("color", tmpOwnerCar.getCarColor());
         dataObj.put("license", tmpOwnerCar.getCarNum());
         dataObj.put("carType", tmpOwnerCar.getCarType());
         dataObj.put("carPhoto", "");

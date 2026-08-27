@@ -1,6 +1,5 @@
 package com.java110.user.cmd.owner;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.java110.core.annotation.Java110Cmd;
 import com.java110.core.context.CmdContextUtils;
@@ -10,12 +9,10 @@ import com.java110.core.event.cmd.CmdEvent;
 import com.java110.dto.machine.MachineTranslateDto;
 import com.java110.dto.owner.OwnerCarDto;
 import com.java110.dto.owner.OwnerRoomRelDto;
-import com.java110.dto.parking.ParkingSpaceDto;
 import com.java110.dto.privilege.BasePrivilegeDto;
 import com.java110.dto.room.RoomDto;
 import com.java110.intf.common.IMachineTranslateV1InnerServiceSMO;
 import com.java110.intf.community.IMenuInnerServiceSMO;
-import com.java110.intf.community.IParkingSpaceInnerServiceSMO;
 import com.java110.intf.community.IRoomInnerServiceSMO;
 import com.java110.intf.user.IOwnerCarInnerServiceSMO;
 import com.java110.intf.user.IOwnerRoomRelInnerServiceSMO;
@@ -41,9 +38,6 @@ public class QueryAdminOwnerCarsCmd extends Cmd {
 
     @Autowired
     private IMenuInnerServiceSMO menuInnerServiceSMOImpl;
-
-    @Autowired
-    private IParkingSpaceInnerServiceSMO parkingSpaceInnerServiceSMOImpl;
 
     @Autowired
     private IOwnerRoomRelInnerServiceSMO ownerRoomRelInnerServiceSMOImpl;
@@ -82,9 +76,8 @@ public class QueryAdminOwnerCarsCmd extends Cmd {
         List<OwnerCarDto> ownerCarDtoList = null;
         if (total > 0) {
             ownerCarDtoList = ownerCarInnerServiceSMOImpl.queryOwnerCars(ownerCarDto);
-            //小区20条时刷房屋和车位信息
+            //小区20条时刷房屋和物联网状态
             if (row < 20) {
-                freshPs(ownerCarDtoList);
                 freshRoomInfo(ownerCarDtoList);
                 //刷入同步物联网状态
                 freshTransactionIotState(ownerCarDtoList);
@@ -103,9 +96,6 @@ public class QueryAdminOwnerCarsCmd extends Cmd {
         }
         List<String> memberIds = new ArrayList<>();
         for (OwnerCarDto ownerCarDto : ownerCarDtoList) {
-            if (StringUtil.isEmpty(ownerCarDto.getPsId())) {
-                continue;
-            }
             memberIds.add(ownerCarDto.getMemberId());
         }
 
@@ -128,32 +118,6 @@ public class QueryAdminOwnerCarsCmd extends Cmd {
         }
 
 
-    }
-
-    private void freshPs(List<OwnerCarDto> ownerCarDtoList) {
-        if (ownerCarDtoList == null || ownerCarDtoList.size() < 1) {
-            return;
-        }
-        List<String> psIds = new ArrayList<>();
-        for (OwnerCarDto ownerCarDto : ownerCarDtoList) {
-            if (StringUtil.isEmpty(ownerCarDto.getPsId())) {
-                continue;
-            }
-            psIds.add(ownerCarDto.getPsId());
-        }
-        ParkingSpaceDto parkingSpaceDto = new ParkingSpaceDto();
-        parkingSpaceDto.setCommunityId(ownerCarDtoList.get(0).getCommunityId());
-        parkingSpaceDto.setPsIds(psIds.toArray(new String[psIds.size()]));
-        List<ParkingSpaceDto> parkingSpaceDtos = parkingSpaceInnerServiceSMOImpl.queryParkingSpaces(parkingSpaceDto);
-        for (ParkingSpaceDto tmpParkingSpaceDto : parkingSpaceDtos) {
-            for (OwnerCarDto ownerCarDto : ownerCarDtoList) {
-                if (tmpParkingSpaceDto.getPsId().equals(ownerCarDto.getPsId())) {
-                    ownerCarDto.setAreaNum(tmpParkingSpaceDto.getAreaNum());
-                    ownerCarDto.setNum(tmpParkingSpaceDto.getNum());
-                    ownerCarDto.setParkingType(tmpParkingSpaceDto.getParkingType());
-                }
-            }
-        }
     }
 
     /**

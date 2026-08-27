@@ -18,12 +18,6 @@
               <el-input v-model="hireParkingSpaceInfo.carNum" :placeholder="$t('hireParkingSpace.carNumPlaceholder')" />
             </el-form-item>
           </el-col>
-          <el-col :span="12">
-            <el-form-item :label="$t('hireParkingSpace.carBrand')">
-              <el-input v-model="hireParkingSpaceInfo.carBrand"
-                :placeholder="$t('hireParkingSpace.carBrandPlaceholder')" />
-            </el-form-item>
-          </el-col>
         </el-row>
 
         <el-row :gutter="20">
@@ -36,12 +30,6 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
-            <el-form-item :label="$t('hireParkingSpace.carColor')">
-              <el-input v-model="hireParkingSpaceInfo.carColor"
-                :placeholder="$t('hireParkingSpace.carColorPlaceholder')" />
-            </el-form-item>
-          </el-col>
         </el-row>
 
         <el-row :gutter="20">
@@ -50,7 +38,6 @@
               <el-select v-model="hireParkingSpaceInfo.leaseType" class="w-full"
                 :placeholder="$t('hireParkingSpace.licenseTypePlaceholder')" @change="changeLeaseType">
                 <el-option :label="$t('hireParkingSpace.monthlyRent')" value="H" />
-                <el-option :label="$t('hireParkingSpace.saleCar')" value="S" />
                 <el-option :label="$t('hireParkingSpace.internalCar')" value="I" />
                 <el-option :label="$t('hireParkingSpace.freeCar')" value="NM" />
               </el-select>
@@ -105,22 +92,11 @@
           <el-col :span="12">
             <el-form-item :label="$t('hireParkingSpace.parkingArea')" prop="paId">
               <el-select v-model="hireParkingSpaceInfo.paId" class="w-full"
-                :placeholder="$t('hireParkingSpace.parkingAreaPlaceholder')" @change="handleParkingAreaChange">
+                :placeholder="$t('hireParkingSpace.parkingAreaPlaceholder')">
                 <el-option v-for="item in hireParkingSpaceInfo.parkingAreas" :key="item.paId" :label="item.num"
                   :value="item.paId" />
               </el-select>
             </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item :label="$t('hireParkingSpace.parkingSpace')" prop="psName">
-              <el-input v-model="hireParkingSpaceInfo.psName" disabled
-                :placeholder="$t('hireParkingSpace.parkingSpacePlaceholder')" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="4">
-            <el-button type="primary" size="small" @click="openSearchParkingSpaceModel">
-              {{ $t('common.select') }}
-            </el-button>
           </el-col>
         </el-row>
 
@@ -155,7 +131,6 @@
     </div>
 
     <search-owner ref="searchOwner" @chooseOwner="handleChooseOwner" />
-    <search-parking-space ref="searchParkingSpace" @choose-parking-space="handleChooseParkingSpace" />
   </div>
 </template>
 
@@ -163,22 +138,18 @@
 import { saveOwnerCar, listParkingAreas } from '@/api/car/hireParkingSpaceApi'
 import { getCommunityId, getDict } from '@/api/community/communityApi'
 import SearchOwner from '@/components/owner/SearchOwner'
-import SearchParkingSpace from '@/components/car/SearchParkingSpace'
 import { getAttrSpecList } from '@/api/dev/attrSpecApi'
 
 export default {
   name: 'HireParkingSpaceList',
   components: {
-    SearchOwner,
-    SearchParkingSpace
+    SearchOwner
   },
   data() {
     return {
       hireParkingSpaceInfo: {
         carNum: '',
-        carBrand: '',
         carType: '',
-        carColor: '',
         remark: '',
         startTime: '',
         endTime: '',
@@ -186,8 +157,6 @@ export default {
         ownerId: '',
         ownerName: '',
         paId: '',
-        psId: '',
-        psName: '',
         contact: '',
         tel: '',
         attrs: [],
@@ -198,7 +167,7 @@ export default {
   },
   computed: {
     showDateRange() {
-      return ['H', 'S'].includes(this.hireParkingSpaceInfo.leaseType)
+      return ['H'].includes(this.hireParkingSpaceInfo.leaseType)
     },
     dynamicRules() {
       const baseRules = {
@@ -328,35 +297,6 @@ export default {
       this.hireParkingSpaceInfo.tel = owner.link
       // 触发表单验证
       this.$refs.form.validateField('ownerName')
-    },
-
-    openSearchParkingSpaceModel() {
-      this.$refs.searchParkingSpace.open(this.hireParkingSpaceInfo.paId)
-    },
-
-    handleParkingAreaChange() {
-      // 切换停车场后清空已选车位，避免与旧停车场不匹配
-      this.hireParkingSpaceInfo.psId = ''
-      this.hireParkingSpaceInfo.psName = ''
-      this.$nextTick(() => {
-        this.$refs.form.clearValidate(['psName'])
-      })
-    },
-
-    handleChooseParkingSpace(parkingSpace) {
-      // 校验所选车位是否属于已选停车场
-      if (this.hireParkingSpaceInfo.paId && parkingSpace.paId && this.hireParkingSpaceInfo.paId !== parkingSpace.paId) {
-        this.$message.warning(this.$t('hireParkingSpace.validate.parkingAreaMismatch'))
-        return
-      }
-      this.hireParkingSpaceInfo.psName = `${parkingSpace.areaNum}-${parkingSpace.num}`
-      this.hireParkingSpaceInfo.psId = parkingSpace.psId
-      if (parkingSpace.paId) {
-        this.hireParkingSpaceInfo.paId = parkingSpace.paId
-      }
-      // 触发表单验证
-      this.$refs.form.validateField('psName')
-      this.$refs.form.validateField('paId')
     },
 
     async saveAddCarInfo() {

@@ -47,13 +47,4 @@ public interface IOwnerCarInnerServiceSMO {
 
     @RequestMapping(value = "/freshCarIdsByImportCustomCreateFee", method = RequestMethod.POST)
     List<ImportCustomCreateFeeDto> freshCarIdsByImportCustomCreateFee(@RequestBody List<ImportCustomCreateFeeDto> tmpImportCarFees);
-    /**
-     * <p>查询业主车位数</p>
-     *
-     *
-     * @param ownerCarDto 数据对象分享
-     * @return OwnerCarDto 对象数据
-     */
-    @RequestMapping(value = "/queryOwnerParkingSpaceCount", method = RequestMethod.POST)
-    long queryOwnerParkingSpaceCount(@RequestBody OwnerCarDto ownerCarDto);
 }

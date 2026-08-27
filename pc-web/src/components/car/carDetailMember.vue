@@ -12,19 +12,16 @@
       <el-table :data="carDetailMemberInfo.ownerCars" style="width: 100%">
         <el-table-column prop="carNum" :label="$t('listOwnerCar.carNum')" align="center"></el-table-column>
         <el-table-column prop="roomName" :label="$t('listOwnerCar.roomNum')" align="center"></el-table-column>
-        <el-table-column prop="carBrand" :label="$t('listOwnerCar.carBrand')" align="center"></el-table-column>
         <el-table-column prop="carTypeName" :label="$t('listOwnerCar.carType')" align="center"></el-table-column>
-        <el-table-column prop="carColor" :label="$t('listOwnerCar.color')" align="center"></el-table-column>
         <el-table-column :label="$t('listOwnerCar.owner')" align="center">
           <template #default="{ row }">
             {{ row.ownerName }}({{ row.link }})
           </template>
         </el-table-column>
-        <el-table-column :label="$t('listOwnerCar.parkingSpace')" align="center">
+        <el-table-column :label="$t('listOwnerCar.parkingArea')" align="center">
           <template #default="{ row }">
             <span v-if="row.areaNum">
-              {{ row.areaNum }}{{ $t('listOwnerCar.parkingLot') }}{{ row.num }}{{ $t('listOwnerCar.parkingSpace')
-              }}
+              {{ row.areaNum }}
             </span>
             <span v-else>
               {{ $t('listOwnerCar.none') }}

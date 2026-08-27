@@ -21,12 +21,10 @@ import com.java110.dto.community.CommunityAttrDto;
 import com.java110.dto.community.CommunityDto;
 import com.java110.dto.owner.OwnerCarDto;
 import com.java110.dto.parking.ParkingAreaDto;
-import com.java110.dto.parking.ParkingSpaceDto;
 import com.java110.dto.parking.ParkingAreaAttrDto;
 import com.java110.dto.system.Business;
 import com.java110.intf.community.ICommunityInnerServiceSMO;
 import com.java110.intf.community.IParkingAreaInnerServiceSMO;
-import com.java110.intf.community.IParkingSpaceInnerServiceSMO;
 import com.java110.intf.user.IOwnerCarInnerServiceSMO;
 import com.java110.job.adapt.DatabusAdaptImpl;
 import com.java110.job.adapt.hcGov.HcGovConstant;
@@ -58,9 +56,6 @@ public class AddCarToHcGovAdapt extends DatabusAdaptImpl {
     private IOwnerCarInnerServiceSMO ownerCarInnerServiceSMOImpl;
     @Autowired
     private BaseHcGovSendAsyn baseHcGovSendAsynImpl;
-
-    @Autowired
-    private IParkingSpaceInnerServiceSMO parkingSpaceInnerServiceSMOImpl;
 
     @Autowired
     private IParkingAreaInnerServiceSMO parkingAreaInnerServiceSMOImpl;
@@ -122,15 +117,9 @@ public class AddCarToHcGovAdapt extends DatabusAdaptImpl {
         Assert.listOnlyOne(ownerCarDtos, "车辆不存在");
 
         //查询外部停车场
-        ParkingSpaceDto parkingSpaceDto = new ParkingSpaceDto();
-        parkingSpaceDto.setPsId(ownerCarDtos.get(0).getPsId());
-        List<ParkingSpaceDto> parkingSpaceDtos = parkingSpaceInnerServiceSMOImpl.queryParkingSpaces(parkingSpaceDto);
-        Assert.listOnlyOne(parkingSpaceDtos, "车位不存在");
-
-        //查询 外部停车
         ParkingAreaDto parkingAreaDto = new ParkingAreaDto();
-        parkingAreaDto.setPaId(parkingSpaceDtos.get(0).getPaId());
-        parkingAreaDto.setCommunityId(parkingSpaceDtos.get(0).getCommunityId());
+        parkingAreaDto.setPaId(ownerCarDtos.get(0).getPaId());
+        parkingAreaDto.setCommunityId(ownerCarDtos.get(0).getCommunityId());
         List<ParkingAreaDto> parkingAreaDtos = parkingAreaInnerServiceSMOImpl.queryParkingAreas(parkingAreaDto);
         Assert.listOnlyOne(parkingAreaDtos, "停车场不存在");
 
@@ -143,9 +132,7 @@ public class AddCarToHcGovAdapt extends DatabusAdaptImpl {
 
         JSONObject body = new JSONObject();
         body.put("carNum", ownerCarDtos.get(0).getCarNum());
-        body.put("carBrand", ownerCarDtos.get(0).getCarBrand());
         body.put("carType", ownerCarDtos.get(0).getCarType());
-        body.put("carColor", ownerCarDtos.get(0).getCarColor());
         body.put("startTime", DateUtil.getFormatTimeString(ownerCarDtos.get(0).getStartTime(), DateUtil.DATE_FORMATE_STRING_A));
         body.put("endTime", DateUtil.getFormatTimeString(ownerCarDtos.get(0).getEndTime(), DateUtil.DATE_FORMATE_STRING_A));
         body.put("personName", ownerCarDtos.get(0).getOwnerName());

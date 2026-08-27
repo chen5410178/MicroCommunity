@@ -4,9 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.java110.dto.data.ExportDataDto;
 import com.java110.dto.owner.OwnerCarDto;
 import com.java110.dto.owner.OwnerRoomRelDto;
-import com.java110.dto.parking.ParkingSpaceDto;
 import com.java110.dto.room.RoomDto;
-import com.java110.intf.community.IParkingSpaceInnerServiceSMO;
 import com.java110.intf.community.IRoomInnerServiceSMO;
 import com.java110.intf.user.IOwnerCarInnerServiceSMO;
 import com.java110.intf.user.IOwnerRoomRelInnerServiceSMO;
@@ -33,9 +31,6 @@ import java.util.List;
 public class ExportOwnerCarAdapt implements IExportDataAdapt {
 
     @Autowired
-    private IParkingSpaceInnerServiceSMO parkingSpaceInnerServiceSMOImpl;
-
-    @Autowired
     private IOwnerRoomRelInnerServiceSMO ownerRoomRelInnerServiceSMOImpl;
 
     @Autowired
@@ -58,27 +53,15 @@ public class ExportOwnerCarAdapt implements IExportDataAdapt {
         row.createCell(0).setCellValue("车牌号");
         row.createCell(1).setCellValue("成员车辆");
         row.createCell(2).setCellValue("房屋号");
-        row.createCell(3).setCellValue("车辆品牌");
-        row.createCell(4).setCellValue("车辆类型");
-        row.createCell(5).setCellValue("颜色");
-        row.createCell(6).setCellValue("业主");
-        row.createCell(7).setCellValue("车位");
-        row.createCell(8).setCellValue("有效期");
-        row.createCell(9).setCellValue("状态");
-        row.createCell(10).setCellValue("备注");
-        row.createCell(11).setCellValue("联系人");
-        row.createCell(12).setCellValue("联系电话");
+        row.createCell(3).setCellValue("车辆类型");
+        row.createCell(4).setCellValue("业主");
+        row.createCell(5).setCellValue("停车场");
+        row.createCell(6).setCellValue("有效期");
+        row.createCell(7).setCellValue("状态");
+        row.createCell(8).setCellValue("备注");
+        row.createCell(9).setCellValue("联系人");
+        row.createCell(10).setCellValue("联系电话");
         JSONObject reqJson = exportDataDto.getReqJson();
-        if (reqJson.containsKey("num") && !StringUtil.isEmpty(reqJson.getString("num"))) {
-            ParkingSpaceDto parkingSpaceDto = new ParkingSpaceDto();
-            parkingSpaceDto.setAreaNum(reqJson.getString("areaNum"));
-            parkingSpaceDto.setNum(reqJson.getString("num"));
-            parkingSpaceDto.setCommunityId(reqJson.getString("communityId"));
-            List<ParkingSpaceDto> parkingSpaceDtos = parkingSpaceInnerServiceSMOImpl.queryParkingSpaces(parkingSpaceDto);
-            if (parkingSpaceDtos != null && parkingSpaceDtos.size() > 0) {
-                reqJson.put("psId", parkingSpaceDtos.get(0).getPsId());
-            }
-        }
         OwnerCarDto ownerCarDto = BeanConvertUtil.covertBean(reqJson, OwnerCarDto.class);
         if (reqJson.containsKey("carTypeCds")) {
             ownerCarDto.setCarTypeCd("");
@@ -93,7 +76,6 @@ public class ExportOwnerCarAdapt implements IExportDataAdapt {
             ownerCarDto.setPage(page);
             ownerCarDto.setRow(MAX_ROW);
             ownerCarDtoList = ownerCarInnerServiceSMOImpl.queryOwnerCars(ownerCarDto);
-            freshPs(ownerCarDtoList);
             freshRoomInfo(ownerCarDtoList);
             appendData(ownerCarDtoList, sheet, (page - 1) * MAX_ROW);
         }
@@ -113,63 +95,27 @@ public class ExportOwnerCarAdapt implements IExportDataAdapt {
                 row.createCell(1).setCellValue("0");
             }
             row.createCell(2).setCellValue(dataObj.getRoomName());
-            row.createCell(3).setCellValue(dataObj.getCarBrand());
-            row.createCell(4).setCellValue(dataObj.getCarTypeName());
-            row.createCell(5).setCellValue(dataObj.getCarColor());
-            row.createCell(6).setCellValue(dataObj.getOwnerName() + "(" + dataObj.getLink() + ")");
-            if (!StringUtil.isEmpty(dataObj.getAreaNum()) && dataObj.getState().equals("1001")) {
-                if (StringUtil.isEmpty(dataObj.getNum())) { //无车位：显示停车场
-                    row.createCell(7).setCellValue(dataObj.getAreaNum() + "停车场");
-                } else { //有车位：停车场-车位
-                    row.createCell(7).setCellValue(dataObj.getAreaNum() + "-" + dataObj.getNum());
-                }
+            row.createCell(3).setCellValue(dataObj.getCarTypeName());
+            row.createCell(4).setCellValue(dataObj.getOwnerName() + "(" + dataObj.getLink() + ")");
+            row.createCell(5).setCellValue(StringUtil.isEmpty(dataObj.getAreaNum()) ? "无" : dataObj.getAreaNum());
+            if (!StringUtil.isEmpty(dataObj.getLeaseType()) && dataObj.getLeaseType().equals("H")) { //H 月租车；I 内部车；NM 免费车；R 预约车
+                row.createCell(6).setCellValue(DateUtil.getFormatTimeStringA(dataObj.getStartTime()) + "~" + DateUtil.getFormatTimeStringA(dataObj.getEndTime()));
             } else {
-                row.createCell(7).setCellValue("车位已释放");
-            }
-            if (!StringUtil.isEmpty(dataObj.getLeaseType()) && dataObj.getLeaseType().equals("H")) { //H 月租车；S出售车；I 内部车；NM 免费车；R 预约车
-                row.createCell(8).setCellValue(DateUtil.getFormatTimeStringA(dataObj.getStartTime()) + "~" + DateUtil.getFormatTimeStringA(dataObj.getEndTime()));
-            } else {
-                row.createCell(8).setCellValue("--");
+                row.createCell(6).setCellValue("--");
             }
             //结束时间
             Date endTime = dataObj.getEndTime();
             Date date = new Date();
             if (!StringUtil.isEmpty(dataObj.getState()) && dataObj.getState().equals("3003")) { //1001 正常；2002 欠费；3003 车位释放
-                row.createCell(9).setCellValue("到期");
+                row.createCell(7).setCellValue("到期");
             } else if (endTime.getTime() > date.getTime()) {
-                row.createCell(9).setCellValue("正常");
+                row.createCell(7).setCellValue("正常");
             } else {
-                row.createCell(9).setCellValue("到期");
+                row.createCell(7).setCellValue("到期");
             }
-            row.createCell(10).setCellValue(dataObj.getRemark());
-            row.createCell(11).setCellValue(StringUtil.isEmpty(dataObj.getContact()) ? dataObj.getOwnerName() : dataObj.getContact());
-            row.createCell(12).setCellValue(StringUtil.isEmpty(dataObj.getTel()) ? dataObj.getLink() : dataObj.getTel());
-        }
-    }
-
-    private void freshPs(List<OwnerCarDto> ownerCarDtoList) {
-        if (ownerCarDtoList == null || ownerCarDtoList.size() < 1) {
-            return;
-        }
-        List<String> psIds = new ArrayList<>();
-        for (OwnerCarDto ownerCarDto : ownerCarDtoList) {
-            if (StringUtil.isEmpty(ownerCarDto.getPsId())) {
-                continue;
-            }
-            psIds.add(ownerCarDto.getPsId());
-        }
-        ParkingSpaceDto parkingSpaceDto = new ParkingSpaceDto();
-        parkingSpaceDto.setCommunityId(ownerCarDtoList.get(0).getCommunityId());
-        parkingSpaceDto.setPsIds(psIds.toArray(new String[psIds.size()]));
-        List<ParkingSpaceDto> parkingSpaceDtos = parkingSpaceInnerServiceSMOImpl.queryParkingSpaces(parkingSpaceDto);
-        for (ParkingSpaceDto tmpParkingSpaceDto : parkingSpaceDtos) {
-            for (OwnerCarDto ownerCarDto : ownerCarDtoList) {
-                if (tmpParkingSpaceDto.getPsId().equals(ownerCarDto.getPsId())) {
-                    ownerCarDto.setAreaNum(tmpParkingSpaceDto.getAreaNum());
-                    ownerCarDto.setNum(tmpParkingSpaceDto.getNum());
-                    ownerCarDto.setParkingType(tmpParkingSpaceDto.getParkingType());
-                }
-            }
+            row.createCell(8).setCellValue(dataObj.getRemark());
+            row.createCell(9).setCellValue(StringUtil.isEmpty(dataObj.getContact()) ? dataObj.getOwnerName() : dataObj.getContact());
+            row.createCell(10).setCellValue(StringUtil.isEmpty(dataObj.getTel()) ? dataObj.getLink() : dataObj.getTel());
         }
     }
 

@@ -5,7 +5,6 @@ import { messages as listParkingSpaceMessages } from '../views/car/listParkingSp
 import { messages as parkingBoxManageMessages } from '../views/car/parkingBoxManageLang'
 import { messages as listOwnerCarMessages } from '../views/car/listOwnerCarLang'
 import { messages as hireParkingSpaceMessages } from '../views/car/hireParkingSpaceLang'
-import { messages as carAddParkingSpaceMessages } from '../views/car/carAddParkingSpaceLang'
 import { messages as buyCarMonthCardMessages } from '../views/fee/buyCarMonthCardLang'
 import { messages as carInoutManageMessages } from '../views/car/carInoutManageLang'
 import { messages as carInManageMessages } from '../views/car/carInManageLang'
@@ -25,7 +24,6 @@ export const messages = {
         ...parkingBoxManageMessages.en,
         ...listOwnerCarMessages.en,
         ...hireParkingSpaceMessages.en,
-        ...carAddParkingSpaceMessages.en,
         ...buyCarMonthCardMessages.en,
         ...carInoutManageMessages.en,
         ...carInManageMessages.en,
@@ -44,7 +42,6 @@ export const messages = {
         ...parkingBoxManageMessages.zh,
         ...listOwnerCarMessages.zh,
         ...hireParkingSpaceMessages.zh,
-        ...carAddParkingSpaceMessages.zh,
         ...buyCarMonthCardMessages.zh,
         ...carInoutManageMessages.zh,
         ...carInManageMessages.zh,
@@ -63,7 +60,6 @@ export const messages = {
         ...parkingBoxManageMessages['zh-TW'],
         ...listOwnerCarMessages['zh-TW'],
         ...hireParkingSpaceMessages['zh-TW'],
-        ...carAddParkingSpaceMessages['zh-TW'],
         ...buyCarMonthCardMessages['zh-TW'],
         ...carInoutManageMessages['zh-TW'],
         ...carInManageMessages['zh-TW'],

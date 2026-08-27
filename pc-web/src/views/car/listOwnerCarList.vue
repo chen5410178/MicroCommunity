@@ -24,13 +24,9 @@
               <el-input v-model.trim="conditions.carNumLike" :placeholder="$t('listOwnerCar.inputCarNum')" clearable />
             </el-col>
             <el-col :span="4">
-              <el-input v-model.trim="conditions.num" :placeholder="$t('listOwnerCar.inputParkingSpaceNum')" clearable />
-            </el-col>
-            <el-col :span="4">
               <el-select v-model="conditions.valid" :placeholder="$t('listOwnerCar.selectParkingSpaceStatus')" clearable>
                 <el-option value="1" :label="$t('listOwnerCar.normal')"></el-option>
                 <el-option value="3" :label="$t('listOwnerCar.expired')"></el-option>
-                <el-option value="2" :label="$t('listOwnerCar.noParkingSpace')"></el-option>
               </el-select>
             </el-col>
             <el-col :span="4">
@@ -97,7 +93,6 @@
               </template>
             </el-table-column>
             <el-table-column prop="carTypeName" :label="$t('listOwnerCar.carType')" align="center" />
-            <el-table-column prop="carColor" :label="$t('listOwnerCar.color')" align="center" />
             <el-table-column :label="$t('listOwnerCar.owner')" align="center">
               <template slot-scope="scope">
                 <router-link :to="`/views/owner/ownerDetail?ownerId=${scope.row.ownerId}`" target="_blank">
@@ -109,12 +104,6 @@
               <template slot-scope="scope">
                 <span v-if="scope.row.areaNum">{{ scope.row.areaNum }}</span>
                 <span v-else>--</span>
-              </template>
-            </el-table-column>
-            <el-table-column :label="$t('listOwnerCar.parkingSpace')" align="center">
-              <template slot-scope="scope">
-                <span v-if="scope.row.num">{{ scope.row.num }}</span>
-                <span v-else>{{ $t('listOwnerCar.parkingSpaceReleased') }}</span>
               </template>
             </el-table-column>
             <el-table-column :label="$t('listOwnerCar.validity')" align="center">
@@ -136,14 +125,6 @@
             <el-table-column prop="remark" :label="$t('listOwnerCar.remark')" align="center" />
             <el-table-column :label="$t('listOwnerCar.operation')" align="center" width="250">
               <template slot-scope="scope">
-                <el-button v-if="scope.row.state !== '3003' && hasPrivilege('502023032855861676')" size="mini"
-                  @click="deleteCarParkingSpace(scope.row)">
-                  {{ $t('listOwnerCar.release') }}
-                </el-button>
-                <el-button v-else-if="hasPrivilege('502023032809021678')" size="mini"
-                  @click="addCarParkingSpace(scope.row)">
-                  {{ $t('listOwnerCar.renew') }}
-                </el-button>
                 <el-button v-if="scope.row.leaseType === 'H'" size="mini" @click="toBuyCarMonthCard(scope.row)">
                   {{ $t('listOwnerCar.buyMonthlyCard') }}
                 </el-button>
@@ -177,7 +158,7 @@
 </template>
 
 <script>
-import { queryOwnerCars, exportData, deleteCarParkingSpace } from '@/api/car/listOwnerCarApi'
+import { queryOwnerCars, exportData } from '@/api/car/listOwnerCarApi'
 import ImportOwnerCar from '@/components/car/importOwnerCar'
 import EditCar from '@/components/car/editCar'
 import DeleteOwnerCar from '@/components/car/deleteOwnerCar'
@@ -196,7 +177,6 @@ export default {
       leaseTypes: [],
       conditions: {
         carNumLike: '',
-        num: '',
         valid: '',
         leaseType: 'H',
         ownerName: '',
@@ -218,7 +198,9 @@ export default {
     async initData() {
       try {
         const leaseTypes = await getDict('owner_car', 'lease_type')
-        this.leaseTypes = [{ statusCd: '', name: this.$t('listOwnerCar.allCars') }, ...leaseTypes,
+        //车牌类型仅保留 月租车（H）、内部车（I）、免费车（NM）
+        const filterLeaseTypes = leaseTypes.filter(item => ['H', 'I', 'NM'].indexOf(item.statusCd) > -1)
+        this.leaseTypes = [{ statusCd: '', name: this.$t('listOwnerCar.allCars') }, ...filterLeaseTypes,
         { statusCd: 'expireCar', name: this.$t('listOwnerCar.expiredCars') }]
       } catch (error) {
         console.error('获取租赁类型失败:', error)
@@ -265,7 +247,6 @@ export default {
     resetMethod() {
       this.conditions = {
         carNumLike: '',
-        num: '',
         valid: '',
         leaseType: 'H',
         ownerName: '',
@@ -296,27 +277,6 @@ export default {
 
     openDelOwnerCarModel(car) {
       this.$refs.deleteOwnerCar.open(car)
-    },
-
-    deleteCarParkingSpace(car) {
-      this.$confirm(this.$t('listOwnerCar.confirmRelease'), this.$t('common.tip'), {
-        confirmButtonText: this.$t('common.confirm'),
-        cancelButtonText: this.$t('common.cancel'),
-        type: 'warning'
-      }).then(async () => {
-        try {
-          await deleteCarParkingSpace(car)
-          this.$message.success(this.$t('common.operationSuccess'))
-          this.listOwnerCarData()
-        } catch (error) {
-          console.error('释放车位失败:', error)
-          this.$message.error(error.message || this.$t('listOwnerCar.releaseError'))
-        }
-      })
-    },
-
-    addCarParkingSpace(car) {
-      this.$router.push(`/views/car/carAddParkingSpace?carId=${car.carId}`)
     },
 
     toBuyCarMonthCard(car) {

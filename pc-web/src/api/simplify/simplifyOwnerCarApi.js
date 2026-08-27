@@ -18,11 +18,3 @@ export function queryOwnerCars(params) {
     })
   })
 }
-
-export function deleteCarParkingSpace(data) {
-  return request({
-    url: '/owner.deleteCarParkingSpace',
-    method: 'post',
-    data
-  })
-}

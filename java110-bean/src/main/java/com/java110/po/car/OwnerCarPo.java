@@ -16,10 +16,7 @@ public class OwnerCarPo implements Serializable {
     private String carId;
     private String ownerId;
     private String carNum;
-    private String carBrand;
     private String carType;
-    private String carColor;
-    private String psId;
     private String paId;
     private String contact;
     private String tel;
@@ -65,36 +62,12 @@ public class OwnerCarPo implements Serializable {
         this.carNum = carNum;
     }
 
-    public String getCarBrand() {
-        return carBrand;
-    }
-
-    public void setCarBrand(String carBrand) {
-        this.carBrand = carBrand;
-    }
-
     public String getCarType() {
         return carType;
     }
 
     public void setCarType(String carType) {
         this.carType = carType;
-    }
-
-    public String getCarColor() {
-        return carColor;
-    }
-
-    public void setCarColor(String carColor) {
-        this.carColor = carColor;
-    }
-
-    public String getPsId() {
-        return psId;
-    }
-
-    public void setPsId(String psId) {
-        this.psId = psId;
     }
 
     public String getPaId() {

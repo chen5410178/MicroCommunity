@@ -60,34 +60,26 @@ public class ImportOwnerCarDataCleaningAdapt extends DefaultImportDataAdapt impl
             Assert.hasValue(os[0], (osIndex + 1) + "车牌号不能为空");
             Assert.hasValue(os[1], (osIndex + 1) + "业主不能为空");
             Assert.hasValue(os[2], (osIndex + 1) + "手机号不能为空");
-            Assert.hasValue(os[3], (osIndex + 1) + "车辆品牌不能为空");
-            Assert.hasValue(os[4], (osIndex + 1) + "车辆类型不能为空");
-            Assert.hasValue(os[5], (osIndex + 1) + "颜色不能为空");
-            Assert.hasValue(os[6], (osIndex + 1) + "停车场不能为空");
-            Assert.hasValue(os[8], (osIndex + 1) + "起租时间不能为空");
-            Assert.hasValue(os[9], (osIndex + 1) + "截止时间不能为空");
-            Assert.hasValue(os[10], (osIndex + 1) + "停车场类型不能为空");
-            Assert.hasValue(os[11], (osIndex + 1) + "车位类型不能为空");
-            String startTime = excelDoubleToDate(os[8].toString());
-            String endTime = excelDoubleToDate(os[9].toString());
+            Assert.hasValue(os[3], (osIndex + 1) + "车辆类型不能为空");
+            Assert.hasValue(os[4], (osIndex + 1) + "停车场不能为空");
+            Assert.hasValue(os[5], (osIndex + 1) + "起租时间不能为空");
+            Assert.hasValue(os[6], (osIndex + 1) + "截止时间不能为空");
+            Assert.hasValue(os[7], (osIndex + 1) + "停车场类型不能为空");
+            Assert.hasValue(os[8], (osIndex + 1) + "车牌类型不能为空");
+            String startTime = excelDoubleToDate(os[5].toString());
+            String endTime = excelDoubleToDate(os[6].toString());
             Assert.isDate(startTime, DateUtil.DATE_FORMATE_STRING_B, (osIndex + 1) + "行开始时间格式错误 请填写YYYY-MM-DD文本格式");
             Assert.isDate(endTime, DateUtil.DATE_FORMATE_STRING_B, (osIndex + 1) + "行结束时间格式错误 请填写YYYY-MM-DD文本格式");
             importOwnerCar = new OwnerCarDto();
             importOwnerCar.setCarNum(os[0].toString().trim());
             importOwnerCar.setOwnerName(os[1].toString().trim());
             importOwnerCar.setLink(os[2].toString().trim());
-            importOwnerCar.setCarBrand(os[3].toString().trim());
-            importOwnerCar.setCarType(os[4].toString().trim());
-            importOwnerCar.setCarColor(os[5].toString().trim());
-            importOwnerCar.setAreaNum(os[6].toString().trim());
-            //获取车位（可空，不填表示无固定车位月租车）
-            if (!StringUtil.isNullOrNone(os[7])) {
-                importOwnerCar.setNum(os[7].toString().trim());
-            }
+            importOwnerCar.setCarType(os[3].toString().trim());
+            importOwnerCar.setAreaNum(os[4].toString().trim());
             importOwnerCar.setLogStartTime(startTime);
             importOwnerCar.setLogEndTime(endTime);
-            importOwnerCar.setTypeCd(os[10].toString().trim());
-            importOwnerCar.setSpaceSate(os[11].toString().trim());
+            importOwnerCar.setTypeCd(os[7].toString().trim());
+            importOwnerCar.setSpaceSate(os[8].toString().trim());
             importOwnerCar.setCommunityId(result.getCommunityId());
             importOwnerCar.setUserId(result.getUserId());
             ownerCars.add(importOwnerCar);
@@ -106,8 +98,8 @@ public class ImportOwnerCarDataCleaningAdapt extends DefaultImportDataAdapt impl
             if (!"1001".equals(ownerCarDto.getTypeCd()) && !"2001".equals(ownerCarDto.getTypeCd())) {
                 throw new IllegalArgumentException(ownerCarDto.getCarNum() + "停车场类型应填写 1001(地上停车场)或者 2001 (地下停车场)");
             }
-            if (!"H".equals(ownerCarDto.getSpaceSate()) && !"S".equals(ownerCarDto.getSpaceSate())) {
-                throw new IllegalArgumentException(ownerCarDto.getCarNum() + "车位状态应填写 S（出售）或者 H （出租）");
+            if (!"H".equals(ownerCarDto.getSpaceSate()) && !"I".equals(ownerCarDto.getSpaceSate()) && !"NM".equals(ownerCarDto.getSpaceSate())) {
+                throw new IllegalArgumentException(ownerCarDto.getCarNum() + "车牌类型应填写 H（月租车）或者 I（内部车）或者 NM（免费车）");
             }
 
 

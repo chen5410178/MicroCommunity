@@ -14,11 +14,6 @@
           {{ scope.row.carTypeName || '-' }}
         </template>
       </el-table-column>
-      <el-table-column :label="$t('carDetailHis.color')" align="center">
-        <template slot-scope="scope">
-          {{ scope.row.carColor || '-' }}
-        </template>
-      </el-table-column>
       <el-table-column :label="$t('carDetailHis.owner')" align="center">
         <template slot-scope="scope">
           <div class="hand">
@@ -26,10 +21,10 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('carDetailHis.parkingSpace')" align="center">
+      <el-table-column :label="$t('carDetailHis.parkingArea')" align="center">
         <template slot-scope="scope">
-          <span v-if="scope.row.areaNum && scope.row.state === '1001'">
-            {{ scope.row.areaNum }}-{{ scope.row.num }}
+          <span v-if="scope.row.areaNum">
+            {{ scope.row.areaNum }}
           </span>
           <span v-else>
             {{ $t('carDetailHis.spaceReleased') }}

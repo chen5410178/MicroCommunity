@@ -8,9 +8,7 @@
       <el-table :data="aCarDetailMemberInfo.ownerCars" style="width: 100%">
         <el-table-column prop="carNum" :label="$t('carDetailMember.carNum')" align="center"></el-table-column>
         <el-table-column prop="roomName" :label="$t('carDetailMember.roomNum')" align="center"></el-table-column>
-        <el-table-column prop="carBrand" :label="$t('carDetailMember.carBrand')" align="center"></el-table-column>
         <el-table-column prop="carTypeName" :label="$t('carDetailMember.carType')" align="center"></el-table-column>
-        <el-table-column prop="carColor" :label="$t('carDetailMember.color')" align="center"></el-table-column>
         <el-table-column :label="$t('carDetailMember.owner')" align="center">
           <template slot-scope="scope">
             {{scope.row.ownerName}}({{scope.row.link}})
@@ -19,7 +17,7 @@
         <el-table-column :label="$t('carDetailMember.parkingSpace')" align="center">
           <template slot-scope="scope">
             <span v-if="scope.row.areaNum">
-              {{scope.row.areaNum}}{{$t('carDetailMember.parkingLot')}}{{scope.row.num}}{{$t('carDetailMember.space')}}
+              {{scope.row.areaNum}}
             </span>
             <span v-else>{{$t('carDetailMember.none')}}</span>
           </template>
