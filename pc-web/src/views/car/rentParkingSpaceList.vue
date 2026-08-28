@@ -26,18 +26,23 @@
 
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item :label="$t('rentParkingSpace.carNum')" prop="carId">
+            <el-form-item :label="$t('rentParkingSpace.owner')" prop="ownerId">
               <div class="flex">
-                <el-input :value="selectedCarNum" disabled
-                  :placeholder="$t('rentParkingSpace.carNumPlaceholder')"></el-input>
-                <el-button type="primary" class="car-select-btn" @click="openCarDialog">{{ $t('rentParkingSpace.selectCar') }}</el-button>
+                <el-input :value="ownerName" disabled
+                  :placeholder="$t('rentParkingSpace.ownerPlaceholder')"></el-input>
+                <el-button type="primary" class="owner-select-btn" @click="openOwnerDialog">{{ $t('rentParkingSpace.selectOwner') }}</el-button>
               </div>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item :label="$t('rentParkingSpace.owner')" prop="ownerName">
-              <el-input :value="rentParkingSpaceInfo.ownerName" disabled
-                :placeholder="$t('rentParkingSpace.ownerPlaceholder')"></el-input>
+            <el-form-item :label="$t('rentParkingSpace.carNum')" prop="carId">
+              <el-select v-model="rentParkingSpaceInfo.carId" filterable clearable
+                :loading="carLoading" class="w-full"
+                :disabled="!rentParkingSpaceInfo.ownerId"
+                :placeholder="$t('rentParkingSpace.carNumSelectPlaceholder')">
+                <el-option v-for="car in carList" :key="car.carId"
+                  :label="car.carNum" :value="car.carId"></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
         </el-row>
@@ -68,34 +73,35 @@
       </el-button>
     </div>
 
-    <select-no-ps-car ref="selectNoPsCarRef" @select="onSelectCar" />
+    <search-owner ref="searchOwnerRef" @chooseOwner="handleOwnerChange" />
   </div>
 </template>
 
 <script>
-import SelectNoPsCar from '@/components/car/selectNoPsCar'
-import { sellParkingSpace } from '@/api/car/listParkingSpaceApi'
+import SearchOwner from '@/components/owner/SearchOwner'
+import { sellParkingSpace, queryCarsWithoutParkingSpace } from '@/api/car/listParkingSpaceApi'
 
 export default {
   name: 'RentParkingSpaceList',
-  components: { SelectNoPsCar },
+  components: { SearchOwner },
   data() {
     return {
       saving: false,
-      selectedCarNum: '',
+      carLoading: false,
+      ownerName: '',
+      carList: [],
       rentParkingSpaceInfo: {
         psId: '',
         num: '',
         paId: '',
         carId: '',
         ownerId: '',
-        ownerName: '',
         startTime: '',
         endTime: ''
       },
       rules: {
-        carId: [
-          { required: true, message: this.$t('rentParkingSpace.carNumRequired'), trigger: 'change' }
+        ownerId: [
+          { required: true, message: this.$t('rentParkingSpace.ownerRequired'), trigger: 'change' }
         ],
         startTime: [
           { required: true, message: this.$t('rentParkingSpace.startTimeRequired'), trigger: 'change' }
@@ -113,14 +119,31 @@ export default {
     this.rentParkingSpaceInfo.paId = query.paId || ''
   },
   methods: {
-    openCarDialog() {
-      this.$refs.selectNoPsCarRef.open()
+    openOwnerDialog() {
+      this.$refs.searchOwnerRef.open()
     },
-    onSelectCar(row) {
-      this.rentParkingSpaceInfo.carId = row.carId || ''
-      this.rentParkingSpaceInfo.ownerId = row.ownerId || ''
-      this.rentParkingSpaceInfo.ownerName = row.ownerName || ''
-      this.selectedCarNum = row.carNum || ''
+    handleOwnerChange(owner) {
+      this.rentParkingSpaceInfo.ownerId = owner.memberId || ''
+      this.ownerName = owner.name || ''
+      this.rentParkingSpaceInfo.carId = ''
+      this.carList = []
+      this.searchCars()
+    },
+    searchCars() {
+      if (!this.rentParkingSpaceInfo.ownerId) return
+      this.carLoading = true
+      queryCarsWithoutParkingSpace({
+        page: 1,
+        row: 50,
+        ownerId: this.rentParkingSpaceInfo.ownerId
+      }).then(res => {
+        this.carList = res.data || []
+      }).catch(error => {
+        console.error('查询车辆列表失败:', error)
+        this.$message.error(error.message || this.$t('rentParkingSpace.errorMessage'))
+      }).finally(() => {
+        this.carLoading = false
+      })
     },
     goBack() {
       this.$router.go(-1)
@@ -135,12 +158,18 @@ export default {
         this.saving = true
         const params = {
           psId: this.rentParkingSpaceInfo.psId,
-          carId: this.rentParkingSpaceInfo.carId,
           ownerId: this.rentParkingSpaceInfo.ownerId,
           sellOrHire: 'H',
           startTime: this.rentParkingSpaceInfo.startTime,
           endTime: this.rentParkingSpaceInfo.endTime,
           storeId: ''
+        }
+        if (this.rentParkingSpaceInfo.carId) {
+          params.carId = this.rentParkingSpaceInfo.carId
+          const selectedCar = this.carList.find(car => car.carId === this.rentParkingSpaceInfo.carId)
+          if (selectedCar) {
+            params.carNum = selectedCar.carNum
+          }
         }
         sellParkingSpace(params).then(() => {
           this.$message.success(this.$t('common.operationSuccess'))
@@ -166,7 +195,7 @@ export default {
   margin-top: 20px;
 }
 
-.car-select-btn {
+.owner-select-btn {
   margin-left: 10px;
   flex-shrink: 0;
 }

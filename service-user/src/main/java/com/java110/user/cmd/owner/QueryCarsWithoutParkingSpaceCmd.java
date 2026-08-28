@@ -36,6 +36,7 @@ import java.util.List;
         @Java110ParamDoc(name = "page", type = "int", length = 11, remark = "页数"),
         @Java110ParamDoc(name = "row", type = "int", length = 11, remark = "行数"),
         @Java110ParamDoc(name = "communityId", length = 30, remark = "小区ID"),
+        @Java110ParamDoc(name = "ownerId", length = 30, remark = "业主ID（可选，按业主过滤）"),
         @Java110ParamDoc(name = "carNumLike", length = 12, remark = "车牌号模糊查询"),
 })
 

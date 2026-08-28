@@ -103,14 +103,38 @@ public class SellParkingSpaceCmd extends Cmd {
         String feeId = GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_feeId);
         reqJson.put("feeId", feeId);
 
-        //有车牌号时创建车辆并关联业主，无车牌号跳过
-        if (reqJson.containsKey("carNum") && !StringUtil.isEmpty(reqJson.getString("carNum"))) {
+        // 先查车位，取 paId（供车辆绑定租期）
+        ParkingSpaceDto psDto = queryParkingSpace(reqJson);
+        reqJson.put("paId", psDto.getPaId());
+
+        // 传了车牌号或有效 carId 才处理车辆绑定（区分已有/新建车辆）
+        boolean hasCarNum = reqJson.containsKey("carNum") && !StringUtil.isEmpty(reqJson.getString("carNum"));
+        boolean hasCarId = reqJson.containsKey("carId") && !StringUtil.isEmpty(reqJson.getString("carId"))
+                && !reqJson.getString("carId").startsWith("-");
+        if (hasCarNum || hasCarId) {
             sellParkingSpace(reqJson);
         }
 
         reqJson.put("carNumType", reqJson.getString("sellOrHire"));
 
         modifySellParkingSpaceState(reqJson);
+    }
+
+    /**
+     * 查询停车位信息
+     *
+     * @param paramInJson 接口调用方传入入参
+     * @return 停车位信息
+     */
+    private ParkingSpaceDto queryParkingSpace(JSONObject paramInJson) {
+        ParkingSpaceDto parkingSpaceDto = new ParkingSpaceDto();
+        parkingSpaceDto.setCommunityId(paramInJson.getString("communityId"));
+        parkingSpaceDto.setPsId(paramInJson.getString("psId"));
+        List<ParkingSpaceDto> parkingSpaceDtos = parkingSpaceInnerServiceSMOImpl.queryParkingSpaces(parkingSpaceDto);
+        if (parkingSpaceDtos == null || parkingSpaceDtos.size() != 1) {
+            throw new ListenerExecuteException(ResponseConstant.RESULT_CODE_ERROR, "未查询到停车位信息" + JSONObject.toJSONString(parkingSpaceDto));
+        }
+        return parkingSpaceDtos.get(0);
     }
 
 
@@ -169,7 +193,7 @@ public class SellParkingSpaceCmd extends Cmd {
     }
 
     /**
-     * 添加小区楼信息
+     * 出租/出售车位绑定车辆：区分已有车辆（同步租期）与新建车辆（写入租期）
      * <p>
      * * name:'',
      * *                 age:'',
@@ -182,15 +206,51 @@ public class SellParkingSpaceCmd extends Cmd {
      */
     public void sellParkingSpace(JSONObject paramInJson) {
 
+        String carId = paramInJson.getString("carId");
+        boolean isExistCar = !StringUtil.isEmpty(carId) && !carId.startsWith("-");
+
         JSONObject businessOwnerCar = new JSONObject();
         businessOwnerCar.putAll(paramInJson);
-        businessOwnerCar.put("memberId", GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_carId));
-        if (!paramInJson.containsKey("carId") || paramInJson.getString("carId").startsWith("-")) {
-            businessOwnerCar.put("carId", businessOwnerCar.getString("memberId"));
-            paramInJson.put("carId", businessOwnerCar.getString("memberId"));
+
+        if (isExistCar) {
+            // 已有车辆：按 carId 查询确认车辆存在，未查询到直接报错，不允许走新建逻辑
+            OwnerCarDto ownerCarDto = new OwnerCarDto();
+            ownerCarDto.setCarId(carId);
+            ownerCarDto.setCarTypeCd(OwnerCarDto.CAR_TYPE_PRIMARY);
+            ownerCarDto.setCommunityId(paramInJson.getString("communityId"));
+            List<OwnerCarDto> ownerCarDtos = ownerCarV1InnerServiceSMOImpl.queryOwnerCars(ownerCarDto);
+            if (ownerCarDtos == null || ownerCarDtos.size() != 1) {
+                throw new CmdException("未查询到车辆信息，无法绑定该车辆");
+            }
+
+            OwnerCarPo ownerCarPo = BeanConvertUtil.covertBean(businessOwnerCar, OwnerCarPo.class);
+            ownerCarPo.setState(OwnerCarDto.STATE_NORMAL);
+            ownerCarPo.setLeaseType(paramInJson.getString("sellOrHire"));
+            ownerCarPo.setPaId(paramInJson.getString("paId"));
+            if ("H".equals(paramInJson.getString("sellOrHire"))) {
+                ownerCarPo.setStartTime(paramInJson.getString("startTime"));
+                ownerCarPo.setEndTime(paramInJson.getString("endTime"));
+            }
+            // 同步租期，不重复插入
+            int flag = ownerCarV1InnerServiceSMOImpl.updateOwnerCar(ownerCarPo);
+            if (flag < 1) {
+                throw new CmdException("修改车辆租期失败");
+            }
+            return;
         }
+
+        // 新建车辆（未传 carId 或以 - 开头），写入 leaseType/startTime/endTime/paId
+        businessOwnerCar.put("memberId", GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_carId));
+        businessOwnerCar.put("carId", businessOwnerCar.getString("memberId"));
+        paramInJson.put("carId", businessOwnerCar.getString("memberId"));
         OwnerCarPo ownerCarPo = BeanConvertUtil.covertBean(businessOwnerCar, OwnerCarPo.class);
         ownerCarPo.setState(OwnerCarDto.STATE_NORMAL);
+        ownerCarPo.setLeaseType(paramInJson.getString("sellOrHire"));
+        ownerCarPo.setPaId(paramInJson.getString("paId"));
+        if ("H".equals(paramInJson.getString("sellOrHire"))) {
+            ownerCarPo.setStartTime(paramInJson.getString("startTime"));
+            ownerCarPo.setEndTime(paramInJson.getString("endTime"));
+        }
 
         //没有指定时为主要车辆
         if (!paramInJson.containsKey("carTypeCd") || StringUtil.isEmpty(paramInJson.getString("carTypeCd"))) {

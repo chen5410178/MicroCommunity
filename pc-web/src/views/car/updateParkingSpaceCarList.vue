@@ -41,18 +41,23 @@
 
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item :label="$t('updateParkingSpaceCar.newCarNum')" prop="carId">
+            <el-form-item :label="$t('updateParkingSpaceCar.owner')" prop="ownerId">
               <div class="flex">
-                <el-input :value="selectedCarNum" disabled
-                  :placeholder="$t('updateParkingSpaceCar.carNumPlaceholder')"></el-input>
-                <el-button type="primary" class="car-select-btn" @click="openCarDialog">{{ $t('updateParkingSpaceCar.selectCar') }}</el-button>
+                <el-input :value="ownerName" disabled
+                  :placeholder="$t('updateParkingSpaceCar.ownerPlaceholder')"></el-input>
+                <el-button type="primary" class="owner-select-btn" @click="openOwnerDialog">{{ $t('updateParkingSpaceCar.selectOwner') }}</el-button>
               </div>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item :label="$t('updateParkingSpaceCar.owner')" prop="ownerName">
-              <el-input :value="updateParkingSpaceCarInfo.ownerName" disabled
-                :placeholder="$t('updateParkingSpaceCar.ownerPlaceholder')"></el-input>
+            <el-form-item :label="$t('updateParkingSpaceCar.newCarNum')" prop="carId">
+              <el-select v-model="updateParkingSpaceCarInfo.carId" filterable clearable
+                :loading="carLoading" class="w-full"
+                :disabled="!updateParkingSpaceCarInfo.ownerId"
+                :placeholder="$t('updateParkingSpaceCar.carNumSelectPlaceholder')">
+                <el-option v-for="car in carList" :key="car.carId"
+                  :label="car.carNum" :value="car.carId"></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
         </el-row>
@@ -83,21 +88,23 @@
       </el-button>
     </div>
 
-    <select-no-ps-car ref="selectNoPsCarRef" @select="onSelectCar" />
+    <search-owner ref="searchOwnerRef" @chooseOwner="handleOwnerChange" />
   </div>
 </template>
 
 <script>
-import SelectNoPsCar from '@/components/car/selectNoPsCar'
-import { updateParkingSpaceCar, listParkingSpaces } from '@/api/car/listParkingSpaceApi'
+import SearchOwner from '@/components/owner/SearchOwner'
+import { updateParkingSpaceCar, listParkingSpaces, queryCarsWithoutParkingSpace } from '@/api/car/listParkingSpaceApi'
 
 export default {
   name: 'UpdateParkingSpaceCarList',
-  components: { SelectNoPsCar },
+  components: { SearchOwner },
   data() {
     return {
       saving: false,
-      selectedCarNum: '',
+      carLoading: false,
+      ownerName: '',
+      carList: [],
       updateParkingSpaceCarInfo: {
         psId: '',
         num: '',
@@ -107,13 +114,12 @@ export default {
         currentRentTime: '',
         carId: '',
         ownerId: '',
-        ownerName: '',
         startTime: '',
         endTime: ''
       },
       rules: {
-        carId: [
-          { required: true, message: this.$t('updateParkingSpaceCar.carNumRequired'), trigger: 'change' }
+        ownerId: [
+          { required: true, message: this.$t('updateParkingSpaceCar.ownerRequired'), trigger: 'change' }
         ],
         startTime: [
           { required: true, message: this.$t('updateParkingSpaceCar.startTimeRequired'), trigger: 'change' }
@@ -145,24 +151,45 @@ export default {
         this.updateParkingSpaceCarInfo.state = ps.state || ''
         this.updateParkingSpaceCarInfo.currentOwnerName = ps.ownerName || ''
         this.updateParkingSpaceCarInfo.currentCarNum = ps.carNum || ''
+        // 默认带出当前业主，并加载其名下无车位车辆
+        this.updateParkingSpaceCarInfo.ownerId = ps.ownerId || ''
+        this.ownerName = ps.ownerName || ''
         if (ps.startTime && ps.endTime) {
           this.updateParkingSpaceCarInfo.currentRentTime = ps.startTime + ' ~ ' + ps.endTime
           this.updateParkingSpaceCarInfo.startTime = ps.startTime
           this.updateParkingSpaceCarInfo.endTime = ps.endTime
         }
+        this.searchCars()
       }).catch(error => {
         console.error('加载车位信息失败:', error)
         this.$message.error(error.message || this.$t('updateParkingSpaceCar.errorMessage'))
       })
     },
-    openCarDialog() {
-      this.$refs.selectNoPsCarRef.open()
+    openOwnerDialog() {
+      this.$refs.searchOwnerRef.open()
     },
-    onSelectCar(row) {
-      this.updateParkingSpaceCarInfo.carId = row.carId || ''
-      this.updateParkingSpaceCarInfo.ownerId = row.ownerId || ''
-      this.updateParkingSpaceCarInfo.ownerName = row.ownerName || ''
-      this.selectedCarNum = row.carNum || ''
+    handleOwnerChange(owner) {
+      this.updateParkingSpaceCarInfo.ownerId = owner.memberId || ''
+      this.ownerName = owner.name || ''
+      this.updateParkingSpaceCarInfo.carId = ''
+      this.carList = []
+      this.searchCars()
+    },
+    searchCars() {
+      if (!this.updateParkingSpaceCarInfo.ownerId) return
+      this.carLoading = true
+      queryCarsWithoutParkingSpace({
+        page: 1,
+        row: 50,
+        ownerId: this.updateParkingSpaceCarInfo.ownerId
+      }).then(res => {
+        this.carList = res.data || []
+      }).catch(error => {
+        console.error('查询车辆列表失败:', error)
+        this.$message.error(error.message || this.$t('updateParkingSpaceCar.errorMessage'))
+      }).finally(() => {
+        this.carLoading = false
+      })
     },
     goBack() {
       this.$router.go(-1)
@@ -179,8 +206,10 @@ export default {
         this.saving = true
         const params = {
           psId: this.updateParkingSpaceCarInfo.psId,
-          carId: this.updateParkingSpaceCarInfo.carId,
           ownerId: this.updateParkingSpaceCarInfo.ownerId
+        }
+        if (this.updateParkingSpaceCarInfo.carId) {
+          params.carId = this.updateParkingSpaceCarInfo.carId
         }
         if (this.updateParkingSpaceCarInfo.state === 'H') {
           params.startTime = this.updateParkingSpaceCarInfo.startTime
@@ -210,7 +239,7 @@ export default {
   margin-top: 20px;
 }
 
-.car-select-btn {
+.owner-select-btn {
   margin-left: 10px;
   flex-shrink: 0;
 }

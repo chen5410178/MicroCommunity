@@ -2,6 +2,7 @@ package com.java110.community.cmd.parkingSpace;
 
 import com.alibaba.fastjson.JSONObject;
 import com.java110.core.annotation.Java110Cmd;
+import com.java110.core.annotation.Java110Transactional;
 import com.java110.core.context.ICmdDataFlowContext;
 import com.java110.core.event.cmd.Cmd;
 import com.java110.core.event.cmd.CmdEvent;
@@ -11,7 +12,9 @@ import com.java110.dto.parking.ParkingSpaceDto;
 import com.java110.intf.community.IParkingSpaceInnerServiceSMO;
 import com.java110.intf.community.IParkingSpaceV1InnerServiceSMO;
 import com.java110.intf.user.IOwnerCarInnerServiceSMO;
+import com.java110.intf.user.IOwnerCarV1InnerServiceSMO;
 import com.java110.intf.user.IOwnerInnerServiceSMO;
+import com.java110.po.car.OwnerCarPo;
 import com.java110.po.parking.ParkingSpacePo;
 import com.java110.utils.constant.ResponseConstant;
 import com.java110.utils.exception.CmdException;
@@ -36,6 +39,9 @@ public class UpdateParkingSpaceCarCmd extends Cmd {
 
     @Autowired
     private IOwnerCarInnerServiceSMO ownerCarInnerServiceSMOImpl;
+
+    @Autowired
+    private IOwnerCarV1InnerServiceSMO ownerCarV1InnerServiceSMOImpl;
 
     @Autowired
     private IOwnerInnerServiceSMO ownerInnerServiceSMOImpl;
@@ -85,11 +91,48 @@ public class UpdateParkingSpaceCarCmd extends Cmd {
     }
 
     @Override
+    @Java110Transactional
     public void doCmd(CmdEvent event, ICmdDataFlowContext context, JSONObject reqJson) throws CmdException, ParseException {
+
+        // 查询车位原信息（含 paId、state），供同步车辆租期使用
+        ParkingSpaceDto parkingSpaceDto = queryParkingSpace(reqJson);
 
         modifySellParkingSpaceState(reqJson);
 
+        // 同步新选中车辆租期（仅同步新车辆，原绑定车辆租期不做清除）
+        OwnerCarPo ownerCarPo = new OwnerCarPo();
+        ownerCarPo.setCarId(reqJson.getString("carId"));
+        ownerCarPo.setOwnerId(reqJson.getString("ownerId"));
+        ownerCarPo.setCommunityId(reqJson.getString("communityId"));
+        ownerCarPo.setPaId(parkingSpaceDto.getPaId());
+        ownerCarPo.setLeaseType(parkingSpaceDto.getState());
+        if (ParkingSpaceDto.STATE_HIRE.equals(parkingSpaceDto.getState())) {
+            ownerCarPo.setStartTime(reqJson.getString("startTime"));
+            ownerCarPo.setEndTime(reqJson.getString("endTime"));
+        }
+        int ownerCarFlag = ownerCarV1InnerServiceSMOImpl.updateOwnerCar(ownerCarPo);
+        if (ownerCarFlag < 1) {
+            throw new CmdException("修改车辆租期失败");
+        }
+
         context.setResponseEntity(ResultVo.success());
+    }
+
+    /**
+     * 查询停车位信息
+     *
+     * @param paramInJson 接口调用方传入入参
+     * @return 停车位信息
+     */
+    private ParkingSpaceDto queryParkingSpace(JSONObject paramInJson) {
+        ParkingSpaceDto parkingSpaceDto = new ParkingSpaceDto();
+        parkingSpaceDto.setCommunityId(paramInJson.getString("communityId"));
+        parkingSpaceDto.setPsId(paramInJson.getString("psId"));
+        List<ParkingSpaceDto> parkingSpaceDtos = parkingSpaceInnerServiceSMOImpl.queryParkingSpaces(parkingSpaceDto);
+        if (parkingSpaceDtos == null || parkingSpaceDtos.size() != 1) {
+            throw new ListenerExecuteException(ResponseConstant.RESULT_CODE_ERROR, "未查询到停车位信息" + JSONObject.toJSONString(parkingSpaceDto));
+        }
+        return parkingSpaceDtos.get(0);
     }
 
     /**
