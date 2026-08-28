@@ -580,7 +580,13 @@
         select distinct t.payer_obj_id
         from pay_fee t
         where 1=1
-        and t.payer_obj_type = '3333'
+        and t.payer_obj_type =
+        <choose>
+            <when test="objType != null and objType != ''">
+                #{objType}
+            </when>
+            <otherwise>'3333'</otherwise>
+        </choose>
         and t.state = '2008001'
         and t.community_id= #{communityId}
         <if test="startDate != null and startDate != ''">
@@ -610,7 +616,13 @@
                 and pfd.create_time &lt; #{endDate}
             </if>
         WHERE t.status_cd = '0'
-        AND t.payer_obj_type = '3333'
+        AND t.payer_obj_type =
+        <choose>
+            <when test="objType != null and objType != ''">
+                #{objType}
+            </when>
+            <otherwise>'3333'</otherwise>
+        </choose>
         AND t.state = '2008001'
         and t.community_id = #{communityId}
         <if test="startDate != null and startDate != ''">

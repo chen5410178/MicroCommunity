@@ -40,6 +40,16 @@ public class QueryStatisticsDto extends PageDto implements Serializable {
 
     private String storeId;
 
+    /**
+     * 费用统计对象类型（3333 房屋 4444 商铺 5555 车辆 6666 车位 7777 合同）
+     */
+    private String objType;
+
+    /**
+     * 停车场编号
+     */
+    private String paName;
+
 
     public String getCommunityId() {
         return communityId;
@@ -176,5 +186,21 @@ public class QueryStatisticsDto extends PageDto implements Serializable {
 
     public void setFeeTypeCds(String[] feeTypeCds) {
         this.feeTypeCds = feeTypeCds;
+    }
+
+    public String getObjType() {
+        return objType;
+    }
+
+    public void setObjType(String objType) {
+        this.objType = objType;
+    }
+
+    public String getPaName() {
+        return paName;
+    }
+
+    public void setPaName(String paName) {
+        this.paName = paName;
     }
 }

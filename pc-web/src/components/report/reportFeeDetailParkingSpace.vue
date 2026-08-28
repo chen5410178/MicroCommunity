@@ -1,5 +1,5 @@
 <template>
-  <div class="report-fee-detail-car">
+  <div class="report-fee-detail-parking-space">
     <el-card class="search-card">
       <div slot="header" class="text-left">
         <span>查询条件</span>
@@ -20,7 +20,13 @@
           </el-col>
           <el-col :span="4">
             <el-form-item>
-              <el-input v-model.trim="conditions.carNum" placeholder="车牌号">
+              <el-input v-model.trim="conditions.psNum" placeholder="车位号">
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-form-item>
+              <el-input v-model.trim="conditions.paNum" placeholder="停车场编号">
               </el-input>
             </el-form-item>
           </el-col>
@@ -48,38 +54,41 @@
 
     <el-card class="content-card">
       <div slot="header" class="clearfix flex justify-between">
-        <span>车辆费用明细</span>
-        <el-button type="primary" size="small" class="float-right" @click="exportReportFeeDetailCarExcel">
+        <span>车位费用明细</span>
+        <el-button type="primary" size="small" class="float-right" @click="exportReportFeeDetailParkingSpaceExcel">
           <i class="el-icon-download"></i>
           {{ $t('common.export') }}
         </el-button>
       </div>
 
-      <el-table :data="reportFeeDetailCarInfo.fees" border style="width: 100%" v-loading="loading">
-        <el-table-column prop="carNum" :label="$t('reportFeeDetailCar.car')" align="center">
+      <el-table :data="reportFeeDetailParkingSpaceInfo.fees" border style="width: 100%" v-loading="loading">
+        <el-table-column prop="psNum" :label="$t('reportFeeDetailParkingSpace.parkingSpace')" align="center">
+          <template slot-scope="scope">
+            {{ scope.row.paName }}-{{ scope.row.psNum }}
+          </template>
         </el-table-column>
-        <el-table-column prop="ownerName" :label="$t('reportFeeDetailCar.owner')" align="center">
+        <el-table-column prop="ownerName" :label="$t('reportFeeDetailParkingSpace.owner')" align="center">
           <template slot-scope="scope">
             {{ scope.row.ownerName }}({{ scope.row.link }})
           </template>
         </el-table-column>
-        <el-table-column prop="oweFee" :label="$t('reportFeeDetailCar.oweFee')" align="center">
+        <el-table-column prop="oweFee" :label="$t('reportFeeDetailParkingSpace.oweFee')" align="center">
           <template slot-scope="scope">
             {{ scope.row.oweFee || '0' }}
           </template>
         </el-table-column>
-        <el-table-column prop="receivedFee" :label="$t('reportFeeDetailCar.receivedFee')" align="center">
+        <el-table-column prop="receivedFee" :label="$t('reportFeeDetailParkingSpace.receivedFee')" align="center">
           <template slot-scope="scope">
             {{ scope.row.receivedFee || '0' }}
           </template>
         </el-table-column>
-        <template v-for="(item, index) in reportFeeDetailCarInfo.feeTypeCds">
-          <el-table-column :key="index + 'owe'" :label="item.name + $t('reportFeeDetailCar.owe')" align="center">
+        <template v-for="(item, index) in reportFeeDetailParkingSpaceInfo.feeTypeCds">
+          <el-table-column :key="index + 'owe'" :label="item.name + $t('reportFeeDetailParkingSpace.owe')" align="center">
             <template slot-scope="scope">
               {{ scope.row['oweFee' + item.statusCd] || '0' }}
             </template>
           </el-table-column>
-          <el-table-column :key="index + 'received'" :label="item.name + $t('reportFeeDetailCar.received')" align="center">
+          <el-table-column :key="index + 'received'" :label="item.name + $t('reportFeeDetailParkingSpace.received')" align="center">
             <template slot-scope="scope">
               {{ scope.row['receivedFee' + item.statusCd] || '0' }}
             </template>
@@ -97,20 +106,21 @@
 
 <script>
 import { getDict, getCommunityId } from '@/api/community/communityApi'
-import { queryReportFeeDetailCar, exportReportFeeDetailCar } from '@/api/report/reportFeeDetailApi'
+import { queryReportFeeDetailParkingSpace, exportReportFeeDetailParkingSpace } from '@/api/report/reportFeeDetailApi'
 
 export default {
-  name: 'ReportFeeDetailCar',
+  name: 'ReportFeeDetailParkingSpace',
   data() {
     return {
-      reportFeeDetailCarInfo: {
+      reportFeeDetailParkingSpaceInfo: {
         fees: [],
         feeTypeCds: []
       },
       conditions: {
         startDate: '',
         endDate: '',
-        carNum: '',
+        psNum: '',
+        paNum: '',
         ownerName: '',
         link: '',
         communityId: ''
@@ -131,7 +141,7 @@ export default {
       this.initDate()
       this.conditions.communityId = getCommunityId()
       this.getDictData()
-      this.listReportFeeDetailCars()
+      this.listReportFeeDetailParkingSpaces()
     },
     initDate() {
       const now = new Date()
@@ -148,12 +158,12 @@ export default {
     async getDictData() {
       try {
         const data = await getDict('pay_fee_config', 'fee_type_cd_show')
-        this.reportFeeDetailCarInfo.feeTypeCds = data
+        this.reportFeeDetailParkingSpaceInfo.feeTypeCds = data
       } catch (error) {
         console.error('获取字典数据失败:', error)
       }
     },
-    async listReportFeeDetailCars() {
+    async listReportFeeDetailParkingSpaces() {
       try {
         this.loading = true
         const params = {
@@ -161,22 +171,22 @@ export default {
           page: this.pagination.current,
           row: this.pagination.size
         }
-        const { data, total } = await queryReportFeeDetailCar(params)
-        this.reportFeeDetailCarInfo.fees = data
+        const { data, total } = await queryReportFeeDetailParkingSpace(params)
+        this.reportFeeDetailParkingSpaceInfo.fees = data
         this.pagination.total = total
       } catch (error) {
-        console.error('获取车辆费用明细失败:', error)
+        console.error('获取车位费用明细失败:', error)
       } finally {
         this.loading = false
       }
     },
-    async exportReportFeeDetailCarExcel() {
+    async exportReportFeeDetailParkingSpaceExcel() {
       try {
         const params = {
           ...this.conditions,
-          pagePath: 'reportFeeDetailCar'
+          pagePath: 'reportFeeDetailParkingSpace'
         }
-        await exportReportFeeDetailCar(params)
+        await exportReportFeeDetailParkingSpace(params)
         this.$message.success(this.$t('common.operationSuccess'))
         this.$router.push('/pages/property/downloadTempFile?tab=下载中心')
       } catch (error) {
@@ -186,13 +196,14 @@ export default {
     },
     queryMethod() {
       this.pagination.current = 1
-      this.listReportFeeDetailCars()
+      this.listReportFeeDetailParkingSpaces()
     },
     resetMethod() {
       this.conditions = {
         startDate: '',
         endDate: '',
-        carNum: '',
+        psNum: '',
+        paNum: '',
         ownerName: '',
         link: '',
         communityId: getCommunityId()
@@ -202,18 +213,18 @@ export default {
     },
     handleSizeChange(val) {
       this.pagination.size = val
-      this.listReportFeeDetailCars()
+      this.listReportFeeDetailParkingSpaces()
     },
     handleCurrentChange(val) {
       this.pagination.current = val
-      this.listReportFeeDetailCars()
+      this.listReportFeeDetailParkingSpaces()
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.report-fee-detail-car {
+.report-fee-detail-parking-space {
   .search-card,
   .content-card {
     margin-bottom: 20px;

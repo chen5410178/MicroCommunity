@@ -44,7 +44,7 @@
                     <template slot-scope="scope">
                         <div class="btn-group">
                             <el-button
-                                v-if="scope.row.remainAmount == scope.row.receivedAmount && scope.row.payOrderId != '-1'"
+                                v-if="scope.row.remainAmount == scope.row.receivedAmount && scope.row.payOrderId != '-1' && scope.row.state == '1400'"
                                 class="btn-white" size="mini" @click="_refundPrePayFee(scope.row)">
                                 {{ $t('prePayFeeDetail.refund') }}
                             </el-button>

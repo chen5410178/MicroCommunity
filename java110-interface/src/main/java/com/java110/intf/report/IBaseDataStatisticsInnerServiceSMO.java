@@ -2,6 +2,7 @@ package com.java110.intf.report;
 
 import com.alibaba.fastjson.JSONObject;
 import com.java110.config.feign.FeignConfiguration;
+import com.java110.dto.parking.ParkingSpaceDto;
 import com.java110.dto.room.RoomDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -112,4 +113,20 @@ public interface IBaseDataStatisticsInnerServiceSMO {
 
     @RequestMapping(value = "/getParkingFeeSummaryData", method = RequestMethod.POST)
     List<Map> getParkingFeeSummaryData(@RequestBody Map info);
+
+    /**
+     * 查询车位数量
+     * @param parkingSpaceDto
+     * @return
+     */
+    @RequestMapping(value = "/getParkingSpaceCount", method = RequestMethod.POST)
+    long getParkingSpaceCount(@RequestBody ParkingSpaceDto parkingSpaceDto);
+
+    /**
+     * 查询车位信息
+     * @param parkingSpaceDto
+     * @return
+     */
+    @RequestMapping(value = "/getParkingSpaceInfo", method = RequestMethod.POST)
+    List<ParkingSpaceDto> getParkingSpaceInfo(@RequestBody ParkingSpaceDto parkingSpaceDto);
 }

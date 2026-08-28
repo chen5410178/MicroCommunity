@@ -5,6 +5,7 @@ import com.java110.dto.room.RoomDto;
 import com.java110.dto.contract.ContractDto;
 import com.java110.dto.owner.OwnerCarDto;
 import com.java110.dto.owner.OwnerDto;
+import com.java110.dto.parking.ParkingSpaceDto;
 import com.java110.dto.report.QueryStatisticsDto;
 
 import java.util.List;
@@ -73,6 +74,20 @@ public interface IBaseDataStatistics {
      * @return
      */
     List<OwnerCarDto> getCar(QueryStatisticsDto queryStatisticsDto);
+
+    /**
+     * 查询车位数量
+     * @param queryStatisticsDto
+     * @return
+     */
+    long getParkingSpaceCount(QueryStatisticsDto queryStatisticsDto);
+
+    /**
+     * 查询车位
+     * @param queryStatisticsDto
+     * @return
+     */
+    List<ParkingSpaceDto> getParkingSpace(QueryStatisticsDto queryStatisticsDto);
 
     /**
      * 查询实收房屋数

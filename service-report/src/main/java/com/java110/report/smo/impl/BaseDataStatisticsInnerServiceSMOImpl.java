@@ -3,6 +3,7 @@ package com.java110.report.smo.impl;
 
 import com.java110.core.base.smo.BaseServiceSMO;
 import com.java110.dto.PageDto;
+import com.java110.dto.parking.ParkingSpaceDto;
 import com.java110.dto.room.RoomDto;
 import com.java110.intf.report.IBaseDataStatisticsInnerServiceSMO;
 import com.java110.report.dao.IBaseDataStatisticsServiceDao;
@@ -205,5 +206,23 @@ public class BaseDataStatisticsInnerServiceSMOImpl extends BaseServiceSMO implem
         }
         List<Map> infos = baseDataStatisticsServiceDaoImpl.getParkingFeeSummaryData(info);
         return infos;
+    }
+
+    @Override
+    public long getParkingSpaceCount(@RequestBody ParkingSpaceDto parkingSpaceDto) {
+        int info = baseDataStatisticsServiceDaoImpl.getParkingSpaceCount(BeanConvertUtil.beanCovertMap(parkingSpaceDto));
+        return info;
+    }
+
+    @Override
+    public List<ParkingSpaceDto> getParkingSpaceInfo(@RequestBody ParkingSpaceDto parkingSpaceDto) {
+        int page = parkingSpaceDto.getPage();
+
+        if (page != PageDto.DEFAULT_PAGE) {
+            parkingSpaceDto.setPage((page - 1) * parkingSpaceDto.getRow());
+        }
+
+        List<Map> info = baseDataStatisticsServiceDaoImpl.getParkingSpaceInfo(BeanConvertUtil.beanCovertMap(parkingSpaceDto));
+        return BeanConvertUtil.covertBeanList(info, ParkingSpaceDto.class);
     }
 }

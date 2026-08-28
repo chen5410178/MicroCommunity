@@ -24,7 +24,7 @@ export const messages = {
         room: 'Room Fee Details',
         owner: 'Owner Fee Details',
         contract: 'Contract Fee Details',
-        car: 'Car Fee Details'
+        parkingSpace: 'Parking Space Fee Details'
       }
     },
     reportFeeDetailRoom: {
@@ -52,8 +52,8 @@ export const messages = {
       owe: ' (Owe)',
       received: ' (Received)'
     },
-    reportFeeDetailCar: {
-      car: 'Car',
+    reportFeeDetailParkingSpace: {
+      parkingSpace: 'Parking Space',
       owner: 'Owner',
       oweFee: 'Owe Fee',
       receivedFee: 'Received Fee',
@@ -86,7 +86,7 @@ export const messages = {
         room: '房屋费用明细',
         owner: '业主费用明细',
         contract: '合同费用明细',
-        car: '车辆费用明细'
+        parkingSpace: '车位费用明细'
       }
     },
     reportFeeDetailRoom: {
@@ -114,12 +114,12 @@ export const messages = {
       owe: ' (欠费)',
       received: ' (实收)'
     },
-    reportFeeDetailCar: {
-      car: '车辆',
+    reportFeeDetailParkingSpace: {
+      parkingSpace: '车位',
       owner: '业主',
       oweFee: '欠费',
       receivedFee: '实收',
-owe: ' (欠費)',
+      owe: ' (欠費)',
       received: ' (實收)'
     }
   },
@@ -148,7 +148,7 @@ owe: ' (欠費)',
         room: '房屋費用明細',
         owner: '業主費用明細',
         contract: '合同費用明細',
-        car: '車輛費用明細'
+        parkingSpace: '車位費用明細'
       }
     },
     reportFeeDetailRoom: {
@@ -176,8 +176,8 @@ owe: ' (欠費)',
       owe: ' (欠費)',
       received: ' (實收)'
     },
-    reportFeeDetailCar: {
-      car: '車輛',
+    reportFeeDetailParkingSpace: {
+      parkingSpace: '車位',
       owner: '業主',
       oweFee: '欠費',
       receivedFee: '實收',

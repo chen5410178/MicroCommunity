@@ -36,9 +36,9 @@
     </div>
 
     <!-- 子组件 -->
-    <add-fee-type ref="addFeeType" />
-    <edit-fee-type ref="editFeeType" />
-    <delete-fee-type ref="deleteFeeType" />
+    <add-fee-type ref="addFeeType" @success="_loadFeeTypeTree"/>
+    <edit-fee-type ref="editFeeType" @success="_loadFeeTypeTree"/>
+    <delete-fee-type ref="deleteFeeType" @success="_loadFeeTypeTree"/>
   </div>
 </template>
 

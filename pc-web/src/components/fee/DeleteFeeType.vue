@@ -64,7 +64,7 @@ export default {
         this.handleClose()
         
         // 通知父组件刷新树
-        this.$parent.$emit('listFeeTypeTree')
+        this.$emit('success')
         
       } catch (error) {
         console.error('删除费用类型失败:', error)

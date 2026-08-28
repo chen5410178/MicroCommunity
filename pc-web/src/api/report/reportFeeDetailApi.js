@@ -57,11 +57,11 @@ export function queryReportFeeDetailContract(params) {
   })
 }
 
-// 查询车辆费用明细
-export function queryReportFeeDetailCar(params) {
+// 查询车位费用明细
+export function queryReportFeeDetailParkingSpace(params) {
   return new Promise((resolve, reject) => {
     request({
-      url: '/reportFeeMonthStatistics.queryReportFeeDetailCar',
+      url: '/reportFeeMonthStatistics.queryReportFeeDetailParkingSpace',
       method: 'get',
       params
     }).then(response => {
@@ -124,8 +124,8 @@ export function exportReportFeeDetailContract(params) {
   })
 }
 
-// 导出车辆费用明细
-export function exportReportFeeDetailCar(params) {
+// 导出车位费用明细
+export function exportReportFeeDetailParkingSpace(params) {
   return new Promise((resolve, reject) => {
     request({
       url: '/export.exportData',

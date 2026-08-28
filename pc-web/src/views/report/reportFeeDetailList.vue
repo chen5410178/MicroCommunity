@@ -19,7 +19,7 @@
         <report-fee-detail-room v-if="currentTab === 'room'" ref="reportFeeDetailRoom"></report-fee-detail-room>
         <report-fee-detail-owner v-if="currentTab === 'owner'" ref="reportFeeDetailOwner"></report-fee-detail-owner>
         <report-fee-detail-contract v-if="currentTab === 'contract'" ref="reportFeeDetailContract"></report-fee-detail-contract>
-        <report-fee-detail-car v-if="currentTab === 'car'" ref="reportFeeDetailCar"></report-fee-detail-car>
+        <report-fee-detail-parking-space v-if="currentTab === 'parkingSpace'" ref="reportFeeDetailParkingSpace"></report-fee-detail-parking-space>
       </el-col>
     </el-row>
   </div>
@@ -29,7 +29,7 @@
 import ReportFeeDetailRoom from '@/components/report/reportFeeDetailRoom'
 import ReportFeeDetailOwner from '@/components/report/reportFeeDetailOwner'
 import ReportFeeDetailContract from '@/components/report/reportFeeDetailContract'
-import ReportFeeDetailCar from '@/components/report/reportFeeDetailCar'
+import ReportFeeDetailParkingSpace from '@/components/report/reportFeeDetailParkingSpace'
 
 export default {
   name: 'ReportFeeDetailList',
@@ -37,7 +37,7 @@ export default {
     ReportFeeDetailRoom,
     ReportFeeDetailOwner,
     ReportFeeDetailContract,
-    ReportFeeDetailCar
+    ReportFeeDetailParkingSpace
   },
   data() {
     return {
@@ -46,7 +46,7 @@ export default {
         { key: 'room', label: '房屋费用明细', icon: 'el-icon-house' },
         { key: 'owner', label: '业主费用明细', icon: 'el-icon-user' },
         { key: 'contract', label: '合同费用明细', icon: 'el-icon-document' },
-        { key: 'car', label: '车辆费用明细', icon: 'el-icon-truck' }
+        { key: 'parkingSpace', label: '车位费用明细', icon: 'el-icon-truck' }
       ]
     }
   },
@@ -63,7 +63,7 @@ export default {
           room: 'reportFeeDetailRoom',
           owner: 'reportFeeDetailOwner',
           contract: 'reportFeeDetailContract',
-          car: 'reportFeeDetailCar'
+          parkingSpace: 'reportFeeDetailParkingSpace'
         }
         this.$refs[refMap[tab]].initData()
       })

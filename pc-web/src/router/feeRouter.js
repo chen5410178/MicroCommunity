@@ -173,7 +173,6 @@ export default [
     },
     {
         path: '/views/fee/refundPrePayFee',
-        meta: { title: '退预缴费' },
         name: '/views/fee/refundPrePayFee',
         component: () => import('@/views/fee/refundPrePayFee.vue')
     },

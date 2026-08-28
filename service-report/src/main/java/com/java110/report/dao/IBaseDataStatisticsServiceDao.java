@@ -81,4 +81,18 @@ public interface IBaseDataStatisticsServiceDao {
     int getParkingFeeSummaryDataCount(Map info);
 
     List<Map> getParkingFeeSummaryData(Map info);
+
+    /**
+     * 查询车位数量
+     * @param info
+     * @return
+     */
+    int getParkingSpaceCount(Map info);
+
+    /**
+     * 查询车位信息
+     * @param info
+     * @return
+     */
+    List<Map> getParkingSpaceInfo(Map info);
 }

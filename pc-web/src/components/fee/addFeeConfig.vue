@@ -593,7 +593,7 @@ export default {
         this.handleClose()
         
         // 通知父组件刷新列表
-        this.$parent.$emit('success')
+        this.$emit('success')
         
       } catch (error) {
         console.error('保存费用配置失败:', error)

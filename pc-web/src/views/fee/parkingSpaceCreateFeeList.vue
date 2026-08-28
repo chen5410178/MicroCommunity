@@ -7,12 +7,13 @@
       </el-card>
       <template v-else>
         <div class="tree-panel" :style="{ width: treeWidth + 'px' }">
-          <parking-space-tree-has-owner ref="parkingSpaceTree"
-            @selectParkingSpace="handleSelectParkingSpace" @treeEmpty="handleTreeEmpty"></parking-space-tree-has-owner>
+          <parking-space-tree-has-owner ref="parkingSpaceTree" @selectParkingSpace="handleSelectParkingSpace"
+            @treeEmpty="handleTreeEmpty"></parking-space-tree-has-owner>
         </div>
 
         <!-- 拖拽分隔线 -->
-        <div class="resize-handle" @mousedown="startResize" @mouseover="showResizeCursor" @mouseleave="hideResizeCursor">
+        <div class="resize-handle" @mousedown="startResize" @mouseover="showResizeCursor"
+          @mouseleave="hideResizeCursor">
           <div class="resize-line"></div>
         </div>
 
@@ -42,24 +43,22 @@
                   <simplify-parking-space-fee v-if="parkingSpaceCreateFeeInfo._currentTab === 'simplifyParkingSpaceFee'"
                     ref="simplifyParkingSpaceFee"></simplify-parking-space-fee>
                 </el-tab-pane>
-
-                <el-tab-pane :label="$t('parkingSpaceCreateFee.parkingSpaceCar')" name="parkingSpaceCarDetail">
-                  <parking-space-car-detail v-if="parkingSpaceCreateFeeInfo._currentTab === 'parkingSpaceCarDetail'"
-                    ref="parkingSpaceCarDetail"></parking-space-car-detail>
-                </el-tab-pane>
-
                 <el-tab-pane :label="$t('parkingSpaceCreateFee.paymentHistory')" name="simplifyHisFee">
                   <simplify-his-fee v-if="parkingSpaceCreateFeeInfo._currentTab === 'simplifyHisFee'"
                     ref="simplifyHisFee"></simplify-his-fee>
                 </el-tab-pane>
-
+                <el-tab-pane :label="$t('parkingSpaceCreateFee.parkingSpaceCar')" name="parkingSpaceCarDetail">
+                  <parking-space-car-detail v-if="parkingSpaceCreateFeeInfo._currentTab === 'parkingSpaceCarDetail'"
+                    ref="parkingSpaceCarDetail"></parking-space-car-detail>
+                </el-tab-pane>
                 <el-tab-pane :label="$t('parkingSpaceCreateFee.prepayment')" name="prePayFeeDetail">
                   <pre-pay-fee-detail v-if="parkingSpaceCreateFeeInfo._currentTab === 'prePayFeeDetail'"
                     ref="prePayFeeDetail"></pre-pay-fee-detail>
                 </el-tab-pane>
 
                 <el-tab-pane :label="$t('parkingSpaceCreateFee.setFee')" name="feeDetailParkingSpaceFeeRule">
-                  <fee-detail-parking-space-fee-rule v-if="parkingSpaceCreateFeeInfo._currentTab === 'feeDetailParkingSpaceFeeRule'"
+                  <fee-detail-parking-space-fee-rule
+                    v-if="parkingSpaceCreateFeeInfo._currentTab === 'feeDetailParkingSpaceFeeRule'"
                     ref="feeDetailParkingSpaceFeeRule"></fee-detail-parking-space-fee-rule>
                 </el-tab-pane>
 
@@ -75,8 +74,8 @@
                     ref="carDetailOwner"></car-detail-owner>
                 </el-tab-pane>
 
-                <el-tab-pane v-if="hasPrivilege('502020092373407363')" :label="$t('parkingSpaceCreateFee.reprintReceipt')"
-                  name="simplifyFeeReceipt">
+                <el-tab-pane v-if="hasPrivilege('502020092373407363')"
+                  :label="$t('parkingSpaceCreateFee.reprintReceipt')" name="simplifyFeeReceipt">
                   <simplify-fee-receipt v-if="parkingSpaceCreateFeeInfo._currentTab === 'simplifyFeeReceipt'"
                     ref="simplifyFeeReceipt"></simplify-fee-receipt>
                 </el-tab-pane>

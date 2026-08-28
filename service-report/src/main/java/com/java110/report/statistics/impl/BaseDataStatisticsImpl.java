@@ -4,6 +4,7 @@ import com.java110.dto.room.RoomDto;
 import com.java110.dto.contract.ContractDto;
 import com.java110.dto.owner.OwnerCarDto;
 import com.java110.dto.owner.OwnerDto;
+import com.java110.dto.parking.ParkingSpaceDto;
 import com.java110.dto.report.QueryStatisticsDto;
 import com.java110.intf.community.IRoomV1InnerServiceSMO;
 import com.java110.intf.report.IBaseDataStatisticsInnerServiceSMO;
@@ -221,6 +222,30 @@ public class BaseDataStatisticsImpl implements IBaseDataStatistics {
         ownerCarDto.setRow(queryStatisticsDto.getRow());
         ownerCarDto.setCarTypeCd(OwnerCarDto.CAR_TYPE_PRIMARY);
         return ownerCarInnerServiceSMOImpl.queryOwnerCars(ownerCarDto);
+    }
+
+    @Override
+    public long getParkingSpaceCount(QueryStatisticsDto queryStatisticsDto) {
+        ParkingSpaceDto parkingSpaceDto = new ParkingSpaceDto();
+        parkingSpaceDto.setCommunityId(queryStatisticsDto.getCommunityId());
+        parkingSpaceDto.setNum(queryStatisticsDto.getObjName());
+        parkingSpaceDto.setPaName(queryStatisticsDto.getPaName());
+        parkingSpaceDto.setOwnerName(queryStatisticsDto.getOwnerName());
+        parkingSpaceDto.setLink(queryStatisticsDto.getLink());
+        return baseDataStatisticsInnerServiceSMOImpl.getParkingSpaceCount(parkingSpaceDto);
+    }
+
+    @Override
+    public List<ParkingSpaceDto> getParkingSpace(QueryStatisticsDto queryStatisticsDto) {
+        ParkingSpaceDto parkingSpaceDto = new ParkingSpaceDto();
+        parkingSpaceDto.setCommunityId(queryStatisticsDto.getCommunityId());
+        parkingSpaceDto.setNum(queryStatisticsDto.getObjName());
+        parkingSpaceDto.setPaName(queryStatisticsDto.getPaName());
+        parkingSpaceDto.setOwnerName(queryStatisticsDto.getOwnerName());
+        parkingSpaceDto.setLink(queryStatisticsDto.getLink());
+        parkingSpaceDto.setPage(queryStatisticsDto.getPage());
+        parkingSpaceDto.setRow(queryStatisticsDto.getRow());
+        return baseDataStatisticsInnerServiceSMOImpl.getParkingSpaceInfo(parkingSpaceDto);
     }
 
     @Override
