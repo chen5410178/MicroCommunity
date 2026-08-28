@@ -329,28 +329,20 @@ public class Java110MybatisInterceptor implements Interceptor {
                 sqlValue.put(key, value);
             }
         } else if (sqlCommandType == SqlCommandType.UPDATE) {
-            String tmpKey = orgSql.substring(sql.indexOf("set") + 3, orgSql.indexOf("where"));
-            String[] tmpKeys = tmpKey.split(",");
-//            if (values.size() < tmpKeys.length) {
-//                throw new IllegalArgumentException("sql 错误 key 和value 个数不等" + sql);
-//            }
-            for (int keyIndex = 0; keyIndex < tmpKeys.length; keyIndex++) {
-                String tmpSetKey = tmpKeys[keyIndex];
-                String[] keyValues = tmpSetKey.split("=");
-                String key = "";
-                if (keyValues.length != 2) {
+            String tmpKey = sql.substring(sql.indexOf("set") + 3, sql.indexOf("where"));
+            List<String> tmpKeys = splitSetKeys(tmpKey);
+            for (String tmpSetKey : tmpKeys) {
+                int equalIndex = tmpSetKey.indexOf("=");
+                if (equalIndex < 0) {
                     throw new IllegalArgumentException("update 语句可能有问题，没有 set 中出错 " + sql);
                 }
-                if (keyValues[0].contains(".")) {
-                    key = keyValues[0].substring(keyValues[0].indexOf(".") + 1).trim();
+                String key = tmpSetKey.substring(0, equalIndex);
+                if (key.contains(".")) {
+                    key = key.substring(key.indexOf(".") + 1).trim();
                 } else {
-                    key = keyValues[0].trim();
+                    key = key.trim();
                 }
-                String value = "";
-                if (values.size() - 1 < keyIndex) {
-                    continue;
-                }
-                value = values.get(keyIndex);
+                String value = tmpSetKey.substring(equalIndex + 1).trim();
                 if ("''".equals(value)) {
                     continue;
                 }
@@ -363,6 +355,43 @@ public class Java110MybatisInterceptor implements Interceptor {
 
 
         return sql;
+    }
+
+    /**
+     * 按逗号切分 update set 片段
+     * 跳过单引号内和括号内（函数调用内）的逗号，
+     * 保证 nullif('xxx', '') 等函数表达式作为一个完整片段
+     *
+     * @param tmpKey set 部分 sql
+     * @return set 片段列表
+     */
+    private List<String> splitSetKeys(String tmpKey) {
+        List<String> setKeys = new ArrayList<>();
+        StringBuilder tmpSetKey = new StringBuilder();
+        boolean inSingleQuote = false;
+        int parenthesesNum = 0;
+        for (int index = 0; index < tmpKey.length(); index++) {
+            char tmpChar = tmpKey.charAt(index);
+            if (tmpChar == '\'') {
+                inSingleQuote = !inSingleQuote;
+                tmpSetKey.append(tmpChar);
+            } else if (tmpChar == '(' && !inSingleQuote) {
+                parenthesesNum++;
+                tmpSetKey.append(tmpChar);
+            } else if (tmpChar == ')' && !inSingleQuote) {
+                parenthesesNum--;
+                tmpSetKey.append(tmpChar);
+            } else if (tmpChar == ',' && !inSingleQuote && parenthesesNum == 0) {
+                setKeys.add(tmpSetKey.toString());
+                tmpSetKey.setLength(0);
+            } else {
+                tmpSetKey.append(tmpChar);
+            }
+        }
+        if (tmpSetKey.length() > 0) {
+            setKeys.add(tmpSetKey.toString());
+        }
+        return setKeys;
     }
 
 
