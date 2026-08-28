@@ -26,10 +26,10 @@ import com.java110.core.factory.GenerateCodeFactory;
 import com.java110.dto.room.RoomDto;
 import com.java110.dto.fee.FeeConfigDto;
 import com.java110.dto.fee.FeeDto;
+import com.java110.dto.fee.SaveMeterWaterFeeDto;
 import com.java110.dto.payFee.PayFeeBatchDto;
 import com.java110.dto.owner.OwnerDto;
 import com.java110.dto.user.UserDto;
-import com.java110.fee.bill.ICycleConvertOnceFee;
 import com.java110.intf.community.IRoomInnerServiceSMO;
 import com.java110.intf.fee.*;
 import com.java110.intf.user.IOwnerInnerServiceSMO;
@@ -44,7 +44,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -89,12 +88,7 @@ public class SaveMeterWaterCmd extends Cmd {
     private IUserInnerServiceSMO userInnerServiceSMOImpl;
 
     @Autowired
-    private IMeterWaterV1InnerServiceSMO meterWaterV1InnerServiceSMOImpl;
-    @Autowired
-    private IPayFeeRuleV1InnerServiceSMO payFeeRuleV1InnerServiceSMOImpl;
-
-    @Autowired
-    private ICycleConvertOnceFee cycleConvertOnceFeeImpl;
+    private ISaveMeterWaterFeeInnerServiceSMO saveMeterWaterFeeInnerServiceSMOImpl;
 
     @Override
     public void validate(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) {
@@ -149,14 +143,8 @@ public class SaveMeterWaterCmd extends Cmd {
         meterWaterPo.setWaterId(GenerateCodeFactory.getGeneratorId(CODE_PREFIX_ID));
         meterWaterPo.setObjName(roomList.get(0).getFloorNum() + "-" + roomList.get(0).getUnitNum() + "-" + roomList.get(0).getRoomNum());
         meterWaterPo.setFeeId(ruleId);
-        int flag = meterWaterV1InnerServiceSMOImpl.saveMeterWater(meterWaterPo);
 
-        if (flag < 1) {
-            throw new CmdException("保存数据失败");
-        }
-        List<PayFeeRulePo> payFeeRulePos = new ArrayList<>();
-
-        PayFeeRulePo payFeeRulePo =new PayFeeRulePo();
+        PayFeeRulePo payFeeRulePo = new PayFeeRulePo();
         payFeeRulePo.setMaxTime(reqJson.getString("curReadingTime"));
         payFeeRulePo.setAmount("-1");
         payFeeRulePo.setFeeTypeCd(feeConfigDtos.get(0).getFeeTypeCd());
@@ -183,14 +171,15 @@ public class SaveMeterWaterCmd extends Cmd {
             payFeeRulePo.setOwnerName(ownerDtos.get(0).getName());
         }
         payFeeRulePo.setPayerObjName(meterWaterPo.getObjName());
-        payFeeRulePos.add(payFeeRulePo);
 
-        //todo 设置费用
-        payFeeRuleV1InnerServiceSMOImpl.savePayFeeRules(payFeeRulePos);
-
-        //todo 走账单模式
-        cycleConvertOnceFeeImpl.rulesGeneratePayFees(payFeeRulePos);
-
+        //todo 统一走"抄表 -> 规则 -> 账单"标准链路（与批量导入抄表一致）
+        SaveMeterWaterFeeDto saveMeterWaterFeeDto = new SaveMeterWaterFeeDto();
+        saveMeterWaterFeeDto.setMeterWaterPo(meterWaterPo);
+        saveMeterWaterFeeDto.setPayFeeRulePo(payFeeRulePo);
+        int flag = saveMeterWaterFeeInnerServiceSMOImpl.saveMeterWaterAndFee(saveMeterWaterFeeDto);
+        if (flag < 1) {
+            throw new CmdException("保存数据失败");
+        }
 
         cmdDataFlowContext.setResponseEntity(ResultVo.success());
     }

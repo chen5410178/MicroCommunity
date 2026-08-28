@@ -45,10 +45,13 @@
         t.remark,d.name primeRate,fr.obj_id payerObjId,t.ft_name ftName,fr.receipt_code receiptCode,
         t.print_count printCount,t.acct_amount acctAmount,
         t.fee_month feeMonth,t.start_degree startDegree,t.end_degree endDegree,
+        t.start_degree preDegrees,t.end_degree curDegrees,
+        pfd.pay_order_id payOrderId,
         t.pay_way payWay,t.deduction_amount deductionAmount,t.late_amount lateAmount
         from fee_receipt_detail t
         left join fee_receipt fr on t.receipt_id = fr.receipt_id and fr.status_cd = '0' and t.community_id = fr.community_id
         left join t_dict d on t.pay_way = d.status_cd and d.table_name="pay_fee_detail" and  d.table_columns='prime_rate'
+        left join pay_fee_detail pfd on t.detail_id = pfd.detail_id and pfd.status_cd = '0'
         where 1 =1
         <if test="area !=null and area != ''">
             and t.area= #{area}

@@ -192,7 +192,9 @@ export default {
 
       queryFeeReceiptDetail(params).then(response => {
         const feeReceiptDetails = response.data
-        this.printPayFeeInfo.receiptNum = this.printPayFeeInfo.receiptNum + "(" + feeReceiptDetails[0].payOrderId + ")"
+        if (feeReceiptDetails[0] && feeReceiptDetails[0].payOrderId) {
+          this.printPayFeeInfo.receiptNum = this.printPayFeeInfo.receiptNum + "(" + feeReceiptDetails[0].payOrderId + ")"
+        }
         feeReceiptDetails.forEach(item => {
           this.printPayFeeInfo.feeReceipt.forEach(im => {
             if (item.receiptId == im.receiptId) {

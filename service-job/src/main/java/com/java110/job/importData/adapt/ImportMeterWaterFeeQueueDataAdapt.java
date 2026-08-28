@@ -6,6 +6,7 @@ import com.java110.core.factory.GenerateCodeFactory;
 import com.java110.dto.contract.ContractRoomDto;
 import com.java110.dto.fee.FeeAttrDto;
 import com.java110.dto.fee.FeeDto;
+import com.java110.dto.fee.SaveMeterWaterFeeDto;
 import com.java110.dto.log.AssetImportLogDetailDto;
 import com.java110.dto.meter.ImportExportMeterWaterDto;
 import com.java110.dto.meter.MeterWaterDto;
@@ -20,8 +21,8 @@ import com.java110.intf.user.IOwnerInnerServiceSMO;
 import com.java110.job.importData.DefaultImportData;
 import com.java110.job.importData.IImportDataAdapt;
 import com.java110.po.fee.FeeAttrPo;
-import com.java110.po.fee.PayFeePo;
 import com.java110.po.meter.MeterWaterPo;
+import com.java110.po.payFee.PayFeeRulePo;
 import com.java110.utils.util.Assert;
 import com.java110.utils.util.BeanConvertUtil;
 import com.java110.vo.ResultVo;
@@ -33,9 +34,6 @@ import java.util.List;
 
 @Service("importMeterWaterFeeQueueData")
 public class ImportMeterWaterFeeQueueDataAdapt extends DefaultImportData implements IImportDataAdapt {
-
-    @Autowired
-    private IMeterWaterInnerServiceSMO meterWaterInnerServiceSMOImpl;
 
     @Autowired
     private IRoomInnerServiceSMO roomInnerServiceSMOImpl;
@@ -57,6 +55,9 @@ public class ImportMeterWaterFeeQueueDataAdapt extends DefaultImportData impleme
 
     @Autowired
     private IPayFeeMonthInnerServiceSMO payFeeMonthInnerServiceSMOImpl;
+
+    @Autowired
+    private ISaveMeterWaterFeeInnerServiceSMO saveMeterWaterFeeInnerServiceSMOImpl;
 
     //    @Autowired
 //    private IPayFeeMonth payFeeMonthImpl;
@@ -86,50 +87,59 @@ public class ImportMeterWaterFeeQueueDataAdapt extends DefaultImportData impleme
         String feeTypeCd = importExportMeterWaterDto.getFeeTypeCd();
         String batchId = importExportMeterWaterDto.getBatchId();
         String meterType = importExportMeterWaterDto.getMeterType();
-        JSONObject meteWaterJson = null;
 
-        List<PayFeePo> fees = new ArrayList<>();
-        List<MeterWaterPo> meterWaterPos = new ArrayList<>();
         List<FeeAttrPo> feeAttrPos = new ArrayList<>();
 
-        dealImportExportMeterWater(importExportMeterWaterDto,
+        SaveMeterWaterFeeDto saveMeterWaterFeeDto = dealImportExportMeterWater(importExportMeterWaterDto,
                 communityId,
                 storeId,
                 configId,
                 userId,
                 feeTypeCd,
-                fees,
-                meterWaterPos,
                 feeAttrPos,
                 batchId,
                 meterType
         );
 
-
-        if (fees.size() < 1 || meterWaterPos.size() < 1) {
+        if (saveMeterWaterFeeDto == null || saveMeterWaterFeeDto.getMeterWaterPo() == null
+                || saveMeterWaterFeeDto.getPayFeeRulePo() == null) {
             throw new IllegalArgumentException("批量抄表失败");
         }
 
-        feeInnerServiceSMOImpl.saveFee(fees);
+        //todo 统一走"抄表 -> 规则 -> 账单"标准链路（与手动抄表一致）
+        int flag = saveMeterWaterFeeInnerServiceSMOImpl.saveMeterWaterAndFee(saveMeterWaterFeeDto);
+        if (flag < 1) {
+            throw new IllegalArgumentException("批量抄表失败");
+        }
 
+        //todo 按规则ID反查费用ID（rulesGeneratePayFees 生成 pay_fee，rule_id 与 meter_water.fee_id 一对一）
+        FeeDto feeDto = new FeeDto();
+        feeDto.setRuleId(saveMeterWaterFeeDto.getPayFeeRulePo().getRuleId());
+        feeDto.setCommunityId(communityId);
+        List<FeeDto> feeDtos = feeInnerServiceSMOImpl.queryFees(feeDto);
+        if (feeDtos == null || feeDtos.size() < 1) {
+            throw new IllegalArgumentException("批量抄表失败,未查询到费用");
+        }
+        String feeId = feeDtos.get(0).getFeeId();
+
+        //todo 保存导入特有属性（feeId 需落库反查后设置）
         if (feeAttrPos.size() > 0) {
+            for (FeeAttrPo feeAttrPo : feeAttrPos) {
+                feeAttrPo.setFeeId(feeId);
+            }
             feeAttrInnerServiceSMOImpl.saveFeeAttrs(feeAttrPos);
         }
 
-
-        meterWaterInnerServiceSMOImpl.saveMeterWaters(meterWaterPos);
-
         // todo 这里异步的方式计算 月数据 和欠费数据
-
         PayFeeDetailRefreshFeeMonthDto payFeeDetailRefreshFeeMonthDto = new PayFeeDetailRefreshFeeMonthDto();
         payFeeDetailRefreshFeeMonthDto.setCommunityId(communityId);
-        payFeeDetailRefreshFeeMonthDto.setFeeId(fees.get(0).getFeeId());
+        payFeeDetailRefreshFeeMonthDto.setFeeId(feeId);
         payFeeMonthInnerServiceSMOImpl.doGeneratorOrRefreshFeeMonth(payFeeDetailRefreshFeeMonthDto);
     }
 
-    private void dealImportExportMeterWater(ImportExportMeterWaterDto importExportMeterWaterDto, String communityId,
+    private SaveMeterWaterFeeDto dealImportExportMeterWater(ImportExportMeterWaterDto importExportMeterWaterDto, String communityId,
                                             String storeId, String configId, String userId, String feeTypeCd,
-                                            List<PayFeePo> fees, List<MeterWaterPo> meterWaterPos, List<FeeAttrPo> feeAttrPos,
+                                            List<FeeAttrPo> feeAttrPos,
                                             String batchId, String meterType) {
 
         RoomDto roomDto = new RoomDto();
@@ -151,22 +161,15 @@ public class ImportMeterWaterFeeQueueDataAdapt extends DefaultImportData impleme
 
         List<ContractRoomDto> contractRoomDtos = contractRoomInnerServiceSMOImpl.queryContractRooms(contractRoomDto);
 
-
-        PayFeePo payFeePo = new PayFeePo();
-        payFeePo.setFeeId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_feeId, true));
-        payFeePo.setIncomeObjId(storeId);
-        payFeePo.setAmount("-1");
-        payFeePo.setStartTime(importExportMeterWaterDto.getPreReadingTime());
-        payFeePo.setEndTime(importExportMeterWaterDto.getPreReadingTime());
-        payFeePo.setPayerObjId(roomDtos.get(0).getRoomId());
-        payFeePo.setBatchId(batchId);
-        //payFeePo.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_ROOM);
-        payFeePo.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_ROOM);
+        //todo 生成规则ID（与手动抄表 SaveMeterWaterCmd 一致）
+        String ruleId = GenerateCodeFactory.getGeneratorId("11");
+        String objId = roomDtos.get(0).getRoomId();
+        String payerObjType = FeeDto.PAYER_OBJ_TYPE_ROOM;
+        String payerObjId = objId;
 
         if (contractRoomDtos != null && contractRoomDtos.size() > 0) {
-            payFeePo.setPayerObjId(contractRoomDtos.get(0).getContractId());
-            //payFeePo.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_ROOM);
-            payFeePo.setPayerObjType(FeeDto.PAYER_OBJ_TYPE_CONTRACT);
+            payerObjId = contractRoomDtos.get(0).getContractId();
+            payerObjType = FeeDto.PAYER_OBJ_TYPE_CONTRACT;
             FeeAttrPo feeAttrPo = new FeeAttrPo();
             feeAttrPo.setCommunityId(communityId);
             feeAttrPo.setAttrId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_attrId, true));
@@ -180,80 +183,63 @@ public class ImportMeterWaterFeeQueueDataAdapt extends DefaultImportData impleme
                 feeName += "燃气费";
             }
             feeAttrPo.setValue(feeName);
-            feeAttrPo.setFeeId(payFeePo.getFeeId());
             feeAttrPos.add(feeAttrPo);
         }
-
-
-        //todo 保存房屋名称
-        FeeAttrPo feeAttrPo = new FeeAttrPo();
-        feeAttrPo.setCommunityId(communityId);
-        feeAttrPo.setSpecCd(FeeAttrDto.SPEC_CD_PAY_OBJECT_NAME);
-        feeAttrPo.setValue(roomName);
-        feeAttrPo.setFeeId(payFeePo.getFeeId());
-        feeAttrPo.setAttrId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_attrId, true));
-        feeAttrPos.add(feeAttrPo);
 
         OwnerDto ownerDto = new OwnerDto();
         ownerDto.setCommunityId(communityId);
         ownerDto.setRoomId(roomDtos.get(0).getRoomId());
         List<OwnerDto> ownerDtos = ownerInnerServiceSMOImpl.queryOwnersByRoom(ownerDto);
 
-        if (ownerDtos != null && ownerDtos.size() > 0) {
-            feeAttrPo = new FeeAttrPo();
-            feeAttrPo.setCommunityId(communityId);
-            feeAttrPo.setSpecCd(FeeAttrDto.SPEC_CD_OWNER_ID);
-            feeAttrPo.setValue(ownerDtos.get(0).getOwnerId());
-            feeAttrPo.setFeeId(payFeePo.getFeeId());
-            feeAttrPo.setAttrId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_attrId, true));
-            feeAttrPos.add(feeAttrPo);
-
-            feeAttrPo = new FeeAttrPo();
-            feeAttrPo.setCommunityId(communityId);
-            feeAttrPo.setSpecCd(FeeAttrDto.SPEC_CD_OWNER_LINK);
-            feeAttrPo.setValue(ownerDtos.get(0).getLink());
-            feeAttrPo.setFeeId(payFeePo.getFeeId());
-            feeAttrPo.setAttrId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_attrId, true));
-            feeAttrPos.add(feeAttrPo);
-
-            feeAttrPo = new FeeAttrPo();
-            feeAttrPo.setCommunityId(communityId);
-            feeAttrPo.setSpecCd(FeeAttrDto.SPEC_CD_OWNER_NAME);
-            feeAttrPo.setValue(ownerDtos.get(0).getName());
-            feeAttrPo.setFeeId(payFeePo.getFeeId());
-            feeAttrPo.setAttrId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_attrId, true));
-            feeAttrPos.add(feeAttrPo);
-
-        }
-        payFeePo.setFeeFlag(FeeDto.FEE_FLAG_ONCE);
-        payFeePo.setState(FeeDto.STATE_DOING);
-        //todo 如果 当前读数小于等于上期读数
-        //todo 这里注释，本来想着 方便物业再不用去缴费 读数为0 的，结果物业还习惯不了 总以为读数为0 的没有抄表成功，不会去结束费用中查看
-//        if (Double.parseDouble(importExportMeterWaterDto.getCurDegrees()) <= Double.parseDouble(importExportMeterWaterDto.getPreDegrees())) {
-//            payFeePo.setState(FeeDto.STATE_FINISH);
-//        }
-
-        payFeePo.setUserId(userId);
-        payFeePo.setFeeTypeCd(feeTypeCd);
-        payFeePo.setConfigId(configId);
-        payFeePo.setCommunityId(communityId);
-        fees.add(payFeePo);
-
-
+        //todo 构建抄表记录（fee_id = ruleId，与手动抄表一致）
         MeterWaterPo meterWaterPo = new MeterWaterPo();
         meterWaterPo.setCommunityId(communityId);
         meterWaterPo.setCurDegrees(importExportMeterWaterDto.getCurDegrees());
         meterWaterPo.setCurReadingTime(importExportMeterWaterDto.getCurReadingTime());
-        meterWaterPo.setFeeId(payFeePo.getFeeId());
+        meterWaterPo.setFeeId(ruleId);
         meterWaterPo.setMeterType(importExportMeterWaterDto.getMeterType());
-        meterWaterPo.setObjId(roomDtos.get(0).getRoomId());
-        meterWaterPo.setObjName(importExportMeterWaterDto.getFloorNum() + "-" + importExportMeterWaterDto.getUnitNum() + "-" + importExportMeterWaterDto.getRoomNum());
+        meterWaterPo.setObjId(objId);
+        meterWaterPo.setObjName(roomName);
         meterWaterPo.setObjType(MeterWaterDto.OBJ_TYPE_ROOM);
         meterWaterPo.setPreDegrees(importExportMeterWaterDto.getPreDegrees());
         meterWaterPo.setPreReadingTime(importExportMeterWaterDto.getPreReadingTime());
         meterWaterPo.setWaterId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_waterId, true));
         meterWaterPo.setRemark(importExportMeterWaterDto.getRemark());
         meterWaterPo.setPrice(importExportMeterWaterDto.getPrice());
-        meterWaterPos.add(meterWaterPo);
+        meterWaterPo.setbId("-1");
+
+        //todo 构建费用规则（参照手动抄表 SaveMeterWaterCmd）
+        String maxTime = importExportMeterWaterDto.getCurReadingTime();
+        if (maxTime != null && maxTime.length() == 10) {
+            maxTime += " 23:59:59";
+        }
+        PayFeeRulePo payFeeRulePo = new PayFeeRulePo();
+        payFeeRulePo.setMaxTime(maxTime);
+        payFeeRulePo.setAmount("-1");
+        payFeeRulePo.setFeeTypeCd(feeTypeCd);
+        payFeeRulePo.setCurYearMonth(importExportMeterWaterDto.getPreReadingTime().split(" ")[0]);
+        payFeeRulePo.setBatchId(batchId);
+        payFeeRulePo.setUserId(userId);
+        payFeeRulePo.setIncomeObjId(storeId);
+        payFeeRulePo.setConfigId(configId);
+        payFeeRulePo.setFeeFlag(FeeDto.FEE_FLAG_ONCE);
+        payFeeRulePo.setStartTime(importExportMeterWaterDto.getPreReadingTime());
+        payFeeRulePo.setEndTime(importExportMeterWaterDto.getPreReadingTime());
+        payFeeRulePo.setState(FeeDto.STATE_DOING);
+        payFeeRulePo.setRuleId(ruleId);
+        payFeeRulePo.setCommunityId(communityId);
+        payFeeRulePo.setPayerObjType(payerObjType);
+        payFeeRulePo.setPayerObjId(payerObjId);
+        //todo 抄表建费补查业主信息，未绑定业主时置空
+        if (ownerDtos != null && ownerDtos.size() > 0) {
+            payFeeRulePo.setOwnerId(ownerDtos.get(0).getOwnerId());
+            payFeeRulePo.setOwnerName(ownerDtos.get(0).getName());
+        }
+        payFeeRulePo.setPayerObjName(roomName);
+
+        SaveMeterWaterFeeDto saveMeterWaterFeeDto = new SaveMeterWaterFeeDto();
+        saveMeterWaterFeeDto.setMeterWaterPo(meterWaterPo);
+        saveMeterWaterFeeDto.setPayFeeRulePo(payFeeRulePo);
+        return saveMeterWaterFeeDto;
     }
 }
