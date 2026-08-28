@@ -34,6 +34,7 @@ public class ParkingSpaceDto extends PageDto implements Serializable {
     private String paName;
     private String sectionId;
     private String sectionName;
+    private String sectionNum;
     private String remark;
     private String state;
     private String stateName;
@@ -207,6 +208,14 @@ public class ParkingSpaceDto extends PageDto implements Serializable {
 
     public void setSectionName(String sectionName) {
         this.sectionName = sectionName;
+    }
+
+    public String getSectionNum() {
+        return sectionNum;
+    }
+
+    public void setSectionNum(String sectionNum) {
+        this.sectionNum = sectionNum;
     }
 
     public String getCarId() {

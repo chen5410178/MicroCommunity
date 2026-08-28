@@ -10,10 +10,12 @@ import com.java110.dto.owner.OwnerAttrDto;
 import com.java110.dto.owner.OwnerCarDto;
 import com.java110.dto.owner.OwnerDto;
 import com.java110.dto.owner.OwnerRoomRelDto;
+import com.java110.dto.parking.ParkingSpaceDto;
 import com.java110.dto.room.RoomDto;
 import com.java110.intf.common.IFileInnerServiceSMO;
 import com.java110.intf.common.IFileRelInnerServiceSMO;
 import com.java110.intf.common.IMachineTranslateInnerServiceSMO;
+import com.java110.intf.community.IParkingSpaceV1InnerServiceSMO;
 import com.java110.intf.community.IRoomV1InnerServiceSMO;
 import com.java110.intf.user.IOwnerAttrInnerServiceSMO;
 import com.java110.intf.user.IOwnerCarInnerServiceSMO;
@@ -50,6 +52,9 @@ public class OwnerDataToIotImpl implements IOwnerDataToIot {
 
     @Autowired
     private IOwnerCarInnerServiceSMO ownerCarInnerServiceSMOImpl;
+
+    @Autowired
+    private IParkingSpaceV1InnerServiceSMO parkingSpaceV1InnerServiceSMOImpl;
 
     @Autowired
     private IMachineTranslateInnerServiceSMO machineTranslateInnerServiceSMOImpl;
@@ -148,10 +153,9 @@ public class OwnerDataToIotImpl implements IOwnerDataToIot {
          * carMemberId
          * carId
          * carNum
-         * paId
-         * psId
-         * paNum
-         * psNum
+         * parkingArea:{paId,paNum}
+         * parkingSpace:{psId,psNum,prId}
+         * parkingRegion:{prId,regionCode,regionName}
          * carTypeCd
          * startTime
          * endTime
@@ -172,14 +176,41 @@ public class OwnerDataToIotImpl implements IOwnerDataToIot {
             car.put("carMemberId", tmpOwnerCarDto.getMemberId());
             car.put("carId", tmpOwnerCarDto.getCarId());
             car.put("carNum", tmpOwnerCarDto.getCarNum());
-            car.put("paId", tmpOwnerCarDto.getPaId());
-            car.put("psId", tmpOwnerCarDto.getPsId());
-            car.put("paNum", tmpOwnerCarDto.getAreaNum());
-            car.put("psNum", tmpOwnerCarDto.getNum());
             car.put("carTypeCd", tmpOwnerCarDto.getCarTypeCd());
             car.put("startTime", DateUtil.getFormatTimeStringA(tmpOwnerCarDto.getStartTime()));
             car.put("endTime", DateUtil.getFormatTimeStringA(tmpOwnerCarDto.getEndTime()));
             car.put("leaseType", tmpOwnerCarDto.getLeaseType());
+
+            //todo 停车场信息（始终携带）
+            JSONObject parkingArea = new JSONObject();
+            parkingArea.put("paId", tmpOwnerCarDto.getPaId());
+            parkingArea.put("paNum", tmpOwnerCarDto.getAreaNum());
+            car.put("parkingArea", parkingArea);
+
+            //todo 按 carId 查询绑定车位
+            ParkingSpaceDto parkingSpaceDto = new ParkingSpaceDto();
+            parkingSpaceDto.setCarId(tmpOwnerCarDto.getCarId());
+            parkingSpaceDto.setCommunityId(tmpOwnerCarDto.getCommunityId());
+            parkingSpaceDto.setStatusCd("0");
+            List<ParkingSpaceDto> parkingSpaceDtos = parkingSpaceV1InnerServiceSMOImpl.queryParkingSpaces(parkingSpaceDto);
+
+            //todo 有绑定车位时携带停车位信息
+            if (!ListUtil.isNull(parkingSpaceDtos)) {
+                ParkingSpaceDto tmpParkingSpaceDto = parkingSpaceDtos.get(0);
+                JSONObject parkingSpace = new JSONObject();
+                parkingSpace.put("psId", tmpParkingSpaceDto.getPsId());
+                parkingSpace.put("psNum", tmpParkingSpaceDto.getNum());
+                if (!StringUtil.isEmpty(tmpParkingSpaceDto.getSectionId())) {
+                    parkingSpace.put("prId", tmpParkingSpaceDto.getSectionId());
+                    //todo 有停车区域时携带停车区域信息
+                    JSONObject parkingRegion = new JSONObject();
+                    parkingRegion.put("prId", tmpParkingSpaceDto.getSectionId());
+                    parkingRegion.put("regionCode", tmpParkingSpaceDto.getSectionNum());
+                    parkingRegion.put("regionName", tmpParkingSpaceDto.getSectionName());
+                    car.put("parkingRegion", parkingRegion);
+                }
+                car.put("parkingSpace", parkingSpace);
+            }
             cars.add(car);
         }
 
