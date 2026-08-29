@@ -24,6 +24,13 @@ export const messages = {
       wechatPay: 'WeChat Pay',
       oss: 'OSS',
       sms: 'SMS',
+      view: 'View',
+      detailTitle: 'Log Detail',
+      baseInfo: 'Basic Info',
+      requestMethod: 'Request Method',
+      copy: 'Copy',
+      copySuccess: 'Copied Successfully',
+      copyFail: 'Copy Failed',
       fetchError: 'Failed to fetch transaction out logs'
     }
   },
@@ -52,7 +59,14 @@ export const messages = {
       wechatPay: '微信支付',
       oss: 'OSS',
       sms: '短信',
-fetchError: '获取调用日志失败'
+      view: '查看',
+      detailTitle: '日志详情',
+      baseInfo: '基础信息',
+      requestMethod: '请求方式',
+      copy: '复制',
+      copySuccess: '复制成功',
+      copyFail: '复制失败',
+      fetchError: '获取调用日志失败'
     }
   },
   'zh-TW': {
@@ -80,6 +94,13 @@ fetchError: '获取调用日志失败'
       wechatPay: '微信支付',
       oss: 'OSS',
       sms: '短信',
+      view: '查看',
+      detailTitle: '日誌詳情',
+      baseInfo: '基礎資訊',
+      requestMethod: '請求方式',
+      copy: '複製',
+      copySuccess: '複製成功',
+      copyFail: '複製失敗',
       fetchError: '獲取調用日誌失敗'
     }
   }
