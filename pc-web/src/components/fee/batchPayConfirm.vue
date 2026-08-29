@@ -70,12 +70,13 @@
             <el-select
               v-model="batchPayConfirmInfo.acctId"
               style="width: 100%"
+              @change="_selectAccountChange"
             >
               <el-option value="">{{$t('batchPayConfirm.selectDeductionAccount')}}</el-option>
               <el-option
                 v-for="(item,index) in batchPayConfirmInfo.accounts"
                 :key="index"
-                :value="item.amount"
+                :value="item.acctId"
                 :label="`${item.acctName}~${item.amount}元`"
               />
             </el-select>
@@ -192,7 +193,7 @@ export default {
         orgFeePrices: 0.0,
         receiptIds: '',
         printUrl: '/#/pages/property/printPayFee',
-        accountAmount: '',
+        accountAmount: 0,
         acctId: '',
         isBatch: '',
         accounts: [],
@@ -274,7 +275,7 @@ export default {
         console.error('获取打印页面失败:', error)
       }
     },
-    
+
     async _loadOwnerAccts() {
       try {
         const params = {
@@ -293,18 +294,47 @@ export default {
         console.error('加载账户失败:', error)
       }
     },
-    
+    _selectAccountChange() {
+      const acctId = this.batchPayConfirmInfo.acctId
+      const orgFeePrices = parseFloat(this.batchPayConfirmInfo.orgFeePrices) || 0
+
+      if (!acctId) {
+        // 取消账户扣款：恢复原始缴费金额
+        this.batchPayConfirmInfo.accountAmount = 0
+        this.batchPayConfirmInfo.feePrices = orgFeePrices.toFixed(2)
+        this._computeTransforAmount()
+        return
+      }
+
+      const account = this.batchPayConfirmInfo.accounts.find(item => item.acctId === acctId)
+      if (!account) {
+        return
+      }
+
+      this.batchPayConfirmInfo.accountAmount = parseFloat(account.amount) || 0
+      // 账户实际抵扣不超过原始应缴
+      const deductAmount = Math.min(this.batchPayConfirmInfo.accountAmount, orgFeePrices)
+      // 自动修改缴费金额（最低为 0）
+      this.batchPayConfirmInfo.feePrices = Math.max(orgFeePrices - deductAmount, 0).toFixed(2)
+
+      this._computeTransforAmount()
+    },
     _computeTransforAmount() {
       const feePrices = parseFloat(this.batchPayConfirmInfo.feePrices)
       const orgFeePrices = parseFloat(this.batchPayConfirmInfo.orgFeePrices)
-      const transforAmount = feePrices - orgFeePrices
-      
+      const accountAmount = parseFloat(this.batchPayConfirmInfo.accountAmount) || 0
+      // 账户实际抵扣不超过原始应缴
+      const deductAmount = Math.min(accountAmount, orgFeePrices)
+      // 转存金额 = 实付金额 - (原始应缴 - 账户抵扣)
+      const transforAmount = feePrices - (orgFeePrices - deductAmount)
+
       if (transforAmount < 0) {
-        this.batchPayConfirmInfo.feePrices = orgFeePrices
-        this.$message.warning(`输入金额不能小于${orgFeePrices}`)
+        const minPrices = (orgFeePrices - deductAmount).toFixed(2)
+        this.batchPayConfirmInfo.feePrices = minPrices
+        this.$message.warning(`输入金额不能小于${minPrices}`)
         return
       }
-      
+
       this.batchPayConfirmInfo.transforAmount = transforAmount.toFixed(2)
     },
     
@@ -567,7 +597,7 @@ export default {
         orgFeePrices: 0.0,
         receiptIds: '',
         printUrl: printUrl,
-        accountAmount: '',
+        accountAmount: 0,
         acctId: '',
         accounts: [],
         ownerId: '',
