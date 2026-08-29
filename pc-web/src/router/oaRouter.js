@@ -147,7 +147,6 @@ export default [
     },
     {
         path: '/views/oa/addAttendanceClassesStaff',
-        meta: { title: '添加考勤员工' },
         name: '/views/oa/addAttendanceClassesStaff',
         component: () => import('@/views/oa/addAttendanceClassesStaffList.vue')
     },
