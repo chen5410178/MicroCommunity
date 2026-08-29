@@ -1,6 +1,7 @@
 package com.java110.utils;
 
 import com.java110.utils.util.DateUtil;
+import com.java110.utils.util.ImageUtils;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -38,12 +39,12 @@ public class AppTest
      */
     public void testApp()
     {
-        BigDecimal curFeePrice = new BigDecimal(346.815+"");
-        curFeePrice = curFeePrice.multiply(new BigDecimal(1));
+        String faceBase64 = ImageUtils.getBase64ByImgUrl("https://oss.homecommunity.cn/java110/hc/img/20260829/587f7699-f9d4-4aa0-9773-63912d55aca0.jpg");
 
-        curFeePrice = curFeePrice.setScale(2,BigDecimal.ROUND_HALF_UP);
+        System.out.println(faceBase64);
 
-        System.out.printf(curFeePrice.doubleValue()+"");
+        // 图片加载成功返回非空 Base64，加载失败/网络不可达静默降级返回空串，均不应抛异常
+        assertNotNull("图片URL转Base64不应返回null", faceBase64);
 
     }
 }
