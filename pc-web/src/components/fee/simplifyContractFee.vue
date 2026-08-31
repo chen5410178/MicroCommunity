@@ -23,7 +23,6 @@
           <tr>
             <th class="text-center" style="width: 60px;"></th>
             <th class="text-center" style="width: 150px;">{{ $t('simplifyContractFee.feeItem') }}</th>
-            <th class="text-center">{{ $t('simplifyContractFee.feeFlag') }}</th>
             <th class="text-center">{{ $t('simplifyContractFee.feeType') }}</th>
             <th class="text-center">{{ $t('simplifyContractFee.receivableAmount') }}</th>
             <th class="text-center">{{ $t('simplifyContractFee.receivablePeriod') }}</th>
@@ -43,7 +42,6 @@
                 {{ fee.feeName }}
                 <span class="fa fa-info-circle"></span>
               </td>
-              <td class="text-center" @click="switchSimplifyContractFeeFlag(fee)">{{ fee.feeFlagName }}</td>
               <td class="text-center" @click="switchSimplifyContractFeeFlag(fee)">{{ fee.feeTypeCdName }}</td>
               <td class="text-center" @click="switchSimplifyContractFeeFlag(fee)">{{ fee.oweAmount }}</td>
               <td class="text-center" @click="switchSimplifyContractFeeFlag(fee)">{{ dateFormat(fee.startTime) }}<br/>~{{ dateFormat(fee.endTime) }}</td>
@@ -55,7 +53,6 @@
               <tr v-for="(feeSub, subIndex) in fee.childs" :key="'feeSub-'+index+'-'+subIndex" style="background-color:#f9f9f9;">
                 <td class="text-center hand"></td>
                 <td class="text-center hand">{{ feeSub.feeName }}</td>
-                <td class="text-center">{{ feeSub.feeFlagName }}</td>
                 <td class="text-center">{{ feeSub.feeTypeCdName }}</td>
                 <td class="text-center">{{ feeSub.oweAmount }}</td>
                 <td class="text-center">{{ dateFormat(feeSub.startTime) }}<br/>~{{ dateFormat(feeSub.endTime) }}</td>

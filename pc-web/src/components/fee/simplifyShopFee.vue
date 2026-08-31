@@ -44,7 +44,6 @@
           <tr>
             <th class="text-center" style="width: 60px;"></th>
             <th class="text-center" style="width: 150px;">{{ $t('simplifyShopFee.feeItem') }}</th>
-            <th class="text-center">{{ $t('simplifyShopFee.feeFlag') }}</th>
             <th class="text-center">{{ $t('simplifyShopFee.feeType') }}</th>
             <th class="text-center">{{ $t('simplifyShopFee.receivableAmount') }}</th>
             <th class="text-center">{{ $t('simplifyShopFee.chargeYearMonth') }}</th>
@@ -66,7 +65,6 @@
                 {{ fee.feeName }}
                 <span class="fa fa-info-circle"></span>
               </td>
-              <td class="text-center" @click="switchSimplifyFeeFlag(fee)">{{ fee.feeFlagName }}</td>
               <td class="text-center" @click="switchSimplifyFeeFlag(fee)">{{ fee.feeTypeCdName }}</td>
               <td class="text-center" @click="switchSimplifyFeeFlag(fee)">{{ fee.oweAmount }}</td>
               <td class="text-center" @click="switchSimplifyFeeFlag(fee)">-</td>
@@ -80,7 +78,6 @@
               <tr v-for="(feeSub, subIndex) in fee.childs" :key="'feeSub-'+index+'-'+subIndex" style="background-color:#f9f9f9;">
                 <td class="text-center hand"></td>
                 <td class="text-center hand">{{ feeSub.feeName }}</td>
-                <td class="text-center">{{ feeSub.feeFlagName }}</td>
                 <td class="text-center">{{ feeSub.feeTypeCdName }}</td>
                 <td class="text-center">{{ feeSub.oweAmount || feeSub.amountOwed }}</td>
                 <td class="text-center">{{ feeSub.yearMonth || (feeSub.detailYear && feeSub.detailMonth ? (feeSub.detailYear + '-' + feeSub.detailMonth) : '-') }}</td>

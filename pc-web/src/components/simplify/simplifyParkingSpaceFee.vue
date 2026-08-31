@@ -50,7 +50,6 @@
           <tr>
             <th class="text-center" style="width: 60px;"></th>
             <th class="text-center" style="width: 150px;">{{ $t('simplifyParkingSpaceFee.feeItem') }}</th>
-            <th class="text-center">{{ $t('simplifyParkingSpaceFee.feeFlag') }}</th>
             <th class="text-center">{{ $t('simplifyParkingSpaceFee.feeType') }}</th>
             <th class="text-center">{{ $t('simplifyParkingSpaceFee.receivableAmount') }}</th>
             <th class="text-center">{{ $t('simplifyParkingSpaceFee.receivablePeriod') }}</th>
@@ -70,7 +69,6 @@
                 {{ fee.feeName }}
                 <span class="fa fa-info-circle"></span>
               </td>
-              <td class="text-center" @click="switchSimplifyParkingSpaceFeeFlag(fee)">{{ fee.feeFlagName }}</td>
               <td class="text-center" @click="switchSimplifyParkingSpaceFeeFlag(fee)">{{ fee.feeTypeCdName }}</td>
               <td class="text-center" @click="switchSimplifyParkingSpaceFeeFlag(fee)">{{ fee.oweAmount }}</td>
               <td class="text-center" @click="switchSimplifyParkingSpaceFeeFlag(fee)">{{ dateFormat(fee.startTime) }}<br />~{{
@@ -84,7 +82,6 @@
                 style="background-color:#f9f9f9;">
                 <td class="text-center hand"></td>
                 <td class="text-center hand">{{ feeSub.feeName }}</td>
-                <td class="text-center">{{ feeSub.feeFlagName }}</td>
                 <td class="text-center">{{ feeSub.feeTypeCdName }}</td>
                 <td class="text-center">{{ feeSub.oweAmount }}</td>
                 <td class="text-center">{{ dateFormat(feeSub.startTime) }}<br />~{{ dateFormat(feeSub.endTime) }}</td>
