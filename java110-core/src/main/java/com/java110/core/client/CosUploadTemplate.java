@@ -17,11 +17,6 @@ import java.util.UUID;
 public class CosUploadTemplate {
     private static Logger logger = LoggerFactory.getLogger(CosUploadTemplate.class);
 
-    /*
-     * private static String server = "www.datasvisser.cn"; //地址 private static
-     * int port = 41023;//端口号 private static String userName = "jntechFTP1";//登录名
-     * private static String userPassword ="MXUsssMjhssE+*=a3C4\\0";//密码
-     */
     private static String FIX_PATH = "uploadFiles"; // 文件上传目录
 
     private static String LOCAL_CHARSET = "GBK";
@@ -37,8 +32,7 @@ public class CosUploadTemplate {
      *图片上传工具方法
      * 默认上传至 img 文件下的当前日期下
      */
-    public String upload(String imageBase64, String server, int port,
-                         String userName, String userPassword, String ftpPath) {
+    public String upload(String imageBase64, String objectPath) {
         String fileName = "";
         COSClient cosClient = null;
         ByteArrayInputStream is = null;
@@ -65,7 +59,7 @@ public class CosUploadTemplate {
             byte[] context = Base64Convert.base64ToByte(imageBase64);
             is = new ByteArrayInputStream(context);
 
-            COSUtil.uploadByInputStream(cosClient, is, ftpPath + urlPath);
+            COSUtil.uploadByInputStream(cosClient, is, objectPath + urlPath);
         } catch (Exception e) {
             logger.error("上传文件失败", e);
             throw new IllegalArgumentException("上传文件失败");
@@ -85,8 +79,7 @@ public class CosUploadTemplate {
     /*
      *文件上传工具方法
      */
-    public String upload(MultipartFile uploadFile, String server, int port,
-                         String userName, String userPassword, String ftpPath) {
+    public String upload(MultipartFile uploadFile, String objectPath) {
         String fileName = "";
         COSClient cosClient = null;
         InputStream is = null;
@@ -95,7 +88,7 @@ public class CosUploadTemplate {
             fileName = UUID.randomUUID().toString() + "." + uploadFile.getOriginalFilename().substring(uploadFile.getOriginalFilename().lastIndexOf(".") + 1);
             fileName = IMAGE_DEFAULT_PATH + DateUtil.getNowII() + "/" + fileName;
             is = uploadFile.getInputStream();
-            COSUtil.uploadByInputStream(cosClient, is, ftpPath + fileName);
+            COSUtil.uploadByInputStream(cosClient, is, objectPath + fileName);
         } catch (Exception e) {
             // logger.error("上传文件失败", e);
             throw new IllegalArgumentException("上传文件失败");
@@ -114,24 +107,24 @@ public class CosUploadTemplate {
     /*
      *文件上传工具方法
      */
-    public String upload(InputStream inputStream, String ftpPath) {
+    public String upload(InputStream inputStream, String objectPath) {
         COSClient cosClient = null;
         try {
             cosClient = COSUtil.getCOSClient();
-            COSUtil.uploadByInputStream(cosClient, inputStream, ftpPath);
+            COSUtil.uploadByInputStream(cosClient, inputStream, objectPath);
         } catch (Exception e) {
             // logger.error("上传文件失败", e);
             throw new IllegalArgumentException("上传文件失败");
         } finally {
 
         }
-        return ftpPath;
+        return objectPath;
     }
 
     /*
      *文件下载工具方法
      */
-    public byte[] downFileByte(String remotePath, String fileName, String server, int port, String userName, String userPassword) {
+    public byte[] downFileByte(String remotePath, String fileName) {
         byte[] return_arraybyte = null;
         COSClient ossClient = null;
         ByteArrayOutputStream byteOut = null;
@@ -163,7 +156,7 @@ public class CosUploadTemplate {
 
         } catch (Exception e) {
             e.printStackTrace();
-            logger.error("从ftp读取文件失败", e);
+            logger.error("从对象存储读取文件失败", e);
         } finally {
             if (byteOut != null) {
                 try {
@@ -191,14 +184,13 @@ public class CosUploadTemplate {
     }
 
     public static void main(String[] args) {
-        CosUploadTemplate ftpUploadTemplate = new CosUploadTemplate();
-        String img = ftpUploadTemplate.download("/hc/img/20220322/", "b3d668c2-96fd-4722-82dd-431dc08941a2.png",
-                "118.89.243.11", 617, "hcdemo", "45j74jpWTf7bNhnC");
+        CosUploadTemplate uploadTemplate = new CosUploadTemplate();
+        String img = uploadTemplate.download("/hc/img/20220322/", "b3d668c2-96fd-4722-82dd-431dc08941a2.png");
 
         System.out.printf("img=" + img);
     }
 
-    public String download(String remotePath, String fileName, String server, int port, String userName, String userPassword) {
+    public String download(String remotePath, String fileName) {
         COSClient ossClient = null;
         ByteArrayOutputStream bos = null;
         InputStream is = null;
@@ -231,7 +223,7 @@ public class CosUploadTemplate {
 
             return Base64Convert.byteToBase64(buffer);
         } catch (Exception e) {
-            logger.error("ftp通过文件名称获取远程文件流", e);
+            logger.error("通过文件名称获取远程文件流失败", e);
         } finally {
             if (bos != null) {
                 try {
@@ -269,7 +261,7 @@ public class CosUploadTemplate {
             }
 
         } catch (Exception e) {
-            logger.error("ftp通过文件名称获取远程文件流", e);
+            logger.error("通过文件名称获取远程文件流失败", e);
         }
         return is;
     }

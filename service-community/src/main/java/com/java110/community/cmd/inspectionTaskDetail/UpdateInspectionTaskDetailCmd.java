@@ -120,7 +120,7 @@ public class UpdateInspectionTaskDetailCmd extends Cmd {
         JSONObject businessUnit = new JSONObject();
         businessUnit.put("fileRelId", "-1");
         businessUnit.put("relTypeCd", "90000");
-        businessUnit.put("saveWay", "ftp");
+        businessUnit.put("saveWay", "s3");
         businessUnit.put("objId", paramInJson.getString("taskDetailId"));
         businessUnit.put("fileRealName", paramInJson.getString("fileName"));
         businessUnit.put("fileSaveName", paramInJson.getString("fileName"));

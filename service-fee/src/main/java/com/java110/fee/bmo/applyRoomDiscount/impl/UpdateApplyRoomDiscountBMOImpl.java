@@ -51,8 +51,8 @@ public class UpdateApplyRoomDiscountBMOImpl implements IUpdateApplyRoomDiscountB
             FileRelPo fileRel = new FileRelPo();
             fileRel.setFileRelId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_relId));
             fileRel.setObjId(applyRoomDiscountPo.getArdId());
-            //table表示表存储 ftp表示ftp文件存储
-            fileRel.setSaveWay("ftp");
+            //table表示表存储 s3表示S3对象存储
+            fileRel.setSaveWay("s3");
             fileRel.setCreateTime(new Date());
             //19000表示装修图片
             fileRel.setRelTypeCd("19000");

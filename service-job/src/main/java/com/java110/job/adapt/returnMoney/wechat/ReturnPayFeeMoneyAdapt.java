@@ -254,10 +254,8 @@ public class ReturnPayFeeMoneyAdapt extends DatabusAdaptImpl {
     private byte[] getPkcs12(String fileName) {
         List<FileDto> fileDtos = new ArrayList<>();
         byte[] context = null;
-        String ftpPath = "hc/";
-        context = s3UploadTemplate.downFileByte(ftpPath, fileName, "",
-                0, "",
-                "");
+        String objectPath = "hc/";
+        context = s3UploadTemplate.downFileByte(objectPath, fileName);
         return context;
     }
 }

@@ -216,3 +216,27 @@ VALUES ('2096', '982026082800000001', 'reportFeeMonthStatistics.queryReportFeeDe
 INSERT INTO `c_route` (`id`, `app_id`, `service_id`, `order_type_cd`, `invoke_limit_times`, `invoke_model`, `create_time`, `status_cd`)
 VALUES ('3082', '8000418004', '982026082800000001', 'Q', '1000', 'S', '2026-08-28 10:00:00', '0');
 ```
+
+## 2026-08-31 移除系统中 FTP 相关内容
+```sql
+-- 1. 修正 file_rel / business_file_rel 表 save_way 字段注释（ftp → s3）
+ALTER TABLE `file_rel` MODIFY COLUMN `save_way` varchar(12) NOT NULL COMMENT '存放方式，s3 table 具体查看t_dict表';
+ALTER TABLE `business_file_rel` MODIFY COLUMN `save_way` varchar(12) NOT NULL COMMENT '存放方式，s3 table 具体查看t_dict表';
+
+-- 2. 删除 FTP 遗留六表（无任何业务引用，存量库中若无数据可一并 DROP）
+DROP TABLE IF EXISTS `hc_ftp_tasklog_detail`;
+DROP TABLE IF EXISTS `hc_ftp_tasklog`;
+DROP TABLE IF EXISTS `hc_ftp_task_attr`;
+DROP TABLE IF EXISTS `hc_ftp_task`;
+DROP TABLE IF EXISTS `hc_ftp_log`;
+DROP TABLE IF EXISTS `hc_ftp_item_spec`;
+
+-- 3. t_dict 中 save_way 字典项 ftp → s3
+UPDATE `t_dict` SET `status_cd` = 's3', `name` = 's3对象存储', `description` = 's3对象存储' WHERE `id` = '73';
+
+-- 4. 修正 c_mapping_domain FILE_DOMAIN 存储配置说明（去除 ftp 描述）
+UPDATE `c_mapping_domain` SET `description` = '系统存储配置，IMG_PATH 配置，如果是S3 时 则配置Nginx代理S3 静态文件访问地址，如果是阿里云OSS 配置 ，配置阿里云OSS图片访问地址，可以登录OSS在后台查看，OSS_SWITCH 为文件存储方式 OSS 为S3对象存储（MinIO） COS 为腾讯云COS存储 OSS 为阿里云OSS存储 需要阿里云购买OSS' WHERE `domain` = 'FILE_DOMAIN';
+
+-- 5. 定时任务菜单 URL 去除 FTP 遗留命名
+UPDATE `m_menu_org` SET `url` = '/jobIndex/' WHERE `m_id` = '702019090293430003';
+```

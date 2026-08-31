@@ -66,7 +66,7 @@ public abstract class TaskSystemQuartz {
             String taskId = taskDto.getTaskId();
 
             if (logger.isDebugEnabled()) {
-                logger.debug("---【TaskSystemQuartz.startFtpTask】：任务【" + taskId + "】开始运行！", taskId);
+                logger.debug("---【TaskSystemQuartz.startTask】：任务【" + taskId + "】开始运行！", taskId);
             }
 
 

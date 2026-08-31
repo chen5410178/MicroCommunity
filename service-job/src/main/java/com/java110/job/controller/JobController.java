@@ -29,6 +29,6 @@ public class JobController extends BaseController {
     @RequestMapping(path = "/")
     public ModelAndView flow() {
         logger.debug("请求流程 {},{}", new StringBuffer("首页我进来了"), new Date());
-        return new ModelAndView("HcFtpToFileSystemConfigList");
+        return new ModelAndView("JobIndex");
     }
 }

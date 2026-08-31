@@ -224,7 +224,7 @@ public class SaveOwnerRepairImpl implements IMallCommonApiBmo {
             JSONObject businessUnit = new JSONObject();
             businessUnit.put("fileRelId", GenerateCodeFactory.getGeneratorId("12"));
             businessUnit.put("relTypeCd", FileRelDto.REL_TYPE_CD_REPAIR); // 设置关联类型为报修
-            businessUnit.put("saveWay", "ftp"); // 设置保存方式
+            businessUnit.put("saveWay", "s3"); // 设置保存方式
             businessUnit.put("objId", repairId); // 关联报修ID
             businessUnit.put("fileRealName", _photo.toString());
             businessUnit.put("fileSaveName", _photo.toString());

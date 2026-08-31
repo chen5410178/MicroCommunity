@@ -36,7 +36,6 @@ import com.java110.utils.util.BeanConvertUtil;
 import com.java110.utils.util.ListUtil;
 import com.java110.utils.util.StringUtil;
 import com.java110.vo.ResultVo;
-import org.apache.commons.net.util.Base64;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -45,6 +44,7 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.security.spec.AlgorithmParameterSpec;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -259,9 +259,9 @@ public class PhoneWechatLoginCmd extends Cmd {
     }
 
     public String decryptData(String encryptedData, String iv, String sessionKey) throws Exception {
-        byte[] keyBytes = Base64.decodeBase64(sessionKey);
-        byte[] ivBytes = Base64.decodeBase64(iv);
-        byte[] encryptedDataBytes = Base64.decodeBase64(encryptedData);
+        byte[] keyBytes = Base64.getDecoder().decode(sessionKey);
+        byte[] ivBytes = Base64.getDecoder().decode(iv);
+        byte[] encryptedDataBytes = Base64.getDecoder().decode(encryptedData);
 
         // 初始化AES cipher
         SecretKeySpec keySpec = new SecretKeySpec(keyBytes, "AES");

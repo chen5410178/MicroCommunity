@@ -120,7 +120,7 @@ public class SaveJunkRequirementCmd extends Cmd {
             JSONObject businessUnit = new JSONObject();
             businessUnit.put("fileRelId", GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_fileRelId));
             businessUnit.put("relTypeCd", "80000");
-            businessUnit.put("saveWay", "ftp");
+            businessUnit.put("saveWay", "s3");
             businessUnit.put("objId", reqJson.getString("junkRequirementId"));
             businessUnit.put("fileRealName", reqJson.getString("photoId"));
             businessUnit.put("fileSaveName", reqJson.getString("fileSaveName"));

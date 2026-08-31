@@ -212,7 +212,7 @@ public class UpdateAdvertCmd extends Cmd {
     public void addAdvertFileRel(JSONObject paramInJson, ICmdDataFlowContext dataFlowContext, String relTypeCd) {
         FileRelPo fileRelPo = new FileRelPo();
         fileRelPo.setRelTypeCd(relTypeCd);
-        fileRelPo.setSaveWay("40000".equals(relTypeCd) ? "table" : "ftp");
+        fileRelPo.setSaveWay("40000".equals(relTypeCd) ? "table" : "s3");
         fileRelPo.setFileRelId("-1");
         fileRelPo.setObjId(paramInJson.getString("advertId"));
         fileRelPo.setFileRealName(paramInJson.getString("advertPhotoId"));
@@ -235,7 +235,7 @@ public class UpdateAdvertCmd extends Cmd {
         FileRelPo fileRelPo = new FileRelPo();
         fileRelPo.setFileRelId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_fileRelId));
         fileRelPo.setObjId(paramInJson.getString("advertId"));
-        fileRelPo.setSaveWay("ftp");
+        fileRelPo.setSaveWay("s3");
         fileRelPo.setCreateTime(new Date());
         //50000 广告视频
         fileRelPo.setRelTypeCd("50000");

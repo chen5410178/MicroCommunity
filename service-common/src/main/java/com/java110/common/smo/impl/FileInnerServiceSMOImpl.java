@@ -1,7 +1,6 @@
 package com.java110.common.smo.impl;
 
 import com.java110.common.dao.IFileServiceDao;
-import com.java110.config.properties.code.Java110Properties;
 import com.java110.core.base.smo.BaseServiceSMO;
 import com.java110.core.client.CosUploadTemplate;
 import com.java110.core.client.S3UploadTemplate;
@@ -11,7 +10,6 @@ import com.java110.utils.cache.MappingCache;
 import com.java110.utils.constant.MappingConstant;
 import com.java110.utils.util.COSUtil;
 import com.java110.utils.util.S3Util;
-import com.java110.utils.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,9 +26,6 @@ public class FileInnerServiceSMOImpl extends BaseServiceSMO implements IFileInne
     private IFileServiceDao fileServiceDaoImpl;
 
     @Autowired
-    private Java110Properties java110Properties;
-
-    @Autowired
     private S3UploadTemplate s3UploadTemplate;
 
     @Autowired
@@ -44,17 +39,11 @@ public class FileInnerServiceSMOImpl extends BaseServiceSMO implements IFileInne
         String ossSwitch = MappingCache.getValue(MappingConstant.FILE_DOMAIN, S3Util.S3_SWITCH);
 
         if (S3Util.S3_SWITCH_S3.equals(ossSwitch)) {
-            fileName = s3UploadTemplate.upload(fileDto.getContext(), java110Properties.getFtpServer(),
-                    java110Properties.getFtpPort(), java110Properties.getFtpUserName(),
-                    java110Properties.getFtpUserPassword(), ROOT_PATH);
+            fileName = s3UploadTemplate.upload(fileDto.getContext(), ROOT_PATH);
         } else if (COSUtil.COS_SWITCH_COS.equals(ossSwitch)) {
-            fileName = cosUploadTemplate.upload(fileDto.getContext(), java110Properties.getFtpServer(),
-                    java110Properties.getFtpPort(), java110Properties.getFtpUserName(),
-                    java110Properties.getFtpUserPassword(), ROOT_PATH);
+            fileName = cosUploadTemplate.upload(fileDto.getContext(), ROOT_PATH);
         } else {
-            fileName = s3UploadTemplate.upload(fileDto.getContext(), java110Properties.getFtpServer(),
-                    java110Properties.getFtpPort(), java110Properties.getFtpUserName(),
-                    java110Properties.getFtpUserPassword(), ROOT_PATH);
+            fileName = s3UploadTemplate.upload(fileDto.getContext(), ROOT_PATH);
         }
         return fileName;
     }
@@ -64,26 +53,20 @@ public class FileInnerServiceSMOImpl extends BaseServiceSMO implements IFileInne
         //return BeanConvertUtil.covertBeanList(fileServiceDaoImpl.getFiles(BeanConvertUtil.beanCovertMap(fileDto)), FileDto.class);
         List<FileDto> fileDtos = new ArrayList<>();
         String fileName = fileDto.getFileSaveName();
-        String ftpPath = "hc/";
+        String objectPath = "hc/";
         String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
         if (fileName.contains("/")) {
-            ftpPath += fileName.substring(0, fileName.lastIndexOf("/") + 1);
+            objectPath += fileName.substring(0, fileName.lastIndexOf("/") + 1);
             fileName = fileName.substring(fileName.lastIndexOf("/") + 1, fileName.length());
         }
         String context = "";
         String ossSwitch = MappingCache.getValue(MappingConstant.FILE_DOMAIN, S3Util.S3_SWITCH);
         if (S3Util.S3_SWITCH_S3.equals(ossSwitch)) {
-            context = s3UploadTemplate.download(ftpPath, fileName, java110Properties.getFtpServer(),
-                    java110Properties.getFtpPort(), java110Properties.getFtpUserName(),
-                    java110Properties.getFtpUserPassword());
+            context = s3UploadTemplate.download(objectPath, fileName);
         } else if (COSUtil.COS_SWITCH_COS.equals(ossSwitch)) {
-            context = cosUploadTemplate.download(ftpPath, fileName, java110Properties.getFtpServer(),
-                    java110Properties.getFtpPort(), java110Properties.getFtpUserName(),
-                    java110Properties.getFtpUserPassword());
+            context = cosUploadTemplate.download(objectPath, fileName);
         } else {
-            context = s3UploadTemplate.download(ftpPath, fileName, java110Properties.getFtpServer(),
-                    java110Properties.getFtpPort(), java110Properties.getFtpUserName(),
-                    java110Properties.getFtpUserPassword());
+            context = s3UploadTemplate.download(objectPath, fileName);
         }
 
         fileDto.setContext(context);

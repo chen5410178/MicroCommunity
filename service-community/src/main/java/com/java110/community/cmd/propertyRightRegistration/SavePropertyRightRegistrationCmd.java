@@ -135,8 +135,8 @@ public class SavePropertyRightRegistrationCmd extends Cmd {
         }
         FileRelPo fileRelPo = new FileRelPo();
         fileRelPo.setObjId(propertyRightRegistrationPo.getPrrId());
-        //table表示表存储 ftp表示ftp文件存储
-        fileRelPo.setSaveWay("ftp");
+        //table表示表存储 s3表示S3对象存储
+        fileRelPo.setSaveWay("s3");
         fileRelPo.setCreateTime(new Date());
         //身份证图片上传
         List<String> idCardPhotos = propertyRightRegistrationPo.getIdCardPhotos();

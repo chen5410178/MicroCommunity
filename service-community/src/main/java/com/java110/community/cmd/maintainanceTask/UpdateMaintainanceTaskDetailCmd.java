@@ -147,7 +147,7 @@ public class UpdateMaintainanceTaskDetailCmd extends Cmd {
         JSONObject businessUnit = new JSONObject();
         businessUnit.put("fileRelId", GenerateCodeFactory.getGeneratorId("10"));
         businessUnit.put("relTypeCd", "90000");
-        businessUnit.put("saveWay", "ftp");
+        businessUnit.put("saveWay", "s3");
         businessUnit.put("objId", paramInJson.getString("taskDetailId"));
         businessUnit.put("fileRealName", paramInJson.getString("fileName"));
         businessUnit.put("fileSaveName", paramInJson.getString("fileName"));

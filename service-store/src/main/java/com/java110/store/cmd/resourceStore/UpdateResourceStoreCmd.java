@@ -87,8 +87,8 @@ public class UpdateResourceStoreCmd extends Cmd {
             }
             FileRelPo fileRel = new FileRelPo();
             fileRel.setObjId(resourceStorePo.getResId());
-            //table表示表存储 ftp表示ftp文件存储
-            fileRel.setSaveWay("ftp");
+            //table表示表存储 s3表示S3对象存储
+            fileRel.setSaveWay("s3");
             fileRel.setCreateTime(new Date());
             if (photos != null && photos.size() > 0) {
                 //22000表示物品图片
@@ -106,8 +106,8 @@ public class UpdateResourceStoreCmd extends Cmd {
         } else if (photos != null && photos.size() > 0) {  //如果文件表里没有这个资源的记录，就判断是否有图片传过来，有就插入到文件表里
             FileRelPo fileRel = new FileRelPo();
             fileRel.setObjId(resourceStorePo.getResId());
-            //table表示表存储 ftp表示ftp文件存储
-            fileRel.setSaveWay("ftp");
+            //table表示表存储 s3表示S3对象存储
+            fileRel.setSaveWay("s3");
             fileRel.setCreateTime(new Date());
             //22000表示物品图片
             fileRel.setRelTypeCd("22000");

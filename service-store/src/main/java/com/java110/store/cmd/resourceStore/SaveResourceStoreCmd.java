@@ -187,8 +187,8 @@ public class SaveResourceStoreCmd extends Cmd {
         //将图片插入文件表里
         FileRelPo fileRelPo = new FileRelPo();
         fileRelPo.setObjId(resourceStorePo.getResId());
-        //table表示表存储 ftp表示ftp文件存储
-        fileRelPo.setSaveWay("ftp");
+        //table表示表存储 s3表示S3对象存储
+        fileRelPo.setSaveWay("s3");
         fileRelPo.setCreateTime(new Date());
         //图片
         List<String> photos = resourceStorePo.getPhotos();

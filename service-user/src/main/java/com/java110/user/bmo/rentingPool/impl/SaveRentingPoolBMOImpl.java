@@ -99,7 +99,7 @@ public class SaveRentingPoolBMOImpl implements ISaveRentingPoolBMO {
         fileRelPo.setFileRelId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_relId));
         fileRelPo.setFileRealName(fileName);
         fileRelPo.setFileSaveName(fileName);
-        fileRelPo.setSaveWay(FileRelDto.SAVE_WAY_FTP);
+        fileRelPo.setSaveWay(FileRelDto.SAVE_WAY_S3);
         int save = fileRelInnerServiceSMOImpl.saveFileRel(fileRelPo);
 
         if (save < 1) {

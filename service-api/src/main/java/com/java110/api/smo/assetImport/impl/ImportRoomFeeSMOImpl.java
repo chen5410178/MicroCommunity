@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.java110.api.smo.DefaultAbstractComponentSMO;
 import com.java110.api.smo.assetImport.IImportRoomFeeSMO;
-import com.java110.config.properties.code.Java110Properties;
 import com.java110.core.client.S3UploadTemplate;
 import com.java110.core.context.IPageData;
 import com.java110.core.factory.GenerateCodeFactory;
@@ -55,9 +54,6 @@ public class ImportRoomFeeSMOImpl extends DefaultAbstractComponentSMO implements
     private RestTemplate restTemplate;
 
     @Autowired
-    private Java110Properties java110Properties;
-
-    @Autowired
     private S3UploadTemplate s3UploadTemplate;
 
     @Autowired
@@ -106,13 +102,9 @@ public class ImportRoomFeeSMOImpl extends DefaultAbstractComponentSMO implements
             String fileName = "";
             String ossSwitch = MappingCache.getValue(MappingConstant.FILE_DOMAIN, S3Util.S3_SWITCH);
             if (S3Util.S3_SWITCH_S3.equals(ossSwitch)) {
-                fileName = s3UploadTemplate.upload(uploadFile, java110Properties.getFtpServer(),
-                        java110Properties.getFtpPort(), java110Properties.getFtpUserName(),
-                        java110Properties.getFtpUserPassword(), "hc/");
+                fileName = s3UploadTemplate.upload(uploadFile, "hc/");
             } else {
-                fileName = s3UploadTemplate.upload(uploadFile, java110Properties.getFtpServer(),
-                        java110Properties.getFtpPort(), java110Properties.getFtpUserName(),
-                        java110Properties.getFtpUserPassword(), "hc/");
+                fileName = s3UploadTemplate.upload(uploadFile, "hc/");
             }
             ResponseEntity<String> responseEntity = new ResponseEntity<String>(fileName, HttpStatus.OK);
             return responseEntity;

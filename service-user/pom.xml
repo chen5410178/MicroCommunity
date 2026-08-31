@@ -26,12 +26,6 @@
             <artifactId>java110-service</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>commons-net</groupId>
-            <artifactId>commons-net</artifactId>
-        </dependency>
-
-
     </dependencies>
 
 </project>

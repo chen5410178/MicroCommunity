@@ -172,10 +172,10 @@
                     <el-dropdown-item @click.native="openDeleteOwnerModal(scope.row)">
                       {{ $t('listOwner.actions.deleteOwner') }}
                     </el-dropdown-item>
-                    <el-dropdown-item @click.native="openAddOwnerRoom(scope.row)">
+                    <el-dropdown-item @click.native="openAddOwnerRoom(scope.row)" v-if="scope.row.ownerTypeCd === '1001'">
                       {{ $t('listOwner.actions.addRoom') }}
                     </el-dropdown-item>
-                    <el-dropdown-item @click.native="openDeleteOwnerRoom(scope.row)">
+                    <el-dropdown-item @click.native="openDeleteOwnerRoom(scope.row)" v-if="scope.row.ownerTypeCd === '1001'">
                       {{ $t('listOwner.buttons.unbindRoom') }}
                     </el-dropdown-item>
                   </el-dropdown-menu>

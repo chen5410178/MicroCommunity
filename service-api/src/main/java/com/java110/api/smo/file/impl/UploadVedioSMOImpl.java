@@ -3,7 +3,6 @@ package com.java110.api.smo.file.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.java110.api.smo.DefaultAbstractComponentSMO;
 import com.java110.api.smo.file.IUploadVedioSMO;
-import com.java110.config.properties.code.Java110Properties;
 import com.java110.core.client.CosUploadTemplate;
 import com.java110.core.client.S3UploadTemplate;
 import com.java110.core.context.IPageData;
@@ -11,7 +10,6 @@ import com.java110.utils.cache.MappingCache;
 import com.java110.utils.constant.MappingConstant;
 import com.java110.utils.util.COSUtil;
 import com.java110.utils.util.S3Util;
-import com.java110.utils.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,9 +32,6 @@ public class UploadVedioSMOImpl extends DefaultAbstractComponentSMO implements I
     private RestTemplate restTemplate;
 
     @Autowired
-    private Java110Properties java110Properties;
-
-    @Autowired
     private S3UploadTemplate s3UploadTemplate;
 
     @Autowired
@@ -50,24 +45,14 @@ public class UploadVedioSMOImpl extends DefaultAbstractComponentSMO implements I
             throw new IllegalArgumentException("上传文件超过1024兆");
         }
 
-//        String fileName = ftpUploadTemplate.upload(uploadFile, java110Properties.getFtpServer(),
-//                java110Properties.getFtpPort(), java110Properties.getFtpUserName(),
-//                java110Properties.getFtpUserPassword(), "hc/");
-//
         String fileName = "";
         String ossSwitch = MappingCache.getValue(MappingConstant.FILE_DOMAIN, S3Util.S3_SWITCH);
         if (S3Util.S3_SWITCH_S3.equals(ossSwitch)) {
-            fileName = s3UploadTemplate.upload(uploadFile, java110Properties.getFtpServer(),
-                    java110Properties.getFtpPort(), java110Properties.getFtpUserName(),
-                    java110Properties.getFtpUserPassword(), ROOT_PATH);
+            fileName = s3UploadTemplate.upload(uploadFile, ROOT_PATH);
         } else if (COSUtil.COS_SWITCH_COS.equals(ossSwitch)) {
-            fileName = cosUploadTemplate.upload(uploadFile, java110Properties.getFtpServer(),
-                    java110Properties.getFtpPort(), java110Properties.getFtpUserName(),
-                    java110Properties.getFtpUserPassword(), ROOT_PATH);
+            fileName = cosUploadTemplate.upload(uploadFile, ROOT_PATH);
         } else {
-            fileName = s3UploadTemplate.upload(uploadFile, java110Properties.getFtpServer(),
-                    java110Properties.getFtpPort(), java110Properties.getFtpUserName(),
-                    java110Properties.getFtpUserPassword(), ROOT_PATH);
+            fileName = s3UploadTemplate.upload(uploadFile, ROOT_PATH);
         }
         JSONObject outParam = new JSONObject();
         outParam.put("fileName", uploadFile.getOriginalFilename());
@@ -84,13 +69,5 @@ public class UploadVedioSMOImpl extends DefaultAbstractComponentSMO implements I
 
     public void setRestTemplate(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
-    }
-
-    public Java110Properties getJava110Properties() {
-        return java110Properties;
-    }
-
-    public void setJava110Properties(Java110Properties java110Properties) {
-        this.java110Properties = java110Properties;
     }
 }

@@ -251,11 +251,9 @@ public class WechatIntegralShareAcct {
         List<FileDto> fileDtos = new ArrayList<>();
 
         byte[] context = null;
-        String ftpPath = "hc/";
+        String objectPath = "hc/";
 
-        context = s3UploadTemplate.downFileByte(ftpPath, fileName, "",
-                0, "",
-                "");
+        context = s3UploadTemplate.downFileByte(objectPath, fileName);
 
         return context;
     }

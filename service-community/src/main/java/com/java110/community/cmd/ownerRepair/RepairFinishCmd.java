@@ -596,7 +596,7 @@ public class RepairFinishCmd extends Cmd {
                 JSONObject businessUnit = new JSONObject();
                 businessUnit.put("fileRelId", GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_fileRelId));
                 businessUnit.put("relTypeCd", FileRelDto.BEFORE_REPAIR_PHOTOS);
-                businessUnit.put("saveWay", "ftp");
+                businessUnit.put("saveWay", "s3");
                 businessUnit.put("objId", reqJson.getString("repairId"));
                 businessUnit.put("fileRealName", photo);
                 businessUnit.put("fileSaveName", photo);
@@ -624,7 +624,7 @@ public class RepairFinishCmd extends Cmd {
                 JSONObject businessUnit = new JSONObject();
                 businessUnit.put("fileRelId", GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_fileRelId));
                 businessUnit.put("relTypeCd", FileRelDto.AFTER_REPAIR_PHOTOS);
-                businessUnit.put("saveWay", "ftp");
+                businessUnit.put("saveWay", "s3");
                 businessUnit.put("objId", reqJson.getString("repairId"));
                 businessUnit.put("fileRealName", photo);
                 businessUnit.put("fileSaveName", photo);

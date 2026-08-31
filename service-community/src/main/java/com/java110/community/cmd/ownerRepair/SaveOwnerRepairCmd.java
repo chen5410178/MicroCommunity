@@ -249,7 +249,7 @@ public class SaveOwnerRepairCmd extends Cmd {
             JSONObject businessUnit = new JSONObject();
             businessUnit.put("fileRelId", GenerateCodeFactory.getGeneratorId("12"));
             businessUnit.put("relTypeCd", FileRelDto.REL_TYPE_CD_REPAIR);
-            businessUnit.put("saveWay", "ftp");
+            businessUnit.put("saveWay", "s3");
             businessUnit.put("objId", repairId);
             businessUnit.put("fileRealName", _photo.toString());
             businessUnit.put("fileSaveName", _photo.toString());

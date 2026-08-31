@@ -74,8 +74,8 @@ public class AddPatrolBuilding extends Cmd {
         FileRelPo fileRelPo = new FileRelPo();
         fileRelPo.setFileRelId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_relId));
         fileRelPo.setObjId(patrolBuildingPo.getPbId());
-        //table表示表存储 ftp表示ftp文件存储
-        fileRelPo.setSaveWay("ftp");
+        //table表示表存储 s3表示S3对象存储
+        fileRelPo.setSaveWay("s3");
         fileRelPo.setCreateTime(new Date());
         //图片上传
         if (photos != null && photos.size() > 0) {

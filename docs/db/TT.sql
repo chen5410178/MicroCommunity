@@ -4782,7 +4782,7 @@ CREATE TABLE `business_file_rel` (
   `file_rel_id` varchar(30) NOT NULL COMMENT '文件关系ID，主键',
   `b_id` varchar(30) NOT NULL COMMENT '业务Id',
   `rel_type_cd` varchar(30) NOT NULL COMMENT '文件类型,用来做分区,业主照片，商户照片，具体查看t_dict表',
-  `save_way` varchar(12) NOT NULL COMMENT '存放方式，ftp table,fastdfs 具体查看t_dict表',
+  `save_way` varchar(12) NOT NULL COMMENT '存放方式，s3 table 具体查看t_dict表',
   `obj_id` varchar(30) NOT NULL COMMENT '对象ID，及说明这个文件归宿于谁，业主则填写业主ID',
   `file_real_name` varchar(200) NOT NULL COMMENT '文件真实名称',
   `file_save_name` varchar(200) NOT NULL COMMENT '文件存储名称',
@@ -8089,7 +8089,7 @@ INSERT INTO `c_mapping_domain` VALUES ('102023012925250008', 'SYSTEM_SWITCH', '�
 INSERT INTO `c_mapping_domain` VALUES ('102023012984550002', 'OSS', '阿里云OSS', '11', '主要用于系统图片等存储使用，请您购买阿里云OSS，获取一下参数配置，请注意前后空格，并且阿里云OSS账户授权oss存储权限', '2023-01-29 15:11:36', '0');
 INSERT INTO `c_mapping_domain` VALUES ('102023012997730005', 'DOMAIN.COMMON', '通用配置', '21', '通用配置，一般不推荐配置此下面，其他开发人员不知道怎么配置', '2023-01-29 16:00:00', '0');
 INSERT INTO `c_mapping_domain` VALUES ('102023013002730013', 'REPAIR_DOMAIN', '工单配置', '16', '用于工单配置，一般不用改动，除非是专业维护人员或者开发人员', '2023-01-30 14:38:57', '0');
-INSERT INTO `c_mapping_domain` VALUES ('102023013018460044', 'FILE_DOMAIN', '存储配置', '9', '系统存储配置，IMG_PATH 配置，如果是ftp 时 则配置Nginx代理ftp 静态文件访问地址，如果是阿里云OSS 配置 ，配置阿里云OSS图片访问地址，可以登录OSS在后台查看，OSS_SWITCH 为文件存储方式 FTP 为FTP存储（需要自己搭建ftp服务器） OSS 为阿里云OSS存储 需要阿里云购买OSS', '2023-01-30 00:55:56', '0');
+INSERT INTO `c_mapping_domain` VALUES ('102023013018460044', 'FILE_DOMAIN', '存储配置', '9', '系统存储配置，IMG_PATH 配置，如果是S3 时 则配置Nginx代理S3 静态文件访问地址，如果是阿里云OSS 配置 ，配置阿里云OSS图片访问地址，可以登录OSS在后台查看，OSS_SWITCH 为文件存储方式 OSS 为S3对象存储（MinIO） COS 为腾讯云COS存储 OSS 为阿里云OSS存储 需要阿里云购买OSS', '2023-01-30 00:55:56', '0');
 INSERT INTO `c_mapping_domain` VALUES ('102023013026820018', 'ENV_DOMAIN', '环境配置', '1', '环境相关配置，如演示环境 生产环境 切换', '2023-01-30 14:46:43', '0');
 INSERT INTO `c_mapping_domain` VALUES ('102023013029370059', 'WECHAT_PAY', '微信服务商', '13', '微信服务商配置时，给个小区公众号或者小程序配置时的商户支付秘钥为服务商秘钥，不是商户的支付秘钥', '2023-01-30 02:14:53', '0');
 INSERT INTO `c_mapping_domain` VALUES ('102023013033010027', 'ALI_SMS', '阿里短信配置', '6', '腾讯短信配置 开启验证码功能，搜索键为SMS_SEND_SWITCH的记录将值OFF改为ON 键为 SMS_COMPANY 的值 阿里为ALI', '2023-01-30 00:14:24', '0');
@@ -19940,7 +19940,7 @@ CREATE TABLE `file_rel` (
   `file_rel_id` varchar(30) NOT NULL COMMENT '文件关系ID，主键',
   `b_id` varchar(30) NOT NULL COMMENT '业务Id',
   `rel_type_cd` varchar(30) NOT NULL COMMENT '文件类型,用来做分区,业主照片，商户照片，具体查看t_dict表',
-  `save_way` varchar(12) NOT NULL COMMENT '存放方式，ftp table,fastdfs 具体查看t_dict表',
+  `save_way` varchar(12) NOT NULL COMMENT '存放方式，s3 table 具体查看t_dict表',
   `obj_id` varchar(30) NOT NULL COMMENT '对象ID，及说明这个文件归宿于谁，业主则填写业主ID',
   `file_real_name` varchar(200) NOT NULL COMMENT '文件真实名称',
   `file_save_name` varchar(200) NOT NULL COMMENT '文件存储名称',
@@ -20303,135 +20303,6 @@ CREATE TABLE `hc_file` (
 
 -- ----------------------------
 -- Records of hc_file
--- ----------------------------
-
--- ----------------------------
--- Table structure for hc_ftp_item_spec
--- ----------------------------
-DROP TABLE IF EXISTS `hc_ftp_item_spec`;
-CREATE TABLE `hc_ftp_item_spec` (
-  `item_spec_id` int NOT NULL,
-  `item_spec_cd` varchar(20) NOT NULL,
-  `domain` varchar(50) DEFAULT NULL,
-  `name` varchar(100) DEFAULT NULL,
-  `describes` varchar(250) DEFAULT NULL,
-  `status_cd` varchar(3) DEFAULT '0',
-  `create_date` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of hc_ftp_item_spec
--- ----------------------------
-
--- ----------------------------
--- Table structure for hc_ftp_log
--- ----------------------------
-DROP TABLE IF EXISTS `hc_ftp_log`;
-CREATE TABLE `hc_ftp_log` (
-  `log_id` int NOT NULL,
-  `taskid` int NOT NULL,
-  `file_name` varchar(100) NOT NULL,
-  `status_cd` varchar(10) DEFAULT '0',
-  `create_date` date DEFAULT NULL,
-  `tfs_file_name` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of hc_ftp_log
--- ----------------------------
-
--- ----------------------------
--- Table structure for hc_ftp_task
--- ----------------------------
-DROP TABLE IF EXISTS `hc_ftp_task`;
-CREATE TABLE `hc_ftp_task` (
-  `taskid` varchar(30) NOT NULL,
-  `taskname` varchar(100) NOT NULL,
-  `file_name` varchar(500) NOT NULL,
-  `create_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_date` date DEFAULT NULL,
-  `state` varchar(5) NOT NULL DEFAULT 'A',
-  `u_or_d` varchar(5) NOT NULL,
-  `run_state` varchar(5) DEFAULT 'T',
-  `run_flag` varchar(5) DEFAULT '0',
-  `tnum` int NOT NULL,
-  `taskcron` varchar(100) DEFAULT NULL,
-  `errphone` varchar(500) DEFAULT NULL,
-  `fileseq` int DEFAULT NULL,
-  `upnull` varchar(5) DEFAULT NULL,
-  `preflag` varchar(5) DEFAULT NULL,
-  `prefunction` varchar(500) DEFAULT NULL,
-  `afterflag` varchar(5) DEFAULT NULL,
-  `afterfunction` varchar(500) DEFAULT NULL,
-  `deal_class` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of hc_ftp_task
--- ----------------------------
-INSERT INTO `hc_ftp_task` VALUES ('962019090221810002', '测试任务', '*.text', '2019-09-02 11:52:32', '2019-09-09', 'R', 'DT', 'T', '0', '1', '0 0 9 * * ?', '1111', null, '0', '1', '', '1', '', 'class com.java110.job.smo.DownloadFileFromFtpToTable');
-INSERT INTO `hc_ftp_task` VALUES ('962019090965490001', '测试任务2', '1.txt', '2019-09-09 03:35:39', '2019-09-09', 'R', 'DT', 'T', '0', '1', '0 40 * * * ?', '111', null, '0', '1', '', '1', '', 'class com.java110.job.smo.DownloadFileFromFtpToTable');
-INSERT INTO `hc_ftp_task` VALUES ('962019090981210001', '测试任务哈哈', '1.txt', '2019-09-09 06:52:08', '2019-09-09', 'R', 'DT', 'T', '0', '1', '30 * * * * ?', '110', null, '0', '1', '', '1', '', 'class com.java110.job.smo.DownloadFileFromFtpToTable');
-INSERT INTO `hc_ftp_task` VALUES ('962019090922390001', '测试任务', '1.txt', '2019-09-09 07:35:39', '2020-06-01', 'A', 'DT', 'E2', '0', '1', '30 * * * * ?', '110', null, '0', '1', '', '1', '', 'downloadFileFromFtpToTable');
-
--- ----------------------------
--- Table structure for hc_ftp_task_attr
--- ----------------------------
-DROP TABLE IF EXISTS `hc_ftp_task_attr`;
-CREATE TABLE `hc_ftp_task_attr` (
-  `taskid` varchar(30) NOT NULL,
-  `item_spec_id` int NOT NULL,
-  `value` varchar(4000) DEFAULT NULL,
-  `create_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of hc_ftp_task_attr
--- ----------------------------
-
--- ----------------------------
--- Table structure for hc_ftp_tasklog
--- ----------------------------
-DROP TABLE IF EXISTS `hc_ftp_tasklog`;
-CREATE TABLE `hc_ftp_tasklog` (
-  `logid` varchar(25) NOT NULL,
-  `taskid` varchar(25) DEFAULT NULL,
-  `u_or_d` varchar(4) NOT NULL,
-  `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `update_date` timestamp NULL DEFAULT NULL,
-  `state` varchar(5) NOT NULL,
-  `serverfilename` varchar(500) DEFAULT NULL,
-  `localfilename` varchar(500) DEFAULT NULL,
-  `filelength` int DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of hc_ftp_tasklog
--- ----------------------------
-
--- ----------------------------
--- Table structure for hc_ftp_tasklog_detail
--- ----------------------------
-DROP TABLE IF EXISTS `hc_ftp_tasklog_detail`;
-CREATE TABLE `hc_ftp_tasklog_detail` (
-  `id` varchar(28) NOT NULL,
-  `logid` varchar(25) NOT NULL,
-  `taskid` varchar(25) DEFAULT NULL,
-  `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `update_date` timestamp NULL DEFAULT NULL,
-  `state` varchar(5) NOT NULL,
-  `data` varchar(2000) DEFAULT NULL,
-  `tnum` int DEFAULT NULL,
-  `begin` int DEFAULT NULL,
-  `end` int DEFAULT NULL,
-  `havedown` int DEFAULT NULL,
-  `remark` varchar(2000) DEFAULT NULL,
-  `serverfilename` varchar(500) DEFAULT NULL,
-  `localfilename` varchar(500) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of hc_ftp_tasklog_detail
 -- ----------------------------
 
 -- ----------------------------
@@ -22115,7 +21986,7 @@ INSERT INTO `m_menu_org` VALUES ('702019090129620003', '测试菜单', '80201909
 INSERT INTO `m_menu_org` VALUES ('702019090161010006', '服务提供', '800201907014', '/admin.html#/serviceProvideManage', '5', '502019090149430005', '服务提供', '2019-09-01 14:14:08', '0', 'Y');
 INSERT INTO `m_menu_org` VALUES ('702019090179400002', '测试菜单', '802019082069190001', '/flow/configTestFlow', '1', '502019090126730001', '测试菜单', '2019-09-01 03:49:49', '1', 'Y');
 INSERT INTO `m_menu_org` VALUES ('702019090210710002', '开发服务', '800201907014', '/admin.html#/devServiceProvide', '6', '502019090277380001', '开发服务提供', '2019-09-02 15:33:31', '0', 'N');
-INSERT INTO `m_menu_org` VALUES ('702019090293430003', '定时任务', '802019090224100001', '/HcFtpToFileSystemConfigList/', '1', '502019090260990002', '管理定时任务', '2019-09-02 12:35:51', '0', 'Y');
+INSERT INTO `m_menu_org` VALUES ('702019090293430003', '定时任务', '802019090224100001', '/jobIndex/', '1', '502019090260990002', '管理定时任务', '2019-09-02 12:35:51', '0', 'Y');
 INSERT INTO `m_menu_org` VALUES ('702019091317360002', '添加业主房产', '800201904005', '/admin.html#/addOwnerRoomBinding', '5', '502019091322800001', '添加业主', '2019-09-13 05:08:45', '0', 'N');
 INSERT INTO `m_menu_org` VALUES ('702019091693040002', '删除业主房屋', '800201904005', '/admin.html#/deleteOwnerRoom', '6', '502019091615840001', '删除业主房屋', '2019-09-16 01:10:46', '0', 'N');
 INSERT INTO `m_menu_org` VALUES ('702019091754830002', '小区信息', '800201904004', '/admin.html#/communityManage', '1', '502019091797230001', '', '2019-09-17 12:59:57', '0', 'Y');
@@ -39715,7 +39586,7 @@ INSERT INTO `t_dict` VALUES ('69', '30000', '同步中', '同步中', '2019-11-1
 INSERT INTO `t_dict` VALUES ('70', '10000', '业主照片', '业主照片', '2019-11-11 21:54:14', 'file_rel', 'rel_type_cd');
 INSERT INTO `t_dict` VALUES ('71', '20000', '商户照片', '商户照片', '2019-11-11 21:54:35', 'file_rel', 'rel_type_cd');
 INSERT INTO `t_dict` VALUES ('72', 'table', '表存储', '表存储', '2019-11-11 21:55:30', 'file_rel', 'save_way');
-INSERT INTO `t_dict` VALUES ('73', 'ftp', 'ftp文件存储', 'ftp文件存储', '2019-11-11 21:55:52', 'file_rel', 'save_way');
+INSERT INTO `t_dict` VALUES ('73', 's3', 's3对象存储', 's3对象存储', '2019-11-11 21:55:52', 'file_rel', 'save_way');
 INSERT INTO `t_dict` VALUES ('74', 'C1', '订单项同步硬件成功', '订单项同步硬件成功', '2019-11-14 22:18:00', 'c_business', 'status_cd');
 INSERT INTO `t_dict` VALUES ('76', '9999', '门禁', '门禁', '2019-11-10 12:08:47', 'machine', 'machine_type_cd');
 INSERT INTO `t_dict` VALUES ('77', '1000', '东大门', '东大门', '2019-11-29 14:07:24', 'machine', 'location_type_cd');

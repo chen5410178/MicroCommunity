@@ -307,7 +307,7 @@ public class COSUtil {
 
             System.out.println(Base64Convert.byteToBase64(buffer));
         } catch (Exception e) {
-            System.out.println("ftp通过文件名称获取远程文件流" + e.getMessage());
+            System.out.println("通过文件名称获取远程文件流失败" + e.getMessage());
         } finally {
             if (bos != null) {
                 try {

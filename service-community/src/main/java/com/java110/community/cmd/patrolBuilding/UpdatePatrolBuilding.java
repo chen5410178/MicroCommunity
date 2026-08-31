@@ -70,8 +70,8 @@ public class UpdatePatrolBuilding extends Cmd {
         FileRelPo fileRel = new FileRelPo();
         fileRel.setFileRelId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_relId));
         fileRel.setObjId(patrolBuildingPo.getPbId());
-        //table表示表存储 ftp表示ftp文件存储
-        fileRel.setSaveWay("ftp");
+        //table表示表存储 s3表示S3对象存储
+        fileRel.setSaveWay("s3");
         fileRel.setCreateTime(new Date());
         //图片上传
         if (photos != null && photos.size() > 0) {
