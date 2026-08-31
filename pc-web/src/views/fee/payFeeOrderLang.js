@@ -51,7 +51,7 @@ export const messages = {
       refundReasonRequired: 'Refund reason cannot be empty',
       cancel: 'Cancel',
       submit: 'Submit',
-      
+      requiredPrimeRate: 'Required, please select prime rate',
     },
     viewRoomData: {
       details: 'Details',
@@ -66,7 +66,8 @@ export const messages = {
       roomArea: 'Room Area',
       rent: 'Rent',
       state: 'State',
-      moveInTime: 'Move-in Time'
+      moveInTime: 'Move-in Time',
+      
     },
     viewFeeData: {
       details: 'Details',
@@ -304,7 +305,8 @@ export const messages = {
       prestoreAmount: '预存金额',
       requiredPrestoreAmount: '必填，请填写预存金额',
       optionalRemark: '可填，请填写备注',
-      save: '保存'
+      save: '保存',
+      requiredPrimeRate: '必填，请选择支付方式'
     },
     viewRoomData: {
       details: '详情',
@@ -555,7 +557,8 @@ feeName: '费用名称',
       prestoreAmount: '預存金額',
       requiredPrestoreAmount: '必填，請填寫預存金額',
       optionalRemark: '可填，請填寫備註',
-      save: '儲存'
+      save: '儲存',
+      requiredPrimeRate: '必填，請選擇支付方式'
     },
     viewRoomData: {
       details: '詳情',

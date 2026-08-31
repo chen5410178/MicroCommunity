@@ -343,11 +343,14 @@ export default {
     },
     payFeeValidate() {
       // 验证逻辑
+      if(this.payFeeOrderInfo.primeRate == '') {
+        this.$message.error(this.$t('payFeeOrder.requiredPrimeRate'))
+        return false
+      }
       return true
     },
     _openPayFee(_type) {
       if (!this.payFeeValidate()) {
-        this.$message.error(this.$t && this.$t('common.validationError') || 'validation error')
         return
       }
       this.payFeeOrderInfo.payType = _type
