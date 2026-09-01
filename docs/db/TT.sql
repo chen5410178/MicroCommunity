@@ -10,64 +10,10 @@ Target Server Type    : MYSQL
 Target Server Version : 50651
 File Encoding         : 65001
 
-Date: 2026-09-01 11:19:21
+Date: 2026-09-01 14:51:46
 */
 
 SET FOREIGN_KEY_CHECKS=0;
-
--- ----------------------------
--- Table structure for access_control_white
--- ----------------------------
-DROP TABLE IF EXISTS `access_control_white`;
-CREATE TABLE `access_control_white` (
-  `acw_id` varchar(30) NOT NULL COMMENT '白名单ID',
-  `machine_id` varchar(30) NOT NULL COMMENT '设备ID',
-  `community_id` varchar(30) NOT NULL COMMENT '小区ID',
-  `person_id` varchar(30) NOT NULL COMMENT '用户ID',
-  `person_name` varchar(64) NOT NULL COMMENT '用户名称',
-  `tel` varchar(11) NOT NULL COMMENT '手机号',
-  `id_card` varchar(64) DEFAULT NULL COMMENT '身份证号',
-  `person_type` varchar(12) NOT NULL DEFAULT '4004' COMMENT '人员类别 1001 员工 , 2002 外卖人员, 3003 快递人员，4004 其他人员',
-  `start_time` datetime NOT NULL COMMENT '开始时间',
-  `end_time` datetime NOT NULL COMMENT '结束时间',
-  `access_control_key` varchar(64) DEFAULT NULL COMMENT '门禁钥匙',
-  `third_id` varchar(64) DEFAULT NULL COMMENT '三方ID',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态，详细参考c_status表，S 保存，0, 在用 1失效',
-  PRIMARY KEY (`acw_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of access_control_white
--- ----------------------------
-INSERT INTO `access_control_white` VALUES ('102023012400840017', '102023012407190005', '2022121921870161', '302022101738360013', '吴学文', '18909711443', '', '2002', '2023-01-03 02:10:00', '2023-01-28 07:35:00', '', null, '2023-01-24 02:23:02', '1');
-INSERT INTO `access_control_white` VALUES ('102023012463760003', '102023012407190005', '2022121921870161', '302023012452030004', '张快递', '18909714562', '', '3003', '2023-01-05 02:10:00', '2023-02-08 02:10:00', '', null, '2023-01-24 03:29:23', '0');
-INSERT INTO `access_control_white` VALUES ('102023012465380033', '102023012407190005', '2022121921870161', '302023012495700039', '张发发', '18909711445', '', '2002', '2023-01-24 02:10:00', '2023-01-26 02:10:00', '123123', null, '2023-01-24 02:31:32', '0');
-INSERT INTO `access_control_white` VALUES ('102023012469550011', '102023012407190005', '2022121921870161', '302023012491240012', '张贝贝', '18909711458', '', '4004', '2023-01-24 12:08:48', '2023-01-26 06:30:00', null, '112023012420860005', '2023-01-24 12:09:29', '0');
-INSERT INTO `access_control_white` VALUES ('102023012474810027', '102023012407190005', '2022121921870161', '302022101738360013', '张爸爸', '18909711443', '', '2002', '2023-01-24 02:25:00', '2023-02-08 02:10:00', '123456', null, '2023-01-24 02:29:55', '0');
-INSERT INTO `access_control_white` VALUES ('102023012477050021', '102023012407190005', '2022121921870161', '302022101738360013', '张三三', '18909711443', '3345345', '2002', '2023-01-24 02:25:00', '2023-02-08 02:10:00', '12462', null, '2023-01-24 02:28:17', '1');
-INSERT INTO `access_control_white` VALUES ('102023012488500023', '102023012407190005', '2022121921870161', '302023012462650024', '测试流程审批', '18909711446', '', '4004', '2023-01-24 18:14:02', '2023-01-26 10:50:00', null, '112023012417380010', '2023-01-24 18:16:13', '0');
-INSERT INTO `access_control_white` VALUES ('102023022136590002', '-1', '2023013154290059', '302023022149800003', '张三', '18909711423', '', '1001', '2023-02-01 00:00:00', '2023-07-21 11:55:00', '', null, '2023-02-21 11:08:21', '0');
-
--- ----------------------------
--- Table structure for access_control_white_auth
--- ----------------------------
-DROP TABLE IF EXISTS `access_control_white_auth`;
-CREATE TABLE `access_control_white_auth` (
-  `acwa_id` varchar(30) NOT NULL COMMENT '授权ID',
-  `acw_id` varchar(30) NOT NULL COMMENT '白名单ID',
-  `machine_id` varchar(30) NOT NULL COMMENT '设备ID',
-  `community_id` varchar(30) NOT NULL COMMENT '小区ID',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态，详细参考c_status表，S 保存，0, 在用 1失效',
-  PRIMARY KEY (`acwa_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of access_control_white_auth
--- ----------------------------
-INSERT INTO `access_control_white_auth` VALUES ('102023022136360006', '102023022136590002', '102023022153850078', '2023013154290059', '2023-02-21 11:08:21', '1');
-INSERT INTO `access_control_white_auth` VALUES ('102023022145790002', '102023022136590002', '102023022153850078', '2023013154290059', '2023-02-21 11:20:52', '0');
 
 -- ----------------------------
 -- Table structure for account
@@ -94,116 +40,6 @@ CREATE TABLE `account` (
 
 -- ----------------------------
 -- Records of account
--- ----------------------------
-
--- ----------------------------
--- Table structure for account_bank
--- ----------------------------
-DROP TABLE IF EXISTS `account_bank`;
-CREATE TABLE `account_bank` (
-  `bank_id` varchar(30) NOT NULL COMMENT '银行ID',
-  `bank_code` varchar(64) NOT NULL COMMENT '账号',
-  `person_name` varchar(64) NOT NULL COMMENT '持卡人',
-  `person_tel` varchar(11) DEFAULT NULL COMMENT '手机号',
-  `bank_name` varchar(128) NOT NULL COMMENT '开户行',
-  `shop_id` varchar(30) NOT NULL COMMENT '商铺ID',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态，详细参考c_status表，S 保存，0, 在用 1失效'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of account_bank
--- ----------------------------
-INSERT INTO `account_bank` VALUES ('742021062128170006', '青海银行', '诗诗', '15309714587', '698745632145498465', '502021052279460001', '2021-06-21 18:03:32', '0');
-INSERT INTO `account_bank` VALUES ('742021062118260007', '123', '1231', '15326984569', '123', '502021052279460001', '2021-06-21 18:04:00', '1');
-INSERT INTO `account_bank` VALUES ('742021063056150003', '622312341234', '李大彪', '13312341234', '大家发银行', '502021051970730004', '2021-06-30 21:52:12', '0');
-INSERT INTO `account_bank` VALUES ('742021072842690002', '213232134343', '吴', '15000000000', '建行', '502021072868980001', '2021-07-28 17:11:22', '0');
-INSERT INTO `account_bank` VALUES ('742021102599250012', '31823912378123781', '张三', '17123409870', '兴业银行', '502021080429730002', '2021-10-25 16:22:30', '0');
-INSERT INTO `account_bank` VALUES ('742021121868440051', '42000000000', '潘念念', '13487144430', '农业银行', '502021102727680001', '2021-12-18 09:59:20', '0');
-INSERT INTO `account_bank` VALUES ('742022022183660095', '6965986523564561', '小焦', '15720052356', '光大银行', '502021080429730002', '2022-02-21 20:33:55', '0');
-INSERT INTO `account_bank` VALUES ('742022031080770024', '3646741122333322', '格林城持卡人', '13311111111', '中国银行格林城支行', '502021080429730002', '2022-03-10 15:16:03', '0');
-INSERT INTO `account_bank` VALUES ('742023010610580093', '12312334234234', '张三', '15666666666', '中国银行', '502022122703470035', '2023-01-06 20:17:47', '0');
-
--- ----------------------------
--- Table structure for account_bond
--- ----------------------------
-DROP TABLE IF EXISTS `account_bond`;
-CREATE TABLE `account_bond` (
-  `bond_id` varchar(30) NOT NULL COMMENT '保证金ID',
-  `bond_name` varchar(128) NOT NULL COMMENT '保证金名称',
-  `bond_type` varchar(12) NOT NULL COMMENT '保证金类型 6006 店铺类型',
-  `amount` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '金额',
-  `obj_id` varchar(30) NOT NULL COMMENT '对象ID，6006时为店铺类型ID',
-  `remark` varchar(1024) DEFAULT NULL COMMENT '保证金描述',
-  `bond_month` int(11) NOT NULL DEFAULT '12' COMMENT '保证月份，只有满足保证月份后才能退',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态，详细参考c_status表，S 保存，0, 在用 1失效',
-  PRIMARY KEY (`bond_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of account_bond
--- ----------------------------
-INSERT INTO `account_bond` VALUES ('762021062836740002', '饭店', '6006', '0.00', '1012021061598680003', '饭店保证金缴费日起12个月后可退还', '12', '2021-06-28 15:51:58', '1');
-INSERT INTO `account_bond` VALUES ('762021062859420001', '饭店', '6006', '10000.00', '1012021061598680003', '', '24', '2021-06-28 15:49:39', '1');
-INSERT INTO `account_bond` VALUES ('762021062899500003', '藥店', '6006', '30000.00', '1012021061558150004', '饭店保证金缴费日起24个月后可退还', '24', '2021-06-28 16:02:59', '1');
-INSERT INTO `account_bond` VALUES ('762021063003480001', '测试', '6006', '0.00', '1012021062382340009', '', '12', '2021-06-30 14:31:07', '1');
-INSERT INTO `account_bond` VALUES ('762021071063470002', '小超市', '6006', '0.00', '1012021070202890002', 'www', '24', '2021-07-10 13:31:04', '0');
-INSERT INTO `account_bond` VALUES ('762021071072610001', '常用', '6006', '100.00', '1012021070278390001', 'ee', '20', '2021-07-10 13:16:56', '0');
-INSERT INTO `account_bond` VALUES ('762021081056550001', '超市类', '6006', '0.00', '1012021081065510005', '', '24', '2021-08-10 09:46:55', '0');
-INSERT INTO `account_bond` VALUES ('762021083076760004', '炸鸡店', '6006', '0.00', '1012021083033210014', '', '24', '2021-08-30 14:40:48', '0');
-INSERT INTO `account_bond` VALUES ('762021090681700001', '水果店', '6006', '0.00', '1012021090668600090', '12', '12', '2021-09-06 18:23:41', '0');
-INSERT INTO `account_bond` VALUES ('762021102514380011', '测试', '6006', '100.00', '1012021062382340009', '', '12', '2021-10-25 14:52:55', '1');
-INSERT INTO `account_bond` VALUES ('762022021591580022', '超市类', '6006', '100.00', '1012022021584030029', '', '12', '2022-02-15 09:56:02', '0');
-
--- ----------------------------
--- Table structure for account_bond_obj
--- ----------------------------
-DROP TABLE IF EXISTS `account_bond_obj`;
-CREATE TABLE `account_bond_obj` (
-  `bobj_id` varchar(30) NOT NULL COMMENT '保证金对象ID',
-  `bond_id` varchar(30) NOT NULL COMMENT '保证金ID',
-  `obj_id` varchar(30) NOT NULL COMMENT '对象ID，店铺ID',
-  `obj_name` varchar(25) NOT NULL COMMENT '对象名称',
-  `bond_type` varchar(12) NOT NULL COMMENT '保证金类型 6006 店铺类型',
-  `receivable_amount` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '应收金额',
-  `received_amount` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '实收金额',
-  `state` varchar(12) NOT NULL COMMENT '状态 1001 待支付  2002 支付完成 3003 支付失败 4004 已退',
-  `remark` varchar(1024) DEFAULT NULL COMMENT '描述',
-  `start_time` datetime NOT NULL COMMENT '开始时间',
-  `end_time` datetime NOT NULL COMMENT '结束时间',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态，详细参考c_status表，S 保存，0, 在用 1失效',
-  PRIMARY KEY (`bobj_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of account_bond_obj
--- ----------------------------
-
--- ----------------------------
--- Table structure for account_bond_obj_detail
--- ----------------------------
-DROP TABLE IF EXISTS `account_bond_obj_detail`;
-CREATE TABLE `account_bond_obj_detail` (
-  `detail_id` varchar(30) NOT NULL COMMENT '保证金ID',
-  `bobj_id` varchar(30) NOT NULL COMMENT '保证金对象ID',
-  `obj_id` varchar(30) NOT NULL COMMENT '对象ID，店铺ID',
-  `bond_type` varchar(12) NOT NULL COMMENT '保证金类型 6006 店铺类型',
-  `receivable_amount` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '应收金额',
-  `received_amount` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '实收金额',
-  `state` varchar(12) NOT NULL COMMENT '状态 3308 交保证金  3309 退保证金',
-  `remark` varchar(1024) DEFAULT NULL COMMENT '描述',
-  `start_time` datetime NOT NULL COMMENT '开始时间',
-  `end_time` datetime NOT NULL COMMENT '结束时间',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态，详细参考c_status表，S 保存，0, 在用 1失效',
-  `obj_name` varchar(25) NOT NULL COMMENT '对象名称',
-  PRIMARY KEY (`detail_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of account_bond_obj_detail
 -- ----------------------------
 
 -- ----------------------------
@@ -295,35 +131,6 @@ INSERT INTO `account_receipt` VALUES ('112026082933930272', '312026080885221606'
 INSERT INTO `account_receipt` VALUES ('112026082980680738', '3120260803237921358', '2026070788800612', '18909711443', '7720260803274321357', '吴学文', '1', '7000.00', '7000.00', '2026-08-29 13:10:24', '0', '');
 INSERT INTO `account_receipt` VALUES ('112026083167390473', '3120260707935321507', '2026070788800612', '18255554444', '7720260707295921505', '小朱', '1', '90000.00', '90000.00', '2026-08-31 12:29:46', '0', '');
 INSERT INTO `account_receipt` VALUES ('112026083198095123', '3120260718664825228', '2026070788800612', '13978091231', '7720260718156125230', '张明明', '1', '100000.00', '100000.00', '2026-08-31 21:23:56', '0', '');
-
--- ----------------------------
--- Table structure for account_withdrawal_apply
--- ----------------------------
-DROP TABLE IF EXISTS `account_withdrawal_apply`;
-CREATE TABLE `account_withdrawal_apply` (
-  `apply_id` varchar(30) NOT NULL COMMENT '申请ID',
-  `acct_id` varchar(30) NOT NULL COMMENT '账户ID',
-  `amount` decimal(10,2) NOT NULL COMMENT '提现金额',
-  `apply_user_id` varchar(30) NOT NULL COMMENT '申请人',
-  `apply_user_name` varchar(64) NOT NULL COMMENT '申请人',
-  `apply_user_tel` varchar(11) NOT NULL COMMENT '申请人电话',
-  `context` varchar(512) NOT NULL COMMENT '申请说明',
-  `state` varchar(12) NOT NULL DEFAULT '486' COMMENT '486 申请 586 审核通过 587 审核不通过 686 付款成功 687 付款失败',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态，详细参考c_status表，S 保存，0, 在用 1失效',
-  `bank_id` varchar(30) NOT NULL COMMENT '银行ID',
-  `obj_id` varchar(30) NOT NULL COMMENT '商铺ID 或者 代理商ID ',
-  PRIMARY KEY (`apply_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of account_withdrawal_apply
--- ----------------------------
-INSERT INTO `account_withdrawal_apply` VALUES ('292021062180610008', '312021062123890315', '0.00', '302021062131530023', 'acct_004', '18909711446', '拒绝:滚', '587', '2021-06-21 18:17:00', '0', '742021062128170006', '');
-INSERT INTO `account_withdrawal_apply` VALUES ('292021062184690011', '312021062123890315', '0.00', '302021062131530023', 'acct_004', '18909711446', '同意', '686', '2021-06-21 18:19:58', '0', '742021062128170006', '');
-INSERT INTO `account_withdrawal_apply` VALUES ('292021072747880001', '312021062123890315', '50.00', '302021062131530023', 'acct_004', '18909711446', '同意', '686', '2021-07-27 00:53:21', '0', '742021063056150003', '402021062178540311');
-INSERT INTO `account_withdrawal_apply` VALUES ('292021072788990001', '312021062123890315', '100.00', '302021062131530023', 'acct_004', '18909711446', '同意', '686', '2021-07-27 01:55:18', '0', '742021063056150003', '502021051970730004');
-INSERT INTO `account_withdrawal_apply` VALUES ('292021072819010003', '312021062123890315', '0.01', '302021062131530023', 'acct_004', '18909711446', '同意', '686', '2021-07-28 17:11:46', '0', '742021072842690002', '502021072868980001');
 
 -- ----------------------------
 -- Table structure for activities
@@ -1270,15 +1077,35 @@ CREATE TABLE `act_fo_form_resource` (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for act_ge_bytearray
+-- ----------------------------
+DROP TABLE IF EXISTS `act_ge_bytearray`;
+CREATE TABLE `act_ge_bytearray` (
+  `ID_` varchar(64) NOT NULL,
+  `REV_` int(11) DEFAULT NULL,
+  `NAME_` varchar(255) DEFAULT NULL,
+  `DEPLOYMENT_ID_` varchar(64) DEFAULT NULL,
+  `BYTES_` longblob,
+  `GENERATED_` tinyint(4) DEFAULT NULL,
+  PRIMARY KEY (`ID_`),
+  KEY `ACT_FK_BYTEARR_DEPL` (`DEPLOYMENT_ID_`) USING BTREE,
+  CONSTRAINT `act_ge_bytearray_ibfk_1` FOREIGN KEY (`DEPLOYMENT_ID_`) REFERENCES `act_re_deployment` (`ID_`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of act_ge_bytearray
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for act_ge_property
 -- ----------------------------
 DROP TABLE IF EXISTS `act_ge_property`;
 CREATE TABLE `act_ge_property` (
-  `NAME_` varchar(64) COLLATE utf8_bin NOT NULL,
-  `VALUE_` varchar(300) COLLATE utf8_bin DEFAULT NULL,
+  `NAME_` varchar(64) NOT NULL,
+  `VALUE_` varchar(300) DEFAULT NULL,
   `REV_` int(11) DEFAULT NULL,
   PRIMARY KEY (`NAME_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of act_ge_property
@@ -1302,21 +1129,21 @@ INSERT INTO `act_ge_property` VALUES ('variable.schema.version', '6.8.1.0', '1')
 -- ----------------------------
 DROP TABLE IF EXISTS `act_hi_actinst`;
 CREATE TABLE `act_hi_actinst` (
-  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
-  `PROC_DEF_ID_` varchar(64) COLLATE utf8_bin NOT NULL,
-  `PROC_INST_ID_` varchar(64) COLLATE utf8_bin NOT NULL,
-  `EXECUTION_ID_` varchar(64) COLLATE utf8_bin NOT NULL,
-  `ACT_ID_` varchar(255) COLLATE utf8_bin NOT NULL,
-  `TASK_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `CALL_PROC_INST_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `ACT_NAME_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `ACT_TYPE_` varchar(255) COLLATE utf8_bin NOT NULL,
-  `ASSIGNEE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `ID_` varchar(64) NOT NULL,
+  `PROC_DEF_ID_` varchar(64) NOT NULL,
+  `PROC_INST_ID_` varchar(64) NOT NULL,
+  `EXECUTION_ID_` varchar(64) NOT NULL,
+  `ACT_ID_` varchar(255) NOT NULL,
+  `TASK_ID_` varchar(64) DEFAULT NULL,
+  `CALL_PROC_INST_ID_` varchar(64) DEFAULT NULL,
+  `ACT_NAME_` varchar(255) DEFAULT NULL,
+  `ACT_TYPE_` varchar(255) NOT NULL,
+  `ASSIGNEE_` varchar(255) DEFAULT NULL,
   `START_TIME_` datetime(3) NOT NULL,
   `END_TIME_` datetime(3) DEFAULT NULL,
   `DURATION_` bigint(20) DEFAULT NULL,
-  `DELETE_REASON_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
-  `TENANT_ID_` varchar(255) COLLATE utf8_bin DEFAULT '',
+  `DELETE_REASON_` varchar(4000) DEFAULT NULL,
+  `TENANT_ID_` varchar(255) DEFAULT '',
   `REV_` int(11) DEFAULT '1',
   `TRANSACTION_ORDER_` int(11) DEFAULT NULL,
   PRIMARY KEY (`ID_`),
@@ -1324,7 +1151,7 @@ CREATE TABLE `act_hi_actinst` (
   KEY `ACT_IDX_HI_ACT_INST_END` (`END_TIME_`) USING BTREE,
   KEY `ACT_IDX_HI_ACT_INST_PROCINST` (`PROC_INST_ID_`,`ACT_ID_`) USING BTREE,
   KEY `ACT_IDX_HI_ACT_INST_EXEC` (`EXECUTION_ID_`,`ACT_ID_`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of act_hi_actinst
@@ -1335,19 +1162,19 @@ CREATE TABLE `act_hi_actinst` (
 -- ----------------------------
 DROP TABLE IF EXISTS `act_hi_attachment`;
 CREATE TABLE `act_hi_attachment` (
-  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `ID_` varchar(64) NOT NULL,
   `REV_` int(11) DEFAULT NULL,
-  `USER_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `NAME_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `DESCRIPTION_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
-  `TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `TASK_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `PROC_INST_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `URL_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
-  `CONTENT_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `USER_ID_` varchar(255) DEFAULT NULL,
+  `NAME_` varchar(255) DEFAULT NULL,
+  `DESCRIPTION_` varchar(4000) DEFAULT NULL,
+  `TYPE_` varchar(255) DEFAULT NULL,
+  `TASK_ID_` varchar(64) DEFAULT NULL,
+  `PROC_INST_ID_` varchar(64) DEFAULT NULL,
+  `URL_` varchar(4000) DEFAULT NULL,
+  `CONTENT_ID_` varchar(64) DEFAULT NULL,
   `TIME_` datetime(3) DEFAULT NULL,
   PRIMARY KEY (`ID_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of act_hi_attachment
@@ -1358,17 +1185,17 @@ CREATE TABLE `act_hi_attachment` (
 -- ----------------------------
 DROP TABLE IF EXISTS `act_hi_comment`;
 CREATE TABLE `act_hi_comment` (
-  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
-  `TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `ID_` varchar(64) NOT NULL,
+  `TYPE_` varchar(255) DEFAULT NULL,
   `TIME_` datetime(3) NOT NULL,
-  `USER_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `TASK_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `PROC_INST_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `ACTION_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `MESSAGE_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
+  `USER_ID_` varchar(255) DEFAULT NULL,
+  `TASK_ID_` varchar(64) DEFAULT NULL,
+  `PROC_INST_ID_` varchar(64) DEFAULT NULL,
+  `ACTION_` varchar(255) DEFAULT NULL,
+  `MESSAGE_` varchar(4000) DEFAULT NULL,
   `FULL_MSG_` longblob,
   PRIMARY KEY (`ID_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of act_hi_comment
@@ -1379,28 +1206,28 @@ CREATE TABLE `act_hi_comment` (
 -- ----------------------------
 DROP TABLE IF EXISTS `act_hi_detail`;
 CREATE TABLE `act_hi_detail` (
-  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
-  `TYPE_` varchar(255) COLLATE utf8_bin NOT NULL,
-  `PROC_INST_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `EXECUTION_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `TASK_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `ACT_INST_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `NAME_` varchar(255) COLLATE utf8_bin NOT NULL,
-  `VAR_TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `ID_` varchar(64) NOT NULL,
+  `TYPE_` varchar(255) NOT NULL,
+  `PROC_INST_ID_` varchar(64) DEFAULT NULL,
+  `EXECUTION_ID_` varchar(64) DEFAULT NULL,
+  `TASK_ID_` varchar(64) DEFAULT NULL,
+  `ACT_INST_ID_` varchar(64) DEFAULT NULL,
+  `NAME_` varchar(255) NOT NULL,
+  `VAR_TYPE_` varchar(255) DEFAULT NULL,
   `REV_` int(11) DEFAULT NULL,
   `TIME_` datetime(3) NOT NULL,
-  `BYTEARRAY_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `BYTEARRAY_ID_` varchar(64) DEFAULT NULL,
   `DOUBLE_` double DEFAULT NULL,
   `LONG_` bigint(20) DEFAULT NULL,
-  `TEXT_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
-  `TEXT2_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
+  `TEXT_` varchar(4000) DEFAULT NULL,
+  `TEXT2_` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`ID_`),
   KEY `ACT_IDX_HI_DETAIL_PROC_INST` (`PROC_INST_ID_`) USING BTREE,
   KEY `ACT_IDX_HI_DETAIL_ACT_INST` (`ACT_INST_ID_`) USING BTREE,
   KEY `ACT_IDX_HI_DETAIL_TIME` (`TIME_`) USING BTREE,
   KEY `ACT_IDX_HI_DETAIL_NAME` (`NAME_`) USING BTREE,
   KEY `ACT_IDX_HI_DETAIL_TASK_ID` (`TASK_ID_`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of act_hi_detail
@@ -1411,26 +1238,26 @@ CREATE TABLE `act_hi_detail` (
 -- ----------------------------
 DROP TABLE IF EXISTS `act_hi_entitylink`;
 CREATE TABLE `act_hi_entitylink` (
-  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
-  `LINK_TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `ID_` varchar(64) NOT NULL,
+  `LINK_TYPE_` varchar(255) DEFAULT NULL,
   `CREATE_TIME_` datetime(3) DEFAULT NULL,
-  `SCOPE_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `SUB_SCOPE_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `SCOPE_TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `SCOPE_DEFINITION_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `PARENT_ELEMENT_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `REF_SCOPE_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `REF_SCOPE_TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `REF_SCOPE_DEFINITION_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `ROOT_SCOPE_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `ROOT_SCOPE_TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `HIERARCHY_TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `SCOPE_ID_` varchar(255) DEFAULT NULL,
+  `SUB_SCOPE_ID_` varchar(255) DEFAULT NULL,
+  `SCOPE_TYPE_` varchar(255) DEFAULT NULL,
+  `SCOPE_DEFINITION_ID_` varchar(255) DEFAULT NULL,
+  `PARENT_ELEMENT_ID_` varchar(255) DEFAULT NULL,
+  `REF_SCOPE_ID_` varchar(255) DEFAULT NULL,
+  `REF_SCOPE_TYPE_` varchar(255) DEFAULT NULL,
+  `REF_SCOPE_DEFINITION_ID_` varchar(255) DEFAULT NULL,
+  `ROOT_SCOPE_ID_` varchar(255) DEFAULT NULL,
+  `ROOT_SCOPE_TYPE_` varchar(255) DEFAULT NULL,
+  `HIERARCHY_TYPE_` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID_`),
   KEY `ACT_IDX_HI_ENT_LNK_SCOPE` (`SCOPE_ID_`,`SCOPE_TYPE_`,`LINK_TYPE_`) USING BTREE,
   KEY `ACT_IDX_HI_ENT_LNK_REF_SCOPE` (`REF_SCOPE_ID_`,`REF_SCOPE_TYPE_`,`LINK_TYPE_`) USING BTREE,
   KEY `ACT_IDX_HI_ENT_LNK_ROOT_SCOPE` (`ROOT_SCOPE_ID_`,`ROOT_SCOPE_TYPE_`,`LINK_TYPE_`) USING BTREE,
   KEY `ACT_IDX_HI_ENT_LNK_SCOPE_DEF` (`SCOPE_DEFINITION_ID_`,`SCOPE_TYPE_`,`LINK_TYPE_`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of act_hi_entitylink
@@ -1441,17 +1268,17 @@ CREATE TABLE `act_hi_entitylink` (
 -- ----------------------------
 DROP TABLE IF EXISTS `act_hi_identitylink`;
 CREATE TABLE `act_hi_identitylink` (
-  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
-  `GROUP_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `USER_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `TASK_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `PROC_INST_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `ID_` varchar(64) NOT NULL,
+  `GROUP_ID_` varchar(255) DEFAULT NULL,
+  `TYPE_` varchar(255) DEFAULT NULL,
+  `USER_ID_` varchar(255) DEFAULT NULL,
+  `TASK_ID_` varchar(64) DEFAULT NULL,
+  `PROC_INST_ID_` varchar(64) DEFAULT NULL,
   `CREATE_TIME_` datetime(3) DEFAULT NULL,
-  `SCOPE_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `SCOPE_TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `SCOPE_DEFINITION_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `SUB_SCOPE_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `SCOPE_ID_` varchar(255) DEFAULT NULL,
+  `SCOPE_TYPE_` varchar(255) DEFAULT NULL,
+  `SCOPE_DEFINITION_ID_` varchar(255) DEFAULT NULL,
+  `SUB_SCOPE_ID_` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID_`),
   KEY `ACT_IDX_HI_IDENT_LNK_USER` (`USER_ID_`) USING BTREE,
   KEY `ACT_IDX_HI_IDENT_LNK_TASK` (`TASK_ID_`) USING BTREE,
@@ -1459,7 +1286,7 @@ CREATE TABLE `act_hi_identitylink` (
   KEY `ACT_IDX_HI_IDENT_LNK_SCOPE` (`SCOPE_ID_`,`SCOPE_TYPE_`) USING BTREE,
   KEY `ACT_IDX_HI_IDENT_LNK_SCOPE_DEF` (`SCOPE_DEFINITION_ID_`,`SCOPE_TYPE_`) USING BTREE,
   KEY `ACT_IDX_HI_IDENT_LNK_SUB_SCOPE` (`SUB_SCOPE_ID_`,`SCOPE_TYPE_`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of act_hi_identitylink
@@ -1470,33 +1297,33 @@ CREATE TABLE `act_hi_identitylink` (
 -- ----------------------------
 DROP TABLE IF EXISTS `act_hi_procinst`;
 CREATE TABLE `act_hi_procinst` (
-  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
-  `PROC_INST_ID_` varchar(64) COLLATE utf8_bin NOT NULL,
-  `BUSINESS_KEY_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `PROC_DEF_ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `ID_` varchar(64) NOT NULL,
+  `PROC_INST_ID_` varchar(64) NOT NULL,
+  `BUSINESS_KEY_` varchar(255) DEFAULT NULL,
+  `PROC_DEF_ID_` varchar(64) NOT NULL,
   `START_TIME_` datetime(3) NOT NULL,
   `END_TIME_` datetime(3) DEFAULT NULL,
   `DURATION_` bigint(20) DEFAULT NULL,
-  `START_USER_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `START_ACT_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `END_ACT_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `SUPER_PROCESS_INSTANCE_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `DELETE_REASON_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
-  `TENANT_ID_` varchar(255) COLLATE utf8_bin DEFAULT '',
-  `NAME_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `START_USER_ID_` varchar(255) DEFAULT NULL,
+  `START_ACT_ID_` varchar(255) DEFAULT NULL,
+  `END_ACT_ID_` varchar(255) DEFAULT NULL,
+  `SUPER_PROCESS_INSTANCE_ID_` varchar(64) DEFAULT NULL,
+  `DELETE_REASON_` varchar(4000) DEFAULT NULL,
+  `TENANT_ID_` varchar(255) DEFAULT '',
+  `NAME_` varchar(255) DEFAULT NULL,
   `REV_` int(11) DEFAULT '1',
-  `CALLBACK_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `CALLBACK_TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `REFERENCE_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `REFERENCE_TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `PROPAGATED_STAGE_INST_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `BUSINESS_STATUS_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `CALLBACK_ID_` varchar(255) DEFAULT NULL,
+  `CALLBACK_TYPE_` varchar(255) DEFAULT NULL,
+  `REFERENCE_ID_` varchar(255) DEFAULT NULL,
+  `REFERENCE_TYPE_` varchar(255) DEFAULT NULL,
+  `PROPAGATED_STAGE_INST_ID_` varchar(255) DEFAULT NULL,
+  `BUSINESS_STATUS_` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID_`),
   UNIQUE KEY `PROC_INST_ID_` (`PROC_INST_ID_`) USING BTREE,
   KEY `ACT_IDX_HI_PRO_INST_END` (`END_TIME_`) USING BTREE,
   KEY `ACT_IDX_HI_PRO_I_BUSKEY` (`BUSINESS_KEY_`) USING BTREE,
   KEY `ACT_IDX_HI_PRO_SUPER_PROCINST` (`SUPER_PROCESS_INSTANCE_ID_`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of act_hi_procinst
@@ -1507,40 +1334,40 @@ CREATE TABLE `act_hi_procinst` (
 -- ----------------------------
 DROP TABLE IF EXISTS `act_hi_taskinst`;
 CREATE TABLE `act_hi_taskinst` (
-  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
-  `PROC_DEF_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `TASK_DEF_KEY_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `PROC_INST_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `EXECUTION_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `NAME_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `PARENT_TASK_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `DESCRIPTION_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
-  `OWNER_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `ASSIGNEE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `ID_` varchar(64) NOT NULL,
+  `PROC_DEF_ID_` varchar(64) DEFAULT NULL,
+  `TASK_DEF_KEY_` varchar(255) DEFAULT NULL,
+  `PROC_INST_ID_` varchar(64) DEFAULT NULL,
+  `EXECUTION_ID_` varchar(64) DEFAULT NULL,
+  `NAME_` varchar(255) DEFAULT NULL,
+  `PARENT_TASK_ID_` varchar(64) DEFAULT NULL,
+  `DESCRIPTION_` varchar(4000) DEFAULT NULL,
+  `OWNER_` varchar(255) DEFAULT NULL,
+  `ASSIGNEE_` varchar(255) DEFAULT NULL,
   `START_TIME_` datetime(3) NOT NULL,
   `CLAIM_TIME_` datetime(3) DEFAULT NULL,
   `END_TIME_` datetime(3) DEFAULT NULL,
   `DURATION_` bigint(20) DEFAULT NULL,
-  `DELETE_REASON_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
+  `DELETE_REASON_` varchar(4000) DEFAULT NULL,
   `PRIORITY_` int(11) DEFAULT NULL,
   `DUE_DATE_` datetime(3) DEFAULT NULL,
-  `FORM_KEY_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `CATEGORY_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `TENANT_ID_` varchar(255) COLLATE utf8_bin DEFAULT '',
+  `FORM_KEY_` varchar(255) DEFAULT NULL,
+  `CATEGORY_` varchar(255) DEFAULT NULL,
+  `TENANT_ID_` varchar(255) DEFAULT '',
   `REV_` int(11) DEFAULT '1',
   `LAST_UPDATED_TIME_` datetime(3) DEFAULT NULL,
-  `SCOPE_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `SUB_SCOPE_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `SCOPE_TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `SCOPE_DEFINITION_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `TASK_DEF_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `PROPAGATED_STAGE_INST_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `SCOPE_ID_` varchar(255) DEFAULT NULL,
+  `SUB_SCOPE_ID_` varchar(255) DEFAULT NULL,
+  `SCOPE_TYPE_` varchar(255) DEFAULT NULL,
+  `SCOPE_DEFINITION_ID_` varchar(255) DEFAULT NULL,
+  `TASK_DEF_ID_` varchar(64) DEFAULT NULL,
+  `PROPAGATED_STAGE_INST_ID_` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID_`),
   KEY `ACT_IDX_HI_TASK_INST_PROCINST` (`PROC_INST_ID_`) USING BTREE,
   KEY `ACT_IDX_HI_TASK_SCOPE` (`SCOPE_ID_`,`SCOPE_TYPE_`) USING BTREE,
   KEY `ACT_IDX_HI_TASK_SUB_SCOPE` (`SUB_SCOPE_ID_`,`SCOPE_TYPE_`) USING BTREE,
   KEY `ACT_IDX_HI_TASK_SCOPE_DEF` (`SCOPE_DEFINITION_ID_`,`SCOPE_TYPE_`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of act_hi_taskinst
@@ -1552,21 +1379,21 @@ CREATE TABLE `act_hi_taskinst` (
 DROP TABLE IF EXISTS `act_hi_tsk_log`;
 CREATE TABLE `act_hi_tsk_log` (
   `ID_` bigint(20) NOT NULL AUTO_INCREMENT,
-  `TYPE_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `TASK_ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `TYPE_` varchar(64) DEFAULT NULL,
+  `TASK_ID_` varchar(64) NOT NULL,
   `TIME_STAMP_` timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
-  `USER_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `DATA_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
-  `EXECUTION_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `PROC_INST_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `PROC_DEF_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `SCOPE_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `SCOPE_DEFINITION_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `SUB_SCOPE_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `SCOPE_TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `TENANT_ID_` varchar(255) COLLATE utf8_bin DEFAULT '',
+  `USER_ID_` varchar(255) DEFAULT NULL,
+  `DATA_` varchar(4000) DEFAULT NULL,
+  `EXECUTION_ID_` varchar(64) DEFAULT NULL,
+  `PROC_INST_ID_` varchar(64) DEFAULT NULL,
+  `PROC_DEF_ID_` varchar(64) DEFAULT NULL,
+  `SCOPE_ID_` varchar(255) DEFAULT NULL,
+  `SCOPE_DEFINITION_ID_` varchar(255) DEFAULT NULL,
+  `SUB_SCOPE_ID_` varchar(255) DEFAULT NULL,
+  `SCOPE_TYPE_` varchar(255) DEFAULT NULL,
+  `TENANT_ID_` varchar(255) DEFAULT '',
   PRIMARY KEY (`ID_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of act_hi_tsk_log
@@ -1577,24 +1404,24 @@ CREATE TABLE `act_hi_tsk_log` (
 -- ----------------------------
 DROP TABLE IF EXISTS `act_hi_varinst`;
 CREATE TABLE `act_hi_varinst` (
-  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
-  `PROC_INST_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `EXECUTION_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `TASK_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `NAME_` varchar(255) COLLATE utf8_bin NOT NULL,
-  `VAR_TYPE_` varchar(100) COLLATE utf8_bin DEFAULT NULL,
+  `ID_` varchar(64) NOT NULL,
+  `PROC_INST_ID_` varchar(64) DEFAULT NULL,
+  `EXECUTION_ID_` varchar(64) DEFAULT NULL,
+  `TASK_ID_` varchar(64) DEFAULT NULL,
+  `NAME_` varchar(255) NOT NULL,
+  `VAR_TYPE_` varchar(100) DEFAULT NULL,
   `REV_` int(11) DEFAULT '1',
-  `BYTEARRAY_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `BYTEARRAY_ID_` varchar(64) DEFAULT NULL,
   `DOUBLE_` double DEFAULT NULL,
   `LONG_` bigint(20) DEFAULT NULL,
-  `TEXT_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
-  `TEXT2_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
+  `TEXT_` varchar(4000) DEFAULT NULL,
+  `TEXT2_` varchar(4000) DEFAULT NULL,
   `CREATE_TIME_` datetime(3) DEFAULT NULL,
   `LAST_UPDATED_TIME_` datetime(3) DEFAULT NULL,
-  `SCOPE_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `SUB_SCOPE_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `SCOPE_TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `META_INFO_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
+  `SCOPE_ID_` varchar(255) DEFAULT NULL,
+  `SUB_SCOPE_ID_` varchar(255) DEFAULT NULL,
+  `SCOPE_TYPE_` varchar(255) DEFAULT NULL,
+  `META_INFO_` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`ID_`),
   KEY `ACT_IDX_HI_PROCVAR_PROC_INST` (`PROC_INST_ID_`) USING BTREE,
   KEY `ACT_IDX_HI_PROCVAR_NAME_TYPE` (`NAME_`,`VAR_TYPE_`) USING BTREE,
@@ -1602,7 +1429,7 @@ CREATE TABLE `act_hi_varinst` (
   KEY `ACT_IDX_HI_PROCVAR_EXE` (`EXECUTION_ID_`) USING BTREE,
   KEY `ACT_IDX_HI_VAR_SCOPE_ID_TYPE` (`SCOPE_ID_`,`SCOPE_TYPE_`) USING BTREE,
   KEY `ACT_IDX_HI_VAR_SUB_ID_TYPE` (`SUB_SCOPE_ID_`,`SCOPE_TYPE_`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of act_hi_varinst
@@ -1613,12 +1440,12 @@ CREATE TABLE `act_hi_varinst` (
 -- ----------------------------
 DROP TABLE IF EXISTS `act_id_bytearray`;
 CREATE TABLE `act_id_bytearray` (
-  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `ID_` varchar(64) NOT NULL,
   `REV_` int(11) DEFAULT NULL,
-  `NAME_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `NAME_` varchar(255) DEFAULT NULL,
   `BYTES_` longblob,
   PRIMARY KEY (`ID_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of act_id_bytearray
@@ -1629,12 +1456,12 @@ CREATE TABLE `act_id_bytearray` (
 -- ----------------------------
 DROP TABLE IF EXISTS `act_id_group`;
 CREATE TABLE `act_id_group` (
-  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `ID_` varchar(64) NOT NULL,
   `REV_` int(11) DEFAULT NULL,
-  `NAME_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `NAME_` varchar(255) DEFAULT NULL,
+  `TYPE_` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of act_id_group
@@ -1645,16 +1472,16 @@ CREATE TABLE `act_id_group` (
 -- ----------------------------
 DROP TABLE IF EXISTS `act_id_info`;
 CREATE TABLE `act_id_info` (
-  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `ID_` varchar(64) NOT NULL,
   `REV_` int(11) DEFAULT NULL,
-  `USER_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `TYPE_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `KEY_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `VALUE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `USER_ID_` varchar(64) DEFAULT NULL,
+  `TYPE_` varchar(64) DEFAULT NULL,
+  `KEY_` varchar(255) DEFAULT NULL,
+  `VALUE_` varchar(255) DEFAULT NULL,
   `PASSWORD_` longblob,
-  `PARENT_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `PARENT_ID_` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of act_id_info
@@ -1665,13 +1492,13 @@ CREATE TABLE `act_id_info` (
 -- ----------------------------
 DROP TABLE IF EXISTS `act_id_membership`;
 CREATE TABLE `act_id_membership` (
-  `USER_ID_` varchar(64) COLLATE utf8_bin NOT NULL,
-  `GROUP_ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `USER_ID_` varchar(64) NOT NULL,
+  `GROUP_ID_` varchar(64) NOT NULL,
   PRIMARY KEY (`USER_ID_`,`GROUP_ID_`),
   KEY `ACT_FK_MEMB_GROUP` (`GROUP_ID_`) USING BTREE,
   CONSTRAINT `act_id_membership_ibfk_1` FOREIGN KEY (`GROUP_ID_`) REFERENCES `act_id_group` (`ID_`),
   CONSTRAINT `act_id_membership_ibfk_2` FOREIGN KEY (`USER_ID_`) REFERENCES `act_id_user` (`ID_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of act_id_membership
@@ -1682,11 +1509,11 @@ CREATE TABLE `act_id_membership` (
 -- ----------------------------
 DROP TABLE IF EXISTS `act_id_priv`;
 CREATE TABLE `act_id_priv` (
-  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
-  `NAME_` varchar(255) COLLATE utf8_bin NOT NULL,
+  `ID_` varchar(64) NOT NULL,
+  `NAME_` varchar(255) NOT NULL,
   PRIMARY KEY (`ID_`),
   UNIQUE KEY `ACT_UNIQ_PRIV_NAME` (`NAME_`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of act_id_priv
@@ -1697,16 +1524,16 @@ CREATE TABLE `act_id_priv` (
 -- ----------------------------
 DROP TABLE IF EXISTS `act_id_priv_mapping`;
 CREATE TABLE `act_id_priv_mapping` (
-  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
-  `PRIV_ID_` varchar(64) COLLATE utf8_bin NOT NULL,
-  `USER_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `GROUP_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `ID_` varchar(64) NOT NULL,
+  `PRIV_ID_` varchar(64) NOT NULL,
+  `USER_ID_` varchar(255) DEFAULT NULL,
+  `GROUP_ID_` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID_`),
   KEY `ACT_FK_PRIV_MAPPING` (`PRIV_ID_`) USING BTREE,
   KEY `ACT_IDX_PRIV_USER` (`USER_ID_`) USING BTREE,
   KEY `ACT_IDX_PRIV_GROUP` (`GROUP_ID_`) USING BTREE,
   CONSTRAINT `act_id_priv_mapping_ibfk_1` FOREIGN KEY (`PRIV_ID_`) REFERENCES `act_id_priv` (`ID_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of act_id_priv_mapping
@@ -1717,11 +1544,11 @@ CREATE TABLE `act_id_priv_mapping` (
 -- ----------------------------
 DROP TABLE IF EXISTS `act_id_property`;
 CREATE TABLE `act_id_property` (
-  `NAME_` varchar(64) COLLATE utf8_bin NOT NULL,
-  `VALUE_` varchar(300) COLLATE utf8_bin DEFAULT NULL,
+  `NAME_` varchar(64) NOT NULL,
+  `VALUE_` varchar(300) DEFAULT NULL,
   `REV_` int(11) DEFAULT NULL,
   PRIMARY KEY (`NAME_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of act_id_property
@@ -1733,16 +1560,16 @@ INSERT INTO `act_id_property` VALUES ('schema.version', '6.8.1.0', '1');
 -- ----------------------------
 DROP TABLE IF EXISTS `act_id_token`;
 CREATE TABLE `act_id_token` (
-  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `ID_` varchar(64) NOT NULL,
   `REV_` int(11) DEFAULT NULL,
-  `TOKEN_VALUE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `TOKEN_VALUE_` varchar(255) DEFAULT NULL,
   `TOKEN_DATE_` timestamp(3) NULL DEFAULT NULL,
-  `IP_ADDRESS_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `USER_AGENT_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `USER_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `TOKEN_DATA_` varchar(2000) COLLATE utf8_bin DEFAULT NULL,
+  `IP_ADDRESS_` varchar(255) DEFAULT NULL,
+  `USER_AGENT_` varchar(255) DEFAULT NULL,
+  `USER_ID_` varchar(255) DEFAULT NULL,
+  `TOKEN_DATA_` varchar(2000) DEFAULT NULL,
   PRIMARY KEY (`ID_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of act_id_token
@@ -1753,17 +1580,17 @@ CREATE TABLE `act_id_token` (
 -- ----------------------------
 DROP TABLE IF EXISTS `act_id_user`;
 CREATE TABLE `act_id_user` (
-  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `ID_` varchar(64) NOT NULL,
   `REV_` int(11) DEFAULT NULL,
-  `FIRST_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `LAST_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `EMAIL_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `PWD_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `PICTURE_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `TENANT_ID_` varchar(255) COLLATE utf8_bin DEFAULT '',
-  `DISPLAY_NAME_` varchar(255) COLLATE utf8_bin DEFAULT '',
+  `FIRST_` varchar(255) DEFAULT NULL,
+  `LAST_` varchar(255) DEFAULT NULL,
+  `EMAIL_` varchar(255) DEFAULT NULL,
+  `PWD_` varchar(255) DEFAULT NULL,
+  `PICTURE_ID_` varchar(64) DEFAULT NULL,
+  `TENANT_ID_` varchar(255) DEFAULT '',
+  `DISPLAY_NAME_` varchar(255) DEFAULT '',
   PRIMARY KEY (`ID_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of act_id_user
@@ -1774,17 +1601,17 @@ CREATE TABLE `act_id_user` (
 -- ----------------------------
 DROP TABLE IF EXISTS `act_procdef_info`;
 CREATE TABLE `act_procdef_info` (
-  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
-  `PROC_DEF_ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `ID_` varchar(64) NOT NULL,
+  `PROC_DEF_ID_` varchar(64) NOT NULL,
   `REV_` int(11) DEFAULT NULL,
-  `INFO_JSON_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `INFO_JSON_ID_` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`ID_`),
   UNIQUE KEY `ACT_UNIQ_INFO_PROCDEF` (`PROC_DEF_ID_`) USING BTREE,
   KEY `ACT_IDX_INFO_PROCDEF` (`PROC_DEF_ID_`) USING BTREE,
   KEY `ACT_FK_INFO_JSON_BA` (`INFO_JSON_ID_`) USING BTREE,
   CONSTRAINT `act_procdef_info_ibfk_1` FOREIGN KEY (`INFO_JSON_ID_`) REFERENCES `act_ge_bytearray` (`ID_`),
   CONSTRAINT `act_procdef_info_ibfk_2` FOREIGN KEY (`PROC_DEF_ID_`) REFERENCES `act_re_procdef` (`ID_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of act_procdef_info
@@ -1795,18 +1622,18 @@ CREATE TABLE `act_procdef_info` (
 -- ----------------------------
 DROP TABLE IF EXISTS `act_re_deployment`;
 CREATE TABLE `act_re_deployment` (
-  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
-  `NAME_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `CATEGORY_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `KEY_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `TENANT_ID_` varchar(255) COLLATE utf8_bin DEFAULT '',
+  `ID_` varchar(64) NOT NULL,
+  `NAME_` varchar(255) DEFAULT NULL,
+  `CATEGORY_` varchar(255) DEFAULT NULL,
+  `KEY_` varchar(255) DEFAULT NULL,
+  `TENANT_ID_` varchar(255) DEFAULT '',
   `DEPLOY_TIME_` timestamp(3) NULL DEFAULT NULL,
-  `ENGINE_VERSION_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `DERIVED_FROM_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `DERIVED_FROM_ROOT_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `PARENT_DEPLOYMENT_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `ENGINE_VERSION_` varchar(255) DEFAULT NULL,
+  `DERIVED_FROM_` varchar(64) DEFAULT NULL,
+  `DERIVED_FROM_ROOT_` varchar(64) DEFAULT NULL,
+  `PARENT_DEPLOYMENT_ID_` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of act_re_deployment
@@ -1817,19 +1644,19 @@ CREATE TABLE `act_re_deployment` (
 -- ----------------------------
 DROP TABLE IF EXISTS `act_re_model`;
 CREATE TABLE `act_re_model` (
-  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `ID_` varchar(64) NOT NULL,
   `REV_` int(11) DEFAULT NULL,
-  `NAME_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `KEY_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `CATEGORY_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `NAME_` varchar(255) DEFAULT NULL,
+  `KEY_` varchar(255) DEFAULT NULL,
+  `CATEGORY_` varchar(255) DEFAULT NULL,
   `CREATE_TIME_` timestamp(3) NULL DEFAULT NULL,
   `LAST_UPDATE_TIME_` timestamp(3) NULL DEFAULT NULL,
   `VERSION_` int(11) DEFAULT NULL,
-  `META_INFO_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
-  `DEPLOYMENT_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `EDITOR_SOURCE_VALUE_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `EDITOR_SOURCE_EXTRA_VALUE_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `TENANT_ID_` varchar(255) COLLATE utf8_bin DEFAULT '',
+  `META_INFO_` varchar(4000) DEFAULT NULL,
+  `DEPLOYMENT_ID_` varchar(64) DEFAULT NULL,
+  `EDITOR_SOURCE_VALUE_ID_` varchar(64) DEFAULT NULL,
+  `EDITOR_SOURCE_EXTRA_VALUE_ID_` varchar(64) DEFAULT NULL,
+  `TENANT_ID_` varchar(255) DEFAULT '',
   PRIMARY KEY (`ID_`),
   KEY `ACT_FK_MODEL_SOURCE` (`EDITOR_SOURCE_VALUE_ID_`) USING BTREE,
   KEY `ACT_FK_MODEL_SOURCE_EXTRA` (`EDITOR_SOURCE_EXTRA_VALUE_ID_`) USING BTREE,
@@ -1837,7 +1664,7 @@ CREATE TABLE `act_re_model` (
   CONSTRAINT `act_re_model_ibfk_1` FOREIGN KEY (`DEPLOYMENT_ID_`) REFERENCES `act_re_deployment` (`ID_`),
   CONSTRAINT `act_re_model_ibfk_2` FOREIGN KEY (`EDITOR_SOURCE_VALUE_ID_`) REFERENCES `act_ge_bytearray` (`ID_`),
   CONSTRAINT `act_re_model_ibfk_3` FOREIGN KEY (`EDITOR_SOURCE_EXTRA_VALUE_ID_`) REFERENCES `act_ge_bytearray` (`ID_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of act_re_model
@@ -1848,27 +1675,27 @@ CREATE TABLE `act_re_model` (
 -- ----------------------------
 DROP TABLE IF EXISTS `act_re_procdef`;
 CREATE TABLE `act_re_procdef` (
-  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `ID_` varchar(64) NOT NULL,
   `REV_` int(11) DEFAULT NULL,
-  `CATEGORY_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `NAME_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `KEY_` varchar(255) COLLATE utf8_bin NOT NULL,
+  `CATEGORY_` varchar(255) DEFAULT NULL,
+  `NAME_` varchar(255) DEFAULT NULL,
+  `KEY_` varchar(255) NOT NULL,
   `VERSION_` int(11) NOT NULL,
-  `DEPLOYMENT_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `RESOURCE_NAME_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
-  `DGRM_RESOURCE_NAME_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
-  `DESCRIPTION_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
+  `DEPLOYMENT_ID_` varchar(64) DEFAULT NULL,
+  `RESOURCE_NAME_` varchar(4000) DEFAULT NULL,
+  `DGRM_RESOURCE_NAME_` varchar(4000) DEFAULT NULL,
+  `DESCRIPTION_` varchar(4000) DEFAULT NULL,
   `HAS_START_FORM_KEY_` tinyint(4) DEFAULT NULL,
   `HAS_GRAPHICAL_NOTATION_` tinyint(4) DEFAULT NULL,
   `SUSPENSION_STATE_` int(11) DEFAULT NULL,
-  `TENANT_ID_` varchar(255) COLLATE utf8_bin DEFAULT '',
-  `ENGINE_VERSION_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `DERIVED_FROM_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `DERIVED_FROM_ROOT_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `TENANT_ID_` varchar(255) DEFAULT '',
+  `ENGINE_VERSION_` varchar(255) DEFAULT NULL,
+  `DERIVED_FROM_` varchar(64) DEFAULT NULL,
+  `DERIVED_FROM_ROOT_` varchar(64) DEFAULT NULL,
   `DERIVED_VERSION_` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`ID_`),
   UNIQUE KEY `ACT_UNIQ_PROCDEF` (`KEY_`,`VERSION_`,`DERIVED_VERSION_`,`TENANT_ID_`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of act_re_procdef
@@ -1879,22 +1706,22 @@ CREATE TABLE `act_re_procdef` (
 -- ----------------------------
 DROP TABLE IF EXISTS `act_ru_actinst`;
 CREATE TABLE `act_ru_actinst` (
-  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `ID_` varchar(64) NOT NULL,
   `REV_` int(11) DEFAULT '1',
-  `PROC_DEF_ID_` varchar(64) COLLATE utf8_bin NOT NULL,
-  `PROC_INST_ID_` varchar(64) COLLATE utf8_bin NOT NULL,
-  `EXECUTION_ID_` varchar(64) COLLATE utf8_bin NOT NULL,
-  `ACT_ID_` varchar(255) COLLATE utf8_bin NOT NULL,
-  `TASK_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `CALL_PROC_INST_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `ACT_NAME_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `ACT_TYPE_` varchar(255) COLLATE utf8_bin NOT NULL,
-  `ASSIGNEE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `PROC_DEF_ID_` varchar(64) NOT NULL,
+  `PROC_INST_ID_` varchar(64) NOT NULL,
+  `EXECUTION_ID_` varchar(64) NOT NULL,
+  `ACT_ID_` varchar(255) NOT NULL,
+  `TASK_ID_` varchar(64) DEFAULT NULL,
+  `CALL_PROC_INST_ID_` varchar(64) DEFAULT NULL,
+  `ACT_NAME_` varchar(255) DEFAULT NULL,
+  `ACT_TYPE_` varchar(255) NOT NULL,
+  `ASSIGNEE_` varchar(255) DEFAULT NULL,
   `START_TIME_` datetime(3) NOT NULL,
   `END_TIME_` datetime(3) DEFAULT NULL,
   `DURATION_` bigint(20) DEFAULT NULL,
-  `DELETE_REASON_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
-  `TENANT_ID_` varchar(255) COLLATE utf8_bin DEFAULT '',
+  `DELETE_REASON_` varchar(4000) DEFAULT NULL,
+  `TENANT_ID_` varchar(255) DEFAULT '',
   `TRANSACTION_ORDER_` int(11) DEFAULT NULL,
   PRIMARY KEY (`ID_`),
   KEY `ACT_IDX_RU_ACTI_START` (`START_TIME_`) USING BTREE,
@@ -1904,7 +1731,7 @@ CREATE TABLE `act_ru_actinst` (
   KEY `ACT_IDX_RU_ACTI_EXEC` (`EXECUTION_ID_`) USING BTREE,
   KEY `ACT_IDX_RU_ACTI_EXEC_ACT` (`EXECUTION_ID_`,`ACT_ID_`) USING BTREE,
   KEY `ACT_IDX_RU_ACTI_TASK` (`TASK_ID_`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of act_ru_actinst
@@ -1947,30 +1774,30 @@ INSERT INTO `act_ru_actinst` VALUES ('155027', '1', 'java110_102026070711320643:
 -- ----------------------------
 DROP TABLE IF EXISTS `act_ru_deadletter_job`;
 CREATE TABLE `act_ru_deadletter_job` (
-  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `ID_` varchar(64) NOT NULL,
   `REV_` int(11) DEFAULT NULL,
-  `TYPE_` varchar(255) COLLATE utf8_bin NOT NULL,
+  `TYPE_` varchar(255) NOT NULL,
   `EXCLUSIVE_` tinyint(1) DEFAULT NULL,
-  `EXECUTION_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `PROCESS_INSTANCE_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `PROC_DEF_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `EXCEPTION_STACK_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `EXCEPTION_MSG_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
+  `EXECUTION_ID_` varchar(64) DEFAULT NULL,
+  `PROCESS_INSTANCE_ID_` varchar(64) DEFAULT NULL,
+  `PROC_DEF_ID_` varchar(64) DEFAULT NULL,
+  `EXCEPTION_STACK_ID_` varchar(64) DEFAULT NULL,
+  `EXCEPTION_MSG_` varchar(4000) DEFAULT NULL,
   `DUEDATE_` timestamp(3) NULL DEFAULT NULL,
-  `REPEAT_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `HANDLER_TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `HANDLER_CFG_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
-  `TENANT_ID_` varchar(255) COLLATE utf8_bin DEFAULT '',
+  `REPEAT_` varchar(255) DEFAULT NULL,
+  `HANDLER_TYPE_` varchar(255) DEFAULT NULL,
+  `HANDLER_CFG_` varchar(4000) DEFAULT NULL,
+  `TENANT_ID_` varchar(255) DEFAULT '',
   `CREATE_TIME_` timestamp(3) NULL DEFAULT NULL,
-  `SCOPE_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `SUB_SCOPE_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `SCOPE_TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `SCOPE_DEFINITION_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `CUSTOM_VALUES_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `ELEMENT_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `ELEMENT_NAME_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `CATEGORY_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `CORRELATION_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `SCOPE_ID_` varchar(255) DEFAULT NULL,
+  `SUB_SCOPE_ID_` varchar(255) DEFAULT NULL,
+  `SCOPE_TYPE_` varchar(255) DEFAULT NULL,
+  `SCOPE_DEFINITION_ID_` varchar(255) DEFAULT NULL,
+  `CUSTOM_VALUES_ID_` varchar(64) DEFAULT NULL,
+  `ELEMENT_ID_` varchar(255) DEFAULT NULL,
+  `ELEMENT_NAME_` varchar(255) DEFAULT NULL,
+  `CATEGORY_` varchar(255) DEFAULT NULL,
+  `CORRELATION_ID_` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID_`),
   KEY `ACT_FK_DEADLETTER_JOB_EXECUTION` (`EXECUTION_ID_`) USING BTREE,
   KEY `ACT_FK_DEADLETTER_JOB_PROCESS_INSTANCE` (`PROCESS_INSTANCE_ID_`) USING BTREE,
@@ -1986,7 +1813,7 @@ CREATE TABLE `act_ru_deadletter_job` (
   CONSTRAINT `act_ru_deadletter_job_ibfk_3` FOREIGN KEY (`EXECUTION_ID_`) REFERENCES `act_ru_execution` (`ID_`),
   CONSTRAINT `act_ru_deadletter_job_ibfk_4` FOREIGN KEY (`PROC_DEF_ID_`) REFERENCES `act_re_procdef` (`ID_`),
   CONSTRAINT `act_ru_deadletter_job_ibfk_5` FOREIGN KEY (`PROCESS_INSTANCE_ID_`) REFERENCES `act_ru_execution` (`ID_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of act_ru_deadletter_job
@@ -1997,27 +1824,27 @@ CREATE TABLE `act_ru_deadletter_job` (
 -- ----------------------------
 DROP TABLE IF EXISTS `act_ru_entitylink`;
 CREATE TABLE `act_ru_entitylink` (
-  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `ID_` varchar(64) NOT NULL,
   `REV_` int(11) DEFAULT NULL,
   `CREATE_TIME_` datetime(3) DEFAULT NULL,
-  `LINK_TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `SCOPE_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `SUB_SCOPE_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `SCOPE_TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `SCOPE_DEFINITION_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `PARENT_ELEMENT_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `REF_SCOPE_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `REF_SCOPE_TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `REF_SCOPE_DEFINITION_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `ROOT_SCOPE_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `ROOT_SCOPE_TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `HIERARCHY_TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `LINK_TYPE_` varchar(255) DEFAULT NULL,
+  `SCOPE_ID_` varchar(255) DEFAULT NULL,
+  `SUB_SCOPE_ID_` varchar(255) DEFAULT NULL,
+  `SCOPE_TYPE_` varchar(255) DEFAULT NULL,
+  `SCOPE_DEFINITION_ID_` varchar(255) DEFAULT NULL,
+  `PARENT_ELEMENT_ID_` varchar(255) DEFAULT NULL,
+  `REF_SCOPE_ID_` varchar(255) DEFAULT NULL,
+  `REF_SCOPE_TYPE_` varchar(255) DEFAULT NULL,
+  `REF_SCOPE_DEFINITION_ID_` varchar(255) DEFAULT NULL,
+  `ROOT_SCOPE_ID_` varchar(255) DEFAULT NULL,
+  `ROOT_SCOPE_TYPE_` varchar(255) DEFAULT NULL,
+  `HIERARCHY_TYPE_` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID_`),
   KEY `ACT_IDX_ENT_LNK_SCOPE` (`SCOPE_ID_`,`SCOPE_TYPE_`,`LINK_TYPE_`) USING BTREE,
   KEY `ACT_IDX_ENT_LNK_REF_SCOPE` (`REF_SCOPE_ID_`,`REF_SCOPE_TYPE_`,`LINK_TYPE_`) USING BTREE,
   KEY `ACT_IDX_ENT_LNK_ROOT_SCOPE` (`ROOT_SCOPE_ID_`,`ROOT_SCOPE_TYPE_`,`LINK_TYPE_`) USING BTREE,
   KEY `ACT_IDX_ENT_LNK_SCOPE_DEF` (`SCOPE_DEFINITION_ID_`,`SCOPE_TYPE_`,`LINK_TYPE_`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of act_ru_entitylink
@@ -2028,29 +1855,29 @@ CREATE TABLE `act_ru_entitylink` (
 -- ----------------------------
 DROP TABLE IF EXISTS `act_ru_event_subscr`;
 CREATE TABLE `act_ru_event_subscr` (
-  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `ID_` varchar(64) NOT NULL,
   `REV_` int(11) DEFAULT NULL,
-  `EVENT_TYPE_` varchar(255) COLLATE utf8_bin NOT NULL,
-  `EVENT_NAME_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `EXECUTION_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `PROC_INST_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `ACTIVITY_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `CONFIGURATION_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `EVENT_TYPE_` varchar(255) NOT NULL,
+  `EVENT_NAME_` varchar(255) DEFAULT NULL,
+  `EXECUTION_ID_` varchar(64) DEFAULT NULL,
+  `PROC_INST_ID_` varchar(64) DEFAULT NULL,
+  `ACTIVITY_ID_` varchar(64) DEFAULT NULL,
+  `CONFIGURATION_` varchar(255) DEFAULT NULL,
   `CREATED_` timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-  `PROC_DEF_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `TENANT_ID_` varchar(255) COLLATE utf8_bin DEFAULT '',
-  `SUB_SCOPE_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `SCOPE_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `SCOPE_DEFINITION_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `SCOPE_TYPE_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `PROC_DEF_ID_` varchar(64) DEFAULT NULL,
+  `TENANT_ID_` varchar(255) DEFAULT '',
+  `SUB_SCOPE_ID_` varchar(64) DEFAULT NULL,
+  `SCOPE_ID_` varchar(64) DEFAULT NULL,
+  `SCOPE_DEFINITION_ID_` varchar(64) DEFAULT NULL,
+  `SCOPE_TYPE_` varchar(64) DEFAULT NULL,
   `LOCK_TIME_` timestamp(3) NULL DEFAULT NULL,
-  `LOCK_OWNER_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `LOCK_OWNER_` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID_`),
   KEY `ACT_IDX_EVENT_SUBSCR_CONFIG_` (`CONFIGURATION_`) USING BTREE,
   KEY `ACT_FK_EVENT_EXEC` (`EXECUTION_ID_`) USING BTREE,
   KEY `ACT_IDX_EVENT_SUBSCR_SCOPEREF_` (`SCOPE_ID_`,`SCOPE_TYPE_`) USING BTREE,
   CONSTRAINT `act_ru_event_subscr_ibfk_1` FOREIGN KEY (`EXECUTION_ID_`) REFERENCES `act_ru_execution` (`ID_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of act_ru_event_subscr
@@ -2061,15 +1888,15 @@ CREATE TABLE `act_ru_event_subscr` (
 -- ----------------------------
 DROP TABLE IF EXISTS `act_ru_execution`;
 CREATE TABLE `act_ru_execution` (
-  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `ID_` varchar(64) NOT NULL,
   `REV_` int(11) DEFAULT NULL,
-  `PROC_INST_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `BUSINESS_KEY_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `PARENT_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `PROC_DEF_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `SUPER_EXEC_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `ROOT_PROC_INST_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `ACT_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `PROC_INST_ID_` varchar(64) DEFAULT NULL,
+  `BUSINESS_KEY_` varchar(255) DEFAULT NULL,
+  `PARENT_ID_` varchar(64) DEFAULT NULL,
+  `PROC_DEF_ID_` varchar(64) DEFAULT NULL,
+  `SUPER_EXEC_` varchar(64) DEFAULT NULL,
+  `ROOT_PROC_INST_ID_` varchar(64) DEFAULT NULL,
+  `ACT_ID_` varchar(255) DEFAULT NULL,
   `IS_ACTIVE_` tinyint(4) DEFAULT NULL,
   `IS_CONCURRENT_` tinyint(4) DEFAULT NULL,
   `IS_SCOPE_` tinyint(4) DEFAULT NULL,
@@ -2077,10 +1904,10 @@ CREATE TABLE `act_ru_execution` (
   `IS_MI_ROOT_` tinyint(4) DEFAULT NULL,
   `SUSPENSION_STATE_` int(11) DEFAULT NULL,
   `CACHED_ENT_STATE_` int(11) DEFAULT NULL,
-  `TENANT_ID_` varchar(255) COLLATE utf8_bin DEFAULT '',
-  `NAME_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `TENANT_ID_` varchar(255) DEFAULT '',
+  `NAME_` varchar(255) DEFAULT NULL,
   `START_TIME_` datetime(3) DEFAULT NULL,
-  `START_USER_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `START_USER_ID_` varchar(255) DEFAULT NULL,
   `LOCK_TIME_` timestamp(3) NULL DEFAULT NULL,
   `IS_COUNT_ENABLED_` tinyint(4) DEFAULT NULL,
   `EVT_SUBSCR_COUNT_` int(11) DEFAULT NULL,
@@ -2091,15 +1918,15 @@ CREATE TABLE `act_ru_execution` (
   `DEADLETTER_JOB_COUNT_` int(11) DEFAULT NULL,
   `VAR_COUNT_` int(11) DEFAULT NULL,
   `ID_LINK_COUNT_` int(11) DEFAULT NULL,
-  `START_ACT_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `CALLBACK_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `CALLBACK_TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `REFERENCE_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `REFERENCE_TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `PROPAGATED_STAGE_INST_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `LOCK_OWNER_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `START_ACT_ID_` varchar(255) DEFAULT NULL,
+  `CALLBACK_ID_` varchar(255) DEFAULT NULL,
+  `CALLBACK_TYPE_` varchar(255) DEFAULT NULL,
+  `REFERENCE_ID_` varchar(255) DEFAULT NULL,
+  `REFERENCE_TYPE_` varchar(255) DEFAULT NULL,
+  `PROPAGATED_STAGE_INST_ID_` varchar(255) DEFAULT NULL,
+  `LOCK_OWNER_` varchar(255) DEFAULT NULL,
   `EXTERNAL_WORKER_JOB_COUNT_` int(11) DEFAULT NULL,
-  `BUSINESS_STATUS_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `BUSINESS_STATUS_` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID_`),
   KEY `ACT_IDX_EXEC_BUSKEY` (`BUSINESS_KEY_`) USING BTREE,
   KEY `ACT_IDC_EXEC_ROOT` (`ROOT_PROC_INST_ID_`) USING BTREE,
@@ -2112,7 +1939,7 @@ CREATE TABLE `act_ru_execution` (
   CONSTRAINT `act_ru_execution_ibfk_2` FOREIGN KEY (`PROC_DEF_ID_`) REFERENCES `act_re_procdef` (`ID_`),
   CONSTRAINT `act_ru_execution_ibfk_3` FOREIGN KEY (`PROC_INST_ID_`) REFERENCES `act_ru_execution` (`ID_`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `act_ru_execution_ibfk_4` FOREIGN KEY (`SUPER_EXEC_`) REFERENCES `act_ru_execution` (`ID_`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of act_ru_execution
@@ -2123,33 +1950,33 @@ CREATE TABLE `act_ru_execution` (
 -- ----------------------------
 DROP TABLE IF EXISTS `act_ru_external_job`;
 CREATE TABLE `act_ru_external_job` (
-  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `ID_` varchar(64) NOT NULL,
   `REV_` int(11) DEFAULT NULL,
-  `CATEGORY_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `TYPE_` varchar(255) COLLATE utf8_bin NOT NULL,
+  `CATEGORY_` varchar(255) DEFAULT NULL,
+  `TYPE_` varchar(255) NOT NULL,
   `LOCK_EXP_TIME_` timestamp(3) NULL DEFAULT NULL,
-  `LOCK_OWNER_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `LOCK_OWNER_` varchar(255) DEFAULT NULL,
   `EXCLUSIVE_` tinyint(1) DEFAULT NULL,
-  `EXECUTION_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `PROCESS_INSTANCE_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `PROC_DEF_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `ELEMENT_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `ELEMENT_NAME_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `SCOPE_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `SUB_SCOPE_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `SCOPE_TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `SCOPE_DEFINITION_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `EXECUTION_ID_` varchar(64) DEFAULT NULL,
+  `PROCESS_INSTANCE_ID_` varchar(64) DEFAULT NULL,
+  `PROC_DEF_ID_` varchar(64) DEFAULT NULL,
+  `ELEMENT_ID_` varchar(255) DEFAULT NULL,
+  `ELEMENT_NAME_` varchar(255) DEFAULT NULL,
+  `SCOPE_ID_` varchar(255) DEFAULT NULL,
+  `SUB_SCOPE_ID_` varchar(255) DEFAULT NULL,
+  `SCOPE_TYPE_` varchar(255) DEFAULT NULL,
+  `SCOPE_DEFINITION_ID_` varchar(255) DEFAULT NULL,
   `RETRIES_` int(11) DEFAULT NULL,
-  `EXCEPTION_STACK_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `EXCEPTION_MSG_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
+  `EXCEPTION_STACK_ID_` varchar(64) DEFAULT NULL,
+  `EXCEPTION_MSG_` varchar(4000) DEFAULT NULL,
   `DUEDATE_` timestamp(3) NULL DEFAULT NULL,
-  `REPEAT_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `HANDLER_TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `HANDLER_CFG_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
-  `CUSTOM_VALUES_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `REPEAT_` varchar(255) DEFAULT NULL,
+  `HANDLER_TYPE_` varchar(255) DEFAULT NULL,
+  `HANDLER_CFG_` varchar(4000) DEFAULT NULL,
+  `CUSTOM_VALUES_ID_` varchar(64) DEFAULT NULL,
   `CREATE_TIME_` timestamp(3) NULL DEFAULT NULL,
-  `TENANT_ID_` varchar(255) COLLATE utf8_bin DEFAULT '',
-  `CORRELATION_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `TENANT_ID_` varchar(255) DEFAULT '',
+  `CORRELATION_ID_` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID_`),
   KEY `ACT_IDX_EXTERNAL_JOB_EXCEPTION_STACK_ID` (`EXCEPTION_STACK_ID_`) USING BTREE,
   KEY `ACT_IDX_EXTERNAL_JOB_CUSTOM_VALUES_ID` (`CUSTOM_VALUES_ID_`) USING BTREE,
@@ -2159,7 +1986,7 @@ CREATE TABLE `act_ru_external_job` (
   KEY `ACT_IDX_EXTERNAL_JOB_CORRELATION_ID` (`CORRELATION_ID_`) USING BTREE,
   CONSTRAINT `act_ru_external_job_ibfk_1` FOREIGN KEY (`CUSTOM_VALUES_ID_`) REFERENCES `act_ge_bytearray` (`ID_`),
   CONSTRAINT `act_ru_external_job_ibfk_2` FOREIGN KEY (`EXCEPTION_STACK_ID_`) REFERENCES `act_ge_bytearray` (`ID_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of act_ru_external_job
@@ -2170,22 +1997,22 @@ CREATE TABLE `act_ru_external_job` (
 -- ----------------------------
 DROP TABLE IF EXISTS `act_ru_history_job`;
 CREATE TABLE `act_ru_history_job` (
-  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `ID_` varchar(64) NOT NULL,
   `REV_` int(11) DEFAULT NULL,
   `LOCK_EXP_TIME_` timestamp(3) NULL DEFAULT NULL,
-  `LOCK_OWNER_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `LOCK_OWNER_` varchar(255) DEFAULT NULL,
   `RETRIES_` int(11) DEFAULT NULL,
-  `EXCEPTION_STACK_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `EXCEPTION_MSG_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
-  `HANDLER_TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `HANDLER_CFG_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
-  `ADV_HANDLER_CFG_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `TENANT_ID_` varchar(255) COLLATE utf8_bin DEFAULT '',
+  `EXCEPTION_STACK_ID_` varchar(64) DEFAULT NULL,
+  `EXCEPTION_MSG_` varchar(4000) DEFAULT NULL,
+  `HANDLER_TYPE_` varchar(255) DEFAULT NULL,
+  `HANDLER_CFG_` varchar(4000) DEFAULT NULL,
+  `ADV_HANDLER_CFG_ID_` varchar(64) DEFAULT NULL,
+  `TENANT_ID_` varchar(255) DEFAULT '',
   `CREATE_TIME_` timestamp(3) NULL DEFAULT NULL,
-  `CUSTOM_VALUES_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `SCOPE_TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `CUSTOM_VALUES_ID_` varchar(64) DEFAULT NULL,
+  `SCOPE_TYPE_` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of act_ru_history_job
@@ -2196,18 +2023,18 @@ CREATE TABLE `act_ru_history_job` (
 -- ----------------------------
 DROP TABLE IF EXISTS `act_ru_identitylink`;
 CREATE TABLE `act_ru_identitylink` (
-  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `ID_` varchar(64) NOT NULL,
   `REV_` int(11) DEFAULT NULL,
-  `GROUP_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `USER_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `TASK_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `PROC_INST_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `PROC_DEF_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `SCOPE_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `SCOPE_TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `SCOPE_DEFINITION_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `SUB_SCOPE_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `GROUP_ID_` varchar(255) DEFAULT NULL,
+  `TYPE_` varchar(255) DEFAULT NULL,
+  `USER_ID_` varchar(255) DEFAULT NULL,
+  `TASK_ID_` varchar(64) DEFAULT NULL,
+  `PROC_INST_ID_` varchar(64) DEFAULT NULL,
+  `PROC_DEF_ID_` varchar(64) DEFAULT NULL,
+  `SCOPE_ID_` varchar(255) DEFAULT NULL,
+  `SCOPE_TYPE_` varchar(255) DEFAULT NULL,
+  `SCOPE_DEFINITION_ID_` varchar(255) DEFAULT NULL,
+  `SUB_SCOPE_ID_` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID_`),
   KEY `ACT_IDX_IDENT_LNK_USER` (`USER_ID_`) USING BTREE,
   KEY `ACT_IDX_IDENT_LNK_GROUP` (`GROUP_ID_`) USING BTREE,
@@ -2220,7 +2047,7 @@ CREATE TABLE `act_ru_identitylink` (
   CONSTRAINT `act_ru_identitylink_ibfk_1` FOREIGN KEY (`PROC_DEF_ID_`) REFERENCES `act_re_procdef` (`ID_`),
   CONSTRAINT `act_ru_identitylink_ibfk_2` FOREIGN KEY (`PROC_INST_ID_`) REFERENCES `act_ru_execution` (`ID_`),
   CONSTRAINT `act_ru_identitylink_ibfk_3` FOREIGN KEY (`TASK_ID_`) REFERENCES `act_ru_task` (`ID_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of act_ru_identitylink
@@ -2231,33 +2058,33 @@ CREATE TABLE `act_ru_identitylink` (
 -- ----------------------------
 DROP TABLE IF EXISTS `act_ru_job`;
 CREATE TABLE `act_ru_job` (
-  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `ID_` varchar(64) NOT NULL,
   `REV_` int(11) DEFAULT NULL,
-  `TYPE_` varchar(255) COLLATE utf8_bin NOT NULL,
+  `TYPE_` varchar(255) NOT NULL,
   `LOCK_EXP_TIME_` timestamp(3) NULL DEFAULT NULL,
-  `LOCK_OWNER_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `LOCK_OWNER_` varchar(255) DEFAULT NULL,
   `EXCLUSIVE_` tinyint(1) DEFAULT NULL,
-  `EXECUTION_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `PROCESS_INSTANCE_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `PROC_DEF_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `EXECUTION_ID_` varchar(64) DEFAULT NULL,
+  `PROCESS_INSTANCE_ID_` varchar(64) DEFAULT NULL,
+  `PROC_DEF_ID_` varchar(64) DEFAULT NULL,
   `RETRIES_` int(11) DEFAULT NULL,
-  `EXCEPTION_STACK_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `EXCEPTION_MSG_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
+  `EXCEPTION_STACK_ID_` varchar(64) DEFAULT NULL,
+  `EXCEPTION_MSG_` varchar(4000) DEFAULT NULL,
   `DUEDATE_` timestamp(3) NULL DEFAULT NULL,
-  `REPEAT_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `HANDLER_TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `HANDLER_CFG_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
-  `TENANT_ID_` varchar(255) COLLATE utf8_bin DEFAULT '',
+  `REPEAT_` varchar(255) DEFAULT NULL,
+  `HANDLER_TYPE_` varchar(255) DEFAULT NULL,
+  `HANDLER_CFG_` varchar(4000) DEFAULT NULL,
+  `TENANT_ID_` varchar(255) DEFAULT '',
   `CREATE_TIME_` timestamp(3) NULL DEFAULT NULL,
-  `SCOPE_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `SUB_SCOPE_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `SCOPE_TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `SCOPE_DEFINITION_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `CUSTOM_VALUES_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `ELEMENT_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `ELEMENT_NAME_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `CATEGORY_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `CORRELATION_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `SCOPE_ID_` varchar(255) DEFAULT NULL,
+  `SUB_SCOPE_ID_` varchar(255) DEFAULT NULL,
+  `SCOPE_TYPE_` varchar(255) DEFAULT NULL,
+  `SCOPE_DEFINITION_ID_` varchar(255) DEFAULT NULL,
+  `CUSTOM_VALUES_ID_` varchar(64) DEFAULT NULL,
+  `ELEMENT_ID_` varchar(255) DEFAULT NULL,
+  `ELEMENT_NAME_` varchar(255) DEFAULT NULL,
+  `CATEGORY_` varchar(255) DEFAULT NULL,
+  `CORRELATION_ID_` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID_`),
   KEY `ACT_FK_JOB_EXECUTION` (`EXECUTION_ID_`) USING BTREE,
   KEY `ACT_FK_JOB_PROCESS_INSTANCE` (`PROCESS_INSTANCE_ID_`) USING BTREE,
@@ -2273,7 +2100,7 @@ CREATE TABLE `act_ru_job` (
   CONSTRAINT `act_ru_job_ibfk_3` FOREIGN KEY (`EXECUTION_ID_`) REFERENCES `act_ru_execution` (`ID_`),
   CONSTRAINT `act_ru_job_ibfk_4` FOREIGN KEY (`PROC_DEF_ID_`) REFERENCES `act_re_procdef` (`ID_`),
   CONSTRAINT `act_ru_job_ibfk_5` FOREIGN KEY (`PROCESS_INSTANCE_ID_`) REFERENCES `act_ru_execution` (`ID_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of act_ru_job
@@ -2284,31 +2111,31 @@ CREATE TABLE `act_ru_job` (
 -- ----------------------------
 DROP TABLE IF EXISTS `act_ru_suspended_job`;
 CREATE TABLE `act_ru_suspended_job` (
-  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `ID_` varchar(64) NOT NULL,
   `REV_` int(11) DEFAULT NULL,
-  `TYPE_` varchar(255) COLLATE utf8_bin NOT NULL,
+  `TYPE_` varchar(255) NOT NULL,
   `EXCLUSIVE_` tinyint(1) DEFAULT NULL,
-  `EXECUTION_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `PROCESS_INSTANCE_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `PROC_DEF_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `EXECUTION_ID_` varchar(64) DEFAULT NULL,
+  `PROCESS_INSTANCE_ID_` varchar(64) DEFAULT NULL,
+  `PROC_DEF_ID_` varchar(64) DEFAULT NULL,
   `RETRIES_` int(11) DEFAULT NULL,
-  `EXCEPTION_STACK_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `EXCEPTION_MSG_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
+  `EXCEPTION_STACK_ID_` varchar(64) DEFAULT NULL,
+  `EXCEPTION_MSG_` varchar(4000) DEFAULT NULL,
   `DUEDATE_` timestamp(3) NULL DEFAULT NULL,
-  `REPEAT_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `HANDLER_TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `HANDLER_CFG_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
-  `TENANT_ID_` varchar(255) COLLATE utf8_bin DEFAULT '',
+  `REPEAT_` varchar(255) DEFAULT NULL,
+  `HANDLER_TYPE_` varchar(255) DEFAULT NULL,
+  `HANDLER_CFG_` varchar(4000) DEFAULT NULL,
+  `TENANT_ID_` varchar(255) DEFAULT '',
   `CREATE_TIME_` timestamp(3) NULL DEFAULT NULL,
-  `SCOPE_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `SUB_SCOPE_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `SCOPE_TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `SCOPE_DEFINITION_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `CUSTOM_VALUES_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `ELEMENT_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `ELEMENT_NAME_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `CATEGORY_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `CORRELATION_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `SCOPE_ID_` varchar(255) DEFAULT NULL,
+  `SUB_SCOPE_ID_` varchar(255) DEFAULT NULL,
+  `SCOPE_TYPE_` varchar(255) DEFAULT NULL,
+  `SCOPE_DEFINITION_ID_` varchar(255) DEFAULT NULL,
+  `CUSTOM_VALUES_ID_` varchar(64) DEFAULT NULL,
+  `ELEMENT_ID_` varchar(255) DEFAULT NULL,
+  `ELEMENT_NAME_` varchar(255) DEFAULT NULL,
+  `CATEGORY_` varchar(255) DEFAULT NULL,
+  `CORRELATION_ID_` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID_`),
   KEY `ACT_FK_SUSPENDED_JOB_EXECUTION` (`EXECUTION_ID_`) USING BTREE,
   KEY `ACT_FK_SUSPENDED_JOB_PROCESS_INSTANCE` (`PROCESS_INSTANCE_ID_`) USING BTREE,
@@ -2324,7 +2151,7 @@ CREATE TABLE `act_ru_suspended_job` (
   CONSTRAINT `act_ru_suspended_job_ibfk_3` FOREIGN KEY (`EXECUTION_ID_`) REFERENCES `act_ru_execution` (`ID_`),
   CONSTRAINT `act_ru_suspended_job_ibfk_4` FOREIGN KEY (`PROC_DEF_ID_`) REFERENCES `act_re_procdef` (`ID_`),
   CONSTRAINT `act_ru_suspended_job_ibfk_5` FOREIGN KEY (`PROCESS_INSTANCE_ID_`) REFERENCES `act_ru_execution` (`ID_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of act_ru_suspended_job
@@ -2335,36 +2162,36 @@ CREATE TABLE `act_ru_suspended_job` (
 -- ----------------------------
 DROP TABLE IF EXISTS `act_ru_task`;
 CREATE TABLE `act_ru_task` (
-  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `ID_` varchar(64) NOT NULL,
   `REV_` int(11) DEFAULT NULL,
-  `EXECUTION_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `PROC_INST_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `PROC_DEF_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `NAME_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `PARENT_TASK_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `DESCRIPTION_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
-  `TASK_DEF_KEY_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `OWNER_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `ASSIGNEE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `DELEGATION_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `EXECUTION_ID_` varchar(64) DEFAULT NULL,
+  `PROC_INST_ID_` varchar(64) DEFAULT NULL,
+  `PROC_DEF_ID_` varchar(64) DEFAULT NULL,
+  `NAME_` varchar(255) DEFAULT NULL,
+  `PARENT_TASK_ID_` varchar(64) DEFAULT NULL,
+  `DESCRIPTION_` varchar(4000) DEFAULT NULL,
+  `TASK_DEF_KEY_` varchar(255) DEFAULT NULL,
+  `OWNER_` varchar(255) DEFAULT NULL,
+  `ASSIGNEE_` varchar(255) DEFAULT NULL,
+  `DELEGATION_` varchar(64) DEFAULT NULL,
   `PRIORITY_` int(11) DEFAULT NULL,
   `CREATE_TIME_` timestamp(3) NULL DEFAULT NULL,
   `DUE_DATE_` datetime(3) DEFAULT NULL,
-  `CATEGORY_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `CATEGORY_` varchar(255) DEFAULT NULL,
   `SUSPENSION_STATE_` int(11) DEFAULT NULL,
-  `TENANT_ID_` varchar(255) COLLATE utf8_bin DEFAULT '',
-  `FORM_KEY_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `TENANT_ID_` varchar(255) DEFAULT '',
+  `FORM_KEY_` varchar(255) DEFAULT NULL,
   `CLAIM_TIME_` datetime(3) DEFAULT NULL,
   `IS_COUNT_ENABLED_` tinyint(4) DEFAULT NULL,
   `VAR_COUNT_` int(11) DEFAULT NULL,
   `ID_LINK_COUNT_` int(11) DEFAULT NULL,
-  `SCOPE_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `SUB_SCOPE_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `SCOPE_TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `SCOPE_DEFINITION_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `SCOPE_ID_` varchar(255) DEFAULT NULL,
+  `SUB_SCOPE_ID_` varchar(255) DEFAULT NULL,
+  `SCOPE_TYPE_` varchar(255) DEFAULT NULL,
+  `SCOPE_DEFINITION_ID_` varchar(255) DEFAULT NULL,
   `SUB_TASK_COUNT_` int(11) DEFAULT NULL,
-  `TASK_DEF_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `PROPAGATED_STAGE_INST_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `TASK_DEF_ID_` varchar(64) DEFAULT NULL,
+  `PROPAGATED_STAGE_INST_ID_` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID_`),
   KEY `ACT_IDX_TASK_CREATE` (`CREATE_TIME_`) USING BTREE,
   KEY `ACT_FK_TASK_EXE` (`EXECUTION_ID_`) USING BTREE,
@@ -2376,7 +2203,7 @@ CREATE TABLE `act_ru_task` (
   CONSTRAINT `act_ru_task_ibfk_1` FOREIGN KEY (`EXECUTION_ID_`) REFERENCES `act_ru_execution` (`ID_`),
   CONSTRAINT `act_ru_task_ibfk_2` FOREIGN KEY (`PROC_DEF_ID_`) REFERENCES `act_re_procdef` (`ID_`),
   CONSTRAINT `act_ru_task_ibfk_3` FOREIGN KEY (`PROC_INST_ID_`) REFERENCES `act_ru_execution` (`ID_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of act_ru_task
@@ -2387,33 +2214,33 @@ CREATE TABLE `act_ru_task` (
 -- ----------------------------
 DROP TABLE IF EXISTS `act_ru_timer_job`;
 CREATE TABLE `act_ru_timer_job` (
-  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `ID_` varchar(64) NOT NULL,
   `REV_` int(11) DEFAULT NULL,
-  `TYPE_` varchar(255) COLLATE utf8_bin NOT NULL,
+  `TYPE_` varchar(255) NOT NULL,
   `LOCK_EXP_TIME_` timestamp(3) NULL DEFAULT NULL,
-  `LOCK_OWNER_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `LOCK_OWNER_` varchar(255) DEFAULT NULL,
   `EXCLUSIVE_` tinyint(1) DEFAULT NULL,
-  `EXECUTION_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `PROCESS_INSTANCE_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `PROC_DEF_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `EXECUTION_ID_` varchar(64) DEFAULT NULL,
+  `PROCESS_INSTANCE_ID_` varchar(64) DEFAULT NULL,
+  `PROC_DEF_ID_` varchar(64) DEFAULT NULL,
   `RETRIES_` int(11) DEFAULT NULL,
-  `EXCEPTION_STACK_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `EXCEPTION_MSG_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
+  `EXCEPTION_STACK_ID_` varchar(64) DEFAULT NULL,
+  `EXCEPTION_MSG_` varchar(4000) DEFAULT NULL,
   `DUEDATE_` timestamp(3) NULL DEFAULT NULL,
-  `REPEAT_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `HANDLER_TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `HANDLER_CFG_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
-  `TENANT_ID_` varchar(255) COLLATE utf8_bin DEFAULT '',
+  `REPEAT_` varchar(255) DEFAULT NULL,
+  `HANDLER_TYPE_` varchar(255) DEFAULT NULL,
+  `HANDLER_CFG_` varchar(4000) DEFAULT NULL,
+  `TENANT_ID_` varchar(255) DEFAULT '',
   `CREATE_TIME_` timestamp(3) NULL DEFAULT NULL,
-  `SCOPE_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `SUB_SCOPE_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `SCOPE_TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `SCOPE_DEFINITION_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `CUSTOM_VALUES_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `ELEMENT_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `ELEMENT_NAME_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `CATEGORY_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `CORRELATION_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `SCOPE_ID_` varchar(255) DEFAULT NULL,
+  `SUB_SCOPE_ID_` varchar(255) DEFAULT NULL,
+  `SCOPE_TYPE_` varchar(255) DEFAULT NULL,
+  `SCOPE_DEFINITION_ID_` varchar(255) DEFAULT NULL,
+  `CUSTOM_VALUES_ID_` varchar(64) DEFAULT NULL,
+  `ELEMENT_ID_` varchar(255) DEFAULT NULL,
+  `ELEMENT_NAME_` varchar(255) DEFAULT NULL,
+  `CATEGORY_` varchar(255) DEFAULT NULL,
+  `CORRELATION_ID_` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID_`),
   KEY `ACT_FK_TIMER_JOB_EXECUTION` (`EXECUTION_ID_`) USING BTREE,
   KEY `ACT_FK_TIMER_JOB_PROCESS_INSTANCE` (`PROCESS_INSTANCE_ID_`) USING BTREE,
@@ -2430,7 +2257,7 @@ CREATE TABLE `act_ru_timer_job` (
   CONSTRAINT `act_ru_timer_job_ibfk_3` FOREIGN KEY (`EXECUTION_ID_`) REFERENCES `act_ru_execution` (`ID_`),
   CONSTRAINT `act_ru_timer_job_ibfk_4` FOREIGN KEY (`PROC_DEF_ID_`) REFERENCES `act_re_procdef` (`ID_`),
   CONSTRAINT `act_ru_timer_job_ibfk_5` FOREIGN KEY (`PROCESS_INSTANCE_ID_`) REFERENCES `act_ru_execution` (`ID_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of act_ru_timer_job
@@ -2441,22 +2268,22 @@ CREATE TABLE `act_ru_timer_job` (
 -- ----------------------------
 DROP TABLE IF EXISTS `act_ru_variable`;
 CREATE TABLE `act_ru_variable` (
-  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `ID_` varchar(64) NOT NULL,
   `REV_` int(11) DEFAULT NULL,
-  `TYPE_` varchar(255) COLLATE utf8_bin NOT NULL,
-  `NAME_` varchar(255) COLLATE utf8_bin NOT NULL,
-  `EXECUTION_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `PROC_INST_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `TASK_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `BYTEARRAY_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `TYPE_` varchar(255) NOT NULL,
+  `NAME_` varchar(255) NOT NULL,
+  `EXECUTION_ID_` varchar(64) DEFAULT NULL,
+  `PROC_INST_ID_` varchar(64) DEFAULT NULL,
+  `TASK_ID_` varchar(64) DEFAULT NULL,
+  `BYTEARRAY_ID_` varchar(64) DEFAULT NULL,
   `DOUBLE_` double DEFAULT NULL,
   `LONG_` bigint(20) DEFAULT NULL,
-  `TEXT_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
-  `TEXT2_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
-  `SCOPE_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `SUB_SCOPE_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `SCOPE_TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `META_INFO_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
+  `TEXT_` varchar(4000) DEFAULT NULL,
+  `TEXT2_` varchar(4000) DEFAULT NULL,
+  `SCOPE_ID_` varchar(255) DEFAULT NULL,
+  `SUB_SCOPE_ID_` varchar(255) DEFAULT NULL,
+  `SCOPE_TYPE_` varchar(255) DEFAULT NULL,
+  `META_INFO_` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`ID_`),
   KEY `ACT_IDX_VARIABLE_TASK_ID` (`TASK_ID_`) USING BTREE,
   KEY `ACT_FK_VAR_EXE` (`EXECUTION_ID_`) USING BTREE,
@@ -2467,7 +2294,7 @@ CREATE TABLE `act_ru_variable` (
   CONSTRAINT `act_ru_variable_ibfk_1` FOREIGN KEY (`BYTEARRAY_ID_`) REFERENCES `act_ge_bytearray` (`ID_`),
   CONSTRAINT `act_ru_variable_ibfk_2` FOREIGN KEY (`EXECUTION_ID_`) REFERENCES `act_ru_execution` (`ID_`),
   CONSTRAINT `act_ru_variable_ibfk_3` FOREIGN KEY (`PROC_INST_ID_`) REFERENCES `act_ru_execution` (`ID_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of act_ru_variable
@@ -7685,134 +7512,6 @@ CREATE TABLE `business_junk_requirement` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for business_machine
--- ----------------------------
-DROP TABLE IF EXISTS `business_machine`;
-CREATE TABLE `business_machine` (
-  `machine_id` varchar(30) NOT NULL COMMENT '设备ID',
-  `b_id` varchar(30) NOT NULL COMMENT '业务Id',
-  `machine_code` varchar(30) NOT NULL COMMENT '设备编码',
-  `machine_version` varchar(30) NOT NULL COMMENT '设备版本',
-  `machine_type_cd` varchar(30) NOT NULL COMMENT '设备类型 门禁9999 详情查看t_dict 表',
-  `community_id` varchar(30) NOT NULL COMMENT '小区ID',
-  `machine_name` varchar(200) NOT NULL COMMENT '设备名称',
-  `auth_code` varchar(64) NOT NULL COMMENT '授权码',
-  `machine_ip` varchar(64) DEFAULT NULL COMMENT '设备IP',
-  `machine_mac` varchar(64) DEFAULT NULL COMMENT '设备mac',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `operate` varchar(4) NOT NULL COMMENT '数据状态，添加ADD，修改MOD 删除DEL',
-  `location_type_cd` varchar(30) NOT NULL COMMENT '位置ID,请查看 community_location',
-  `location_obj_id` varchar(30) NOT NULL DEFAULT '-1' COMMENT '对象ID，大门时小区ID，单元门 时单元ID 房屋时房屋ID',
-  `state` varchar(12) NOT NULL DEFAULT '1000' COMMENT '设备状态，设备配置同步状态 1000 未同步 1100 同步中 1200 已同步',
-  `direction` varchar(12) NOT NULL DEFAULT '3306' COMMENT '设备方向进出，3306 进 3307 出',
-  `heartbeat_time` datetime NOT NULL COMMENT '设备心跳时间',
-  `type_id` varchar(30) NOT NULL COMMENT '设备类型ID',
-  KEY `idx_bm_machine_id` (`machine_id`) USING BTREE,
-  KEY `idx_bm_b_id` (`b_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of business_machine
--- ----------------------------
-INSERT INTO `business_machine` VALUES ('102023091837260050', '202023091898950060', '001', 'v300', '9996', '2023052267100146', '进场', '未知', '192.168.100.109', '', '2023-09-18 02:38:00', 'DEL', '102023091856350047', '102023061679340015', '1200', '3306', '2023-09-18 02:33:51', '');
-INSERT INTO `business_machine` VALUES ('102023091837260050', '202023091898950060', '001', 'v300', '9996', '2023052267100146', '进场', '未知', '192.168.100.109', '', '2023-09-18 02:38:00', 'ADD', '102023091856350047', '102023061679340015', '1200', '3306', '2023-09-18 02:33:51', '');
-
--- ----------------------------
--- Table structure for business_machine_attrs
--- ----------------------------
-DROP TABLE IF EXISTS `business_machine_attrs`;
-CREATE TABLE `business_machine_attrs` (
-  `machine_id` varchar(30) NOT NULL COMMENT '费用ID',
-  `b_id` varchar(30) NOT NULL COMMENT '业务Id',
-  `community_id` varchar(30) NOT NULL COMMENT '小区ID',
-  `attr_id` varchar(30) NOT NULL COMMENT '属性id',
-  `spec_cd` varchar(12) NOT NULL COMMENT '规格id,参考spec表',
-  `value` varchar(128) NOT NULL COMMENT '属性值',
-  `operate` varchar(4) NOT NULL COMMENT '数据状态，添加ADD，修改MOD 删除DEL',
-  KEY `idx_bma_machine_id` (`machine_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of business_machine_attrs
--- ----------------------------
-
--- ----------------------------
--- Table structure for business_machine_auth
--- ----------------------------
-DROP TABLE IF EXISTS `business_machine_auth`;
-CREATE TABLE `business_machine_auth` (
-  `auth_id` varchar(30) NOT NULL COMMENT '授权ID',
-  `machine_id` varchar(30) NOT NULL COMMENT '设备ID',
-  `b_id` varchar(30) NOT NULL COMMENT '业务Id',
-  `community_id` varchar(30) NOT NULL COMMENT '小区ID',
-  `person_id` varchar(30) NOT NULL COMMENT '用户ID',
-  `person_name` varchar(64) NOT NULL COMMENT '用户名称',
-  `person_type` varchar(12) NOT NULL DEFAULT '1001' COMMENT '用户类别 1001 员工',
-  `state` varchar(12) NOT NULL DEFAULT '1030' COMMENT '状态 待审核 10301 审核通过10302 审核不通10303',
-  `start_time` datetime NOT NULL COMMENT '开始时间',
-  `end_time` datetime NOT NULL COMMENT '结束时间',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `operate` varchar(4) NOT NULL COMMENT '数据状态，添加ADD，修改MOD 删除DEL',
-  PRIMARY KEY (`auth_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of business_machine_auth
--- ----------------------------
-
--- ----------------------------
--- Table structure for business_machine_record
--- ----------------------------
-DROP TABLE IF EXISTS `business_machine_record`;
-CREATE TABLE `business_machine_record` (
-  `machine_record_id` varchar(30) NOT NULL COMMENT '记录ID',
-  `b_id` varchar(30) NOT NULL COMMENT '业务Id',
-  `machine_id` varchar(30) NOT NULL COMMENT '设备ID',
-  `machine_code` varchar(30) NOT NULL COMMENT '设备编码',
-  `name` varchar(30) NOT NULL COMMENT '用户名称',
-  `open_type_cd` varchar(12) NOT NULL COMMENT '开门方式，1000 人脸开门 2000 钥匙开门',
-  `community_id` varchar(30) NOT NULL COMMENT '小区ID',
-  `tel` varchar(11) NOT NULL COMMENT '手机号',
-  `id_card` varchar(20) NOT NULL COMMENT '用户身份证',
-  `record_type_cd` varchar(12) NOT NULL COMMENT '记录类型，8888 开门记录 6666 访客留影',
-  `file_id` varchar(64) DEFAULT NULL COMMENT '文件ID',
-  `file_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '文件生成时间',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `operate` varchar(4) NOT NULL COMMENT '数据状态，添加ADD，修改MOD 删除DEL',
-  `similar` varchar(12) DEFAULT '1.0' COMMENT '相似度'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of business_machine_record
--- ----------------------------
-
--- ----------------------------
--- Table structure for business_machine_translate
--- ----------------------------
-DROP TABLE IF EXISTS `business_machine_translate`;
-CREATE TABLE `business_machine_translate` (
-  `machine_translate_id` varchar(30) NOT NULL COMMENT '设备同步ID',
-  `b_id` varchar(30) NOT NULL COMMENT '业务Id',
-  `machine_id` varchar(30) NOT NULL COMMENT '设备ID',
-  `machine_code` varchar(30) NOT NULL COMMENT '设备编码',
-  `type_cd` varchar(30) NOT NULL COMMENT '类型，是同步业主还是同步小区信息，详情查看t_dict表',
-  `obj_id` varchar(30) NOT NULL COMMENT '对象ID 业主时，业主ID，小区是小区ID',
-  `community_id` varchar(30) NOT NULL COMMENT '小区ID',
-  `obj_name` varchar(200) NOT NULL COMMENT '对象名称，业主时业主名称，小区时小区名称',
-  `state` varchar(8) NOT NULL COMMENT '状态，10000 初始状态,20000 同步完成',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `operate` varchar(4) NOT NULL COMMENT '数据状态，添加ADD，修改MOD 删除DEL',
-  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '二次同步时间',
-  `machine_cmd` varchar(12) NOT NULL DEFAULT '999' COMMENT '设备指令 详见 t_dict',
-  `obj_b_id` varchar(30) NOT NULL DEFAULT '-1' COMMENT '业务ID',
-  `remark` varchar(200) DEFAULT NULL COMMENT '备注字段'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of business_machine_translate
--- ----------------------------
-
--- ----------------------------
 -- Table structure for business_member_store
 -- ----------------------------
 DROP TABLE IF EXISTS `business_member_store`;
@@ -10992,181 +10691,6 @@ CREATE TABLE `business_return_pay_fee` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for business_shop
--- ----------------------------
-DROP TABLE IF EXISTS `business_shop`;
-CREATE TABLE `business_shop` (
-  `shop_id` varchar(30) NOT NULL COMMENT '商品ID',
-  `b_id` varchar(30) NOT NULL COMMENT '业务Id',
-  `catalog_id` varchar(30) NOT NULL COMMENT '目录ID',
-  `store_id` varchar(30) NOT NULL COMMENT '商店ID',
-  `name` varchar(100) NOT NULL COMMENT '商品名称',
-  `hot_buy` varchar(2) NOT NULL DEFAULT 'N' COMMENT '是否热卖 Y是 N否',
-  `sale_price` decimal(10,2) NOT NULL COMMENT '商品销售价,再没有打折情况下显示',
-  `open_shop_count` varchar(2) NOT NULL DEFAULT 'N' COMMENT '是否开启库存管理，默认N Y开启，N关闭，开启后界面显示数量，如果为0 则下架',
-  `shop_count` decimal(10,0) NOT NULL DEFAULT '10000' COMMENT '商品库存',
-  `start_date` date NOT NULL COMMENT '商品开始时间',
-  `end_date` date NOT NULL COMMENT '商品结束时间',
-  `month` int(11) NOT NULL COMMENT '月份',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `operate` varchar(3) NOT NULL COMMENT '数据状态，添加ADD，修改MOD 删除DEL',
-  KEY `idx_business_shop_shop_id` (`shop_id`) USING BTREE,
-  KEY `idx_business_shop_b_id` (`b_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of business_shop
--- ----------------------------
-
--- ----------------------------
--- Table structure for business_shop_attr
--- ----------------------------
-DROP TABLE IF EXISTS `business_shop_attr`;
-CREATE TABLE `business_shop_attr` (
-  `b_id` varchar(30) NOT NULL COMMENT '订单ID',
-  `attr_id` varchar(30) NOT NULL COMMENT '属性id',
-  `shop_id` varchar(30) NOT NULL COMMENT '商品ID',
-  `spec_cd` varchar(12) NOT NULL COMMENT '规格id,参考spec表',
-  `value` varchar(50) NOT NULL COMMENT '属性值',
-  `month` int(11) NOT NULL COMMENT '月份',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `operate` varchar(3) NOT NULL COMMENT '数据状态，添加ADD，修改MOD 删除DEL',
-  KEY `idx_business_shop_attr_shop_id` (`shop_id`) USING BTREE,
-  KEY `idx_business_shop_attr_b_id` (`b_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of business_shop_attr
--- ----------------------------
-
--- ----------------------------
--- Table structure for business_shop_attr_param
--- ----------------------------
-DROP TABLE IF EXISTS `business_shop_attr_param`;
-CREATE TABLE `business_shop_attr_param` (
-  `attr_param_id` varchar(30) NOT NULL COMMENT '商品属性参数ID',
-  `b_id` varchar(30) NOT NULL COMMENT '订单ID',
-  `shop_id` varchar(30) NOT NULL COMMENT '商品ID',
-  `spec_cd` varchar(12) NOT NULL COMMENT '规格id,参考spec表',
-  `param` varchar(50) NOT NULL COMMENT '参数值',
-  `month` int(11) NOT NULL COMMENT '月份',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `operate` varchar(3) NOT NULL COMMENT '数据状态，添加ADD，修改MOD 删除DEL',
-  KEY `idx_business_shop_attr_param_shop_id` (`shop_id`) USING BTREE,
-  KEY `idx_business_shop_attr_param_b_id` (`b_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of business_shop_attr_param
--- ----------------------------
-
--- ----------------------------
--- Table structure for business_shop_catalog
--- ----------------------------
-DROP TABLE IF EXISTS `business_shop_catalog`;
-CREATE TABLE `business_shop_catalog` (
-  `catalog_id` varchar(30) NOT NULL COMMENT '目录ID',
-  `b_id` varchar(30) NOT NULL COMMENT '业务Id',
-  `store_id` varchar(30) NOT NULL COMMENT '商店ID',
-  `name` varchar(100) NOT NULL COMMENT '目录名称',
-  `level` varchar(2) NOT NULL COMMENT '目录等级',
-  `parent_catalog_id` varchar(30) NOT NULL DEFAULT '-1' COMMENT '父目录ID，一级目录则写-1',
-  `month` int(11) NOT NULL COMMENT '月份',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `operate` varchar(3) NOT NULL COMMENT '数据状态，添加ADD，修改MOD 删除DEL',
-  KEY `idx_business_shop_catalog_store_id` (`store_id`) USING BTREE,
-  KEY `idx_business_shop_catalog_b_id` (`b_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of business_shop_catalog
--- ----------------------------
-
--- ----------------------------
--- Table structure for business_shop_desc
--- ----------------------------
-DROP TABLE IF EXISTS `business_shop_desc`;
-CREATE TABLE `business_shop_desc` (
-  `shop_desc_id` varchar(30) NOT NULL COMMENT '商品描述ID',
-  `shop_id` varchar(30) NOT NULL COMMENT '商品ID',
-  `b_id` varchar(30) NOT NULL COMMENT '业务Id',
-  `shop_describe` longtext NOT NULL COMMENT '商品描述',
-  `month` int(11) NOT NULL COMMENT '月份',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `operate` varchar(3) NOT NULL COMMENT '数据状态，添加ADD，修改MOD 删除DEL',
-  KEY `idx_business_shop_desc_shop_id` (`shop_id`) USING BTREE,
-  KEY `idx_business_shop_desc_b_id` (`b_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of business_shop_desc
--- ----------------------------
-
--- ----------------------------
--- Table structure for business_shop_photo
--- ----------------------------
-DROP TABLE IF EXISTS `business_shop_photo`;
-CREATE TABLE `business_shop_photo` (
-  `shop_photo_id` varchar(30) NOT NULL COMMENT '商品照片ID',
-  `b_id` varchar(30) NOT NULL COMMENT '业务Id',
-  `shop_id` varchar(30) NOT NULL COMMENT '商店ID',
-  `shop_photo_type_cd` varchar(12) NOT NULL COMMENT '商品照片类型,L logo O 其他照片',
-  `photo` varchar(100) NOT NULL COMMENT '照片',
-  `month` int(11) NOT NULL COMMENT '月份',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `operate` varchar(3) NOT NULL COMMENT '数据状态，添加ADD，修改MOD 删除DEL',
-  KEY `idx_business_shop_photo_shop_id` (`shop_id`) USING BTREE,
-  KEY `idx_business_shop_photo_b_id` (`b_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of business_shop_photo
--- ----------------------------
-
--- ----------------------------
--- Table structure for business_shop_preferential
--- ----------------------------
-DROP TABLE IF EXISTS `business_shop_preferential`;
-CREATE TABLE `business_shop_preferential` (
-  `shop_preferential_id` varchar(30) NOT NULL COMMENT '商品ID',
-  `shop_id` varchar(30) NOT NULL COMMENT '商品ID',
-  `b_id` varchar(30) NOT NULL COMMENT '业务Id',
-  `original_price` decimal(10,2) NOT NULL COMMENT '商品销售价，再没有优惠的情况下和售价是一致的',
-  `discount_rate` decimal(3,2) NOT NULL DEFAULT '1.00' COMMENT '商品打折率',
-  `show_original_price` varchar(2) NOT NULL DEFAULT 'N' COMMENT '是否显示原价，Y显示，N 不显示',
-  `preferential_start_date` date NOT NULL COMMENT '商品优惠开始时间',
-  `preferential_end_date` date NOT NULL COMMENT '商品优惠结束时间',
-  `month` int(11) NOT NULL COMMENT '月份',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `operate` varchar(3) NOT NULL COMMENT '数据状态，添加ADD，修改MOD 删除DEL',
-  KEY `idx_business_shop_preferential_shop_id` (`shop_id`) USING BTREE,
-  KEY `idx_business_shop_preferential_b_id` (`b_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of business_shop_preferential
--- ----------------------------
-
--- ----------------------------
--- Table structure for business_small_wechat_attr
--- ----------------------------
-DROP TABLE IF EXISTS `business_small_wechat_attr`;
-CREATE TABLE `business_small_wechat_attr` (
-  `b_id` varchar(30) NOT NULL COMMENT '业务Id',
-  `attr_id` varchar(30) NOT NULL COMMENT '属性id',
-  `wechat_id` varchar(30) NOT NULL COMMENT '微信ID',
-  `spec_cd` varchar(12) NOT NULL COMMENT '规格id,参考t_dict',
-  `value` varchar(500) NOT NULL COMMENT '属性值',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `operate` varchar(3) NOT NULL COMMENT '数据状态，添加ADD，修改MOD 删除DEL',
-  `community_id` varchar(30) NOT NULL COMMENT '分片字段'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of business_small_wechat_attr
--- ----------------------------
-
--- ----------------------------
 -- Table structure for business_store
 -- ----------------------------
 DROP TABLE IF EXISTS `business_store`;
@@ -11520,69 +11044,6 @@ CREATE TABLE `business_task_attr` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for business_temp_car_fee_config
--- ----------------------------
-DROP TABLE IF EXISTS `business_temp_car_fee_config`;
-CREATE TABLE `business_temp_car_fee_config` (
-  `config_id` varchar(30) NOT NULL COMMENT '临时车收费标准ID',
-  `fee_name` varchar(64) NOT NULL COMMENT '收费标准名称',
-  `b_id` varchar(30) NOT NULL COMMENT '业务Id',
-  `pa_id` varchar(30) NOT NULL COMMENT '停车场ID',
-  `area_num` varchar(30) NOT NULL COMMENT '停车场编码',
-  `car_type` varchar(12) NOT NULL COMMENT '车辆类型',
-  `rule_id` varchar(30) NOT NULL COMMENT '收费规则',
-  `community_id` varchar(30) NOT NULL COMMENT '小区ID',
-  `start_time` datetime NOT NULL COMMENT '开始时间',
-  `end_time` datetime NOT NULL COMMENT '结束时间',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `operate` varchar(4) NOT NULL COMMENT '数据状态，添加ADD，修改MOD 删除DEL',
-  `fee_config_id` varchar(30) NOT NULL COMMENT '费用项配置ID'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of business_temp_car_fee_config
--- ----------------------------
-INSERT INTO `business_temp_car_fee_config` VALUES ('922022082476740006', '1', '202022082452090007', '102022082382290048', '1', '9901', '6700012001', '2022081539020475', '2022-08-01 00:00:00', '2022-10-31 00:00:00', '2022-08-24 23:12:14', 'ADD', '922022082440300005');
-INSERT INTO `business_temp_car_fee_config` VALUES ('922022082415710003', '3', '202022082452510022', '102022082382290048', '1', '9901', '6700012001', '2022081539020475', '2022-08-01 00:00:00', '2022-11-30 00:00:00', '2022-08-24 23:14:39', 'ADD', '922022082408140002');
-INSERT INTO `business_temp_car_fee_config` VALUES ('922022082403790029', '4', '202022082481870048', '102022082382290048', '1', '9901', '6700012001', '2022081539020475', '2022-08-01 00:00:00', '2022-09-10 00:00:00', '2022-08-24 23:19:21', 'ADD', '922022082408350028');
-INSERT INTO `business_temp_car_fee_config` VALUES ('922022082403790029', '4', '202022101183160041', '102022082382290048', '1', '9901', '6700012001', '2022081539020475', '2022-08-01 00:00:00', '2022-09-10 00:00:00', '2022-10-11 17:04:59', 'DEL', '922022082408350028');
-INSERT INTO `business_temp_car_fee_config` VALUES ('922022082403790029', '4', '202022101183160041', '102022082382290048', '1', '9901', '6700012001', '2022081539020475', '2022-08-01 00:00:00', '2022-09-10 00:00:00', '2022-10-11 17:04:59', 'ADD', '922022082408350028');
-INSERT INTO `business_temp_car_fee_config` VALUES ('922022082403790029', '4', '202022101120660056', '102022082382290048', '1', '9901', '6700012001', '2022081539020475', '2022-08-01 00:00:00', '2022-09-10 00:00:00', '2022-10-11 17:05:24', 'DEL', '922022082408350028');
-INSERT INTO `business_temp_car_fee_config` VALUES ('922022082403790029', '4', '202022101120660056', '102022082382290048', '1', '9901', '6700012001', '2022081539020475', '2022-08-01 00:00:00', '2022-09-10 00:00:00', '2022-10-11 17:05:24', 'ADD', '922022082408350028');
-INSERT INTO `business_temp_car_fee_config` VALUES ('922022101125010063', '123213123', '202022101161090064', '102022092098640117', '199', '9901', '6700012002', '2022081539020475', '1899-11-01 00:00:00', '2022-10-20 00:00:00', '2022-10-11 17:20:08', 'ADD', '922022101173280062');
-INSERT INTO `business_temp_car_fee_config` VALUES ('922022101734250067', '8008', '202022101753450086', '102022101773780027', '8008', '9901', '6700012001', '2022081539020475', '2022-10-01 00:00:00', '2028-01-01 00:00:00', '2022-10-17 17:47:08', 'ADD', '922022101782680066');
-INSERT INTO `business_temp_car_fee_config` VALUES ('922022121719450125', 'dsfdsf', '202022121705340289', '102022120898183896', '大米面粉', '9902', '6700012002', '2022120695590004', '2022-12-17 00:00:00', '2022-12-17 00:00:00', '2022-12-17 20:31:36', 'ADD', '922022121719900124');
-INSERT INTO `business_temp_car_fee_config` VALUES ('922023013129520562', '临时车收费规则', '202023013144890581', '102023013140260490', 'A001', '9901', '6700012001', '2023013154290059', '2023-01-01 00:00:00', '2031-01-31 00:00:00', '2023-01-31 18:37:45', 'ADD', '922023013141080561');
-INSERT INTO `business_temp_car_fee_config` VALUES ('922023120921730376', '1', '202023120942500395', '102023061679340015', '1', '9901', '6700012001', '2023052267100146', '2023-12-01 00:00:00', '2023-12-31 00:00:00', '2023-12-09 15:23:18', 'ADD', '922023120908580375');
-INSERT INTO `business_temp_car_fee_config` VALUES ('922023120921730376', '1', '202023120914340411', '102023061679340015', '1', '9901', '6700012001', '2023052267100146', '2023-12-01 00:00:00', '2023-12-31 00:00:00', '2023-12-09 15:23:24', 'DEL', '922023120908580375');
-INSERT INTO `business_temp_car_fee_config` VALUES ('922023120921730376', '1', '202023120914340411', '102023061679340015', '1', '9901', '6700012001', '2023052267100146', '2023-12-01 00:00:00', '2023-12-31 00:00:00', '2023-12-09 15:23:24', 'ADD', '922023120908580375');
-INSERT INTO `business_temp_car_fee_config` VALUES ('922023120921730376', '1', '202023120999600427', '102023061679340015', '1', '9901', '6700012001', '2023052267100146', '2023-12-01 00:00:00', '2023-12-31 00:00:00', '2023-12-09 15:24:22', 'DEL', '922023120908580375');
-INSERT INTO `business_temp_car_fee_config` VALUES ('922023120921730376', '1', '202023120999600427', '102023061679340015', '1', '9901', '6700012001', '2023052267100146', '2023-12-01 00:00:00', '2023-12-31 00:00:00', '2023-12-09 15:24:22', 'ADD', '922023120908580375');
-INSERT INTO `business_temp_car_fee_config` VALUES ('922023120921730376', '1', '202023120944380443', '102023061679340015', '1', '9901', '6700012001', '2023052267100146', '2023-12-01 00:00:00', '2023-12-31 00:00:00', '2023-12-09 15:24:28', 'DEL', '922023120908580375');
-INSERT INTO `business_temp_car_fee_config` VALUES ('922023120921730376', '1', '202023120944380443', '102023061679340015', '1', '9901', '6700012001', '2023052267100146', '2023-12-01 00:00:00', '2023-12-31 00:00:00', '2023-12-09 15:24:28', 'ADD', '922023120908580375');
-INSERT INTO `business_temp_car_fee_config` VALUES ('922023120921730376', '1', '202023120934910459', '102023061679340015', '1', '9901', '6700012001', '2023052267100146', '2023-12-01 00:00:00', '2023-12-31 00:00:00', '2023-12-09 15:25:14', 'DEL', '922023120908580375');
-INSERT INTO `business_temp_car_fee_config` VALUES ('922023120921730376', '1', '202023120934910459', '102023061679340015', '1', '9901', '6700012001', '2023052267100146', '2023-12-01 00:00:00', '2023-12-31 00:00:00', '2023-12-09 15:25:14', 'ADD', '922023120908580375');
-
--- ----------------------------
--- Table structure for business_temp_car_fee_config_attr
--- ----------------------------
-DROP TABLE IF EXISTS `business_temp_car_fee_config_attr`;
-CREATE TABLE `business_temp_car_fee_config_attr` (
-  `config_id` varchar(30) NOT NULL COMMENT '标准ID',
-  `b_id` varchar(30) NOT NULL COMMENT '业务Id',
-  `community_id` varchar(30) NOT NULL COMMENT '小区ID',
-  `attr_id` varchar(30) NOT NULL COMMENT '属性id',
-  `spec_cd` varchar(12) NOT NULL COMMENT '规格id',
-  `value` varchar(500) NOT NULL COMMENT '属性值',
-  `operate` varchar(4) NOT NULL COMMENT '数据状态，添加ADD，修改MOD 删除DEL',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of business_temp_car_fee_config_attr
--- ----------------------------
-
--- ----------------------------
 -- Table structure for business_user
 -- ----------------------------
 DROP TABLE IF EXISTS `business_user`;
@@ -11667,24 +11128,6 @@ CREATE TABLE `business_user_storehouse` (
 
 -- ----------------------------
 -- Records of business_user_storehouse
--- ----------------------------
-
--- ----------------------------
--- Table structure for business_user_tag
--- ----------------------------
-DROP TABLE IF EXISTS `business_user_tag`;
-CREATE TABLE `business_user_tag` (
-  `tag_id` varchar(30) NOT NULL COMMENT '打标ID',
-  `b_id` varchar(30) NOT NULL COMMENT '业务Id',
-  `user_id` varchar(30) NOT NULL COMMENT '用户ID',
-  `tag_cd` varchar(12) NOT NULL COMMENT '标签编码,参考tag表',
-  `remark` varchar(200) DEFAULT NULL COMMENT '备注',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `operate` varchar(3) NOT NULL COMMENT '数据状态，添加ADD，修改MOD 删除DEL'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of business_user_tag
 -- ----------------------------
 
 -- ----------------------------
@@ -11918,329 +11361,6 @@ INSERT INTO `car_inout_payment` VALUES ('102021101464920051', '10202110141582004
 INSERT INTO `car_inout_payment` VALUES ('102021101480330054', '102021101415820044', '2021100811610035', '102021101160020175', '1', '0', '0', '2021-10-14 22:17:18', '0');
 INSERT INTO `car_inout_payment` VALUES ('102021101489310356', '102021101451030342', '2021100811610035', '102021101160020175', '1', '0', '0', '2021-10-14 23:02:12', '0');
 INSERT INTO `car_inout_payment` VALUES ('102021101495750031', '102021101446200021', '2021100811610035', '102021101160020175', '1', '0', '0', '2021-10-14 22:14:10', '0');
-
--- ----------------------------
--- Table structure for charge_machine
--- ----------------------------
-DROP TABLE IF EXISTS `charge_machine`;
-CREATE TABLE `charge_machine` (
-  `machine_id` varchar(30) NOT NULL COMMENT '设备ID',
-  `machine_name` varchar(200) NOT NULL COMMENT '名称',
-  `machine_code` varchar(30) NOT NULL COMMENT '设备编号',
-  `impl_bean` varchar(30) NOT NULL COMMENT '厂家',
-  `energy_price` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '用量电价',
-  `community_id` varchar(30) NOT NULL COMMENT '小区ID',
-  `heartbeat_time` datetime NOT NULL COMMENT '设备心跳时间',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态，详细参考c_status表，S 保存，0, 在用 1失效',
-  `rule_id` varchar(30) NOT NULL COMMENT '规则',
-  PRIMARY KEY (`machine_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of charge_machine
--- ----------------------------
-INSERT INTO `charge_machine` VALUES ('102023030829880011', '叮叮充电桩测试', '788616009567', '1', '1.30', '2023013154290059', '2023-03-08 01:51:27', '2023-03-08 01:51:27', '1', '');
-INSERT INTO `charge_machine` VALUES ('102023030870610002', '测试叮叮充电桩', '123123122', '1', '1.20', '2023013154290059', '2023-03-08 01:19:18', '2023-03-08 01:19:19', '1', '');
-INSERT INTO `charge_machine` VALUES ('102023031146610004', '调试充电桩', '11111111', '2', '1.00', '2023013154290059', '2023-03-11 02:07:38', '2023-03-11 02:07:39', '0', '');
-INSERT INTO `charge_machine` VALUES ('102023031903550008', '叮叮充电桩', '788616009567', '1', '1.00', '2023013154290059', '2023-03-19 01:44:11', '2023-03-19 01:44:11', '0', '102023031827370013');
-
--- ----------------------------
--- Table structure for charge_machine_factory
--- ----------------------------
-DROP TABLE IF EXISTS `charge_machine_factory`;
-CREATE TABLE `charge_machine_factory` (
-  `factory_id` varchar(30) NOT NULL COMMENT '厂家ID',
-  `factory_name` varchar(64) NOT NULL COMMENT '厂家名称',
-  `bean_impl` varchar(512) NOT NULL COMMENT '厂家处理类',
-  `remark` varchar(512) DEFAULT NULL COMMENT '备注',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态',
-  PRIMARY KEY (`factory_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of charge_machine_factory
--- ----------------------------
-INSERT INTO `charge_machine_factory` VALUES ('1', '叮叮充电桩', 'dingdingChargeMachineFactory', '叮叮充电桩', '2023-03-08 00:56:04', '0');
-INSERT INTO `charge_machine_factory` VALUES ('2', '通用充电桩', 'commonChargeMachineFactory', '通用充电桩', '2023-03-08 00:56:04', '0');
-INSERT INTO `charge_machine_factory` VALUES ('3', '科航充电桩', 'keHangChargeMachineFactory', '科航充电桩', '2023-03-08 00:56:04', '0');
-
--- ----------------------------
--- Table structure for charge_machine_factory_spec
--- ----------------------------
-DROP TABLE IF EXISTS `charge_machine_factory_spec`;
-CREATE TABLE `charge_machine_factory_spec` (
-  `spec_id` varchar(30) NOT NULL COMMENT '规格ID',
-  `factory_id` varchar(64) NOT NULL COMMENT '厂家名称',
-  `spec_name` varchar(64) NOT NULL COMMENT '规格名称',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态',
-  `remark` varchar(256) DEFAULT NULL COMMENT '描述',
-  PRIMARY KEY (`spec_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of charge_machine_factory_spec
--- ----------------------------
-
--- ----------------------------
--- Table structure for charge_machine_order
--- ----------------------------
-DROP TABLE IF EXISTS `charge_machine_order`;
-CREATE TABLE `charge_machine_order` (
-  `order_id` varchar(30) NOT NULL COMMENT '订单ID',
-  `person_id` varchar(30) NOT NULL COMMENT '充电人',
-  `person_name` varchar(64) NOT NULL COMMENT '名称',
-  `person_tel` varchar(11) NOT NULL COMMENT '手机号',
-  `machine_id` varchar(30) NOT NULL COMMENT '设备ID',
-  `port_id` varchar(200) NOT NULL COMMENT '插槽',
-  `charge_hours` decimal(10,2) DEFAULT '0.00' COMMENT '充电小时',
-  `energy` decimal(10,2) DEFAULT '0.00' COMMENT '充电量',
-  `community_id` varchar(30) NOT NULL COMMENT '小区ID',
-  `start_time` datetime NOT NULL COMMENT '开始充电时间',
-  `end_time` datetime NOT NULL COMMENT '结束充电时间',
-  `acct_detail_id` varchar(30) NOT NULL COMMENT '扣款账户明细',
-  `amount` decimal(10,2) NOT NULL COMMENT '扣款金额',
-  `state` varchar(12) NOT NULL DEFAULT 'FREE' COMMENT '插座状态，设备插座工作状态，1001 充电中  2002 充电完成 3003 充电失败',
-  `remark` varchar(512) DEFAULT NULL COMMENT '说明',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态，详细参考c_status表，S 保存，0, 在用 1失效',
-  `duration_price` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '小时电价',
-  PRIMARY KEY (`order_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of charge_machine_order
--- ----------------------------
-INSERT INTO `charge_machine_order` VALUES ('112023031176130002', '302023013174200192', '李四', '18909723333', '102023031146610004', '102023031125440012', '999.00', '1.00', '2023013154290059', '2023-03-11 02:31:56', '2023-03-14 00:19:33', '312023013146290180', '0.00', '2002', null, '2023-03-11 02:31:56', '0', '0.00');
-INSERT INTO `charge_machine_order` VALUES ('112023031349180004', '302023013174200192', '李四', '18909723333', '102023031146610004', '102023031125440012', '999.00', '1.00', '2023013154290059', '2023-03-13 23:32:17', '2023-03-14 00:19:33', '312023013146290180', '0.00', '2002', '用户手工结束', '2023-03-13 23:32:17', '0', '0.00');
-INSERT INTO `charge_machine_order` VALUES ('112023031363990002', '302023013174200192', '李四', '18909723333', '102023031146610004', '102023031125440012', '999.00', '1.00', '2023013154290059', '2023-03-13 23:56:05', '2023-03-14 00:19:33', '312023013146290180', '0.00', '2002', '用户手工结束', '2023-03-13 23:56:05', '0', '0.00');
-INSERT INTO `charge_machine_order` VALUES ('112023031486300002', '302023013174200192', '李四', '18909723333', '102023031146610004', '102023031125440012', '999.00', '1.00', '2023013154290059', '2023-03-14 00:40:48', '2023-03-14 00:47:50', '312023013146290180', '1.50', '2002', '手工结束', '2023-03-14 00:40:48', '0', '0.00');
-INSERT INTO `charge_machine_order` VALUES ('112023031492010002', '302023013174200192', '李四', '18909723333', '102023031146610004', '102023031125440012', '999.00', '1.00', '2023013154290059', '2023-03-14 00:10:27', '2023-03-14 00:19:33', '312023013146290180', '0.00', '2002', null, '2023-03-14 00:10:27', '0', '0.00');
-INSERT INTO `charge_machine_order` VALUES ('112023031736140009', '302023013174200192', '李四', '18909723333', '102023030829880011', '102023030837130013', '2.00', '1.00', '2023013154290059', '2023-03-17 15:11:34', '2023-03-17 15:14:27', '312023013146290180', '1.50', '2002', '手动停止', '2023-03-17 15:11:34', '0', '0.00');
-INSERT INTO `charge_machine_order` VALUES ('112023031744160334', '302023013174200192', '李四', '18909723333', '102023030829880011', '102023030837130013', '2.00', '1.00', '2023013154290059', '2023-03-17 16:54:09', '2023-03-17 17:01:09', '312023013146290180', '1.50', '2002', '用户手工结束', '2023-03-17 16:54:09', '0', '0.00');
-INSERT INTO `charge_machine_order` VALUES ('112023031754220006', '302023013174200192', '李四', '18909723333', '102023030829880011', '102023030837130013', '999.00', '1.00', '2023013154290059', '2023-03-17 13:38:33', '2023-03-17 13:39:28', '312023013146290180', '1.50', '2002', '用户手工结束', '2023-03-17 13:38:33', '0', '0.00');
-INSERT INTO `charge_machine_order` VALUES ('112023031760630273', '302023013174200192', '李四', '18909723333', '102023030829880011', '102023030837130013', '2.00', '1.00', '2023013154290059', '2023-03-17 16:20:38', '2023-03-17 16:51:29', '312023013146290180', '1.50', '2002', '用户手工结束', '2023-03-17 16:20:38', '0', '0.00');
-INSERT INTO `charge_machine_order` VALUES ('112023031761790035', '302023013174200192', '李四', '18909723333', '102023030829880011', '102023030837130013', '2.00', '1.00', '2023013154290059', '2023-03-17 13:42:34', '2023-03-17 14:16:57', '312023013146290180', '1.50', '2002', '用户手工结束', '2023-03-17 13:42:34', '0', '0.00');
-INSERT INTO `charge_machine_order` VALUES ('112023031766960100', '302023013174200192', '李四', '18909723333', '102023030829880011', '102023030837130013', '2.00', '1.00', '2023013154290059', '2023-03-17 14:17:50', '2023-03-17 14:49:47', '312023013146290180', '1.50', '2002', '用户手工结束', '2023-03-17 14:17:50', '0', '0.00');
-INSERT INTO `charge_machine_order` VALUES ('112023031798900013', '302023013174200192', '李四', '18909723333', '102023030829880011', '102023030837130013', '999.00', '1.00', '2023013154290059', '2023-03-17 15:33:26', '2023-03-17 15:35:53', '312023013146290180', '1.50', '2002', '功率过小停止', '2023-03-17 15:33:26', '0', '0.00');
-INSERT INTO `charge_machine_order` VALUES ('112023040330941764', '302023013174200192', '李四', '18909723333', '102023031146610004', '102023031176020006', '999.00', '1.00', '2023013154290059', '2023-04-03 14:21:14', '2023-04-04 00:21:14', '312023013146290180', '0.00', '1001', null, '2023-04-03 14:21:14', '0', '0.27');
-
--- ----------------------------
--- Table structure for charge_machine_order_acct
--- ----------------------------
-DROP TABLE IF EXISTS `charge_machine_order_acct`;
-CREATE TABLE `charge_machine_order_acct` (
-  `cmoa_id` varchar(30) NOT NULL COMMENT '订单ID',
-  `order_id` varchar(30) NOT NULL COMMENT '订单ID',
-  `acct_id` varchar(30) NOT NULL COMMENT '账户ID',
-  `acct_detail_id` varchar(30) NOT NULL COMMENT '账户明细ID',
-  `energy` decimal(10,2) DEFAULT '0.00' COMMENT '充电量',
-  `community_id` varchar(30) NOT NULL COMMENT '小区ID',
-  `start_time` datetime NOT NULL COMMENT '扣款开始时间',
-  `end_time` datetime NOT NULL COMMENT '扣款结束时间',
-  `amount` decimal(10,2) NOT NULL COMMENT '扣款金额',
-  `remark` varchar(512) DEFAULT NULL COMMENT '说明',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态，详细参考c_status表，S 保存，0, 在用 1失效',
-  `duration_price` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '小时电价',
-  PRIMARY KEY (`cmoa_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of charge_machine_order_acct
--- ----------------------------
-INSERT INTO `charge_machine_order_acct` VALUES ('112023031131060008', '112023031176130002', '312023013146290180', '912023031100220004', '0.00', '2023013154290059', '2023-03-11 02:31:57', '2023-03-11 03:31:57', '1.50', '一小时定时扣款', '2023-03-11 02:31:57', '0', '0.00');
-INSERT INTO `charge_machine_order_acct` VALUES ('112023031300230009', '112023031363990002', '312023013146290180', '912023031323880005', '0.00', '2023013154290059', '2023-03-13 23:56:05', '2023-03-14 09:56:05', '15.00', '账户扣款', '2023-03-13 23:56:06', '0', '0.00');
-INSERT INTO `charge_machine_order_acct` VALUES ('112023031300460011', '112023031349180004', '312023013146290180', '912023031339300007', '0.00', '2023013154290059', '2023-03-13 23:32:18', '2023-03-14 09:32:18', '1.50', '账户扣款', '2023-03-13 23:32:18', '0', '0.00');
-INSERT INTO `charge_machine_order_acct` VALUES ('112023031420420009', '112023031486300002', '312023013146290180', '912023031461360005', '0.00', '2023013154290059', '2023-03-14 00:40:48', '2023-03-14 10:40:48', '15.00', '账户扣款', '2023-03-14 00:40:48', '0', '0.00');
-INSERT INTO `charge_machine_order_acct` VALUES ('112023031456480009', '112023031492010002', '312023013146290180', '912023031454790005', '0.00', '2023013154290059', '2023-03-14 00:10:27', '2023-03-14 10:10:27', '15.00', '账户扣款', '2023-03-14 00:10:28', '0', '0.00');
-INSERT INTO `charge_machine_order_acct` VALUES ('112023031471380017', '112023031486300002', '312023013146290180', '912023031465420011', '0.00', '2023013154290059', '2023-03-14 00:40:48', '2023-03-14 10:40:48', '-13.50', '账户退款-手工结束', '2023-03-14 00:47:51', '0', '0.00');
-INSERT INTO `charge_machine_order_acct` VALUES ('112023031705960111', '112023031766960100', '312023013146290180', '912023031774280107', '0.00', '2023013154290059', '2023-03-17 14:17:50', '2023-03-17 16:17:50', '3.00', '账户扣款', '2023-03-17 14:17:50', '0', '0.00');
-INSERT INTO `charge_machine_order_acct` VALUES ('112023031708370284', '112023031760630273', '312023013146290180', '912023031773510280', '0.00', '2023013154290059', '2023-03-17 16:20:39', '2023-03-17 18:20:39', '3.00', '账户扣款', '2023-03-17 16:20:39', '0', '0.00');
-INSERT INTO `charge_machine_order_acct` VALUES ('112023031710440058', '112023031798900013', '312023013146290180', '912023031772090052', '0.00', '2023013154290059', '2023-03-17 15:33:26', '2023-03-18 01:33:26', '-13.50', '账户退款-功率过小停止', '2023-03-17 15:35:54', '0', '0.00');
-INSERT INTO `charge_machine_order_acct` VALUES ('112023031715980046', '112023031761790035', '312023013146290180', '912023031731480042', '0.00', '2023013154290059', '2023-03-17 13:42:34', '2023-03-17 15:42:34', '3.00', '账户扣款', '2023-03-17 13:42:34', '0', '0.00');
-INSERT INTO `charge_machine_order_acct` VALUES ('112023031716630020', '112023031736140009', '312023013146290180', '912023031787120016', '0.00', '2023013154290059', '2023-03-17 15:11:34', '2023-03-17 17:11:34', '3.00', '账户扣款', '2023-03-17 15:11:34', '0', '0.00');
-INSERT INTO `charge_machine_order_acct` VALUES ('112023031722760325', '112023031760630273', '312023013146290180', '912023031714630320', '0.00', '2023013154290059', '2023-03-17 16:20:38', '2023-03-17 18:20:38', '-1.50', '账户退款-用户手工结束', '2023-03-17 16:51:29', '0', '0.00');
-INSERT INTO `charge_machine_order_acct` VALUES ('112023031729780013', '112023031766960100', '312023013146290180', '912023031715600008', '0.00', '2023013154290059', '2023-03-17 14:17:50', '2023-03-17 16:17:50', '-1.50', '账户退款-用户手工结束', '2023-03-17 14:49:48', '0', '0.00');
-INSERT INTO `charge_machine_order_acct` VALUES ('112023031731700034', '112023031736140009', '312023013146290180', '912023031772590023', '0.00', '2023013154290059', '2023-03-17 15:11:34', '2023-03-17 17:11:34', '-1.50', '账户退款-手动停止', '2023-03-17 15:15:21', '0', '0.00');
-INSERT INTO `charge_machine_order_acct` VALUES ('112023031733170093', '112023031761790035', '312023013146290180', '912023031716690088', '0.00', '2023013154290059', '2023-03-17 13:42:34', '2023-03-17 15:42:34', '-1.50', '账户退款-用户手工结束', '2023-03-17 14:16:57', '0', '0.00');
-INSERT INTO `charge_machine_order_acct` VALUES ('112023031735060017', '112023031754220006', '312023013146290180', '912023031700240013', '0.00', '2023013154290059', '2023-03-17 13:38:33', '2023-03-17 23:38:33', '15.00', '账户扣款', '2023-03-17 13:38:34', '0', '0.00');
-INSERT INTO `charge_machine_order_acct` VALUES ('112023031738920345', '112023031744160334', '312023013146290180', '912023031793160341', '0.00', '2023013154290059', '2023-03-17 16:54:10', '2023-03-17 18:54:10', '3.00', '账户扣款', '2023-03-17 16:54:10', '0', '0.00');
-INSERT INTO `charge_machine_order_acct` VALUES ('112023031766190009', '112023031744160334', '312023013146290180', '912023031788820004', '0.00', '2023013154290059', '2023-03-17 16:54:09', '2023-03-17 18:54:09', '-1.50', '账户退款-用户手工结束', '2023-03-17 17:01:10', '0', '0.00');
-INSERT INTO `charge_machine_order_acct` VALUES ('112023031781780026', '112023031754220006', '312023013146290180', '912023031717720021', '0.00', '2023013154290059', '2023-03-17 13:38:33', '2023-03-17 23:38:33', '-13.50', '账户退款-用户手工结束', '2023-03-17 13:39:28', '0', '0.00');
-INSERT INTO `charge_machine_order_acct` VALUES ('112023031788990024', '112023031798900013', '312023013146290180', '912023031778500020', '0.00', '2023013154290059', '2023-03-17 15:33:26', '2023-03-18 01:33:26', '15.00', '账户扣款', '2023-03-17 15:33:26', '0', '0.00');
-INSERT INTO `charge_machine_order_acct` VALUES ('112023040337591771', '112023040330941764', '312023013146290180', '912023040317851767', '0.00', '2023013154290059', '2023-04-03 14:21:15', '2023-04-04 00:21:15', '2.70', '账户扣款', '2023-04-03 14:21:15', '0', '0.27');
-
--- ----------------------------
--- Table structure for charge_machine_order_coupon
--- ----------------------------
-DROP TABLE IF EXISTS `charge_machine_order_coupon`;
-CREATE TABLE `charge_machine_order_coupon` (
-  `cmoc_id` varchar(30) NOT NULL COMMENT '订单ID',
-  `order_id` varchar(30) NOT NULL COMMENT '订单ID',
-  `coupon_id` varchar(30) NOT NULL COMMENT '优惠券ID',
-  `coupon_name` varchar(30) NOT NULL COMMENT '优惠券名称',
-  `hours` decimal(10,2) DEFAULT '0.00' COMMENT '优惠小时',
-  `community_id` varchar(30) NOT NULL COMMENT '小区ID',
-  `remark` varchar(512) DEFAULT NULL COMMENT '说明',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态，详细参考c_status表，S 保存，0, 在用 1失效',
-  `state` varchar(12) NOT NULL DEFAULT 'W' COMMENT '状态 W 待使用 C 已使用',
-  PRIMARY KEY (`cmoc_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of charge_machine_order_coupon
--- ----------------------------
-
--- ----------------------------
--- Table structure for charge_machine_port
--- ----------------------------
-DROP TABLE IF EXISTS `charge_machine_port`;
-CREATE TABLE `charge_machine_port` (
-  `port_id` varchar(30) NOT NULL COMMENT '表ID',
-  `machine_id` varchar(30) NOT NULL COMMENT '表ID',
-  `port_name` varchar(200) NOT NULL COMMENT '插座名称',
-  `port_code` varchar(30) NOT NULL COMMENT '插座编号',
-  `state` varchar(12) NOT NULL DEFAULT 'FREE' COMMENT '插座状态，设备插座工作状态，FREE 空闲，WORKING 忙碌，BREAKDOWN 故障',
-  `community_id` varchar(30) NOT NULL COMMENT '小区ID',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态，详细参考c_status表，S 保存，0, 在用 1失效',
-  PRIMARY KEY (`port_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of charge_machine_port
--- ----------------------------
-INSERT INTO `charge_machine_port` VALUES ('102023030807320006', '102023030870610002', '2号插座', '2', 'FREE', '2023013154290059', '2023-03-08 01:19:19', '0');
-INSERT INTO `charge_machine_port` VALUES ('102023030837130013', '102023030829880011', '1号插座', '1', 'FREE', '2023013154290059', '2023-03-08 01:51:27', '0');
-INSERT INTO `charge_machine_port` VALUES ('102023030852840004', '102023030870610002', '1号插座', '1', 'FREE', '2023013154290059', '2023-03-08 01:19:19', '0');
-INSERT INTO `charge_machine_port` VALUES ('102023030861380002', '102023030870610002', '4号插座', '4', 'FREE', '2023013154290059', '2023-03-08 01:44:05', '1');
-INSERT INTO `charge_machine_port` VALUES ('102023030865110017', '102023030829880011', '3号插座', '3', 'FREE', '2023013154290059', '2023-03-08 01:51:27', '0');
-INSERT INTO `charge_machine_port` VALUES ('102023030866870015', '102023030829880011', '2号插座', '2', 'FREE', '2023013154290059', '2023-03-08 01:51:27', '0');
-INSERT INTO `charge_machine_port` VALUES ('102023030874490008', '102023030870610002', '3号插座', '3', 'FREE', '2023013154290059', '2023-03-08 01:19:19', '0');
-INSERT INTO `charge_machine_port` VALUES ('102023030893080019', '102023030829880011', '4号插座', '4', 'FREE', '2023013154290059', '2023-03-08 01:51:27', '0');
-INSERT INTO `charge_machine_port` VALUES ('102023031125440012', '102023031146610004', '4号插座', '4', 'FREE', '2023013154290059', '2023-03-11 02:07:39', '0');
-INSERT INTO `charge_machine_port` VALUES ('102023031126680008', '102023031146610004', '2号插座', '2', 'FREE', '2023013154290059', '2023-03-11 02:07:39', '0');
-INSERT INTO `charge_machine_port` VALUES ('102023031127510010', '102023031146610004', '3号插座', '3', 'FREE', '2023013154290059', '2023-03-11 02:07:39', '0');
-INSERT INTO `charge_machine_port` VALUES ('102023031176020006', '102023031146610004', '1号插座', '1', 'WORKING', '2023013154290059', '2023-03-11 02:07:39', '0');
-INSERT INTO `charge_machine_port` VALUES ('102023031919630016', '102023031903550008', '4号插座', '4', 'FREE', '2023013154290059', '2023-03-19 01:44:12', '0');
-INSERT INTO `charge_machine_port` VALUES ('102023031941360010', '102023031903550008', '1号插座', '1', 'FREE', '2023013154290059', '2023-03-19 01:44:11', '0');
-INSERT INTO `charge_machine_port` VALUES ('102023031969930012', '102023031903550008', '2号插座', '2', 'FREE', '2023013154290059', '2023-03-19 01:44:12', '0');
-INSERT INTO `charge_machine_port` VALUES ('102023031993220014', '102023031903550008', '3号插座', '3', 'FREE', '2023013154290059', '2023-03-19 01:44:12', '0');
-
--- ----------------------------
--- Table structure for charge_machine_spec
--- ----------------------------
-DROP TABLE IF EXISTS `charge_machine_spec`;
-CREATE TABLE `charge_machine_spec` (
-  `cms_id` varchar(30) NOT NULL COMMENT '主键ID',
-  `machine_id` varchar(30) NOT NULL COMMENT '设备ID',
-  `community_id` varchar(30) NOT NULL COMMENT '小区ID',
-  `spec_id` varchar(30) NOT NULL COMMENT '规格ID',
-  `spec_name` varchar(64) NOT NULL COMMENT '规格名称',
-  `spec_value` varchar(30) NOT NULL COMMENT '规格值',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态',
-  PRIMARY KEY (`cms_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of charge_machine_spec
--- ----------------------------
-
--- ----------------------------
--- Table structure for charge_month_card
--- ----------------------------
-DROP TABLE IF EXISTS `charge_month_card`;
-CREATE TABLE `charge_month_card` (
-  `card_id` varchar(30) NOT NULL COMMENT '卡ID',
-  `card_name` varchar(200) NOT NULL COMMENT '名称',
-  `card_month` int(11) NOT NULL DEFAULT '1' COMMENT '月',
-  `card_price` decimal(10,2) NOT NULL COMMENT '月价',
-  `day_hours` varchar(30) NOT NULL COMMENT '每日充电小时',
-  `community_id` varchar(30) NOT NULL COMMENT '小区ID',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态，详细参考c_status表，S 保存，0, 在用 1失效',
-  `remark` varchar(512) DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`card_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of charge_month_card
--- ----------------------------
-INSERT INTO `charge_month_card` VALUES ('102023042420980018', '充电月卡', '1', '30.00', '10', '2023013154290059', '2023-04-24 13:21:09', '0', '');
-INSERT INTO `charge_month_card` VALUES ('102023042483200010', '月卡1', '1', '30.00', '11', '2023013154290059', '2023-04-24 13:20:17', '1', '从');
-
--- ----------------------------
--- Table structure for charge_month_order
--- ----------------------------
-DROP TABLE IF EXISTS `charge_month_order`;
-CREATE TABLE `charge_month_order` (
-  `order_id` varchar(30) NOT NULL COMMENT '订单ID',
-  `card_id` varchar(30) NOT NULL COMMENT '卡ID',
-  `person_name` varchar(64) NOT NULL COMMENT '充电人',
-  `person_tel` varchar(11) NOT NULL COMMENT '充电电话',
-  `community_id` varchar(30) NOT NULL COMMENT '小区ID',
-  `prime_rate` decimal(10,2) NOT NULL COMMENT '支付方式',
-  `receivable_amount` decimal(10,2) NOT NULL COMMENT '应收金额',
-  `received_amount` decimal(10,2) NOT NULL COMMENT '实收金额',
-  `start_time` datetime DEFAULT NULL COMMENT '费用开始时间',
-  `end_time` datetime DEFAULT NULL COMMENT '费用结束时间',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态，详细参考c_status表，S 保存，0, 在用 1失效',
-  `remark` varchar(512) DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`order_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of charge_month_order
--- ----------------------------
-INSERT INTO `charge_month_order` VALUES ('102023042482790003', '102023042420980018', '癌变', 'personTel', '2023013154290059', '1.00', '30.00', '30.00', '2023-04-24 15:05:37', '2023-05-24 15:05:37', '2023-04-24 15:05:37', '0', 'xx');
-
--- ----------------------------
--- Table structure for charge_rule
--- ----------------------------
-DROP TABLE IF EXISTS `charge_rule`;
-CREATE TABLE `charge_rule` (
-  `rule_id` varchar(30) NOT NULL COMMENT '规则ID',
-  `rule_name` varchar(64) NOT NULL COMMENT '规则名称',
-  `community_id` varchar(30) NOT NULL COMMENT '小区ID',
-  `remark` varchar(512) DEFAULT NULL COMMENT '备注',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态，详细参考c_status表，S 保存，0, 在用 1失效',
-  PRIMARY KEY (`rule_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of charge_rule
--- ----------------------------
-INSERT INTO `charge_rule` VALUES ('102023031827370013', '测试规则', '2023013154290059', '', '2023-03-18 23:23:24', '0');
-INSERT INTO `charge_rule` VALUES ('102023031839720004', '测试规则1', '2023013154290059', '1', '2023-03-18 23:21:16', '1');
-
--- ----------------------------
--- Table structure for charge_rule_fee
--- ----------------------------
-DROP TABLE IF EXISTS `charge_rule_fee`;
-CREATE TABLE `charge_rule_fee` (
-  `crf_id` varchar(30) NOT NULL COMMENT '规则ID',
-  `rule_id` varchar(30) NOT NULL COMMENT '规则ID',
-  `min_energy_price` decimal(10,2) NOT NULL COMMENT '最小功率',
-  `max_energy_price` decimal(10,2) NOT NULL COMMENT '最大功率',
-  `duration_price` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '小时电价',
-  `community_id` varchar(30) NOT NULL COMMENT '小区ID',
-  `remark` varchar(512) DEFAULT NULL COMMENT '备注',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态，详细参考c_status表，S 保存，0, 在用 1失效',
-  PRIMARY KEY (`crf_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of charge_rule_fee
--- ----------------------------
-INSERT INTO `charge_rule_fee` VALUES ('102023031976480058', '102023031827370013', '0.00', '100.00', '0.27', '2023013154290059', 'ss', '2023-03-19 00:11:30', '0');
 
 -- ----------------------------
 -- Table structure for city_area
@@ -18258,10 +17378,10 @@ INSERT INTO `c_mapping` VALUES ('174', 'WECHAT', '临时车缴费回调', 'tempC
 INSERT INTO `c_mapping` VALUES ('175', 'WECHAT', '金币支付回调地址', 'goldNotifyUrl', '/app/paymentGold/goldNotify', '', '2021-12-27 12:04:03', '0');
 INSERT INTO `c_mapping` VALUES ('176', 'WECHAT', '家政支付回调地址', 'servFeeNotifyUrl', '/app/payment/servFeeNotify', '', '2021-12-27 12:04:23', '0');
 INSERT INTO `c_mapping` VALUES ('177', 'WECHAT', '保证金支付回调路径', 'bondFeeNotifyUrl', '/app/payment/bondFeeNotify', '', '2021-12-27 12:04:40', '0');
-INSERT INTO `c_mapping` VALUES ('178', 'WECHAT', '全局小程序AppId', 'appId', 'wxf83d66b0e9f5964d', 'WECHAT', '2022-01-06 10:50:28', '0');
-INSERT INTO `c_mapping` VALUES ('179', 'WECHAT', '全局小程序appSecret', 'appSecret', '7e813e047be61ce07514634f98dc94f9', 'appSecret', '2022-01-06 10:50:57', '0');
-INSERT INTO `c_mapping` VALUES ('180', 'WECHAT_STORE', '微信商户支付秘钥（v2）', 'key', 'ikciurAJRP38qXL5osdvIeGufaXtoLyo', 'key', '2022-01-06 10:51:25', '0');
-INSERT INTO `c_mapping` VALUES ('181', 'WECHAT_STORE', '微信商户ID', 'mchId', '1562146141', 'WECHAT', '2022-01-06 10:51:49', '0');
+INSERT INTO `c_mapping` VALUES ('178', 'WECHAT', '全局小程序AppId', 'appId', 'xx', 'WECHAT', '2022-01-06 10:50:28', '0');
+INSERT INTO `c_mapping` VALUES ('179', 'WECHAT', '全局小程序appSecret', 'appSecret', 'xx', 'appSecret', '2022-01-06 10:50:57', '0');
+INSERT INTO `c_mapping` VALUES ('180', 'WECHAT_STORE', '微信商户支付秘钥（v2）', 'key', 'xx', 'key', '2022-01-06 10:51:25', '0');
+INSERT INTO `c_mapping` VALUES ('181', 'WECHAT_STORE', '微信商户ID', 'mchId', 'xx', 'WECHAT', '2022-01-06 10:51:49', '0');
 INSERT INTO `c_mapping` VALUES ('182', 'MALL_WECHAT', '公众号AppId', 'wechatAppId', 'xx', 'wechatAppId', '2022-01-06 10:55:00', '0');
 INSERT INTO `c_mapping` VALUES ('183', 'MALL_WECHAT', '公众号AppSecret', 'wechatAppSecret', 'xx', 'wechatAppSecret', '2022-01-06 10:55:24', '0');
 INSERT INTO `c_mapping` VALUES ('184', 'COS', 'endpoint', 'endpoint', '', 'COS的入口,COS 地域的简称请参照 https://cloud.tencent.com/document/product/436/6224', '2022-03-23 09:37:56', '0');
@@ -18269,7 +17389,7 @@ INSERT INTO `c_mapping` VALUES ('185', 'COS', 'accessKeyId', 'accessKeyId', '', 
 INSERT INTO `c_mapping` VALUES ('186', 'COS', 'accessKeySecret', 'accessKeySecret', '', 'SECRETID和SECRETKEY请登录访问管理控制台 https://console.cloud.tencent.com/cam/capi 进行查看和管理', '2022-03-23 09:37:57', '0');
 INSERT INTO `c_mapping` VALUES ('187', 'COS', 'bucket', 'bucketName', '存储桶名称，格式：BucketName-APPID', '存储桶名称，格式：BucketName-APPID', '2022-03-23 09:37:57', '0');
 INSERT INTO `c_mapping` VALUES ('188', 'COS', 'region', 'regionName', '所属地域:广州 （中国）（ap-guangzhou）', '所属地域:广州 （中国）（ap-guangzhou）', '2022-03-23 09:37:57', '0');
-INSERT INTO `c_mapping` VALUES ('189', 'WECHAT', '运营mchId', 'adminMchId', '1562146141', 'adminMchId', '2022-05-23 14:07:24', '1');
+INSERT INTO `c_mapping` VALUES ('189', 'WECHAT', '运营mchId', 'adminMchId', 'xx', 'adminMchId', '2022-05-23 14:07:24', '1');
 INSERT INTO `c_mapping` VALUES ('190', 'WECHAT', '运营key', 'adminKey', 'adminKey', '', '2022-05-23 14:08:14', '1');
 INSERT INTO `c_mapping` VALUES ('191', 'WECHAT_PAY', '服务商商户名称', 'SERVICE_MCH_NAME', '这里填写服务商名称', '', '2022-06-18 23:58:00', '0');
 INSERT INTO `c_mapping` VALUES ('192', 'WECHAT_STORE', '微信商户名称', 'mchName', '商户名称', '', '2022-06-18 23:59:21', '0');
@@ -23627,26 +22747,6 @@ INSERT INTO `c_service_business` VALUES ('311', '651130030001', '1', 'ORDER_COMM
 INSERT INTO `c_service_business` VALUES ('312', '651130050001', '1', 'xx', 'xx', '60', '3', '2023-02-22 02:00:33', '0');
 
 -- ----------------------------
--- Table structure for c_service_business_31
--- ----------------------------
-DROP TABLE IF EXISTS `c_service_business_31`;
-CREATE TABLE `c_service_business_31` (
-  `service_business_id` int(11) NOT NULL DEFAULT '0' COMMENT 'id',
-  `business_type_cd` varchar(12) DEFAULT NULL,
-  `invoke_type` varchar(4) NOT NULL COMMENT '调用类型，1 http-post(微服务内应用) 2 webservice 3 http-post(微服务之外应用)',
-  `url` varchar(200) DEFAULT NULL COMMENT '目标地址',
-  `message_topic` varchar(50) DEFAULT NULL COMMENT '异步时的消息topic名称',
-  `timeout` int(11) NOT NULL DEFAULT '60' COMMENT '超时时间',
-  `retry_count` int(11) NOT NULL DEFAULT '3' COMMENT '重试次数',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态，详细参考c_status表，0在用，1失效'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of c_service_business_31
--- ----------------------------
-
--- ----------------------------
 -- Table structure for c_service_sql
 -- ----------------------------
 DROP TABLE IF EXISTS `c_service_sql`;
@@ -26087,18 +25187,18 @@ INSERT INTO `flw_ev_databasechangeloglock` VALUES ('1', '\0', null, null);
 -- ----------------------------
 DROP TABLE IF EXISTS `flw_ru_batch`;
 CREATE TABLE `flw_ru_batch` (
-  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `ID_` varchar(64) NOT NULL,
   `REV_` int(11) DEFAULT NULL,
-  `TYPE_` varchar(64) COLLATE utf8_bin NOT NULL,
-  `SEARCH_KEY_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `SEARCH_KEY2_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `TYPE_` varchar(64) NOT NULL,
+  `SEARCH_KEY_` varchar(255) DEFAULT NULL,
+  `SEARCH_KEY2_` varchar(255) DEFAULT NULL,
   `CREATE_TIME_` datetime(3) NOT NULL,
   `COMPLETE_TIME_` datetime(3) DEFAULT NULL,
-  `STATUS_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `BATCH_DOC_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `TENANT_ID_` varchar(255) COLLATE utf8_bin DEFAULT '',
+  `STATUS_` varchar(255) DEFAULT NULL,
+  `BATCH_DOC_ID_` varchar(64) DEFAULT NULL,
+  `TENANT_ID_` varchar(255) DEFAULT '',
   PRIMARY KEY (`ID_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of flw_ru_batch
@@ -26109,24 +25209,24 @@ CREATE TABLE `flw_ru_batch` (
 -- ----------------------------
 DROP TABLE IF EXISTS `flw_ru_batch_part`;
 CREATE TABLE `flw_ru_batch_part` (
-  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `ID_` varchar(64) NOT NULL,
   `REV_` int(11) DEFAULT NULL,
-  `BATCH_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `TYPE_` varchar(64) COLLATE utf8_bin NOT NULL,
-  `SCOPE_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `SUB_SCOPE_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `SCOPE_TYPE_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `SEARCH_KEY_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `SEARCH_KEY2_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `BATCH_ID_` varchar(64) DEFAULT NULL,
+  `TYPE_` varchar(64) NOT NULL,
+  `SCOPE_ID_` varchar(64) DEFAULT NULL,
+  `SUB_SCOPE_ID_` varchar(64) DEFAULT NULL,
+  `SCOPE_TYPE_` varchar(64) DEFAULT NULL,
+  `SEARCH_KEY_` varchar(255) DEFAULT NULL,
+  `SEARCH_KEY2_` varchar(255) DEFAULT NULL,
   `CREATE_TIME_` datetime(3) NOT NULL,
   `COMPLETE_TIME_` datetime(3) DEFAULT NULL,
-  `STATUS_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `RESULT_DOC_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `TENANT_ID_` varchar(255) COLLATE utf8_bin DEFAULT '',
+  `STATUS_` varchar(255) DEFAULT NULL,
+  `RESULT_DOC_ID_` varchar(64) DEFAULT NULL,
+  `TENANT_ID_` varchar(255) DEFAULT '',
   PRIMARY KEY (`ID_`),
   KEY `FLW_IDX_BATCH_PART` (`BATCH_ID_`) USING BTREE,
   CONSTRAINT `flw_ru_batch_part_ibfk_1` FOREIGN KEY (`BATCH_ID_`) REFERENCES `flw_ru_batch` (`ID_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of flw_ru_batch_part
@@ -26196,135 +25296,6 @@ CREATE TABLE `hc_file` (
 
 -- ----------------------------
 -- Records of hc_file
--- ----------------------------
-
--- ----------------------------
--- Table structure for hc_ftp_item_spec
--- ----------------------------
-DROP TABLE IF EXISTS `hc_ftp_item_spec`;
-CREATE TABLE `hc_ftp_item_spec` (
-  `item_spec_id` int(11) NOT NULL,
-  `item_spec_cd` varchar(20) NOT NULL,
-  `domain` varchar(50) DEFAULT NULL,
-  `name` varchar(100) DEFAULT NULL,
-  `describes` varchar(250) DEFAULT NULL,
-  `status_cd` varchar(3) DEFAULT '0',
-  `create_date` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of hc_ftp_item_spec
--- ----------------------------
-
--- ----------------------------
--- Table structure for hc_ftp_log
--- ----------------------------
-DROP TABLE IF EXISTS `hc_ftp_log`;
-CREATE TABLE `hc_ftp_log` (
-  `log_id` int(11) NOT NULL,
-  `taskid` int(11) NOT NULL,
-  `file_name` varchar(100) NOT NULL,
-  `status_cd` varchar(10) DEFAULT '0',
-  `create_date` date DEFAULT NULL,
-  `tfs_file_name` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of hc_ftp_log
--- ----------------------------
-
--- ----------------------------
--- Table structure for hc_ftp_task
--- ----------------------------
-DROP TABLE IF EXISTS `hc_ftp_task`;
-CREATE TABLE `hc_ftp_task` (
-  `taskid` varchar(30) NOT NULL,
-  `taskname` varchar(100) NOT NULL,
-  `file_name` varchar(500) NOT NULL,
-  `create_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_date` date DEFAULT NULL,
-  `state` varchar(5) NOT NULL DEFAULT 'A',
-  `u_or_d` varchar(5) NOT NULL,
-  `run_state` varchar(5) DEFAULT 'T',
-  `run_flag` varchar(5) DEFAULT '0',
-  `tnum` int(11) NOT NULL,
-  `taskcron` varchar(100) DEFAULT NULL,
-  `errphone` varchar(500) DEFAULT NULL,
-  `fileseq` int(11) DEFAULT NULL,
-  `upnull` varchar(5) DEFAULT NULL,
-  `preflag` varchar(5) DEFAULT NULL,
-  `prefunction` varchar(500) DEFAULT NULL,
-  `afterflag` varchar(5) DEFAULT NULL,
-  `afterfunction` varchar(500) DEFAULT NULL,
-  `deal_class` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of hc_ftp_task
--- ----------------------------
-INSERT INTO `hc_ftp_task` VALUES ('962019090221810002', '测试任务', '*.text', '2019-09-02 11:52:32', '2019-09-09', 'R', 'DT', 'T', '0', '1', '0 0 9 * * ?', '1111', null, '0', '1', '', '1', '', 'class com.java110.job.smo.DownloadFileFromFtpToTable');
-INSERT INTO `hc_ftp_task` VALUES ('962019090965490001', '测试任务2', '1.txt', '2019-09-09 03:35:39', '2019-09-09', 'R', 'DT', 'T', '0', '1', '0 40 * * * ?', '111', null, '0', '1', '', '1', '', 'class com.java110.job.smo.DownloadFileFromFtpToTable');
-INSERT INTO `hc_ftp_task` VALUES ('962019090981210001', '测试任务哈哈', '1.txt', '2019-09-09 06:52:08', '2019-09-09', 'R', 'DT', 'T', '0', '1', '30 * * * * ?', '110', null, '0', '1', '', '1', '', 'class com.java110.job.smo.DownloadFileFromFtpToTable');
-INSERT INTO `hc_ftp_task` VALUES ('962019090922390001', '测试任务', '1.txt', '2019-09-09 07:35:39', '2020-06-01', 'A', 'DT', 'E2', '0', '1', '30 * * * * ?', '110', null, '0', '1', '', '1', '', 'downloadFileFromFtpToTable');
-
--- ----------------------------
--- Table structure for hc_ftp_tasklog
--- ----------------------------
-DROP TABLE IF EXISTS `hc_ftp_tasklog`;
-CREATE TABLE `hc_ftp_tasklog` (
-  `logid` varchar(25) NOT NULL,
-  `taskid` varchar(25) DEFAULT NULL,
-  `u_or_d` varchar(4) NOT NULL,
-  `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `update_date` timestamp NULL DEFAULT NULL,
-  `state` varchar(5) NOT NULL,
-  `serverfilename` varchar(500) DEFAULT NULL,
-  `localfilename` varchar(500) DEFAULT NULL,
-  `filelength` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of hc_ftp_tasklog
--- ----------------------------
-
--- ----------------------------
--- Table structure for hc_ftp_tasklog_detail
--- ----------------------------
-DROP TABLE IF EXISTS `hc_ftp_tasklog_detail`;
-CREATE TABLE `hc_ftp_tasklog_detail` (
-  `id` varchar(28) NOT NULL,
-  `logid` varchar(25) NOT NULL,
-  `taskid` varchar(25) DEFAULT NULL,
-  `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `update_date` timestamp NULL DEFAULT NULL,
-  `state` varchar(5) NOT NULL,
-  `data` varchar(2000) DEFAULT NULL,
-  `tnum` int(11) DEFAULT NULL,
-  `begin` int(11) DEFAULT NULL,
-  `end` int(11) DEFAULT NULL,
-  `havedown` int(11) DEFAULT NULL,
-  `remark` varchar(2000) DEFAULT NULL,
-  `serverfilename` varchar(500) DEFAULT NULL,
-  `localfilename` varchar(500) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of hc_ftp_tasklog_detail
--- ----------------------------
-
--- ----------------------------
--- Table structure for hc_ftp_task_attr
--- ----------------------------
-DROP TABLE IF EXISTS `hc_ftp_task_attr`;
-CREATE TABLE `hc_ftp_task_attr` (
-  `taskid` varchar(30) NOT NULL,
-  `item_spec_id` int(11) NOT NULL,
-  `value` varchar(4000) DEFAULT NULL,
-  `create_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of hc_ftp_task_attr
 -- ----------------------------
 
 -- ----------------------------
@@ -28024,6 +26995,8 @@ INSERT INTO `machine_translate_error` VALUES ('102026083156738891', '90202608315
 INSERT INTO `machine_translate_error` VALUES ('102026083138058906', '902026083116218907', '-1', '', '{\"paNum\":\"96120\",\"propertyStoreId\":\"102026070753270629\",\"iotApiCode\":\"listParkingAreaMachinesBmoImpl\",\"propertyUserTel\":\"18909711443\",\"propertyUserId\":\"302026070700590635\",\"loginUserId\":\"302026070700590635\",\"page\":\"1\",\"row\":\"50\",\"communityId\":\"2026070788800612\",\"storeId\":\"102026070753270629\",\"userId\":\"302026070700590635\"}', '{\"code\":404,\"msg\":\"停车场不存在\",\"page\":0,\"records\":0,\"rows\":0,\"total\":0}', '2026-08-31 21:48:53', '0', 'http://192.168.101.109:9999/iot/api/common.openCommonApi', '2222');
 INSERT INTO `machine_translate_error` VALUES ('102026083119348911', '902026083151038912', '-1', '', '{\"paNum\":\"96120\",\"propertyStoreId\":\"102026070753270629\",\"iotApiCode\":\"listCarInoutPaymentBmoImpl\",\"propertyUserTel\":\"18909711443\",\"propertyUserId\":\"302026070700590635\",\"loginUserId\":\"302026070700590635\",\"page\":\"1\",\"row\":\"50\",\"communityId\":\"2026070788800612\",\"storeId\":\"102026070753270629\",\"userId\":\"302026070700590635\"}', '{\"code\":404,\"msg\":\"停车场不存在\",\"page\":0,\"records\":0,\"rows\":0,\"total\":0}', '2026-08-31 21:48:54', '0', 'http://192.168.101.109:9999/iot/api/common.openCommonApi', '2222');
 INSERT INTO `machine_translate_error` VALUES ('102026090147859334', '902026090184719335', '-1', '', '{\"paNum\":\"96120\",\"propertyStoreId\":\"102026070753270629\",\"iotApiCode\":\"listCarInoutPaymentBmoImpl\",\"propertyUserTel\":\"18909711443\",\"propertyUserId\":\"302026070700590635\",\"carNum\":\"\",\"loginUserId\":\"302026070700590635\",\"page\":\"1\",\"row\":\"10\",\"communityId\":\"2026070788800612\",\"storeId\":\"102026070753270629\",\"userId\":\"302026070700590635\"}', '{\"code\":404,\"msg\":\"停车场不存在\",\"page\":0,\"records\":0,\"rows\":0,\"total\":0}', '2026-09-01 09:52:00', '0', 'http://192.168.101.109:9999/iot/api/common.openCommonApi', '2222');
+INSERT INTO `machine_translate_error` VALUES ('102026090131239537', '902026090185139538', '-1', '', '{\"paNum\":\"96120\",\"propertyStoreId\":\"102026070753270629\",\"iotApiCode\":\"listCarInoutPaymentBmoImpl\",\"propertyUserTel\":\"18909711443\",\"propertyUserId\":\"302026070700590635\",\"carNum\":\"\",\"loginUserId\":\"302026070700590635\",\"page\":\"1\",\"row\":\"10\",\"communityId\":\"2026070788800612\",\"storeId\":\"102026070753270629\",\"userId\":\"302026070700590635\"}', '{\"code\":404,\"msg\":\"停车场不存在\",\"page\":0,\"records\":0,\"rows\":0,\"total\":0}', '2026-09-01 12:02:25', '0', 'http://192.168.101.109:9999/iot/api/common.openCommonApi', '2222');
+INSERT INTO `machine_translate_error` VALUES ('102026090198479574', '902026090115099575', '-1', '', '{\"paNum\":\"96120\",\"propertyStoreId\":\"102026070753270629\",\"iotApiCode\":\"listCarInoutPaymentBmoImpl\",\"propertyUserTel\":\"18909711443\",\"propertyUserId\":\"302026070700590635\",\"carNum\":\"\",\"loginUserId\":\"302026070700590635\",\"page\":\"1\",\"row\":\"10\",\"communityId\":\"2026070788800612\",\"storeId\":\"102026070753270629\",\"userId\":\"302026070700590635\"}', '{\"code\":404,\"msg\":\"停车场不存在\",\"page\":0,\"records\":0,\"rows\":0,\"total\":0}', '2026-09-01 13:37:39', '0', 'http://192.168.101.109:9999/iot/api/common.openCommonApi', '2222');
 
 -- ----------------------------
 -- Table structure for machine_type
@@ -29292,570 +28265,6 @@ INSERT INTO `m_menu` VALUES ('702025032648880014', '公摊抄表', '802021012591
 INSERT INTO `m_menu` VALUES ('702026041203350072', '商铺收费', '802019103010680005', '/#/pages/property/shopCreateFee', '5', '-1', '', '2026-04-12 19:57:53', '0', 'Y');
 
 -- ----------------------------
--- Table structure for m_menu0226
--- ----------------------------
-DROP TABLE IF EXISTS `m_menu0226`;
-CREATE TABLE `m_menu0226` (
-  `m_id` varchar(30) NOT NULL COMMENT '菜单ID',
-  `name` varchar(10) NOT NULL COMMENT '菜单名称',
-  `g_id` varchar(30) NOT NULL COMMENT '菜单组ID',
-  `url` varchar(200) NOT NULL COMMENT '打开地址',
-  `seq` int(11) NOT NULL COMMENT '列顺序',
-  `p_id` varchar(30) NOT NULL COMMENT '权限ID',
-  `description` varchar(200) DEFAULT NULL COMMENT '菜单描述',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态，详细参考c_status表，0在用，1失效',
-  `is_show` varchar(2) NOT NULL DEFAULT 'Y' COMMENT '菜单页面是否显示 Y显示N不显示'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of m_menu0226
--- ----------------------------
-INSERT INTO `m_menu0226` VALUES ('700201904001', '员工信息', '800201904001', '/admin.html#/pages/frame/staff', '2', '500201904001', '员工信息', '2019-04-01 02:19:51', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('700201904002', '员工权限', '802019091604450001', '/admin.html#/pages/frame/staffPrivilege', '2', '500201904002', '员工权限', '2019-04-01 08:05:51', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('700201904003', '权限组', '802019091604450001', '/admin.html#/pages/dev/privilege', '1', '500201904003', '权限组', '2019-04-01 08:06:16', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('700201904004', '物业费', '800201904005', '/admin.html#/pages/property/propertyFee', '3', '500201904004', '物业费', '2019-04-09 14:41:40', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('700201904005', '停车费', '800201904005', '/admin.html#/pages/property/parkingSpaceFee', '4', '500201904005', '停车费', '2019-04-09 14:50:56', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('700201904006', '房屋管理', '800201904006', '/admin.html#/pages/property/room', '3', '500201904006', '房屋管理', '2019-04-09 14:55:59', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('700201904007', '我的报表', '800201904009', '/admin.html', '1', '500201904007', '我的报表', '2019-04-09 14:58:32', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('700201904008', '我的小区', '800201904004', '/admin.html#/pages/common/enterCommunity', '1', '500201904008', '我的小区', '2019-04-09 15:02:14', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('700201904009', '发布公告', '800201904007', '/admin.html#/pages/common/noticeManage', '4', '500201904009', '发布公告', '2019-04-09 15:05:56', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('700201904010', '业主信息', '800201904005', '/admin.html#/pages/property/listOwner', '1', '500201904010', '业主信息', '2019-04-09 15:07:53', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('700201904011', '楼栋信息', '800201904006', '/admin.html#/pages/property/listFloor', '1', '500201904011', '楼信息', '2019-04-19 07:59:49', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('700201904012', '单元信息', '800201904006', '/admin.html#/pages/property/unit', '2', '500201904012', '单元信息', '2019-04-19 08:00:24', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('700201904013', '业主成员', '800201904005', '/admin.html#/pages/property/listOwnerMember', '2', '500201904013', '业主成员', '2019-05-17 13:59:07', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('700201904014', '房屋售卖', '800201904006', '/admin.html#/pages/sellRoom', '4', '500201904014', '房屋售卖', '2019-05-20 07:05:25', '1', 'Y');
-INSERT INTO `m_menu0226` VALUES ('700201904015', '业主详情', '800201904005', '/admin.html#/pages/property/ownerDetail', '4', '500201904015', '业主房产', '2019-05-22 01:06:26', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('700201904016', '初始化物业费', '802019091604450001', '/admin.html#/pages/viewPropertyFeeConfig', '3', '500201904016', '配置物业费', '2019-06-01 04:56:45', '1', 'Y');
-INSERT INTO `m_menu0226` VALUES ('700201904021', '初始化停车费', '802019091604450001', '/admin.html#/pages/viewParkingSpaceFeeConfig', '4', '500201904021', '初始化停车费', '2019-06-01 04:56:45', '1', 'Y');
-INSERT INTO `m_menu0226` VALUES ('700201906017', '车位信息', '802020012374230001', '/admin.html#/pages/property/listParkingSpace', '2', '500201906017', '车位信息', '2019-06-01 04:56:45', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('700201906018', '车位出租', '802020012374230001', '/admin.html#/pages/property/hireParkingSpace', '10', '500201906018', '车位出租', '2019-06-01 04:56:45', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('700201906019', '车位出售', '802020012374230001', '/admin.html#/pages/property/sellParkingSpace', '9', '500201906019', '车位出售', '2019-06-01 04:56:45', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('700201906020', '业主车位', '802020012374230001', '/admin.html#/pages/property/ownerParkingSpace', '13', '500201906020', '业主车位', '2019-06-01 04:56:45', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('700201906022', '采购申请', '800201906011', '/admin.html#/pages/common/purchaseApplyManage', '3', '500201906022', '采购入库', '2019-06-19 02:16:11', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('700201906023', 'DEMO用例', '802020050746840003', '/admin.html#/pages/dev/listDemo', '2', '500201906023', 'DEMO用例', '2019-06-19 02:16:11', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('700201906024', '小区信息', '800201904004', '/admin.html#/pages/common/communityManage', '1', '500201906024', '代理商添加小区', '2019-06-19 02:16:11', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('700201906025', '应用信息', '800201907014', '/admin.html#/pages/dev/appManage', '1', '500201906026', '应用信息', '2019-06-19 02:16:11', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('700201906026', '服务信息', '800201907014', '/admin.html#/pages/dev/serviceManage', '1', '500201906027', '服务信息', '2019-06-19 02:16:11', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('700201906027', '服务实现', '800201907014', '/admin.html#/pages/dev/serviceImplManage', '4', '500201906028', '服务实现', '2019-07-07 08:49:51', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('700201906028', '编码映射', '800201907016', '/admin.html#/pages/dev/mappingManage', '1', '500201906029', '编码映射', '2019-06-19 02:16:11', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('700201907029', '服务绑定', '800201907014', '/admin.html#/pages/dev/serviceBinding', '3', '500201907030', '服务绑定', '2019-07-11 11:46:59', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('700201907030', '添加房屋', '800201904006', '/admin.html#/pages/property/addRoomBinding', '5', '500201907031', '添加房屋', '2019-07-31 02:26:09', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('700201908030', '服务注册', '800201907014', '/admin.html#/pages/dev/serviceRegisterManage', '2', '500201907032', '服务注册', '2019-08-10 09:49:38', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('700201908031', '访客登记', '800201904007', '/admin.html#/pages/property/visitManage', '8', '500201907033', '访客登记', '2019-08-12 12:44:55', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('700201908032', '刷新缓存', '800201908018', '/admin.html#/pages/dev/cacheManage', '1', '500201908034', '刷新缓存', '2019-08-13 11:35:35', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('700201908033', '菜单组', '800201908019', '/admin.html#/pages/dev/menuGroupManage', '2', '500201908035', '菜单组', '2019-08-19 12:17:46', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('700201908034', '基础权限', '800201908019', '/admin.html#/pages/dev/basePrivilegeManage', '3', '500201908036', '基础权限', '2019-08-19 12:17:46', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('700201908035', '菜单维护', '800201908019', '/admin.html#/pages/dev/menuManage', '3', '502019082521880003', '菜单维护', '2019-08-25 10:38:16', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('700201908036', '配置菜单', '800201908019', '/admin.html#/pages/dev/configMenu', '4', '502019083153490001', '配置菜单', '2019-08-31 14:36:57', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702019090129620003', '测试菜单', '802019090197390001', '/flow/configTestFlow', '1', '502019090183410002', '测试菜单', '2019-09-01 04:16:29', '1', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702019090161010006', '服务提供', '800201907014', '/admin.html#/pages/dev/serviceProvideManage', '5', '502019090149430005', '服务提供', '2019-09-01 14:14:08', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702019090179400002', '测试菜单', '802019082069190001', '/flow/configTestFlow', '1', '502019090126730001', '测试菜单', '2019-09-01 03:49:49', '1', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702019090210710002', '开发服务', '800201907014', '/admin.html#/pages/dev/devServiceProvide', '6', '502019090277380001', '开发服务提供', '2019-09-02 15:33:31', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702019090293430003', '定时任务', '802019090224100001', '/admin.html#/pages/dev/jobManage', '1', '502019090260990002', '管理定时任务', '2019-09-02 12:35:51', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702019091317360002', '添加业主房产', '800201904005', '/admin.html#/pages/property/addOwnerRoomBinding', '5', '502019091322800001', '添加业主', '2019-09-13 05:08:45', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702019091693040002', '删除业主房屋', '800201904005', '/admin.html#/pages/property/deleteOwnerRoom', '6', '502019091615840001', '删除业主房屋', '2019-09-16 01:10:46', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702019091754830002', '小区信息', '800201904004', '/admin.html#/pages/common/communityManage', '1', '502019091797230001', '', '2019-09-17 12:59:57', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702019091772280004', '审核小区', '800201904004', '/admin.html#/pages/common/auditCommunityManage', '2', '502019091773700003', '审核小区', '2019-09-17 14:57:45', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702019091993470003', '商户审核', '800201904004', '/admin.html#/pages/common/auditEnterCommunityManage', '2', '502019091978690002', '', '2019-09-19 13:44:39', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702019092323790002', '资产导入导出', '802019091604450001', '/admin.html#/pages/property/assetImport', '15', '502019092326130001', '资产导入导出', '2019-09-23 06:29:10', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702019092901960004', '公告详情', '800201904007', '/admin.html#/pages/common/noticeDetail', '6', '502019092908940003', '公告详情', '2019-09-29 12:19:45', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702019092962440002', '配置菜单', '800201908019', '/admin.html#/pages/configMenu', '4', '502019092956560001', '配置菜单', '2019-09-29 12:18:14', '1', 'N');
-INSERT INTO `m_menu0226` VALUES ('702019100515060006', '报修登记', '800201904005', '/admin.html#/pages/property/ownerRepairManage', '3', '502019100524950005', '报修登记', '2019-10-05 01:30:16', '1', 'N');
-INSERT INTO `m_menu0226` VALUES ('702019100725620006', '组织信息', '800201904001', '/admin.html#/pages/frame/orgManage', '1', '502019100721900005', '组织信息', '2019-10-07 08:49:34', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702019100978780003', '添加访客', '800201907017', '/admin.html#/pages/property/addVisitSpace', '2', '502019100903330002', '添加访客', '2019-10-09 02:00:55', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702019101562370002', '添加员工', '800201904001', '/admin.html#/pages/frame/addStaffStep', '3', '502019101540480001', '添加员工', '2019-10-15 23:20:31', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702019101903870011', '报修派单', '802019102057730004', '/admin.html#/pages/property/repairDispatchStep', '4', '502019101946430010', '派单', '2019-10-19 17:35:26', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702019102028670002', '报修待办', '802019102057730004', '/admin.html#/pages/property/repairDispatchManage', '4', '502019102030200001', '报修待办', '2019-10-20 22:15:15', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702019102073620006', '报修已办', '802019102057730004', '/admin.html#/pages/property/myRepairDispatchManage', '5', '502019102010870005', '', '2019-10-20 18:09:05', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702019102148640005', '物品信息', '800201906011', '/admin.html#/pages/common/resourceStoreManage', '2', '502019102151130004', '', '2019-10-21 20:49:07', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702019102250410002', '物品领用', '800201906011', '/admin.html#/pages/common/itemOutManage', '8', '502019102242190001', '物品出库功能入口', '2019-10-22 18:26:36', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702019102631340002', '审核人员', '802019091604450001', '/admin.html#/pages/common/auditUserManage', '5', '502019102639930001', '', '2019-10-26 23:04:43', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702019102755920007', '添加审核人员', '800201906011', '/admin.html#/pages/common/addAuditUserStep', '14', '502019102740830006', '', '2019-10-27 00:19:08', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702019102949390010', '采购待办', '800201906011', '/admin.html#/pages/admin/myAuditOrders', '5', '502019102911270009', '', '2019-10-29 20:27:52', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702019103045670007', '缴费清单', '802020101628950105', '/admin.html#/pages/property/payFeeManage', '6', '502019103056060006', '', '2019-10-30 21:54:58', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702019103157610019', '电话投诉', '800201904007', '/admin.html#/pages/common/complaintManage', '5', '502019103114270018', '', '2019-10-31 23:26:14', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702019103170090012', '员工收费', '802019103010680005', '/admin.html#/pages/property/staffFeeManage', '7', '502019103108450011', '', '2019-10-31 20:36:02', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702019110278050059', '登记投诉', '800201904007', '/admin.html#/pages/common/addComplaintStep', '6', '502019110296490058', '', '2019-11-02 13:25:04', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702019110356630007', '投诉待办', '800201904007', '/admin.html#/pages/common/myAuditComplaints', '6', '502019110360380006', '', '2019-11-03 18:45:09', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702019110566390007', '投诉已办', '800201904007', '/admin.html#/pages/common/myAuditHistoryComplaints', '7', '502019110534240006', '', '2019-11-05 09:14:09', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702019110862640045', '设备信息', '802019110855900043', '/admin.html#/pages/property/machineManage', '1', '502019110809250044', '', '2019-11-08 23:45:18', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702019111070760053', '设备数据同步', '802019110855900043', '/admin.html#/pages/property/machineTranslateManage', '3', '502019111025350052', '', '2019-11-10 13:28:46', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702019112665680008', '开门记录', '802019110855900043', '/admin.html#/pages/property/machineRecordManage', '4', '502019112673230007', '', '2019-11-26 23:03:48', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702019112732480002', '访客留影', '802019110855900043', '/admin.html#/pages/property/machineVistorPhotoManage', '5', '502019112738970001', '', '2019-11-27 08:45:42', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702019120122440006', '申请钥匙', '802019110855900043', '/admin.html#/pages/property/applicationKeyManage', '6', '502019120169500005', '', '2019-12-01 23:34:32', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702019121609010004', '钥匙审核', '802019110855900043', '/admin.html#/pages/property/auditApplicationKeyManage', '7', '502019121605850003', '', '2019-12-16 21:36:32', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702019121668720002', '发布广告', '800201904007', '/admin.html#/pages/property/advertManage', '2', '502019121697840001', '', '2019-12-16 21:35:24', '1', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702019122969830026', '绑定业主', '800201904005', '/admin.html#/pages/property/auditAppUserBindingOwnerManage', '3', '502019122980990025', '', '2019-12-29 12:04:28', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020011340130053', '信息发布', '800201904007', '/admin.html#/pages/property/activitiesManage', '9', '502020011308620052', '', '2020-01-13 19:43:53', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020012324610003', '停车场管理', '802020012374230001', '/admin.html#/pages/property/parkingAreaManage', '1', '502020012317850002', '', '2020-01-23 01:02:29', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020012347420002', '在场车辆', '802020012374230001', '/admin.html#/pages/property/carInManage', '6', '502020012324940001', '', '2020-01-23 23:17:52', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020012385860002', '黑白名单', '802020012374230001', '/admin.html#/pages/property/carBlackWhiteManage', '7', '502020012348390001', '', '2020-01-23 13:00:37', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020012392410004', '进场记录', '802020012374230001', '/admin.html#/pages/property/carInoutManage', '5', '502020012397360003', '', '2020-01-23 22:10:07', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020012746240002', '临时车缴费清单', '802019103010680005', '/admin.html#/pages/property/tempCarInoutFeeManage', '21', '502020012781380001', '', '2020-01-27 20:56:21', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020012891350002', '剩余车位', '802020012374230001', '/admin.html#/pages/property/remainingParkingSpace', '8', '502020012815760001', '', '2020-01-28 23:51:46', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020012977330002', '收费二维码', '802020012374230001', '/admin.html#/pages/property/parkingSpaceQrCode', '8', '502020012900510001', '', '2020-01-29 00:13:50', '1', 'N');
-INSERT INTO `m_menu0226` VALUES ('702020013025182995', '费用项设置', '802019103010680005', '/admin.html#/pages/property/feeConfigManage', '1', '502020013064742994', '', '2020-01-30 15:04:07', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020013091330005', '车辆收费', '802019103010680005', '/admin.html#/pages/property/carCreateFee', '3', '502020013062200004', '', '2020-01-30 22:55:43', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020013097620003', '房屋收费', '802019103010680005', '/admin.html#/pages/property/roomCreateFee', '2', '502020013028810002', '', '2020-01-30 22:54:46', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020020163313985', '房屋费用', '802019103010680005', '/admin.html#/pages/property/listRoomFee', '6', '502020020117213984', '', '2020-02-01 15:11:01', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702020020184753990', '收银台', '802019103010680005', '/admin.html#/pages/property/payFeeOrder', '7', '502020020148933989', '', '2020-02-01 20:49:38', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702020020270690003', '停车费用', '802019103010680005', '/admin.html#/pages/property/listCarFee', '8', '502020020204240002', '', '2020-02-02 15:55:41', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('7020200203341931761', '费用汇总表', '802019103010680005', '/admin.html#/pages/property/feeSummary', '8', '5020200203190731760', '', '2020-02-03 16:42:37', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020020834160003', '修改密码', '802019091604450001', '/admin.html#/pages/frame/changeStaffPwd', '9', '502020020896890002', '', '2020-02-08 16:42:06', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020021099930008', '巡检点', '802020020977260001', '/admin.html#/pages/property/inspectionPointManage', '1', '502020021024790007', '', '2020-02-10 15:04:38', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020021169910005', '巡检路线', '802020020977260001', '/admin.html#/pages/property/inspectionRouteManage', '2', '502020021136110004', '巡检路线', '2020-02-11 21:54:45', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020021758390053', '巡检计划', '802020020977260001', '/admin.html#/pages/property/inspectionPlanManage', '3', '502020021776260052', '', '2020-02-17 19:19:07', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020021777330057', '商户信息', '802020021776010055', '/admin.html#/pages/property/listStoreManage', '1', '502020021737880056', '', '2020-02-17 22:09:28', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020021800840022', '审核入驻小区', '800201904004', '/admin.html#/pages/common/auditEnterCommunityManage', '3', '502020021841010021', '', '2020-02-18 23:43:53', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020021988260017', '巡检任务', '802020020977260001', '/admin.html#/pages/property/inspectionTaskManage', '4', '502020021963300016', '', '2020-02-19 21:52:11', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020022008800009', '组织信息', '800201904001', '/admin.html#/pages/frame/orgManage', '3', '502020022062840008', '', '2020-02-20 09:00:14', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702020022068180011', '修改密码', '802019091604450001', '/admin.html#/pages/frame/changeStaffPwd', '3', '502020022030570010', '', '2020-02-20 09:22:12', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020040987510016', '订单查询', '802019091604450001', '/admin.html#/pages/orderManage', '6', '502020040944140015', '', '2020-04-09 10:41:36', '1', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020041486250003', '受理单', '802020041496780001', '/admin.html#/pages/admin/orderManage', '1', '502020041499210002', '', '2020-04-14 11:52:57', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020041871090020', '发布需求', '802020041868120016', '/admin.html#/pages/proxy/junkRequirementManage?typeCd=333333', '2', '502020041852410019', '', '2020-04-18 15:18:40', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020041891280018', '旧货甩卖', '802020041868120016', '/admin.html#/pages/proxy/junkRequirementManage?typeCd=222222', '1', '502020041876870017', '', '2020-04-18 15:17:31', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020042155330022', '采购入库', '800201906011', '/admin.html#/pages/common/resourceEnterManage', '7', '502020042158720021', '', '2020-04-21 14:58:57', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702020042330250199', '标签管理3', '802020012374230001', '/admin.html#/pages/tagManager', '5', '502020042355910198', '', '2020-04-23 00:21:48', '1', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020042364070195', '标签管理', '802020042333850193', '/admin.html#/pages/tagManage', '1', '502020042301080194', '', '2020-04-23 00:11:20', '1', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020042364460197', '标签管理2', '802020042333850193', '/admin.html#/pages/tagManage', '3', '502020042380740196', '管理商家标签', '2020-04-23 00:17:41', '1', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020042680040009', '商户信息', '802019091604450001', '/admin.html#/pages/common/storeInfoManage', '10', '502020042615070008', '', '2020-04-26 10:14:30', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020050866050004', '我要申请', '800201906011', '/admin.html#/pages/common/addPurchaseApplyStep', '13', '502020050835100003', '', '2020-05-08 07:54:23', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702020050930710002', '申请单详情', '800201906011', '/admin.html#/pages/common/purchaseApplyDetail', '15', '502020050912990001', '', '2020-05-09 18:09:13', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702020051144890083', '个人信息', '802019091604450001', '/admin.html#/pages/frame/userInfoManage', '8', '502020051101260082', '', '2020-05-11 09:55:23', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702020051167520158', '退费审核', '802019103010680005', '/admin.html#/pages/property/returnPayFeeManage', '8', '502020051194940157', '', '2020-05-11 16:59:17', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020051674530088', '小程序配置', '802019091604450001', '/admin.html#/pages/property/smallWeChatManage', '12', '502020051616860087', '', '2020-05-16 17:14:39', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020060185630029', '账单催缴', '802019103010680005', '/admin.html#/pages/property/billManage', '5', '502020060164840028', '费用账单', '2020-06-01 17:42:37', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020060438590006', '位置信息', '802019091604450001', '/admin.html#/pages/property/locationManage', '14', '502020060414120005', '', '2020-06-04 18:54:04', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020061125260003', '测试菜单', '802020050746840003', '嘻嘻嘻', '3', '502020061139960002', '嘻嘻嘻', '2020-06-11 10:15:06', '1', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020061706340004', '流程管理', '802019091604450001', '/admin.html#/pages/property/workflowManage', '7', '502020061767630003', '', '2020-06-17 22:36:52', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020061808130043', '公众号', '802019091604450001', '/admin.html#/pages/property/publicWeChatManage', '11', '502020061855680042', '', '2020-06-18 20:09:00', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020061852940014', '流程设置', '802019091604450001', '/admin.html#/pages/property/workflowSettingManage', '6', '502020061846080013', '流程设置', '2020-06-18 10:43:39', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702020062299090010', '公众号菜单', '802019091604450001', '/admin.html#/pages/property/wechatMenuManage', '13', '502020062239600009', '', '2020-06-22 23:15:44', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702020062494540006', '账单欠费', '802019103010680005', '/admin.html#/pages/property/billOweManage', '6', '502020062436450005', '', '2020-06-24 19:00:40', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702020062870390022', '报修设置', '802019102057730004', '/admin.html#/pages/property/repairSettingManage', '1', '502020062810250021', '', '2020-06-28 16:44:48', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020062894540036', '报修师傅', '802019102057730004', '/admin.html#/pages/property/repairTypeUser', '6', '502020062827480035', '', '2020-06-28 19:16:10', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702020062937206287', '电话报修', '802019102057730004', '/admin.html#/pages/property/ownerRepairManage', '2', '502020062982156286', '', '2020-06-29 18:14:35', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020063002770076', '工单池', '802019102057730004', '/admin.html#/pages/property/repairPoolManage', '3', '502020063051380075', '', '2020-06-30 16:07:29', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020063049110078', '报修工单详情', '802019102057730004', '/admin.html#/pages/property/ownerRepairDetail', '7', '502020063085640077', '', '2020-06-30 16:57:11', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702020070163730005', '水费导入', '802020050746840003', '/admin.html#/pages/property/waterFeeImport', '2', '502020070189150004', '', '2020-07-01 09:30:57', '1', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020071571310008', '采购已办', '800201906011', '/admin.html#/pages/admin/myAuditHistoryOrders', '6', '502020071557620007', '', '2020-07-15 19:01:37', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702020071602070018', '物品发放', '800201906011', '/admin.html#/pages/common/resourceOutManage', '11', '502020071663610017', '', '2020-07-16 13:09:59', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702020071615570021', '领用已办', '800201906011', '/admin.html#/pages/admin/myItemOutAuditHistoryOrders', '12', '502020071694430020', '', '2020-07-16 14:29:30', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702020071637330013', '领用待办', '800201906011', '/admin.html#/pages/admin/myItemOutAuditOrders', '9', '502020071661510012', '', '2020-07-16 11:59:12', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702020071645330015', '领用申请', '800201906011', '/admin.html#/pages/common/addItemOutStep', '10', '502020071612180014', '', '2020-07-16 12:05:27', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702020071795690005', '微信模板', '802019091604450001', '/admin.html#/pages/property/wechatSmsTemplateManage', '17', '502020071781630004', '123', '2020-07-17 09:40:08', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702020073141060001', '我爱学习', '802020050746840003', '/vvc', '1', '-1', 'xx', '2020-07-31 13:41:05', '1', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020080567390193', '欠费缴费', '802019103010680005', '/admin.html#/pages/property/owePayFeeOrder', '10', '-1', '', '2020-08-05 11:47:39', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702020080836480004', '小区大屏', '800201904004', '/bigScreen/public.html', '2', '-1', '', '2020-08-08 18:44:49', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020080856940063', '费用导入', '802019103010680005', '/admin.html#/pages/property/roomFeeImport', '6', '-1', '', '2020-08-08 12:26:16', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020081441030209', '属性', '802020081417800208', '/admin.html#/pages/dev/attrSpecManage', '1', '-1', '', '2020-08-14 22:17:25', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020081494380219', '属性值', '802020081417800208', '/admin.html#/pages/dev/attrValueManage', '2', '-1', '', '2020-08-14 23:22:48', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702020082113420001', '欠费信息', '802019103010680005', '/admin.html#/pages/property/listOweFee', '11', '-1', '', '2020-08-21 22:56:19', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020082596258063', '租赁配置', '802020082554488062', '/admin.html#/pages/admin/rentingConfigManage', '1', '-1', '', '2020-08-25 11:30:07', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020082732000007', '房源信息', '802020082554488062', '/admin.html#/pages/admin/rentingPoolManage', '2', '-1', '', '2020-08-27 15:25:12', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020082736180028', '出租审核', '802020082554488062', '/admin.html#/pages/admin/rentingAuditManage', '3', '-1', '', '2020-08-27 17:17:01', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020082881680068', '业主车辆', '802020012374230001', '/admin.html#/pages/property/listOwnerCar', '4', '-1', '', '2020-08-28 15:20:08', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020082927920001', '续租车位', '802020012374230001', '/admin.html#/pages/property/carAddParkingSpace', '9', '-1', '', '2020-08-29 18:39:57', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702020090602100031', '水电抄表', '802019103010680005', '/admin.html#/pages/property/meterWaterManage', '13', '-1', '', '2020-09-06 19:04:25', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020090910140050', '历史缴费导入', '802019091604450001', '/admin.html#/pages/property/historyFeeDetailImport', '16', '-1', '', '2020-09-09 16:48:47', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020090931950093', '出租审核', '802020082554488062', '/admin.html#/pages/admin/rentingAuditManage', '2', '-1', '代理商审核', '2020-09-09 22:42:56', '1', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020090949310087', '房源', '802020082554488062', '/admin.html#/pages/admin/rentingPoolManage', '1', '-1', '', '2020-09-09 22:06:16', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020091056030005', '公摊公式', '802019103010680005', '/admin.html#/pages/property/feeFormulaManage', '15', '-1', '', '2020-09-10 13:58:53', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020091337010097', '租赁预约', '802020082554488062', '/admin.html#/pages/admin/rentingAppointmentManage', '4', '-1', '', '2020-09-13 13:43:49', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020091384270099', '预存费用', '802019103010680005', '/admin.html#/pages/property/prestoreFeeManage', '30', '-1', '预存费用', '2020-09-13 17:51:57', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702020091736590024', '合同信息', '802020091774800023', '/admin.html#/pages/admin/contractManage', '2', '-1', '代理商合同信息', '2020-09-17 18:03:48', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020091785290021', '合同查询', '802020091723050020', '/admin.html#/pages/admin/contractManage', '4', '-1', '', '2020-09-17 18:01:58', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020091843810076', '合同类型', '802020091723050020', '/admin.html#/pages/admin/contractTypeManage', '1', '-1', '', '2020-09-18 17:33:06', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020091879990080', '合同类型规格', '802020091774800023', '/admin.html#/pages/admin/contractTypeSpecManage', '3', '-1', '', '2020-09-18 18:24:50', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702020091880880078', '合同类型规格', '802020091723050020', '/admin.html#/pages/admin/contractTypeSpecManage', '14', '-1', '', '2020-09-18 18:24:27', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702020091892430066', '合同类型', '802020091774800023', '/admin.html#/pages/admin/contractTypeManage', '1', '-1', '代理商', '2020-09-18 15:47:09', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020092090020023', '登录日志', '802020041496780001', '/admin.html#/pages/frame/userLogin', '2', '-1', '', '2020-09-20 10:15:12', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020092175130250', '合同审核', '802020091723050020', '/admin.html#/pages/admin/contractAudit', '16', '-1', '', '2020-09-21 13:11:11', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702020092219500733', '打印配置', '802019091604450001', '/admin.html#/pages/property/feePrintSpecManage', '18', '-1', '', '2020-09-22 16:28:11', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020092328187362', '补打收据', '802019103010680005', '/admin.html#/pages/property/feeReceipt', '14', '-1', '', '2020-09-23 15:52:44', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020092409980374', '托收明细', '802020092468300217', '/admin.html#/pages/property/feeManualCollectionDetailManage', '2', '-1', '', '2020-09-24 17:33:43', '1', 'N');
-INSERT INTO `m_menu0226` VALUES ('702020092433630220', '托收信息', '802020092468300217', '/admin.html#/pages/property/feeManualCollectionManage', '1', '-1', '', '2020-09-24 11:43:24', '1', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020092656570886', '租赁预约', '802020082554488062', '/admin.html#/pages/admin/rentingAppointmentManage', '4', '-1', '', '2020-09-26 17:01:47', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020092674230902', '合同审核', '802020091774800023', '/admin.html#/pages/admin/contractAudit', '4', '-1', '', '2020-09-26 17:45:21', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020092726560955', '出租历史', '802020082554488062', '/admin.html#/pages/admin/rentingHistoryManage', '5', '-1', '', '2020-09-27 00:12:18', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020092790930029', '租赁详情', '802020082554488062', '/admin.html#/pages/admin/rentingDetail', '6', '-1', '', '2020-09-27 10:56:27', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702020093070100736', '缴费审核', '802019103010680005', '/admin.html#/pages/property/payFeeAuditManage', '16', '-1', '', '2020-09-30 18:17:05', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020100365590093', '信息大类', '800201904007', '/admin.html#/pages/property/activitiesTypeManage', '9', '-1', '', '2020-10-03 19:49:37', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020100472570040', '文档信息', '802020050746840003', '/admin.html#/pages/dev/sysDocumentManage', '1', '-1', '', '2020-10-04 23:19:33', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020100685660131', '商品分类', '802020100618970130', '/admin.html#/pages/goods/productCategoryManage', '1', '-1', '', '2020-10-06 12:58:40', '1', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020100939300172', '商品规格', '802020100618970130', '/admin.html#/pages/goods/productSpecManage', '2', '-1', '', '2020-10-09 22:16:28', '1', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020101043300454', '商品信息', '802020100618970130', '/admin.html#/pages/goods/productManage', '3', '-1', '', '2020-10-10 19:28:00', '1', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020101393980025', '业务受理', '800201904004', '/admin.html#/pages/property/simplifyAcceptance', '3', '-1', '', '2020-10-13 12:35:54', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020101481250052', '拼团设置', '802020101497090051', '/admin.html#/pages/goods/groupBuySettingManage', '1', '-1', '', '2020-10-14 16:35:34', '1', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020101696890106', '费用汇总表', '802020101628950105', '/admin.html#/pages/property/reportFeeSummary', '2', '-1', '', '2020-10-16 16:21:23', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020101734870342', '费用明细表', '802020101628950105', '/admin.html#/pages/property/reportFeeDetail', '5', '-1', '', '2020-10-17 18:44:14', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020101759090338', '费用分项表', '802020101628950105', '/admin.html#/pages/property/reportFeeBreakdown', '4', '-1', '', '2020-10-17 18:27:34', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020101783560332', '楼栋费用表', '802020101628950105', '/admin.html#/pages/property/reportFloorUnitFeeSummary', '3', '-1', '', '2020-10-17 18:03:46', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020101830890435', '欠费明细表', '802020101628950105', '/admin.html#/pages/property/reportOweFeeDetail', '7', '-1', '', '2020-10-18 12:36:15', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020101993830714', '预缴费提醒', '802020101628950105', '/admin.html#/pages/property/reportPrePaymentFee', '8', '-1', '', '2020-10-19 14:25:59', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020102012121090', '费用到期提醒', '802020101628950105', '/admin.html#/pages/property/reportDeadlineFee', '9', '-1', '', '2020-10-20 14:58:53', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020102045291211', '缴费明细表', '802020101628950105', '/admin.html#/pages/property/reportPayFeeDetail', '10', '-1', '', '2020-10-20 17:32:18', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020102134420002', '拼团产品', '802020101497090051', '/admin.html#/pages/goods/groupBuyProductManage', '2', '-1', '', '2020-10-21 12:48:51', '1', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020102490890423', '拼团列表', '802020101497090051', '/admin.html#/pages/goods/groupBuyManage', '4', '-1', '', '2020-10-24 21:56:26', '1', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020102506700470', '拼团批次', '802020101497090051', '/admin.html#/pages/goods/groupBuyBatchManage', '3', '-1', '', '2020-10-25 10:41:21', '1', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020102716380078', '推荐商品', '802020101497090051', '/admin.html#/pages/goods/recommendGoodsManage', '5', '-1', '', '2020-10-27 17:34:46', '1', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020111330420027', '商城订单', '802020041496780001', '/admin.html#/pages/admin/storeOrderCartManage', '3', '-1', '', '2020-11-13 13:40:04', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020111619100088', '商品订单详情', '802020041496780001', '/admin.html#/pages/goods/storeOrderCartDetail', '2', '-1', '', '2020-11-16 11:31:41', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702020111628740005', '交互日志', '802020111618520004', '/admin.html#/pages/dev/transactionLogManage', '1', '-1', '', '2020-11-16 01:09:05', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020111795650350', '退货订单', '802020041496780001', '/admin.html#/pages/admin/storeOrderCartReturnManage', '4', '-1', '', '2020-11-17 17:09:17', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020112486110453', '折扣设置', '802019103010680005', '/admin.html#/pages/property/feeDiscountManage', '17', '-1', '', '2020-11-24 23:34:27', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020112552090544', '费用项折扣', '802019103010680005', '/admin.html#/pages/property/payFeeConfigDiscountManage', '17', '-1', '', '2020-11-25 10:17:13', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702020120773940298', 'Databus', '800201907016', '/admin.html#/pages/dev/businessDatabusManage', '2', '-1', '', '2020-12-07 18:14:35', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020121005490190', '员工认证', '800201904001', '/admin.html#/pages/property/staffAppAuthManage', '3', '-1', '', '2020-12-10 23:10:50', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020122261200028', '优惠申请', '802019103010680005', '/admin.html#/pages/property/applyRoomDiscountManage', '18', '-1', '', '2020-12-22 23:46:39', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702020122389100036', '优惠类型', '802019103010680005', '/admin.html#/pages/property/applyRoomDiscountTypeManage', '19', '-1', '', '2020-12-23 00:47:35', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021010139960004', '商户管理员', '802020021776010055', '/admin.html#/pages/admin/listPropertyManage', '2', '-1', '', '2021-01-01 16:55:42', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021011192810256', '商铺管理', '800201904006', '/admin.html#/pages/property/shops', '4', '-1', '', '2021-01-11 14:26:44', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021011604630011', '临时车收费', '802019103010680005', '/admin.html#/pages/property/tempCarFeeConfigManage', '20', '-1', '', '2021-01-16 14:06:53', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021012255973149', '智慧考勤', '800201904007', '/admin.html#/pages/property/attendanceClassesManage', '10', '-1', '', '2021-01-22 14:28:04', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021012505770027', '收银台', '802021012591650002', '/pages/roomPayFee/roomPayFee', '7', '-1', '/static/image/payOweFee.png', '2021-01-25 22:30:05', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021012507180020', '投诉待办', '802021012591650002', '/pages/complaintList/complaintList', '4', '-1', '/static/image/index_complaint.png', '2021-01-25 22:26:55', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021012519080025', '房产查询', '802021012591650002', '/pages/roomDetail/roomDetail', '6', '-1', '/static/image/index_bill.png', '2021-01-25 22:29:15', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021012520220031', '空置房', '802021012591650002', '/pages/applyRoom/applyRoom', '9', '-1', '/static/image/index_applyroom.png', '2021-01-25 22:31:29', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021012539810013', '维修工单', '802021012591650002', '/pages/repairOrder/repairOrder', '1', '-1', '/static/image/index_repair.png', '2021-01-25 22:22:50', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021012542300023', '公告', '802021012591650002', '/pages/notice/notice', '5', '-1', '/static/image/index_notice.png', '2021-01-25 22:28:38', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021012561330016', '维修待办', '802021012591650002', '/pages/repairDispatch/repairDispatch', '2', '-1', '/static/image/index_dealRepair.png', '2021-01-25 22:25:38', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021012564040029', '水电抄表', '802021012591650002', '/pages/meterReading/meterReading', '8', '-1', '/static/image/index_meter.png', '2021-01-25 22:30:59', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021012579570018', '巡检打卡', '802021012591650002', '/pages/inspection/inspection', '3', '-1', '/static/image/index_inspection.png', '2021-01-25 22:26:24', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021012618140019', '房屋装修', '800201904004', '/admin.html#/pages/property/roomRenovationManage', '4', '-1', '房屋装修', '2021-01-26 17:42:04', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021012761500059', '装修验收', '800201904004', '/admin.html#/pages/property/roomRenovationDetailManage', '5', '-1', '', '2021-01-27 00:04:18', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702021013030300004', '报修汇总表', '802020101628950105', '/admin.html#/pages/property/reportRepair', '11', '-1', '报修汇总', '2021-01-30 08:44:21', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021020165340987', '今日考勤', '800201904007', '/admin.html#/pages/property/todayAttendanceManage', '11', '-1', '', '2021-02-01 17:00:04', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021020295631127', '月考勤', '800201904007', '/admin.html#/pages/property/monthAttendanceManage', '12', '-1', '', '2021-02-02 13:05:40', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021020311270020', '考勤记录', '800201904007', '/admin.html#/pages/property/attendanceLogManage', '13', '-1', '', '2021-02-03 09:44:38', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021020534720080', '问卷投票', '800201904007', '/admin.html#/pages/property/questionAnswerManage', '14', '-1', '', '2021-02-05 17:31:57', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021020652750133', '问卷题目', '800201904007', '/admin.html#/pages/property/questionAnswerTitleManage', '15', '-1', '', '2021-02-06 11:01:11', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702021020705710273', '活动规则', '800201904007', '/admin.html#/pages/property/activitiesRuleManage', '19', '-1', '', '2021-02-07 21:46:39', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021020740160219', '我的问卷', '800201904007', '/admin.html#/pages/property/myQuestionAnswerManage', '16', '-1', '', '2021-02-07 11:22:10', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021020768800290', '最美员工', '800201904007', '/admin.html#/pages/property/activitiesBeautifulStaffManage', '20', '-1', '', '2021-02-07 22:51:11', '1', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021020778830250', '员工考核', '800201904007', '/admin.html#/pages/property/staffAssessmentManage', '18', '-1', '', '2021-02-07 16:34:28', '1', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021020781610227', '问卷答题', '800201904007', '/admin.html#/pages/property/userQuestionAnswerManage', '17', '-1', '', '2021-02-07 13:57:08', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702021022283800608', '报表专家', '802020101628950105', '/admin.html#/pages/property/reportProficient', '1', '-1', '', '2021-02-22 18:02:51', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021022611740004', '装修记录', '800201904004', '/admin.html#/pages/property/listRoomDecorationRecord', '6', '-1', '装修记录', '2021-02-26 11:47:24', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702021022736460013', '子母车辆', '802020012374230001', '/admin.html#/pages/property/listOwnerCarMember', '9', '-1', '', '2021-02-27 21:55:22', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702021030252560005', '装修详情', '800201904004', '/admin.html#/pages/property/listRoomRenovationRecordDetails', '22', '-1', '装修详情页面', '2021-03-02 16:28:00', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702021030402320524', '退货订单', '802021030407130505', '/admin.html#/pages/goods/storeOrderCartReturnManage', '9', '-1', '', '2021-03-04 12:36:48', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021030406680611', '店铺小区', '802021030439140608', '/admin.html#/pages/goods/shopCommunityManage', '2', '-1', '', '2021-03-04 16:15:42', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021030411150618', '收款账户', '802021030429840613', '/admin.html#/pages/goods/shopAccountManage', '2', '-1', '', '2021-03-04 16:19:52', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021030435050615', '财务明细', '802021030429840613', '/admin.html#/pages/goods/shopAccountDetailManage', '1', '-1', '', '2021-03-04 16:19:23', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021030445710621', '保证金', '802021030429840613', '/admin.html#/pages/goods/accountBondObjManage', '3', '-1', '', '2021-03-04 16:20:43', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021030445770530', '商品管理', '802021030422920526', '/admin.html#/pages/goods/productManage', '4', '-1', '', '2021-03-04 12:41:19', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021030447730520', '订单信息', '802021030407130505', '/admin.html#/pages/goods/storeOrderCartManage', '2', '-1', '', '2021-03-04 12:26:25', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021030468370609', '店铺信息', '802021030439140608', '/admin.html#/pages/goods/shopManage', '1', '-1', '', '2021-03-04 16:12:11', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021030476960528', '商品规格', '802021030422920526', '/admin.html#/pages/goods/productSpecManage', '3', '-1', '', '2021-03-04 12:40:37', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021030521000088', '登记投诉', '800201904007', '/admin.html#/pages/common/addRoomComplaint', '21', '-1', '', '2021-03-05 16:34:35', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702021030810960068', '员工信息', '802021030857480062', '/admin.html#/pages/frame/staff', '2', '-1', '', '2021-03-08 14:49:16', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021030841420119', '商品分组', '802021030422920526', '/admin.html#/pages/goods/productCategoryManage', '1', '-1', '', '2021-03-08 15:46:51', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021030879370075', '权限组', '802021030869330063', '/admin.html#/pages/frame/privilege', '1', '-1', '', '2021-03-08 15:01:25', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021030883010066', '组织信息', '802021030857480062', '/admin.html#/pages/frame/orgManage', '1', '-1', '', '2021-03-08 14:48:33', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021030892730077', '员工权限', '802021030869330063', '/admin.html#/pages/frame/staffPrivilege', '2', '-1', '', '2021-03-08 15:01:55', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021030903690181', '小区信息', '802021030972900179', '/admin.html#/pages/common/communityManage', '1', '-1', '', '2021-03-09 16:24:45', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021030949750187', '审核入驻小区', '802021030972900179', '/admin.html#/pages/common/auditEnterCommunityManage', '3', '-1', '', '2021-03-09 16:26:56', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021030967980185', '审核小区', '802021030972900179', '/admin.html#/pages/common/auditCommunityManage', '2', '-1', '', '2021-03-09 16:26:18', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021031061670163', '开店审核', '802021031077490162', '/admin.html#/pages/admin/auditOpenShop', '1', '-1', '', '2021-03-10 18:10:52', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021031209070006', '房屋装修', '802021012591650002', '/pages/roomRenovation/roomRenovation', '10', '-1', '/static/image/index_renovation.png', '2021-03-12 14:03:43', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021031267690137', '员工门禁授权', '802019110855900043', '/admin.html#/pages/property/machineAuthManage', '8', '-1', '', '2021-03-12 17:37:08', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021031605320068', '修改密码', '802021031626540067', '/admin.html#/pages/frame/changeStaffPwd', '1', '-1', '', '2021-03-16 11:13:11', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021031606850071', '修改密码', '802021031653410070', '/admin.html#/pages/frame/changeStaffPwd', '1', '-1', '', '2021-03-16 11:14:16', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021032537360020', '店铺信息', '802021031077490162', '/admin.html#/pages/admin/shopManage', '2', '-1', '', '2021-03-25 12:23:54', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021033017840295', '合同变更', '802020091723050020', '/admin.html#/pages/admin/contractChangeManage', '5', '-1', '', '2021-03-30 22:59:40', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021033149670076', '到期合同', '802020091723050020', '/admin.html#/pages/admin/expirationContractManage', '7', '-1', '', '2021-03-31 11:34:21', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021033155980039', '合同变更明细', '802020091723050020', '/admin.html#/pages/admin/contractChangeDetails', '9', '-1', '', '2021-03-31 09:41:33', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702021033187310391', '起草合同', '802020091723050020', '/admin.html#/pages/admin/newContractManage', '3', '-1', '', '2021-03-31 22:57:27', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021033195000002', '申请合同变更', '802020091723050020', '/admin.html#/pages/admin/contractChangeDetail', '8', '-1', '', '2021-03-31 01:12:49', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702021040107630023', '起草已办', '802020091723050020', '/admin.html#/pages/admin/contractApplyAuditHistoryOrders', '11', '-1', '', '2021-04-01 22:40:45', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702021040143360025', '变更待办', '802020091723050020', '/admin.html#/pages/admin/contractChangeAuditOrders', '12', '-1', '', '2021-04-01 22:41:37', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702021040162640396', '起草待办', '802020091723050020', '/admin.html#/pages/admin/contractApplyAuditOrders', '10', '-1', '', '2021-04-01 00:29:29', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702021040176320027', '变更已办', '802020091723050020', '/admin.html#/pages/admin/contractChangeAuditHistoryOrders', '13', '-1', '', '2021-04-01 22:42:25', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702021040263340049', '收款计划', '802020091723050020', '/admin.html#/pages/admin/contractCollectionPlanManage', '6', '-1', '', '2021-04-02 01:53:49', '1', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021040628030371', '报修回访', '802019102057730004', '/admin.html#/pages/property/repairReturnVisit', '8', '-1', '', '2021-04-06 08:42:18', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021040635540007', '强制回单', '802019102057730004', '/admin.html#/pages/property/repairForceFinishManage', '9', '-1', '', '2021-04-06 13:29:45', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021040666580026', '合同详情', '802020091723050020', '/admin.html#/pages/common/contractApplyDetail', '10', '-1', '', '2021-04-06 16:58:53', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702021040741950148', '仓库信息', '800201906011', '/admin.html#/pages/property/storehouseManage', '1', '-1', '', '2021-04-07 21:17:04', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021040808900026', '调拨详情', '800201906011', '/admin.html#/pages/common/allocationStorehouseDetail', '19', '-1', '', '2021-04-08 17:00:12', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702021040843910026', '调拨待办', '800201906011', '/admin.html#/pages/admin/allocationStorehouseAuditOrders', '16', '-1', '', '2021-04-08 12:10:09', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702021040844660001', '调拨记录', '800201906011', '/admin.html#/pages/common/allocationStorehouseManage', '4', '-1', '', '2021-04-08 00:56:41', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021040857880017', '我的物品', '800201906011', '/admin.html#/pages/common/myResourceStoreManage', '18', '-1', '', '2021-04-08 20:30:51', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021040865910005', '调拨已办', '800201906011', '/admin.html#/pages/admin/allocationStorehouseHistoryAuditOrders', '17', '-1', '', '2021-04-08 15:12:39', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702021040912990015', '代客报修', '802021012591650002', '/pages/repairAdd/repairAdd', '10', '-1', '/static/image/index_repair_user.png', '2021-04-09 10:46:20', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021041041870104', '自助缴费', '802020050746840003', '/admin.html#/pages/dev/selfHelpFree', '1', '-1', '测试', '2021-04-10 22:07:21', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021041323510166', '专区目录', '802021031077490162', '/admin.html#/pages/admin/mainCategoryManage', '5', '-1', '', '2021-04-13 23:06:53', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021041420640173', '专区商品', '802021031077490162', '/admin.html#/pages/admin/mainCategoryProductManage', '6', '-1', '', '2021-04-14 00:37:23', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021041918420069', '修改密码', '802021030869330063', '/admin.html#/pages/frame/changeStaffPwd', '3', '-1', '', '2021-04-19 01:23:27', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021041947460062', '入驻审核', '802021031077490162', '/admin.html#/pages/admin/auditShopCommunity', '3', '-1', '', '2021-04-19 00:05:10', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021041953400066', '小区店铺', '802021031077490162', '/admin.html#/pages/admin/shopCommunity', '4', '-1', '', '2021-04-19 00:52:36', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021041999360008', '物品类型', '800201906011', '/admin.html#/pages/common/resourceStoreTypeManage', '2', '-1', '物品类型', '2021-04-19 13:44:57', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021042006540075', '会员信息', '802021042013710074', '/admin.html#/pages/goods/shopVipUserManage', '2', '-1', '', '2021-04-20 00:38:34', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021042214040302', '合同甲方', '802020091723050020', '/admin.html#/pages/admin/contractPartyaManage', '2', '-1', '', '2021-04-22 15:33:55', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021042279810237', '起草', '802020091723050020', '/admin.html#/pages/admin/addContract', '15', '-1', '', '2021-04-22 12:20:29', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702021042286380004', '出入库明细', '800201906011', '/admin.html#/pages/common/purchaseApplyDetailManage', '4', '-1', '出入库明细', '2021-04-22 12:05:42', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021042347360002', '物品供应商', '800201906011', '/admin.html#/pages/property/resourceSupplierManage', '2', '-1', '物品资源供应商', '2021-04-23 10:47:11', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021042359210434', '合同费用', '802019103010680005', '/admin.html#/pages/property/listContractFee', '22', '-1', '', '2021-04-23 11:53:01', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702021042365450416', '合同收费', '802019103010680005', '/admin.html#/pages/property/contractCreateFee', '4', '-1', '', '2021-04-23 11:11:22', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021042441610002', '转赠记录', '800201906011', '/admin.html#/pages/common/allocationUserStorehouseManage', '18', '-1', '物品转赠记录', '2021-04-24 15:11:46', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021042938870002', '物品使用记录', '800201906011', '/admin.html#/pages/common/resourceStoreUseRecordManage', '19', '-1', '个人物品使用记录', '2021-04-29 15:16:09', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021042974000156', '调拨申请', '800201906011', '/admin.html#/pages/common/allocationStorehouseApplyManage', '21', '-1', '', '2021-04-29 08:34:41', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702021050274070609', '会员等级', '802021042013710074', '/admin.html#/pages/goods/shopVipLevelManage', '1', '-1', '', '2021-05-02 16:16:20', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021050282200631', '金币设置', '802020041868120016', '/admin.html#/pages/admin/systemGoldSettingManage', '3', '-1', '', '2021-05-02 23:24:46', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702021050337470194', '金币购买记录', '802020041868120016', '/admin.html#/pages/admin/goldBuyCartManage', '4', '-1', '', '2021-05-03 17:27:19', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702021050428880218', '未收费房屋', '802020101628950105', '/admin.html#/pages/property/reportNoFeeRoom', '12', '-1', '', '2021-05-04 02:04:12', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021050579590719', '金币购买记录', '802021030407130505', '/admin.html#/pages/goods/goldBusinessManage', '10', '-1', '', '2021-05-05 22:47:06', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021050680180968', '购买金币', '802021030429840613', '/admin.html#/pages/goods/buyGold', '4', '-1', '', '2021-05-06 19:48:29', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702021050762290094', '商品入库', '802021030422920526', '/admin.html#/pages/goods/productStockManage', '4', '-1', '', '2021-05-07 22:42:39', '1', 'N');
-INSERT INTO `m_menu0226` VALUES ('702021050787220099', '收银台', '802021030407130505', '/money.html#/pages/goods/goodCashier', '1', '-1', '', '2021-05-07 23:57:43', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021050934180370', '会员账户', '802021042013710074', '/admin.html#/pages/goods/shopVipUserAccountManage', '3', '-1', '', '2021-05-09 16:37:10', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702021051115900003', '调拨明细', '800201906011', '/admin.html#/pages/common/allocationStorehouseDetailed', '4', '-1', '调拨明细', '2021-05-11 18:04:09', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021051232450003', '物品规格', '800201906011', '/admin.html#/pages/common/resourceStoreSpecificationManage', '2', '-1', '物品规格', '2021-05-12 10:42:05', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021051263410380', '订单详情', '802021030407130505', '/admin.html#/pages/goods/storeOrderCartDetail', '6', '-1', '', '2021-05-12 18:31:22', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702021051364840003', '我的物品', '802021012591650002', '/pages/resourceStoreManage/resourceStoreManage', '11', '-1', '/static/image/index_myresource.png', '2021-05-13 08:51:13', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021051414110200', '公众号菜单', '802021030869330063', '/admin.html#/pages/goods/wechatMenuManage', '5', '-1', '', '2021-05-14 23:30:13', '1', 'N');
-INSERT INTO `m_menu0226` VALUES ('702021051453870192', '商品评论', '802021030422920526', '/admin.html#/pages/goods/shopAppraiseManage', '5', '-1', '', '2021-05-14 22:51:33', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021051486340018', '店铺访问', '802021030439140608', '/admin.html#/pages/goods/shopVisitManage', '3', '-1', '', '2021-05-14 10:05:16', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021051496660198', '公众号', '802021030869330063', '/admin.html#/pages/goods/publicWeChatManage', '4', '-1', '', '2021-05-14 23:29:38', '1', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021051568130203', '退货地址', '802021030869330063', '/admin.html#/pages/goods/shopReturnAddressManage', '6', '-1', '', '2021-05-15 01:05:26', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021051834760934', '发布广告', '802020101497090051', '/admin.html#/pages/property/advertManage', '5', '-1', '', '2021-05-18 00:31:17', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021052105540002', '采购申请', '802021012591650002', '/pages/purchaseApplyManage/purchaseApplyManage', '12', '-1', '/static/image/index_apply.png', '2021-05-21 16:36:02', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021052131590006', '物品调拨', '802021012591650002', '/pages/allocationStorehouseManage/allocationStorehouseManage', '14', '-1', '/static/image/index_allocation.png', '2021-05-21 16:38:15', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021052136420004', '物品领用', '802021012591650002', '/pages/itemOutManage/itemOutManage', '13', '-1', '/static/image/index_itemout.png', '2021-05-21 16:37:08', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021052166830389', '便民信息维护', '802020101497090051', '/admin.html#/pages/admin/storeInfoManage', '9', '-1', '', '2021-05-21 15:44:49', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021052193760386', '便民菜单维护', '802020101497090051', '/admin.html#/pages/admin/convenienceMenusManage', '8', '-1', '', '2021-05-21 15:43:30', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021052458460212', '问卷明细表', '802020101628950105', '/admin.html#/pages/property/reportQuestionAnswerDetail', '13', '-1', '', '2021-05-24 11:02:45', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021052592090024', '服务类型', '802021052526080022', '/admin.html#/pages/goods/housekeepingTypeManage', '1', '-1', '', '2021-05-25 15:05:11', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021052626780534', '物品类型', '802021052632580529', '/admin.html#/pages/goods/resourceStoreTypeManage', '1', '-1', '', '2021-05-26 15:27:23', '1', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021052638000726', '供应商', '802021030869330063', '/admin.html#/pages/goods/resourceSupplierManage', '5', '-1', '', '2021-05-26 22:25:09', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021052650690542', '物品类型', '802021052632580529', '/admin.html#/pages/goods/resourceStoreTypeManage', '1', '-1', '', '2021-05-26 15:36:19', '1', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021052658950724', '物品类型', '802021052526080022', '/admin.html#/pages/goods/resourceStoreTypeManage', '2', '-1', '', '2021-05-26 22:24:31', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021052722721027', '物品信息', '802021052526080022', '/admin.html#/pages/goods/housekeepingResourceManage', '6', '-1', '', '2021-05-27 11:13:57', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021052734430007', '调拨审批', '802021012591650002', '/pages/allocationStorehouseAuditOrders/allocationStorehouseAuditOrders', '17', '-1', '/static/image/index_allocation_audit.png', '2021-05-27 15:11:45', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021052737910003', '采购审批', '802021012591650002', '/pages/purchaseApplyAuditOrders/purchaseApplyAuditOrders', '15', '-1', '/static/image/index_apply_audit.png', '2021-05-27 15:09:56', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021052754370005', '领用审批', '802021012591650002', '/pages/itemOutAuditOrders/itemOutAuditOrders', '16', '-1', '/static/image/index_itemout_audit.png', '2021-05-27 15:10:45', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021052806710272', '服务管理', '802021052526080022', '/admin.html#/pages/goods/housekeepingServManage', '7', '-1', '', '2021-05-28 15:45:53', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021053110010398', '客户催单', '802021030407130505', '/admin.html#/pages/goods/userExpeditingDelivery', '8', '-1', '', '2021-05-31 16:14:20', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021060157790468', '服务评价', '802021052526080022', '/admin.html#/pages/goods/servAppraiseManage', '8', '-1', '', '2021-06-01 00:27:29', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021060421241624', '费用大类', '802021052526080022', '/admin.html#/pages/goods/housekeepingFeeTypeManage', '3', '-1', '', '2021-06-04 11:42:06', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021060462151626', '费用标准', '802021052526080022', '/admin.html#/pages/goods/housekeepingFeeConfigManage', '4', '-1', '', '2021-06-04 11:42:46', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021060521430094', '手机商城菜单', '800201908019', '/admin.html#/pages/admin/housekeepingTypeManage', '4', '-1', '', '2021-06-05 15:38:42', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021060567820018', '巡检明细', '802020020977260001', '/admin.html#/pages/property/inspectionTaskDetails', '5', '-1', '巡检明细', '2021-06-05 14:13:35', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021060576440068', '商城菜单', '802021031077490162', '/admin.html#/pages/admin/housekeepingTypeManage', '7', '-1', '', '2021-06-05 11:29:31', '1', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021062106010369', '提现记录', '802021062100110360', '/admin.html#/pages/admin/accountWithdrawalApplyListManage', '3', '-1', '', '2021-06-21 17:37:56', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021062107910328', '服务支付', '802021030407130505', '/admin.html#/pages/goods/housekeepingServPoolPay', '7', '-1', '', '2021-06-21 17:07:02', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021062112480331', '服务已办', '802021030407130505', '/admin.html#/pages/goods/myHousekeepingDispatchManage', '6', '-1', '', '2021-06-21 17:08:12', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021062112540478', '拼团设置', '802021062183150477', '/admin.html#/pages/goods/groupBuySettingManage', '1', '-1', '', '2021-06-21 22:51:17', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702021062117500492', '便民菜单维护', '802021062183150477', '/admin.html#/pages/admin/convenienceMenusManage', '10', '-1', '', '2021-06-21 22:55:22', '1', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021062118030488', '发布广告', '802021062183150477', '/admin.html#/pages/property/advertManage', '5', '-1', '', '2021-06-21 22:54:24', '1', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021062120260365', '提现审核', '802021062100110360', '/admin.html#/pages/admin/accountWithdrawalApplyShManage', '1', '-1', '', '2021-06-21 17:37:02', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021062122460326', '服务工单池', '802021030407130505', '/admin.html#/pages/goods/housekeepingServPoolManage', '4', '-1', '', '2021-06-21 17:06:08', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021062129640324', '订单费用', '802021030407130505', '/admin.html#/pages/goods/storeOrderCartFeeManage', '3', '-1', '', '2021-06-21 17:05:15', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021062137340486', '推荐商品', '802021062183150477', '/admin.html#/pages/goods/recommendGoodsManage', '5', '-1', '', '2021-06-21 22:53:43', '1', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021062145590482', '拼团列表', '802021062183150477', '/admin.html#/pages/goods/groupBuyManage', '3', '-1', '', '2021-06-21 22:52:42', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702021062150280411', '账户提现', '802021030429840613', '/admin.html#/pages/goods/accountWithdrawalApplyManage', '4', '-1', '', '2021-06-21 18:08:11', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021062154910333', '服务待办', '802021030407130505', '/admin.html#/pages/goods/housekeepingDispatchManage', '5', '-1', '', '2021-06-21 17:09:01', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021062181060490', '便民信息维护', '802021062183150477', '/admin.html#/pages/admin/storeInfoManage', '9', '-1', '', '2021-06-21 22:54:54', '1', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021062182720480', '拼团产品', '802021062183150477', '/admin.html#/pages/goods/groupBuyProductManage', '2', '-1', '', '2021-06-21 22:51:46', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702021062184420484', '拼团批次 	', '802021062183150477', '/admin.html#/pages/goods/groupBuyBatchManage', '3', '-1', '', '2021-06-21 22:53:15', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702021062194830401', '开户行管理', '802021030869330063', '/admin.html#/pages/goods/accountBankManage', '4', '-1', '', '2021-06-21 18:00:24', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021062195680293', '业主账号', '800201904005', '/admin.html#/pages/property/accountManage', '4', '-1', '', '2021-06-21 16:34:15', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021062198850367', '提现付款', '802021062100110360', '/admin.html#/pages/admin/accountWithdrawalApplyFkManage', '2', '-1', '', '2021-06-21 17:37:30', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021062337560276', '店铺类型', '802021031077490162', '/admin.html#/pages/admin/shopTypeManage', '8', '-1', '', '2021-06-23 21:01:11', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021062389970278', '经营范围', '802021031077490162', '/admin.html#/pages/admin/shopRangeManage', '9', '-1', '', '2021-06-23 21:01:56', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021062825470013', '积分商品', '802021030422920526', '/admin.html#/pages/goods/integralGoodsManage', '5', '-1', '', '2021-06-28 15:52:17', '1', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021062840681171', '设置保证金', '802021062100110360', '/admin.html#/pages/admin/accountBondManage', '4', '-1', '', '2021-06-28 15:04:53', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021062867530005', '业主缴费明细', '802020101628950105', '/admin.html#/pages/property/reportOwnerPayFee', '13', '-1', '', '2021-06-28 18:46:03', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021063019100367', '上架服务', '802021031077490162', '/admin.html#/pages/admin/housekeepingSjServManage', '9', '-1', '', '2021-06-30 16:09:57', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021063026310064', '保证金明细', '802021062100110360', '/admin.html#/pages/admin/accountBondObjDetailManage', '4', '-1', '', '2021-06-30 10:55:23', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021063061830369', '上架商品', '802021031077490162', '/admin.html#/pages/admin/productSjManage', '10', '-1', '', '2021-06-30 16:10:32', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021071214730939', '仓库管理', '802021071252990937', '/admin.html#/pages/goods/shopHouseManage', '1', '-1', '', '2021-07-12 14:20:36', '1', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021071239100951', '资产盘点', '802021071252990937', '/admin.html#/pages/goods/assetInventoryManage', '7', '-1', '', '2021-07-12 14:26:04', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021071249080947', '进货退货', '802021071252990937', '/admin.html#/pages/goods/downShopHouseManage', '4', '-1', '', '2021-07-12 14:23:53', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021071262720944', '进货单', '802021071252990937', '/admin.html#/pages/goods/upShopHouseManage', '3', '-1', '', '2021-07-12 14:22:35', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021071272490955', '出库单', '802021071252990937', '/admin.html#/pages/goods/outOrderManage', '6', '-1', '', '2021-07-12 14:27:11', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021071283350953', '入库单', '802021071252990937', '/admin.html#/pages/goods/inoutOrderManage', '5', '-1', '', '2021-07-12 14:26:46', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021071290860949', '仓库调拨', '802021071252990937', '/admin.html#/pages/goods/allocationOrderManage', '8', '-1', '', '2021-07-12 14:25:07', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021071291870941', '库存查询', '802021071252990937', '/admin.html#/pages/goods/queryStockManage', '2', '-1', '', '2021-07-12 14:21:16', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021071611475099', '库存警告', '802021071252990937', '/admin.html#/pages/goods/queryWarnStock', '1', '-1', '', '2021-07-16 21:18:39', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021071690625077', '仓库管理', '802021030422920526', '/admin.html#/pages/goods/shopHouseManage', '1', '-1', '', '2021-07-16 18:44:18', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021071732215278', '进货统计', '802021071783995277', '/admin.html#/pages/goods/getInStockInfoManage', '1', '-1', '', '2021-07-17 21:22:28', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021072272120096', '短信配置', '802019091604450001', '/admin.html#/pages/property/smsConfigManage', '12', '-1', '', '2021-07-22 15:48:17', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021072302880007', '支付配置', '802021030869330063', '/admin.html#/pages/goods/publicWeChatManage', '6', '-1', '', '2021-07-23 18:21:12', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021072620910804', '打印配置', '802021030869330063', '/admin.html#/pages/goods/feePrintSpecManage', '8', '-1', '', '2021-07-26 22:40:35', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021072649210758', '销售排行', '802021071783995277', '/admin.html#/pages/goods/getSalesRankingInfoManage', '2', '-1', '', '2021-07-26 19:01:58', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021072665920760', '进货明细', '802021071783995277', '/admin.html#/pages/goods/getInoutInfoManage', '3', '-1', '', '2021-07-26 19:03:51', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021072680130762', '销售明细', '802021071783995277', '/admin.html#/pages/goods/getSalesInfoManage', '4', '-1', '', '2021-07-26 19:04:19', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021072906100016', '押金报表', '802020101628950105', '/admin.html#/pages/property/reportPayFeeDeposit', '14', '-1', '押金报表', '2021-07-29 15:02:53', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021072960630408', '销售成本表', '802021071783995277', '/admin.html#/pages/goods/sellingCostManage', '5', '-1', '', '2021-07-29 19:29:35', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021072964740410', '销售成本明细', '802021071783995277', '/admin.html#/pages/goods/sellingCostDetailManage', '6', '-1', '', '2021-07-29 19:30:10', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021072983830259', '商品导入', '802021030869330063', '/admin.html#/pages/goods/productImport', '9', '-1', '', '2021-07-29 13:07:45', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021080208380242', '商品标签', '802021030422920526', '/admin.html#/pages/goods/labelManage', '2', '-1', '', '2021-08-02 11:21:13', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021080251950170', '首页菜单', '802021080248090167', '/admin.html#/pages/goods/indexMenu', '2', '-1', '', '2021-08-02 08:34:13', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021080256500172', '首页通知', '802021080248090167', '/admin.html#/pages/goods/storeMsgManage', '3', '-1', '', '2021-08-02 08:35:27', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021080266370168', '首页广告', '802021080248090167', '/admin.html#/pages/goods/storeAdsManage', '1', '-1', '', '2021-08-02 08:33:25', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021080276900276', '打标商品', '802021030422920526', '/admin.html#/pages/goods/productLabelManage', '10', '-1', '', '2021-08-02 12:40:00', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021080500070003', '初始化小区', '802021031653410070', '/admin.html#/pages/dev/initializeCommunityManage', '6', '-1', '', '2021-08-05 19:09:43', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021080618760008', '返省上报', '802021080609660006', '/admin.html#/pages/property/reportInfoBackCityManage', '2', '-1', '', '2021-08-06 12:45:10', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021080692250006', '疫情设置', '802021080609660006', '/admin.html#/pages/property/reportInfoSettingManage', '1', '-1', '', '2021-08-06 16:29:59', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021080999980304', '疫情上报', '802021080609660006', '/admin.html#/pages/property/reportInfoAnswerValueManage', '3', '-1', '', '2021-08-09 13:26:17', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021081328060125', '华宁物业报表', '802020101628950105', '/admin.html#/pages/property/reportHuaning', '13', '-1', '', '2021-08-13 16:30:39', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021081622100337', '流程实例', '800201904007', '/admin.html#/pages/property/oaWorkflowManage', '1', '-1', '', '2021-08-16 16:30:56', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021081962210229', '我的流程', '800201904007', '/admin.html#/pages/property/newOaWorkflowManage', '2', '-1', '', '2021-08-19 22:28:52', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021083127700004', '验房记录', '802019103010680005', '/admin.html#/pages/property/listApplyRoomDiscountRecord', '23', '-1', '验房跟踪记录', '2021-08-31 14:11:27', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702021090176340004', '验房记录详情', '802019103010680005', '/admin.html#/pages/property/listApplyRoomDiscountRecordDetails', '25', '-1', '验房记录详情', '2021-09-01 11:19:33', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702021090752200027', '小区配置', '802019091604450001', '/admin.html#/pages/property/communitySettingManage', '6', '-1', '小区配置', '2021-09-07 15:19:57', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021090912130223', '工作办理', '800201904007', '/admin.html#/pages/property/newOaWorkflowDoing', '3', '-1', '', '2021-09-09 11:38:19', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021091045500193', '项目管理', '800201904006', '/admin.html#/pages/property/projectManagement', '6', '-1', '', '2021-09-10 11:41:13', '1', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021091060730200', 'OA流程', '802021012591650002', '/pages/oaWorkflow/oaWorkflow', '18', '-1', '/static/image/index_repair_user.png', '2021-09-10 12:02:37', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021091065070118', '物品信息(全)', '800201906011', '/admin.html#/pages/common/resourceStoreAllManage', '22', '-1', '', '2021-09-10 10:47:58', '1', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021091090480209', '物品使用记录(全)', '800201906011', '/admin.html#/pages/common/resourceStoreUseRecordAllManage', '23', '-1', '', '2021-09-10 12:33:50', '1', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021091240630201', '业务轨迹', '800201907014', '/admin.html#/pages/dev/businessTableHisManage', '6', '-1', '', '2021-09-12 15:48:39', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021091384280003', '大厦楼栋', '800201904006', '/admin.html#/pages/property/listLargeFloor', '5', '-1', '', '2021-09-13 17:48:45', '1', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021091638030020', '收据模板', '802019091604450001', '/admin.html#/pages/property/feePrintPageManage', '19', '-1', '', '2021-09-16 22:46:38', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021092119770198', '抄表类型', '802019103010680005', '/admin.html#/pages/property/meterTypeManage', '12', '-1', '', '2021-09-21 23:13:48', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021092221910392', '取消费用', '802019103010680005', '/admin.html#/pages/property/payFeeBatch', '25', '-1', '', '2021-09-22 18:17:24', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021092352050275', '问候语设置', '802020012374230001', '/admin.html#/pages/property/parkingAreaText', '13', '-1', '', '2021-09-23 22:30:28', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702021092890350423', '店铺小区', '802021092828740422', '/admin.html#/pages/goods/shopCommunityManage', '1', '-1', '', '2021-09-28 18:35:00', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021101121500211', '派送方式', '802021030869330063', '/admin.html#/pages/goods/distributionModeManage', '10', '-1', '', '2021-10-11 18:08:34', '1', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021101132330001', '产权登记', '800201904004', '/admin.html#/pages/property/propertyRightRegistrationManage', '7', '-1', '产权登记', '2021-10-11 11:17:11', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021101575360006', '设备类型', '802019110855900043', '/admin.html#/pages/property/machineTypeManage', '2', '-1', '', '2021-10-15 13:51:19', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021101602440031', '视频监控', '800201904004', '/video.html#/pages/property/videoControl', '9', '-1', '', '2021-10-16 22:47:04', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021101679350005', '产权登记详情', '800201904004', '/admin.html#/pages/property/listPropertyRightRegistrationDetail', '25', '-1', '产权登记详情', '2021-10-16 10:05:41', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702021101828000001', '岗亭管理', '802020012374230001', '/admin.html#/pages/property/parkingBoxManage', '3', '-1', '', '2021-10-18 00:36:10', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021101880660165', '车位申请', '802020012374230001', '/admin.html#/pages/property/parkingSpaceApplyManage', '20', '-1', '', '2021-10-18 17:04:02', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021110981050126', '报表组', '802021110952690125', '/admin.html#/pages/dev/reportCustomGroupManage', '1', '-1', '', '2021-11-09 14:38:40', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021111211780405', '报表组件', '802021110952690125', '/admin.html#/pages/dev/reportCustomComponentManage', '3', '-1', '报表组件', '2021-11-12 10:00:34', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021111283300047', '报修报表', '802020101628950105', '/admin.html#/pages/property/commonReport?groupId=102021111007300001', '14', '-1', '', '2021-11-12 15:51:18', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021111293630375', '报表信息', '802021110952690125', '/admin.html#/pages/dev/reportCustomManage', '2', '-1', '', '2021-11-12 09:03:45', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021112400650642', '购买记录', '802020041868120016', '/admin.html#/pages/admin/couponDetailManage', '6', '-1', '', '2021-11-24 09:48:21', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021112401220037', '商城菜单', '802021031077490162', '/admin.html#/pages/admin/housekeepingTypeManage', '11', '-1', '', '2021-11-24 14:58:46', '1', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021112410210640', '制作优惠券', '802020041868120016', '/admin.html#/pages/admin/couponPoolManage', '5', '-1', '', '2021-11-24 09:47:32', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021112475670048', '优惠劵管理', '802021030429840613', '/admin.html#/pages/goods/couponShopPoolManage', '5', '-1', '', '2021-11-24 15:29:09', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021112480070051', '商城菜单', '802021031077490162', '/admin.html#/pages/admin/housekeepingTypeManage', '0', '-1', '', '2021-11-24 15:33:10', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021112575360067', '购买记录', '802021030429840613', '/admin.html#/pages/goods/couponDetailManage', '6', '-1', '', '2021-11-25 18:09:13', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021112709830035', '店铺变更', '802021031077490162', '/admin.html#/pages/admin/shopAuditManage', '11', '-1', '', '2021-11-27 23:49:24', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021112954770700', '变更记录', '802021030439140608', '/admin.html#/pages/goods/shopAuditManage', '4', '-1', '', '2021-11-29 20:42:37', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021113001970431', '店铺配置', '802021030869330063', '/admin.html#/pages/goods/shopSettingManage', '8', '-1', '', '2021-11-30 17:14:55', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702021120171520285', '赠送记录', '802021030429840613', '/admin.html#/pages/goods/couponShopPoolDetailManage', '7', '-1', '', '2021-12-01 16:42:41', '0', 'Y');
-INSERT INTO `m_menu0226` VALUES ('702022011255150105', '调拨入库', '802021071252990937', '/adminDetail.html#/pages/goods/doAllocationOrderIn', '36', '-1', '调拨入库', '2022-02-25 10:00:00', '0', 'N');
-INSERT INTO `m_menu0226` VALUES ('702022022626440646', '菜单目录', '800201908019', '/admin.html#/pages/dev/menuCatalogManage', '1', '-1', '', '2022-02-26 10:32:55', '0', 'Y');
-
--- ----------------------------
--- Table structure for m_menu_20200316
--- ----------------------------
-DROP TABLE IF EXISTS `m_menu_20200316`;
-CREATE TABLE `m_menu_20200316` (
-  `m_id` varchar(30) NOT NULL COMMENT '菜单ID',
-  `name` varchar(10) NOT NULL COMMENT '菜单名称',
-  `g_id` varchar(30) NOT NULL COMMENT '菜单组ID',
-  `url` varchar(200) NOT NULL COMMENT '打开地址',
-  `seq` int(11) NOT NULL COMMENT '列顺序',
-  `p_id` varchar(30) NOT NULL COMMENT '权限ID',
-  `description` varchar(200) DEFAULT NULL COMMENT '菜单描述',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态，详细参考c_status表，0在用，1失效',
-  `is_show` varchar(2) NOT NULL DEFAULT 'Y' COMMENT '菜单页面是否显示 Y显示N不显示'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of m_menu_20200316
--- ----------------------------
-INSERT INTO `m_menu_20200316` VALUES ('700201904001', '员工信息', '800201904001', '/admin.html#/staff', '2', '500201904001', '员工信息', '2019-04-01 02:19:51', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('700201904002', '员工权限', '802019091604450001', '/admin.html#/staffPrivilege', '2', '500201904002', '员工权限', '2019-04-01 08:05:51', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('700201904003', '权限组', '802019091604450001', '/admin.html#/privilege', '1', '500201904003', '权限组', '2019-04-01 08:06:16', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('700201904004', '物业费', '800201904005', '/admin.html#/propertyFee', '3', '500201904004', '物业费', '2019-04-09 14:41:40', '0', 'N');
-INSERT INTO `m_menu_20200316` VALUES ('700201904005', '停车费', '800201904005', '/admin.html#/parkingSpaceFee', '4', '500201904005', '停车费', '2019-04-09 14:50:56', '0', 'N');
-INSERT INTO `m_menu_20200316` VALUES ('700201904006', '房屋管理', '800201904006', '/admin.html#/room', '3', '500201904006', '房屋管理', '2019-04-09 14:55:59', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('700201904007', '我的报表', '800201904009', '/admin.html', '1', '500201904007', '我的报表', '2019-04-09 14:58:32', '0', 'N');
-INSERT INTO `m_menu_20200316` VALUES ('700201904008', '我的小区', '800201904004', '/admin.html#/enterCommunity', '1', '500201904008', '我的小区', '2019-04-09 15:02:14', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('700201904009', '发布公告', '800201904007', '/admin.html#/noticeManage', '1', '500201904009', '发布公告', '2019-04-09 15:05:56', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('700201904010', '业主信息', '800201904005', '/admin.html#/listOwner', '1', '500201904010', '业主信息', '2019-04-09 15:07:53', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('700201904011', '楼栋信息', '800201904006', '/admin.html#/listFloor', '1', '500201904011', '楼信息', '2019-04-19 07:59:49', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('700201904012', '单元信息', '800201904006', '/admin.html#/unit', '2', '500201904012', '单元信息', '2019-04-19 08:00:24', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('700201904013', '业主成员', '800201904005', '/admin.html#/listOwnerMember', '2', '500201904013', '业主成员', '2019-05-17 13:59:07', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('700201904014', '房屋售卖', '800201904006', '/admin.html#/sellRoom', '4', '500201904014', '房屋售卖', '2019-05-20 07:05:25', '1', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('700201904015', '业主详情', '800201904005', '/admin.html#/ownerDetail', '4', '500201904015', '业主房产', '2019-05-22 01:06:26', '0', 'N');
-INSERT INTO `m_menu_20200316` VALUES ('700201904016', '初始化物业费', '802019091604450001', '/admin.html#/viewPropertyFeeConfig', '3', '500201904016', '配置物业费', '2019-06-01 04:56:45', '1', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('700201904021', '初始化停车费', '802019091604450001', '/admin.html#/viewParkingSpaceFeeConfig', '4', '500201904021', '初始化停车费', '2019-06-01 04:56:45', '1', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('700201906017', '车位信息', '802020012374230001', '/admin.html#/listParkingSpace', '2', '500201906017', '车位信息', '2019-06-01 04:56:45', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('700201906018', '车位出租', '802020012374230001', '/admin.html#/hireParkingSpace', '2', '500201906018', '车位出租', '2019-06-01 04:56:45', '0', 'N');
-INSERT INTO `m_menu_20200316` VALUES ('700201906019', '车位出售', '802020012374230001', '/admin.html#/sellParkingSpace', '3', '500201906019', '车位出售', '2019-06-01 04:56:45', '0', 'N');
-INSERT INTO `m_menu_20200316` VALUES ('700201906020', '业主车位', '802020012374230001', '/admin.html#/ownerParkingSpace', '4', '500201906020', '业主车位', '2019-06-01 04:56:45', '0', 'N');
-INSERT INTO `m_menu_20200316` VALUES ('700201906022', '采购申请', '800201906011', '/admin.html#/itemInManage', '3', '500201906022', '采购入库', '2019-06-19 02:16:11', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('700201906023', 'DEMO用例', '802019091604450001', '/admin.html#/listDemo', '5', '500201906023', 'DEMO用例', '2019-06-19 02:16:11', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('700201906024', '小区信息', '800201904004', '/admin.html#/communityManage', '1', '500201906024', '代理商添加小区', '2019-06-19 02:16:11', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('700201906025', '应用信息', '800201907014', '/admin.html#/appManage', '1', '500201906026', '应用信息', '2019-06-19 02:16:11', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('700201906026', '服务信息', '800201907014', '/admin.html#/serviceManage', '1', '500201906027', '服务信息', '2019-06-19 02:16:11', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('700201906027', '服务实现', '800201907014', '/admin.html#/serviceImplManage', '4', '500201906028', '服务实现', '2019-07-07 08:49:51', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('700201906028', '编码映射', '800201907016', '/admin.html#/mappingManage', '1', '500201906029', '编码映射', '2019-06-19 02:16:11', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('700201907029', '服务绑定', '800201907014', '/admin.html#/serviceBinding', '3', '500201907030', '服务绑定', '2019-07-11 11:46:59', '0', 'N');
-INSERT INTO `m_menu_20200316` VALUES ('700201907030', '添加房屋', '800201904006', '/admin.html#/addRoomBinding', '5', '500201907031', '添加房屋', '2019-07-31 02:26:09', '0', 'N');
-INSERT INTO `m_menu_20200316` VALUES ('700201908030', '服务注册', '800201907014', '/admin.html#/serviceRegisterManage', '2', '500201907032', '服务注册', '2019-08-10 09:49:38', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('700201908031', '访客登记', '800201904007', '/admin.html#/visitManage', '3', '500201907033', '访客登记', '2019-08-12 12:44:55', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('700201908032', '刷新缓存', '800201908018', '/admin.html#/cacheManage', '1', '500201908034', '刷新缓存', '2019-08-13 11:35:35', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('700201908033', '菜单组', '800201908019', '/admin.html#/menuGroupManage', '1', '500201908035', '菜单组', '2019-08-19 12:17:46', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('700201908034', '基础权限', '800201908019', '/admin.html#/basePrivilegeManage', '3', '500201908036', '基础权限', '2019-08-19 12:17:46', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('700201908035', '菜单维护', '800201908019', '/admin.html#/menuManage', '2', '502019082521880003', '菜单维护', '2019-08-25 10:38:16', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('700201908036', '配置菜单', '800201908019', '/admin.html#/configMenu', '4', '502019083153490001', '配置菜单', '2019-08-31 14:36:57', '0', 'N');
-INSERT INTO `m_menu_20200316` VALUES ('702019090129620003', '测试菜单', '802019090197390001', '/flow/configTestFlow', '1', '502019090183410002', '测试菜单', '2019-09-01 04:16:29', '1', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('702019090161010006', '服务提供', '800201907014', '/admin.html#/serviceProvideManage', '5', '502019090149430005', '服务提供', '2019-09-01 14:14:08', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('702019090210710002', '开发服务', '800201907014', '/admin.html#/devServiceProvide', '6', '502019090277380001', '开发服务提供', '2019-09-02 15:33:31', '0', 'N');
-INSERT INTO `m_menu_20200316` VALUES ('702019090293430003', '定时任务', '802019090224100001', '/HcFtpToFileSystemConfigList/', '1', '502019090260990002', '管理定时任务', '2019-09-02 12:35:51', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('702019091317360002', '添加业主房产', '800201904005', '/admin.html#/addOwnerRoomBinding', '5', '502019091322800001', '添加业主', '2019-09-13 05:08:45', '0', 'N');
-INSERT INTO `m_menu_20200316` VALUES ('702019091693040002', '删除业主房屋', '800201904005', '/admin.html#/deleteOwnerRoom', '6', '502019091615840001', '删除业主房屋', '2019-09-16 01:10:46', '0', 'N');
-INSERT INTO `m_menu_20200316` VALUES ('702019091754830002', '小区信息', '800201904004', '/admin.html#/communityManage', '1', '502019091797230001', '', '2019-09-17 12:59:57', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('702019091772280004', '审核小区', '800201904004', '/admin.html#/auditCommunityManage', '2', '502019091773700003', '审核小区', '2019-09-17 14:57:45', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('702019091993470003', '入驻审核', '800201904004', '/admin.html#/auditEnterCommunityManage', '2', '502019091978690002', '', '2019-09-19 13:44:39', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('702019092323790002', '资产导入导出', '802019091604450001', '/admin.html#/assetImport', '6', '502019092326130001', '资产导入导出', '2019-09-23 06:29:10', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('702019092901960004', '公告详情', '800201904007', '/admin.html#/noticeDetail', '2', '502019092908940003', '公告详情', '2019-09-29 12:19:45', '0', 'N');
-INSERT INTO `m_menu_20200316` VALUES ('702019092962440002', '配置菜单', '800201908019', '/admin.html#/configMenu', '4', '502019092956560001', '配置菜单', '2019-09-29 12:18:14', '1', 'N');
-INSERT INTO `m_menu_20200316` VALUES ('702019100515060006', '报修登记', '800201904005', '/admin.html#/ownerRepairManage', '3', '502019100524950005', '报修登记', '2019-10-05 01:30:16', '0', 'N');
-INSERT INTO `m_menu_20200316` VALUES ('702019100725620006', '组织信息', '800201904001', '/admin.html#/orgManage', '1', '502019100721900005', '组织信息', '2019-10-07 08:49:34', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('702019100978780003', '添加访客', '800201907017', '/admin.html#/addVisitSpace', '2', '502019100903330002', '添加访客', '2019-10-09 02:00:55', '0', 'N');
-INSERT INTO `m_menu_20200316` VALUES ('702019101562370002', '添加员工', '800201904001', '/admin.html#/addStaffStep', '3', '502019101540480001', '添加员工', '2019-10-15 23:20:31', '0', 'N');
-INSERT INTO `m_menu_20200316` VALUES ('702019101903870011', '报修派单', '800201904005', '/admin.html#/repairDispatchStep', '4', '502019101946430010', '派单', '2019-10-19 17:35:26', '0', 'N');
-INSERT INTO `m_menu_20200316` VALUES ('702019102028670002', '派单信息', '802019102057730004', '/admin.html#/repairDispatchManage', '1', '502019102030200001', '', '2019-10-20 22:15:15', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('702019102073620006', '我的报修', '802019102057730004', '/admin.html#/myRepairDispatchManage', '2', '502019102010870005', '', '2019-10-20 18:09:05', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('702019102148640005', '物品信息', '800201906011', '/admin.html#/resourceStoreManage', '1', '502019102151130004', '', '2019-10-21 20:49:07', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('702019102250410002', '物品出库', '800201906011', '/admin.html#/itemOutManage', '4', '502019102242190001', '物品出库功能入口', '2019-10-22 18:26:36', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('702019102631340002', '审核人员', '800201906011', '/admin.html#/auditUserManage', '2', '502019102639930001', '', '2019-10-26 23:04:43', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('702019102755920007', '添加审核人员', '800201906011', '/admin.html#/addAuditUserStep', '5', '502019102740830006', '', '2019-10-27 00:19:08', '0', 'N');
-INSERT INTO `m_menu_20200316` VALUES ('702019102949390010', '我的审批', '800201906011', '/admin.html#/myAuditOrders', '6', '502019102911270009', '', '2019-10-29 20:27:52', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('702019103045670007', '缴费清单', '802019103010680005', '/admin.html#/payFeeOrder', '4', '502019103056060006', '', '2019-10-30 21:54:58', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('702019103157610019', '投诉建议', '800201904007', '/admin.html#/complaintManage', '4', '502019103114270018', '', '2019-10-31 23:26:14', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('702019103170090012', '员工收费', '802019103010680005', '/admin.html#/staffFeeManage', '5', '502019103108450011', '', '2019-10-31 20:36:02', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('702019110278050059', '登记投诉', '800201904007', '/admin.html#/addComplaintStep', '5', '502019110296490058', '', '2019-11-02 13:25:04', '0', 'N');
-INSERT INTO `m_menu_20200316` VALUES ('702019110356630007', '审核投诉单', '800201904007', '/admin.html#/myAuditComplaints', '6', '502019110360380006', '', '2019-11-03 18:45:09', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('702019110566390007', '投诉历史单', '800201904007', '/admin.html#/myAuditHistoryComplaints', '7', '502019110534240006', '', '2019-11-05 09:14:09', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('702019110862640045', '设备门禁', '802019110855900043', '/admin.html#/machineManage', '1', '502019110809250044', '', '2019-11-08 23:45:18', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('702019111070760053', '设备数据同步', '802019110855900043', '/admin.html#/machineTranslateManage', '2', '502019111025350052', '', '2019-11-10 13:28:46', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('702019112665680008', '开门记录', '802019110855900043', '/admin.html#/machineRecordManage', '3', '502019112673230007', '', '2019-11-26 23:03:48', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('702019112732480002', '访客留影', '802019110855900043', '/admin.html#/machineVistorPhotoManage', '4', '502019112738970001', '', '2019-11-27 08:45:42', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('702019120122440006', '申请钥匙', '802019110855900043', '/admin.html#/applicationKeyManage', '5', '502019120169500005', '', '2019-12-01 23:34:32', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('702019121609010004', '钥匙审核', '802019110855900043', '/admin.html#/auditApplicationKeyManage', '6', '502019121605850003', '', '2019-12-16 21:36:32', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('702019121668720002', '发布广告', '800201904007', '/admin.html#/advertManage', '2', '502019121697840001', '', '2019-12-16 21:35:24', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('702019122969830026', '绑定业主', '800201904005', '/admin.html#/auditAppUserBindingOwnerManage', '3', '502019122980990025', '', '2019-12-29 12:04:28', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('702020011340130053', '小区文化', '800201904007', '/admin.html#/activitiesManage', '7', '502020011308620052', '', '2020-01-13 19:43:53', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('702020012324610003', '停车场管理', '802020012374230001', '/admin.html#/parkingAreaManage', '1', '502020012317850002', '', '2020-01-23 01:02:29', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('702020012347420002', '在场车辆', '802020012374230001', '/admin.html#/carInManage', '5', '502020012324940001', '', '2020-01-23 23:17:52', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('702020012385860002', '黑白名单', '802020012374230001', '/admin.html#/carBlackWhiteManage', '6', '502020012348390001', '', '2020-01-23 13:00:37', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('702020012392410004', '进场记录', '802020012374230001', '/admin.html#/carInoutManage', '3', '502020012397360003', '', '2020-01-23 22:10:07', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('702020012746240002', '临时车缴费清单', '802019103010680005', '/admin.html#/tempCarInoutFeeManage', '6', '502020012781380001', '', '2020-01-27 20:56:21', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('702020012891350002', '剩余车位', '802020012374230001', '/admin.html#/remainingParkingSpace', '6', '502020012815760001', '', '2020-01-28 23:51:46', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('702020012977330002', '收费二维码', '802020012374230001', '/admin.html#/parkingSpaceQrCode', '7', '502020012900510001', '', '2020-01-29 00:13:50', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('702020013025182995', '费用项设置', '802019103010680005', '/admin.html#/feeConfigManage', '1', '502020013064742994', '', '2020-01-30 15:04:07', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('702020013091330005', '车位收费', '802019103010680005', '/admin.html#/parkingSpaceCreateFee', '3', '502020013062200004', '', '2020-01-30 22:55:43', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('702020013097620003', '房屋收费', '802019103010680005', '/admin.html#/roomCreateFee', '2', '502020013028810002', '', '2020-01-30 22:54:46', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('702020020163313985', '房屋费用', '802019103010680005', '/admin.html#/listRoomFee', '6', '502020020117213984', '', '2020-02-01 15:11:01', '0', 'N');
-INSERT INTO `m_menu_20200316` VALUES ('702020020184753990', '收银台', '802019103010680005', '/admin.html#/payFeeOrder', '7', '502020020148933989', '', '2020-02-01 20:49:38', '0', 'N');
-INSERT INTO `m_menu_20200316` VALUES ('702020020270690003', '车位费用', '802019103010680005', '/admin.html#/listParkingSpaceFee', '8', '502020020204240002', '', '2020-02-02 15:55:41', '0', 'N');
-INSERT INTO `m_menu_20200316` VALUES ('7020200203341931761', '费用汇总表', '802019103010680005', '/admin.html#/feeSummary', '7', '5020200203190731760', '', '2020-02-03 16:42:37', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('702020020834160003', '修改密码', '802019091604450001', '/admin.html#/changeStaffPwd', '6', '502020020896890002', '', '2020-02-08 16:42:06', '0', 'Y');
-INSERT INTO `m_menu_20200316` VALUES ('702020021724660004', '商户信息', '802020021797160002', '/admin.html#/listStoreManage', '1', '502020021713850003', '', '2020-02-17 14:26:53', '0', 'Y');
-
--- ----------------------------
 -- Table structure for m_menu_catalog
 -- ----------------------------
 DROP TABLE IF EXISTS `m_menu_catalog`;
@@ -30530,396 +28939,6 @@ CREATE TABLE `n_notice` (
 -- ----------------------------
 -- Records of n_notice
 -- ----------------------------
-
--- ----------------------------
--- Table structure for oa_tmp_111111120260802123510
--- ----------------------------
-DROP TABLE IF EXISTS `oa_tmp_111111120260802123510`;
-CREATE TABLE `oa_tmp_111111120260802123510` (
-  `id` varchar(30) NOT NULL COMMENT '主键ID',
-  `textarea1` longtext COMMENT '多行文本框',
-  `store_id` varchar(30) NOT NULL COMMENT '商户ID',
-  `create_user_id` varchar(30) NOT NULL COMMENT '创建人ID',
-  `create_user_name` varchar(64) NOT NULL COMMENT '创建人',
-  `state` varchar(12) NOT NULL COMMENT '状态 1001 申请 1002 待审核 1003 退回 1004 委托 1005 办结',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态，详细参考c_status表，S 保存，0, 在用 1失效',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of oa_tmp_111111120260802123510
--- ----------------------------
-
--- ----------------------------
--- Table structure for oa_tmp_1120260811165435
--- ----------------------------
-DROP TABLE IF EXISTS `oa_tmp_1120260811165435`;
-CREATE TABLE `oa_tmp_1120260811165435` (
-  `id` varchar(30) NOT NULL COMMENT '主键ID',
-  `textfield1` varchar(64) DEFAULT NULL COMMENT '文本框',
-  `radio1` varchar(64) DEFAULT NULL COMMENT 'Radio',
-  `store_id` varchar(30) NOT NULL COMMENT '商户ID',
-  `create_user_id` varchar(30) NOT NULL COMMENT '创建人ID',
-  `create_user_name` varchar(64) NOT NULL COMMENT '创建人',
-  `state` varchar(12) NOT NULL COMMENT '状态 1001 申请 1002 待审核 1003 退回 1004 委托 1005 办结',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态，详细参考c_status表，S 保存，0, 在用 1失效',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of oa_tmp_1120260811165435
--- ----------------------------
-
--- ----------------------------
--- Table structure for oa_tmp_1120260811165612
--- ----------------------------
-DROP TABLE IF EXISTS `oa_tmp_1120260811165612`;
-CREATE TABLE `oa_tmp_1120260811165612` (
-  `id` varchar(30) NOT NULL COMMENT '主键ID',
-  `textfield1` varchar(64) DEFAULT NULL COMMENT '文本框',
-  `radio1` varchar(64) DEFAULT NULL COMMENT 'Radio',
-  `store_id` varchar(30) NOT NULL COMMENT '商户ID',
-  `create_user_id` varchar(30) NOT NULL COMMENT '创建人ID',
-  `create_user_name` varchar(64) NOT NULL COMMENT '创建人',
-  `state` varchar(12) NOT NULL COMMENT '状态 1001 申请 1002 待审核 1003 退回 1004 委托 1005 办结',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态，详细参考c_status表，S 保存，0, 在用 1失效',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of oa_tmp_1120260811165612
--- ----------------------------
-
--- ----------------------------
--- Table structure for oa_tmp_120260802123646
--- ----------------------------
-DROP TABLE IF EXISTS `oa_tmp_120260802123646`;
-CREATE TABLE `oa_tmp_120260802123646` (
-  `id` varchar(30) NOT NULL COMMENT '主键ID',
-  `store_id` varchar(30) NOT NULL COMMENT '商户ID',
-  `create_user_id` varchar(30) NOT NULL COMMENT '创建人ID',
-  `create_user_name` varchar(64) NOT NULL COMMENT '创建人',
-  `state` varchar(12) NOT NULL COMMENT '状态 1001 申请 1002 待审核 1003 退回 1004 委托 1005 办结',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态，详细参考c_status表，S 保存，0, 在用 1失效',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of oa_tmp_120260802123646
--- ----------------------------
-
--- ----------------------------
--- Table structure for oa_tmp_12320260713140604
--- ----------------------------
-DROP TABLE IF EXISTS `oa_tmp_12320260713140604`;
-CREATE TABLE `oa_tmp_12320260713140604` (
-  `id` varchar(30) NOT NULL COMMENT '主键ID',
-  `textfield1` varchar(64) DEFAULT NULL COMMENT '文本框',
-  `number1` bigint(20) DEFAULT NULL COMMENT 'Number',
-  `checkbox1` varchar(64) DEFAULT NULL COMMENT 'Checkbox',
-  `radio1` varchar(64) DEFAULT NULL COMMENT 'Radio',
-  `select1` varchar(64) DEFAULT NULL COMMENT 'Select',
-  `textarea1` longtext COMMENT '多行文本框',
-  `store_id` varchar(30) NOT NULL COMMENT '商户ID',
-  `create_user_id` varchar(30) NOT NULL COMMENT '创建人ID',
-  `create_user_name` varchar(64) NOT NULL COMMENT '创建人',
-  `state` varchar(12) NOT NULL COMMENT '状态 1001 申请 1002 待审核 1003 退回 1004 委托 1005 办结',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态，详细参考c_status表，S 保存，0, 在用 1失效',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of oa_tmp_12320260713140604
--- ----------------------------
-
--- ----------------------------
--- Table structure for oa_tmp_12320260802123057
--- ----------------------------
-DROP TABLE IF EXISTS `oa_tmp_12320260802123057`;
-CREATE TABLE `oa_tmp_12320260802123057` (
-  `id` varchar(30) NOT NULL COMMENT '主键ID',
-  `textdate1` date DEFAULT NULL COMMENT '日期',
-  `store_id` varchar(30) NOT NULL COMMENT '商户ID',
-  `create_user_id` varchar(30) NOT NULL COMMENT '创建人ID',
-  `create_user_name` varchar(64) NOT NULL COMMENT '创建人',
-  `state` varchar(12) NOT NULL COMMENT '状态 1001 申请 1002 待审核 1003 退回 1004 委托 1005 办结',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态，详细参考c_status表，S 保存，0, 在用 1失效',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of oa_tmp_12320260802123057
--- ----------------------------
-
--- ----------------------------
--- Table structure for oa_tmp_12320260802123122
--- ----------------------------
-DROP TABLE IF EXISTS `oa_tmp_12320260802123122`;
-CREATE TABLE `oa_tmp_12320260802123122` (
-  `id` varchar(30) NOT NULL COMMENT '主键ID',
-  `textdate1` date DEFAULT NULL COMMENT '日期',
-  `select1` varchar(64) DEFAULT NULL COMMENT 'Select',
-  `store_id` varchar(30) NOT NULL COMMENT '商户ID',
-  `create_user_id` varchar(30) NOT NULL COMMENT '创建人ID',
-  `create_user_name` varchar(64) NOT NULL COMMENT '创建人',
-  `state` varchar(12) NOT NULL COMMENT '状态 1001 申请 1002 待审核 1003 退回 1004 委托 1005 办结',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态，详细参考c_status表，S 保存，0, 在用 1失效',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of oa_tmp_12320260802123122
--- ----------------------------
-
--- ----------------------------
--- Table structure for oa_tmp_byj20260802123329
--- ----------------------------
-DROP TABLE IF EXISTS `oa_tmp_byj20260802123329`;
-CREATE TABLE `oa_tmp_byj20260802123329` (
-  `id` varchar(30) NOT NULL COMMENT '主键ID',
-  `number1` bigint(20) DEFAULT NULL COMMENT 'Number',
-  `store_id` varchar(30) NOT NULL COMMENT '商户ID',
-  `create_user_id` varchar(30) NOT NULL COMMENT '创建人ID',
-  `create_user_name` varchar(64) NOT NULL COMMENT '创建人',
-  `state` varchar(12) NOT NULL COMMENT '状态 1001 申请 1002 待审核 1003 退回 1004 委托 1005 办结',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态，详细参考c_status表，S 保存，0, 在用 1失效',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of oa_tmp_byj20260802123329
--- ----------------------------
-
--- ----------------------------
--- Table structure for oa_tmp_cs11120260816231659
--- ----------------------------
-DROP TABLE IF EXISTS `oa_tmp_cs11120260816231659`;
-CREATE TABLE `oa_tmp_cs11120260816231659` (
-  `id` varchar(30) NOT NULL COMMENT '主键ID',
-  `textfield1` varchar(64) DEFAULT NULL COMMENT '文本框',
-  `number1` bigint(20) DEFAULT NULL COMMENT 'Number',
-  `checkbox1` varchar(64) DEFAULT NULL COMMENT 'Checkbox',
-  `radio1` varchar(64) DEFAULT NULL COMMENT 'Radio',
-  `select1` varchar(64) DEFAULT NULL COMMENT 'Select',
-  `textdate1` date DEFAULT NULL COMMENT '日期',
-  `textdatetime1` time DEFAULT NULL COMMENT '时间',
-  `textdatetime2` time DEFAULT NULL COMMENT '时间',
-  `store_id` varchar(30) NOT NULL COMMENT '商户ID',
-  `create_user_id` varchar(30) NOT NULL COMMENT '创建人ID',
-  `create_user_name` varchar(64) NOT NULL COMMENT '创建人',
-  `state` varchar(12) NOT NULL COMMENT '状态 1001 申请 1002 待审核 1003 退回 1004 委托 1005 办结',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态，详细参考c_status表，S 保存，0, 在用 1失效',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of oa_tmp_cs11120260816231659
--- ----------------------------
-
--- ----------------------------
--- Table structure for oa_tmp_eternal20260802123500
--- ----------------------------
-DROP TABLE IF EXISTS `oa_tmp_eternal20260802123500`;
-CREATE TABLE `oa_tmp_eternal20260802123500` (
-  `id` varchar(30) NOT NULL COMMENT '主键ID',
-  `number1` bigint(20) DEFAULT NULL COMMENT 'Number',
-  `select1` varchar(64) DEFAULT NULL COMMENT 'Select',
-  `store_id` varchar(30) NOT NULL COMMENT '商户ID',
-  `create_user_id` varchar(30) NOT NULL COMMENT '创建人ID',
-  `create_user_name` varchar(64) NOT NULL COMMENT '创建人',
-  `state` varchar(12) NOT NULL COMMENT '状态 1001 申请 1002 待审核 1003 退回 1004 委托 1005 办结',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态，详细参考c_status表，S 保存，0, 在用 1失效',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of oa_tmp_eternal20260802123500
--- ----------------------------
-
--- ----------------------------
--- Table structure for oa_tmp_gdlzlc20260721072036
--- ----------------------------
-DROP TABLE IF EXISTS `oa_tmp_gdlzlc20260721072036`;
-CREATE TABLE `oa_tmp_gdlzlc20260721072036` (
-  `id` varchar(30) NOT NULL COMMENT '主键ID',
-  `textfield1` varchar(64) DEFAULT NULL COMMENT '文本框',
-  `store_id` varchar(30) NOT NULL COMMENT '商户ID',
-  `create_user_id` varchar(30) NOT NULL COMMENT '创建人ID',
-  `create_user_name` varchar(64) NOT NULL COMMENT '创建人',
-  `state` varchar(12) NOT NULL COMMENT '状态 1001 申请 1002 待审核 1003 退回 1004 委托 1005 办结',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态，详细参考c_status表，S 保存，0, 在用 1失效',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of oa_tmp_gdlzlc20260721072036
--- ----------------------------
-
--- ----------------------------
--- Table structure for oa_tmp_gdlzlc20260721072243
--- ----------------------------
-DROP TABLE IF EXISTS `oa_tmp_gdlzlc20260721072243`;
-CREATE TABLE `oa_tmp_gdlzlc20260721072243` (
-  `id` varchar(30) NOT NULL COMMENT '主键ID',
-  `textfield1` varchar(64) DEFAULT NULL COMMENT '文本框',
-  `checkbox1` varchar(64) DEFAULT NULL COMMENT 'Checkbox',
-  `textdate1` date DEFAULT NULL COMMENT '日期',
-  `store_id` varchar(30) NOT NULL COMMENT '商户ID',
-  `create_user_id` varchar(30) NOT NULL COMMENT '创建人ID',
-  `create_user_name` varchar(64) NOT NULL COMMENT '创建人',
-  `state` varchar(12) NOT NULL COMMENT '状态 1001 申请 1002 待审核 1003 退回 1004 委托 1005 办结',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态，详细参考c_status表，S 保存，0, 在用 1失效',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of oa_tmp_gdlzlc20260721072243
--- ----------------------------
-
--- ----------------------------
--- Table structure for oa_tmp_gh20260802123154
--- ----------------------------
-DROP TABLE IF EXISTS `oa_tmp_gh20260802123154`;
-CREATE TABLE `oa_tmp_gh20260802123154` (
-  `id` varchar(30) NOT NULL COMMENT '主键ID',
-  `textfield1` varchar(64) DEFAULT NULL COMMENT '文本框',
-  `store_id` varchar(30) NOT NULL COMMENT '商户ID',
-  `create_user_id` varchar(30) NOT NULL COMMENT '创建人ID',
-  `create_user_name` varchar(64) NOT NULL COMMENT '创建人',
-  `state` varchar(12) NOT NULL COMMENT '状态 1001 申请 1002 待审核 1003 退回 1004 委托 1005 办结',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态，详细参考c_status表，S 保存，0, 在用 1失效',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of oa_tmp_gh20260802123154
--- ----------------------------
-
--- ----------------------------
--- Table structure for oa_tmp_qjlc20260811111428
--- ----------------------------
-DROP TABLE IF EXISTS `oa_tmp_qjlc20260811111428`;
-CREATE TABLE `oa_tmp_qjlc20260811111428` (
-  `id` varchar(30) NOT NULL COMMENT '主键ID',
-  `qingjia1` bigint(20) NOT NULL COMMENT 'Days',
-  `store_id` varchar(30) NOT NULL COMMENT '商户ID',
-  `create_user_id` varchar(30) NOT NULL COMMENT '创建人ID',
-  `create_user_name` varchar(64) NOT NULL COMMENT '创建人',
-  `state` varchar(12) NOT NULL COMMENT '状态 1001 申请 1002 待审核 1003 退回 1004 委托 1005 办结',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态，详细参考c_status表，S 保存，0, 在用 1失效',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of oa_tmp_qjlc20260811111428
--- ----------------------------
-
--- ----------------------------
--- Table structure for oa_tmp_qjlc20260812105952
--- ----------------------------
-DROP TABLE IF EXISTS `oa_tmp_qjlc20260812105952`;
-CREATE TABLE `oa_tmp_qjlc20260812105952` (
-  `id` varchar(30) NOT NULL COMMENT '主键ID',
-  `textdate2` date DEFAULT NULL COMMENT '请假开始日期',
-  `textdate1` date DEFAULT NULL COMMENT '请假结束日期',
-  `qingjia1` bigint(20) NOT NULL COMMENT '请假天数',
-  `store_id` varchar(30) NOT NULL COMMENT '商户ID',
-  `create_user_id` varchar(30) NOT NULL COMMENT '创建人ID',
-  `create_user_name` varchar(64) NOT NULL COMMENT '创建人',
-  `state` varchar(12) NOT NULL COMMENT '状态 1001 申请 1002 待审核 1003 退回 1004 委托 1005 办结',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态，详细参考c_status表，S 保存，0, 在用 1失效',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of oa_tmp_qjlc20260812105952
--- ----------------------------
-INSERT INTO `oa_tmp_qjlc20260812105952` VALUES ('752026081223671611', '2026-08-12', '2026-08-13', '1', '102026070753270629', '302026070700590635', 'wuxw', '1001', '2026-08-12 11:07:32', '0');
-INSERT INTO `oa_tmp_qjlc20260812105952` VALUES ('752026081271621635', '2026-08-11', '2026-08-13', '3', '102026070753270629', '302026071629785120', 'ceshi', '1001', '2026-08-12 11:11:38', '0');
-
--- ----------------------------
--- Table structure for oa_tmp_qjlc20260812113924
--- ----------------------------
-DROP TABLE IF EXISTS `oa_tmp_qjlc20260812113924`;
-CREATE TABLE `oa_tmp_qjlc20260812113924` (
-  `id` varchar(30) NOT NULL COMMENT '主键ID',
-  `textdate2` date DEFAULT NULL COMMENT '请假开始日期',
-  `textdate1` date DEFAULT NULL COMMENT '请假结束日期',
-  `qingjia1` bigint(20) NOT NULL COMMENT '请假天数',
-  `job_agent` varchar(64) NOT NULL COMMENT '备注工作交给事业单位哪位同事',
-  `store_id` varchar(30) NOT NULL COMMENT '商户ID',
-  `create_user_id` varchar(30) NOT NULL COMMENT '创建人ID',
-  `create_user_name` varchar(64) NOT NULL COMMENT '创建人',
-  `state` varchar(12) NOT NULL COMMENT '状态 1001 申请 1002 待审核 1003 退回 1004 委托 1005 办结',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态，详细参考c_status表，S 保存，0, 在用 1失效',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of oa_tmp_qjlc20260812113924
--- ----------------------------
-INSERT INTO `oa_tmp_qjlc20260812113924` VALUES ('7520260821826531645', '2026-08-21', '2026-08-22', '1', '工作已交接给王小利', '102026070753270629', '302026070700590635', 'wuxw', '1001', '2026-08-21 16:51:00', '0');
-INSERT INTO `oa_tmp_qjlc20260812113924` VALUES ('7520260825163129539', '2026-08-25', '2026-08-27', '3', '测试', '102026070753270629', '302026070700590635', 'wuxw', '1001', '2026-08-25 18:39:53', '0');
-
--- ----------------------------
--- Table structure for oa_tmp_qjlc6620260827143102
--- ----------------------------
-DROP TABLE IF EXISTS `oa_tmp_qjlc6620260827143102`;
-CREATE TABLE `oa_tmp_qjlc6620260827143102` (
-  `id` varchar(30) NOT NULL COMMENT '主键ID',
-  `textfield1` varchar(64) DEFAULT NULL COMMENT '申请人',
-  `ts` bigint(20) DEFAULT NULL COMMENT '请假天数',
-  `store_id` varchar(30) NOT NULL COMMENT '商户ID',
-  `create_user_id` varchar(30) NOT NULL COMMENT '创建人ID',
-  `create_user_name` varchar(64) NOT NULL COMMENT '创建人',
-  `state` varchar(12) NOT NULL COMMENT '状态 1001 申请 1002 待审核 1003 退回 1004 委托 1005 办结',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态，详细参考c_status表，S 保存，0, 在用 1失效',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of oa_tmp_qjlc6620260827143102
--- ----------------------------
-
--- ----------------------------
--- Table structure for oa_tmp_qjlc6620260827144029
--- ----------------------------
-DROP TABLE IF EXISTS `oa_tmp_qjlc6620260827144029`;
-CREATE TABLE `oa_tmp_qjlc6620260827144029` (
-  `id` varchar(30) NOT NULL COMMENT '主键ID',
-  `textfield1` varchar(64) DEFAULT NULL COMMENT '申请人',
-  `ts` bigint(20) DEFAULT NULL COMMENT '请假天数',
-  `store_id` varchar(30) NOT NULL COMMENT '商户ID',
-  `create_user_id` varchar(30) NOT NULL COMMENT '创建人ID',
-  `create_user_name` varchar(64) NOT NULL COMMENT '创建人',
-  `state` varchar(12) NOT NULL COMMENT '状态 1001 申请 1002 待审核 1003 退回 1004 委托 1005 办结',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态，详细参考c_status表，S 保存，0, 在用 1失效',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of oa_tmp_qjlc6620260827144029
--- ----------------------------
-INSERT INTO `oa_tmp_qjlc6620260827144029` VALUES ('752026082737480081', '9527', '3', '102026070753270629', '302026070700590635', 'wuxw', '1004', '2026-08-27 14:41:17', '0');
-INSERT INTO `oa_tmp_qjlc6620260827144029` VALUES ('752026082797170120', '789', '7', '102026070753270629', '302026070700590635', 'wuxw', '1001', '2026-08-27 14:50:39', '0');
 
 -- ----------------------------
 -- Table structure for oa_workflow
@@ -33974,1431 +31993,6 @@ INSERT INTO `p_privilege` VALUES ('502025032648380015', '公摊抄表', '/static
 INSERT INTO `p_privilege` VALUES ('502025032678040006', '公摊审核', '', '2025-03-26 18:23:09', '0', '800900000003', '/app/meter.auditFloorShareReading', '702025032638100002');
 INSERT INTO `p_privilege` VALUES ('502026041276490073', '商铺收费', '', '2026-04-12 19:57:52', '0', '800900000003', '/#/pages/property/shopCreateFee', '702026041203350072');
 INSERT INTO `p_privilege` VALUES ('602021041901500001', '查看所有采购申请', '查看所有采购申请权限', '2021-04-19 14:06:16', '0', '800900000003', '/viewPurchaseApplyManage', '700201906022');
-
--- ----------------------------
--- Table structure for p_privilege_0731
--- ----------------------------
-DROP TABLE IF EXISTS `p_privilege_0731`;
-CREATE TABLE `p_privilege_0731` (
-  `p_id` varchar(30) NOT NULL COMMENT '权限ID',
-  `name` varchar(10) NOT NULL COMMENT '权限名称',
-  `description` varchar(200) DEFAULT NULL COMMENT '权限描述',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态，详细参考c_status表，0在用，1失效',
-  `domain` varchar(12) NOT NULL DEFAULT '-1' COMMENT '权限域 商户详见store_type store_type_cd',
-  `resource` varchar(200) DEFAULT NULL COMMENT '资源路径',
-  `m_id` varchar(30) NOT NULL COMMENT '菜单ID'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of p_privilege_0731
--- ----------------------------
-INSERT INTO `p_privilege_0731` VALUES ('500201904001', '员工信息', '员工信息', '2019-04-01 02:24:53', '0', '9999', '/staff', '');
-INSERT INTO `p_privilege_0731` VALUES ('500201904002', '添加权限', '添加权限', '2019-04-01 08:00:52', '0', '9999', '/staffPrivilege', '');
-INSERT INTO `p_privilege_0731` VALUES ('500201904003', '删除权限', '删除权限', '2019-04-01 08:01:12', '0', '9999', '/privilege', '');
-INSERT INTO `p_privilege_0731` VALUES ('500201904004', '物业费', '物业费', '2019-04-08 14:46:28', '0', '800900000003', '/propertyFeeFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('500201904005', '停车费', '停车费', '2019-04-08 14:46:42', '0', '800900000003', '/parkingSpaceFeeFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('500201904006', '房屋管理', '房屋管理', '2019-04-08 14:46:54', '0', '800900000003', '/roomFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('500201904007', '我的报表', '我的报表', '2019-04-08 14:47:06', '0', '800900000003', '/', '');
-INSERT INTO `p_privilege_0731` VALUES ('500201904008', '入住小区', '入住小区', '2019-04-09 15:01:30', '0', '800900000003', '/enterCommunity', '');
-INSERT INTO `p_privilege_0731` VALUES ('500201904009', '发布公告', '发布公告', '2019-04-09 15:05:21', '0', '800900000003', '/noticeFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('500201904010', '添加业主', '添加业主', '2019-04-09 15:07:15', '0', '800900000003', '/ownerFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('500201904011', '小区楼', '小区楼', '2019-04-19 08:01:21', '0', '800900000003', '/floorFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('500201904012', '小区楼单元', '小区楼单元', '2019-04-19 08:01:36', '0', '800900000003', '/unitFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('500201904013', '业主成员', '业主成员', '2019-05-17 13:56:15', '0', '800900000003', '/ownerMemberFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('500201904014', '房屋售卖', '房屋售卖', '2019-05-20 07:00:33', '1', '800900000003', null, '');
-INSERT INTO `p_privilege_0731` VALUES ('500201904015', '业主房产', '业主房产', '2019-05-22 01:04:05', '0', '800900000003', '/ownerDetailFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('500201904016', '初始化物业费', '配置物业费', '2019-06-01 04:53:56', '1', '800900000003', '/propertyFeeConfigFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('500201904021', '初始化停车费', '初始化停车费', '2019-06-01 04:53:56', '1', '800900000003', '/parkingSpaceFeeConfigFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('500201906017', '添加车位', '添加车位', '2019-06-01 04:53:56', '0', '800900000003', '/parkingSpaceFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('500201906018', '车位出租', '车位出租', '2019-06-01 04:53:56', '0', '800900000003', '/hireParkingSpaceFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('500201906019', '车位出售', '车位出售', '2019-06-01 04:53:56', '0', '800900000003', '/sellParkingSpaceFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('500201906020', '业主车位', '业主车位', '2019-05-22 01:04:05', '0', '800900000003', '/ownerParkingSpaceFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('500201906022', '采购管理', '采购管理', '2019-06-19 02:11:38', '0', '800900000003', '/itemInFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('500201906023', '用例DEMO', '用例DEMO', '2019-06-19 16:01:38', '0', '800900000000', '/demoFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('500201906024', '添加小区', '代理商添加小区', '2019-06-19 16:01:38', '0', '800900000002', '/communityFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('500201906025', '查询小区', '代理商查询小区', '2019-06-19 16:01:38', '0', '800900000002', null, '');
-INSERT INTO `p_privilege_0731` VALUES ('500201906026', '应用信息', '应用信息', '2019-06-19 16:01:38', '0', '800900000000', '/appFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('500201906027', '服务信息', '服务信息', '2019-06-19 16:01:38', '0', '800900000000', '/serviceFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('500201906028', '配置信息管理', '配置信息管理', '2019-07-07 16:42:48', '0', '800900000000', '/serviceImplFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('500201906029', '映射管理', '映射管理', '2019-06-19 16:01:38', '0', '800900000000', '/mappingFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('500201907030', '服务绑定', '服务绑定', '2019-07-11 11:45:33', '0', '800900000000', '/serviceBindingFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('500201907031', '添加房屋', '添加房屋', '2019-07-31 02:24:43', '0', '800900000003', '/addRoomBindingFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('500201907032', '服务注册', '服务注册', '2019-08-10 09:45:34', '0', '800900000000', '/serviceRegisterFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('500201907033', '访客登记', '访客登记菜单展示', '2019-08-12 20:55:58', '0', '800900000003', '/visitFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('500201908034', '刷新缓存', '刷新缓存', '2019-08-13 11:31:48', '0', '800900000000', '/cacheFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('500201908035', '菜单组', '菜单组管理', '2019-08-19 12:15:20', '0', '800900000000', '/menuGroupFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('500201908036', '基础权限', '基础权限', '2019-08-19 12:15:20', '0', '800900000000', '/basePrivilegeFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('500201908037', '测试权限1', '测试权限1', '2019-08-20 14:25:49', '1', '800900000000', null, '');
-INSERT INTO `p_privilege_0731` VALUES ('500201908038', '访客登记查询', '访客登记记录查询', '2019-08-24 12:09:34', '0', '800900000003', null, '');
-INSERT INTO `p_privilege_0731` VALUES ('502019082521880003', '菜单', '菜单管理权限', '2019-08-25 05:47:11', '0', '800900000000', '/menuFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502019082527110004', '菜单维护', '菜单维护', '2019-08-25 10:36:14', '0', '800900000000', null, '');
-INSERT INTO `p_privilege_0731` VALUES ('502019083153490001', '配置菜单', '配置菜单', '2019-08-31 14:33:39', '0', '800900000000', '/configMenuFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502019090126730001', '测试菜单', '测试菜单', '2019-09-01 03:49:48', '1', '800900000000', null, '');
-INSERT INTO `p_privilege_0731` VALUES ('502019090149430005', '服务提供', '服务提供', '2019-09-01 14:14:08', '0', '800900000000', '/serviceProvideFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502019090152230003', '测试菜单', '测试菜单', '2019-09-01 03:35:46', '1', '800900000000', null, '');
-INSERT INTO `p_privilege_0731` VALUES ('502019090174260001', '测试菜单', '测试菜单', '2019-09-01 03:35:18', '1', '800900000000', null, '');
-INSERT INTO `p_privilege_0731` VALUES ('502019090183410002', '测试菜单', '测试菜单', '2019-09-01 04:16:29', '1', '800900000000', null, '');
-INSERT INTO `p_privilege_0731` VALUES ('502019090260990002', '定时任务', '管理定时任务', '2019-09-02 12:35:51', '0', '800900000000', '/HcFtpToFileSystemConfigList/', '');
-INSERT INTO `p_privilege_0731` VALUES ('502019090277380001', '开发服务', '开发服务提供', '2019-09-02 15:33:31', '0', '800900000000', '/devServiceProvideFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502019091322800001', '添加业主', '添加业主', '2019-09-13 05:08:45', '0', '800900000003', '/addOwnerRoomBindingFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502019091615840001', '删除业主房屋', '删除业主房屋', '2019-09-16 01:10:45', '0', '800900000003', '/deleteOwnerRoomFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502019091773700003', '审核小区', '审核小区', '2019-09-17 14:57:45', '0', '800900000001', '/auditCommunityFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502019091797230001', '小区信息', '', '2019-09-17 12:59:57', '0', '800900000001', '/communityFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502019091978690002', '入驻审核', '', '2019-09-19 13:44:39', '0', '800900000002', '/auditEnterCommunityFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502019092326130001', '资产导入', '资产导入', '2019-09-23 06:29:10', '0', '800900000003', '/assetImportFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502019092908940003', '公告详情', '公告详情', '2019-09-29 12:19:45', '0', '800900000003', '/noticeDetailFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502019092956560001', '配置菜单', '配置菜单', '2019-09-29 12:18:14', '1', '800900000000', null, '');
-INSERT INTO `p_privilege_0731` VALUES ('502019100245350003', '查看文件权限', '查看文件权限', '2019-10-02 04:54:19', '0', '800900000003', null, '');
-INSERT INTO `p_privilege_0731` VALUES ('502019100249600002', '上传文件权限', '上传文件权限', '2019-10-02 04:54:04', '0', '800900000003', null, '');
-INSERT INTO `p_privilege_0731` VALUES ('502019100524950005', '报修登记', '报修登记', '2019-10-05 01:30:16', '1', '800900000003', '/ownerRepairFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502019100721900005', '组织信息', '组织信息', '2019-10-07 08:49:34', '0', '9999', '/orgFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502019100903330002', '添加访客', '添加访客', '2019-10-09 02:00:55', '0', '800900000003', '/addNewOneVisit', '');
-INSERT INTO `p_privilege_0731` VALUES ('502019101540480001', '添加员工', '添加员工', '2019-10-15 23:20:31', '0', '800900000003', '/addStaffStepFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502019101946430010', '报修派单', '派单', '2019-10-19 17:35:26', '0', '800900000003', '/repairDispatchStepFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502019102010870005', '我的报修', '', '2019-10-20 18:09:05', '0', '800900000003', '/myRepairDispatchFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502019102030200001', '派单信息', '', '2019-10-20 22:15:15', '0', '800900000003', '/repairDispatchFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502019102151130004', '物品信息', '', '2019-10-21 20:49:07', '0', '800900000003', '/resourceStoreFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502019102242190001', '物品出入库', '物品出入库功能入口', '2019-10-22 18:26:36', '0', '800900000003', '/itemOutFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502019102639930001', '审核人员', '', '2019-10-26 23:04:43', '0', '800900000003', '/auditUserFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502019102740830006', '添加审核人员', '', '2019-10-27 00:19:08', '0', '800900000003', '/addAuditUserStepFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502019102911270009', '我的审批', '', '2019-10-29 20:27:52', '0', '800900000003', '/myAuditOrdersFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502019103056060006', '缴费清单', '', '2019-10-30 21:54:58', '0', '800900000003', '/payFeeFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502019103108450011', '员工收费', '', '2019-10-31 20:36:02', '0', '800900000003', '/staffFeeFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502019103114270018', '投诉建议', '', '2019-10-31 23:26:14', '0', '800900000003', '/complaintFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502019110296490058', '登记投诉', '', '2019-11-02 13:25:04', '0', '800900000003', '/addComplaintStepFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502019110360380006', '审核投诉单', '', '2019-11-03 18:45:09', '0', '800900000003', '/myAuditComplaintsFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502019110534240006', '投诉历史单', '', '2019-11-05 09:14:09', '0', '800900000003', '/myAuditHistoryComplaintsFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502019110809250044', '设备信息', '', '2019-11-08 23:45:18', '0', '800900000003', '/machineFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502019111025350052', '设备数据同步', '', '2019-11-10 13:28:46', '0', '800900000003', '/machineTranslateFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502019112673230007', '开门记录', '', '2019-11-26 23:03:48', '0', '800900000003', '/machineRecordFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502019112738970001', '访客留影', '', '2019-11-27 08:45:42', '0', '800900000003', '/machineVistorPhotoFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502019120169500005', '申请钥匙', '', '2019-12-01 23:34:32', '0', '800900000003', '/applicationKeyFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502019121605850003', '钥匙审核', '', '2019-12-16 21:36:32', '0', '800900000003', '/auditApplicationKeyFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502019121697840001', '发布广告', '', '2019-12-16 21:35:24', '0', '800900000003', '/configMenuFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502019122980990025', '审核绑定业主', '', '2019-12-29 12:04:28', '0', '800900000003', '/auditAppUserBindingOwnerFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020011308620052', '小区文化', '', '2020-01-13 19:43:53', '0', '800900000003', '/activitiesFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020012317850002', '停车场管理', '', '2020-01-23 01:02:29', '0', '800900000003', '/parkingAreaFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020012324940001', '在场车辆', '', '2020-01-23 23:17:52', '0', '800900000003', '/carInFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020012348390001', '黑白名单', '', '2020-01-23 13:00:37', '0', '800900000003', '/carBlackWhiteFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020012397360003', '进场记录', '', '2020-01-23 22:10:07', '0', '800900000003', '/carInoutFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020012781380001', '临时车缴费清单', '', '2020-01-27 20:56:21', '0', '800900000003', '/tempCarInoutFeeFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020012815760001', '剩余车位', '', '2020-01-28 23:51:46', '0', '800900000003', '/remainingParkingSpaceFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020012900510001', '收费二维码', '', '2020-01-29 00:13:50', '0', '800900000003', '/parkingSpaceQrCodeFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020013028810002', '房屋创建收费', '', '2020-01-30 22:54:46', '0', '800900000003', '/roomCreateFeeFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020013062200004', '车位创建收费', '', '2020-01-30 22:55:43', '0', '800900000003', '/parkingSpaceCreateFeeFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020013064742994', '费用项设置', '', '2020-01-30 15:04:07', '0', '800900000003', '/feeConfigFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020020117213984', '房屋费用', '', '2020-02-01 15:11:01', '0', '800900000003', '/listRoomFeeFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020020148933989', '收银台', '', '2020-02-01 20:49:38', '0', '800900000003', '/payFeeOrderFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020020204240002', '车位费用', '', '2020-02-02 15:55:41', '0', '800900000003', '/listParkingSpaceFeeFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('5020200203190731760', '费用汇总表', '', '2020-02-03 16:42:37', '0', '800900000003', '/feeSummaryFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020020896890002', '修改密码', '', '2020-02-08 16:42:06', '0', '800900000003', '/changeStaffPwdFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020021024790007', '巡检点', '', '2020-02-10 15:04:38', '0', '800900000003', '/inspectionPointFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020021136110004', '巡检路线', '巡检路线', '2020-02-11 21:54:45', '0', '800900000003', '/inspectionRouteFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020021737880056', '商户信息', '', '2020-02-17 22:09:28', '0', '800900000001', '/listStoresFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020021776260052', '巡检计划', '', '2020-02-17 19:19:07', '0', '800900000003', '/inspectionPlanFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020021841010021', '小区入驻审核', '123', '2020-02-18 23:43:53', '0', '800900000001', '/auditEnterCommunityFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020021963300016', '巡检任务', '', '2020-02-19 21:52:11', '0', '800900000003', '/inspectionTaskFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020022030570010', '修改密码', '', '2020-02-20 09:22:12', '0', '800900000001', '/changeStaffPwdFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020022062840008', '组织信息', '', '2020-02-20 09:00:14', '0', '800900000001', '/orgFlow', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020040944140015', '订单查询', '', '2020-04-09 10:41:36', '1', '800900000003', '/admin.html#/orderManage', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020041499210002', '订单信息', '', '2020-04-14 11:52:57', '0', '800900000001', '/admin.html#/orderManage', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020042158720021', '入库', '', '2020-04-21 14:58:57', '0', '800900000003', '/admin.html#/resourceEnterManage', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020042301080194', '标签管理', '', '2020-04-23 00:11:20', '1', '800900000000', 'ww', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020042355910198', '标签管理3', '', '2020-04-23 00:21:48', '1', '800900000000', '/admin.html#/tagManager', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020042380740196', '标签管理2', '管理商家标签', '2020-04-23 00:17:41', '1', '800900000001', '/admin.html#/tagManage', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020042615070008', '商户信息', '', '2020-04-26 10:14:30', '0', '800900000003', '/admin.html#/storeInfoManage', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020050835100003', '我要申请', '', '2020-05-08 07:54:23', '0', '800900000003', '/pages/common/addPurchaseApplyStep', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020050912990001', '申请单详情', '', '2020-05-09 18:09:13', '0', '800900000003', '/admin.html#/pages/common/purchaseApplyDetail', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020051101260082', '个人信息', '', '2020-05-11 09:55:23', '0', '800900000003', '/admin.html#/userInfo', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020051194940157', '退费审核', '', '2020-05-11 16:59:17', '0', '800900000003', '/admin.html#/pages/property/returnPayFeeManage', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020051616860087', '小程序配置', '', '2020-05-16 17:14:39', '0', '800900000003', '/admin.html#/pages/property/smallWeChatManage', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020060164840028', '费用账单', '费用账单', '2020-06-01 17:42:37', '0', '800900000003', '/admin.html#/pages/property/billManage', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020060414120005', '位置信息', '', '2020-06-04 18:54:04', '0', '800900000003', '/admin.html#/pages/property/locationManage', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020061139960002', '测试菜单', '嘻嘻嘻', '2020-06-11 10:15:06', '1', '800900000000', '嘻嘻嘻', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020061767630003', '流程管理', '', '2020-06-17 22:36:52', '0', '800900000003', '/admin.html/#/pages/property/workflowManage', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020061846080013', '流程设置', '流程设置', '2020-06-18 10:43:39', '0', '800900000003', '/admin.html#/pages/property/workflowSettingManage', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020061855680042', '公众号', '', '2020-06-18 20:09:00', '0', '800900000003', '/admin.html#/pages/property/publicWeChatManage', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020062239600009', '公众号菜单', '', '2020-06-22 23:15:44', '0', '800900000003', '/admin.html#/pages/property/wechatMenuManage', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020062436450005', '账单欠费', '', '2020-06-24 19:00:40', '0', '800900000003', '/admin.html#/pages/property/billOweManage', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020062810250021', '报修设置', '', '2020-06-28 16:44:48', '0', '800900000003', '/admin.html#/pages/property/repairSettingManage', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020062827480035', '报修师傅', '', '2020-06-28 19:16:10', '0', '800900000003', '/admin.html#/pages/property/repairTypeUser', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020062982156286', '电话报修', '', '2020-06-29 18:14:35', '0', '800900000003', '/admin.html#/pages/property/ownerRepairManage', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020063051380075', '工单池', '', '2020-06-30 16:07:29', '0', '800900000003', '/admin.html#/pages/property/repairPoolManage', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020063085640077', '报修工单详情', '', '2020-06-30 16:57:11', '0', '800900000003', '/admin.html#/pages/property/ownerRepairDetail', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020070189150004', '水费导入', '', '2020-07-01 09:30:57', '0', '800900000000', '/admin.html#/pages/property/waterFeeImport', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020071557620007', '采购已办', '', '2020-07-15 19:01:37', '0', '800900000003', '/admin.html#/pages/admin/myAuditHistoryOrders', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020071612180014', '领用申请', '', '2020-07-16 12:05:27', '0', '800900000003', '/admin.html#/pages/common/addItemOutStep', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020071661510012', '领用待办', '', '2020-07-16 11:59:12', '0', '800900000003', '/admin.html#/pages/admin/myItemOutAuditOrders', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020071663610017', '物品发放', '', '2020-07-16 13:09:59', '0', '800900000003', '/admin.html#/pages/common/resourceOutManage', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020071694430020', '领用已办', '', '2020-07-16 14:29:30', '0', '800900000003', '/admin.html#/pages/common/myItemOutAuditHistoryOrders', '');
-INSERT INTO `p_privilege_0731` VALUES ('502020071781630004', '微信模板', '', '2020-07-17 09:40:08', '0', '800900000003', '/admin.html#/pages/property/wechatSmsTemplateManage', '');
-
--- ----------------------------
--- Table structure for p_privilege_copy1
--- ----------------------------
-DROP TABLE IF EXISTS `p_privilege_copy1`;
-CREATE TABLE `p_privilege_copy1` (
-  `p_id` varchar(30) NOT NULL COMMENT '权限ID',
-  `name` varchar(10) NOT NULL COMMENT '权限名称',
-  `description` varchar(200) DEFAULT NULL COMMENT '权限描述',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态，详细参考c_status表，0在用，1失效',
-  `domain` varchar(12) NOT NULL DEFAULT '-1' COMMENT '权限域 商户详见store_type store_type_cd',
-  `resource` varchar(200) DEFAULT NULL COMMENT '资源路径',
-  `m_id` varchar(30) NOT NULL COMMENT '菜单ID',
-  UNIQUE KEY `p_id` (`p_id`) USING BTREE,
-  UNIQUE KEY `p_id_2` (`p_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of p_privilege_copy1
--- ----------------------------
-INSERT INTO `p_privilege_copy1` VALUES ('500201904001', '员工信息', '员工信息', '2019-04-01 02:24:53', '0', '800900000003', '/staff', '700201904001');
-INSERT INTO `p_privilege_copy1` VALUES ('500201904002', '员工权限', '员工权限', '2019-04-01 08:00:52', '1', '9999', '/staffPrivilege', '700201904002');
-INSERT INTO `p_privilege_copy1` VALUES ('500201904003', '权限组', '权限组', '2019-04-01 08:01:12', '1', '9999', '/privilege', '700201904003');
-INSERT INTO `p_privilege_copy1` VALUES ('500201904004', '物业费', '物业费', '2019-04-08 14:46:28', '0', '800900000003', '/propertyFeeFlow', '700201904004');
-INSERT INTO `p_privilege_copy1` VALUES ('500201904005', '停车费', '停车费', '2019-04-08 14:46:42', '0', '800900000003', '/parkingSpaceFeeFlow', '700201904005');
-INSERT INTO `p_privilege_copy1` VALUES ('500201904006', '房屋管理', '房屋管理', '2019-04-08 14:46:54', '0', '800900000003', '/roomFlow', '700201904006');
-INSERT INTO `p_privilege_copy1` VALUES ('500201904007', '我的报表', '我的报表', '2019-04-08 14:47:06', '0', '800900000003', '/', '700201904007');
-INSERT INTO `p_privilege_copy1` VALUES ('500201904008', '我的小区', '入住小区', '2019-04-09 15:01:30', '0', '800900000003', '/enterCommunity', '700201904008');
-INSERT INTO `p_privilege_copy1` VALUES ('500201904009', '发布公告', '发布公告', '2019-04-09 15:05:21', '0', '800900000003', '/noticeFlow', '700201904009');
-INSERT INTO `p_privilege_copy1` VALUES ('500201904010', '业主信息', '添加业主', '2019-04-09 15:07:15', '0', '800900000003', '/ownerFlow', '700201904010');
-INSERT INTO `p_privilege_copy1` VALUES ('500201904011', '楼栋信息', '小区楼', '2019-04-19 08:01:21', '0', '800900000003', '/floorFlow', '700201904011');
-INSERT INTO `p_privilege_copy1` VALUES ('500201904012', '单元信息', '小区楼单元', '2019-04-19 08:01:36', '0', '800900000003', '/unitFlow', '700201904012');
-INSERT INTO `p_privilege_copy1` VALUES ('500201904013', '业主成员', '业主成员', '2019-05-17 13:56:15', '0', '800900000003', '/ownerMemberFlow', '700201904013');
-INSERT INTO `p_privilege_copy1` VALUES ('500201904014', '房屋售卖', '房屋售卖', '2019-05-20 07:00:33', '1', '800900000003', null, '700201904014');
-INSERT INTO `p_privilege_copy1` VALUES ('500201904015', '业主详情', '业主房产', '2019-05-22 01:04:05', '0', '800900000003', '/ownerDetailFlow', '700201904015');
-INSERT INTO `p_privilege_copy1` VALUES ('500201904016', '初始化物业费', '配置物业费', '2019-06-01 04:53:56', '1', '800900000003', '/propertyFeeConfigFlow', '700201904016');
-INSERT INTO `p_privilege_copy1` VALUES ('500201904021', '初始化停车费', '初始化停车费', '2019-06-01 04:53:56', '1', '800900000003', '/parkingSpaceFeeConfigFlow', '700201904021');
-INSERT INTO `p_privilege_copy1` VALUES ('500201906017', '车位信息', '添加车位', '2019-06-01 04:53:56', '0', '800900000003', '/parkingSpaceFlow', '700201906017');
-INSERT INTO `p_privilege_copy1` VALUES ('500201906018', '车位出租', '车位出租', '2019-06-01 04:53:56', '0', '800900000003', '/hireParkingSpaceFlow', '700201906018');
-INSERT INTO `p_privilege_copy1` VALUES ('500201906019', '车位出售', '车位出售', '2019-06-01 04:53:56', '0', '800900000003', '/sellParkingSpaceFlow', '700201906019');
-INSERT INTO `p_privilege_copy1` VALUES ('500201906020', '业主车位', '业主车位', '2019-05-22 01:04:05', '0', '800900000003', '/ownerParkingSpaceFlow', '700201906020');
-INSERT INTO `p_privilege_copy1` VALUES ('500201906022', '采购申请', '采购管理', '2019-06-19 02:11:38', '0', '800900000003', '/itemInFlow', '700201906022');
-INSERT INTO `p_privilege_copy1` VALUES ('500201906023', 'DEMO用例', '用例DEMO', '2019-06-19 16:01:38', '0', '800900000000', '/demoFlow', '700201906023');
-INSERT INTO `p_privilege_copy1` VALUES ('500201906024', '小区信息', '代理商添加小区', '2019-06-19 16:01:38', '0', '800900000002', '/communityFlow', '700201906024');
-INSERT INTO `p_privilege_copy1` VALUES ('500201906025', '查询小区', '代理商查询小区', '2019-06-19 16:01:38', '0', '800900000002', null, '');
-INSERT INTO `p_privilege_copy1` VALUES ('500201906026', '应用信息', '应用信息', '2019-06-19 16:01:38', '0', '800900000000', '/appFlow', '700201906025');
-INSERT INTO `p_privilege_copy1` VALUES ('500201906027', '服务信息', '服务信息', '2019-06-19 16:01:38', '0', '800900000000', '/serviceFlow', '700201906026');
-INSERT INTO `p_privilege_copy1` VALUES ('500201906028', '服务实现', '配置信息管理', '2019-07-07 16:42:48', '0', '800900000000', '/serviceImplFlow', '700201906027');
-INSERT INTO `p_privilege_copy1` VALUES ('500201906029', '编码映射', '映射管理', '2019-06-19 16:01:38', '0', '800900000000', '/mappingFlow', '700201906028');
-INSERT INTO `p_privilege_copy1` VALUES ('500201907030', '服务绑定', '服务绑定', '2019-07-11 11:45:33', '0', '800900000000', '/serviceBindingFlow', '700201907029');
-INSERT INTO `p_privilege_copy1` VALUES ('500201907031', '添加房屋', '添加房屋', '2019-07-31 02:24:43', '0', '800900000003', '/addRoomBindingFlow', '700201907030');
-INSERT INTO `p_privilege_copy1` VALUES ('500201907032', '服务注册', '服务注册', '2019-08-10 09:45:34', '0', '800900000000', '/serviceRegisterFlow', '700201908030');
-INSERT INTO `p_privilege_copy1` VALUES ('500201907033', '访客登记', '访客登记菜单展示', '2019-08-12 20:55:58', '0', '800900000003', '/visitFlow', '700201908031');
-INSERT INTO `p_privilege_copy1` VALUES ('500201908034', '刷新缓存', '刷新缓存', '2019-08-13 11:31:48', '0', '800900000000', '/cacheFlow', '700201908032');
-INSERT INTO `p_privilege_copy1` VALUES ('500201908035', '菜单组', '菜单组管理', '2019-08-19 12:15:20', '0', '800900000000', '/menuGroupFlow', '700201908033');
-INSERT INTO `p_privilege_copy1` VALUES ('500201908036', '基础权限', '基础权限', '2019-08-19 12:15:20', '0', '800900000000', '/basePrivilegeFlow', '700201908034');
-INSERT INTO `p_privilege_copy1` VALUES ('500201908037', '测试权限1', '测试权限1', '2019-08-20 14:25:49', '1', '800900000000', null, '');
-INSERT INTO `p_privilege_copy1` VALUES ('500201908038', '访客登记查询', '访客登记记录查询', '2019-08-24 12:09:34', '0', '800900000003', null, '');
-INSERT INTO `p_privilege_copy1` VALUES ('502019082521880003', '菜单维护', '菜单管理权限', '2019-08-25 05:47:11', '0', '800900000000', '/menuFlow', '700201908035');
-INSERT INTO `p_privilege_copy1` VALUES ('502019082527110004', '菜单维护', '菜单维护', '2019-08-25 10:36:14', '0', '800900000000', null, '');
-INSERT INTO `p_privilege_copy1` VALUES ('502019083153490001', '配置菜单', '配置菜单', '2019-08-31 14:33:39', '0', '800900000000', '/configMenuFlow', '700201908036');
-INSERT INTO `p_privilege_copy1` VALUES ('502019090126730001', '测试菜单', '测试菜单', '2019-09-01 03:49:48', '1', '800900000000', null, '702019090179400002');
-INSERT INTO `p_privilege_copy1` VALUES ('502019090149430005', '服务提供', '服务提供', '2019-09-01 14:14:08', '0', '800900000000', '/serviceProvideFlow', '702019090161010006');
-INSERT INTO `p_privilege_copy1` VALUES ('502019090152230003', '测试菜单', '测试菜单', '2019-09-01 03:35:46', '1', '800900000000', null, '');
-INSERT INTO `p_privilege_copy1` VALUES ('502019090174260001', '测试菜单', '测试菜单', '2019-09-01 03:35:18', '1', '800900000000', null, '');
-INSERT INTO `p_privilege_copy1` VALUES ('502019090183410002', '测试菜单', '测试菜单', '2019-09-01 04:16:29', '1', '800900000000', null, '702019090129620003');
-INSERT INTO `p_privilege_copy1` VALUES ('502019090260990002', '定时任务', '管理定时任务', '2019-09-02 12:35:51', '0', '800900000000', '/HcFtpToFileSystemConfigList/', '702019090293430003');
-INSERT INTO `p_privilege_copy1` VALUES ('502019090277380001', '开发服务', '开发服务提供', '2019-09-02 15:33:31', '0', '800900000000', '/devServiceProvideFlow', '702019090210710002');
-INSERT INTO `p_privilege_copy1` VALUES ('502019091322800001', '添加业主房产', '添加业主', '2019-09-13 05:08:45', '0', '800900000003', '/addOwnerRoomBindingFlow', '702019091317360002');
-INSERT INTO `p_privilege_copy1` VALUES ('502019091615840001', '删除业主房屋', '删除业主房屋', '2019-09-16 01:10:45', '0', '800900000003', '/deleteOwnerRoomFlow', '702019091693040002');
-INSERT INTO `p_privilege_copy1` VALUES ('502019091773700003', '审核小区', '审核小区', '2019-09-17 14:57:45', '0', '800900000001', '/auditCommunityFlow', '702019091772280004');
-INSERT INTO `p_privilege_copy1` VALUES ('502019091797230001', '小区信息', '', '2019-09-17 12:59:57', '0', '800900000001', '/communityFlow', '702019091754830002');
-INSERT INTO `p_privilege_copy1` VALUES ('502019091978690002', '商户审核', '', '2019-09-19 13:44:39', '0', '800900000002', '/auditEnterCommunityFlow', '702019091993470003');
-INSERT INTO `p_privilege_copy1` VALUES ('502019092326130001', '资产导入导出', '资产导入', '2019-09-23 06:29:10', '1', '800900000003', '/assetImportFlow', '702019092323790002');
-INSERT INTO `p_privilege_copy1` VALUES ('502019092908940003', '公告详情', '公告详情', '2019-09-29 12:19:45', '0', '800900000003', '/noticeDetailFlow', '702019092901960004');
-INSERT INTO `p_privilege_copy1` VALUES ('502019092956560001', '配置菜单', '配置菜单', '2019-09-29 12:18:14', '1', '800900000000', null, '702019092962440002');
-INSERT INTO `p_privilege_copy1` VALUES ('502019100245350003', '查看文件权限', '查看文件权限', '2019-10-02 04:54:19', '0', '800900000003', null, '');
-INSERT INTO `p_privilege_copy1` VALUES ('502019100249600002', '上传文件权限', '上传文件权限', '2019-10-02 04:54:04', '0', '800900000003', null, '');
-INSERT INTO `p_privilege_copy1` VALUES ('502019100524950005', '报修登记', '报修登记', '2019-10-05 01:30:16', '1', '800900000003', '/ownerRepairFlow', '702019100515060006');
-INSERT INTO `p_privilege_copy1` VALUES ('502019100721900005', '组织信息', '组织信息', '2019-10-07 08:49:34', '0', '800900000003', '/orgFlow', '702019100725620006');
-INSERT INTO `p_privilege_copy1` VALUES ('502019100903330002', '添加访客', '添加访客', '2019-10-09 02:00:55', '0', '800900000003', '/addNewOneVisit', '702019100978780003');
-INSERT INTO `p_privilege_copy1` VALUES ('502019101540480001', '添加员工', '添加员工', '2019-10-15 23:20:31', '0', '800900000003', '/addStaffStepFlow', '702019101562370002');
-INSERT INTO `p_privilege_copy1` VALUES ('502019101946430010', '报修派单', '派单', '2019-10-19 17:35:26', '0', '800900000003', '/repairDispatchStepFlow', '702019101903870011');
-INSERT INTO `p_privilege_copy1` VALUES ('502019102010870005', '报修已办', '', '2019-10-20 18:09:05', '0', '800900000003', '/myRepairDispatchFlow', '702019102073620006');
-INSERT INTO `p_privilege_copy1` VALUES ('502019102030200001', '报修待办', '', '2019-10-20 22:15:15', '0', '800900000003', '/repairDispatchFlow', '702019102028670002');
-INSERT INTO `p_privilege_copy1` VALUES ('502019102151130004', '物品信息', '', '2019-10-21 20:49:07', '0', '800900000003', '/resourceStoreFlow', '702019102148640005');
-INSERT INTO `p_privilege_copy1` VALUES ('502019102242190001', '物品领用', '物品出入库功能入口', '2019-10-22 18:26:36', '0', '800900000003', '/itemOutFlow', '702019102250410002');
-INSERT INTO `p_privilege_copy1` VALUES ('502019102639930001', '审核人员', '', '2019-10-26 23:04:43', '0', '800900000003', '/auditUserFlow', '702019102631340002');
-INSERT INTO `p_privilege_copy1` VALUES ('502019102740830006', '添加审核人员', '', '2019-10-27 00:19:08', '0', '800900000003', '/addAuditUserStepFlow', '702019102755920007');
-INSERT INTO `p_privilege_copy1` VALUES ('502019102911270009', '采购待办', '', '2019-10-29 20:27:52', '0', '800900000003', '/myAuditOrdersFlow', '702019102949390010');
-INSERT INTO `p_privilege_copy1` VALUES ('502019103056060006', '缴费清单', '', '2019-10-30 21:54:58', '0', '800900000003', '/payFeeFlow', '702019103045670007');
-INSERT INTO `p_privilege_copy1` VALUES ('502019103108450011', '员工收费', '', '2019-10-31 20:36:02', '0', '800900000003', '/staffFeeFlow', '702019103170090012');
-INSERT INTO `p_privilege_copy1` VALUES ('502019103114270018', '电话投诉', '', '2019-10-31 23:26:14', '0', '800900000003', '/complaintFlow', '702019103157610019');
-INSERT INTO `p_privilege_copy1` VALUES ('502019110296490058', '登记投诉', '', '2019-11-02 13:25:04', '0', '800900000003', '/addComplaintStepFlow', '702019110278050059');
-INSERT INTO `p_privilege_copy1` VALUES ('502019110360380006', '投诉待办', '', '2019-11-03 18:45:09', '0', '800900000003', '/myAuditComplaintsFlow', '702019110356630007');
-INSERT INTO `p_privilege_copy1` VALUES ('502019110534240006', '投诉已办', '', '2019-11-05 09:14:09', '0', '800900000003', '/myAuditHistoryComplaintsFlow', '702019110566390007');
-INSERT INTO `p_privilege_copy1` VALUES ('502019110809250044', '设备门禁', '', '2019-11-08 23:45:18', '0', '800900000003', '/machineFlow', '702019110862640045');
-INSERT INTO `p_privilege_copy1` VALUES ('502019111025350052', '设备数据同步', '', '2019-11-10 13:28:46', '0', '800900000003', '/machineTranslateFlow', '702019111070760053');
-INSERT INTO `p_privilege_copy1` VALUES ('502019112673230007', '开门记录', '', '2019-11-26 23:03:48', '0', '800900000003', '/machineRecordFlow', '702019112665680008');
-INSERT INTO `p_privilege_copy1` VALUES ('502019112738970001', '访客留影', '', '2019-11-27 08:45:42', '0', '800900000003', '/machineVistorPhotoFlow', '702019112732480002');
-INSERT INTO `p_privilege_copy1` VALUES ('502019120169500005', '申请钥匙', '', '2019-12-01 23:34:32', '0', '800900000003', '/applicationKeyFlow', '702019120122440006');
-INSERT INTO `p_privilege_copy1` VALUES ('502019121605850003', '钥匙审核', '', '2019-12-16 21:36:32', '0', '800900000003', '/auditApplicationKeyFlow', '702019121609010004');
-INSERT INTO `p_privilege_copy1` VALUES ('502019121697840001', '发布广告', '', '2019-12-16 21:35:24', '1', '800900000003', '/configMenuFlow', '702019121668720002');
-INSERT INTO `p_privilege_copy1` VALUES ('502019122980990025', '绑定业主', '', '2019-12-29 12:04:28', '0', '800900000003', '/auditAppUserBindingOwnerFlow', '702019122969830026');
-INSERT INTO `p_privilege_copy1` VALUES ('502020011308620052', '信息发布', '', '2020-01-13 19:43:53', '0', '800900000003', '/activitiesFlow', '702020011340130053');
-INSERT INTO `p_privilege_copy1` VALUES ('502020012317850002', '停车场管理', '', '2020-01-23 01:02:29', '0', '800900000003', '/parkingAreaFlow', '702020012324610003');
-INSERT INTO `p_privilege_copy1` VALUES ('502020012324940001', '在场车辆', '', '2020-01-23 23:17:52', '0', '800900000003', '/carInFlow', '702020012347420002');
-INSERT INTO `p_privilege_copy1` VALUES ('502020012348390001', '黑白名单', '', '2020-01-23 13:00:37', '0', '800900000003', '/carBlackWhiteFlow', '702020012385860002');
-INSERT INTO `p_privilege_copy1` VALUES ('502020012397360003', '进场记录', '', '2020-01-23 22:10:07', '0', '800900000003', '/carInoutFlow', '702020012392410004');
-INSERT INTO `p_privilege_copy1` VALUES ('502020012781380001', '临时车缴费清单', '', '2020-01-27 20:56:21', '0', '800900000003', '/tempCarInoutFeeFlow', '702020012746240002');
-INSERT INTO `p_privilege_copy1` VALUES ('502020012815760001', '剩余车位', '', '2020-01-28 23:51:46', '0', '800900000003', '/remainingParkingSpaceFlow', '702020012891350002');
-INSERT INTO `p_privilege_copy1` VALUES ('502020012900510001', '收费二维码', '', '2020-01-29 00:13:50', '1', '800900000003', '/parkingSpaceQrCodeFlow', '702020012977330002');
-INSERT INTO `p_privilege_copy1` VALUES ('502020013028810002', '房屋收费', '', '2020-01-30 22:54:46', '0', '800900000003', '/roomCreateFeeFlow', '702020013097620003');
-INSERT INTO `p_privilege_copy1` VALUES ('502020013062200004', '车辆收费', '', '2020-01-30 22:55:43', '0', '800900000003', '/parkingSpaceCreateFeeFlow', '702020013091330005');
-INSERT INTO `p_privilege_copy1` VALUES ('502020013064742994', '费用项设置', '', '2020-01-30 15:04:07', '0', '800900000003', '/feeConfigFlow', '702020013025182995');
-INSERT INTO `p_privilege_copy1` VALUES ('502020020117213984', '房屋费用', '', '2020-02-01 15:11:01', '0', '800900000003', '/listRoomFeeFlow', '702020020163313985');
-INSERT INTO `p_privilege_copy1` VALUES ('502020020148933989', '收银台', '', '2020-02-01 20:49:38', '0', '800900000003', '/payFeeOrderFlow', '702020020184753990');
-INSERT INTO `p_privilege_copy1` VALUES ('502020020204240002', '停车费用', '', '2020-02-02 15:55:41', '0', '800900000003', '/listCarFee', '702020020270690003');
-INSERT INTO `p_privilege_copy1` VALUES ('5020200203190731760', '费用汇总表', '', '2020-02-03 16:42:37', '0', '800900000003', '/feeSummaryFlow', '7020200203341931761');
-INSERT INTO `p_privilege_copy1` VALUES ('502020020896890002', '修改密码', '', '2020-02-08 16:42:06', '0', '800900000003', '/changeStaffPwdFlow', '702020020834160003');
-INSERT INTO `p_privilege_copy1` VALUES ('502020021024790007', '巡检点', '', '2020-02-10 15:04:38', '0', '800900000003', '/inspectionPointFlow', '702020021099930008');
-INSERT INTO `p_privilege_copy1` VALUES ('502020021136110004', '巡检路线', '巡检路线', '2020-02-11 21:54:45', '0', '800900000003', '/inspectionRouteFlow', '702020021169910005');
-INSERT INTO `p_privilege_copy1` VALUES ('502020021737880056', '商户信息', '', '2020-02-17 22:09:28', '0', '800900000001', '/listStoresFlow', '702020021777330057');
-INSERT INTO `p_privilege_copy1` VALUES ('502020021776260052', '巡检计划', '', '2020-02-17 19:19:07', '0', '800900000003', '/inspectionPlanFlow', '702020021758390053');
-INSERT INTO `p_privilege_copy1` VALUES ('502020021841010021', '审核入驻小区', '123', '2020-02-18 23:43:53', '0', '800900000001', '/auditEnterCommunityFlow', '702020021800840022');
-INSERT INTO `p_privilege_copy1` VALUES ('502020021963300016', '巡检任务', '', '2020-02-19 21:52:11', '0', '800900000003', '/inspectionTaskFlow', '702020021988260017');
-INSERT INTO `p_privilege_copy1` VALUES ('502020022030570010', '修改密码', '', '2020-02-20 09:22:12', '0', '800900000001', '/changeStaffPwdFlow', '702020022068180011');
-INSERT INTO `p_privilege_copy1` VALUES ('502020022062840008', '组织信息', '', '2020-02-20 09:00:14', '0', '800900000001', '/orgFlow', '702020022008800009');
-INSERT INTO `p_privilege_copy1` VALUES ('502020040944140015', '订单查询', '', '2020-04-09 10:41:36', '1', '800900000003', '/admin.html#/orderManage', '702020040987510016');
-INSERT INTO `p_privilege_copy1` VALUES ('502020041499210002', '订单信息', '', '2020-04-14 11:52:57', '0', '800900000001', '/admin.html#/orderManage', '702020041486250003');
-INSERT INTO `p_privilege_copy1` VALUES ('502020042158720021', '采购入库', '', '2020-04-21 14:58:57', '0', '800900000003', '/admin.html#/resourceEnterManage', '702020042155330022');
-INSERT INTO `p_privilege_copy1` VALUES ('502020042301080194', '标签管理', '', '2020-04-23 00:11:20', '1', '800900000000', 'ww', '702020042364070195');
-INSERT INTO `p_privilege_copy1` VALUES ('502020042355910198', '标签管理3', '', '2020-04-23 00:21:48', '1', '800900000000', '/admin.html#/tagManager', '702020042330250199');
-INSERT INTO `p_privilege_copy1` VALUES ('502020042380740196', '标签管理2', '管理商家标签', '2020-04-23 00:17:41', '1', '800900000001', '/admin.html#/tagManage', '702020042364460197');
-INSERT INTO `p_privilege_copy1` VALUES ('502020042615070008', '商户信息', '', '2020-04-26 10:14:30', '0', '800900000003', '/admin.html#/storeInfoManage', '702020042680040009');
-INSERT INTO `p_privilege_copy1` VALUES ('502020050835100003', '我要申请', '', '2020-05-08 07:54:23', '0', '800900000003', '/pages/common/addPurchaseApplyStep', '702020050866050004');
-INSERT INTO `p_privilege_copy1` VALUES ('502020050912990001', '申请单详情', '', '2020-05-09 18:09:13', '0', '800900000003', '/admin.html#/pages/common/purchaseApplyDetail', '702020050930710002');
-INSERT INTO `p_privilege_copy1` VALUES ('502020051101260082', '个人信息', '', '2020-05-11 09:55:23', '0', '800900000003', '/admin.html#/userInfo', '702020051144890083');
-INSERT INTO `p_privilege_copy1` VALUES ('502020051194940157', '退费审核', '', '2020-05-11 16:59:17', '0', '800900000003', '/admin.html#/pages/property/returnPayFeeManage', '702020051167520158');
-INSERT INTO `p_privilege_copy1` VALUES ('502020051616860087', '小程序配置', '', '2020-05-16 17:14:39', '0', '800900000003', '/admin.html#/pages/property/smallWeChatManage', '702020051674530088');
-INSERT INTO `p_privilege_copy1` VALUES ('502020060164840028', '账单催缴', '费用账单', '2020-06-01 17:42:37', '0', '800900000003', '/admin.html#/pages/property/billManage', '702020060185630029');
-INSERT INTO `p_privilege_copy1` VALUES ('502020060414120005', '设备位置', '', '2020-06-04 18:54:04', '0', '800900000003', '/admin.html#/pages/property/locationManage', '702020060438590006');
-INSERT INTO `p_privilege_copy1` VALUES ('502020061139960002', '测试菜单', '嘻嘻嘻', '2020-06-11 10:15:06', '1', '800900000000', '嘻嘻嘻', '702020061125260003');
-INSERT INTO `p_privilege_copy1` VALUES ('502020061767630003', '流程管理', '', '2020-06-17 22:36:52', '0', '800900000003', '/admin.html/#/pages/property/workflowManage', '702020061706340004');
-INSERT INTO `p_privilege_copy1` VALUES ('502020061846080013', '流程设置', '流程设置', '2020-06-18 10:43:39', '0', '800900000003', '/admin.html#/pages/property/workflowSettingManage', '702020061852940014');
-INSERT INTO `p_privilege_copy1` VALUES ('502020061855680042', '公众号', '', '2020-06-18 20:09:00', '0', '800900000003', '/admin.html#/pages/property/publicWeChatManage', '702020061808130043');
-INSERT INTO `p_privilege_copy1` VALUES ('502020062239600009', '公众号菜单', '', '2020-06-22 23:15:44', '0', '800900000003', '/admin.html#/pages/property/wechatMenuManage', '702020062299090010');
-INSERT INTO `p_privilege_copy1` VALUES ('502020062436450005', '账单欠费', '', '2020-06-24 19:00:40', '0', '800900000003', '/admin.html#/pages/property/billOweManage', '702020062494540006');
-INSERT INTO `p_privilege_copy1` VALUES ('502020062810250021', '报修设置', '', '2020-06-28 16:44:48', '0', '800900000003', '/admin.html#/pages/property/repairSettingManage', '702020062870390022');
-INSERT INTO `p_privilege_copy1` VALUES ('502020062827480035', '报修师傅', '', '2020-06-28 19:16:10', '0', '800900000003', '/admin.html#/pages/property/repairTypeUser', '702020062894540036');
-INSERT INTO `p_privilege_copy1` VALUES ('502020062982156286', '电话报修', '', '2020-06-29 18:14:35', '0', '800900000003', '/admin.html#/pages/property/ownerRepairManage', '702020062937206287');
-INSERT INTO `p_privilege_copy1` VALUES ('502020063051380075', '工单池', '', '2020-06-30 16:07:29', '0', '800900000003', '/admin.html#/pages/property/repairPoolManage', '702020063002770076');
-INSERT INTO `p_privilege_copy1` VALUES ('502020063085640077', '报修工单详情', '', '2020-06-30 16:57:11', '0', '800900000003', '/admin.html#/pages/property/ownerRepairDetail', '702020063049110078');
-INSERT INTO `p_privilege_copy1` VALUES ('502020070189150004', '水费导入', '', '2020-07-01 09:30:57', '1', '800900000000', '/admin.html#/pages/property/waterFeeImport', '702020070163730005');
-INSERT INTO `p_privilege_copy1` VALUES ('502020071557620007', '采购已办', '', '2020-07-15 19:01:37', '0', '800900000003', '/admin.html#/pages/admin/myAuditHistoryOrders', '702020071571310008');
-INSERT INTO `p_privilege_copy1` VALUES ('502020071612180014', '领用申请', '123', '2020-07-16 12:05:27', '0', '800900000003', '/admin.html#/pages/common/addItemOutStep', '702020071645330015');
-INSERT INTO `p_privilege_copy1` VALUES ('502020071661510012', '领用待办', '', '2020-07-16 11:59:12', '0', '800900000003', '/admin.html#/pages/admin/myItemOutAuditOrders', '702020071637330013');
-INSERT INTO `p_privilege_copy1` VALUES ('502020071663610017', '物品发放', '', '2020-07-16 13:09:59', '0', '800900000003', '/admin.html#/pages/common/resourceOutManage', '702020071602070018');
-INSERT INTO `p_privilege_copy1` VALUES ('502020071694430020', '领用已办', '', '2020-07-16 14:29:30', '0', '800900000003', '/admin.html#/pages/common/myItemOutAuditHistoryOrders', '702020071615570021');
-INSERT INTO `p_privilege_copy1` VALUES ('502020071781630004', '微信模板', '', '2020-07-17 09:40:08', '0', '800900000003', '/admin.html#/pages/property/wechatSmsTemplateManage', '702020071795690005');
-INSERT INTO `p_privilege_copy1` VALUES ('502020073107180001', '微信模板', 'xxx ', '2020-07-31 13:29:09', '1', '800900000003', '/app/xxx', '702020071795690005');
-INSERT INTO `p_privilege_copy1` VALUES ('502020073133960005', 'vvv', 'xxx', '2020-07-31 13:31:59', '0', '800900000000', '/vvv', '702020073151460004');
-INSERT INTO `p_privilege_copy1` VALUES ('502020073137840007', '微信模板', 'ss', '2020-07-31 14:07:28', '1', '800900000003', 'xxx', '702020071795690005');
-INSERT INTO `p_privilege_copy1` VALUES ('502020073158140002', '我爱学习', 'xx', '2020-07-31 13:41:05', '0', '800900000000', '/vvc', '702020073141060001');
-INSERT INTO `p_privilege_copy1` VALUES ('502020073172490003', '权限测试', '', '2020-07-31 13:30:23', '0', '800900000000', '/sss', '702020073151730002');
-INSERT INTO `p_privilege_copy1` VALUES ('502020073178640005', '商户信息', '', '2020-07-31 14:06:30', '0', '800900000003', '/callComponent/listStoreManage/getStoreInfo', '702020042680040009');
-INSERT INTO `p_privilege_copy1` VALUES ('502020073182360006', '商户信息', 'xxx', '2020-07-31 14:07:07', '1', '800900000003', 'xxx', '702020042680040009');
-INSERT INTO `p_privilege_copy1` VALUES ('502020080570210194', '欠费缴费', '', '2020-08-05 11:47:39', '0', '800900000003', '/admin.html#/pages/property/owePayFeeOrder', '702020080567390193');
-INSERT INTO `p_privilege_copy1` VALUES ('502020080760550020', '查询我的小区', '', '2020-08-07 09:15:17', '0', '800900000003', '/callComponent/enterCommunity/listMyCommunity', '700201904008');
-INSERT INTO `p_privilege_copy1` VALUES ('502020080814960064', '费用导入', '', '2020-08-08 12:26:16', '0', '800900000003', '/admin.html#/pages/property/roomFeeImport', '702020080856940063');
-INSERT INTO `p_privilege_copy1` VALUES ('502020080849660005', '小区大屏', '', '2020-08-08 18:44:49', '0', '800900000003', '/bigScreen/', '702020080836480004');
-INSERT INTO `p_privilege_copy1` VALUES ('502020081421160220', '属性值', '', '2020-08-14 23:22:48', '0', '800900000000', '/admin.html#/pages/dev/attrValueManage', '702020081494380219');
-INSERT INTO `p_privilege_copy1` VALUES ('502020081431630210', '属性', '', '2020-08-14 22:17:25', '0', '800900000000', '/admin.html#/pages/dev/attrSpecManage', '702020081441030209');
-INSERT INTO `p_privilege_copy1` VALUES ('502020082158230002', '欠费信息', '', '2020-08-21 22:56:19', '0', '800900000003', '/admin.html#/pages/property/listOweFee', '702020082113420001');
-INSERT INTO `p_privilege_copy1` VALUES ('502020082314267912', '缴费', '', '2020-08-23 23:53:32', '0', '800900000003', '/callComponent/propertyPay/payFee', '702020020163313985');
-INSERT INTO `p_privilege_copy1` VALUES ('502020082417457942', '删除房屋', '', '2020-08-24 11:44:00', '0', '800900000003', '/callComponent/deleteRoom/delete', '700201904006');
-INSERT INTO `p_privilege_copy1` VALUES ('502020082433687928', '添加楼栋', '', '2020-08-24 09:42:58', '0', '800900000003', '/callComponent/addFloor/saveFloor', '700201904011');
-INSERT INTO `p_privilege_copy1` VALUES ('502020082453087940', '添加房屋', '', '2020-08-24 11:42:26', '0', '800900000003', '/callComponent/addRoomBindingBinding/binding', '700201904006');
-INSERT INTO `p_privilege_copy1` VALUES ('502020082457897932', '修改单元', '', '2020-08-24 10:17:48', '0', '800900000003', '/callComponent/editUnit/update', '700201904012');
-INSERT INTO `p_privilege_copy1` VALUES ('502020082472047930', '删除楼栋', '', '2020-08-24 10:12:51', '0', '800900000003', '/callComponent/deleteFloor/delete', '700201904011');
-INSERT INTO `p_privilege_copy1` VALUES ('502020082482767929', '修改楼栋', '', '2020-08-24 10:10:17', '0', '800900000003', '/callComponent/editFloor/changeFloor', '700201904011');
-INSERT INTO `p_privilege_copy1` VALUES ('502020082482837933', '删除单元', '', '2020-08-24 10:18:51', '0', '800900000003', '/callComponent/deleteUnit/delete', '700201904012');
-INSERT INTO `p_privilege_copy1` VALUES ('502020082488167931', '添加单元', '', '2020-08-24 10:16:28', '0', '800900000003', '/callComponent/addUnit/save', '700201904012');
-INSERT INTO `p_privilege_copy1` VALUES ('502020082493857941', '修改房屋', '', '2020-08-24 11:43:34', '0', '800900000003', '/callComponent/editRoom/update', '700201904006');
-INSERT INTO `p_privilege_copy1` VALUES ('502020082593888064', '租赁配置', '', '2020-08-25 11:30:07', '0', '800900000001', '/admin.html#/pages/admin/rentingConfigManage', '702020082596258063');
-INSERT INTO `p_privilege_copy1` VALUES ('502020082743380029', '出租审核', '', '2020-08-27 17:17:01', '0', '800900000001', '/admin.html#/pages/admin/rentingAuditManage', '702020082736180028');
-INSERT INTO `p_privilege_copy1` VALUES ('502020082768060008', '房源', '', '2020-08-27 15:25:12', '0', '800900000001', '/admin.html#/pages/admin/rentingPoolManage', '702020082732000007');
-INSERT INTO `p_privilege_copy1` VALUES ('502020082809490069', '业主车辆', '', '2020-08-28 15:20:08', '0', '800900000003', 'admin.html#/pages/property/listOwnerCar', '702020082881680068');
-INSERT INTO `p_privilege_copy1` VALUES ('502020082959640002', '续租车位', '', '2020-08-29 18:39:57', '0', '800900000003', '/admin.html#/pages/property/carAddParkingSpace', '702020082927920001');
-INSERT INTO `p_privilege_copy1` VALUES ('502020090418500005', '费用变更', '', '2020-09-04 17:49:18', '1', '800900000003', '/callComponent/fee.updateFee', '702020020270690003');
-INSERT INTO `p_privilege_copy1` VALUES ('502020090427190001', '费用变更', '', '2020-09-04 17:04:49', '0', '800900000003', '/callComponent/fee.updateFee', '702020020163313985');
-INSERT INTO `p_privilege_copy1` VALUES ('502020090482580004', '缴费', '', '2020-09-04 17:49:04', '1', '800900000003', '/callComponent/propertyPay/payFee', '702020020270690003');
-INSERT INTO `p_privilege_copy1` VALUES ('502020090604200029', '取消费用', '', '2020-09-06 14:52:34', '0', '800900000003', '/callComponent/deleteFee/delete', '702020020163313985');
-INSERT INTO `p_privilege_copy1` VALUES ('502020090646440032', '水电抄表', '', '2020-09-06 19:04:25', '0', '800900000003', '/admin.html#/pages/property/meterWaterManage', '702020090602100031');
-INSERT INTO `p_privilege_copy1` VALUES ('502020090958740094', '出租审核', '代理商审核', '2020-09-09 22:42:56', '0', '800900000002', '/admin.html#/pages/admin/rentingAuditManage', '702020090931950093');
-INSERT INTO `p_privilege_copy1` VALUES ('502020090971240051', '历史缴费导入', '', '2020-09-09 16:48:46', '0', '800900000003', '/admin.html#/pages/property/historyFeeDetailImport', '702020090910140050');
-INSERT INTO `p_privilege_copy1` VALUES ('502020090991740088', '房源', '', '2020-09-09 22:06:16', '1', '800900000002', '/admin.html#/pages/admin/rentingPoolManage', '702020090949310087');
-INSERT INTO `p_privilege_copy1` VALUES ('502020091016940006', '公摊公式', '', '2020-09-10 13:58:53', '0', '800900000003', '/admin.html#/pages/property/feeFormulaManage', '702020091056030005');
-INSERT INTO `p_privilege_copy1` VALUES ('502020091363740098', '租赁预约', '', '2020-09-13 13:43:49', '1', '800900000001', '/admin.html#/pages/admin/rentingAppointmentManage', '702020091337010097');
-INSERT INTO `p_privilege_copy1` VALUES ('502020091389640100', '预存费用', '预存费用', '2020-09-13 17:51:57', '0', '800900000003', '/admin.html#/pages/property/prestoreFeeManage', '702020091384270099');
-INSERT INTO `p_privilege_copy1` VALUES ('502020091757250025', '合同信息', '代理商合同信息', '2020-09-17 18:03:48', '0', '800900000001', '/admin.html#/pages/admin/contractManage', '702020091736590024');
-INSERT INTO `p_privilege_copy1` VALUES ('502020091779900022', '合同信息', '', '2020-09-17 18:01:58', '0', '800900000003', '/admin.html#/pages/admin/contractManage', '702020091785290021');
-INSERT INTO `p_privilege_copy1` VALUES ('502020091811570079', '合同类型规格', '', '2020-09-18 18:24:27', '0', '800900000003', '/admin.html#/pages/admin/contractTypeSpecManage', '702020091880880078');
-INSERT INTO `p_privilege_copy1` VALUES ('502020091839140067', '合同类型', '代理商', '2020-09-18 15:47:09', '0', '800900000001', '/admin.html#/pages/admin/contractTypeManage', '702020091892430066');
-INSERT INTO `p_privilege_copy1` VALUES ('502020091858500077', '合同类型', '', '2020-09-18 17:33:06', '0', '800900000003', '/admin.html#/pages/admin/contractTypeManage', '702020091843810076');
-INSERT INTO `p_privilege_copy1` VALUES ('502020091871130081', '合同类型规格', '', '2020-09-18 18:24:50', '0', '800900000001', '/admin.html#/pages/admin/contractTypeSpecManage', '702020091879990080');
-INSERT INTO `p_privilege_copy1` VALUES ('502020092067080024', '登录日志', '', '2020-09-20 10:15:12', '0', '800900000001', '/admin.html#/pages/frame/userLogin', '702020092090020023');
-INSERT INTO `p_privilege_copy1` VALUES ('502020092156590251', '合同审核', '', '2020-09-21 13:11:11', '0', '800900000003', '/admin.html#/pages/admin/contractAudit', '702020092175130250');
-INSERT INTO `p_privilege_copy1` VALUES ('502020092220840734', '打印配置', '', '2020-09-22 16:28:11', '0', '800900000003', '/admin.html#/pages/property/feePrintSpecManage', '702020092219500733');
-INSERT INTO `p_privilege_copy1` VALUES ('502020092373407363', '补打收据', '', '2020-09-23 15:52:44', '0', '800900000003', '/admin.html#/pages/property/feeReceipt', '702020092328187362');
-INSERT INTO `p_privilege_copy1` VALUES ('502020092459900221', '托收信息', '', '2020-09-24 11:43:24', '0', '800900000003', '/admin.html#/pages/property/feeManualCollectionManage', '702020092433630220');
-INSERT INTO `p_privilege_copy1` VALUES ('502020092494970375', '托收明细', '', '2020-09-24 17:33:43', '0', '800900000003', '/admin.html#/pages/property/feeManualCollectionDetailManage', '702020092409980374');
-INSERT INTO `p_privilege_copy1` VALUES ('502020092604300903', '合同审核', '', '2020-09-26 17:45:21', '0', '800900000001', '/admin.html#/pages/admin/contractAudit', '702020092674230902');
-INSERT INTO `p_privilege_copy1` VALUES ('502020092613090887', '租赁预约', '', '2020-09-26 17:01:47', '0', '800900000001', '/admin.html#/pages/admin/rentingAppointmentManage', '702020092656570886');
-INSERT INTO `p_privilege_copy1` VALUES ('502020092736240956', '出租历史', '', '2020-09-27 00:12:18', '0', '800900000001', '/admin.html#/pages/admin/rentingHistoryManage', '702020092726560955');
-INSERT INTO `p_privilege_copy1` VALUES ('502020092780490030', '租赁详情', '', '2020-09-27 10:56:27', '0', '800900000001', '/admin.html#/pages/admin/rentingDetail', '702020092790930029');
-INSERT INTO `p_privilege_copy1` VALUES ('502020093003120737', '缴费审核', '', '2020-09-30 18:17:05', '0', '800900000003', '/admin.html#/property/payFeeAuditManage', '702020093070100736');
-INSERT INTO `p_privilege_copy1` VALUES ('502020100340900094', '信息大类', '', '2020-10-03 19:49:37', '0', '800900000003', '/admin.html#/pages/property/activitiesTypeManage', '702020100365590093');
-INSERT INTO `p_privilege_copy1` VALUES ('502020100477560041', '文档信息', '', '2020-10-04 23:19:33', '0', '800900000000', '/admin.html#/pages/dev/sysDocumentManage', '702020100472570040');
-INSERT INTO `p_privilege_copy1` VALUES ('502020100645390132', '商品分类', '', '2020-10-06 12:58:40', '0', '800900000001', '/admin.html#/pages/goods/productCategoryManage', '702020100685660131');
-INSERT INTO `p_privilege_copy1` VALUES ('502020100958270173', '商品规格', '', '2020-10-09 22:16:28', '0', '800900000001', '/admin.html#/pages/goods/productSpecManage', '702020100939300172');
-INSERT INTO `p_privilege_copy1` VALUES ('502020101099890455', '商品信息', '', '2020-10-10 19:28:00', '0', '800900000001', '/admin.html#/pages/goods/productManage', '702020101043300454');
-INSERT INTO `p_privilege_copy1` VALUES ('502020101335250026', '业务受理', '', '2020-10-13 12:35:54', '0', '800900000003', '/admin.html#/pages/property/simplifyAcceptance', '702020101393980025');
-INSERT INTO `p_privilege_copy1` VALUES ('502020101433830053', '拼团设置', '', '2020-10-14 16:35:34', '0', '800900000001', '/admin.html#/pages/goods/groupBuySettingManage', '702020101481250052');
-INSERT INTO `p_privilege_copy1` VALUES ('502020101676670107', '费用汇总表', '', '2020-10-16 16:21:23', '0', '800900000003', '/admin.html#/pages/property/reportFeeSummary', '702020101696890106');
-INSERT INTO `p_privilege_copy1` VALUES ('502020101720340343', '费用明细表', '', '2020-10-17 18:44:14', '0', '800900000003', '/admin.html#/pages/property/reportFeeDetail', '702020101734870342');
-INSERT INTO `p_privilege_copy1` VALUES ('502020101768430339', '费用分项表', '', '2020-10-17 18:27:34', '0', '800900000003', '/admin.html#/pages/property/reportFeeBreakdown', '702020101759090338');
-INSERT INTO `p_privilege_copy1` VALUES ('502020101796310333', '楼栋费用表', '', '2020-10-17 18:03:46', '0', '800900000003', '/admin.html#/pages/property/reportFloorUnitFeeSummary', '702020101783560332');
-INSERT INTO `p_privilege_copy1` VALUES ('502020101812950436', '欠费明细表', '', '2020-10-18 12:36:15', '0', '800900000003', '/admin.html#/pages/property/reportOweFeeDetail', '702020101830890435');
-INSERT INTO `p_privilege_copy1` VALUES ('502020101961060715', '预缴费提醒', '', '2020-10-19 14:25:59', '0', '800900000003', '/admin.html#/pages/property/reportPrePaymentFee', '702020101993830714');
-INSERT INTO `p_privilege_copy1` VALUES ('502020102030331212', '缴费明细表', '', '2020-10-20 17:32:18', '0', '800900000003', '/admin.html#/pages/property/reportPayFeeDetail', '702020102045291211');
-INSERT INTO `p_privilege_copy1` VALUES ('502020102050241091', '费用到期提醒', '', '2020-10-20 14:58:53', '0', '800900000003', '/admin.html#/pages/property/reportDeadlineFee', '702020102012121090');
-INSERT INTO `p_privilege_copy1` VALUES ('502020102138450003', '拼团产品', '', '2020-10-21 12:48:51', '0', '800900000001', '/admin.html#/page/goods/groupBuyProductManage', '702020102134420002');
-INSERT INTO `p_privilege_copy1` VALUES ('502020102443750424', '拼团列表', '', '2020-10-24 21:56:26', '0', '800900000001', '/admin.html#/pages/goods/groupBuyManage', '702020102490890423');
-INSERT INTO `p_privilege_copy1` VALUES ('502020102587500471', '拼团批次', '', '2020-10-25 10:41:21', '0', '800900000001', '/admin.html#/pages/goods/groupBuyBatchManage', '702020102506700470');
-INSERT INTO `p_privilege_copy1` VALUES ('502020102751980079', '推荐商品', '', '2020-10-27 17:34:46', '0', '800900000001', '/admin.html#/pages/goods/recommendGoodsManage', '702020102716380078');
-INSERT INTO `p_privilege_copy1` VALUES ('502020111336940028', '商品订单', '', '2020-11-13 13:40:04', '0', '800900000001', '/admin.html#/pages/admin/storeOrderCartManage', '702020111330420027');
-INSERT INTO `p_privilege_copy1` VALUES ('502020111627880006', '交互日志', '', '2020-11-16 01:09:05', '0', '800900000000', '/admin.html#/pages/dev/transactionLogManage', '702020111628740005');
-INSERT INTO `p_privilege_copy1` VALUES ('502020111632390089', '商品订单详情', '', '2020-11-16 11:31:41', '0', '800900000001', '/admin.html#/pages/goods/storeOrderCartDetail', '702020111619100088');
-INSERT INTO `p_privilege_copy1` VALUES ('502020111765480351', '退货订单', '', '2020-11-17 17:09:17', '0', '800900000001', '/admin.html#/pages/admin/storeOrderCartReturnManage', '702020111795650350');
-INSERT INTO `p_privilege_copy1` VALUES ('502020112407180454', '折扣设置', '', '2020-11-24 23:34:27', '0', '800900000003', '/admin.html#/pages/property/feeDiscountManage', '702020112486110453');
-INSERT INTO `p_privilege_copy1` VALUES ('502020112592390545', '费用项折扣', '', '2020-11-25 10:17:13', '0', '800900000003', '/admin.html#/pages/property/payFeeConfigDiscountManage', '702020112552090544');
-INSERT INTO `p_privilege_copy1` VALUES ('502020120426640003', '业主脱敏', '业主脱敏', '2020-12-04 15:36:13', '0', '800900000003', '/roomCreateFee', '702020013097620003');
-INSERT INTO `p_privilege_copy1` VALUES ('502020120765630299', 'Databus', '', '2020-12-07 18:14:35', '0', '800900000000', '/admin.html#/pages/dev/businessDatabusManage', '702020120773940298');
-INSERT INTO `p_privilege_copy1` VALUES ('502020121018720191', '员工认证', '', '2020-12-10 23:10:50', '0', '800900000003', 'admin.html#/pages/property/staffAppAuthManage', '702020121005490190');
-INSERT INTO `p_privilege_copy1` VALUES ('502020121472400569', '微信缴费通知', '', '2020-12-14 22:34:26', '0', '800900000003', '/wechatNotification', '702020121005490190');
-INSERT INTO `p_privilege_copy1` VALUES ('502020122247900029', '优惠申请', '', '2020-12-22 23:46:39', '0', '800900000003', '/admin.html#/pages/property/applyRoomDiscountManage', '702020122261200028');
-INSERT INTO `p_privilege_copy1` VALUES ('502020122325620037', '优惠申请类型', '', '2020-12-23 00:47:35', '0', '800900000003', '/admin.html#/pages/property/applyRoomDiscountTypeManage', '702020122389100036');
-INSERT INTO `p_privilege_copy1` VALUES ('502021010147280005', '物业管理员', '', '2021-01-01 16:55:42', '0', '800900000001', '/admin.html#/pages/admin/listPropertyManage', '702021010139960004');
-INSERT INTO `p_privilege_copy1` VALUES ('502021010723590006', '空置房验房', '空置房验房处理-通知权限', '2021-01-07 10:37:12', '0', '800900000003', '/houseInspection', '702020122261200028');
-INSERT INTO `p_privilege_copy1` VALUES ('502021010761730007', '空置房审核', '空置房审核处理-通知权限', '2021-01-07 10:37:54', '0', '800900000003', '/approval', '702020122261200028');
-INSERT INTO `p_privilege_copy1` VALUES ('502021011136610013', '空置房验房通知', '空置房验房处理-通知权限', '2021-01-11 09:30:12', '0', '800900000003', '/wechatHouseInspection', '702020121005490190');
-INSERT INTO `p_privilege_copy1` VALUES ('502021011193830010', '空置房审核通知', '空置房审核处理-通知权限', '2021-01-11 13:35:06', '0', '800900000003', '/wechatHousingApproval', '702020121005490190');
-INSERT INTO `p_privilege_copy1` VALUES ('502021011195870257', '商铺管理', '', '2021-01-11 14:26:44', '0', '800900000003', '/admin.html#/pages/property/shops', '702021011192810256');
-INSERT INTO `p_privilege_copy1` VALUES ('502021011318040006', '报修登记通知', '报修登记处理-通知权限', '2021-01-13 10:27:18', '0', '800900000003', '/wechatRepairRegistration', '702020121005490190');
-INSERT INTO `p_privilege_copy1` VALUES ('502021011681080012', '临时车收费标准', '', '2021-01-16 14:06:53', '0', '800900000003', '/admin.html#/pages/property/tempCarFeeConfigManage', '702021011604630011');
-INSERT INTO `p_privilege_copy1` VALUES ('502021012051410024', '删除报修记录', '删除报修记录', '2021-01-20 11:04:57', '0', '800900000003', '/deleteRepair', '702019101903870011');
-INSERT INTO `p_privilege_copy1` VALUES ('502021012067300023', '修改报修记录', '修改报修记录', '2021-01-20 11:04:18', '0', '800900000003', '/updateRepair', '702019101903870011');
-INSERT INTO `p_privilege_copy1` VALUES ('502021012099350016', '报修抢单', '报修抢单', '2021-01-20 10:43:33', '0', '800900000003', '/reportForRepair', '702019101903870011');
-INSERT INTO `p_privilege_copy1` VALUES ('502021012242523150', '智慧考勤', '', '2021-01-22 14:28:04', '0', '800900000003', '/admin.html#/pages/property/attendanceClassesManage', '702021012255973149');
-INSERT INTO `p_privilege_copy1` VALUES ('502021012505140028', '收银台', '/static/image/payOweFee.png', '2021-01-25 22:30:05', '0', '800900000003', '/pages/roomPayFee/roomPayFee', '702021012505770027');
-INSERT INTO `p_privilege_copy1` VALUES ('502021012507510017', '维修待办', '/static/image/index_dealRepair.png', '2021-01-25 22:25:38', '0', '800900000003', '/pages/repairDispatch/repairDispatch', '702021012561330016');
-INSERT INTO `p_privilege_copy1` VALUES ('502021012519810021', '投诉待办', '/static/image/index_complaint.png', '2021-01-25 22:26:55', '0', '800900000003', '/pages/complaintList/complaintList', '702021012507180020');
-INSERT INTO `p_privilege_copy1` VALUES ('502021012543460024', '公告', '/static/image/index_notice.png', '2021-01-25 22:28:38', '0', '800900000003', '/pages/notice/notice', '702021012542300023');
-INSERT INTO `p_privilege_copy1` VALUES ('502021012558990030', '水电抄表', '/static/image/index_meter.png', '2021-01-25 22:30:59', '0', '800900000003', '/pages/meterReading/meterReading', '702021012564040029');
-INSERT INTO `p_privilege_copy1` VALUES ('502021012567490019', '巡检打卡', '/static/image/index_inspection.png', '2021-01-25 22:26:24', '0', '800900000003', '/pages/inspection/inspection', '702021012579570018');
-INSERT INTO `p_privilege_copy1` VALUES ('502021012573540014', '维修工单', '/static/image/index_repair.png', '2021-01-25 22:22:50', '0', '800900000003', '/pages/repairOrder/repairOrder', '702021012539810013');
-INSERT INTO `p_privilege_copy1` VALUES ('502021012574370026', '房产查询', '/static/image/index_bill.png', '2021-01-25 22:29:15', '0', '800900000003', '/pages/roomDetail/roomDetail', '702021012519080025');
-INSERT INTO `p_privilege_copy1` VALUES ('502021012580740032', '空置房', '/static/image/index_complaint.png', '2021-01-25 22:31:29', '0', '800900000003', '/pages/applyRoom/applyRoom', '702021012520220031');
-INSERT INTO `p_privilege_copy1` VALUES ('502021012645150020', '房屋装修', '房屋装修', '2021-01-26 17:42:04', '0', '800900000003', '/admin.html#/pages/property/roomRenovationManage', '702021012618140019');
-INSERT INTO `p_privilege_copy1` VALUES ('502021012701630060', '装修验收', '', '2021-01-27 00:04:18', '0', '800900000003', '/admin.html#/pages/property/roomRenovationDetailManage', '702021012761500059');
-INSERT INTO `p_privilege_copy1` VALUES ('502021013056500005', '报修汇总表', '报修汇总', '2021-01-30 08:44:20', '0', '800900000003', '/admin.html#/pages/property/reportRepair', '702021013030300004');
-INSERT INTO `p_privilege_copy1` VALUES ('502021020146200988', '今日考勤', '', '2021-02-01 17:00:04', '0', '800900000003', '/admin.html#/pages/property/todayAttendanceManage', '702021020165340987');
-INSERT INTO `p_privilege_copy1` VALUES ('502021020233871128', '月考勤', '', '2021-02-02 13:05:40', '0', '800900000003', '/admin.html#/pages/property/monthAttendanceManage', '702021020295631127');
-INSERT INTO `p_privilege_copy1` VALUES ('502021020357910021', '考勤记录', '', '2021-02-03 09:44:38', '0', '800900000003', '/admin.html#/pages/property/attendanceLogManage', '702021020311270020');
-INSERT INTO `p_privilege_copy1` VALUES ('502021020591840081', '问卷信息', '', '2021-02-05 17:31:57', '0', '800900000003', '/admin.html#/pages/property/questionAnswerManage', '702021020534720080');
-INSERT INTO `p_privilege_copy1` VALUES ('502021020644120134', '问卷题目', '', '2021-02-06 11:01:11', '0', '800900000003', '/admin.html#/pages/property/questionAnswerTitleManage', '702021020652750133');
-INSERT INTO `p_privilege_copy1` VALUES ('502021020700510274', '活动规则', '', '2021-02-07 21:46:39', '0', '800900000003', '/admin.html#/pages/property/activitiesRuleManage', '702021020705710273');
-INSERT INTO `p_privilege_copy1` VALUES ('502021020724030228', '问卷答题', '', '2021-02-07 13:57:08', '0', '800900000003', '/admin.html#/pages/property/userQuestionAnswerManage', '702021020781610227');
-INSERT INTO `p_privilege_copy1` VALUES ('502021020744330251', '员工考核', '', '2021-02-07 16:34:28', '0', '800900000003', '/admin.html#/pages/property/staffAssessmentManage', '702021020778830250');
-INSERT INTO `p_privilege_copy1` VALUES ('502021020752750220', '我的问卷', '', '2021-02-07 11:22:10', '0', '800900000003', '/admin.html#/pages/property/myQuestionAnswerManage', '702021020740160219');
-INSERT INTO `p_privilege_copy1` VALUES ('502021020755580291', '最美员工', '', '2021-02-07 22:51:11', '0', '800900000003', '/admin.html#/pages/property/activitiesBeautifulStaffManage', '702021020768800290');
-INSERT INTO `p_privilege_copy1` VALUES ('502021022251710609', '报表专家', '', '2021-02-22 18:02:51', '0', '800900000003', '/admin.html#/pages/property/reportProficient', '702021022283800608');
-INSERT INTO `p_privilege_copy1` VALUES ('502021022289920006', '房屋装修验收通知', '房屋装修验收申请处理-通知权限', '2021-02-22 14:30:57', '0', '800900000003', '/wechatDecorationNotice', '702020121005490190');
-INSERT INTO `p_privilege_copy1` VALUES ('502021022640560005', '装修记录', '装修记录', '2021-02-26 11:47:24', '0', '800900000003', '/admin.html#/pages/property/listRoomDecorationRecord', '702021022611740004');
-INSERT INTO `p_privilege_copy1` VALUES ('502021022746870014', '子母车辆', '', '2021-02-27 21:55:22', '0', '800900000003', '/admin.html#/pages/property/listOwnerCarMember', '702021022736460013');
-INSERT INTO `p_privilege_copy1` VALUES ('502021030292680006', '装修详情', '装修详情页面', '2021-03-02 16:28:00', '0', '800900000003', '/admin.html#/pages/property/listRoomRenovationRecordDetails', '702021030252560005');
-INSERT INTO `p_privilege_copy1` VALUES ('502021030406040612', '店铺小区', '', '2021-03-04 16:15:42', '0', '800900000005', '/admin/html', '702021030406680611');
-INSERT INTO `p_privilege_copy1` VALUES ('502021030406530619', '收款账户', '', '2021-03-04 16:19:52', '0', '800900000005', '/admin.html', '702021030411150618');
-INSERT INTO `p_privilege_copy1` VALUES ('502021030414800529', '商品规格', '', '2021-03-04 12:40:37', '0', '800900000005', '/admin.html', '702021030476960528');
-INSERT INTO `p_privilege_copy1` VALUES ('502021030416600622', '保证金', '', '2021-03-04 16:20:43', '0', '800900000005', '/admin.html', '702021030445710621');
-INSERT INTO `p_privilege_copy1` VALUES ('502021030434690610', '店铺信息', '', '2021-03-04 16:12:11', '0', '800900000005', '/admin.html', '702021030468370609');
-INSERT INTO `p_privilege_copy1` VALUES ('502021030435200525', '售后订单', '', '2021-03-04 12:36:48', '0', '800900000005', '/admin.html', '702021030402320524');
-INSERT INTO `p_privilege_copy1` VALUES ('502021030448190521', '待处理订单', '', '2021-03-04 12:26:25', '0', '800900000005', '/admin.html', '702021030447730520');
-INSERT INTO `p_privilege_copy1` VALUES ('502021030460610616', '财务明细', '', '2021-03-04 16:19:23', '0', '800900000005', '/admin.html', '702021030435050615');
-INSERT INTO `p_privilege_copy1` VALUES ('502021030497430531', '商品管理', '', '2021-03-04 12:41:19', '0', '800900000005', '/admin.html', '702021030445770530');
-INSERT INTO `p_privilege_copy1` VALUES ('502021030503050089', '登记投诉', '', '2021-03-05 16:34:35', '0', '800900000003', '/admin.html#/pages/common/addRoomComplaint', '702021030521000088');
-INSERT INTO `p_privilege_copy1` VALUES ('502021030807600120', '商品分组', '', '2021-03-08 15:46:51', '0', '800900000005', '/admin.html#/pages/goods/productCategoryManage', '702021030841420119');
-INSERT INTO `p_privilege_copy1` VALUES ('502021030813580078', '员工权限', '', '2021-03-08 15:01:55', '0', '800900000005', '/admin.html#/pages/frame/staffPrivilege', '702021030892730077');
-INSERT INTO `p_privilege_copy1` VALUES ('502021030814880067', '组织信息', '', '2021-03-08 14:48:33', '0', '800900000005', '/admin.html#/pages/frame/orgManage', '702021030883010066');
-INSERT INTO `p_privilege_copy1` VALUES ('502021030823700069', '员工信息', '', '2021-03-08 14:49:16', '0', '800900000005', '/admin.html#/pages/frame/staff', '702021030810960068');
-INSERT INTO `p_privilege_copy1` VALUES ('502021030852450076', '权限组', '', '2021-03-08 15:01:25', '0', '800900000005', '/admin.html#/pages/dev/privilege', '702021030879370075');
-INSERT INTO `p_privilege_copy1` VALUES ('502021030915560188', '审核入驻小区', '', '2021-03-09 16:26:56', '0', '800900000001', '/admin.html#/pages/common/auditEnterCommunityManage', '702021030949750187');
-INSERT INTO `p_privilege_copy1` VALUES ('502021030918700182', '小区信息', '', '2021-03-09 16:24:45', '0', '800900000001', '/admin.html#/pages/common/communityManage', '702021030903690181');
-INSERT INTO `p_privilege_copy1` VALUES ('502021030985370186', '审核小区', '', '2021-03-09 16:26:18', '0', '800900000001', '/admin.html#/pages/common/auditCommunityManage', '702021030967980185');
-INSERT INTO `p_privilege_copy1` VALUES ('502021031092430164', '开店审核', '', '2021-03-10 18:10:52', '0', '800900000001', '/admin.html', '702021031061670163');
-INSERT INTO `p_privilege_copy1` VALUES ('502021031277980007', '房屋装修', '员工端房屋装修', '2021-03-12 14:03:43', '0', '800900000003', 'pages/roomRenovation/roomRenovation', '702021031209070006');
-INSERT INTO `p_privilege_copy1` VALUES ('502021031299580138', '员工门禁授权', '', '2021-03-12 17:37:08', '0', '800900000003', '/admin.html#/pages/property/machineAuthManage', '702021031267690137');
-INSERT INTO `p_privilege_copy1` VALUES ('502021031645040072', '修改密码', '', '2021-03-16 11:14:16', '0', '800900000000', '/admin.html#/pages/frame/changeStaffPwd', '702021031606850071');
-INSERT INTO `p_privilege_copy1` VALUES ('502021031687630069', '修改密码', '', '2021-03-16 11:13:11', '0', '800900000001', '/admin.html#/pages/frame/changeStaffPwd', '702021031605320068');
-INSERT INTO `p_privilege_copy1` VALUES ('502021031698730003', '装修审核', '装修审核', '2021-03-16 08:39:42', '0', '800900000003', '/roomRenovationExamine', '702021012618140019');
-INSERT INTO `p_privilege_copy1` VALUES ('502021032513430021', '店铺信息', '', '2021-03-25 12:23:54', '0', '800900000001', '/admin.html#/pages/admin/shopManage', '702021032537360020');
-INSERT INTO `p_privilege_copy1` VALUES ('502021033087620296', '合同变更', '', '2021-03-30 22:59:39', '0', '800900000003', '/admin.html#/pages/admin/contractChangeManage', '702021033017840295');
-INSERT INTO `p_privilege_copy1` VALUES ('502021033108420003', '申请合同变更', '', '2021-03-31 01:12:49', '0', '800900000003', '/admin.html#/pages/admin/contractChangeDetail', '702021033195000002');
-INSERT INTO `p_privilege_copy1` VALUES ('502021033136470077', '到期合同', '', '2021-03-31 11:34:21', '0', '800900000003', '/admin.html#/pages/admin/contractChangeManage', '702021033149670076');
-INSERT INTO `p_privilege_copy1` VALUES ('502021033186520392', '起草合同', '', '2021-03-31 22:57:27', '0', '800900000003', '/admin.html#/pages/admin/newContractManage', '702021033187310391');
-INSERT INTO `p_privilege_copy1` VALUES ('502021033187120040', '合同变更明细', '', '2021-03-31 09:41:33', '0', '800900000003', '/admin.html#/pages/admin/contractChangeDetails', '702021033155980039');
-INSERT INTO `p_privilege_copy1` VALUES ('502021040107840026', '变更待办', '', '2021-04-01 22:41:37', '0', '800900000003', '/admin.html#/pages/admin/contractChangeAuditOrders', '702021040143360025');
-INSERT INTO `p_privilege_copy1` VALUES ('502021040131560028', '变更已办', '', '2021-04-01 22:42:25', '0', '800900000003', '/admin.html#/pages/admin/contractChangeAuditHistoryOrders', '702021040176320027');
-INSERT INTO `p_privilege_copy1` VALUES ('502021040151320003', '电话回访', '电话回访权限', '2021-04-01 08:24:39', '0', '800900000003', '/appraiseRepair', '702019102028670002');
-INSERT INTO `p_privilege_copy1` VALUES ('502021040159650397', '起草待办', '', '2021-04-01 00:29:29', '0', '800900000003', '/admin.html#/pages/admin/contractApplyAuditOrders', '702021040162640396');
-INSERT INTO `p_privilege_copy1` VALUES ('502021040169980024', '起草已办', '', '2021-04-01 22:40:45', '0', '800900000003', '/admin.html#/pages/admin/contractApplyAuditHistoryOrders', '702021040107630023');
-INSERT INTO `p_privilege_copy1` VALUES ('502021040255080050', '收款计划', '', '2021-04-02 01:53:49', '0', '800900000003', '/admin.html#/pages/admin/contractCollectionPlanManage', '702021040263340049');
-INSERT INTO `p_privilege_copy1` VALUES ('502021040611570372', '报修回访', '', '2021-04-06 08:42:18', '0', '800900000003', '/admin.html#/pages/property/repairReturnVisit', '702021040628030371');
-INSERT INTO `p_privilege_copy1` VALUES ('502021040644320008', '强制回单', '', '2021-04-06 13:29:45', '0', '800900000003', '/admin.html#/pages/property/repairForceFinishManage', '702021040635540007');
-INSERT INTO `p_privilege_copy1` VALUES ('502021040690360027', '合同详情', '', '2021-04-06 16:58:53', '0', '800900000003', '/admin.html#/pages/common/contractApplyDetail', '702021040666580026');
-INSERT INTO `p_privilege_copy1` VALUES ('502021040745010149', '仓库信息', '', '2021-04-07 21:17:04', '0', '800900000003', '/admin.html#/pages/property/storehouseManage', '702021040741950148');
-INSERT INTO `p_privilege_copy1` VALUES ('502021040800700027', '调拨详情', '', '2021-04-08 17:00:12', '0', '800900000003', '/admin.html#/pages/common/allocationStorehouseDetail', '702021040808900026');
-INSERT INTO `p_privilege_copy1` VALUES ('502021040802060002', '调拨记录', '', '2021-04-08 00:56:41', '0', '800900000003', '/admin.html#/pages/common/allocationStorehouseManage', '702021040844660001');
-INSERT INTO `p_privilege_copy1` VALUES ('502021040841810018', '我的物品', '', '2021-04-08 20:30:51', '0', '800900000003', '/admin.html#/pages/common/myResourceStoreManage', '702021040857880017');
-INSERT INTO `p_privilege_copy1` VALUES ('502021040867760006', '调拨已办', '', '2021-04-08 15:12:39', '0', '800900000003', '/admin.html#/pages/admin/allocationStorehouseHistoryAuditOrders', '702021040865910005');
-INSERT INTO `p_privilege_copy1` VALUES ('502021040871840027', '调拨待办', '', '2021-04-08 12:10:09', '0', '800900000003', '/admin.html#/pages/admin/allocationStorehouseAuditOrders', '702021040843910026');
-INSERT INTO `p_privilege_copy1` VALUES ('502021040933090016', '代客报修', '/static/image/index_repair.png', '2021-04-09 10:46:20', '0', '800900000003', '/pages/repairAdd/repairAdd', '702021040912990015');
-INSERT INTO `p_privilege_copy1` VALUES ('502021041077920105', '缴费页面', '测试', '2021-04-10 22:07:21', '0', '800900000000', '/selfHelpFree', '702021041041870104');
-INSERT INTO `p_privilege_copy1` VALUES ('502021041333930167', '商品目录', '', '2021-04-13 23:06:53', '0', '800900000001', '/admin.html#/pages/admin/mainCategoryManage', '702021041323510166');
-INSERT INTO `p_privilege_copy1` VALUES ('502021041486890174', '专区商品', '', '2021-04-14 00:37:22', '0', '800900000001', '/admin.html#/pages/admin/mainCategoryProductManage', '702021041420640173');
-INSERT INTO `p_privilege_copy1` VALUES ('502021041901500001', '查看所有采购申请', '查看所有采购申请权限', '2021-04-19 14:06:16', '0', '800900000003', '/viewPurchaseApplyManage', '700201906022');
-INSERT INTO `p_privilege_copy1` VALUES ('502021041902760001', '查看集团仓库权限', '查看集团仓库权限', '2021-04-19 14:26:15', '0', '800900000003', '/viewGroupWarehouse', '702021040741950148');
-INSERT INTO `p_privilege_copy1` VALUES ('502021041908600001', '查看所有报修已办权限', '查看所有报修已办权限', '2021-04-19 14:41:27', '0', '800900000003', '/listStaffFinishRepairs', '702019102073620006');
-INSERT INTO `p_privilege_copy1` VALUES ('502021041916460003', '查看所有物品领用', '查看所有物品领用权限', '2021-04-19 14:20:09', '0', '800900000003', '/viewAllItemUse', '702019102250410002');
-INSERT INTO `p_privilege_copy1` VALUES ('502021041925240063', '入驻小区审核', '', '2021-04-19 00:05:10', '0', '800900000001', '/admin.html#/pages/admin/auditShopCommunity', '702021041947460062');
-INSERT INTO `p_privilege_copy1` VALUES ('502021041948240009', '物品类型', '物品类型', '2021-04-19 13:44:57', '0', '800900000003', '/admin.html#/pages/common/resourceStoreTypeManage', '702021041999360008');
-INSERT INTO `p_privilege_copy1` VALUES ('502021041962980001', '查看所有集团物品信息', '查看所有集团物品信息权限', '2021-04-19 16:31:27', '0', '800900000003', '/viewGroupResource', '702019102148640005');
-INSERT INTO `p_privilege_copy1` VALUES ('502021041964320001', '查看所有报修待办', '查看所有报修待办权限', '2021-04-19 14:34:10', '0', '800900000003', '/viewListStaffRepairs', '702019102028670002');
-INSERT INTO `p_privilege_copy1` VALUES ('502021041989700067', '小区店铺', '', '2021-04-19 00:52:36', '0', '800900000001', '/admin.html#/pages/admin/shopCommunity', '702021041953400066');
-INSERT INTO `p_privilege_copy1` VALUES ('502021041990920002', '查看所有调拨记录', '查看所有调拨记录权限', '2021-04-19 10:29:53', '0', '800900000003', '/viewlistAllocationStorehouses', '702021040844660001');
-INSERT INTO `p_privilege_copy1` VALUES ('502021041994670070', '修改密码', '', '2021-04-19 01:23:27', '0', '800900000005', '/admin.html#/pages/frame/changeStaffPwd', '702021041918420069');
-INSERT INTO `p_privilege_copy1` VALUES ('502021042040820076', '会员信息', '', '2021-04-20 00:38:34', '0', '800900000005', '/admin.html#/pages/goods/shopVipUserManage', '702021042006540075');
-INSERT INTO `p_privilege_copy1` VALUES ('502021042137960001', '出入库操作', '物品直接出入库操作', '2021-04-21 16:02:11', '0', '800900000003', '/inOutWarehouse', '702019102148640005');
-INSERT INTO `p_privilege_copy1` VALUES ('502021042209980303', '合同甲方', '', '2021-04-22 15:33:55', '0', '800900000003', '/admin.html#/pages/admin/contractPartyaManage', '702021042214040302');
-INSERT INTO `p_privilege_copy1` VALUES ('502021042293240005', '出入库明细', '出入库明细', '2021-04-22 12:05:42', '0', '800900000003', '/admin.html#/pages/common/purchaseApplyDetailManage', '702021042286380004');
-INSERT INTO `p_privilege_copy1` VALUES ('502021042299510238', '起草合同', '', '2021-04-22 12:20:29', '0', '800900000003', '/admin.html#/pages/admin/addContract', '702021042279810237');
-INSERT INTO `p_privilege_copy1` VALUES ('502021042355490003', '物品供应商', '物品资源供应商', '2021-04-23 10:47:11', '0', '800900000003', '/admin.html#/pages/property/resourceSupplierManage', '702021042347360002');
-INSERT INTO `p_privilege_copy1` VALUES ('502021042368630417', '合同收费', '', '2021-04-23 11:11:22', '0', '800900000003', '/admin.html#/pages/property/contractCreateFee', '702021042365450416');
-INSERT INTO `p_privilege_copy1` VALUES ('502021042375020435', '合同费用', '', '2021-04-23 11:53:01', '0', '800900000003', '/admin.html#/pages/property/listContractFee', '702021042359210434');
-INSERT INTO `p_privilege_copy1` VALUES ('502021042466340003', '转赠记录', '物品转赠记录', '2021-04-24 15:11:46', '0', '800900000003', '/admin.html#/pages/common/allocationUserStorehouseManage', '702021042441610002');
-INSERT INTO `p_privilege_copy1` VALUES ('502021042931690003', '物品使用记录', '个人物品使用记录', '2021-04-29 15:16:09', '0', '800900000003', '/admin.html#/pages/common/resourceStoreUseRecordManage', '702021042938870002');
-INSERT INTO `p_privilege_copy1` VALUES ('502021042989310157', '调拨申请', '', '2021-04-29 08:34:41', '0', '800900000003', '/admin.html#/pages/common/allocationStorehouseApplyManage', '702021042974000156');
-INSERT INTO `p_privilege_copy1` VALUES ('502021050213220610', '会员等级', '', '2021-05-02 16:16:20', '0', '800900000005', '/admin.html#/pages/goods/shopVipLevelManage', '702021050274070609');
-INSERT INTO `p_privilege_copy1` VALUES ('502021050236020632', '金币设置', '', '2021-05-02 23:24:46', '0', '800900000001', '/admin.html#/pages/admin/systemGoldSettingManage', '702021050282200631');
-INSERT INTO `p_privilege_copy1` VALUES ('502021050317740195', '金币购买记录', '', '2021-05-03 17:27:19', '0', '800900000001', '/admin.html#/pages/admin/goldBuyCartManage', '702021050337470194');
-INSERT INTO `p_privilege_copy1` VALUES ('502021050467540219', '未收费房屋', '', '2021-05-04 02:04:12', '0', '800900000003', '/admin.html#/pages/property/reportNoFeeRoom', '702021050428880218');
-INSERT INTO `p_privilege_copy1` VALUES ('502021050590170720', '金币购买记录', '', '2021-05-05 22:47:06', '0', '800900000005', '/admin.html#/pages/goods/goldBusinessManage', '702021050579590719');
-INSERT INTO `p_privilege_copy1` VALUES ('502021050643800969', '购买金币', '', '2021-05-06 19:48:29', '0', '800900000005', '/admin.html#/pages/goods/buyGold', '702021050680180968');
-INSERT INTO `p_privilege_copy1` VALUES ('502021050714330095', '商品入库', '', '2021-05-07 22:42:39', '0', '800900000005', '/admin.html#/pages/goods/productStockManage', '702021050762290094');
-INSERT INTO `p_privilege_copy1` VALUES ('502021050756760100', '收银台', '', '2021-05-07 23:57:43', '0', '800900000005', '/admin.html#/pages/goods/goodCashier', '702021050787220099');
-INSERT INTO `p_privilege_copy1` VALUES ('502021050959190371', '会员账户', '', '2021-05-09 16:37:10', '0', '800900000005', '/admin.html#/pages/goods/shopVipUserAccountManage', '702021050934180370');
-INSERT INTO `p_privilege_copy1` VALUES ('502021051169550004', '调拨明细', '调拨明细', '2021-05-11 18:04:09', '0', '800900000003', '/admin.html#/pages/common/allocationStorehouseDetailed', '702021051115900003');
-INSERT INTO `p_privilege_copy1` VALUES ('502021051264680004', '物品规格', '物品规格', '2021-05-12 10:42:05', '0', '800900000003', '/admin.html#/pages/common/resourceStoreSpecificationManage', '702021051232450003');
-INSERT INTO `p_privilege_copy1` VALUES ('502021051288880381', '订单详情', '', '2021-05-12 18:31:22', '0', '800900000005', '/admin.html#/pages/goods/storeOrderCartDetail', '702021051263410380');
-INSERT INTO `p_privilege_copy1` VALUES ('502021051370090004', '我的物品', '/static/image/index_complaint.png', '2021-05-13 08:51:13', '0', '800900000003', '/pages/resourceStoreManage/resourceStoreManage', '702021051364840003');
-INSERT INTO `p_privilege_copy1` VALUES ('502021051418810019', '店铺访问', '', '2021-05-14 10:05:16', '0', '800900000005', '/admin.html#/pages/goods/shopVisitManage', '702021051486340018');
-INSERT INTO `p_privilege_copy1` VALUES ('502021051427600193', '商品评论', '', '2021-05-14 22:51:33', '0', '800900000005', '/admin.html#/pages/goods/shopAppraiseManage', '702021051453870192');
-INSERT INTO `p_privilege_copy1` VALUES ('502021051454910201', '公众号菜单', '', '2021-05-14 23:30:13', '0', '800900000005', '/admin.html#/pages/property/wechatMenuManage', '702021051414110200');
-INSERT INTO `p_privilege_copy1` VALUES ('502021051495590199', '公众号', '', '2021-05-14 23:29:38', '0', '800900000005', '/admin.html#/pages/property/publicWeChatManage', '702021051496660198');
-INSERT INTO `p_privilege_copy1` VALUES ('502021051529650204', '退货地址', '', '2021-05-15 01:05:26', '0', '800900000005', '/admin.html#/pages/goods/shopReturnAddressManage', '702021051568130203');
-INSERT INTO `p_privilege_copy1` VALUES ('502021051814820935', '发布广告', '', '2021-05-18 00:31:17', '0', '800900000001', '/admin.html#/pages/property/advertManage', '702021051834760934');
-INSERT INTO `p_privilege_copy1` VALUES ('502021051927250004', '查看所有出入库明细', '查看所有出入库明细', '2021-05-19 14:43:21', '0', '800900000003', '/viewAllPurchaseApplyDetail', '702021042286380004');
-INSERT INTO `p_privilege_copy1` VALUES ('502021052094720028', '查看所有组织架构信息', '查看所有组织架构信息', '2021-05-20 17:21:37', '0', '800900000003', '/viewAllOrganization', '702019100725620006');
-INSERT INTO `p_privilege_copy1` VALUES ('502021052111240007', '物品调拨', '/static/image/index_dealRepair.png', '2021-05-21 16:38:15', '0', '800900000003', '/pages/allocationStorehouseManage/allocationStorehouseManage', '702021052131590006');
-INSERT INTO `p_privilege_copy1` VALUES ('502021052177980003', '采购申请', ' /static/image/index_dealRepair.png', '2021-05-21 16:36:02', '0', '800900000003', '/pages/purchaseApplyManage/purchaseApplyManage', '702021052105540002');
-INSERT INTO `p_privilege_copy1` VALUES ('502021052180090005', '物品领用', '/static/image/index_dealRepair.png', '2021-05-21 16:37:08', '0', '800900000003', '/pages/itemOutManage/itemOutManage', '702021052136420004');
-INSERT INTO `p_privilege_copy1` VALUES ('502021052423840213', '问卷明细表', '', '2021-05-24 11:02:45', '0', '800900000003', '/admin.html#/pages/property/reportQuestionAnswerDetail', '702021052458460212');
-INSERT INTO `p_privilege_copy1` VALUES ('502021052570530025', '家政服务', '', '2021-05-25 15:05:11', '0', '800900000005', '/admin.html#/pages/goods/housekeepingTypeManage', '702021052592090024');
-INSERT INTO `p_privilege_copy1` VALUES ('502021052623750727', '物品供应商', '', '2021-05-26 22:25:09', '0', '800900000005', '/admin.html#/pages/goods/resourceSupplierManage', '702021052638000726');
-INSERT INTO `p_privilege_copy1` VALUES ('502021052629930725', '物品类型', '', '2021-05-26 22:24:31', '0', '800900000005', '/admin.html#/pages/goods/resourceSupplierManage', '702021052658950724');
-INSERT INTO `p_privilege_copy1` VALUES ('502021052654540540', '物品供应商', '', '2021-05-26 15:28:19', '0', '800900000005', '/admin.html#/pages/goods/resourceSupplierManage', '702021052682380539');
-INSERT INTO `p_privilege_copy1` VALUES ('502021052683450543', '物品类型', '', '2021-05-26 15:36:19', '0', '800900000005', '/admin.html#/pages/goods/resourceStoreTypeManage', '702021052650690542');
-INSERT INTO `p_privilege_copy1` VALUES ('502021052686770545', '物品供应商', '', '2021-05-26 15:36:50', '0', '800900000005', '/admin.html#/pages/goods/resourceSupplierManage', '702021052665770544');
-INSERT INTO `p_privilege_copy1` VALUES ('502021052696020535', '物品类型', '', '2021-05-26 15:27:23', '0', '800900000005', '/admin.html#/pages/goods/resourceStoreTypeManage', '702021052626780534');
-INSERT INTO `p_privilege_copy1` VALUES ('502021052707250008', '调拨审批', '/static/image/index_dealRepair.png', '2021-05-27 15:11:45', '0', '800900000003', '/pages/allocationStorehouseAuditOrders/allocationStorehouseAuditOrders', '702021052734430007');
-INSERT INTO `p_privilege_copy1` VALUES ('502021052719661028', '家政物品信息', '', '2021-05-27 11:13:57', '0', '800900000005', '/admin.html#/pages/goods/housekeepingResourceManage', '702021052722721027');
-INSERT INTO `p_privilege_copy1` VALUES ('502021052747070004', '采购审批', '/static/image/index_dealRepair.png', '2021-05-27 15:09:56', '0', '800900000003', '/pages/purchaseApplyAuditOrders/purchaseApplyAuditOrders', '702021052737910003');
-INSERT INTO `p_privilege_copy1` VALUES ('502021052762260006', '领用审批', '/static/image/index_dealRepair.png', '2021-05-27 15:10:45', '0', '800900000003', '/pages/itemOutAuditOrders/itemOutAuditOrders', '702021052754370005');
-INSERT INTO `p_privilege_copy1` VALUES ('502021052894520273', '服务管理', '', '2021-05-28 15:45:53', '0', '800900000005', '/admin.html#/pages/goods/housekeepingServManage', '702021052806710272');
-INSERT INTO `p_privilege_copy1` VALUES ('502021053115060399', '客户催单', '', '2021-05-31 16:14:20', '0', '800900000005', '/admin.html#/pages/goods/userExpeditingDelivery', '702021053110010398');
-INSERT INTO `p_privilege_copy1` VALUES ('502021060198530469', '家政服务评价', '', '2021-06-01 00:27:29', '0', '800900000005', '/admin.html#/pages/goods/servAppraiseManage', '702021060157790468');
-INSERT INTO `p_privilege_copy1` VALUES ('502021060442721625', '费用类型', '', '2021-06-04 11:42:06', '0', '800900000005', '/admin.html#/pages/goods/housekeepingFeeTypeManage', '702021060421241624');
-INSERT INTO `p_privilege_copy1` VALUES ('502021060474221627', '费用标准', '', '2021-06-04 11:42:46', '0', '800900000005', '/admin.html#/pages/goods/housekeepingFeeConfigManage', '702021060462151626');
-INSERT INTO `p_privilege_copy1` VALUES ('502021060505810069', '商城菜单', '', '2021-06-05 11:29:30', '0', '800900000001', '/admin.html#/pages/admin/', '702021060576440068');
-INSERT INTO `p_privilege_copy1` VALUES ('502021060527560019', '巡检明细', '巡检明细', '2021-06-05 14:13:35', '0', '800900000003', '/admin.html#/pages/property/inspectionTaskDetails', '702021060567820018');
-INSERT INTO `p_privilege_copy1` VALUES ('502021060583310095', '手机商城菜单', '', '2021-06-05 15:38:42', '0', '800900000001', '/admin.html#/pages/admin/housekeepingTypeManage', '702021060521430094');
-INSERT INTO `p_privilege_copy1` VALUES ('502021062104940325', '订单费用', '', '2021-06-21 17:05:15', '0', '800900000005', '/admin.html#/pages/goods/storeOrderCartFeeManage', '702021062129640324');
-INSERT INTO `p_privilege_copy1` VALUES ('502021062105210370', '提现记录', '', '2021-06-21 17:37:56', '0', '800900000001', '/admin.html#/pages/goods/accountWithdrawalApplyListManage', '702021062106010369');
-INSERT INTO `p_privilege_copy1` VALUES ('502021062107630329', '家政支付', '', '2021-06-21 17:07:02', '0', '800900000005', '/admin.html#/pages/goods/housekeepingServPoolPay', '702021062107910328');
-INSERT INTO `p_privilege_copy1` VALUES ('502021062114570479', '拼团设置', '', '2021-06-21 22:51:17', '0', '800900000005', '/admin.html#/pages/goods/groupBuySettingManage', '702021062112540478');
-INSERT INTO `p_privilege_copy1` VALUES ('502021062118340481', '拼团产品', '', '2021-06-21 22:51:46', '0', '800900000005', '/admin.html#/pages/goods/groupBuyProductManage', '702021062182720480');
-INSERT INTO `p_privilege_copy1` VALUES ('502021062127960368', '提现付款', '', '2021-06-21 17:37:29', '0', '800900000001', '/admin.html#/pages/goods/accountWithdrawalApplyFkManage', '702021062198850367');
-INSERT INTO `p_privilege_copy1` VALUES ('502021062145860366', '提现审核', '', '2021-06-21 17:37:02', '0', '800900000001', '/admin.html#/pages/goods/accountWithdrawalApplyShManage', '702021062120260365');
-INSERT INTO `p_privilege_copy1` VALUES ('502021062159200489', '发布广告', '', '2021-06-21 22:54:24', '0', '800900000005', '/admin.html#/pages/property/advertManage', '702021062118030488');
-INSERT INTO `p_privilege_copy1` VALUES ('502021062168800412', '账户提现', '', '2021-06-21 18:08:11', '0', '800900000005', '/admin.html#/pages/goods/accountWithdrawalApplyManage', '702021062150280411');
-INSERT INTO `p_privilege_copy1` VALUES ('502021062170010483', '拼团列表', '', '2021-06-21 22:52:42', '0', '800900000005', '/admin.html#/pages/goods/groupBuyManage', '702021062145590482');
-INSERT INTO `p_privilege_copy1` VALUES ('502021062175020402', '开户行管理', '', '2021-06-21 18:00:24', '0', '800900000005', '/admin.html#/pages/admin/accountBankManage', '702021062194830401');
-INSERT INTO `p_privilege_copy1` VALUES ('502021062184180332', '家政已办', '', '2021-06-21 17:08:12', '0', '800900000005', '/admin.html#/pages/goods/myHousekeepingDispatchManage', '702021062112480331');
-INSERT INTO `p_privilege_copy1` VALUES ('502021062186560485', '拼团批次 	', '', '2021-06-21 22:53:15', '0', '800900000005', '/admin.html#/pages/goods/groupBuyBatchManage', '702021062184420484');
-INSERT INTO `p_privilege_copy1` VALUES ('502021062186930334', '家政待办', '', '2021-06-21 17:09:01', '0', '800900000005', '/admin.html#/pages/goods/housekeepingDispatchManage', '702021062154910333');
-INSERT INTO `p_privilege_copy1` VALUES ('502021062189000294', '业主账号', '', '2021-06-21 16:34:15', '0', '800900000003', '/admin.html#/pages/property/accountManage', '702021062195680293');
-INSERT INTO `p_privilege_copy1` VALUES ('502021062192530487', '推荐商品', '', '2021-06-21 22:53:43', '0', '800900000005', '/admin.html#/pages/goods/recommendGoodsManage', '702021062137340486');
-INSERT INTO `p_privilege_copy1` VALUES ('502021062196940327', '家政工单池', '', '2021-06-21 17:06:08', '0', '800900000005', '/pages/goods/housekeepingServPoolManage', '702021062122460326');
-INSERT INTO `p_privilege_copy1` VALUES ('502021062328150279', '经营范围', '', '2021-06-23 21:01:56', '1', '800900000001', '/admin.html#/pages/admin/shopRangeManage', '702021062389970278');
-INSERT INTO `p_privilege_copy1` VALUES ('502021062387820277', '店铺类型', '', '2021-06-23 21:01:11', '0', '800900000001', '/admin.html#/pages/admin/shopTypeManage', '702021062337560276');
-INSERT INTO `p_privilege_copy1` VALUES ('502021062802241172', '设置保证金', '', '2021-06-28 15:04:53', '0', '800900000001', '/admin.html#/pages/admin/accountBondManage', '702021062840681171');
-INSERT INTO `p_privilege_copy1` VALUES ('502021062812460014', '积分商品', '', '2021-06-28 15:52:17', '0', '800900000005', '/admin.html#/pages/goods/integralGoodsManage', '702021062825470013');
-INSERT INTO `p_privilege_copy1` VALUES ('502021062866190006', '业主缴费明细', '', '2021-06-28 18:46:03', '0', '800900000003', '/admin.html#/pages/property/reportOwnerPayFee', '702021062867530005');
-INSERT INTO `p_privilege_copy1` VALUES ('502021063026630370', '上架商品', '', '2021-06-30 16:10:32', '0', '800900000001', '/admin.html#/pages/admin/productSjManage', '702021063061830369');
-INSERT INTO `p_privilege_copy1` VALUES ('502021063038270065', '保证金明细', '', '2021-06-30 10:55:23', '0', '800900000001', '/admin.html#/pages/admin/accountBondObjDetailManage', '702021063026310064');
-INSERT INTO `p_privilege_copy1` VALUES ('502021063094270368', '上架服务', '', '2021-06-30 16:09:57', '0', '800900000001', '/admin.html#/pages/admin/housekeepingSjServManage', '702021063019100367');
-INSERT INTO `p_privilege_copy1` VALUES ('502021070488970005', '暂停费用', '', '2021-07-04 22:31:35', '0', '800900000003', '/callComponent/fee.updateFee', '702020020163313985');
-INSERT INTO `p_privilege_copy1` VALUES ('502021071018550002', '查看所有人物品', '查看所有人物品', '2021-07-10 15:50:16', '0', '800900000003', '/everythingGoods', '702021040857880017');
-INSERT INTO `p_privilege_copy1` VALUES ('502021071043650029', '紧急采购', '紧急采购', '2021-07-10 14:24:59', '0', '800900000003', '/urgentPurchaseApply', '700201906022');
-INSERT INTO `p_privilege_copy1` VALUES ('502021071202130948', '进货退货', '', '2021-07-12 14:23:53', '0', '800900000005', '/admin.html', '702021071249080947');
-INSERT INTO `p_privilege_copy1` VALUES ('502021071215550940', '仓库管理', '', '2021-07-12 14:20:36', '0', '800900000005', '/admin.html', '702021071214730939');
-INSERT INTO `p_privilege_copy1` VALUES ('502021071243620950', '仓库调拨', '', '2021-07-12 14:25:07', '0', '800900000005', '/admin.html', '702021071290860949');
-INSERT INTO `p_privilege_copy1` VALUES ('502021071248680956', '出库单', '', '2021-07-12 14:27:11', '0', '800900000005', '/admin.html', '702021071272490955');
-INSERT INTO `p_privilege_copy1` VALUES ('502021071280930952', '资产盘点', '', '2021-07-12 14:26:04', '0', '800900000005', '/admin.html', '702021071239100951');
-INSERT INTO `p_privilege_copy1` VALUES ('502021071288170945', '进货单', '', '2021-07-12 14:22:35', '0', '800900000005', '/admin.html', '702021071262720944');
-INSERT INTO `p_privilege_copy1` VALUES ('502021071293150942', '库存查询', '', '2021-07-12 14:21:16', '0', '800900000005', '/admin.html', '702021071291870941');
-INSERT INTO `p_privilege_copy1` VALUES ('502021071299590954', '入库单', '', '2021-07-12 14:26:46', '0', '800900000005', '/admin.html', '702021071283350953');
-INSERT INTO `p_privilege_copy1` VALUES ('502021071692265078', '仓库管理', '', '2021-07-16 18:44:18', '0', '800900000005', '/admin.html#/pages/goods/shopHouseManage', '702021071690625077');
-INSERT INTO `p_privilege_copy1` VALUES ('502021071697855100', '库存警告', '', '2021-07-16 21:18:39', '0', '800900000005', '/admin.html#/pages/goods/queryWarnStock', '702021071611475099');
-INSERT INTO `p_privilege_copy1` VALUES ('502021071737965279', '进货统计', '', '2021-07-17 21:22:28', '0', '800900000005', '/admin.html#/pages/goods/shopHouseManage', '702021071732215278');
-INSERT INTO `p_privilege_copy1` VALUES ('502021072245070097', '短信配置', '', '2021-07-22 15:48:17', '0', '800900000003', '/admin.html#/pages/property/smsConfigManage', '702021072272120096');
-INSERT INTO `p_privilege_copy1` VALUES ('502021072306110008', '支付配置', '', '2021-07-23 18:21:12', '0', '800900000005', '/admin.html#/pages/goods/publicWeChatManage', '702021072302880007');
-INSERT INTO `p_privilege_copy1` VALUES ('502021072604330761', '出入库统计', '', '2021-07-26 19:03:51', '0', '800900000005', '/admin.html#/pages/goods/getInoutInfoManage', '702021072665920760');
-INSERT INTO `p_privilege_copy1` VALUES ('502021072618250759', '销售排行', '', '2021-07-26 19:01:57', '0', '800900000005', '/pages/goods/getSalesRankingInfoManage', '702021072649210758');
-INSERT INTO `p_privilege_copy1` VALUES ('502021072634850805', '打印配置', '', '2021-07-26 22:40:35', '0', '800900000005', '/admin.html#/pages/goods/feePrintSpecManage', '702021072620910804');
-INSERT INTO `p_privilege_copy1` VALUES ('502021072663410763', '销售统计', '', '2021-07-26 19:04:19', '0', '800900000005', '/admin.html#/pages/goods/getSalesInfoManage', '702021072680130762');
-INSERT INTO `p_privilege_copy1` VALUES ('502021072910860411', '销售成本明细', '', '2021-07-29 19:30:10', '0', '800900000005', '/admin.html#/pages/goods/sellingCostDetailManage', '702021072964740410');
-INSERT INTO `p_privilege_copy1` VALUES ('502021072943740260', '商品导入', '', '2021-07-29 13:07:45', '0', '800900000005', '/admin.html#/pages/goods/productImport', '702021072983830259');
-INSERT INTO `p_privilege_copy1` VALUES ('502021072961940017', '押金报表', '押金报表', '2021-07-29 15:02:53', '0', '800900000003', '/admin.html#/pages/property/reportPayFeeDeposit', '702021072906100016');
-INSERT INTO `p_privilege_copy1` VALUES ('502021072970890409', '销售成本表', '', '2021-07-29 19:29:35', '0', '800900000005', '/admin.html#/pages/goods/sellingCostManage', '702021072960630408');
-INSERT INTO `p_privilege_copy1` VALUES ('502021080205380169', '首页广告', '', '2021-08-02 08:33:25', '0', '800900000005', '/admin.html#/pages/goods/phoneAdManage', '702021080266370168');
-INSERT INTO `p_privilege_copy1` VALUES ('502021080210960243', '商品标签', '', '2021-08-02 11:21:13', '0', '800900000005', '/admin.html#/pages/goods/labelManage', '702021080208380242');
-INSERT INTO `p_privilege_copy1` VALUES ('502021080219100277', '打标商品', '', '2021-08-02 12:40:00', '0', '800900000005', '/admin.html#/pages/goods/productLabelManage', '702021080276900276');
-INSERT INTO `p_privilege_copy1` VALUES ('502021080249300171', '首页菜单', '', '2021-08-02 08:34:13', '0', '800900000005', '/admin.html#/pages/goods/indexMenu', '702021080251950170');
-INSERT INTO `p_privilege_copy1` VALUES ('502021080288840173', '首页推荐', '', '2021-08-02 08:35:27', '0', '800900000005', '/admin.html#/pages/goods/indexRecommend', '702021080256500172');
-INSERT INTO `p_privilege_copy1` VALUES ('502021080561750004', '初始化小区', '', '2021-08-05 19:09:43', '0', '800900000000', '/admin.html#/pages/dev/initializeCommunityManage', '702021080500070003');
-INSERT INTO `p_privilege_copy1` VALUES ('502021080616030009', '返省上报', '', '2021-08-06 12:45:10', '0', '800900000003', '/admin.html#/pages/property/reportInfoBackCityManage', '702021080618760008');
-INSERT INTO `p_privilege_copy1` VALUES ('502021080677090007', '疫情设置', '', '2021-08-06 16:29:59', '0', '800900000003', '/admin.html#/pages/property/reportInfoSettingManage', '702021080692250006');
-INSERT INTO `p_privilege_copy1` VALUES ('502021080989280305', '疫情上报', '', '2021-08-09 13:26:17', '0', '800900000003', '/admin.html#/pages/property/reportInfoAnswerValueManage', '702021080999980304');
-INSERT INTO `p_privilege_copy1` VALUES ('502021081380190126', '华宁物业报表', '', '2021-08-13 16:30:39', '0', '800900000003', '/admin.html#/pages/property/reportHuaning', '702021081328060125');
-INSERT INTO `p_privilege_copy1` VALUES ('502021081604100338', '流程实例', '', '2021-08-16 16:30:56', '0', '800900000003', '/admin.html#/pages/property/oaWorkflowManage', '702021081622100337');
-INSERT INTO `p_privilege_copy1` VALUES ('502021081927700230', '我的流程', '', '2021-08-19 22:28:52', '0', '800900000003', '/admin.html#/pages/property/newOaWorkflowManage', '702021081962210229');
-INSERT INTO `p_privilege_copy1` VALUES ('502021083111500005', '验房记录', '验房跟踪记录', '2021-08-31 14:11:27', '0', '800900000003', '/admin.html#/pages/property/listApplyRoomDiscountRecord', '702021083127700004');
-INSERT INTO `p_privilege_copy1` VALUES ('502021090151040005', '验房记录详情', '验房记录详情', '2021-09-01 11:19:33', '0', '800900000003', '/admin.html#/pages/property/listApplyRoomDiscountRecordDetails', '702021090176340004');
-INSERT INTO `p_privilege_copy1` VALUES ('502021090787720028', '小区配置', '小区配置', '2021-09-07 15:19:57', '0', '800900000003', '/admin.html#/pages/property/communitySettingManage', '702021090752200027');
-INSERT INTO `p_privilege_copy1` VALUES ('502021090999380224', '流程办理', '', '2021-09-09 11:38:18', '0', '800900000003', '/admin.html#/pages/property/newOaWorkflowDoing', '702021090912130223');
-INSERT INTO `p_privilege_copy1` VALUES ('502021091034810201', '流程', '', '2021-09-10 12:02:37', '0', '800900000003', '/pages/oaWorkflow/oaWorkflow', '702021091060730200');
-INSERT INTO `p_privilege_copy1` VALUES ('502021091055020119', '物品信息(全)', '', '2021-09-10 10:47:57', '0', '800900000003', '/admin.html#/pages/common/resourceStoreAllManage', '702021091065070118');
-INSERT INTO `p_privilege_copy1` VALUES ('502021091072950210', '物品使用记录(全)', '', '2021-09-10 12:33:50', '0', '800900000003', '/admin.html#/pages/common/resourceStoreUseRecordAllManage', '702021091090480209');
-INSERT INTO `p_privilege_copy1` VALUES ('502021091083490194', '项目管理', '', '2021-09-10 11:41:13', '0', '800900000003', '/admin.html#/pages/property/projectManagement', '702021091045500193');
-INSERT INTO `p_privilege_copy1` VALUES ('502021091295510202', '业务轨迹', '', '2021-09-12 15:48:39', '0', '800900000000', '/admin.html#/pages/dev/businessTableHisManage', '702021091240630201');
-INSERT INTO `p_privilege_copy1` VALUES ('502021091326420004', '大厦楼栋', '', '2021-09-13 17:48:44', '0', '800900000003', '/admin.html#/pages/property/listLargeFloor', '702021091384280003');
-INSERT INTO `p_privilege_copy1` VALUES ('502021091667100021', '收据模板', '', '2021-09-16 22:46:38', '0', '800900000003', '/admin.html#/pages/property/feePrintPageManage', '702021091638030020');
-INSERT INTO `p_privilege_copy1` VALUES ('502021092172220199', '抄表类型', '', '2021-09-21 23:13:48', '0', '800900000003', '/admin.html#/pages/property/meterTypeManage', '702021092119770198');
-INSERT INTO `p_privilege_copy1` VALUES ('502021092217340393', '取消费用', '', '2021-09-22 18:17:24', '0', '800900000003', '/admin.html#/pages/property/payFeeBatch', '702021092221910392');
-INSERT INTO `p_privilege_copy1` VALUES ('502021092391650276', '问候语设置', '', '2021-09-23 22:30:28', '0', '800900000003', '/admin.html#/pages/property/parkingAreaText', '702021092352050275');
-INSERT INTO `p_privilege_copy1` VALUES ('502021092872230424', '店铺小区', '', '2021-09-28 18:34:59', '0', '800900000006', '/admin.html#/pages/goods/shopCommunityManage', '702021092890350423');
-INSERT INTO `p_privilege_copy1` VALUES ('502021101102810212', '派送方式', '', '2021-10-11 18:08:34', '1', '800900000005', '/admin.html#/pages/goods/distributionModeManage', '702021101121500211');
-INSERT INTO `p_privilege_copy1` VALUES ('502021101108270002', '产权登记', '产权登记', '2021-10-11 11:17:11', '0', '800900000003', '/admin.html#/pages/property/propertyRightRegistrationManage', '702021101132330001');
-INSERT INTO `p_privilege_copy1` VALUES ('502021101197710001', '修改仓库权限', '修改仓库权限', '2021-10-11 09:17:05', '0', '800900000003', '/updateStorehouseManage', '702021040741950148');
-INSERT INTO `p_privilege_copy1` VALUES ('502021101595030007', '设备类型', '', '2021-10-15 13:51:19', '0', '800900000003', '/admin.html#/pages/property/machineTypeManage', '702021101575360006');
-INSERT INTO `p_privilege_copy1` VALUES ('502021101624220032', '视频监控', '', '2021-10-16 22:47:04', '0', '800900000003', '/admin.html#/pages/property/videoControl', '702021101602440031');
-INSERT INTO `p_privilege_copy1` VALUES ('502021101638940006', '产权登记详情', '产权登记详情', '2021-10-16 10:05:41', '0', '800900000003', '/admin.html#/pages/property/listPropertyRightRegistrationDetail', '702021101679350005');
-INSERT INTO `p_privilege_copy1` VALUES ('502021101638940007', '修改仓库权限', '修改仓库权限', '2021-10-11 09:17:05', '0', '800900000003', '/updateStorehouseManage', '702021040741950148');
-INSERT INTO `p_privilege_copy1` VALUES ('502021101852260166', '车位申请', '', '2021-10-18 17:04:02', '0', '800900000003', '/admin.html#/pages/property/parkingSpaceApplyManage', '702021101880660165');
-INSERT INTO `p_privilege_copy1` VALUES ('502021101882670002', '岗亭管理', '', '2021-10-18 00:36:10', '0', '800900000003', '/admin.html#/pages/property/parkingBoxManage', '702021101828000001');
-INSERT INTO `p_privilege_copy1` VALUES ('502021102148930001', '房屋产权登记审批权限', '房屋产权登记审批权限', '2021-10-21 14:46:50', '0', '800900000003', '/wechatPropertyRightRegistrationNotice', '702021101132330001');
-INSERT INTO `p_privilege_copy1` VALUES ('502021110374581810', '修改菜单组', '', '2021-11-03 20:38:49', '0', '800900000000', '/callComponent/editMenuGroup/update', '700201908033');
-INSERT INTO `p_privilege_copy1` VALUES ('502021110974670127', '报表组', '', '2021-11-09 14:38:40', '0', '800900000000', '/admin.html#/pages/dev/reportCustomGroupManage', '702021110981050126');
-INSERT INTO `p_privilege_copy1` VALUES ('502021111231120406', '报表组件', '报表组件', '2021-11-12 10:00:34', '0', '800900000000', '/admin.html#/pages/dev/reportCustomComponentManage', '702021111211780405');
-INSERT INTO `p_privilege_copy1` VALUES ('502021111280010376', '报表信息', '', '2021-11-12 09:03:45', '0', '800900000000', '/admin.html#/pages/dev/reportCustomManage', '702021111293630375');
-INSERT INTO `p_privilege_copy1` VALUES ('502021111298580048', '报修报表', '', '2021-11-12 15:51:18', '0', '800900000003', '/admin.html#/pages/property/commonReport', '702021111283300047');
-INSERT INTO `p_privilege_copy1` VALUES ('502021111404460005', '查询服务权限', '', '2021-11-14 23:44:49', '0', '800900000000', '/app/serviceManage/list', '700201906026');
-INSERT INTO `p_privilege_copy1` VALUES ('502021111501470249', '删除菜单组', '', '2021-11-15 16:59:30', '0', '800900000000', '/callComponent/deleteMenuGroup/delete', '700201908033');
-INSERT INTO `p_privilege_copy1` VALUES ('502021111503660250', '查询菜单列表', '', '2021-11-15 17:00:53', '0', '800900000000', '/callComponent/menuManage/list', '700201908035');
-INSERT INTO `p_privilege_copy1` VALUES ('502021111504290091', '新增服务提供', '', '2021-11-15 16:49:36', '0', '800900000000', '/callComponent/devServiceProvideBinding/binding', '702019090161010006');
-INSERT INTO `p_privilege_copy1` VALUES ('502021111509280272', '保存报表组件', '', '2021-11-15 17:21:59', '0', '800900000000', '/app/reportCustomComponent.saveReportCustomComponent', '702021111211780405');
-INSERT INTO `p_privilege_copy1` VALUES ('502021111510210072', '删除编码映射', '', '2021-11-15 16:10:03', '0', '800900000000', '/callComponent/deleteMapping/delete', '700201906028');
-INSERT INTO `p_privilege_copy1` VALUES ('502021111510430063', '刷新缓存', '', '2021-11-15 15:49:22', '0', '800900000000', '/callComponent/cacheManage/flushCache', '700201908032');
-INSERT INTO `p_privilege_copy1` VALUES ('502021111514690259', '修改手机菜单权限', '', '2021-11-15 17:05:48', '0', '800900000001', '/app/housekeepingType/updateHousekeepingType', '702021060521430094');
-INSERT INTO `p_privilege_copy1` VALUES ('502021111517720085', '修改服务提供', '', '2021-11-15 16:47:34', '0', '800900000000', '/callComponent/editServiceProvide/update', '702019090161010006');
-INSERT INTO `p_privilege_copy1` VALUES ('502021111520450266', '查询报表信息', '', '2021-11-15 17:17:40', '1', '800900000000', '/app/reportCustom.listReportCustom', '702021111293630375');
-INSERT INTO `p_privilege_copy1` VALUES ('502021111529750274', '删除报表组件', '', '2021-11-15 17:22:54', '0', '800900000000', '/app/reportCustomComponent.deleteReportCustomComponent', '702021111211780405');
-INSERT INTO `p_privilege_copy1` VALUES ('502021111531030252', '修改菜单维护', '', '2021-11-15 17:01:34', '0', '800900000000', '/callComponent/editMenu/update', '700201908035');
-INSERT INTO `p_privilege_copy1` VALUES ('502021111538930243', '查询菜单组', '', '2021-11-15 16:57:21', '0', '800900000000', '/callComponent/menuGroupManage/list', '700201908033');
-INSERT INTO `p_privilege_copy1` VALUES ('502021111540410070', '新增编码映射', '', '2021-11-15 16:08:32', '0', '800900000000', '/callComponent/addMapping/save', '700201906028');
-INSERT INTO `p_privilege_copy1` VALUES ('502021111540820058', '查询服务注册', '', '2021-11-15 15:43:29', '0', '800900000000', '/callComponent/serviceRegisterManage/list', '700201908030');
-INSERT INTO `p_privilege_copy1` VALUES ('502021111540930062', '缓存查询', '', '2021-11-15 15:48:44', '0', '800900000000', '/callComponent/cacheManage/list', '700201908032');
-INSERT INTO `p_privilege_copy1` VALUES ('502021111541150265', '删除报表组', '', '2021-11-15 17:15:59', '0', '800900000000', '/app/reportCustomGroup.deleteReportCustomGroup', '702021110981050126');
-INSERT INTO `p_privilege_copy1` VALUES ('502021111542140083', '查询服务实现', '', '2021-11-15 16:44:37', '0', '800900000000', '/callComponent/serviceImplManage/list', '700201906027');
-INSERT INTO `p_privilege_copy1` VALUES ('502021111542240273', '修改报表组件', '', '2021-11-15 17:22:31', '0', '800900000000', '/app/reportCustomComponent.updateReportCustomComponent', '702021111211780405');
-INSERT INTO `p_privilege_copy1` VALUES ('502021111542570057', '添加服务注册', '', '2021-11-15 15:42:51', '0', '800900000000', '/callComponent/serviceBinding/binding', '700201908030');
-INSERT INTO `p_privilege_copy1` VALUES ('502021111542850075', '删除服务实现', '', '2021-11-15 16:17:04', '0', '800900000000', '/callComponent/deleteServiceImpl/delete', '700201906027');
-INSERT INTO `p_privilege_copy1` VALUES ('502021111546210262', '查询报表组', '', '2021-11-15 17:13:26', '1', '800900000000', '/app/reportCustomGroup.listReportCustomGroup', '702021110981050126');
-INSERT INTO `p_privilege_copy1` VALUES ('502021111556820267', '保存报表信息', '', '2021-11-15 17:18:33', '0', '800900000000', '/app/reportCustom.saveReportCustom', '702021111293630375');
-INSERT INTO `p_privilege_copy1` VALUES ('502021111558720257', '保存手机菜单', '', '2021-11-15 17:05:03', '0', '800900000001', '/app/housekeepingType/saveHousekeepingType', '702021060521430094');
-INSERT INTO `p_privilege_copy1` VALUES ('502021111559700088', '删除服务提供', '', '2021-11-15 16:48:26', '0', '800900000000', '/callComponent/deleteServiceProvide/delete', '702019090161010006');
-INSERT INTO `p_privilege_copy1` VALUES ('502021111560550082', '查询编码映射', '', '2021-11-15 16:41:55', '0', '800900000000', '/callComponent/mappingManage/list', '700201906028');
-INSERT INTO `p_privilege_copy1` VALUES ('502021111562530061', '修改服务', '', '2021-11-15 15:45:53', '0', '800900000000', '/app/editService/update', '700201906026');
-INSERT INTO `p_privilege_copy1` VALUES ('502021111563500071', '修改编码映射', '', '2021-11-15 16:09:20', '0', '800900000000', '/callComponent/editMapping/update', '700201906028');
-INSERT INTO `p_privilege_copy1` VALUES ('502021111565140074', '修改服务实现', '', '2021-11-15 16:15:55', '0', '800900000000', '/callComponent/editServiceImpl/update', '700201906027');
-INSERT INTO `p_privilege_copy1` VALUES ('502021111565780073', '新增服务实现', '', '2021-11-15 16:15:28', '0', '800900000000', '/callComponent/addServiceImpl/save', '700201906027');
-INSERT INTO `p_privilege_copy1` VALUES ('502021111570020263', '保存报表组', '', '2021-11-15 17:14:38', '0', '800900000000', '/app/reportCustomGroup.saveReportCustomGroup', '702021110981050126');
-INSERT INTO `p_privilege_copy1` VALUES ('502021111570580056', '删除服务注册', '', '2021-11-15 15:41:46', '0', '800900000000', '/callComponent/deleteServiceRegister/delete', '700201908030');
-INSERT INTO `p_privilege_copy1` VALUES ('502021111570920060', '删除服务', '', '2021-11-15 15:45:13', '0', '800900000000', '/app/deleteService/delete', '700201906026');
-INSERT INTO `p_privilege_copy1` VALUES ('502021111575090253', '删除菜单权限', '', '2021-11-15 17:02:00', '0', '800900000000', '/callComponent/deleteMenu/delete', '700201908035');
-INSERT INTO `p_privilege_copy1` VALUES ('502021111575150270', '查询报表组件', '', '2021-11-15 17:21:32', '1', '800900000000', '/app/reportCustomComponent.listReportCustomComponent', '702021111211780405');
-INSERT INTO `p_privilege_copy1` VALUES ('502021111575780246', '新增菜单组', '', '2021-11-15 16:58:42', '0', '800900000000', '/callComponent/addMenuGroup/save', '700201908033');
-INSERT INTO `p_privilege_copy1` VALUES ('502021111577680254', '新增菜单权限', '', '2021-11-15 17:02:55', '0', '800900000000', '/callComponent/configMenuBinding/binding', '700201908035');
-INSERT INTO `p_privilege_copy1` VALUES ('502021111591850268', '修改报表信息', '', '2021-11-15 17:19:00', '0', '800900000000', '/app/reportCustom.updateReportCustom', '702021111293630375');
-INSERT INTO `p_privilege_copy1` VALUES ('502021111592830260', '删除手机菜单权限', '', '2021-11-15 17:06:28', '0', '800900000001', '/app/housekeepingType/deleteHousekeepingType', '702021060521430094');
-INSERT INTO `p_privilege_copy1` VALUES ('502021111594010084', '查询服务提供', '', '2021-11-15 16:47:01', '0', '800900000000', '/callComponent/serviceProvideManage/list', '702019090161010006');
-INSERT INTO `p_privilege_copy1` VALUES ('502021111596180059', '添加服务', '', '2021-11-15 15:44:46', '0', '800900000000', '/app/addService/save', '700201906026');
-INSERT INTO `p_privilege_copy1` VALUES ('502021111598200264', '修改报表组', '', '2021-11-15 17:15:01', '0', '800900000000', '/app/reportCustomGroup.updateReportCustomGroup', '702021110981050126');
-INSERT INTO `p_privilege_copy1` VALUES ('502021111599410269', '删除报表信息', '', '2021-11-15 17:19:31', '0', '800900000000', '/app/reportCustom.deleteReportCustom', '702021111293630375');
-INSERT INTO `p_privilege_copy1` VALUES ('502021112406010643', '购买记录', '', '2021-11-24 09:48:21', '0', '800900000001', '/admin.html#/pages/admin/couponDetailManage', '702021112400650642');
-INSERT INTO `p_privilege_copy1` VALUES ('502021112430630055', '删除手机菜单权限', '', '2021-11-24 15:45:21', '1', '800900000001', '/app/housekeepingType/deleteHousekeepingType', '702021112480070051');
-INSERT INTO `p_privilege_copy1` VALUES ('502021112438140057', '保存手机菜单', '', '2021-11-24 15:45:48', '1', '800900000001', '/app/housekeepingType/saveHousekeepingType', '702021112480070051');
-INSERT INTO `p_privilege_copy1` VALUES ('502021112438840049', '优惠劵管理', '', '2021-11-24 15:29:09', '0', '800900000005', '/admin.html#/pages/goods/couponShopPoolManage', '702021112475670048');
-INSERT INTO `p_privilege_copy1` VALUES ('502021112448740052', '商城菜单', '', '2021-11-24 15:33:10', '1', '800900000001', '/admin.html#/pages/admin/housekeepingTypeManage', '702021112480070051');
-INSERT INTO `p_privilege_copy1` VALUES ('502021112462150056', '修改手机菜单权限', '', '2021-11-24 15:45:34', '1', '800900000001', '/app/housekeepingType/updateHousekeepingType', '702021112480070051');
-INSERT INTO `p_privilege_copy1` VALUES ('502021112464960641', '制作优惠券', '', '2021-11-24 09:47:32', '0', '800900000001', '/admin.html#/pages/admin/couponPoolManage', '702021112410210640');
-INSERT INTO `p_privilege_copy1` VALUES ('502021112492100038', '商城菜单', '', '2021-11-24 14:58:45', '0', '800900000000', '/admin.html#/pages/admin/housekeepingTypeManage', '702021112401220037');
-INSERT INTO `p_privilege_copy1` VALUES ('502021112503150068', '购买记录', '', '2021-11-25 18:09:13', '0', '800900000005', '/admin.html#/pages/goods/couponDetailManage', '702021112575360067');
-INSERT INTO `p_privilege_copy1` VALUES ('502021112644890011', '修改手机菜单权限', '', '2021-11-26 21:17:46', '0', '800900000001', '/app/housekeepingType/updateHousekeepingType', '702021112480070051');
-INSERT INTO `p_privilege_copy1` VALUES ('502021112680420010', '保存手机菜单', '', '2021-11-26 21:17:21', '0', '800900000001', '/app/housekeepingType/saveHousekeepingType', '702021112480070051');
-INSERT INTO `p_privilege_copy1` VALUES ('502021112683010013', '商城菜单', '', '2021-11-26 21:18:44', '0', '800900000001', '/admin.html#/pages/admin/housekeepingTypeManage', '702021112480070051');
-INSERT INTO `p_privilege_copy1` VALUES ('502021112690960012', '删除手机菜单权限', '', '2021-11-26 21:18:21', '0', '800900000001', '/app/housekeepingType/deleteHousekeepingType', '702021112480070051');
-INSERT INTO `p_privilege_copy1` VALUES ('502021112777450036', '店铺变更', '', '2021-11-27 23:49:24', '0', '800900000001', '/admin.html#/pages/admin/shopAuditManage', '702021112709830035');
-INSERT INTO `p_privilege_copy1` VALUES ('502021112901480701', '变更记录', '', '2021-11-29 20:42:37', '0', '800900000005', '/admin.html#/pages/goods/shopAuditManage', '702021112954770700');
-INSERT INTO `p_privilege_copy1` VALUES ('502021113099850432', '店铺配置', '', '2021-11-30 17:14:55', '0', '800900000005', '/admin.html#/pages/goods/shopSettingManage', '702021113001970431');
-INSERT INTO `p_privilege_copy1` VALUES ('502021120131020286', '赠送记录', '', '2021-12-01 16:42:41', '0', '800900000005', '/admin.html#/pages/goods/couponShopPoolDetailManage', '702021120171520285');
-INSERT INTO `p_privilege_copy1` VALUES ('502021122129210001', '删除仓库权限', '删除仓库权限', '2021-12-21 18:42:09', '0', '800900000003', '/deleteStorehouseManage', '702021040741950148');
-INSERT INTO `p_privilege_copy1` VALUES ('502022011291910106', '调拨入库', '调拨入库', '2022-01-12 15:43:06', '0', '800900000005', '/adminDetail.html#/pages/goods/doAllocationOrderIn', '702022011255150105');
-INSERT INTO `p_privilege_copy1` VALUES ('502022022549630561', '修改费用项', '', '2022-02-25 16:49:28', '0', '800900000003', '/callComponent/editFeeConfig/update', '702020013025182995');
-INSERT INTO `p_privilege_copy1` VALUES ('502022022571930560', '添加费用项', '', '2022-02-25 16:48:57', '0', '800900000003', '/callComponent/addFeeConfig/save', '702020013025182995');
-INSERT INTO `p_privilege_copy1` VALUES ('502022022586400562', '删除费用项', '', '2022-02-25 16:49:48', '0', '800900000003', '/callComponent/deleteFeeConfig/delete', '702020013025182995');
-INSERT INTO `p_privilege_copy1` VALUES ('502022022699820647', '菜单目录', '', '2022-02-26 10:32:55', '0', '800900000000', '/admin.html#/pages/dev/menuCatalogManage', '702022022626440646');
-INSERT INTO `p_privilege_copy1` VALUES ('502022022717100026', '营业报表', '营业报表', '2022-02-27 17:29:52', '0', '800900000003', '/#/pages/property/commonReport?groupId=102022022795370086', '702022022718510025');
-INSERT INTO `p_privilege_copy1` VALUES ('502022022862740060', '物业公司', '物业公司', '2022-02-28 09:49:56', '0', '800900000001', '/#/pages/property/propertyManage', '702022022890130059');
-INSERT INTO `p_privilege_copy1` VALUES ('502022022870870062', '周边商家', '周边商家', '2022-02-28 09:51:44', '0', '800900000001', '/#/pages/property/merchantManage', '702022022833220061');
-INSERT INTO `p_privilege_copy1` VALUES ('502022030461080056', '结构图', '结构图', '2022-03-04 11:15:34', '0', '800900000003', '/#/pages/property/roomStructure', '702022030439900055');
-INSERT INTO `p_privilege_copy1` VALUES ('502022031569630002', '巡检项目', '', '2022-03-15 11:19:41', '0', '800900000003', '/#/pages/property/inspectionItemManage', '702022031546110001');
-INSERT INTO `p_privilege_copy1` VALUES ('502022031612550001', '删除巡检任务', '', '2022-03-16 09:42:44', '0', '800900000003', '/app/inspectionTask.deleteInspectionTask', '702020021988260017');
-INSERT INTO `p_privilege_copy1` VALUES ('502022032383620003', '取消采购', '', '2022-03-23 10:43:02', '0', '800900000003', '/callComponent/deletePurchaseApply/delete', '700201906022');
-INSERT INTO `p_privilege_copy1` VALUES ('502022040550430008', '车位结构图', '', '2022-04-05 14:57:37', '0', '800900000003', '/#/pages/property/carStructure', '702022040524600007');
-INSERT INTO `p_privilege_copy1` VALUES ('502022042135320001', '预约车审核权限', '预约车审核权限', '2022-04-21 14:01:22', '0', '800900000003', '/reviewVisitJurisdiction', '700201908031');
-INSERT INTO `p_privilege_copy1` VALUES ('502022050704250038', '费用套餐', '', '2022-05-07 20:01:18', '0', '800900000003', '/#/pages/property/feeComboManage', '702022050718240037');
-INSERT INTO `p_privilege_copy1` VALUES ('502022051185830006', '巡检报表', '', '2022-05-11 10:19:14', '0', '800900000003', '/#/pages/property/commonReport?groupId=102022051141350637', '702022051177100005');
-INSERT INTO `p_privilege_copy1` VALUES ('502022052408880005', '测试菜单', 'qwe', '2022-05-24 15:39:21', '0', '800900000003', '/', '702022052464680004');
-INSERT INTO `p_privilege_copy1` VALUES ('502022061703610003', '供应链配置', '', '2022-06-17 15:47:34', '0', '800900000001', '/#/pages/admin/chainSupplierManage', '702022061719130002');
-INSERT INTO `p_privilege_copy1` VALUES ('502022061991480006', '供应链供应商分类', '', '2022-06-19 13:02:15', '0', '800900000001', '/#/pages/admin/chainSupplierCatalogManage', '702022061917970005');
-INSERT INTO `p_privilege_copy1` VALUES ('502022062081370010', '集采中心', '', '2022-06-20 11:46:59', '0', '800900000005', '/#/pages/goods/chainSupplier', '702022062003970009');
-INSERT INTO `p_privilege_copy1` VALUES ('502022062193860006', '集采订单', '', '2022-06-21 17:58:01', '0', '800900000001', '/#/pages/admin/chainInoutOrder', '702022062136120005');
-INSERT INTO `p_privilege_copy1` VALUES ('502022062810710007', '订单', '', '2022-06-28 01:52:46', '0', '800900000005', '/#/pages/goods/chainInoutOrderManage', '702022062846660006');
-INSERT INTO `p_privilege_copy1` VALUES ('502022070169220009', '商品定价', '', '2022-07-01 10:31:28', '0', '800900000005', '/#/pages/goods/productPriceRuleManage', '702022070162090008');
-INSERT INTO `p_privilege_copy1` VALUES ('502022070752510038', '字典', '字典', '2022-07-07 09:26:35', '0', '800900000000', '/#/pages/dev/dictManage', '702022070767920037');
-INSERT INTO `p_privilege_copy1` VALUES ('502022071944240002', '门禁设备', '门禁设备', '2022-07-19 17:48:31', '0', '800900000003', '/#/pages/property/accessControlMachineManage', '702022071912950001');
-INSERT INTO `p_privilege_copy1` VALUES ('502022072252870002', '考勤机', '', '2022-07-22 10:51:33', '0', '800900000003', '/#/pages/property/attendanceMachineManage', '702022072243690001');
-INSERT INTO `p_privilege_copy1` VALUES ('502022072646240006', '角色权限', '', '2022-07-26 22:11:12', '0', '800900000003', '/#/pages/frame/role', '702022072679280005');
-INSERT INTO `p_privilege_copy1` VALUES ('502022072828850012', '车辆道闸', '', '2022-07-28 11:04:03', '0', '800900000003', '/#/pages/property/barrierGateMachineManage', '702022072874100011');
-INSERT INTO `p_privilege_copy1` VALUES ('502022072846860022', '角色权限', '', '2022-07-28 21:35:44', '0', '800900000001', '/#/pages/frame/role', '702022072820580021');
-INSERT INTO `p_privilege_copy1` VALUES ('502022072871510020', '员工信息', '', '2022-07-28 21:34:42', '0', '800900000001', '/#/pages/frame/staff', '702022072883040019');
-INSERT INTO `p_privilege_copy1` VALUES ('502022072875560010', '监控设备', '', '2022-07-28 10:01:36', '0', '800900000003', '/#/pages/property/monitorMachineManage', '702022072858000009');
-INSERT INTO `p_privilege_copy1` VALUES ('502022072893420017', '组织信息', '', '2022-07-28 21:33:28', '0', '800900000001', '/#/pages/frame/orgManage', '702022072884160016');
-INSERT INTO `p_privilege_copy1` VALUES ('502022073006890006', '费用套餐', '费用套餐', '2022-07-30 11:51:58', '0', '800900000003', '/feePackage', '702020101393980025');
-INSERT INTO `p_privilege_copy1` VALUES ('502022073007100003', '临时缴费', '临时缴费', '2022-07-30 11:46:56', '0', '800900000003', '/temporaryPayment', '702020101393980025');
-INSERT INTO `p_privilege_copy1` VALUES ('502022073042960005', '水电抄表', '水电抄表', '2022-07-30 11:49:25', '0', '800900000003', '/waterAndElectricityMeterReading', '702020101393980025');
-INSERT INTO `p_privilege_copy1` VALUES ('502022073049300004', '按量缴费', '按量缴费', '2022-07-30 11:48:14', '0', '800900000003', '/payByVolume', '702020101393980025');
-INSERT INTO `p_privilege_copy1` VALUES ('502022073096990007', '创建费用', '创建费用', '2022-07-30 11:56:23', '0', '800900000003', '/createCharges', '702020101393980025');
-INSERT INTO `p_privilege_copy1` VALUES ('502022081681300531', '服务记录', '', '2022-08-16 01:31:04', '0', '800900000003', '/#/pages/property/notepadManage', '702022081628450530');
-INSERT INTO `p_privilege_copy1` VALUES ('502022081701700001', '修改物品信息', '修改物品信息', '2022-08-17 14:16:36', '0', '800900000003', '/updateResource', '702019102148640005');
-INSERT INTO `p_privilege_copy1` VALUES ('502022081709270004', '添加物品信息', '添加物品信息', '2022-08-17 14:20:58', '0', '800900000003', '/addResource', '702019102148640005');
-INSERT INTO `p_privilege_copy1` VALUES ('502022081711010004', '系统配置', '', '2022-08-17 00:15:09', '0', '800900000000', '/#/pages/frame/systemInfoManage', '702022081723230003');
-INSERT INTO `p_privilege_copy1` VALUES ('502022081741410002', '删除物品信息', '删除物品信息', '2022-08-17 14:17:23', '0', '800900000003', '/deleteResource', '702019102148640005');
-INSERT INTO `p_privilege_copy1` VALUES ('502022081750470005', '导入物品信息', '导入物品信息', '2022-08-17 14:22:29', '0', '800900000003', '/importResource', '702019102148640005');
-INSERT INTO `p_privilege_copy1` VALUES ('502022081856510001', '查看不对外仓库权限', '查看不对外展示仓库权限', '2022-08-18 18:44:20', '0', '800900000003', '/viewHiddenWarehouse', '702019102148640005');
-INSERT INTO `p_privilege_copy1` VALUES ('502022082917040004', '关联员工权限', '关联员工权限', '2022-08-29 14:52:53', '0', '800900000003', '/orgRelStaff', '702019100725620006');
-INSERT INTO `p_privilege_copy1` VALUES ('502022082920040010', '删除关联员工信息', '删除关联员工信息', '2022-08-29 15:34:07', '0', '800900000003', '/deleteSoleStaff', '702022072679280005');
-INSERT INTO `p_privilege_copy1` VALUES ('502022082920350003', '删除员工信息', '删除员工信息', '2022-08-29 15:12:13', '0', '800900000003', '/deleteStaff', '700201904001');
-INSERT INTO `p_privilege_copy1` VALUES ('502022082926310006', '删除角色权限', '删除角色权限', '2022-08-29 15:22:13', '0', '800900000003', '/deletePrivilegeGroup', '702022072679280005');
-INSERT INTO `p_privilege_copy1` VALUES ('502022082943170003', '删除组织信息权限', '删除组织信息权限', '2022-08-29 14:48:02', '0', '800900000003', '/orgTreeDel', '702019100725620006');
-INSERT INTO `p_privilege_copy1` VALUES ('502022082949810002', '修改组织信息权限', '修改组织信息权限', '2022-08-29 14:47:09', '0', '800900000003', '/orgTreeEdit', '702019100725620006');
-INSERT INTO `p_privilege_copy1` VALUES ('502022082955220005', '删除关联员工权限', '删除关联员工权限', '2022-08-29 14:54:17', '0', '800900000003', '/deleteOrgRelStaff', '702019100725620006');
-INSERT INTO `p_privilege_copy1` VALUES ('502022082955280007', '功能授权权限', '功能授权权限', '2022-08-29 15:23:35', '0', '800900000003', '/rolePrivilege', '702022072679280005');
-INSERT INTO `p_privilege_copy1` VALUES ('502022082961190009', '员工关联权限', '员工关联权限', '2022-08-29 15:25:33', '0', '800900000003', '/roleStaff', '702022072679280005');
-INSERT INTO `p_privilege_copy1` VALUES ('502022082965160008', '小区授权权限', '小区授权权限', '2022-08-29 15:24:21', '0', '800900000003', '/roleCommunity', '702022072679280005');
-INSERT INTO `p_privilege_copy1` VALUES ('502022082984960001', '添加组织信息权限', '添加组织信息权限', '2022-08-29 14:46:31', '0', '800900000003', '/orgTreeAdd', '702019100725620006');
-INSERT INTO `p_privilege_copy1` VALUES ('502022082992300002', '更新员工信息', '更新员工信息', '2022-08-29 15:11:32', '0', '800900000003', '/editStaff', '700201904001');
-INSERT INTO `p_privilege_copy1` VALUES ('502022082992310001', '添加员工信息', '添加员工信息', '2022-08-29 15:10:57', '0', '800900000003', '/addStaff', '700201904001');
-INSERT INTO `p_privilege_copy1` VALUES ('502022082992870004', '添加角色权限', '添加角色权限', '2022-08-29 15:21:19', '0', '800900000003', '/addPrivilegeGroup', '702022072679280005');
-INSERT INTO `p_privilege_copy1` VALUES ('502022090581460004', '数据权限', '', '2022-09-05 16:08:05', '0', '800900000003', '/#/pages/property/dataPrivilegeManage', '702022090567490003');
-INSERT INTO `p_privilege_copy1` VALUES ('502022090809430009', '员工考勤', '', '2022-09-08 11:49:02', '0', '800900000003', '/#/pages/property/staffAttendanceManage', '702022090883410008');
-INSERT INTO `p_privilege_copy1` VALUES ('502022090904120022', '控制台', '', '2022-09-09 18:19:27', '0', '800900000003', '/parkingAreaControl.html', '702021101828000001');
-INSERT INTO `p_privilege_copy1` VALUES ('502022090909800019', '删除岗亭', '', '2022-09-09 17:54:49', '0', '800900000003', '/app/parkingBox.deleteParkingBox', '702021101828000001');
-INSERT INTO `p_privilege_copy1` VALUES ('502022090964370018', '修改岗亭', '', '2022-09-09 17:54:14', '0', '800900000003', '/app/parkingBox.updateParkingBox', '702021101828000001');
-INSERT INTO `p_privilege_copy1` VALUES ('502022090982540017', '共享岗亭', '', '2022-09-09 17:53:32', '0', '800900000003', '/app/parkingBoxArea.listParkingBoxArea', '702021101828000001');
-INSERT INTO `p_privilege_copy1` VALUES ('502022092211010004', '关联员工权限', '', '2022-09-22 18:31:43', '0', '800900000001', '/orgRelStaff', '702022072884160016');
-INSERT INTO `p_privilege_copy1` VALUES ('502022092219180008', '查看所有组织架构信息', '', '2022-09-22 18:32:24', '0', '800900000001', '/viewAllOrganization', '702022072884160016');
-INSERT INTO `p_privilege_copy1` VALUES ('502022092255500007', '添加组织信息权限', '', '2022-09-22 18:32:15', '0', '800900000001', '/orgTreeAdd', '702022072884160016');
-INSERT INTO `p_privilege_copy1` VALUES ('502022092258810006', '修改组织信息权限', '', '2022-09-22 18:32:04', '0', '800900000001', '/orgTreeEdit', '702022072884160016');
-INSERT INTO `p_privilege_copy1` VALUES ('502022092268800003', '删除关联员工权限', '', '2022-09-22 18:31:32', '0', '800900000001', '/deleteOrgRelStaff', '702022072884160016');
-INSERT INTO `p_privilege_copy1` VALUES ('502022092283880005', '删除组织信息权限', '', '2022-09-22 18:31:53', '0', '800900000001', '/orgTreeDel', '702022072884160016');
-INSERT INTO `p_privilege_copy1` VALUES ('502022093003970003', '场地预约', '', '2022-09-30 12:49:11', '0', '800900000003', '/#/pages/property/communitySpacePersonManage', '702022093094080002');
-INSERT INTO `p_privilege_copy1` VALUES ('502022093035580003', '场地管理', '', '2022-09-30 10:35:43', '0', '800900000003', '/#/pages/property/communitySpaceManage', '702022093080200002');
-INSERT INTO `p_privilege_copy1` VALUES ('502022100103010004', '修改停车场', '', '2022-10-01 01:23:57', '0', '800900000003', '/app/parkingArea.updateParkingArea', '702020012324610003');
-INSERT INTO `p_privilege_copy1` VALUES ('502022100112510006', '控制台', '', '2022-10-01 01:26:58', '0', '800900000003', '/#/pages/property/parkingAreaTotalControl', '702020012324610003');
-INSERT INTO `p_privilege_copy1` VALUES ('502022100117490005', '删除停车场', '', '2022-10-01 01:24:55', '0', '800900000003', '/app/parkingArea.deleteParkingArea', '702020012324610003');
-INSERT INTO `p_privilege_copy1` VALUES ('502022100147030003', '添加停车场', '', '2022-10-01 01:23:16', '0', '800900000003', '/app/parkingArea.saveParkingArea', '702020012324610003');
-INSERT INTO `p_privilege_copy1` VALUES ('502022100422810040', '场地统计', '', '2022-10-04 02:33:51', '0', '800900000003', '/#/pages/property/reportCommunitySpace', '702022100457270039');
-INSERT INTO `p_privilege_copy1` VALUES ('602021041901500001', '查看所有采购申请', '查看所有采购申请权限', '2021-04-19 14:06:16', '0', '800900000003', '/viewPurchaseApplyManage', '700201906022');
-
--- ----------------------------
--- Table structure for p_privilege_copy2
--- ----------------------------
-DROP TABLE IF EXISTS `p_privilege_copy2`;
-CREATE TABLE `p_privilege_copy2` (
-  `p_id` varchar(30) NOT NULL COMMENT '权限ID',
-  `name` varchar(10) NOT NULL COMMENT '权限名称',
-  `description` varchar(200) DEFAULT NULL COMMENT '权限描述',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态，详细参考c_status表，0在用，1失效',
-  `domain` varchar(12) NOT NULL DEFAULT '-1' COMMENT '权限域 商户详见store_type store_type_cd',
-  `resource` varchar(200) DEFAULT NULL COMMENT '资源路径',
-  `m_id` varchar(30) NOT NULL COMMENT '菜单ID',
-  UNIQUE KEY `p_id` (`p_id`) USING BTREE,
-  UNIQUE KEY `p_id_2` (`p_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of p_privilege_copy2
--- ----------------------------
-INSERT INTO `p_privilege_copy2` VALUES ('500201904001', '员工信息', '员工信息', '2019-04-01 02:24:53', '0', '800900000003', '/staff', '700201904001');
-INSERT INTO `p_privilege_copy2` VALUES ('500201904002', '员工权限', '员工权限', '2019-04-01 08:00:52', '1', '9999', '/staffPrivilege', '700201904002');
-INSERT INTO `p_privilege_copy2` VALUES ('500201904003', '权限组', '权限组', '2019-04-01 08:01:12', '1', '9999', '/privilege', '700201904003');
-INSERT INTO `p_privilege_copy2` VALUES ('500201904004', '物业费', '物业费', '2019-04-08 14:46:28', '0', '800900000003', '/propertyFeeFlow', '700201904004');
-INSERT INTO `p_privilege_copy2` VALUES ('500201904005', '停车费', '停车费', '2019-04-08 14:46:42', '0', '800900000003', '/parkingSpaceFeeFlow', '700201904005');
-INSERT INTO `p_privilege_copy2` VALUES ('500201904006', '房屋管理', '房屋管理', '2019-04-08 14:46:54', '0', '800900000003', '/roomFlow', '700201904006');
-INSERT INTO `p_privilege_copy2` VALUES ('500201904007', '我的报表', '我的报表', '2019-04-08 14:47:06', '0', '800900000003', '/', '700201904007');
-INSERT INTO `p_privilege_copy2` VALUES ('500201904008', '我的小区', '入住小区', '2019-04-09 15:01:30', '0', '800900000003', '/enterCommunity', '700201904008');
-INSERT INTO `p_privilege_copy2` VALUES ('500201904009', '发布公告', '发布公告', '2019-04-09 15:05:21', '0', '800900000003', '/noticeFlow', '700201904009');
-INSERT INTO `p_privilege_copy2` VALUES ('500201904010', '业主信息', '添加业主', '2019-04-09 15:07:15', '0', '800900000003', '/ownerFlow', '700201904010');
-INSERT INTO `p_privilege_copy2` VALUES ('500201904011', '楼栋信息', '小区楼', '2019-04-19 08:01:21', '0', '800900000003', '/floorFlow', '700201904011');
-INSERT INTO `p_privilege_copy2` VALUES ('500201904012', '单元信息', '小区楼单元', '2019-04-19 08:01:36', '0', '800900000003', '/unitFlow', '700201904012');
-INSERT INTO `p_privilege_copy2` VALUES ('500201904013', '业主成员', '业主成员', '2019-05-17 13:56:15', '0', '800900000003', '/ownerMemberFlow', '700201904013');
-INSERT INTO `p_privilege_copy2` VALUES ('500201904014', '房屋售卖', '房屋售卖', '2019-05-20 07:00:33', '1', '800900000003', null, '700201904014');
-INSERT INTO `p_privilege_copy2` VALUES ('500201904015', '业主详情', '业主房产', '2019-05-22 01:04:05', '0', '800900000003', '/ownerDetailFlow', '700201904015');
-INSERT INTO `p_privilege_copy2` VALUES ('500201904016', '初始化物业费', '配置物业费', '2019-06-01 04:53:56', '1', '800900000003', '/propertyFeeConfigFlow', '700201904016');
-INSERT INTO `p_privilege_copy2` VALUES ('500201904021', '初始化停车费', '初始化停车费', '2019-06-01 04:53:56', '1', '800900000003', '/parkingSpaceFeeConfigFlow', '700201904021');
-INSERT INTO `p_privilege_copy2` VALUES ('500201906017', '车位信息', '添加车位', '2019-06-01 04:53:56', '0', '800900000003', '/parkingSpaceFlow', '700201906017');
-INSERT INTO `p_privilege_copy2` VALUES ('500201906018', '车位出租', '车位出租', '2019-06-01 04:53:56', '0', '800900000003', '/hireParkingSpaceFlow', '700201906018');
-INSERT INTO `p_privilege_copy2` VALUES ('500201906019', '车位出售', '车位出售', '2019-06-01 04:53:56', '0', '800900000003', '/sellParkingSpaceFlow', '700201906019');
-INSERT INTO `p_privilege_copy2` VALUES ('500201906020', '业主车位', '业主车位', '2019-05-22 01:04:05', '0', '800900000003', '/ownerParkingSpaceFlow', '700201906020');
-INSERT INTO `p_privilege_copy2` VALUES ('500201906022', '采购申请', '采购管理', '2019-06-19 02:11:38', '0', '800900000003', '/itemInFlow', '700201906022');
-INSERT INTO `p_privilege_copy2` VALUES ('500201906023', 'DEMO用例', '用例DEMO', '2019-06-19 16:01:38', '0', '800900000000', '/demoFlow', '700201906023');
-INSERT INTO `p_privilege_copy2` VALUES ('500201906024', '小区信息', '代理商添加小区', '2019-06-19 16:01:38', '0', '800900000002', '/communityFlow', '700201906024');
-INSERT INTO `p_privilege_copy2` VALUES ('500201906025', '查询小区', '代理商查询小区', '2019-06-19 16:01:38', '0', '800900000002', null, '');
-INSERT INTO `p_privilege_copy2` VALUES ('500201906026', '应用信息', '应用信息', '2019-06-19 16:01:38', '0', '800900000000', '/appFlow', '700201906025');
-INSERT INTO `p_privilege_copy2` VALUES ('500201906027', '服务信息', '服务信息', '2019-06-19 16:01:38', '0', '800900000000', '/serviceFlow', '700201906026');
-INSERT INTO `p_privilege_copy2` VALUES ('500201906028', '服务实现', '配置信息管理', '2019-07-07 16:42:48', '0', '800900000000', '/serviceImplFlow', '700201906027');
-INSERT INTO `p_privilege_copy2` VALUES ('500201906029', '编码映射', '映射管理', '2019-06-19 16:01:38', '0', '800900000000', '/mappingFlow', '700201906028');
-INSERT INTO `p_privilege_copy2` VALUES ('500201907030', '服务绑定', '服务绑定', '2019-07-11 11:45:33', '0', '800900000000', '/serviceBindingFlow', '700201907029');
-INSERT INTO `p_privilege_copy2` VALUES ('500201907031', '添加房屋', '添加房屋', '2019-07-31 02:24:43', '0', '800900000003', '/addRoomBindingFlow', '700201907030');
-INSERT INTO `p_privilege_copy2` VALUES ('500201907032', '服务注册', '服务注册', '2019-08-10 09:45:34', '0', '800900000000', '/serviceRegisterFlow', '700201908030');
-INSERT INTO `p_privilege_copy2` VALUES ('500201907033', '访客登记', '访客登记菜单展示', '2019-08-12 20:55:58', '0', '800900000003', '/visitFlow', '700201908031');
-INSERT INTO `p_privilege_copy2` VALUES ('500201908034', '刷新缓存', '刷新缓存', '2019-08-13 11:31:48', '0', '800900000000', '/cacheFlow', '700201908032');
-INSERT INTO `p_privilege_copy2` VALUES ('500201908035', '菜单组', '菜单组管理', '2019-08-19 12:15:20', '0', '800900000000', '/menuGroupFlow', '700201908033');
-INSERT INTO `p_privilege_copy2` VALUES ('500201908036', '基础权限', '基础权限', '2019-08-19 12:15:20', '0', '800900000000', '/basePrivilegeFlow', '700201908034');
-INSERT INTO `p_privilege_copy2` VALUES ('500201908037', '测试权限1', '测试权限1', '2019-08-20 14:25:49', '1', '800900000000', null, '');
-INSERT INTO `p_privilege_copy2` VALUES ('500201908038', '访客登记查询', '访客登记记录查询', '2019-08-24 12:09:34', '0', '800900000003', null, '');
-INSERT INTO `p_privilege_copy2` VALUES ('502019082521880003', '菜单维护', '菜单管理权限', '2019-08-25 05:47:11', '0', '800900000000', '/menuFlow', '700201908035');
-INSERT INTO `p_privilege_copy2` VALUES ('502019082527110004', '菜单维护', '菜单维护', '2019-08-25 10:36:14', '0', '800900000000', null, '');
-INSERT INTO `p_privilege_copy2` VALUES ('502019083153490001', '配置菜单', '配置菜单', '2019-08-31 14:33:39', '0', '800900000000', '/configMenuFlow', '700201908036');
-INSERT INTO `p_privilege_copy2` VALUES ('502019090126730001', '测试菜单', '测试菜单', '2019-09-01 03:49:48', '1', '800900000000', null, '702019090179400002');
-INSERT INTO `p_privilege_copy2` VALUES ('502019090149430005', '服务提供', '服务提供', '2019-09-01 14:14:08', '0', '800900000000', '/serviceProvideFlow', '702019090161010006');
-INSERT INTO `p_privilege_copy2` VALUES ('502019090152230003', '测试菜单', '测试菜单', '2019-09-01 03:35:46', '1', '800900000000', null, '');
-INSERT INTO `p_privilege_copy2` VALUES ('502019090174260001', '测试菜单', '测试菜单', '2019-09-01 03:35:18', '1', '800900000000', null, '');
-INSERT INTO `p_privilege_copy2` VALUES ('502019090183410002', '测试菜单', '测试菜单', '2019-09-01 04:16:29', '1', '800900000000', null, '702019090129620003');
-INSERT INTO `p_privilege_copy2` VALUES ('502019090260990002', '定时任务', '管理定时任务', '2019-09-02 12:35:51', '0', '800900000000', '/HcFtpToFileSystemConfigList/', '702019090293430003');
-INSERT INTO `p_privilege_copy2` VALUES ('502019090277380001', '开发服务', '开发服务提供', '2019-09-02 15:33:31', '0', '800900000000', '/devServiceProvideFlow', '702019090210710002');
-INSERT INTO `p_privilege_copy2` VALUES ('502019091322800001', '添加业主房产', '添加业主', '2019-09-13 05:08:45', '0', '800900000003', '/addOwnerRoomBindingFlow', '702019091317360002');
-INSERT INTO `p_privilege_copy2` VALUES ('502019091615840001', '删除业主房屋', '删除业主房屋', '2019-09-16 01:10:45', '0', '800900000003', '/deleteOwnerRoomFlow', '702019091693040002');
-INSERT INTO `p_privilege_copy2` VALUES ('502019091773700003', '审核小区', '审核小区', '2019-09-17 14:57:45', '0', '800900000001', '/auditCommunityFlow', '702019091772280004');
-INSERT INTO `p_privilege_copy2` VALUES ('502019091797230001', '小区信息', '', '2019-09-17 12:59:57', '0', '800900000001', '/communityFlow', '702019091754830002');
-INSERT INTO `p_privilege_copy2` VALUES ('502019091978690002', '商户审核', '', '2019-09-19 13:44:39', '0', '800900000002', '/auditEnterCommunityFlow', '702019091993470003');
-INSERT INTO `p_privilege_copy2` VALUES ('502019092326130001', '资产导入导出', '资产导入', '2019-09-23 06:29:10', '1', '800900000003', '/assetImportFlow', '702019092323790002');
-INSERT INTO `p_privilege_copy2` VALUES ('502019092908940003', '公告详情', '公告详情', '2019-09-29 12:19:45', '0', '800900000003', '/noticeDetailFlow', '702019092901960004');
-INSERT INTO `p_privilege_copy2` VALUES ('502019092956560001', '配置菜单', '配置菜单', '2019-09-29 12:18:14', '1', '800900000000', null, '702019092962440002');
-INSERT INTO `p_privilege_copy2` VALUES ('502019100245350003', '查看文件权限', '查看文件权限', '2019-10-02 04:54:19', '0', '800900000003', null, '');
-INSERT INTO `p_privilege_copy2` VALUES ('502019100249600002', '上传文件权限', '上传文件权限', '2019-10-02 04:54:04', '0', '800900000003', null, '');
-INSERT INTO `p_privilege_copy2` VALUES ('502019100524950005', '报修登记', '报修登记', '2019-10-05 01:30:16', '1', '800900000003', '/ownerRepairFlow', '702019100515060006');
-INSERT INTO `p_privilege_copy2` VALUES ('502019100721900005', '组织信息', '组织信息', '2019-10-07 08:49:34', '0', '800900000003', '/orgFlow', '702019100725620006');
-INSERT INTO `p_privilege_copy2` VALUES ('502019100903330002', '添加访客', '添加访客', '2019-10-09 02:00:55', '0', '800900000003', '/addNewOneVisit', '702019100978780003');
-INSERT INTO `p_privilege_copy2` VALUES ('502019101540480001', '添加员工', '添加员工', '2019-10-15 23:20:31', '0', '800900000003', '/addStaffStepFlow', '702019101562370002');
-INSERT INTO `p_privilege_copy2` VALUES ('502019101946430010', '报修派单', '派单', '2019-10-19 17:35:26', '0', '800900000003', '/repairDispatchStepFlow', '702019101903870011');
-INSERT INTO `p_privilege_copy2` VALUES ('502019102010870005', '报修已办', '', '2019-10-20 18:09:05', '0', '800900000003', '/myRepairDispatchFlow', '702019102073620006');
-INSERT INTO `p_privilege_copy2` VALUES ('502019102030200001', '报修待办', '', '2019-10-20 22:15:15', '0', '800900000003', '/repairDispatchFlow', '702019102028670002');
-INSERT INTO `p_privilege_copy2` VALUES ('502019102151130004', '物品信息', '', '2019-10-21 20:49:07', '0', '800900000003', '/resourceStoreFlow', '702019102148640005');
-INSERT INTO `p_privilege_copy2` VALUES ('502019102242190001', '物品领用', '物品出入库功能入口', '2019-10-22 18:26:36', '0', '800900000003', '/itemOutFlow', '702019102250410002');
-INSERT INTO `p_privilege_copy2` VALUES ('502019102639930001', '审核人员', '', '2019-10-26 23:04:43', '0', '800900000003', '/auditUserFlow', '702019102631340002');
-INSERT INTO `p_privilege_copy2` VALUES ('502019102740830006', '添加审核人员', '', '2019-10-27 00:19:08', '0', '800900000003', '/addAuditUserStepFlow', '702019102755920007');
-INSERT INTO `p_privilege_copy2` VALUES ('502019102911270009', '采购待办', '', '2019-10-29 20:27:52', '0', '800900000003', '/myAuditOrdersFlow', '702019102949390010');
-INSERT INTO `p_privilege_copy2` VALUES ('502019103056060006', '缴费清单', '', '2019-10-30 21:54:58', '0', '800900000003', '/payFeeFlow', '702019103045670007');
-INSERT INTO `p_privilege_copy2` VALUES ('502019103108450011', '员工收费', '', '2019-10-31 20:36:02', '0', '800900000003', '/staffFeeFlow', '702019103170090012');
-INSERT INTO `p_privilege_copy2` VALUES ('502019103114270018', '电话投诉', '', '2019-10-31 23:26:14', '0', '800900000003', '/complaintFlow', '702019103157610019');
-INSERT INTO `p_privilege_copy2` VALUES ('502019110296490058', '登记投诉', '', '2019-11-02 13:25:04', '0', '800900000003', '/addComplaintStepFlow', '702019110278050059');
-INSERT INTO `p_privilege_copy2` VALUES ('502019110360380006', '投诉待办', '', '2019-11-03 18:45:09', '0', '800900000003', '/myAuditComplaintsFlow', '702019110356630007');
-INSERT INTO `p_privilege_copy2` VALUES ('502019110534240006', '投诉已办', '', '2019-11-05 09:14:09', '0', '800900000003', '/myAuditHistoryComplaintsFlow', '702019110566390007');
-INSERT INTO `p_privilege_copy2` VALUES ('502019110809250044', '设备门禁', '', '2019-11-08 23:45:18', '0', '800900000003', '/machineFlow', '702019110862640045');
-INSERT INTO `p_privilege_copy2` VALUES ('502019111025350052', '设备数据同步', '', '2019-11-10 13:28:46', '0', '800900000003', '/machineTranslateFlow', '702019111070760053');
-INSERT INTO `p_privilege_copy2` VALUES ('502019112673230007', '开门记录', '', '2019-11-26 23:03:48', '0', '800900000003', '/machineRecordFlow', '702019112665680008');
-INSERT INTO `p_privilege_copy2` VALUES ('502019112738970001', '访客留影', '', '2019-11-27 08:45:42', '0', '800900000003', '/machineVistorPhotoFlow', '702019112732480002');
-INSERT INTO `p_privilege_copy2` VALUES ('502019120169500005', '申请钥匙', '', '2019-12-01 23:34:32', '0', '800900000003', '/applicationKeyFlow', '702019120122440006');
-INSERT INTO `p_privilege_copy2` VALUES ('502019121605850003', '钥匙审核', '', '2019-12-16 21:36:32', '0', '800900000003', '/auditApplicationKeyFlow', '702019121609010004');
-INSERT INTO `p_privilege_copy2` VALUES ('502019121697840001', '发布广告', '', '2019-12-16 21:35:24', '1', '800900000003', '/configMenuFlow', '702019121668720002');
-INSERT INTO `p_privilege_copy2` VALUES ('502019122980990025', '绑定业主', '', '2019-12-29 12:04:28', '0', '800900000003', '/auditAppUserBindingOwnerFlow', '702019122969830026');
-INSERT INTO `p_privilege_copy2` VALUES ('502020011308620052', '信息发布', '', '2020-01-13 19:43:53', '0', '800900000003', '/activitiesFlow', '702020011340130053');
-INSERT INTO `p_privilege_copy2` VALUES ('502020012317850002', '停车场管理', '', '2020-01-23 01:02:29', '0', '800900000003', '/parkingAreaFlow', '702020012324610003');
-INSERT INTO `p_privilege_copy2` VALUES ('502020012324940001', '在场车辆', '', '2020-01-23 23:17:52', '0', '800900000003', '/carInFlow', '702020012347420002');
-INSERT INTO `p_privilege_copy2` VALUES ('502020012348390001', '黑白名单', '', '2020-01-23 13:00:37', '0', '800900000003', '/carBlackWhiteFlow', '702020012385860002');
-INSERT INTO `p_privilege_copy2` VALUES ('502020012397360003', '进场记录', '', '2020-01-23 22:10:07', '0', '800900000003', '/carInoutFlow', '702020012392410004');
-INSERT INTO `p_privilege_copy2` VALUES ('502020012781380001', '临时车缴费清单', '', '2020-01-27 20:56:21', '0', '800900000003', '/tempCarInoutFeeFlow', '702020012746240002');
-INSERT INTO `p_privilege_copy2` VALUES ('502020012815760001', '剩余车位', '', '2020-01-28 23:51:46', '0', '800900000003', '/remainingParkingSpaceFlow', '702020012891350002');
-INSERT INTO `p_privilege_copy2` VALUES ('502020012900510001', '收费二维码', '', '2020-01-29 00:13:50', '1', '800900000003', '/parkingSpaceQrCodeFlow', '702020012977330002');
-INSERT INTO `p_privilege_copy2` VALUES ('502020013028810002', '房屋收费', '', '2020-01-30 22:54:46', '0', '800900000003', '/roomCreateFeeFlow', '702020013097620003');
-INSERT INTO `p_privilege_copy2` VALUES ('502020013062200004', '车辆收费', '', '2020-01-30 22:55:43', '0', '800900000003', '/parkingSpaceCreateFeeFlow', '702020013091330005');
-INSERT INTO `p_privilege_copy2` VALUES ('502020013064742994', '费用项设置', '', '2020-01-30 15:04:07', '0', '800900000003', '/feeConfigFlow', '702020013025182995');
-INSERT INTO `p_privilege_copy2` VALUES ('502020020117213984', '房屋费用', '', '2020-02-01 15:11:01', '0', '800900000003', '/listRoomFeeFlow', '702020020163313985');
-INSERT INTO `p_privilege_copy2` VALUES ('502020020148933989', '收银台', '', '2020-02-01 20:49:38', '0', '800900000003', '/payFeeOrderFlow', '702020020184753990');
-INSERT INTO `p_privilege_copy2` VALUES ('502020020204240002', '停车费用', '', '2020-02-02 15:55:41', '0', '800900000003', '/listCarFee', '702020020270690003');
-INSERT INTO `p_privilege_copy2` VALUES ('5020200203190731760', '费用汇总表', '', '2020-02-03 16:42:37', '0', '800900000003', '/feeSummaryFlow', '7020200203341931761');
-INSERT INTO `p_privilege_copy2` VALUES ('502020020896890002', '修改密码', '', '2020-02-08 16:42:06', '0', '800900000003', '/changeStaffPwdFlow', '702020020834160003');
-INSERT INTO `p_privilege_copy2` VALUES ('502020021024790007', '巡检点', '', '2020-02-10 15:04:38', '0', '800900000003', '/inspectionPointFlow', '702020021099930008');
-INSERT INTO `p_privilege_copy2` VALUES ('502020021136110004', '巡检路线', '巡检路线', '2020-02-11 21:54:45', '0', '800900000003', '/inspectionRouteFlow', '702020021169910005');
-INSERT INTO `p_privilege_copy2` VALUES ('502020021737880056', '商户信息', '', '2020-02-17 22:09:28', '0', '800900000001', '/listStoresFlow', '702020021777330057');
-INSERT INTO `p_privilege_copy2` VALUES ('502020021776260052', '巡检计划', '', '2020-02-17 19:19:07', '0', '800900000003', '/inspectionPlanFlow', '702020021758390053');
-INSERT INTO `p_privilege_copy2` VALUES ('502020021841010021', '审核入驻小区', '123', '2020-02-18 23:43:53', '0', '800900000001', '/auditEnterCommunityFlow', '702020021800840022');
-INSERT INTO `p_privilege_copy2` VALUES ('502020021963300016', '巡检任务', '', '2020-02-19 21:52:11', '0', '800900000003', '/inspectionTaskFlow', '702020021988260017');
-INSERT INTO `p_privilege_copy2` VALUES ('502020022030570010', '修改密码', '', '2020-02-20 09:22:12', '0', '800900000001', '/changeStaffPwdFlow', '702020022068180011');
-INSERT INTO `p_privilege_copy2` VALUES ('502020022062840008', '组织信息', '', '2020-02-20 09:00:14', '0', '800900000001', '/orgFlow', '702020022008800009');
-INSERT INTO `p_privilege_copy2` VALUES ('502020040944140015', '订单查询', '', '2020-04-09 10:41:36', '1', '800900000003', '/admin.html#/orderManage', '702020040987510016');
-INSERT INTO `p_privilege_copy2` VALUES ('502020041499210002', '订单信息', '', '2020-04-14 11:52:57', '0', '800900000001', '/admin.html#/orderManage', '702020041486250003');
-INSERT INTO `p_privilege_copy2` VALUES ('502020042158720021', '采购入库', '', '2020-04-21 14:58:57', '0', '800900000003', '/admin.html#/resourceEnterManage', '702020042155330022');
-INSERT INTO `p_privilege_copy2` VALUES ('502020042301080194', '标签管理', '', '2020-04-23 00:11:20', '1', '800900000000', 'ww', '702020042364070195');
-INSERT INTO `p_privilege_copy2` VALUES ('502020042355910198', '标签管理3', '', '2020-04-23 00:21:48', '1', '800900000000', '/admin.html#/tagManager', '702020042330250199');
-INSERT INTO `p_privilege_copy2` VALUES ('502020042380740196', '标签管理2', '管理商家标签', '2020-04-23 00:17:41', '1', '800900000001', '/admin.html#/tagManage', '702020042364460197');
-INSERT INTO `p_privilege_copy2` VALUES ('502020042615070008', '商户信息', '', '2020-04-26 10:14:30', '0', '800900000003', '/admin.html#/storeInfoManage', '702020042680040009');
-INSERT INTO `p_privilege_copy2` VALUES ('502020050835100003', '我要申请', '', '2020-05-08 07:54:23', '0', '800900000003', '/pages/common/addPurchaseApplyStep', '702020050866050004');
-INSERT INTO `p_privilege_copy2` VALUES ('502020050912990001', '申请单详情', '', '2020-05-09 18:09:13', '0', '800900000003', '/admin.html#/pages/common/purchaseApplyDetail', '702020050930710002');
-INSERT INTO `p_privilege_copy2` VALUES ('502020051101260082', '个人信息', '', '2020-05-11 09:55:23', '0', '800900000003', '/admin.html#/userInfo', '702020051144890083');
-INSERT INTO `p_privilege_copy2` VALUES ('502020051194940157', '退费审核', '', '2020-05-11 16:59:17', '0', '800900000003', '/admin.html#/pages/property/returnPayFeeManage', '702020051167520158');
-INSERT INTO `p_privilege_copy2` VALUES ('502020051616860087', '小程序配置', '', '2020-05-16 17:14:39', '0', '800900000003', '/admin.html#/pages/property/smallWeChatManage', '702020051674530088');
-INSERT INTO `p_privilege_copy2` VALUES ('502020060164840028', '账单催缴', '费用账单', '2020-06-01 17:42:37', '0', '800900000003', '/admin.html#/pages/property/billManage', '702020060185630029');
-INSERT INTO `p_privilege_copy2` VALUES ('502020060414120005', '设备位置', '', '2020-06-04 18:54:04', '0', '800900000003', '/admin.html#/pages/property/locationManage', '702020060438590006');
-INSERT INTO `p_privilege_copy2` VALUES ('502020061139960002', '测试菜单', '嘻嘻嘻', '2020-06-11 10:15:06', '1', '800900000000', '嘻嘻嘻', '702020061125260003');
-INSERT INTO `p_privilege_copy2` VALUES ('502020061767630003', '流程管理', '', '2020-06-17 22:36:52', '0', '800900000003', '/admin.html/#/pages/property/workflowManage', '702020061706340004');
-INSERT INTO `p_privilege_copy2` VALUES ('502020061846080013', '流程设置', '流程设置', '2020-06-18 10:43:39', '0', '800900000003', '/admin.html#/pages/property/workflowSettingManage', '702020061852940014');
-INSERT INTO `p_privilege_copy2` VALUES ('502020061855680042', '公众号', '', '2020-06-18 20:09:00', '0', '800900000003', '/admin.html#/pages/property/publicWeChatManage', '702020061808130043');
-INSERT INTO `p_privilege_copy2` VALUES ('502020062239600009', '公众号菜单', '', '2020-06-22 23:15:44', '0', '800900000003', '/admin.html#/pages/property/wechatMenuManage', '702020062299090010');
-INSERT INTO `p_privilege_copy2` VALUES ('502020062436450005', '账单欠费', '', '2020-06-24 19:00:40', '0', '800900000003', '/admin.html#/pages/property/billOweManage', '702020062494540006');
-INSERT INTO `p_privilege_copy2` VALUES ('502020062810250021', '报修设置', '', '2020-06-28 16:44:48', '0', '800900000003', '/admin.html#/pages/property/repairSettingManage', '702020062870390022');
-INSERT INTO `p_privilege_copy2` VALUES ('502020062827480035', '报修师傅', '', '2020-06-28 19:16:10', '0', '800900000003', '/admin.html#/pages/property/repairTypeUser', '702020062894540036');
-INSERT INTO `p_privilege_copy2` VALUES ('502020062982156286', '电话报修', '', '2020-06-29 18:14:35', '0', '800900000003', '/admin.html#/pages/property/ownerRepairManage', '702020062937206287');
-INSERT INTO `p_privilege_copy2` VALUES ('502020063051380075', '工单池', '', '2020-06-30 16:07:29', '0', '800900000003', '/admin.html#/pages/property/repairPoolManage', '702020063002770076');
-INSERT INTO `p_privilege_copy2` VALUES ('502020063085640077', '报修工单详情', '', '2020-06-30 16:57:11', '0', '800900000003', '/admin.html#/pages/property/ownerRepairDetail', '702020063049110078');
-INSERT INTO `p_privilege_copy2` VALUES ('502020070189150004', '水费导入', '', '2020-07-01 09:30:57', '1', '800900000000', '/admin.html#/pages/property/waterFeeImport', '702020070163730005');
-INSERT INTO `p_privilege_copy2` VALUES ('502020071557620007', '采购已办', '', '2020-07-15 19:01:37', '0', '800900000003', '/admin.html#/pages/admin/myAuditHistoryOrders', '702020071571310008');
-INSERT INTO `p_privilege_copy2` VALUES ('502020071612180014', '领用申请', '123', '2020-07-16 12:05:27', '0', '800900000003', '/admin.html#/pages/common/addItemOutStep', '702020071645330015');
-INSERT INTO `p_privilege_copy2` VALUES ('502020071661510012', '领用待办', '', '2020-07-16 11:59:12', '0', '800900000003', '/admin.html#/pages/admin/myItemOutAuditOrders', '702020071637330013');
-INSERT INTO `p_privilege_copy2` VALUES ('502020071663610017', '物品发放', '', '2020-07-16 13:09:59', '0', '800900000003', '/admin.html#/pages/common/resourceOutManage', '702020071602070018');
-INSERT INTO `p_privilege_copy2` VALUES ('502020071694430020', '领用已办', '', '2020-07-16 14:29:30', '0', '800900000003', '/admin.html#/pages/common/myItemOutAuditHistoryOrders', '702020071615570021');
-INSERT INTO `p_privilege_copy2` VALUES ('502020071781630004', '微信模板', '', '2020-07-17 09:40:08', '0', '800900000003', '/admin.html#/pages/property/wechatSmsTemplateManage', '702020071795690005');
-INSERT INTO `p_privilege_copy2` VALUES ('502020073107180001', '微信模板', 'xxx ', '2020-07-31 13:29:09', '1', '800900000003', '/app/xxx', '702020071795690005');
-INSERT INTO `p_privilege_copy2` VALUES ('502020073133960005', 'vvv', 'xxx', '2020-07-31 13:31:59', '0', '800900000000', '/vvv', '702020073151460004');
-INSERT INTO `p_privilege_copy2` VALUES ('502020073137840007', '微信模板', 'ss', '2020-07-31 14:07:28', '1', '800900000003', 'xxx', '702020071795690005');
-INSERT INTO `p_privilege_copy2` VALUES ('502020073158140002', '我爱学习', 'xx', '2020-07-31 13:41:05', '0', '800900000000', '/vvc', '702020073141060001');
-INSERT INTO `p_privilege_copy2` VALUES ('502020073172490003', '权限测试', '', '2020-07-31 13:30:23', '0', '800900000000', '/sss', '702020073151730002');
-INSERT INTO `p_privilege_copy2` VALUES ('502020073178640005', '商户信息', '', '2020-07-31 14:06:30', '0', '800900000003', '/callComponent/listStoreManage/getStoreInfo', '702020042680040009');
-INSERT INTO `p_privilege_copy2` VALUES ('502020073182360006', '商户信息', 'xxx', '2020-07-31 14:07:07', '1', '800900000003', 'xxx', '702020042680040009');
-INSERT INTO `p_privilege_copy2` VALUES ('502020080570210194', '欠费缴费', '', '2020-08-05 11:47:39', '0', '800900000003', '/admin.html#/pages/property/owePayFeeOrder', '702020080567390193');
-INSERT INTO `p_privilege_copy2` VALUES ('502020080760550020', '查询我的小区', '', '2020-08-07 09:15:17', '0', '800900000003', '/callComponent/enterCommunity/listMyCommunity', '700201904008');
-INSERT INTO `p_privilege_copy2` VALUES ('502020080814960064', '费用导入', '', '2020-08-08 12:26:16', '0', '800900000003', '/admin.html#/pages/property/roomFeeImport', '702020080856940063');
-INSERT INTO `p_privilege_copy2` VALUES ('502020080849660005', '小区大屏', '', '2020-08-08 18:44:49', '0', '800900000003', '/bigScreen/', '702020080836480004');
-INSERT INTO `p_privilege_copy2` VALUES ('502020081421160220', '属性值', '', '2020-08-14 23:22:48', '0', '800900000000', '/admin.html#/pages/dev/attrValueManage', '702020081494380219');
-INSERT INTO `p_privilege_copy2` VALUES ('502020081431630210', '属性', '', '2020-08-14 22:17:25', '0', '800900000000', '/admin.html#/pages/dev/attrSpecManage', '702020081441030209');
-INSERT INTO `p_privilege_copy2` VALUES ('502020082158230002', '欠费信息', '', '2020-08-21 22:56:19', '0', '800900000003', '/admin.html#/pages/property/listOweFee', '702020082113420001');
-INSERT INTO `p_privilege_copy2` VALUES ('502020082314267912', '缴费', '', '2020-08-23 23:53:32', '0', '800900000003', '/callComponent/propertyPay/payFee', '702020020163313985');
-INSERT INTO `p_privilege_copy2` VALUES ('502020082417457942', '删除房屋', '', '2020-08-24 11:44:00', '0', '800900000003', '/callComponent/deleteRoom/delete', '700201904006');
-INSERT INTO `p_privilege_copy2` VALUES ('502020082433687928', '添加楼栋', '', '2020-08-24 09:42:58', '0', '800900000003', '/callComponent/addFloor/saveFloor', '700201904011');
-INSERT INTO `p_privilege_copy2` VALUES ('502020082453087940', '添加房屋', '', '2020-08-24 11:42:26', '0', '800900000003', '/callComponent/addRoomBindingBinding/binding', '700201904006');
-INSERT INTO `p_privilege_copy2` VALUES ('502020082457897932', '修改单元', '', '2020-08-24 10:17:48', '0', '800900000003', '/callComponent/editUnit/update', '700201904012');
-INSERT INTO `p_privilege_copy2` VALUES ('502020082472047930', '删除楼栋', '', '2020-08-24 10:12:51', '0', '800900000003', '/callComponent/deleteFloor/delete', '700201904011');
-INSERT INTO `p_privilege_copy2` VALUES ('502020082482767929', '修改楼栋', '', '2020-08-24 10:10:17', '0', '800900000003', '/callComponent/editFloor/changeFloor', '700201904011');
-INSERT INTO `p_privilege_copy2` VALUES ('502020082482837933', '删除单元', '', '2020-08-24 10:18:51', '0', '800900000003', '/callComponent/deleteUnit/delete', '700201904012');
-INSERT INTO `p_privilege_copy2` VALUES ('502020082488167931', '添加单元', '', '2020-08-24 10:16:28', '0', '800900000003', '/callComponent/addUnit/save', '700201904012');
-INSERT INTO `p_privilege_copy2` VALUES ('502020082493857941', '修改房屋', '', '2020-08-24 11:43:34', '0', '800900000003', '/callComponent/editRoom/update', '700201904006');
-INSERT INTO `p_privilege_copy2` VALUES ('502020082593888064', '租赁配置', '', '2020-08-25 11:30:07', '0', '800900000001', '/admin.html#/pages/admin/rentingConfigManage', '702020082596258063');
-INSERT INTO `p_privilege_copy2` VALUES ('502020082743380029', '出租审核', '', '2020-08-27 17:17:01', '0', '800900000001', '/admin.html#/pages/admin/rentingAuditManage', '702020082736180028');
-INSERT INTO `p_privilege_copy2` VALUES ('502020082768060008', '房源', '', '2020-08-27 15:25:12', '0', '800900000001', '/admin.html#/pages/admin/rentingPoolManage', '702020082732000007');
-INSERT INTO `p_privilege_copy2` VALUES ('502020082809490069', '业主车辆', '', '2020-08-28 15:20:08', '0', '800900000003', 'admin.html#/pages/property/listOwnerCar', '702020082881680068');
-INSERT INTO `p_privilege_copy2` VALUES ('502020082959640002', '续租车位', '', '2020-08-29 18:39:57', '0', '800900000003', '/admin.html#/pages/property/carAddParkingSpace', '702020082927920001');
-INSERT INTO `p_privilege_copy2` VALUES ('502020090418500005', '费用变更', '', '2020-09-04 17:49:18', '1', '800900000003', '/callComponent/fee.updateFee', '702020020270690003');
-INSERT INTO `p_privilege_copy2` VALUES ('502020090427190001', '费用变更', '', '2020-09-04 17:04:49', '0', '800900000003', '/callComponent/fee.updateFee', '702020020163313985');
-INSERT INTO `p_privilege_copy2` VALUES ('502020090482580004', '缴费', '', '2020-09-04 17:49:04', '1', '800900000003', '/callComponent/propertyPay/payFee', '702020020270690003');
-INSERT INTO `p_privilege_copy2` VALUES ('502020090604200029', '取消费用', '', '2020-09-06 14:52:34', '0', '800900000003', '/callComponent/deleteFee/delete', '702020020163313985');
-INSERT INTO `p_privilege_copy2` VALUES ('502020090646440032', '水电抄表', '', '2020-09-06 19:04:25', '0', '800900000003', '/admin.html#/pages/property/meterWaterManage', '702020090602100031');
-INSERT INTO `p_privilege_copy2` VALUES ('502020090958740094', '出租审核', '代理商审核', '2020-09-09 22:42:56', '0', '800900000002', '/admin.html#/pages/admin/rentingAuditManage', '702020090931950093');
-INSERT INTO `p_privilege_copy2` VALUES ('502020090971240051', '历史缴费导入', '', '2020-09-09 16:48:46', '0', '800900000003', '/admin.html#/pages/property/historyFeeDetailImport', '702020090910140050');
-INSERT INTO `p_privilege_copy2` VALUES ('502020090991740088', '房源', '', '2020-09-09 22:06:16', '1', '800900000002', '/admin.html#/pages/admin/rentingPoolManage', '702020090949310087');
-INSERT INTO `p_privilege_copy2` VALUES ('502020091016940006', '公摊公式', '', '2020-09-10 13:58:53', '0', '800900000003', '/admin.html#/pages/property/feeFormulaManage', '702020091056030005');
-INSERT INTO `p_privilege_copy2` VALUES ('502020091363740098', '租赁预约', '', '2020-09-13 13:43:49', '1', '800900000001', '/admin.html#/pages/admin/rentingAppointmentManage', '702020091337010097');
-INSERT INTO `p_privilege_copy2` VALUES ('502020091389640100', '预存费用', '预存费用', '2020-09-13 17:51:57', '0', '800900000003', '/admin.html#/pages/property/prestoreFeeManage', '702020091384270099');
-INSERT INTO `p_privilege_copy2` VALUES ('502020091757250025', '合同信息', '代理商合同信息', '2020-09-17 18:03:48', '0', '800900000001', '/admin.html#/pages/admin/contractManage', '702020091736590024');
-INSERT INTO `p_privilege_copy2` VALUES ('502020091779900022', '合同信息', '', '2020-09-17 18:01:58', '0', '800900000003', '/admin.html#/pages/admin/contractManage', '702020091785290021');
-INSERT INTO `p_privilege_copy2` VALUES ('502020091811570079', '合同类型规格', '', '2020-09-18 18:24:27', '0', '800900000003', '/admin.html#/pages/admin/contractTypeSpecManage', '702020091880880078');
-INSERT INTO `p_privilege_copy2` VALUES ('502020091839140067', '合同类型', '代理商', '2020-09-18 15:47:09', '0', '800900000001', '/admin.html#/pages/admin/contractTypeManage', '702020091892430066');
-INSERT INTO `p_privilege_copy2` VALUES ('502020091858500077', '合同类型', '', '2020-09-18 17:33:06', '0', '800900000003', '/admin.html#/pages/admin/contractTypeManage', '702020091843810076');
-INSERT INTO `p_privilege_copy2` VALUES ('502020091871130081', '合同类型规格', '', '2020-09-18 18:24:50', '0', '800900000001', '/admin.html#/pages/admin/contractTypeSpecManage', '702020091879990080');
-INSERT INTO `p_privilege_copy2` VALUES ('502020092067080024', '登录日志', '', '2020-09-20 10:15:12', '0', '800900000001', '/admin.html#/pages/frame/userLogin', '702020092090020023');
-INSERT INTO `p_privilege_copy2` VALUES ('502020092156590251', '合同审核', '', '2020-09-21 13:11:11', '0', '800900000003', '/admin.html#/pages/admin/contractAudit', '702020092175130250');
-INSERT INTO `p_privilege_copy2` VALUES ('502020092220840734', '打印配置', '', '2020-09-22 16:28:11', '0', '800900000003', '/admin.html#/pages/property/feePrintSpecManage', '702020092219500733');
-INSERT INTO `p_privilege_copy2` VALUES ('502020092373407363', '补打收据', '', '2020-09-23 15:52:44', '0', '800900000003', '/admin.html#/pages/property/feeReceipt', '702020092328187362');
-INSERT INTO `p_privilege_copy2` VALUES ('502020092459900221', '托收信息', '', '2020-09-24 11:43:24', '0', '800900000003', '/admin.html#/pages/property/feeManualCollectionManage', '702020092433630220');
-INSERT INTO `p_privilege_copy2` VALUES ('502020092494970375', '托收明细', '', '2020-09-24 17:33:43', '0', '800900000003', '/admin.html#/pages/property/feeManualCollectionDetailManage', '702020092409980374');
-INSERT INTO `p_privilege_copy2` VALUES ('502020092604300903', '合同审核', '', '2020-09-26 17:45:21', '0', '800900000001', '/admin.html#/pages/admin/contractAudit', '702020092674230902');
-INSERT INTO `p_privilege_copy2` VALUES ('502020092613090887', '租赁预约', '', '2020-09-26 17:01:47', '0', '800900000001', '/admin.html#/pages/admin/rentingAppointmentManage', '702020092656570886');
-INSERT INTO `p_privilege_copy2` VALUES ('502020092736240956', '出租历史', '', '2020-09-27 00:12:18', '0', '800900000001', '/admin.html#/pages/admin/rentingHistoryManage', '702020092726560955');
-INSERT INTO `p_privilege_copy2` VALUES ('502020092780490030', '租赁详情', '', '2020-09-27 10:56:27', '0', '800900000001', '/admin.html#/pages/admin/rentingDetail', '702020092790930029');
-INSERT INTO `p_privilege_copy2` VALUES ('502020093003120737', '缴费审核', '', '2020-09-30 18:17:05', '0', '800900000003', '/admin.html#/property/payFeeAuditManage', '702020093070100736');
-INSERT INTO `p_privilege_copy2` VALUES ('502020100340900094', '信息大类', '', '2020-10-03 19:49:37', '0', '800900000003', '/admin.html#/pages/property/activitiesTypeManage', '702020100365590093');
-INSERT INTO `p_privilege_copy2` VALUES ('502020100477560041', '文档信息', '', '2020-10-04 23:19:33', '0', '800900000000', '/admin.html#/pages/dev/sysDocumentManage', '702020100472570040');
-INSERT INTO `p_privilege_copy2` VALUES ('502020100645390132', '商品分类', '', '2020-10-06 12:58:40', '0', '800900000001', '/admin.html#/pages/goods/productCategoryManage', '702020100685660131');
-INSERT INTO `p_privilege_copy2` VALUES ('502020100958270173', '商品规格', '', '2020-10-09 22:16:28', '0', '800900000001', '/admin.html#/pages/goods/productSpecManage', '702020100939300172');
-INSERT INTO `p_privilege_copy2` VALUES ('502020101099890455', '商品信息', '', '2020-10-10 19:28:00', '0', '800900000001', '/admin.html#/pages/goods/productManage', '702020101043300454');
-INSERT INTO `p_privilege_copy2` VALUES ('502020101335250026', '业务受理', '', '2020-10-13 12:35:54', '0', '800900000003', '/admin.html#/pages/property/simplifyAcceptance', '702020101393980025');
-INSERT INTO `p_privilege_copy2` VALUES ('502020101433830053', '拼团设置', '', '2020-10-14 16:35:34', '0', '800900000001', '/admin.html#/pages/goods/groupBuySettingManage', '702020101481250052');
-INSERT INTO `p_privilege_copy2` VALUES ('502020101676670107', '费用汇总表', '', '2020-10-16 16:21:23', '0', '800900000003', '/admin.html#/pages/property/reportFeeSummary', '702020101696890106');
-INSERT INTO `p_privilege_copy2` VALUES ('502020101720340343', '费用明细表', '', '2020-10-17 18:44:14', '0', '800900000003', '/admin.html#/pages/property/reportFeeDetail', '702020101734870342');
-INSERT INTO `p_privilege_copy2` VALUES ('502020101768430339', '费用分项表', '', '2020-10-17 18:27:34', '0', '800900000003', '/admin.html#/pages/property/reportFeeBreakdown', '702020101759090338');
-INSERT INTO `p_privilege_copy2` VALUES ('502020101796310333', '楼栋费用表', '', '2020-10-17 18:03:46', '0', '800900000003', '/admin.html#/pages/property/reportFloorUnitFeeSummary', '702020101783560332');
-INSERT INTO `p_privilege_copy2` VALUES ('502020101812950436', '欠费明细表', '', '2020-10-18 12:36:15', '0', '800900000003', '/admin.html#/pages/property/reportOweFeeDetail', '702020101830890435');
-INSERT INTO `p_privilege_copy2` VALUES ('502020101961060715', '预缴费提醒', '', '2020-10-19 14:25:59', '0', '800900000003', '/admin.html#/pages/property/reportPrePaymentFee', '702020101993830714');
-INSERT INTO `p_privilege_copy2` VALUES ('502020102030331212', '缴费明细表', '', '2020-10-20 17:32:18', '0', '800900000003', '/admin.html#/pages/property/reportPayFeeDetail', '702020102045291211');
-INSERT INTO `p_privilege_copy2` VALUES ('502020102050241091', '费用到期提醒', '', '2020-10-20 14:58:53', '0', '800900000003', '/admin.html#/pages/property/reportDeadlineFee', '702020102012121090');
-INSERT INTO `p_privilege_copy2` VALUES ('502020102138450003', '拼团产品', '', '2020-10-21 12:48:51', '0', '800900000001', '/admin.html#/page/goods/groupBuyProductManage', '702020102134420002');
-INSERT INTO `p_privilege_copy2` VALUES ('502020102443750424', '拼团列表', '', '2020-10-24 21:56:26', '0', '800900000001', '/admin.html#/pages/goods/groupBuyManage', '702020102490890423');
-INSERT INTO `p_privilege_copy2` VALUES ('502020102587500471', '拼团批次', '', '2020-10-25 10:41:21', '0', '800900000001', '/admin.html#/pages/goods/groupBuyBatchManage', '702020102506700470');
-INSERT INTO `p_privilege_copy2` VALUES ('502020102751980079', '推荐商品', '', '2020-10-27 17:34:46', '0', '800900000001', '/admin.html#/pages/goods/recommendGoodsManage', '702020102716380078');
-INSERT INTO `p_privilege_copy2` VALUES ('502020111336940028', '商品订单', '', '2020-11-13 13:40:04', '0', '800900000001', '/admin.html#/pages/admin/storeOrderCartManage', '702020111330420027');
-INSERT INTO `p_privilege_copy2` VALUES ('502020111627880006', '交互日志', '', '2020-11-16 01:09:05', '0', '800900000000', '/admin.html#/pages/dev/transactionLogManage', '702020111628740005');
-INSERT INTO `p_privilege_copy2` VALUES ('502020111632390089', '商品订单详情', '', '2020-11-16 11:31:41', '0', '800900000001', '/admin.html#/pages/goods/storeOrderCartDetail', '702020111619100088');
-INSERT INTO `p_privilege_copy2` VALUES ('502020111765480351', '退货订单', '', '2020-11-17 17:09:17', '0', '800900000001', '/admin.html#/pages/admin/storeOrderCartReturnManage', '702020111795650350');
-INSERT INTO `p_privilege_copy2` VALUES ('502020112407180454', '折扣设置', '', '2020-11-24 23:34:27', '0', '800900000003', '/admin.html#/pages/property/feeDiscountManage', '702020112486110453');
-INSERT INTO `p_privilege_copy2` VALUES ('502020112592390545', '费用项折扣', '', '2020-11-25 10:17:13', '0', '800900000003', '/admin.html#/pages/property/payFeeConfigDiscountManage', '702020112552090544');
-INSERT INTO `p_privilege_copy2` VALUES ('502020120426640003', '业主脱敏', '业主脱敏', '2020-12-04 15:36:13', '0', '800900000003', '/roomCreateFee', '702020013097620003');
-INSERT INTO `p_privilege_copy2` VALUES ('502020120765630299', 'Databus', '', '2020-12-07 18:14:35', '0', '800900000000', '/admin.html#/pages/dev/businessDatabusManage', '702020120773940298');
-INSERT INTO `p_privilege_copy2` VALUES ('502020121018720191', '员工认证', '', '2020-12-10 23:10:50', '0', '800900000003', 'admin.html#/pages/property/staffAppAuthManage', '702020121005490190');
-INSERT INTO `p_privilege_copy2` VALUES ('502020121472400569', '微信缴费通知', '', '2020-12-14 22:34:26', '0', '800900000003', '/wechatNotification', '702020121005490190');
-INSERT INTO `p_privilege_copy2` VALUES ('502020122247900029', '优惠申请', '', '2020-12-22 23:46:39', '0', '800900000003', '/admin.html#/pages/property/applyRoomDiscountManage', '702020122261200028');
-INSERT INTO `p_privilege_copy2` VALUES ('502020122325620037', '优惠申请类型', '', '2020-12-23 00:47:35', '0', '800900000003', '/admin.html#/pages/property/applyRoomDiscountTypeManage', '702020122389100036');
-INSERT INTO `p_privilege_copy2` VALUES ('502021010147280005', '物业管理员', '', '2021-01-01 16:55:42', '0', '800900000001', '/admin.html#/pages/admin/listPropertyManage', '702021010139960004');
-INSERT INTO `p_privilege_copy2` VALUES ('502021010723590006', '空置房验房', '空置房验房处理-通知权限', '2021-01-07 10:37:12', '0', '800900000003', '/houseInspection', '702020122261200028');
-INSERT INTO `p_privilege_copy2` VALUES ('502021010761730007', '空置房审核', '空置房审核处理-通知权限', '2021-01-07 10:37:54', '0', '800900000003', '/approval', '702020122261200028');
-INSERT INTO `p_privilege_copy2` VALUES ('502021011136610013', '空置房验房通知', '空置房验房处理-通知权限', '2021-01-11 09:30:12', '0', '800900000003', '/wechatHouseInspection', '702020121005490190');
-INSERT INTO `p_privilege_copy2` VALUES ('502021011193830010', '空置房审核通知', '空置房审核处理-通知权限', '2021-01-11 13:35:06', '0', '800900000003', '/wechatHousingApproval', '702020121005490190');
-INSERT INTO `p_privilege_copy2` VALUES ('502021011195870257', '商铺管理', '', '2021-01-11 14:26:44', '0', '800900000003', '/admin.html#/pages/property/shops', '702021011192810256');
-INSERT INTO `p_privilege_copy2` VALUES ('502021011318040006', '报修登记通知', '报修登记处理-通知权限', '2021-01-13 10:27:18', '0', '800900000003', '/wechatRepairRegistration', '702020121005490190');
-INSERT INTO `p_privilege_copy2` VALUES ('502021011681080012', '临时车收费标准', '', '2021-01-16 14:06:53', '0', '800900000003', '/admin.html#/pages/property/tempCarFeeConfigManage', '702021011604630011');
-INSERT INTO `p_privilege_copy2` VALUES ('502021012051410024', '删除报修记录', '删除报修记录', '2021-01-20 11:04:57', '0', '800900000003', '/deleteRepair', '702019101903870011');
-INSERT INTO `p_privilege_copy2` VALUES ('502021012067300023', '修改报修记录', '修改报修记录', '2021-01-20 11:04:18', '0', '800900000003', '/updateRepair', '702019101903870011');
-INSERT INTO `p_privilege_copy2` VALUES ('502021012099350016', '报修抢单', '报修抢单', '2021-01-20 10:43:33', '0', '800900000003', '/reportForRepair', '702019101903870011');
-INSERT INTO `p_privilege_copy2` VALUES ('502021012242523150', '智慧考勤', '', '2021-01-22 14:28:04', '0', '800900000003', '/admin.html#/pages/property/attendanceClassesManage', '702021012255973149');
-INSERT INTO `p_privilege_copy2` VALUES ('502021012505140028', '收银台', '/static/image/payOweFee.png', '2021-01-25 22:30:05', '0', '800900000003', '/pages/roomPayFee/roomPayFee', '702021012505770027');
-INSERT INTO `p_privilege_copy2` VALUES ('502021012507510017', '维修待办', '/static/image/index_dealRepair.png', '2021-01-25 22:25:38', '0', '800900000003', '/pages/repairDispatch/repairDispatch', '702021012561330016');
-INSERT INTO `p_privilege_copy2` VALUES ('502021012519810021', '投诉待办', '/static/image/index_complaint.png', '2021-01-25 22:26:55', '0', '800900000003', '/pages/complaintList/complaintList', '702021012507180020');
-INSERT INTO `p_privilege_copy2` VALUES ('502021012543460024', '公告', '/static/image/index_notice.png', '2021-01-25 22:28:38', '0', '800900000003', '/pages/notice/notice', '702021012542300023');
-INSERT INTO `p_privilege_copy2` VALUES ('502021012558990030', '水电抄表', '/static/image/index_meter.png', '2021-01-25 22:30:59', '0', '800900000003', '/pages/meterReading/meterReading', '702021012564040029');
-INSERT INTO `p_privilege_copy2` VALUES ('502021012567490019', '巡检打卡', '/static/image/index_inspection.png', '2021-01-25 22:26:24', '0', '800900000003', '/pages/inspection/inspection', '702021012579570018');
-INSERT INTO `p_privilege_copy2` VALUES ('502021012573540014', '维修工单', '/static/image/index_repair.png', '2021-01-25 22:22:50', '0', '800900000003', '/pages/repairOrder/repairOrder', '702021012539810013');
-INSERT INTO `p_privilege_copy2` VALUES ('502021012574370026', '房产查询', '/static/image/index_bill.png', '2021-01-25 22:29:15', '0', '800900000003', '/pages/roomDetail/roomDetail', '702021012519080025');
-INSERT INTO `p_privilege_copy2` VALUES ('502021012580740032', '空置房', '/static/image/index_complaint.png', '2021-01-25 22:31:29', '0', '800900000003', '/pages/applyRoom/applyRoom', '702021012520220031');
-INSERT INTO `p_privilege_copy2` VALUES ('502021012645150020', '房屋装修', '房屋装修', '2021-01-26 17:42:04', '0', '800900000003', '/admin.html#/pages/property/roomRenovationManage', '702021012618140019');
-INSERT INTO `p_privilege_copy2` VALUES ('502021012701630060', '装修验收', '', '2021-01-27 00:04:18', '0', '800900000003', '/admin.html#/pages/property/roomRenovationDetailManage', '702021012761500059');
-INSERT INTO `p_privilege_copy2` VALUES ('502021013056500005', '报修汇总表', '报修汇总', '2021-01-30 08:44:20', '0', '800900000003', '/admin.html#/pages/property/reportRepair', '702021013030300004');
-INSERT INTO `p_privilege_copy2` VALUES ('502021020146200988', '今日考勤', '', '2021-02-01 17:00:04', '0', '800900000003', '/admin.html#/pages/property/todayAttendanceManage', '702021020165340987');
-INSERT INTO `p_privilege_copy2` VALUES ('502021020233871128', '月考勤', '', '2021-02-02 13:05:40', '0', '800900000003', '/admin.html#/pages/property/monthAttendanceManage', '702021020295631127');
-INSERT INTO `p_privilege_copy2` VALUES ('502021020357910021', '考勤记录', '', '2021-02-03 09:44:38', '0', '800900000003', '/admin.html#/pages/property/attendanceLogManage', '702021020311270020');
-INSERT INTO `p_privilege_copy2` VALUES ('502021020591840081', '问卷信息', '', '2021-02-05 17:31:57', '0', '800900000003', '/admin.html#/pages/property/questionAnswerManage', '702021020534720080');
-INSERT INTO `p_privilege_copy2` VALUES ('502021020644120134', '问卷题目', '', '2021-02-06 11:01:11', '0', '800900000003', '/admin.html#/pages/property/questionAnswerTitleManage', '702021020652750133');
-INSERT INTO `p_privilege_copy2` VALUES ('502021020700510274', '活动规则', '', '2021-02-07 21:46:39', '0', '800900000003', '/admin.html#/pages/property/activitiesRuleManage', '702021020705710273');
-INSERT INTO `p_privilege_copy2` VALUES ('502021020724030228', '问卷答题', '', '2021-02-07 13:57:08', '0', '800900000003', '/admin.html#/pages/property/userQuestionAnswerManage', '702021020781610227');
-INSERT INTO `p_privilege_copy2` VALUES ('502021020744330251', '员工考核', '', '2021-02-07 16:34:28', '0', '800900000003', '/admin.html#/pages/property/staffAssessmentManage', '702021020778830250');
-INSERT INTO `p_privilege_copy2` VALUES ('502021020752750220', '我的问卷', '', '2021-02-07 11:22:10', '0', '800900000003', '/admin.html#/pages/property/myQuestionAnswerManage', '702021020740160219');
-INSERT INTO `p_privilege_copy2` VALUES ('502021020755580291', '最美员工', '', '2021-02-07 22:51:11', '0', '800900000003', '/admin.html#/pages/property/activitiesBeautifulStaffManage', '702021020768800290');
-INSERT INTO `p_privilege_copy2` VALUES ('502021022251710609', '报表专家', '', '2021-02-22 18:02:51', '0', '800900000003', '/admin.html#/pages/property/reportProficient', '702021022283800608');
-INSERT INTO `p_privilege_copy2` VALUES ('502021022289920006', '房屋装修验收通知', '房屋装修验收申请处理-通知权限', '2021-02-22 14:30:57', '0', '800900000003', '/wechatDecorationNotice', '702020121005490190');
-INSERT INTO `p_privilege_copy2` VALUES ('502021022640560005', '装修记录', '装修记录', '2021-02-26 11:47:24', '0', '800900000003', '/admin.html#/pages/property/listRoomDecorationRecord', '702021022611740004');
-INSERT INTO `p_privilege_copy2` VALUES ('502021022746870014', '子母车辆', '', '2021-02-27 21:55:22', '0', '800900000003', '/admin.html#/pages/property/listOwnerCarMember', '702021022736460013');
-INSERT INTO `p_privilege_copy2` VALUES ('502021030292680006', '装修详情', '装修详情页面', '2021-03-02 16:28:00', '0', '800900000003', '/admin.html#/pages/property/listRoomRenovationRecordDetails', '702021030252560005');
-INSERT INTO `p_privilege_copy2` VALUES ('502021030406040612', '店铺小区', '', '2021-03-04 16:15:42', '0', '800900000005', '/admin/html', '702021030406680611');
-INSERT INTO `p_privilege_copy2` VALUES ('502021030406530619', '收款账户', '', '2021-03-04 16:19:52', '0', '800900000005', '/admin.html', '702021030411150618');
-INSERT INTO `p_privilege_copy2` VALUES ('502021030414800529', '商品规格', '', '2021-03-04 12:40:37', '0', '800900000005', '/admin.html', '702021030476960528');
-INSERT INTO `p_privilege_copy2` VALUES ('502021030416600622', '保证金', '', '2021-03-04 16:20:43', '0', '800900000005', '/admin.html', '702021030445710621');
-INSERT INTO `p_privilege_copy2` VALUES ('502021030434690610', '店铺信息', '', '2021-03-04 16:12:11', '0', '800900000005', '/admin.html', '702021030468370609');
-INSERT INTO `p_privilege_copy2` VALUES ('502021030435200525', '售后订单', '', '2021-03-04 12:36:48', '0', '800900000005', '/admin.html', '702021030402320524');
-INSERT INTO `p_privilege_copy2` VALUES ('502021030448190521', '待处理订单', '', '2021-03-04 12:26:25', '0', '800900000005', '/admin.html', '702021030447730520');
-INSERT INTO `p_privilege_copy2` VALUES ('502021030460610616', '财务明细', '', '2021-03-04 16:19:23', '0', '800900000005', '/admin.html', '702021030435050615');
-INSERT INTO `p_privilege_copy2` VALUES ('502021030497430531', '商品管理', '', '2021-03-04 12:41:19', '0', '800900000005', '/admin.html', '702021030445770530');
-INSERT INTO `p_privilege_copy2` VALUES ('502021030503050089', '登记投诉', '', '2021-03-05 16:34:35', '0', '800900000003', '/admin.html#/pages/common/addRoomComplaint', '702021030521000088');
-INSERT INTO `p_privilege_copy2` VALUES ('502021030807600120', '商品分组', '', '2021-03-08 15:46:51', '0', '800900000005', '/admin.html#/pages/goods/productCategoryManage', '702021030841420119');
-INSERT INTO `p_privilege_copy2` VALUES ('502021030813580078', '员工权限', '', '2021-03-08 15:01:55', '0', '800900000005', '/admin.html#/pages/frame/staffPrivilege', '702021030892730077');
-INSERT INTO `p_privilege_copy2` VALUES ('502021030814880067', '组织信息', '', '2021-03-08 14:48:33', '0', '800900000005', '/admin.html#/pages/frame/orgManage', '702021030883010066');
-INSERT INTO `p_privilege_copy2` VALUES ('502021030823700069', '员工信息', '', '2021-03-08 14:49:16', '0', '800900000005', '/admin.html#/pages/frame/staff', '702021030810960068');
-INSERT INTO `p_privilege_copy2` VALUES ('502021030852450076', '权限组', '', '2021-03-08 15:01:25', '0', '800900000005', '/admin.html#/pages/dev/privilege', '702021030879370075');
-INSERT INTO `p_privilege_copy2` VALUES ('502021030915560188', '审核入驻小区', '', '2021-03-09 16:26:56', '0', '800900000001', '/admin.html#/pages/common/auditEnterCommunityManage', '702021030949750187');
-INSERT INTO `p_privilege_copy2` VALUES ('502021030918700182', '小区信息', '', '2021-03-09 16:24:45', '0', '800900000001', '/admin.html#/pages/common/communityManage', '702021030903690181');
-INSERT INTO `p_privilege_copy2` VALUES ('502021030985370186', '审核小区', '', '2021-03-09 16:26:18', '0', '800900000001', '/admin.html#/pages/common/auditCommunityManage', '702021030967980185');
-INSERT INTO `p_privilege_copy2` VALUES ('502021031092430164', '开店审核', '', '2021-03-10 18:10:52', '0', '800900000001', '/admin.html', '702021031061670163');
-INSERT INTO `p_privilege_copy2` VALUES ('502021031277980007', '房屋装修', '员工端房屋装修', '2021-03-12 14:03:43', '0', '800900000003', 'pages/roomRenovation/roomRenovation', '702021031209070006');
-INSERT INTO `p_privilege_copy2` VALUES ('502021031299580138', '员工门禁授权', '', '2021-03-12 17:37:08', '0', '800900000003', '/admin.html#/pages/property/machineAuthManage', '702021031267690137');
-INSERT INTO `p_privilege_copy2` VALUES ('502021031645040072', '修改密码', '', '2021-03-16 11:14:16', '0', '800900000000', '/admin.html#/pages/frame/changeStaffPwd', '702021031606850071');
-INSERT INTO `p_privilege_copy2` VALUES ('502021031687630069', '修改密码', '', '2021-03-16 11:13:11', '0', '800900000001', '/admin.html#/pages/frame/changeStaffPwd', '702021031605320068');
-INSERT INTO `p_privilege_copy2` VALUES ('502021031698730003', '装修审核', '装修审核', '2021-03-16 08:39:42', '0', '800900000003', '/roomRenovationExamine', '702021012618140019');
-INSERT INTO `p_privilege_copy2` VALUES ('502021032513430021', '店铺信息', '', '2021-03-25 12:23:54', '0', '800900000001', '/admin.html#/pages/admin/shopManage', '702021032537360020');
-INSERT INTO `p_privilege_copy2` VALUES ('502021033087620296', '合同变更', '', '2021-03-30 22:59:39', '0', '800900000003', '/admin.html#/pages/admin/contractChangeManage', '702021033017840295');
-INSERT INTO `p_privilege_copy2` VALUES ('502021033108420003', '申请合同变更', '', '2021-03-31 01:12:49', '0', '800900000003', '/admin.html#/pages/admin/contractChangeDetail', '702021033195000002');
-INSERT INTO `p_privilege_copy2` VALUES ('502021033136470077', '到期合同', '', '2021-03-31 11:34:21', '0', '800900000003', '/admin.html#/pages/admin/contractChangeManage', '702021033149670076');
-INSERT INTO `p_privilege_copy2` VALUES ('502021033186520392', '起草合同', '', '2021-03-31 22:57:27', '0', '800900000003', '/admin.html#/pages/admin/newContractManage', '702021033187310391');
-INSERT INTO `p_privilege_copy2` VALUES ('502021033187120040', '合同变更明细', '', '2021-03-31 09:41:33', '0', '800900000003', '/admin.html#/pages/admin/contractChangeDetails', '702021033155980039');
-INSERT INTO `p_privilege_copy2` VALUES ('502021040107840026', '变更待办', '', '2021-04-01 22:41:37', '0', '800900000003', '/admin.html#/pages/admin/contractChangeAuditOrders', '702021040143360025');
-INSERT INTO `p_privilege_copy2` VALUES ('502021040131560028', '变更已办', '', '2021-04-01 22:42:25', '0', '800900000003', '/admin.html#/pages/admin/contractChangeAuditHistoryOrders', '702021040176320027');
-INSERT INTO `p_privilege_copy2` VALUES ('502021040151320003', '电话回访', '电话回访权限', '2021-04-01 08:24:39', '0', '800900000003', '/appraiseRepair', '702019102028670002');
-INSERT INTO `p_privilege_copy2` VALUES ('502021040159650397', '起草待办', '', '2021-04-01 00:29:29', '0', '800900000003', '/admin.html#/pages/admin/contractApplyAuditOrders', '702021040162640396');
-INSERT INTO `p_privilege_copy2` VALUES ('502021040169980024', '起草已办', '', '2021-04-01 22:40:45', '0', '800900000003', '/admin.html#/pages/admin/contractApplyAuditHistoryOrders', '702021040107630023');
-INSERT INTO `p_privilege_copy2` VALUES ('502021040255080050', '收款计划', '', '2021-04-02 01:53:49', '0', '800900000003', '/admin.html#/pages/admin/contractCollectionPlanManage', '702021040263340049');
-INSERT INTO `p_privilege_copy2` VALUES ('502021040611570372', '报修回访', '', '2021-04-06 08:42:18', '0', '800900000003', '/admin.html#/pages/property/repairReturnVisit', '702021040628030371');
-INSERT INTO `p_privilege_copy2` VALUES ('502021040644320008', '强制回单', '', '2021-04-06 13:29:45', '0', '800900000003', '/admin.html#/pages/property/repairForceFinishManage', '702021040635540007');
-INSERT INTO `p_privilege_copy2` VALUES ('502021040690360027', '合同详情', '', '2021-04-06 16:58:53', '0', '800900000003', '/admin.html#/pages/common/contractApplyDetail', '702021040666580026');
-INSERT INTO `p_privilege_copy2` VALUES ('502021040745010149', '仓库信息', '', '2021-04-07 21:17:04', '0', '800900000003', '/admin.html#/pages/property/storehouseManage', '702021040741950148');
-INSERT INTO `p_privilege_copy2` VALUES ('502021040800700027', '调拨详情', '', '2021-04-08 17:00:12', '0', '800900000003', '/admin.html#/pages/common/allocationStorehouseDetail', '702021040808900026');
-INSERT INTO `p_privilege_copy2` VALUES ('502021040802060002', '调拨记录', '', '2021-04-08 00:56:41', '0', '800900000003', '/admin.html#/pages/common/allocationStorehouseManage', '702021040844660001');
-INSERT INTO `p_privilege_copy2` VALUES ('502021040841810018', '我的物品', '', '2021-04-08 20:30:51', '0', '800900000003', '/admin.html#/pages/common/myResourceStoreManage', '702021040857880017');
-INSERT INTO `p_privilege_copy2` VALUES ('502021040867760006', '调拨已办', '', '2021-04-08 15:12:39', '0', '800900000003', '/admin.html#/pages/admin/allocationStorehouseHistoryAuditOrders', '702021040865910005');
-INSERT INTO `p_privilege_copy2` VALUES ('502021040871840027', '调拨待办', '', '2021-04-08 12:10:09', '0', '800900000003', '/admin.html#/pages/admin/allocationStorehouseAuditOrders', '702021040843910026');
-INSERT INTO `p_privilege_copy2` VALUES ('502021040933090016', '代客报修', '/static/image/index_repair.png', '2021-04-09 10:46:20', '0', '800900000003', '/pages/repairAdd/repairAdd', '702021040912990015');
-INSERT INTO `p_privilege_copy2` VALUES ('502021041077920105', '缴费页面', '测试', '2021-04-10 22:07:21', '0', '800900000000', '/selfHelpFree', '702021041041870104');
-INSERT INTO `p_privilege_copy2` VALUES ('502021041333930167', '商品目录', '', '2021-04-13 23:06:53', '0', '800900000001', '/admin.html#/pages/admin/mainCategoryManage', '702021041323510166');
-INSERT INTO `p_privilege_copy2` VALUES ('502021041486890174', '专区商品', '', '2021-04-14 00:37:22', '0', '800900000001', '/admin.html#/pages/admin/mainCategoryProductManage', '702021041420640173');
-INSERT INTO `p_privilege_copy2` VALUES ('502021041901500001', '查看所有采购申请', '查看所有采购申请权限', '2021-04-19 14:06:16', '0', '800900000003', '/viewPurchaseApplyManage', '700201906022');
-INSERT INTO `p_privilege_copy2` VALUES ('502021041902760001', '查看集团仓库权限', '查看集团仓库权限', '2021-04-19 14:26:15', '0', '800900000003', '/viewGroupWarehouse', '702021040741950148');
-INSERT INTO `p_privilege_copy2` VALUES ('502021041908600001', '查看所有报修已办权限', '查看所有报修已办权限', '2021-04-19 14:41:27', '0', '800900000003', '/listStaffFinishRepairs', '702019102073620006');
-INSERT INTO `p_privilege_copy2` VALUES ('502021041916460003', '查看所有物品领用', '查看所有物品领用权限', '2021-04-19 14:20:09', '0', '800900000003', '/viewAllItemUse', '702019102250410002');
-INSERT INTO `p_privilege_copy2` VALUES ('502021041925240063', '入驻小区审核', '', '2021-04-19 00:05:10', '0', '800900000001', '/admin.html#/pages/admin/auditShopCommunity', '702021041947460062');
-INSERT INTO `p_privilege_copy2` VALUES ('502021041948240009', '物品类型', '物品类型', '2021-04-19 13:44:57', '0', '800900000003', '/admin.html#/pages/common/resourceStoreTypeManage', '702021041999360008');
-INSERT INTO `p_privilege_copy2` VALUES ('502021041962980001', '查看所有集团物品信息', '查看所有集团物品信息权限', '2021-04-19 16:31:27', '0', '800900000003', '/viewGroupResource', '702019102148640005');
-INSERT INTO `p_privilege_copy2` VALUES ('502021041964320001', '查看所有报修待办', '查看所有报修待办权限', '2021-04-19 14:34:10', '0', '800900000003', '/viewListStaffRepairs', '702019102028670002');
-INSERT INTO `p_privilege_copy2` VALUES ('502021041989700067', '小区店铺', '', '2021-04-19 00:52:36', '0', '800900000001', '/admin.html#/pages/admin/shopCommunity', '702021041953400066');
-INSERT INTO `p_privilege_copy2` VALUES ('502021041990920002', '查看所有调拨记录', '查看所有调拨记录权限', '2021-04-19 10:29:53', '0', '800900000003', '/viewlistAllocationStorehouses', '702021040844660001');
-INSERT INTO `p_privilege_copy2` VALUES ('502021041994670070', '修改密码', '', '2021-04-19 01:23:27', '0', '800900000005', '/admin.html#/pages/frame/changeStaffPwd', '702021041918420069');
-INSERT INTO `p_privilege_copy2` VALUES ('502021042040820076', '会员信息', '', '2021-04-20 00:38:34', '0', '800900000005', '/admin.html#/pages/goods/shopVipUserManage', '702021042006540075');
-INSERT INTO `p_privilege_copy2` VALUES ('502021042137960001', '出入库操作', '物品直接出入库操作', '2021-04-21 16:02:11', '0', '800900000003', '/inOutWarehouse', '702019102148640005');
-INSERT INTO `p_privilege_copy2` VALUES ('502021042209980303', '合同甲方', '', '2021-04-22 15:33:55', '0', '800900000003', '/admin.html#/pages/admin/contractPartyaManage', '702021042214040302');
-INSERT INTO `p_privilege_copy2` VALUES ('502021042293240005', '出入库明细', '出入库明细', '2021-04-22 12:05:42', '0', '800900000003', '/admin.html#/pages/common/purchaseApplyDetailManage', '702021042286380004');
-INSERT INTO `p_privilege_copy2` VALUES ('502021042299510238', '起草合同', '', '2021-04-22 12:20:29', '0', '800900000003', '/admin.html#/pages/admin/addContract', '702021042279810237');
-INSERT INTO `p_privilege_copy2` VALUES ('502021042355490003', '物品供应商', '物品资源供应商', '2021-04-23 10:47:11', '0', '800900000003', '/admin.html#/pages/property/resourceSupplierManage', '702021042347360002');
-INSERT INTO `p_privilege_copy2` VALUES ('502021042368630417', '合同收费', '', '2021-04-23 11:11:22', '0', '800900000003', '/admin.html#/pages/property/contractCreateFee', '702021042365450416');
-INSERT INTO `p_privilege_copy2` VALUES ('502021042375020435', '合同费用', '', '2021-04-23 11:53:01', '0', '800900000003', '/admin.html#/pages/property/listContractFee', '702021042359210434');
-INSERT INTO `p_privilege_copy2` VALUES ('502021042466340003', '转赠记录', '物品转赠记录', '2021-04-24 15:11:46', '0', '800900000003', '/admin.html#/pages/common/allocationUserStorehouseManage', '702021042441610002');
-INSERT INTO `p_privilege_copy2` VALUES ('502021042931690003', '物品使用记录', '个人物品使用记录', '2021-04-29 15:16:09', '0', '800900000003', '/admin.html#/pages/common/resourceStoreUseRecordManage', '702021042938870002');
-INSERT INTO `p_privilege_copy2` VALUES ('502021042989310157', '调拨申请', '', '2021-04-29 08:34:41', '0', '800900000003', '/admin.html#/pages/common/allocationStorehouseApplyManage', '702021042974000156');
-INSERT INTO `p_privilege_copy2` VALUES ('502021050213220610', '会员等级', '', '2021-05-02 16:16:20', '0', '800900000005', '/admin.html#/pages/goods/shopVipLevelManage', '702021050274070609');
-INSERT INTO `p_privilege_copy2` VALUES ('502021050236020632', '金币设置', '', '2021-05-02 23:24:46', '0', '800900000001', '/admin.html#/pages/admin/systemGoldSettingManage', '702021050282200631');
-INSERT INTO `p_privilege_copy2` VALUES ('502021050317740195', '金币购买记录', '', '2021-05-03 17:27:19', '0', '800900000001', '/admin.html#/pages/admin/goldBuyCartManage', '702021050337470194');
-INSERT INTO `p_privilege_copy2` VALUES ('502021050467540219', '未收费房屋', '', '2021-05-04 02:04:12', '0', '800900000003', '/admin.html#/pages/property/reportNoFeeRoom', '702021050428880218');
-INSERT INTO `p_privilege_copy2` VALUES ('502021050590170720', '金币购买记录', '', '2021-05-05 22:47:06', '0', '800900000005', '/admin.html#/pages/goods/goldBusinessManage', '702021050579590719');
-INSERT INTO `p_privilege_copy2` VALUES ('502021050643800969', '购买金币', '', '2021-05-06 19:48:29', '0', '800900000005', '/admin.html#/pages/goods/buyGold', '702021050680180968');
-INSERT INTO `p_privilege_copy2` VALUES ('502021050714330095', '商品入库', '', '2021-05-07 22:42:39', '0', '800900000005', '/admin.html#/pages/goods/productStockManage', '702021050762290094');
-INSERT INTO `p_privilege_copy2` VALUES ('502021050756760100', '收银台', '', '2021-05-07 23:57:43', '0', '800900000005', '/admin.html#/pages/goods/goodCashier', '702021050787220099');
-INSERT INTO `p_privilege_copy2` VALUES ('502021050959190371', '会员账户', '', '2021-05-09 16:37:10', '0', '800900000005', '/admin.html#/pages/goods/shopVipUserAccountManage', '702021050934180370');
-INSERT INTO `p_privilege_copy2` VALUES ('502021051169550004', '调拨明细', '调拨明细', '2021-05-11 18:04:09', '0', '800900000003', '/admin.html#/pages/common/allocationStorehouseDetailed', '702021051115900003');
-INSERT INTO `p_privilege_copy2` VALUES ('502021051264680004', '物品规格', '物品规格', '2021-05-12 10:42:05', '0', '800900000003', '/admin.html#/pages/common/resourceStoreSpecificationManage', '702021051232450003');
-INSERT INTO `p_privilege_copy2` VALUES ('502021051288880381', '订单详情', '', '2021-05-12 18:31:22', '0', '800900000005', '/admin.html#/pages/goods/storeOrderCartDetail', '702021051263410380');
-INSERT INTO `p_privilege_copy2` VALUES ('502021051370090004', '我的物品', '/static/image/index_complaint.png', '2021-05-13 08:51:13', '0', '800900000003', '/pages/resourceStoreManage/resourceStoreManage', '702021051364840003');
-INSERT INTO `p_privilege_copy2` VALUES ('502021051418810019', '店铺访问', '', '2021-05-14 10:05:16', '0', '800900000005', '/admin.html#/pages/goods/shopVisitManage', '702021051486340018');
-INSERT INTO `p_privilege_copy2` VALUES ('502021051427600193', '商品评论', '', '2021-05-14 22:51:33', '0', '800900000005', '/admin.html#/pages/goods/shopAppraiseManage', '702021051453870192');
-INSERT INTO `p_privilege_copy2` VALUES ('502021051454910201', '公众号菜单', '', '2021-05-14 23:30:13', '0', '800900000005', '/admin.html#/pages/property/wechatMenuManage', '702021051414110200');
-INSERT INTO `p_privilege_copy2` VALUES ('502021051495590199', '公众号', '', '2021-05-14 23:29:38', '0', '800900000005', '/admin.html#/pages/property/publicWeChatManage', '702021051496660198');
-INSERT INTO `p_privilege_copy2` VALUES ('502021051529650204', '退货地址', '', '2021-05-15 01:05:26', '0', '800900000005', '/admin.html#/pages/goods/shopReturnAddressManage', '702021051568130203');
-INSERT INTO `p_privilege_copy2` VALUES ('502021051814820935', '发布广告', '', '2021-05-18 00:31:17', '0', '800900000001', '/admin.html#/pages/property/advertManage', '702021051834760934');
-INSERT INTO `p_privilege_copy2` VALUES ('502021051927250004', '查看所有出入库明细', '查看所有出入库明细', '2021-05-19 14:43:21', '0', '800900000003', '/viewAllPurchaseApplyDetail', '702021042286380004');
-INSERT INTO `p_privilege_copy2` VALUES ('502021052094720028', '查看所有组织架构信息', '查看所有组织架构信息', '2021-05-20 17:21:37', '0', '800900000003', '/viewAllOrganization', '702019100725620006');
-INSERT INTO `p_privilege_copy2` VALUES ('502021052111240007', '物品调拨', '/static/image/index_dealRepair.png', '2021-05-21 16:38:15', '0', '800900000003', '/pages/allocationStorehouseManage/allocationStorehouseManage', '702021052131590006');
-INSERT INTO `p_privilege_copy2` VALUES ('502021052177980003', '采购申请', ' /static/image/index_dealRepair.png', '2021-05-21 16:36:02', '0', '800900000003', '/pages/purchaseApplyManage/purchaseApplyManage', '702021052105540002');
-INSERT INTO `p_privilege_copy2` VALUES ('502021052180090005', '物品领用', '/static/image/index_dealRepair.png', '2021-05-21 16:37:08', '0', '800900000003', '/pages/itemOutManage/itemOutManage', '702021052136420004');
-INSERT INTO `p_privilege_copy2` VALUES ('502021052423840213', '问卷明细表', '', '2021-05-24 11:02:45', '0', '800900000003', '/admin.html#/pages/property/reportQuestionAnswerDetail', '702021052458460212');
-INSERT INTO `p_privilege_copy2` VALUES ('502021052570530025', '家政服务', '', '2021-05-25 15:05:11', '0', '800900000005', '/admin.html#/pages/goods/housekeepingTypeManage', '702021052592090024');
-INSERT INTO `p_privilege_copy2` VALUES ('502021052623750727', '物品供应商', '', '2021-05-26 22:25:09', '0', '800900000005', '/admin.html#/pages/goods/resourceSupplierManage', '702021052638000726');
-INSERT INTO `p_privilege_copy2` VALUES ('502021052629930725', '物品类型', '', '2021-05-26 22:24:31', '0', '800900000005', '/admin.html#/pages/goods/resourceSupplierManage', '702021052658950724');
-INSERT INTO `p_privilege_copy2` VALUES ('502021052654540540', '物品供应商', '', '2021-05-26 15:28:19', '0', '800900000005', '/admin.html#/pages/goods/resourceSupplierManage', '702021052682380539');
-INSERT INTO `p_privilege_copy2` VALUES ('502021052683450543', '物品类型', '', '2021-05-26 15:36:19', '0', '800900000005', '/admin.html#/pages/goods/resourceStoreTypeManage', '702021052650690542');
-INSERT INTO `p_privilege_copy2` VALUES ('502021052686770545', '物品供应商', '', '2021-05-26 15:36:50', '0', '800900000005', '/admin.html#/pages/goods/resourceSupplierManage', '702021052665770544');
-INSERT INTO `p_privilege_copy2` VALUES ('502021052696020535', '物品类型', '', '2021-05-26 15:27:23', '0', '800900000005', '/admin.html#/pages/goods/resourceStoreTypeManage', '702021052626780534');
-INSERT INTO `p_privilege_copy2` VALUES ('502021052707250008', '调拨审批', '/static/image/index_dealRepair.png', '2021-05-27 15:11:45', '0', '800900000003', '/pages/allocationStorehouseAuditOrders/allocationStorehouseAuditOrders', '702021052734430007');
-INSERT INTO `p_privilege_copy2` VALUES ('502021052719661028', '家政物品信息', '', '2021-05-27 11:13:57', '0', '800900000005', '/admin.html#/pages/goods/housekeepingResourceManage', '702021052722721027');
-INSERT INTO `p_privilege_copy2` VALUES ('502021052747070004', '采购审批', '/static/image/index_dealRepair.png', '2021-05-27 15:09:56', '0', '800900000003', '/pages/purchaseApplyAuditOrders/purchaseApplyAuditOrders', '702021052737910003');
-INSERT INTO `p_privilege_copy2` VALUES ('502021052762260006', '领用审批', '/static/image/index_dealRepair.png', '2021-05-27 15:10:45', '0', '800900000003', '/pages/itemOutAuditOrders/itemOutAuditOrders', '702021052754370005');
-INSERT INTO `p_privilege_copy2` VALUES ('502021052894520273', '服务管理', '', '2021-05-28 15:45:53', '0', '800900000005', '/admin.html#/pages/goods/housekeepingServManage', '702021052806710272');
-INSERT INTO `p_privilege_copy2` VALUES ('502021053115060399', '客户催单', '', '2021-05-31 16:14:20', '0', '800900000005', '/admin.html#/pages/goods/userExpeditingDelivery', '702021053110010398');
-INSERT INTO `p_privilege_copy2` VALUES ('502021060198530469', '家政服务评价', '', '2021-06-01 00:27:29', '0', '800900000005', '/admin.html#/pages/goods/servAppraiseManage', '702021060157790468');
-INSERT INTO `p_privilege_copy2` VALUES ('502021060442721625', '费用类型', '', '2021-06-04 11:42:06', '0', '800900000005', '/admin.html#/pages/goods/housekeepingFeeTypeManage', '702021060421241624');
-INSERT INTO `p_privilege_copy2` VALUES ('502021060474221627', '费用标准', '', '2021-06-04 11:42:46', '0', '800900000005', '/admin.html#/pages/goods/housekeepingFeeConfigManage', '702021060462151626');
-INSERT INTO `p_privilege_copy2` VALUES ('502021060505810069', '商城菜单', '', '2021-06-05 11:29:30', '0', '800900000001', '/admin.html#/pages/admin/', '702021060576440068');
-INSERT INTO `p_privilege_copy2` VALUES ('502021060527560019', '巡检明细', '巡检明细', '2021-06-05 14:13:35', '0', '800900000003', '/admin.html#/pages/property/inspectionTaskDetails', '702021060567820018');
-INSERT INTO `p_privilege_copy2` VALUES ('502021060583310095', '手机商城菜单', '', '2021-06-05 15:38:42', '0', '800900000001', '/admin.html#/pages/admin/housekeepingTypeManage', '702021060521430094');
-INSERT INTO `p_privilege_copy2` VALUES ('502021062104940325', '订单费用', '', '2021-06-21 17:05:15', '0', '800900000005', '/admin.html#/pages/goods/storeOrderCartFeeManage', '702021062129640324');
-INSERT INTO `p_privilege_copy2` VALUES ('502021062105210370', '提现记录', '', '2021-06-21 17:37:56', '0', '800900000001', '/admin.html#/pages/goods/accountWithdrawalApplyListManage', '702021062106010369');
-INSERT INTO `p_privilege_copy2` VALUES ('502021062107630329', '家政支付', '', '2021-06-21 17:07:02', '0', '800900000005', '/admin.html#/pages/goods/housekeepingServPoolPay', '702021062107910328');
-INSERT INTO `p_privilege_copy2` VALUES ('502021062114570479', '拼团设置', '', '2021-06-21 22:51:17', '0', '800900000005', '/admin.html#/pages/goods/groupBuySettingManage', '702021062112540478');
-INSERT INTO `p_privilege_copy2` VALUES ('502021062118340481', '拼团产品', '', '2021-06-21 22:51:46', '0', '800900000005', '/admin.html#/pages/goods/groupBuyProductManage', '702021062182720480');
-INSERT INTO `p_privilege_copy2` VALUES ('502021062127960368', '提现付款', '', '2021-06-21 17:37:29', '0', '800900000001', '/admin.html#/pages/goods/accountWithdrawalApplyFkManage', '702021062198850367');
-INSERT INTO `p_privilege_copy2` VALUES ('502021062145860366', '提现审核', '', '2021-06-21 17:37:02', '0', '800900000001', '/admin.html#/pages/goods/accountWithdrawalApplyShManage', '702021062120260365');
-INSERT INTO `p_privilege_copy2` VALUES ('502021062159200489', '发布广告', '', '2021-06-21 22:54:24', '0', '800900000005', '/admin.html#/pages/property/advertManage', '702021062118030488');
-INSERT INTO `p_privilege_copy2` VALUES ('502021062168800412', '账户提现', '', '2021-06-21 18:08:11', '0', '800900000005', '/admin.html#/pages/goods/accountWithdrawalApplyManage', '702021062150280411');
-INSERT INTO `p_privilege_copy2` VALUES ('502021062170010483', '拼团列表', '', '2021-06-21 22:52:42', '0', '800900000005', '/admin.html#/pages/goods/groupBuyManage', '702021062145590482');
-INSERT INTO `p_privilege_copy2` VALUES ('502021062175020402', '开户行管理', '', '2021-06-21 18:00:24', '0', '800900000005', '/admin.html#/pages/admin/accountBankManage', '702021062194830401');
-INSERT INTO `p_privilege_copy2` VALUES ('502021062184180332', '家政已办', '', '2021-06-21 17:08:12', '0', '800900000005', '/admin.html#/pages/goods/myHousekeepingDispatchManage', '702021062112480331');
-INSERT INTO `p_privilege_copy2` VALUES ('502021062186560485', '拼团批次 	', '', '2021-06-21 22:53:15', '0', '800900000005', '/admin.html#/pages/goods/groupBuyBatchManage', '702021062184420484');
-INSERT INTO `p_privilege_copy2` VALUES ('502021062186930334', '家政待办', '', '2021-06-21 17:09:01', '0', '800900000005', '/admin.html#/pages/goods/housekeepingDispatchManage', '702021062154910333');
-INSERT INTO `p_privilege_copy2` VALUES ('502021062189000294', '业主账号', '', '2021-06-21 16:34:15', '0', '800900000003', '/admin.html#/pages/property/accountManage', '702021062195680293');
-INSERT INTO `p_privilege_copy2` VALUES ('502021062192530487', '推荐商品', '', '2021-06-21 22:53:43', '0', '800900000005', '/admin.html#/pages/goods/recommendGoodsManage', '702021062137340486');
-INSERT INTO `p_privilege_copy2` VALUES ('502021062196940327', '家政工单池', '', '2021-06-21 17:06:08', '0', '800900000005', '/pages/goods/housekeepingServPoolManage', '702021062122460326');
-INSERT INTO `p_privilege_copy2` VALUES ('502021062328150279', '经营范围', '', '2021-06-23 21:01:56', '1', '800900000001', '/admin.html#/pages/admin/shopRangeManage', '702021062389970278');
-INSERT INTO `p_privilege_copy2` VALUES ('502021062387820277', '店铺类型', '', '2021-06-23 21:01:11', '0', '800900000001', '/admin.html#/pages/admin/shopTypeManage', '702021062337560276');
-INSERT INTO `p_privilege_copy2` VALUES ('502021062802241172', '设置保证金', '', '2021-06-28 15:04:53', '0', '800900000001', '/admin.html#/pages/admin/accountBondManage', '702021062840681171');
-INSERT INTO `p_privilege_copy2` VALUES ('502021062812460014', '积分商品', '', '2021-06-28 15:52:17', '0', '800900000005', '/admin.html#/pages/goods/integralGoodsManage', '702021062825470013');
-INSERT INTO `p_privilege_copy2` VALUES ('502021062866190006', '业主缴费明细', '', '2021-06-28 18:46:03', '0', '800900000003', '/admin.html#/pages/property/reportOwnerPayFee', '702021062867530005');
-INSERT INTO `p_privilege_copy2` VALUES ('502021063026630370', '上架商品', '', '2021-06-30 16:10:32', '0', '800900000001', '/admin.html#/pages/admin/productSjManage', '702021063061830369');
-INSERT INTO `p_privilege_copy2` VALUES ('502021063038270065', '保证金明细', '', '2021-06-30 10:55:23', '0', '800900000001', '/admin.html#/pages/admin/accountBondObjDetailManage', '702021063026310064');
-INSERT INTO `p_privilege_copy2` VALUES ('502021063094270368', '上架服务', '', '2021-06-30 16:09:57', '0', '800900000001', '/admin.html#/pages/admin/housekeepingSjServManage', '702021063019100367');
-INSERT INTO `p_privilege_copy2` VALUES ('502021070488970005', '暂停费用', '', '2021-07-04 22:31:35', '0', '800900000003', '/callComponent/fee.updateFee', '702020020163313985');
-INSERT INTO `p_privilege_copy2` VALUES ('502021071018550002', '查看所有人物品', '查看所有人物品', '2021-07-10 15:50:16', '0', '800900000003', '/everythingGoods', '702021040857880017');
-INSERT INTO `p_privilege_copy2` VALUES ('502021071043650029', '紧急采购', '紧急采购', '2021-07-10 14:24:59', '0', '800900000003', '/urgentPurchaseApply', '700201906022');
-INSERT INTO `p_privilege_copy2` VALUES ('502021071202130948', '进货退货', '', '2021-07-12 14:23:53', '0', '800900000005', '/admin.html', '702021071249080947');
-INSERT INTO `p_privilege_copy2` VALUES ('502021071215550940', '仓库管理', '', '2021-07-12 14:20:36', '0', '800900000005', '/admin.html', '702021071214730939');
-INSERT INTO `p_privilege_copy2` VALUES ('502021071243620950', '仓库调拨', '', '2021-07-12 14:25:07', '0', '800900000005', '/admin.html', '702021071290860949');
-INSERT INTO `p_privilege_copy2` VALUES ('502021071248680956', '出库单', '', '2021-07-12 14:27:11', '0', '800900000005', '/admin.html', '702021071272490955');
-INSERT INTO `p_privilege_copy2` VALUES ('502021071280930952', '资产盘点', '', '2021-07-12 14:26:04', '0', '800900000005', '/admin.html', '702021071239100951');
-INSERT INTO `p_privilege_copy2` VALUES ('502021071288170945', '进货单', '', '2021-07-12 14:22:35', '0', '800900000005', '/admin.html', '702021071262720944');
-INSERT INTO `p_privilege_copy2` VALUES ('502021071293150942', '库存查询', '', '2021-07-12 14:21:16', '0', '800900000005', '/admin.html', '702021071291870941');
-INSERT INTO `p_privilege_copy2` VALUES ('502021071299590954', '入库单', '', '2021-07-12 14:26:46', '0', '800900000005', '/admin.html', '702021071283350953');
-INSERT INTO `p_privilege_copy2` VALUES ('502021071692265078', '仓库管理', '', '2021-07-16 18:44:18', '0', '800900000005', '/admin.html#/pages/goods/shopHouseManage', '702021071690625077');
-INSERT INTO `p_privilege_copy2` VALUES ('502021071697855100', '库存警告', '', '2021-07-16 21:18:39', '0', '800900000005', '/admin.html#/pages/goods/queryWarnStock', '702021071611475099');
-INSERT INTO `p_privilege_copy2` VALUES ('502021071737965279', '进货统计', '', '2021-07-17 21:22:28', '0', '800900000005', '/admin.html#/pages/goods/shopHouseManage', '702021071732215278');
-INSERT INTO `p_privilege_copy2` VALUES ('502021072245070097', '短信配置', '', '2021-07-22 15:48:17', '0', '800900000003', '/admin.html#/pages/property/smsConfigManage', '702021072272120096');
-INSERT INTO `p_privilege_copy2` VALUES ('502021072306110008', '支付配置', '', '2021-07-23 18:21:12', '0', '800900000005', '/admin.html#/pages/goods/publicWeChatManage', '702021072302880007');
-INSERT INTO `p_privilege_copy2` VALUES ('502021072604330761', '出入库统计', '', '2021-07-26 19:03:51', '0', '800900000005', '/admin.html#/pages/goods/getInoutInfoManage', '702021072665920760');
-INSERT INTO `p_privilege_copy2` VALUES ('502021072618250759', '销售排行', '', '2021-07-26 19:01:57', '0', '800900000005', '/pages/goods/getSalesRankingInfoManage', '702021072649210758');
-INSERT INTO `p_privilege_copy2` VALUES ('502021072634850805', '打印配置', '', '2021-07-26 22:40:35', '0', '800900000005', '/admin.html#/pages/goods/feePrintSpecManage', '702021072620910804');
-INSERT INTO `p_privilege_copy2` VALUES ('502021072663410763', '销售统计', '', '2021-07-26 19:04:19', '0', '800900000005', '/admin.html#/pages/goods/getSalesInfoManage', '702021072680130762');
-INSERT INTO `p_privilege_copy2` VALUES ('502021072910860411', '销售成本明细', '', '2021-07-29 19:30:10', '0', '800900000005', '/admin.html#/pages/goods/sellingCostDetailManage', '702021072964740410');
-INSERT INTO `p_privilege_copy2` VALUES ('502021072943740260', '商品导入', '', '2021-07-29 13:07:45', '0', '800900000005', '/admin.html#/pages/goods/productImport', '702021072983830259');
-INSERT INTO `p_privilege_copy2` VALUES ('502021072961940017', '押金报表', '押金报表', '2021-07-29 15:02:53', '0', '800900000003', '/admin.html#/pages/property/reportPayFeeDeposit', '702021072906100016');
-INSERT INTO `p_privilege_copy2` VALUES ('502021072970890409', '销售成本表', '', '2021-07-29 19:29:35', '0', '800900000005', '/admin.html#/pages/goods/sellingCostManage', '702021072960630408');
-INSERT INTO `p_privilege_copy2` VALUES ('502021080205380169', '首页广告', '', '2021-08-02 08:33:25', '0', '800900000005', '/admin.html#/pages/goods/phoneAdManage', '702021080266370168');
-INSERT INTO `p_privilege_copy2` VALUES ('502021080210960243', '商品标签', '', '2021-08-02 11:21:13', '0', '800900000005', '/admin.html#/pages/goods/labelManage', '702021080208380242');
-INSERT INTO `p_privilege_copy2` VALUES ('502021080219100277', '打标商品', '', '2021-08-02 12:40:00', '0', '800900000005', '/admin.html#/pages/goods/productLabelManage', '702021080276900276');
-INSERT INTO `p_privilege_copy2` VALUES ('502021080249300171', '首页菜单', '', '2021-08-02 08:34:13', '0', '800900000005', '/admin.html#/pages/goods/indexMenu', '702021080251950170');
-INSERT INTO `p_privilege_copy2` VALUES ('502021080288840173', '首页推荐', '', '2021-08-02 08:35:27', '0', '800900000005', '/admin.html#/pages/goods/indexRecommend', '702021080256500172');
-INSERT INTO `p_privilege_copy2` VALUES ('502021080561750004', '初始化小区', '', '2021-08-05 19:09:43', '0', '800900000000', '/admin.html#/pages/dev/initializeCommunityManage', '702021080500070003');
-INSERT INTO `p_privilege_copy2` VALUES ('502021080616030009', '返省上报', '', '2021-08-06 12:45:10', '0', '800900000003', '/admin.html#/pages/property/reportInfoBackCityManage', '702021080618760008');
-INSERT INTO `p_privilege_copy2` VALUES ('502021080677090007', '疫情设置', '', '2021-08-06 16:29:59', '0', '800900000003', '/admin.html#/pages/property/reportInfoSettingManage', '702021080692250006');
-INSERT INTO `p_privilege_copy2` VALUES ('502021080989280305', '疫情上报', '', '2021-08-09 13:26:17', '0', '800900000003', '/admin.html#/pages/property/reportInfoAnswerValueManage', '702021080999980304');
-INSERT INTO `p_privilege_copy2` VALUES ('502021081380190126', '华宁物业报表', '', '2021-08-13 16:30:39', '0', '800900000003', '/admin.html#/pages/property/reportHuaning', '702021081328060125');
-INSERT INTO `p_privilege_copy2` VALUES ('502021081604100338', '流程实例', '', '2021-08-16 16:30:56', '0', '800900000003', '/admin.html#/pages/property/oaWorkflowManage', '702021081622100337');
-INSERT INTO `p_privilege_copy2` VALUES ('502021081927700230', '我的流程', '', '2021-08-19 22:28:52', '0', '800900000003', '/admin.html#/pages/property/newOaWorkflowManage', '702021081962210229');
-INSERT INTO `p_privilege_copy2` VALUES ('502021083111500005', '验房记录', '验房跟踪记录', '2021-08-31 14:11:27', '0', '800900000003', '/admin.html#/pages/property/listApplyRoomDiscountRecord', '702021083127700004');
-INSERT INTO `p_privilege_copy2` VALUES ('502021090151040005', '验房记录详情', '验房记录详情', '2021-09-01 11:19:33', '0', '800900000003', '/admin.html#/pages/property/listApplyRoomDiscountRecordDetails', '702021090176340004');
-INSERT INTO `p_privilege_copy2` VALUES ('502021090787720028', '小区配置', '小区配置', '2021-09-07 15:19:57', '0', '800900000003', '/admin.html#/pages/property/communitySettingManage', '702021090752200027');
-INSERT INTO `p_privilege_copy2` VALUES ('502021090999380224', '流程办理', '', '2021-09-09 11:38:18', '0', '800900000003', '/admin.html#/pages/property/newOaWorkflowDoing', '702021090912130223');
-INSERT INTO `p_privilege_copy2` VALUES ('502021091034810201', '流程', '', '2021-09-10 12:02:37', '0', '800900000003', '/pages/oaWorkflow/oaWorkflow', '702021091060730200');
-INSERT INTO `p_privilege_copy2` VALUES ('502021091055020119', '物品信息(全)', '', '2021-09-10 10:47:57', '0', '800900000003', '/admin.html#/pages/common/resourceStoreAllManage', '702021091065070118');
-INSERT INTO `p_privilege_copy2` VALUES ('502021091072950210', '物品使用记录(全)', '', '2021-09-10 12:33:50', '0', '800900000003', '/admin.html#/pages/common/resourceStoreUseRecordAllManage', '702021091090480209');
-INSERT INTO `p_privilege_copy2` VALUES ('502021091083490194', '项目管理', '', '2021-09-10 11:41:13', '0', '800900000003', '/admin.html#/pages/property/projectManagement', '702021091045500193');
-INSERT INTO `p_privilege_copy2` VALUES ('502021091295510202', '业务轨迹', '', '2021-09-12 15:48:39', '0', '800900000000', '/admin.html#/pages/dev/businessTableHisManage', '702021091240630201');
-INSERT INTO `p_privilege_copy2` VALUES ('502021091326420004', '大厦楼栋', '', '2021-09-13 17:48:44', '0', '800900000003', '/admin.html#/pages/property/listLargeFloor', '702021091384280003');
-INSERT INTO `p_privilege_copy2` VALUES ('502021091667100021', '收据模板', '', '2021-09-16 22:46:38', '0', '800900000003', '/admin.html#/pages/property/feePrintPageManage', '702021091638030020');
-INSERT INTO `p_privilege_copy2` VALUES ('502021092172220199', '抄表类型', '', '2021-09-21 23:13:48', '0', '800900000003', '/admin.html#/pages/property/meterTypeManage', '702021092119770198');
-INSERT INTO `p_privilege_copy2` VALUES ('502021092217340393', '取消费用', '', '2021-09-22 18:17:24', '0', '800900000003', '/admin.html#/pages/property/payFeeBatch', '702021092221910392');
-INSERT INTO `p_privilege_copy2` VALUES ('502021092391650276', '问候语设置', '', '2021-09-23 22:30:28', '0', '800900000003', '/admin.html#/pages/property/parkingAreaText', '702021092352050275');
-INSERT INTO `p_privilege_copy2` VALUES ('502021092872230424', '店铺小区', '', '2021-09-28 18:34:59', '0', '800900000006', '/admin.html#/pages/goods/shopCommunityManage', '702021092890350423');
-INSERT INTO `p_privilege_copy2` VALUES ('502021101102810212', '派送方式', '', '2021-10-11 18:08:34', '1', '800900000005', '/admin.html#/pages/goods/distributionModeManage', '702021101121500211');
-INSERT INTO `p_privilege_copy2` VALUES ('502021101108270002', '产权登记', '产权登记', '2021-10-11 11:17:11', '0', '800900000003', '/admin.html#/pages/property/propertyRightRegistrationManage', '702021101132330001');
-INSERT INTO `p_privilege_copy2` VALUES ('502021101197710001', '修改仓库权限', '修改仓库权限', '2021-10-11 09:17:05', '0', '800900000003', '/updateStorehouseManage', '702021040741950148');
-INSERT INTO `p_privilege_copy2` VALUES ('502021101595030007', '设备类型', '', '2021-10-15 13:51:19', '0', '800900000003', '/admin.html#/pages/property/machineTypeManage', '702021101575360006');
-INSERT INTO `p_privilege_copy2` VALUES ('502021101624220032', '视频监控', '', '2021-10-16 22:47:04', '0', '800900000003', '/admin.html#/pages/property/videoControl', '702021101602440031');
-INSERT INTO `p_privilege_copy2` VALUES ('502021101638940006', '产权登记详情', '产权登记详情', '2021-10-16 10:05:41', '0', '800900000003', '/admin.html#/pages/property/listPropertyRightRegistrationDetail', '702021101679350005');
-INSERT INTO `p_privilege_copy2` VALUES ('502021101638940007', '修改仓库权限', '修改仓库权限', '2021-10-11 09:17:05', '0', '800900000003', '/updateStorehouseManage', '702021040741950148');
-INSERT INTO `p_privilege_copy2` VALUES ('502021101852260166', '车位申请', '', '2021-10-18 17:04:02', '0', '800900000003', '/admin.html#/pages/property/parkingSpaceApplyManage', '702021101880660165');
-INSERT INTO `p_privilege_copy2` VALUES ('502021101882670002', '岗亭管理', '', '2021-10-18 00:36:10', '0', '800900000003', '/admin.html#/pages/property/parkingBoxManage', '702021101828000001');
-INSERT INTO `p_privilege_copy2` VALUES ('502021102148930001', '房屋产权登记审批权限', '房屋产权登记审批权限', '2021-10-21 14:46:50', '0', '800900000003', '/wechatPropertyRightRegistrationNotice', '702021101132330001');
-INSERT INTO `p_privilege_copy2` VALUES ('502021110374581810', '修改菜单组', '', '2021-11-03 20:38:49', '0', '800900000000', '/callComponent/editMenuGroup/update', '700201908033');
-INSERT INTO `p_privilege_copy2` VALUES ('502021110974670127', '报表组', '', '2021-11-09 14:38:40', '0', '800900000000', '/admin.html#/pages/dev/reportCustomGroupManage', '702021110981050126');
-INSERT INTO `p_privilege_copy2` VALUES ('502021111231120406', '报表组件', '报表组件', '2021-11-12 10:00:34', '0', '800900000000', '/admin.html#/pages/dev/reportCustomComponentManage', '702021111211780405');
-INSERT INTO `p_privilege_copy2` VALUES ('502021111280010376', '报表信息', '', '2021-11-12 09:03:45', '0', '800900000000', '/admin.html#/pages/dev/reportCustomManage', '702021111293630375');
-INSERT INTO `p_privilege_copy2` VALUES ('502021111298580048', '报修报表', '', '2021-11-12 15:51:18', '0', '800900000003', '/admin.html#/pages/property/commonReport', '702021111283300047');
-INSERT INTO `p_privilege_copy2` VALUES ('502021111404460005', '查询服务权限', '', '2021-11-14 23:44:49', '0', '800900000000', '/app/serviceManage/list', '700201906026');
-INSERT INTO `p_privilege_copy2` VALUES ('502021111501470249', '删除菜单组', '', '2021-11-15 16:59:30', '0', '800900000000', '/callComponent/deleteMenuGroup/delete', '700201908033');
-INSERT INTO `p_privilege_copy2` VALUES ('502021111503660250', '查询菜单列表', '', '2021-11-15 17:00:53', '0', '800900000000', '/callComponent/menuManage/list', '700201908035');
-INSERT INTO `p_privilege_copy2` VALUES ('502021111504290091', '新增服务提供', '', '2021-11-15 16:49:36', '0', '800900000000', '/callComponent/devServiceProvideBinding/binding', '702019090161010006');
-INSERT INTO `p_privilege_copy2` VALUES ('502021111509280272', '保存报表组件', '', '2021-11-15 17:21:59', '0', '800900000000', '/app/reportCustomComponent.saveReportCustomComponent', '702021111211780405');
-INSERT INTO `p_privilege_copy2` VALUES ('502021111510210072', '删除编码映射', '', '2021-11-15 16:10:03', '0', '800900000000', '/callComponent/deleteMapping/delete', '700201906028');
-INSERT INTO `p_privilege_copy2` VALUES ('502021111510430063', '刷新缓存', '', '2021-11-15 15:49:22', '0', '800900000000', '/callComponent/cacheManage/flushCache', '700201908032');
-INSERT INTO `p_privilege_copy2` VALUES ('502021111514690259', '修改手机菜单权限', '', '2021-11-15 17:05:48', '0', '800900000001', '/app/housekeepingType/updateHousekeepingType', '702021060521430094');
-INSERT INTO `p_privilege_copy2` VALUES ('502021111517720085', '修改服务提供', '', '2021-11-15 16:47:34', '0', '800900000000', '/callComponent/editServiceProvide/update', '702019090161010006');
-INSERT INTO `p_privilege_copy2` VALUES ('502021111520450266', '查询报表信息', '', '2021-11-15 17:17:40', '1', '800900000000', '/app/reportCustom.listReportCustom', '702021111293630375');
-INSERT INTO `p_privilege_copy2` VALUES ('502021111529750274', '删除报表组件', '', '2021-11-15 17:22:54', '0', '800900000000', '/app/reportCustomComponent.deleteReportCustomComponent', '702021111211780405');
-INSERT INTO `p_privilege_copy2` VALUES ('502021111531030252', '修改菜单维护', '', '2021-11-15 17:01:34', '0', '800900000000', '/callComponent/editMenu/update', '700201908035');
-INSERT INTO `p_privilege_copy2` VALUES ('502021111538930243', '查询菜单组', '', '2021-11-15 16:57:21', '0', '800900000000', '/callComponent/menuGroupManage/list', '700201908033');
-INSERT INTO `p_privilege_copy2` VALUES ('502021111540410070', '新增编码映射', '', '2021-11-15 16:08:32', '0', '800900000000', '/callComponent/addMapping/save', '700201906028');
-INSERT INTO `p_privilege_copy2` VALUES ('502021111540820058', '查询服务注册', '', '2021-11-15 15:43:29', '0', '800900000000', '/callComponent/serviceRegisterManage/list', '700201908030');
-INSERT INTO `p_privilege_copy2` VALUES ('502021111540930062', '缓存查询', '', '2021-11-15 15:48:44', '0', '800900000000', '/callComponent/cacheManage/list', '700201908032');
-INSERT INTO `p_privilege_copy2` VALUES ('502021111541150265', '删除报表组', '', '2021-11-15 17:15:59', '0', '800900000000', '/app/reportCustomGroup.deleteReportCustomGroup', '702021110981050126');
-INSERT INTO `p_privilege_copy2` VALUES ('502021111542140083', '查询服务实现', '', '2021-11-15 16:44:37', '0', '800900000000', '/callComponent/serviceImplManage/list', '700201906027');
-INSERT INTO `p_privilege_copy2` VALUES ('502021111542240273', '修改报表组件', '', '2021-11-15 17:22:31', '0', '800900000000', '/app/reportCustomComponent.updateReportCustomComponent', '702021111211780405');
-INSERT INTO `p_privilege_copy2` VALUES ('502021111542570057', '添加服务注册', '', '2021-11-15 15:42:51', '0', '800900000000', '/callComponent/serviceBinding/binding', '700201908030');
-INSERT INTO `p_privilege_copy2` VALUES ('502021111542850075', '删除服务实现', '', '2021-11-15 16:17:04', '0', '800900000000', '/callComponent/deleteServiceImpl/delete', '700201906027');
-INSERT INTO `p_privilege_copy2` VALUES ('502021111546210262', '查询报表组', '', '2021-11-15 17:13:26', '1', '800900000000', '/app/reportCustomGroup.listReportCustomGroup', '702021110981050126');
-INSERT INTO `p_privilege_copy2` VALUES ('502021111556820267', '保存报表信息', '', '2021-11-15 17:18:33', '0', '800900000000', '/app/reportCustom.saveReportCustom', '702021111293630375');
-INSERT INTO `p_privilege_copy2` VALUES ('502021111558720257', '保存手机菜单', '', '2021-11-15 17:05:03', '0', '800900000001', '/app/housekeepingType/saveHousekeepingType', '702021060521430094');
-INSERT INTO `p_privilege_copy2` VALUES ('502021111559700088', '删除服务提供', '', '2021-11-15 16:48:26', '0', '800900000000', '/callComponent/deleteServiceProvide/delete', '702019090161010006');
-INSERT INTO `p_privilege_copy2` VALUES ('502021111560550082', '查询编码映射', '', '2021-11-15 16:41:55', '0', '800900000000', '/callComponent/mappingManage/list', '700201906028');
-INSERT INTO `p_privilege_copy2` VALUES ('502021111562530061', '修改服务', '', '2021-11-15 15:45:53', '0', '800900000000', '/app/editService/update', '700201906026');
-INSERT INTO `p_privilege_copy2` VALUES ('502021111563500071', '修改编码映射', '', '2021-11-15 16:09:20', '0', '800900000000', '/callComponent/editMapping/update', '700201906028');
-INSERT INTO `p_privilege_copy2` VALUES ('502021111565140074', '修改服务实现', '', '2021-11-15 16:15:55', '0', '800900000000', '/callComponent/editServiceImpl/update', '700201906027');
-INSERT INTO `p_privilege_copy2` VALUES ('502021111565780073', '新增服务实现', '', '2021-11-15 16:15:28', '0', '800900000000', '/callComponent/addServiceImpl/save', '700201906027');
-INSERT INTO `p_privilege_copy2` VALUES ('502021111570020263', '保存报表组', '', '2021-11-15 17:14:38', '0', '800900000000', '/app/reportCustomGroup.saveReportCustomGroup', '702021110981050126');
-INSERT INTO `p_privilege_copy2` VALUES ('502021111570580056', '删除服务注册', '', '2021-11-15 15:41:46', '0', '800900000000', '/callComponent/deleteServiceRegister/delete', '700201908030');
-INSERT INTO `p_privilege_copy2` VALUES ('502021111570920060', '删除服务', '', '2021-11-15 15:45:13', '0', '800900000000', '/app/deleteService/delete', '700201906026');
-INSERT INTO `p_privilege_copy2` VALUES ('502021111575090253', '删除菜单权限', '', '2021-11-15 17:02:00', '0', '800900000000', '/callComponent/deleteMenu/delete', '700201908035');
-INSERT INTO `p_privilege_copy2` VALUES ('502021111575150270', '查询报表组件', '', '2021-11-15 17:21:32', '1', '800900000000', '/app/reportCustomComponent.listReportCustomComponent', '702021111211780405');
-INSERT INTO `p_privilege_copy2` VALUES ('502021111575780246', '新增菜单组', '', '2021-11-15 16:58:42', '0', '800900000000', '/callComponent/addMenuGroup/save', '700201908033');
-INSERT INTO `p_privilege_copy2` VALUES ('502021111577680254', '新增菜单权限', '', '2021-11-15 17:02:55', '0', '800900000000', '/callComponent/configMenuBinding/binding', '700201908035');
-INSERT INTO `p_privilege_copy2` VALUES ('502021111591850268', '修改报表信息', '', '2021-11-15 17:19:00', '0', '800900000000', '/app/reportCustom.updateReportCustom', '702021111293630375');
-INSERT INTO `p_privilege_copy2` VALUES ('502021111592830260', '删除手机菜单权限', '', '2021-11-15 17:06:28', '0', '800900000001', '/app/housekeepingType/deleteHousekeepingType', '702021060521430094');
-INSERT INTO `p_privilege_copy2` VALUES ('502021111594010084', '查询服务提供', '', '2021-11-15 16:47:01', '0', '800900000000', '/callComponent/serviceProvideManage/list', '702019090161010006');
-INSERT INTO `p_privilege_copy2` VALUES ('502021111596180059', '添加服务', '', '2021-11-15 15:44:46', '0', '800900000000', '/app/addService/save', '700201906026');
-INSERT INTO `p_privilege_copy2` VALUES ('502021111598200264', '修改报表组', '', '2021-11-15 17:15:01', '0', '800900000000', '/app/reportCustomGroup.updateReportCustomGroup', '702021110981050126');
-INSERT INTO `p_privilege_copy2` VALUES ('502021111599410269', '删除报表信息', '', '2021-11-15 17:19:31', '0', '800900000000', '/app/reportCustom.deleteReportCustom', '702021111293630375');
-INSERT INTO `p_privilege_copy2` VALUES ('502021112406010643', '购买记录', '', '2021-11-24 09:48:21', '0', '800900000001', '/admin.html#/pages/admin/couponDetailManage', '702021112400650642');
-INSERT INTO `p_privilege_copy2` VALUES ('502021112430630055', '删除手机菜单权限', '', '2021-11-24 15:45:21', '1', '800900000001', '/app/housekeepingType/deleteHousekeepingType', '702021112480070051');
-INSERT INTO `p_privilege_copy2` VALUES ('502021112438140057', '保存手机菜单', '', '2021-11-24 15:45:48', '1', '800900000001', '/app/housekeepingType/saveHousekeepingType', '702021112480070051');
-INSERT INTO `p_privilege_copy2` VALUES ('502021112438840049', '优惠劵管理', '', '2021-11-24 15:29:09', '0', '800900000005', '/admin.html#/pages/goods/couponShopPoolManage', '702021112475670048');
-INSERT INTO `p_privilege_copy2` VALUES ('502021112448740052', '商城菜单', '', '2021-11-24 15:33:10', '1', '800900000001', '/admin.html#/pages/admin/housekeepingTypeManage', '702021112480070051');
-INSERT INTO `p_privilege_copy2` VALUES ('502021112462150056', '修改手机菜单权限', '', '2021-11-24 15:45:34', '1', '800900000001', '/app/housekeepingType/updateHousekeepingType', '702021112480070051');
-INSERT INTO `p_privilege_copy2` VALUES ('502021112464960641', '制作优惠券', '', '2021-11-24 09:47:32', '0', '800900000001', '/admin.html#/pages/admin/couponPoolManage', '702021112410210640');
-INSERT INTO `p_privilege_copy2` VALUES ('502021112492100038', '商城菜单', '', '2021-11-24 14:58:45', '0', '800900000000', '/admin.html#/pages/admin/housekeepingTypeManage', '702021112401220037');
-INSERT INTO `p_privilege_copy2` VALUES ('502021112503150068', '购买记录', '', '2021-11-25 18:09:13', '0', '800900000005', '/admin.html#/pages/goods/couponDetailManage', '702021112575360067');
-INSERT INTO `p_privilege_copy2` VALUES ('502021112644890011', '修改手机菜单权限', '', '2021-11-26 21:17:46', '0', '800900000001', '/app/housekeepingType/updateHousekeepingType', '702021112480070051');
-INSERT INTO `p_privilege_copy2` VALUES ('502021112680420010', '保存手机菜单', '', '2021-11-26 21:17:21', '0', '800900000001', '/app/housekeepingType/saveHousekeepingType', '702021112480070051');
-INSERT INTO `p_privilege_copy2` VALUES ('502021112683010013', '商城菜单', '', '2021-11-26 21:18:44', '0', '800900000001', '/admin.html#/pages/admin/housekeepingTypeManage', '702021112480070051');
-INSERT INTO `p_privilege_copy2` VALUES ('502021112690960012', '删除手机菜单权限', '', '2021-11-26 21:18:21', '0', '800900000001', '/app/housekeepingType/deleteHousekeepingType', '702021112480070051');
-INSERT INTO `p_privilege_copy2` VALUES ('502021112777450036', '店铺变更', '', '2021-11-27 23:49:24', '0', '800900000001', '/admin.html#/pages/admin/shopAuditManage', '702021112709830035');
-INSERT INTO `p_privilege_copy2` VALUES ('502021112901480701', '变更记录', '', '2021-11-29 20:42:37', '0', '800900000005', '/admin.html#/pages/goods/shopAuditManage', '702021112954770700');
-INSERT INTO `p_privilege_copy2` VALUES ('502021113099850432', '店铺配置', '', '2021-11-30 17:14:55', '0', '800900000005', '/admin.html#/pages/goods/shopSettingManage', '702021113001970431');
-INSERT INTO `p_privilege_copy2` VALUES ('502021120131020286', '赠送记录', '', '2021-12-01 16:42:41', '0', '800900000005', '/admin.html#/pages/goods/couponShopPoolDetailManage', '702021120171520285');
-INSERT INTO `p_privilege_copy2` VALUES ('502021122129210001', '删除仓库权限', '删除仓库权限', '2021-12-21 18:42:09', '0', '800900000003', '/deleteStorehouseManage', '702021040741950148');
-INSERT INTO `p_privilege_copy2` VALUES ('502022011291910106', '调拨入库', '调拨入库', '2022-01-12 15:43:06', '0', '800900000005', '/adminDetail.html#/pages/goods/doAllocationOrderIn', '702022011255150105');
-INSERT INTO `p_privilege_copy2` VALUES ('502022022549630561', '修改费用项', '', '2022-02-25 16:49:28', '0', '800900000003', '/callComponent/editFeeConfig/update', '702020013025182995');
-INSERT INTO `p_privilege_copy2` VALUES ('502022022571930560', '添加费用项', '', '2022-02-25 16:48:57', '0', '800900000003', '/callComponent/addFeeConfig/save', '702020013025182995');
-INSERT INTO `p_privilege_copy2` VALUES ('502022022586400562', '删除费用项', '', '2022-02-25 16:49:48', '0', '800900000003', '/callComponent/deleteFeeConfig/delete', '702020013025182995');
-INSERT INTO `p_privilege_copy2` VALUES ('502022022699820647', '菜单目录', '', '2022-02-26 10:32:55', '0', '800900000000', '/admin.html#/pages/dev/menuCatalogManage', '702022022626440646');
-INSERT INTO `p_privilege_copy2` VALUES ('502022022717100026', '营业报表', '营业报表', '2022-02-27 17:29:52', '0', '800900000003', '/#/pages/property/commonReport?groupId=102022022795370086', '702022022718510025');
-INSERT INTO `p_privilege_copy2` VALUES ('502022022862740060', '物业公司', '物业公司', '2022-02-28 09:49:56', '0', '800900000001', '/#/pages/property/propertyManage', '702022022890130059');
-INSERT INTO `p_privilege_copy2` VALUES ('502022022870870062', '周边商家', '周边商家', '2022-02-28 09:51:44', '0', '800900000001', '/#/pages/property/merchantManage', '702022022833220061');
-INSERT INTO `p_privilege_copy2` VALUES ('502022030461080056', '结构图', '结构图', '2022-03-04 11:15:34', '0', '800900000003', '/#/pages/property/roomStructure', '702022030439900055');
-INSERT INTO `p_privilege_copy2` VALUES ('502022031569630002', '巡检项目', '', '2022-03-15 11:19:41', '0', '800900000003', '/#/pages/property/inspectionItemManage', '702022031546110001');
-INSERT INTO `p_privilege_copy2` VALUES ('502022031612550001', '删除巡检任务', '', '2022-03-16 09:42:44', '0', '800900000003', '/app/inspectionTask.deleteInspectionTask', '702020021988260017');
-INSERT INTO `p_privilege_copy2` VALUES ('502022032383620003', '取消采购', '', '2022-03-23 10:43:02', '0', '800900000003', '/callComponent/deletePurchaseApply/delete', '700201906022');
-INSERT INTO `p_privilege_copy2` VALUES ('502022040550430008', '车位结构图', '', '2022-04-05 14:57:37', '0', '800900000003', '/#/pages/property/carStructure', '702022040524600007');
-INSERT INTO `p_privilege_copy2` VALUES ('502022042135320001', '预约车审核权限', '预约车审核权限', '2022-04-21 14:01:22', '0', '800900000003', '/reviewVisitJurisdiction', '700201908031');
-INSERT INTO `p_privilege_copy2` VALUES ('502022050704250038', '费用套餐', '', '2022-05-07 20:01:18', '0', '800900000003', '/#/pages/property/feeComboManage', '702022050718240037');
-INSERT INTO `p_privilege_copy2` VALUES ('502022051185830006', '巡检报表', '', '2022-05-11 10:19:14', '0', '800900000003', '/#/pages/property/commonReport?groupId=102022051141350637', '702022051177100005');
-INSERT INTO `p_privilege_copy2` VALUES ('502022052408880005', '测试菜单', 'qwe', '2022-05-24 15:39:21', '0', '800900000003', '/', '702022052464680004');
-INSERT INTO `p_privilege_copy2` VALUES ('502022061703610003', '供应链配置', '', '2022-06-17 15:47:34', '0', '800900000001', '/#/pages/admin/chainSupplierManage', '702022061719130002');
-INSERT INTO `p_privilege_copy2` VALUES ('502022061991480006', '供应链供应商分类', '', '2022-06-19 13:02:15', '0', '800900000001', '/#/pages/admin/chainSupplierCatalogManage', '702022061917970005');
-INSERT INTO `p_privilege_copy2` VALUES ('502022062081370010', '集采中心', '', '2022-06-20 11:46:59', '0', '800900000005', '/#/pages/goods/chainSupplier', '702022062003970009');
-INSERT INTO `p_privilege_copy2` VALUES ('502022062193860006', '集采订单', '', '2022-06-21 17:58:01', '0', '800900000001', '/#/pages/admin/chainInoutOrder', '702022062136120005');
-INSERT INTO `p_privilege_copy2` VALUES ('502022062810710007', '订单', '', '2022-06-28 01:52:46', '0', '800900000005', '/#/pages/goods/chainInoutOrderManage', '702022062846660006');
-INSERT INTO `p_privilege_copy2` VALUES ('502022070169220009', '商品定价', '', '2022-07-01 10:31:28', '0', '800900000005', '/#/pages/goods/productPriceRuleManage', '702022070162090008');
-INSERT INTO `p_privilege_copy2` VALUES ('502022070752510038', '字典', '字典', '2022-07-07 09:26:35', '0', '800900000000', '/#/pages/dev/dictManage', '702022070767920037');
-INSERT INTO `p_privilege_copy2` VALUES ('502022071944240002', '门禁设备', '门禁设备', '2022-07-19 17:48:31', '0', '800900000003', '/#/pages/property/accessControlMachineManage', '702022071912950001');
-INSERT INTO `p_privilege_copy2` VALUES ('502022072252870002', '考勤机', '', '2022-07-22 10:51:33', '0', '800900000003', '/#/pages/property/attendanceMachineManage', '702022072243690001');
-INSERT INTO `p_privilege_copy2` VALUES ('502022072646240006', '角色权限', '', '2022-07-26 22:11:12', '0', '800900000003', '/#/pages/frame/role', '702022072679280005');
-INSERT INTO `p_privilege_copy2` VALUES ('502022072828850012', '车辆道闸', '', '2022-07-28 11:04:03', '0', '800900000003', '/#/pages/property/barrierGateMachineManage', '702022072874100011');
-INSERT INTO `p_privilege_copy2` VALUES ('502022072846860022', '角色权限', '', '2022-07-28 21:35:44', '0', '800900000001', '/#/pages/frame/role', '702022072820580021');
-INSERT INTO `p_privilege_copy2` VALUES ('502022072871510020', '员工信息', '', '2022-07-28 21:34:42', '0', '800900000001', '/#/pages/frame/staff', '702022072883040019');
-INSERT INTO `p_privilege_copy2` VALUES ('502022072875560010', '监控设备', '', '2022-07-28 10:01:36', '0', '800900000003', '/#/pages/property/monitorMachineManage', '702022072858000009');
-INSERT INTO `p_privilege_copy2` VALUES ('502022072893420017', '组织信息', '', '2022-07-28 21:33:28', '0', '800900000001', '/#/pages/frame/orgManage', '702022072884160016');
-INSERT INTO `p_privilege_copy2` VALUES ('502022073006890006', '费用套餐', '费用套餐', '2022-07-30 11:51:58', '0', '800900000003', '/feePackage', '702020101393980025');
-INSERT INTO `p_privilege_copy2` VALUES ('502022073007100003', '临时缴费', '临时缴费', '2022-07-30 11:46:56', '0', '800900000003', '/temporaryPayment', '702020101393980025');
-INSERT INTO `p_privilege_copy2` VALUES ('502022073042960005', '水电抄表', '水电抄表', '2022-07-30 11:49:25', '0', '800900000003', '/waterAndElectricityMeterReading', '702020101393980025');
-INSERT INTO `p_privilege_copy2` VALUES ('502022073049300004', '按量缴费', '按量缴费', '2022-07-30 11:48:14', '0', '800900000003', '/payByVolume', '702020101393980025');
-INSERT INTO `p_privilege_copy2` VALUES ('502022073096990007', '创建费用', '创建费用', '2022-07-30 11:56:23', '0', '800900000003', '/createCharges', '702020101393980025');
-INSERT INTO `p_privilege_copy2` VALUES ('502022081681300531', '服务记录', '', '2022-08-16 01:31:04', '0', '800900000003', '/#/pages/property/notepadManage', '702022081628450530');
-INSERT INTO `p_privilege_copy2` VALUES ('502022081701700001', '修改物品信息', '修改物品信息', '2022-08-17 14:16:36', '0', '800900000003', '/updateResource', '702019102148640005');
-INSERT INTO `p_privilege_copy2` VALUES ('502022081709270004', '添加物品信息', '添加物品信息', '2022-08-17 14:20:58', '0', '800900000003', '/addResource', '702019102148640005');
-INSERT INTO `p_privilege_copy2` VALUES ('502022081711010004', '系统配置', '', '2022-08-17 00:15:09', '0', '800900000000', '/#/pages/frame/systemInfoManage', '702022081723230003');
-INSERT INTO `p_privilege_copy2` VALUES ('502022081741410002', '删除物品信息', '删除物品信息', '2022-08-17 14:17:23', '0', '800900000003', '/deleteResource', '702019102148640005');
-INSERT INTO `p_privilege_copy2` VALUES ('502022081750470005', '导入物品信息', '导入物品信息', '2022-08-17 14:22:29', '0', '800900000003', '/importResource', '702019102148640005');
-INSERT INTO `p_privilege_copy2` VALUES ('502022081856510001', '查看不对外仓库权限', '查看不对外展示仓库权限', '2022-08-18 18:44:20', '0', '800900000003', '/viewHiddenWarehouse', '702019102148640005');
-INSERT INTO `p_privilege_copy2` VALUES ('502022082917040004', '关联员工权限', '关联员工权限', '2022-08-29 14:52:53', '0', '800900000003', '/orgRelStaff', '702019100725620006');
-INSERT INTO `p_privilege_copy2` VALUES ('502022082920040010', '删除关联员工信息', '删除关联员工信息', '2022-08-29 15:34:07', '0', '800900000003', '/deleteSoleStaff', '702022072679280005');
-INSERT INTO `p_privilege_copy2` VALUES ('502022082920350003', '删除员工信息', '删除员工信息', '2022-08-29 15:12:13', '0', '800900000003', '/deleteStaff', '700201904001');
-INSERT INTO `p_privilege_copy2` VALUES ('502022082926310006', '删除角色权限', '删除角色权限', '2022-08-29 15:22:13', '0', '800900000003', '/deletePrivilegeGroup', '702022072679280005');
-INSERT INTO `p_privilege_copy2` VALUES ('502022082943170003', '删除组织信息权限', '删除组织信息权限', '2022-08-29 14:48:02', '0', '800900000003', '/orgTreeDel', '702019100725620006');
-INSERT INTO `p_privilege_copy2` VALUES ('502022082949810002', '修改组织信息权限', '修改组织信息权限', '2022-08-29 14:47:09', '0', '800900000003', '/orgTreeEdit', '702019100725620006');
-INSERT INTO `p_privilege_copy2` VALUES ('502022082955220005', '删除关联员工权限', '删除关联员工权限', '2022-08-29 14:54:17', '0', '800900000003', '/deleteOrgRelStaff', '702019100725620006');
-INSERT INTO `p_privilege_copy2` VALUES ('502022082955280007', '功能授权权限', '功能授权权限', '2022-08-29 15:23:35', '0', '800900000003', '/rolePrivilege', '702022072679280005');
-INSERT INTO `p_privilege_copy2` VALUES ('502022082961190009', '员工关联权限', '员工关联权限', '2022-08-29 15:25:33', '0', '800900000003', '/roleStaff', '702022072679280005');
-INSERT INTO `p_privilege_copy2` VALUES ('502022082965160008', '小区授权权限', '小区授权权限', '2022-08-29 15:24:21', '0', '800900000003', '/roleCommunity', '702022072679280005');
-INSERT INTO `p_privilege_copy2` VALUES ('502022082984960001', '添加组织信息权限', '添加组织信息权限', '2022-08-29 14:46:31', '0', '800900000003', '/orgTreeAdd', '702019100725620006');
-INSERT INTO `p_privilege_copy2` VALUES ('502022082992300002', '更新员工信息', '更新员工信息', '2022-08-29 15:11:32', '0', '800900000003', '/editStaff', '700201904001');
-INSERT INTO `p_privilege_copy2` VALUES ('502022082992310001', '添加员工信息', '添加员工信息', '2022-08-29 15:10:57', '0', '800900000003', '/addStaff', '700201904001');
-INSERT INTO `p_privilege_copy2` VALUES ('502022082992870004', '添加角色权限', '添加角色权限', '2022-08-29 15:21:19', '0', '800900000003', '/addPrivilegeGroup', '702022072679280005');
-INSERT INTO `p_privilege_copy2` VALUES ('502022090581460004', '数据权限', '', '2022-09-05 16:08:05', '0', '800900000003', '/#/pages/property/dataPrivilegeManage', '702022090567490003');
-INSERT INTO `p_privilege_copy2` VALUES ('502022090809430009', '员工考勤', '', '2022-09-08 11:49:02', '0', '800900000003', '/#/pages/property/staffAttendanceManage', '702022090883410008');
-INSERT INTO `p_privilege_copy2` VALUES ('502022090904120022', '控制台', '', '2022-09-09 18:19:27', '0', '800900000003', '/parkingAreaControl.html', '702021101828000001');
-INSERT INTO `p_privilege_copy2` VALUES ('502022090909800019', '删除岗亭', '', '2022-09-09 17:54:49', '0', '800900000003', '/app/parkingBox.deleteParkingBox', '702021101828000001');
-INSERT INTO `p_privilege_copy2` VALUES ('502022090964370018', '修改岗亭', '', '2022-09-09 17:54:14', '0', '800900000003', '/app/parkingBox.updateParkingBox', '702021101828000001');
-INSERT INTO `p_privilege_copy2` VALUES ('502022090982540017', '共享岗亭', '', '2022-09-09 17:53:32', '0', '800900000003', '/app/parkingBoxArea.listParkingBoxArea', '702021101828000001');
-INSERT INTO `p_privilege_copy2` VALUES ('502022092211010004', '关联员工权限', '', '2022-09-22 18:31:43', '0', '800900000001', '/orgRelStaff', '702022072884160016');
-INSERT INTO `p_privilege_copy2` VALUES ('502022092219180008', '查看所有组织架构信息', '', '2022-09-22 18:32:24', '0', '800900000001', '/viewAllOrganization', '702022072884160016');
-INSERT INTO `p_privilege_copy2` VALUES ('502022092255500007', '添加组织信息权限', '', '2022-09-22 18:32:15', '0', '800900000001', '/orgTreeAdd', '702022072884160016');
-INSERT INTO `p_privilege_copy2` VALUES ('502022092258810006', '修改组织信息权限', '', '2022-09-22 18:32:04', '0', '800900000001', '/orgTreeEdit', '702022072884160016');
-INSERT INTO `p_privilege_copy2` VALUES ('502022092268800003', '删除关联员工权限', '', '2022-09-22 18:31:32', '0', '800900000001', '/deleteOrgRelStaff', '702022072884160016');
-INSERT INTO `p_privilege_copy2` VALUES ('502022092283880005', '删除组织信息权限', '', '2022-09-22 18:31:53', '0', '800900000001', '/orgTreeDel', '702022072884160016');
-INSERT INTO `p_privilege_copy2` VALUES ('502022093003970003', '场地预约', '', '2022-09-30 12:49:11', '0', '800900000003', '/#/pages/property/communitySpacePersonManage', '702022093094080002');
-INSERT INTO `p_privilege_copy2` VALUES ('502022093035580003', '场地管理', '', '2022-09-30 10:35:43', '0', '800900000003', '/#/pages/property/communitySpaceManage', '702022093080200002');
-INSERT INTO `p_privilege_copy2` VALUES ('502022100103010004', '修改停车场', '', '2022-10-01 01:23:57', '0', '800900000003', '/app/parkingArea.updateParkingArea', '702020012324610003');
-INSERT INTO `p_privilege_copy2` VALUES ('502022100112510006', '控制台', '', '2022-10-01 01:26:58', '0', '800900000003', '/#/pages/property/parkingAreaTotalControl', '702020012324610003');
-INSERT INTO `p_privilege_copy2` VALUES ('502022100117490005', '删除停车场', '', '2022-10-01 01:24:55', '0', '800900000003', '/app/parkingArea.deleteParkingArea', '702020012324610003');
-INSERT INTO `p_privilege_copy2` VALUES ('502022100147030003', '添加停车场', '', '2022-10-01 01:23:16', '0', '800900000003', '/app/parkingArea.saveParkingArea', '702020012324610003');
-INSERT INTO `p_privilege_copy2` VALUES ('502022100422810040', '场地统计', '', '2022-10-04 02:33:51', '0', '800900000003', '/#/pages/property/reportCommunitySpace', '702022100457270039');
-INSERT INTO `p_privilege_copy2` VALUES ('602021041901500001', '查看所有采购申请', '查看所有采购申请权限', '2021-04-19 14:06:16', '0', '800900000003', '/viewPurchaseApplyManage', '700201906022');
 
 -- ----------------------------
 -- Table structure for p_privilege_group
@@ -49201,7 +45795,7 @@ CREATE TABLE `qrtz_blob_triggers` (
   `BLOB_DATA` blob,
   PRIMARY KEY (`SCHED_NAME`,`TRIGGER_NAME`,`TRIGGER_GROUP`),
   KEY `SCHED_NAME` (`SCHED_NAME`,`TRIGGER_NAME`,`TRIGGER_GROUP`) USING BTREE,
-  CONSTRAINT `QRTZ_BLOB_TRIGGERS_ibfk_1` FOREIGN KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) REFERENCES `qrtz_triggers` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`)
+  CONSTRAINT `qrtz_blob_triggers_ibfk_1` FOREIGN KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) REFERENCES `qrtz_triggers` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -49234,7 +45828,7 @@ CREATE TABLE `qrtz_cron_triggers` (
   `CRON_EXPRESSION` varchar(120) NOT NULL,
   `TIME_ZONE_ID` varchar(80) DEFAULT NULL,
   PRIMARY KEY (`SCHED_NAME`,`TRIGGER_NAME`,`TRIGGER_GROUP`),
-  CONSTRAINT `QRTZ_CRON_TRIGGERS_ibfk_1` FOREIGN KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) REFERENCES `qrtz_triggers` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`)
+  CONSTRAINT `qrtz_cron_triggers_ibfk_1` FOREIGN KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) REFERENCES `qrtz_triggers` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -49242,11 +45836,11 @@ CREATE TABLE `qrtz_cron_triggers` (
 -- ----------------------------
 INSERT INTO `qrtz_cron_triggers` VALUES ('quartzScheduler', 'taskToData_522020072443280071', 'taskToData_522020072443280071_group', '0 */1 * * * ?', 'Asia/Shanghai');
 INSERT INTO `qrtz_cron_triggers` VALUES ('quartzScheduler', 'taskToData_522020101715150264', 'taskToData_522020101715150264_group', '0 37 18 * * ?', 'Asia/Shanghai');
-INSERT INTO `qrtz_cron_triggers` VALUES ('quartzScheduler', 'taskToData_522021022517010038', 'taskToData_522021022517010038_group', '0 12 */1 * * ?', 'Asia/Shanghai');
 INSERT INTO `qrtz_cron_triggers` VALUES ('quartzScheduler', 'taskToData_522021051552360003', 'taskToData_522021051552360003_group', '0 16 17 * * ?', 'Asia/Shanghai');
 INSERT INTO `qrtz_cron_triggers` VALUES ('quartzScheduler', 'taskToData_522022110491330035', 'taskToData_522022110491330035_group', '0 */5 * * * ?', 'Asia/Shanghai');
 INSERT INTO `qrtz_cron_triggers` VALUES ('quartzScheduler', 'taskToData_522022110817280096', 'taskToData_522022110817280096_group', '0 */1 * * * ?', 'Asia/Shanghai');
 INSERT INTO `qrtz_cron_triggers` VALUES ('quartzScheduler', 'taskToData_522023051185951001', 'taskToData_522023051185951001_group', '0 0 23 * * ?', 'Asia/Shanghai');
+INSERT INTO `qrtz_cron_triggers` VALUES ('quartzScheduler', 'taskToData_522026050690454001', 'taskToData_522026050690454001_group', '0 0 3 * * ?', 'Asia/Shanghai');
 
 -- ----------------------------
 -- Table structure for qrtz_fired_triggers
@@ -49304,11 +45898,11 @@ CREATE TABLE `qrtz_job_details` (
 -- ----------------------------
 INSERT INTO `qrtz_job_details` VALUES ('quartzScheduler', 'task_522020072443280071', 'taskSystemJobGroup', '任务启动', 'com.java110.job.quartz.TaskSystemJob', '0', '0', '0', '0', 0xACED0005737200156F72672E71756172747A2E4A6F62446174614D61709FB083E8BFA9B0CB020000787200266F72672E71756172747A2E7574696C732E537472696E674B65794469727479466C61674D61708208E8C3FBC55D280200015A0013616C6C6F77735472616E7369656E74446174617872001D6F72672E71756172747A2E7574696C732E4469727479466C61674D617013E62EAD28760ACE0200025A000564697274794C00036D617074000F4C6A6176612F7574696C2F4D61703B787001737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F4000000000000C770800000010000000047400107461736B53797374656D5461736B496474001235323230323030373234343332383030373174000E7461736B53797374656D5461736B7372001C636F6D2E6A6176613131302E64746F2E7461736B2E5461736B44746F1C68F10BDC9793A502000C4C0009636C6173734265616E7400124C6A6176612F6C616E672F537472696E673B4C000A63726561746554696D657400104C6A6176612F7574696C2F446174653B4C0005737461746571007E000B4C000973746174654E616D6571007E000B4C0008737461747573436471007E000B4C00087461736B417474727400104C6A6176612F7574696C2F4C6973743B4C00087461736B43726F6E71007E000B4C00067461736B496471007E000B4C00087461736B4E616D6571007E000B4C000F7461736B54656D706C61746544746F7400264C636F6D2F6A6176613131302F64746F2F7461736B2F5461736B54656D706C61746544746F3B4C000A74656D706C617465496471007E000B4C000C74656D706C6174654E616D6571007E000B78720017636F6D2E6A6176613131302E64746F2E5061676544746FF388A10AAA87CF54020004490004706167654900077265636F726473490003726F77490005746F74616C78720013636F6D2E6A6176613131302E64746F2E44746F48C3AD937CBA35820200007870FFFFFFFF00000000000000000000000070737200126A6176612E73716C2E54696D657374616D702618D5C80153BF650200014900056E616E6F737872000E6A6176612E7574696C2E44617465686A81014B59741903000078707708000001738096A49878000000007400033030317074000130737200136A6176612E7574696C2E41727261794C6973747881D21D99C7619D03000149000473697A657870000000007704000000007874000D30202A2F31202A202A202A203F71007E0008740012E5B7A1E6A380E4BBBBE58AA1E7949FE6889073720024636F6D2E6A6176613131302E64746F2E7461736B2E5461736B54656D706C61746544746FF6B31C3F4E56A64A0200064C0009636C6173734265616E71007E000B4C000A63726561746554696D6571007E000C4C0008737461747573436471007E000B4C000C74656D706C6174654465736371007E000B4C000A74656D706C617465496471007E000B4C000C74656D706C6174654E616D6571007E000B7871007E000FFFFFFFFF00000000000000000000000074001F67656E657261746F72496E7370656374696F6E5461736B54656D706C6174657371007E0012770800000172C0E775F0780000000074000130740012E5B7A1E6A380E4BBBBE58AA1E7949FE6889074000431303131740012E5B7A1E6A380E4BBBBE58AA1E7949FE6889074000431303131740012E5B7A1E6A380E4BBBBE58AA1E7949FE688907400127461736B53797374656D5461736B4E616D6571007E001A7400127461736B53797374656D5461736B4174747271007E00117800);
 INSERT INTO `qrtz_job_details` VALUES ('quartzScheduler', 'task_522020101715150264', 'taskSystemJobGroup', '任务启动', 'com.java110.job.quartz.TaskSystemJob', '0', '0', '0', '0', 0xACED0005737200156F72672E71756172747A2E4A6F62446174614D61709FB083E8BFA9B0CB020000787200266F72672E71756172747A2E7574696C732E537472696E674B65794469727479466C61674D61708208E8C3FBC55D280200015A0013616C6C6F77735472616E7369656E74446174617872001D6F72672E71756172747A2E7574696C732E4469727479466C61674D617013E62EAD28760ACE0200025A000564697274794C00036D617074000F4C6A6176612F7574696C2F4D61703B787001737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F4000000000000C770800000010000000047400107461736B53797374656D5461736B496474001235323230323031303137313531353032363474000E7461736B53797374656D5461736B7372001C636F6D2E6A6176613131302E64746F2E7461736B2E5461736B44746F7A461D62679F00B102000B4C000A63726561746554696D657400104C6A6176612F7574696C2F446174653B4C000573746174657400124C6A6176612F6C616E672F537472696E673B4C000973746174654E616D6571007E000C4C0008737461747573436471007E000C4C00087461736B417474727400104C6A6176612F7574696C2F4C6973743B4C00087461736B43726F6E71007E000C4C00067461736B496471007E000C4C00087461736B4E616D6571007E000C4C000F7461736B54656D706C61746544746F7400264C636F6D2F6A6176613131302F64746F2F7461736B2F5461736B54656D706C61746544746F3B4C000A74656D706C617465496471007E000C4C000C74656D706C6174654E616D6571007E000C78720017636F6D2E6A6176613131302E64746F2E5061676544746FF388A10AAA87CF54020004490004706167654900077265636F726473490003726F77490005746F74616C78720013636F6D2E6A6176613131302E64746F2E44746F48C3AD937CBA35820200007870FFFFFFFF000000000000000000000000737200126A6176612E73716C2E54696D657374616D702618D5C80153BF650200014900056E616E6F737872000E6A6176612E7574696C2E44617465686A81014B597419030000787077080000017534E6EAB078000000007400033030317074000130737200136A6176612E7574696C2E41727261794C6973747881D21D99C7619D03000149000473697A657870000000007704000000007874000D30203337203138202A202A203F71007E000874001AE8B4B9E794A8E68AA5E8A1A8E7BB9FE8AEA128E59FBAE7A1802973720024636F6D2E6A6176613131302E64746F2E7461736B2E5461736B54656D706C61746544746FF6B31C3F4E56A64A0200064C0009636C6173734265616E71007E000C4C000A63726561746554696D6571007E000B4C0008737461747573436471007E000C4C000C74656D706C6174654465736371007E000C4C000A74656D706C617465496471007E000C4C000C74656D706C6174654E616D6571007E000C7871007E000FFFFFFFFF00000000000000000000000074002267656E65726174654665654D6F6E74685374617469737469637354656D706C6174657371007E0012770800000172C0E775F0780000000074000130740012E8B4B9E794A8E68AA5E8A1A8E7BB9FE8AEA174000431303132740012E8B4B9E794A8E68AA5E8A1A8E7BB9FE8AEA174000431303132740012E8B4B9E794A8E68AA5E8A1A8E7BB9FE8AEA17400127461736B53797374656D5461736B4E616D6571007E001A7400127461736B53797374656D5461736B4174747271007E00117800);
-INSERT INTO `qrtz_job_details` VALUES ('quartzScheduler', 'task_522021022517010038', 'taskSystemJobGroup', '任务启动', 'com.java110.job.quartz.TaskSystemJob', '0', '0', '0', '0', 0xACED0005737200156F72672E71756172747A2E4A6F62446174614D61709FB083E8BFA9B0CB020000787200266F72672E71756172747A2E7574696C732E537472696E674B65794469727479466C61674D61708208E8C3FBC55D280200015A0013616C6C6F77735472616E7369656E74446174617872001D6F72672E71756172747A2E7574696C732E4469727479466C61674D617013E62EAD28760ACE0200025A000564697274794C00036D617074000F4C6A6176612F7574696C2F4D61703B787001737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F4000000000000C770800000010000000047400107461736B53797374656D5461736B496474001235323230323130323235313730313030333874000E7461736B53797374656D5461736B7372001C636F6D2E6A6176613131302E64746F2E7461736B2E5461736B44746F1C68F10BDC9793A502000C4C0009636C6173734265616E7400124C6A6176612F6C616E672F537472696E673B4C000A63726561746554696D657400104C6A6176612F7574696C2F446174653B4C0005737461746571007E000B4C000973746174654E616D6571007E000B4C0008737461747573436471007E000B4C00087461736B417474727400104C6A6176612F7574696C2F4C6973743B4C00087461736B43726F6E71007E000B4C00067461736B496471007E000B4C00087461736B4E616D6571007E000B4C000F7461736B54656D706C61746544746F7400264C636F6D2F6A6176613131302F64746F2F7461736B2F5461736B54656D706C61746544746F3B4C000A74656D706C617465496471007E000B4C000C74656D706C6174654E616D6571007E000B78720017636F6D2E6A6176613131302E64746F2E5061676544746FF388A10AAA87CF54020004490004706167654900077265636F726473490003726F77490005746F74616C78720013636F6D2E6A6176613131302E64746F2E44746F48C3AD937CBA35820200007870FFFFFFFF00000000000000000000000070737200126A6176612E73716C2E54696D657374616D702618D5C80153BF650200014900056E616E6F737872000E6A6176612E7574696C2E44617465686A81014B5974190300007870770800000177D79F7E5078000000007400033030317074000130737200136A6176612E7574696C2E41727261794C6973747881D21D99C7619D03000149000473697A657870000000007704000000007874000E30203132202A2F31202A202A203F71007E0008740012E8B4B9E794A8E58FB0E8B4A6E7BB9FE8AEA173720024636F6D2E6A6176613131302E64746F2E7461736B2E5461736B54656D706C61746544746FF6B31C3F4E56A64A0200064C0009636C6173734265616E71007E000B4C000A63726561746554696D6571007E000C4C0008737461747573436471007E000B4C000C74656D706C6174654465736371007E000B4C000A74656D706C617465496471007E000B4C000C74656D706C6174654E616D6571007E000B7871007E000FFFFFFFFF00000000000000000000000074002167656E6572617465466565596561725374617469737469637354656D706C6174657371007E0012770800000172C0E775F0780000000074000130740012E8B4B9E794A8E58FB0E8B4A6E7BB9FE8AEA174000431303137740012E8B4B9E794A8E58FB0E8B4A6E7BB9FE8AEA174000431303137740012E8B4B9E794A8E58FB0E8B4A6E7BB9FE8AEA17400127461736B53797374656D5461736B4E616D6571007E001A7400127461736B53797374656D5461736B4174747271007E00117800);
 INSERT INTO `qrtz_job_details` VALUES ('quartzScheduler', 'task_522021051552360003', 'taskSystemJobGroup', '任务启动', 'com.java110.job.quartz.TaskSystemJob', '0', '0', '0', '0', 0xACED0005737200156F72672E71756172747A2E4A6F62446174614D61709FB083E8BFA9B0CB020000787200266F72672E71756172747A2E7574696C732E537472696E674B65794469727479466C61674D61708208E8C3FBC55D280200015A0013616C6C6F77735472616E7369656E74446174617872001D6F72672E71756172747A2E7574696C732E4469727479466C61674D617013E62EAD28760ACE0200025A000564697274794C00036D617074000F4C6A6176612F7574696C2F4D61703B787001737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F4000000000000C770800000010000000047400107461736B53797374656D5461736B496474001235323230323130353135353233363030303374000E7461736B53797374656D5461736B7372001C636F6D2E6A6176613131302E64746F2E7461736B2E5461736B44746F1C68F10BDC9793A502000C4C0009636C6173734265616E7400124C6A6176612F6C616E672F537472696E673B4C000A63726561746554696D657400104C6A6176612F7574696C2F446174653B4C0005737461746571007E000B4C000973746174654E616D6571007E000B4C0008737461747573436471007E000B4C00087461736B417474727400104C6A6176612F7574696C2F4C6973743B4C00087461736B43726F6E71007E000B4C00067461736B496471007E000B4C00087461736B4E616D6571007E000B4C000F7461736B54656D706C61746544746F7400264C636F6D2F6A6176613131302F64746F2F7461736B2F5461736B54656D706C61746544746F3B4C000A74656D706C617465496471007E000B4C000C74656D706C6174654E616D6571007E000B78720017636F6D2E6A6176613131302E64746F2E5061676544746FF388A10AAA87CF54020004490004706167654900077265636F726473490003726F77490005746F74616C78720013636F6D2E6A6176613131302E64746F2E44746F48C3AD937CBA35820200007870FFFFFFFF00000000000000000000000070737200126A6176612E73716C2E54696D657374616D702618D5C80153BF650200014900056E616E6F737872000E6A6176612E7574696C2E44617465686A81014B59741903000078707708000001796E6F336078000000007400033030317074000130737200136A6176612E7574696C2E41727261794C6973747881D21D99C7619D03000149000473697A657870000000007704000000007874000D30203136203137202A202A203F71007E000874000CE6ACA0E8B4B9E7BB9FE8AEA173720024636F6D2E6A6176613131302E64746F2E7461736B2E5461736B54656D706C61746544746FF6B31C3F4E56A64A0200064C0009636C6173734265616E71007E000B4C000A63726561746554696D6571007E000C4C0008737461747573436471007E000B4C000C74656D706C6174654465736371007E000B4C000A74656D706C617465496471007E000B4C000C74656D706C6174654E616D6571007E000B7871007E000FFFFFFFFF00000000000000000000000074001967656E65726174654F77654665654E657754656D706C6174657371007E0012770800000172C0E775F078000000007400013074000CE6ACA0E8B4B9E7BB9FE8AEA17400043130313874000CE6ACA0E8B4B9E7BB9FE8AEA17400043130313874000CE6ACA0E8B4B9E7BB9FE8AEA17400127461736B53797374656D5461736B4E616D6571007E001A7400127461736B53797374656D5461736B4174747271007E00117800);
 INSERT INTO `qrtz_job_details` VALUES ('quartzScheduler', 'task_522022110491330035', 'taskSystemJobGroup', '任务启动', 'com.java110.job.quartz.TaskSystemJob', '0', '0', '0', '0', 0xACED0005737200156F72672E71756172747A2E4A6F62446174614D61709FB083E8BFA9B0CB020000787200266F72672E71756172747A2E7574696C732E537472696E674B65794469727479466C61674D61708208E8C3FBC55D280200015A0013616C6C6F77735472616E7369656E74446174617872001D6F72672E71756172747A2E7574696C732E4469727479466C61674D617013E62EAD28760ACE0200025A000564697274794C00036D617074000F4C6A6176612F7574696C2F4D61703B787001737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F4000000000000C770800000010000000047400107461736B53797374656D5461736B496474001235323230323231313034393133333030333574000E7461736B53797374656D5461736B7372001C636F6D2E6A6176613131302E64746F2E7461736B2E5461736B44746F1C68F10BDC9793A502000C4C0009636C6173734265616E7400124C6A6176612F6C616E672F537472696E673B4C000A63726561746554696D657400104C6A6176612F7574696C2F446174653B4C0005737461746571007E000B4C000973746174654E616D6571007E000B4C0008737461747573436471007E000B4C00087461736B417474727400104C6A6176612F7574696C2F4C6973743B4C00087461736B43726F6E71007E000B4C00067461736B496471007E000B4C00087461736B4E616D6571007E000B4C000F7461736B54656D706C61746544746F7400264C636F6D2F6A6176613131302F64746F2F7461736B2F5461736B54656D706C61746544746F3B4C000A74656D706C617465496471007E000B4C000C74656D706C6174654E616D6571007E000B78720017636F6D2E6A6176613131302E64746F2E5061676544746FF388A10AAA87CF54020004490004706167654900077265636F726473490003726F77490005746F74616C78720013636F6D2E6A6176613131302E64746F2E44746F48C3AD937CBA35820200007870FFFFFFFF00000000000000000000000070737200126A6176612E73716C2E54696D657374616D702618D5C80153BF650200014900056E616E6F737872000E6A6176612E7574696C2E44617465686A81014B59741903000078707708000001844305AFC878000000007400033030317074000130737200136A6176612E7574696C2E41727261794C6973747881D21D99C7619D03000149000473697A657870000000007704000000007874000D30202A2F35202A202A202A203F71007E0008740012E88083E58BA4E4BBBBE58AA1E7949FE6889073720024636F6D2E6A6176613131302E64746F2E7461736B2E5461736B54656D706C61746544746FF6B31C3F4E56A64A0200064C0009636C6173734265616E71007E000B4C000A63726561746554696D6571007E000C4C0008737461747573436471007E000B4C000C74656D706C6174654465736371007E000B4C000A74656D706C617465496471007E000B4C000C74656D706C6174654E616D6571007E000B7871007E000FFFFFFFFF00000000000000000000000074001F67656E657261746F72417474656E64616E63655461736B54656D706C6174657371007E0012770800000172C0E775F0780000000074000130740012E88083E58BA4E4BBBBE58AA1E7949FE6889074000431303239740012E88083E58BA4E4BBBBE58AA1E7949FE6889074000431303239740012E88083E58BA4E4BBBBE58AA1E7949FE688907400127461736B53797374656D5461736B4E616D6571007E001A7400127461736B53797374656D5461736B4174747271007E00117800);
 INSERT INTO `qrtz_job_details` VALUES ('quartzScheduler', 'task_522022110817280096', 'taskSystemJobGroup', '任务启动', 'com.java110.job.quartz.TaskSystemJob', '0', '0', '0', '0', 0xACED0005737200156F72672E71756172747A2E4A6F62446174614D61709FB083E8BFA9B0CB020000787200266F72672E71756172747A2E7574696C732E537472696E674B65794469727479466C61674D61708208E8C3FBC55D280200015A0013616C6C6F77735472616E7369656E74446174617872001D6F72672E71756172747A2E7574696C732E4469727479466C61674D617013E62EAD28760ACE0200025A000564697274794C00036D617074000F4C6A6176612F7574696C2F4D61703B787001737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F4000000000000C770800000010000000047400107461736B53797374656D5461736B496474001235323230323231313038313732383030393674000E7461736B53797374656D5461736B7372001C636F6D2E6A6176613131302E64746F2E7461736B2E5461736B44746F1C68F10BDC9793A502000C4C0009636C6173734265616E7400124C6A6176612F6C616E672F537472696E673B4C000A63726561746554696D657400104C6A6176612F7574696C2F446174653B4C0005737461746571007E000B4C000973746174654E616D6571007E000B4C0008737461747573436471007E000B4C00087461736B417474727400104C6A6176612F7574696C2F4C6973743B4C00087461736B43726F6E71007E000B4C00067461736B496471007E000B4C00087461736B4E616D6571007E000B4C000F7461736B54656D706C61746544746F7400264C636F6D2F6A6176613131302F64746F2F7461736B2F5461736B54656D706C61746544746F3B4C000A74656D706C617465496471007E000B4C000C74656D706C6174654E616D6571007E000B78720017636F6D2E6A6176613131302E64746F2E5061676544746FF388A10AAA87CF54020004490004706167654900077265636F726473490003726F77490005746F74616C78720013636F6D2E6A6176613131302E64746F2E44746F48C3AD937CBA35820200007870FFFFFFFF00000000000000000000000070737200126A6176612E73716C2E54696D657374616D702618D5C80153BF650200014900056E616E6F737872000E6A6176612E7574696C2E44617465686A81014B597419030000787077080000018456957BE078000000007400033030317074000130737200136A6176612E7574696C2E41727261794C6973747881D21D99C7619D03000149000473697A657870000000007704000000007874000D30202A2F31202A202A202A203F71007E0008740018E8AEBEE5A487E4BF9DE585BBE4BBBBE58AA1E7949FE6889073720024636F6D2E6A6176613131302E64746F2E7461736B2E5461736B54656D706C61746544746FF6B31C3F4E56A64A0200064C0009636C6173734265616E71007E000B4C000A63726561746554696D6571007E000C4C0008737461747573436471007E000B4C000C74656D706C6174654465736371007E000B4C000A74656D706C617465496471007E000B4C000C74656D706C6174654E616D6571007E000B7871007E000FFFFFFFFF00000000000000000000000074002167656E657261746F724D61696E7461696E616E63655461736B54656D706C6174657371007E0012770800000172C0E775F0780000000074000130740012E4BF9DE585BBE4BBBBE58AA1E7949FE6889074000431303330740012E4BF9DE585BBE4BBBBE58AA1E7949FE6889074000431303330740012E4BF9DE585BBE4BBBBE58AA1E7949FE688907400127461736B53797374656D5461736B4E616D6571007E001A7400127461736B53797374656D5461736B4174747271007E00117800);
 INSERT INTO `qrtz_job_details` VALUES ('quartzScheduler', 'task_522023051185951001', 'taskSystemJobGroup', '任务启动', 'com.java110.job.quartz.TaskSystemJob', '0', '0', '0', '0', 0xACED0005737200156F72672E71756172747A2E4A6F62446174614D61709FB083E8BFA9B0CB020000787200266F72672E71756172747A2E7574696C732E537472696E674B65794469727479466C61674D61708208E8C3FBC55D280200015A0013616C6C6F77735472616E7369656E74446174617872001D6F72672E71756172747A2E7574696C732E4469727479466C61674D617013E62EAD28760ACE0200025A000564697274794C00036D617074000F4C6A6176612F7574696C2F4D61703B787001737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F4000000000000C770800000010000000047400107461736B53797374656D5461736B496474001235323230323330353131383539353130303174000E7461736B53797374656D5461736B7372001C636F6D2E6A6176613131302E64746F2E7461736B2E5461736B44746F1C68F10BDC9793A502000C4C0009636C6173734265616E7400124C6A6176612F6C616E672F537472696E673B4C000A63726561746554696D657400104C6A6176612F7574696C2F446174653B4C0005737461746571007E000B4C000973746174654E616D6571007E000B4C0008737461747573436471007E000B4C00087461736B417474727400104C6A6176612F7574696C2F4C6973743B4C00087461736B43726F6E71007E000B4C00067461736B496471007E000B4C00087461736B4E616D6571007E000B4C000F7461736B54656D706C61746544746F7400264C636F6D2F6A6176613131302F64746F2F7461736B2F5461736B54656D706C61746544746F3B4C000A74656D706C617465496471007E000B4C000C74656D706C6174654E616D6571007E000B78720017636F6D2E6A6176613131302E64746F2E5061676544746FF388A10AAA87CF54020004490004706167654900077265636F726473490003726F77490005746F74616C78720013636F6D2E6A6176613131302E64746F2E44746F48C3AD937CBA35820200007870FFFFFFFF00000000000000000000000070737200126A6176612E73716C2E54696D657374616D702618D5C80153BF650200014900056E616E6F737872000E6A6176612E7574696C2E44617465686A81014B59741903000078707708000001880A5F170078000000007400033030317074000130737200136A6176612E7574696C2E41727261794C6973747881D21D99C7619D03000149000473697A657870000000007704000000007874000C302030203233202A202A203F71007E0008740021E69C88E5BA94E694B6E5AE9EE694B6E8B4B9E794A8E695B0E68DAEE7949FE6889073720024636F6D2E6A6176613131302E64746F2E7461736B2E5461736B54656D706C61746544746FF6B31C3F4E56A64A0200064C0009636C6173734265616E71007E000B4C000A63726561746554696D6571007E000C4C0008737461747573436471007E000B4C000C74656D706C6174654465736371007E000B4C000A74656D706C617465496471007E000B4C000C74656D706C6174654E616D6571007E000B7871007E000FFFFFFFFF00000000000000000000000074002167656E657261746550617946656544657461696C4D6F6E746854656D706C6174657371007E0012770800000172C0E775F0780000000074000130740021E69C88E5BA94E694B6E5AE9EE694B6E8B4B9E794A8E695B0E68DAEE7949FE6889074000431303334740021E69C88E5BA94E694B6E5AE9EE694B6E8B4B9E794A8E695B0E68DAEE7949FE6889074000431303334740021E69C88E5BA94E694B6E5AE9EE694B6E8B4B9E794A8E695B0E68DAEE7949FE688907400127461736B53797374656D5461736B4E616D6571007E001A7400127461736B53797374656D5461736B4174747271007E00117800);
+INSERT INTO `qrtz_job_details` VALUES ('quartzScheduler', 'task_522026050690454001', 'taskSystemJobGroup', '任务启动', 'com.java110.job.quartz.TaskSystemJob', '0', '0', '0', '0', 0xACED0005737200156F72672E71756172747A2E4A6F62446174614D61709FB083E8BFA9B0CB020000787200266F72672E71756172747A2E7574696C732E537472696E674B65794469727479466C61674D61708208E8C3FBC55D280200015A0013616C6C6F77735472616E7369656E74446174617872001D6F72672E71756172747A2E7574696C732E4469727479466C61674D617013E62EAD28760ACE0200025A000564697274794C00036D617074000F4C6A6176612F7574696C2F4D61703B787001737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F4000000000000C770800000010000000047400107461736B53797374656D5461736B496474001235323230323630353036393034353430303174000E7461736B53797374656D5461736B7372001C636F6D2E6A6176613131302E64746F2E7461736B2E5461736B44746F1C68F10BDC9793A502000C4C0009636C6173734265616E7400124C6A6176612F6C616E672F537472696E673B4C000A63726561746554696D657400104C6A6176612F7574696C2F446174653B4C0005737461746571007E000B4C000973746174654E616D6571007E000B4C0008737461747573436471007E000B4C00087461736B417474727400104C6A6176612F7574696C2F4C6973743B4C00087461736B43726F6E71007E000B4C00067461736B496471007E000B4C00087461736B4E616D6571007E000B4C000F7461736B54656D706C61746544746F7400264C636F6D2F6A6176613131302F64746F2F7461736B2F5461736B54656D706C61746544746F3B4C000A74656D706C617465496471007E000B4C000C74656D706C6174654E616D6571007E000B78720017636F6D2E6A6176613131302E64746F2E5061676544746FF388A10AAA87CF54020004490004706167654900077265636F726473490003726F77490005746F74616C78720013636F6D2E6A6176613131302E64746F2E44746F48C3AD937CBA35820200007870FFFFFFFF00000000000000000000000070737200126A6176612E73716C2E54696D657374616D702618D5C80153BF650200014900056E616E6F737872000E6A6176612E7574696C2E44617465686A81014B597419030000787077080000019DFC517CA078000000007400033030317074000130737200136A6176612E7574696C2E41727261794C6973747881D21D99C7619D03000149000473697A657870000000007704000000007874000B3020302033202A202A203F71007E000874000FE69C88E8B4A6E58D95E7949FE6889073720024636F6D2E6A6176613131302E64746F2E7461736B2E5461736B54656D706C61746544746FF6B31C3F4E56A64A0200064C0009636C6173734265616E71007E000B4C000A63726561746554696D6571007E000C4C0008737461747573436471007E000B4C000C74656D706C6174654465736371007E000B4C000A74656D706C617465496471007E000B4C000C74656D706C6174654E616D6571007E000B7871007E000FFFFFFFFF00000000000000000000000074001767656E657261746542696C6C50726F54656D706C6174657371007E0012770800000172780D8720780000000074000130740018E688BFE5B18BE8B4B9E794A8E8B4A6E58D95E7949FE688907400043130303274000CE8B4A6E58D95E6A8A1E69DBF7400043130303274000CE8B4A6E58D95E6A8A1E69DBF7400127461736B53797374656D5461736B4E616D6571007E001A7400127461736B53797374656D5461736B4174747271007E00117800);
 
 -- ----------------------------
 -- Table structure for qrtz_locks
@@ -49367,7 +45961,7 @@ CREATE TABLE `qrtz_simple_triggers` (
   `REPEAT_INTERVAL` bigint(20) NOT NULL,
   `TIMES_TRIGGERED` bigint(20) NOT NULL,
   PRIMARY KEY (`SCHED_NAME`,`TRIGGER_NAME`,`TRIGGER_GROUP`),
-  CONSTRAINT `QRTZ_SIMPLE_TRIGGERS_ibfk_1` FOREIGN KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) REFERENCES `qrtz_triggers` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`)
+  CONSTRAINT `qrtz_simple_triggers_ibfk_1` FOREIGN KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) REFERENCES `qrtz_triggers` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -49394,7 +45988,7 @@ CREATE TABLE `qrtz_simprop_triggers` (
   `BOOL_PROP_1` varchar(1) DEFAULT NULL,
   `BOOL_PROP_2` varchar(1) DEFAULT NULL,
   PRIMARY KEY (`SCHED_NAME`,`TRIGGER_NAME`,`TRIGGER_GROUP`),
-  CONSTRAINT `QRTZ_SIMPROP_TRIGGERS_ibfk_1` FOREIGN KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) REFERENCES `qrtz_triggers` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`)
+  CONSTRAINT `qrtz_simprop_triggers_ibfk_1` FOREIGN KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) REFERENCES `qrtz_triggers` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -49435,19 +46029,19 @@ CREATE TABLE `qrtz_triggers` (
   KEY `IDX_QRTZ_T_NFT_MISFIRE` (`SCHED_NAME`,`MISFIRE_INSTR`,`NEXT_FIRE_TIME`) USING BTREE,
   KEY `IDX_QRTZ_T_NFT_ST_MISFIRE` (`SCHED_NAME`,`MISFIRE_INSTR`,`NEXT_FIRE_TIME`,`TRIGGER_STATE`) USING BTREE,
   KEY `IDX_QRTZ_T_NFT_ST_MISFIRE_GRP` (`SCHED_NAME`,`MISFIRE_INSTR`,`NEXT_FIRE_TIME`,`TRIGGER_GROUP`,`TRIGGER_STATE`) USING BTREE,
-  CONSTRAINT `QRTZ_TRIGGERS_ibfk_1` FOREIGN KEY (`SCHED_NAME`, `JOB_NAME`, `JOB_GROUP`) REFERENCES `qrtz_job_details` (`SCHED_NAME`, `JOB_NAME`, `JOB_GROUP`)
+  CONSTRAINT `qrtz_triggers_ibfk_1` FOREIGN KEY (`SCHED_NAME`, `JOB_NAME`, `JOB_GROUP`) REFERENCES `qrtz_job_details` (`SCHED_NAME`, `JOB_NAME`, `JOB_GROUP`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of qrtz_triggers
 -- ----------------------------
-INSERT INTO `qrtz_triggers` VALUES ('quartzScheduler', 'taskToData_522020072443280071', 'taskToData_522020072443280071_group', 'task_522020072443280071', 'taskSystemJobGroup', null, '1788233160000', '1788233100000', '5', 'WAITING', 'CRON', '1764131236000', '0', null, '0', '');
+INSERT INTO `qrtz_triggers` VALUES ('quartzScheduler', 'taskToData_522020072443280071', 'taskToData_522020072443280071_group', 'task_522020072443280071', 'taskSystemJobGroup', null, '1788244740000', '1788244680000', '5', 'ACQUIRED', 'CRON', '1779447026000', '0', null, '0', '');
 INSERT INTO `qrtz_triggers` VALUES ('quartzScheduler', 'taskToData_522020101715150264', 'taskToData_522020101715150264_group', 'task_522020101715150264', 'taskSystemJobGroup', null, '1683887820000', '1683801420000', '5', 'ERROR', 'CRON', '1675420539000', '0', null, '0', '');
-INSERT INTO `qrtz_triggers` VALUES ('quartzScheduler', 'taskToData_522021022517010038', 'taskToData_522021022517010038_group', 'task_522021022517010038', 'taskSystemJobGroup', null, '1788235920000', '1788232320000', '5', 'WAITING', 'CRON', '1775802616000', '0', null, '0', '');
 INSERT INTO `qrtz_triggers` VALUES ('quartzScheduler', 'taskToData_522021051552360003', 'taskToData_522021051552360003_group', 'task_522021051552360003', 'taskSystemJobGroup', null, '1692436560000', '-1', '5', 'ERROR', 'CRON', '1692414522000', '0', null, '0', '');
 INSERT INTO `qrtz_triggers` VALUES ('quartzScheduler', 'taskToData_522022110491330035', 'taskToData_522022110491330035_group', 'task_522022110491330035', 'taskSystemJobGroup', null, '1718623500000', '-1', '5', 'ERROR', 'CRON', '1718623457000', '0', null, '0', '');
-INSERT INTO `qrtz_triggers` VALUES ('quartzScheduler', 'taskToData_522022110817280096', 'taskToData_522022110817280096_group', 'task_522022110817280096', 'taskSystemJobGroup', null, '1788233160000', '1788233100000', '5', 'WAITING', 'CRON', '1764131475000', '0', null, '0', '');
+INSERT INTO `qrtz_triggers` VALUES ('quartzScheduler', 'taskToData_522022110817280096', 'taskToData_522022110817280096_group', 'task_522022110817280096', 'taskSystemJobGroup', null, '1788245880000', '1788245820000', '5', 'WAITING', 'CRON', '1776911626000', '0', null, '0', '');
 INSERT INTO `qrtz_triggers` VALUES ('quartzScheduler', 'taskToData_522023051185951001', 'taskToData_522023051185951001_group', 'task_522023051185951001', 'taskSystemJobGroup', null, '1683903600000', '-1', '5', 'ERROR', 'CRON', '1683857934000', '0', null, '0', '');
+INSERT INTO `qrtz_triggers` VALUES ('quartzScheduler', 'taskToData_522026050690454001', 'taskToData_522026050690454001_group', 'task_522026050690454001', 'taskSystemJobGroup', null, '1788289200000', '1788202800000', '5', 'WAITING', 'CRON', '1778054698000', '0', null, '0', '');
 
 -- ----------------------------
 -- Table structure for question_answer
@@ -50056,278 +46650,6 @@ CREATE TABLE `register_protocol` (
 -- Records of register_protocol
 -- ----------------------------
 INSERT INTO `register_protocol` VALUES ('1', '<h3 style=\"margin: 0px; padding: 5px 0px; border: 0px none; list-style: none;\"><div style=\"font-size: 13px; font-weight: 400;\">一、注册协议条款的确认和接受</div><div style=\"font-size: 13px; font-weight: 400;\">HC(以下亦称“本网站”)同意按照本协议的规定及其不定时发布的操作规则提供基于互联网和移动互联网的相关服务(以下称“网络服务”)。</div><div style=\"font-size: 13px; font-weight: 400;\"><br></div><div style=\"font-size: 13px; font-weight: 400;\">为获得网络服务, 申请人应当认真阅读、充分理解本《协议》中各条款, 包括免除或者限制HC责任的免责条款及对用户的权利限制条款。审慎阅读并选择接受或不接受本《协议》(未成年人应在法定监护人陪同下阅读)。</div><div style=\"font-size: 13px; font-weight: 400;\"><br></div><div style=\"font-size: 13px; font-weight: 400;\">同意接受本协议的全部条款的, 申请人应当按照页面上的提示完成全部的注册程序, 并在注册程序过程中点击“同意”按钮, 否则视为不接受本《协议》全部条款, 申请人应当终止并退出申请。</div><div style=\"font-size: 13px; font-weight: 400;\"><br></div><div style=\"font-size: 13px; font-weight: 400;\">本《协议》可由HC定期更新, 更新后的协议条款一旦公布即代替原来的协议条款, 恕不再另行通知, 用户可在HC查阅最新版协议条款。在HC修改《协议》条款后, 如果用户不接受修改后的条款, 请立即停止使用HC提供的网络服务, 继续使用的用户将被视为已接受了修改后的协议。</div><div style=\"font-size: 13px; font-weight: 400;\"><br></div><div style=\"font-size: 13px; font-weight: 400;\">二、服务内容</div><div style=\"font-size: 13px; font-weight: 400;\">1、网络服务的具体内容由HC根据实际情况提供, 包括学习资讯、学习工具、HC社群、HC问答、SIS在线测评、HC直播、HC网校、HC中小学、HC国际教育、HC考研集训营、泉题库及其旗下APP相关应用等服务。</div><div style=\"font-size: 13px; font-weight: 400;\"><br></div><div style=\"font-size: 13px; font-weight: 400;\">2、HC提供的网络服务包括收费和免费。收费服务包括但不限于HC网、HC网校和APP的部分收费课程, 用户使用收费网络服务需要支付约定费用。对于收费服务, HC会在用户使用之前给予用户明确的提示, 只有用户根据提示确认同意支付相关费用, 用户才能使用该等收费服务。如用户未支付相关费用, 则HC有权不向用户提供该等收费服务。</div><div style=\"font-size: 13px; font-weight: 400;\"><br></div><div style=\"font-size: 13px; font-weight: 400;\">3、用户理解, HC仅提供HC明确承诺的网络服务, 除此之外与相关网络服务有关的设备(如个人电脑、手机、及其他与接入互联网或移动网有关的装置)及所需的费用(如为接入互联网而支付的电话费及上网费、为使用移动网络而支付的手机费)均应由用户自行负担。</div><div style=\"font-size: 13px; font-weight: 400;\"><br></div><div style=\"font-size: 13px; font-weight: 400;\">4、用户理解，HC网/HC网校/HC直播平台提供并提请用户在购买课程前先完整试听。用户可按《HC网校退班政策说明》除特别说明外，包括但不限于PC端和移动端下载课件在内的所有服务均附期限，到期终止。用户应在截止日期前享受其购买的服务。</div><div style=\"font-size: 13px; font-weight: 400;\"><br></div><div style=\"font-size: 13px; font-weight: 400;\">三、用户帐号</div><div style=\"font-size: 13px; font-weight: 400;\">1、经HC注册系统完成注册程序并通过身份认证的用户即为正式用户。</div><div style=\"font-size: 13px; font-weight: 400;\"><br></div><div style=\"font-size: 13px; font-weight: 400;\">2、如发现用户帐号中含有不雅文字或不恰当名称的, HC保留注销其用户帐号的权利。</div><div style=\"font-size: 13px; font-weight: 400;\"><br></div><div style=\"font-size: 13px; font-weight: 400;\">3、用户帐号的所有权归HC, 用户完成申请注册手续后, 用户享有使用权。3个月未使用的用户账号, HC保留收回的权利。</div><div style=\"font-size: 13px; font-weight: 400;\"><br></div><div style=\"font-size: 13px; font-weight: 400;\">4、用户有义务保证密码和帐号的安全, 用户利用该帐号所进行的一切活动引起的任何损失或损害, 由用户自行承担全部责任, HC不承担任何责任。如用户发现帐号遭到未授权的使用或发生其他任何安全问题, 应立即修改账号密码并妥善保管。因黑客行为或用户的保管疏忽导致帐号非法使用, HC不承担任何责任。</div><div style=\"font-size: 13px; font-weight: 400;\"><br></div><div style=\"font-size: 13px; font-weight: 400;\">5、用户帐号和密码仅由初始申请注册人使用，用户不得将自己用户账户或密码有偿或无偿以转让、出借、授权等方式提供给第三人操作和使用, 否则用户应当自行承担因违反此要求而遭致的任何损失。违反本项约定的，HC并保留收回账号的权利。若因违反本约定对他人造成损害的，用户应与实际使用人承担连带赔偿责任，同时HC保留追究用户违约责任的权利。</div><div style=\"font-size: 13px; font-weight: 400;\"><br></div><div style=\"font-size: 13px; font-weight: 400;\">6、用户帐号在丢失、遗忘密码及因合用产生使用权归属纠纷后, 须遵照HC的申诉途径请求找回帐号。用户可以凭初始注册资料向HC申请找回帐号。HC的账户恢复机制仅负责识别申请用户所提资料与系统记录资料是否一致, 而无法识别申诉人是否系帐号的真正使用权人。对用户因被他人冒名申请而致的任何损失, HC不承担任何责任, 用户知晓帐号及密码保管责任在于用户, HC并不承诺帐号丢失或遗忘密码后用户一定能通过申诉找回帐号。用户应当谨慎填写初始手机号或注册邮箱作为确认接收争议帐号的指定邮箱。</div><div style=\"font-size: 13px; font-weight: 400;\"><br></div><div style=\"font-size: 13px; font-weight: 400;\">7、HC建议用户应当使用本人名义为用户账户充值或行使付款行为。若用户存在使用第三人的名义进行充值或付款，或委托第三人代为充值或付款之行为的，则以上行为被视作本人的行为，若由于该第三人行为导致充值或付款行为失败或成功后又被撤销的，均被认为是用户本人真实意思的表示和用户本人实施的行为，由此所造成的一切法律后果均由用户自行承担。</div><div style=\"font-size: 13px; font-weight: 400;\"><br></div><div style=\"font-size: 13px; font-weight: 400;\">四、使用规则</div><div style=\"font-size: 13px; font-weight: 400;\">1、用户在使用HC网络服务过程中, 必须遵循国家的相关法律法规, 不得发布危害国家安全、色情、暴力、侵犯版权等任何合法权利等非法内容; 也不得利用HC平台发布含有虚假、有害、胁迫、侵害他人隐私、骚扰、侵害、中伤、粗俗、或其它道德上令人反感的内容。</div><div style=\"font-size: 13px; font-weight: 400;\"><br></div><div style=\"font-size: 13px; font-weight: 400;\">2、HC可依其合理判断, 对违反有关法律法规或本协议约定; 或侵犯、妨害、威胁任何人权利或安全的内容, 或者假冒他人的行为, HC有权停止传输任何前述内容, 并有权依其自行判断对违反本条款的任何用户采取适当的法律行动, 包括但不限于, 删除具有违法性、侵权性、不当性等内容, 阻止其使用HC全部或部分网络服务, 并且依据法律法规保存有关信息并向有关部门报告等。</div><div style=\"font-size: 13px; font-weight: 400;\"><br></div><div style=\"font-size: 13px; font-weight: 400;\">3、对于经由HC网络服务而传送的内容, HC不保证前述内容的正确性、完整性或品质。用户在接受本服务时, 有可能会接触到令人不快、不适当或令人厌恶的内容。在任何情况下, HC均不对任何内容负责, 包括但不限于任何内容发生任何错误或纰漏以及衍生的任何损失或损害。HC有权(但无义务)自行拒绝或删除经由HC网络服务提供的任何内容。用户使用上述内容, 应自行承担风险。</div><div style=\"font-size: 13px; font-weight: 400;\"><br></div><div style=\"font-size: 13px; font-weight: 400;\">4、对于用户通过HC网络服务(包括但不限于HC网、HC社群、HC中小学、HC国际教育、HC网校、泉题库、SIS在线测评及对应APP、相关应用等服务)上传到HC上可公开获取区域的任何内容, 用户同意HC在全世界范围内具有免费的、永久性的、不可撤销的、非独 家的和完全再许可的权利和许可, 以使用、复制、修改、改编、出版、翻译、据以创作衍生作品、传播、表演和展示此等内容(整体或部分), 和/或将此等内容编入当前已知的或以后开发的其他任何形式的作品、媒体或技术中。</div><div style=\"font-size: 13px; font-weight: 400;\"><br></div><div style=\"font-size: 13px; font-weight: 400;\">5、用户通过HC网络服务所发布的任何内容并不反映HC的观点或政策, HC对此不承担任何责任。用户须对上述内容的真实性、合法性、无害性、有效性等全权负责, 与用户所发布信息相关的任何法律责任由用户自行承担, 与HC无关。</div><div style=\"font-size: 13px; font-weight: 400;\"><br></div><div style=\"font-size: 13px; font-weight: 400;\">五、版权声明</div><div style=\"font-size: 13px; font-weight: 400;\">HC提供的网络服务中包含的任何文本、图片、图形、音频和/或视频资料均受版权、商标和/或其它财产所有权法律的保护, 未经相关权利人同意, 上述资料均不得在任何媒体直接或间接发布、播放、出于播放或发布目的而改写或再发行, 或者被用于其他任何商业目的。所有以上资料或资料的任何部分仅可作为私人和非商业用途保存。HC不就由上述资料产生或在传送或递交全部或部分上述资料过程中产生的延误、不准确、错误和遗漏或从中产生或由此产生的任何损害赔偿, 以任何形式, 向用户或任何第三方负责。</div><div style=\"font-size: 13px; font-weight: 400;\"><br></div><div style=\"font-size: 13px; font-weight: 400;\">六、隐私保护</div><div style=\"font-size: 13px; font-weight: 400;\">1、保护用户隐私是HC的一项基本政策, HC保证不对外公开或向第三方提供用户的注册资料及用户在使用网络服务时存储在HC内的非公开内容, 但下列情况除外:</div><div style=\"font-size: 13px; font-weight: 400;\"><br></div><div style=\"font-size: 13px; font-weight: 400;\">（1）事先获得用户的书面明确授权;</div><div style=\"font-size: 13px; font-weight: 400;\"><br></div><div style=\"font-size: 13px; font-weight: 400;\">（2）根据有关的法律法规要求;</div><div style=\"font-size: 13px; font-weight: 400;\"><br></div><div style=\"font-size: 13px; font-weight: 400;\">（3）按照相关政府主管部门的要求;</div><div style=\"font-size: 13px; font-weight: 400;\"><br></div><div style=\"font-size: 13px; font-weight: 400;\">（4）为维护社会公众的利益;</div><div style=\"font-size: 13px; font-weight: 400;\"><br></div><div style=\"font-size: 13px; font-weight: 400;\">（5）为维护HC的合法权益;</div><div style=\"font-size: 13px; font-weight: 400;\"><br></div><div style=\"font-size: 13px; font-weight: 400;\">2、为了更好地为用户提供全面服务，用户同意HC可将用户注册资料及使用信息提供HC关联公司使用。HC保证前述关联公司同等级地严格遵循本协议第六条第1款之隐私保护责任。</div><div style=\"font-size: 13px; font-weight: 400;\"><br></div><div style=\"font-size: 13px; font-weight: 400;\">3、用户同意：HC或HC运营商的关联公司在必要时有权根据用户注册时或接受服务时所提供的联系信息（包括但不限于电子邮件地址、联系电话、联系地址、即时聊天工具账号等），通过电子邮件、电话、短信、邮寄、即时聊天、弹出页面等方式向用户发送如下信息：</div><div style=\"font-size: 13px; font-weight: 400;\"><br></div><div style=\"font-size: 13px; font-weight: 400;\">（1）各类重要通知信息，可能包括但不限于订单、交易单、修改密码提示等重要信息。此类信息可能对用户的权利义务产生重大的有利或不利影响，用户务必及时关注。</div><div style=\"font-size: 13px; font-weight: 400;\"><br></div><div style=\"font-size: 13px; font-weight: 400;\">（2）商品和服务广告、促销优惠等商业性信息。若用户不愿意接收此类信息，则可通过告知（口头或书面）的方式通知HC或HC运营商的关联公司取消发送，亦可通过HC或HC运营商关联公司所提供的相应退订功能（若有）进行退订。</div><div style=\"font-size: 13px; font-weight: 400;\"><br></div><div style=\"font-size: 13px; font-weight: 400;\">七、协议的用途、更新和效力</div><div style=\"font-size: 13px; font-weight: 400;\">1、本协议之服务条款用以规范用户使用HC提供的服务,本协议与HC社区行为准则构成完整的协议。</div><div style=\"font-size: 13px; font-weight: 400;\"><br></div><div style=\"font-size: 13px; font-weight: 400;\">2、鉴于国家法律法规不时变化及HC运营之需要，HC有权对本协议条款不时地进行修改，修改后的协议一旦被公布于HC上即告生效，并替代原来的协议。 用户有义务不时关注并阅读最新版的协议及网站公告。如用户不同意更新后的协议，则应立即停止接受HC依据本协议提供的服务；若用户继续使用HC提供的服务的，即视为同意更新后的协议。 如果本协议中任何一条被视为废止、无效或因任何理由不可执行，该条应视为可分的且并不影响任何其余条款的有效性和可执行性。</div><div style=\"font-size: 13px; font-weight: 400;\"><br></div><div style=\"font-size: 13px; font-weight: 400;\">八、联系方式</div><div style=\"font-size: 13px; font-weight: 400;\">当您有个人信息相关问题或其他的投诉、建议等，可以通过如下方式与HC联系，HC将尽快审核所涉及内容，并于15个工作日内对于您的问题、投诉、建议进行回复</div></h3>', '<div>一、注册协议条款的确认和接受</div><div>HC(以下亦称“本网站”)同意按照本协议的规定及其不定时发布的操作规则提供基于互联网和移动互联网的相关服务(以下称“网络服务”)。</div><div><br></div><div>为获得网络服务, 申请人应当认真阅读、充分理解本《协议》中各条款, 包括免除或者限制HC责任的免责条款及对用户的权利限制条款。审慎阅读并选择接受或不接受本《协议》(未成年人应在法定监护人陪同下阅读)。</div><div><br></div><div>同意接受本协议的全部条款的, 申请人应当按照页面上的提示完成全部的注册程序, 并在注册程序过程中点击“同意”按钮, 否则视为不接受本《协议》全部条款, 申请人应当终止并退出申请。</div><div><br></div><div>本《协议》可由HC定期更新, 更新后的协议条款一旦公布即代替原来的协议条款, 恕不再另行通知, 用户可在HC查阅最新版协议条款。在HC修改《协议》条款后, 如果用户不接受修改后的条款, 请立即停止使用HC提供的网络服务, 继续使用的用户将被视为已接受了修改后的协议。</div><div><br></div><div>二、服务内容</div><div>1、网络服务的具体内容由HC根据实际情况提供, 包括学习资讯、学习工具、HC社群、HC问答、SIS在线测评、HC直播、HC网校、HC中小学、HC国际教育、HC考研集训营、泉题库及其旗下APP相关应用等服务。</div><div><br></div><div>2、HC提供的网络服务包括收费和免费。收费服务包括但不限于HC网、HC网校和APP的部分收费课程, 用户使用收费网络服务需要支付约定费用。对于收费服务, HC会在用户使用之前给予用户明确的提示, 只有用户根据提示确认同意支付相关费用, 用户才能使用该等收费服务。如用户未支付相关费用, 则HC有权不向用户提供该等收费服务。</div><div><br></div><div>3、用户理解, HC仅提供HC明确承诺的网络服务, 除此之外与相关网络服务有关的设备(如个人电脑、手机、及其他与接入互联网或移动网有关的装置)及所需的费用(如为接入互联网而支付的电话费及上网费、为使用移动网络而支付的手机费)均应由用户自行负担。</div><div><br></div><div>4、用户理解，HC网/HC网校/HC直播平台提供并提请用户在购买课程前先完整试听。用户可按《HC网校退班政策说明》除特别说明外，包括但不限于PC端和移动端下载课件在内的所有服务均附期限，到期终止。用户应在截止日期前享受其购买的服务。</div><div><br></div><div>三、用户帐号</div><div>1、经HC注册系统完成注册程序并通过身份认证的用户即为正式用户。</div><div><br></div><div>2、如发现用户帐号中含有不雅文字或不恰当名称的, HC保留注销其用户帐号的权利。</div><div><br></div><div>3、用户帐号的所有权归HC, 用户完成申请注册手续后, 用户享有使用权。3个月未使用的用户账号, HC保留收回的权利。</div><div><br></div><div>4、用户有义务保证密码和帐号的安全, 用户利用该帐号所进行的一切活动引起的任何损失或损害, 由用户自行承担全部责任, HC不承担任何责任。如用户发现帐号遭到未授权的使用或发生其他任何安全问题, 应立即修改账号密码并妥善保管。因黑客行为或用户的保管疏忽导致帐号非法使用, HC不承担任何责任。</div><div><br></div><div>5、用户帐号和密码仅由初始申请注册人使用，用户不得将自己用户账户或密码有偿或无偿以转让、出借、授权等方式提供给第三人操作和使用, 否则用户应当自行承担因违反此要求而遭致的任何损失。违反本项约定的，HC并保留收回账号的权利。若因违反本约定对他人造成损害的，用户应与实际使用人承担连带赔偿责任，同时HC保留追究用户违约责任的权利。</div><div><br></div><div>6、用户帐号在丢失、遗忘密码及因合用产生使用权归属纠纷后, 须遵照HC的申诉途径请求找回帐号。用户可以凭初始注册资料向HC申请找回帐号。HC的账户恢复机制仅负责识别申请用户所提资料与系统记录资料是否一致, 而无法识别申诉人是否系帐号的真正使用权人。对用户因被他人冒名申请而致的任何损失, HC不承担任何责任, 用户知晓帐号及密码保管责任在于用户, HC并不承诺帐号丢失或遗忘密码后用户一定能通过申诉找回帐号。用户应当谨慎填写初始手机号或注册邮箱作为确认接收争议帐号的指定邮箱。</div><div><br></div><div>7、HC建议用户应当使用本人名义为用户账户充值或行使付款行为。若用户存在使用第三人的名义进行充值或付款，或委托第三人代为充值或付款之行为的，则以上行为被视作本人的行为，若由于该第三人行为导致充值或付款行为失败或成功后又被撤销的，均被认为是用户本人真实意思的表示和用户本人实施的行为，由此所造成的一切法律后果均由用户自行承担。</div><div><br></div><div>四、使用规则</div><div>1、用户在使用HC网络服务过程中, 必须遵循国家的相关法律法规, 不得发布危害国家安全、色情、暴力、侵犯版权等任何合法权利等非法内容; 也不得利用HC平台发布含有虚假、有害、胁迫、侵害他人隐私、骚扰、侵害、中伤、粗俗、或其它道德上令人反感的内容。</div><div><br></div><div>2、HC可依其合理判断, 对违反有关法律法规或本协议约定; 或侵犯、妨害、威胁任何人权利或安全的内容, 或者假冒他人的行为, HC有权停止传输任何前述内容, 并有权依其自行判断对违反本条款的任何用户采取适当的法律行动, 包括但不限于, 删除具有违法性、侵权性、不当性等内容, 阻止其使用HC全部或部分网络服务, 并且依据法律法规保存有关信息并向有关部门报告等。</div><div><br></div><div>3、对于经由HC网络服务而传送的内容, HC不保证前述内容的正确性、完整性或品质。用户在接受本服务时, 有可能会接触到令人不快、不适当或令人厌恶的内容。在任何情况下, HC均不对任何内容负责, 包括但不限于任何内容发生任何错误或纰漏以及衍生的任何损失或损害。HC有权(但无义务)自行拒绝或删除经由HC网络服务提供的任何内容。用户使用上述内容, 应自行承担风险。</div><div><br></div><div>4、对于用户通过HC网络服务(包括但不限于HC网、HC社群、HC中小学、HC国际教育、HC网校、泉题库、SIS在线测评及对应APP、相关应用等服务)上传到HC上可公开获取区域的任何内容, 用户同意HC在全世界范围内具有免费的、永久性的、不可撤销的、非独 家的和完全再许可的权利和许可, 以使用、复制、修改、改编、出版、翻译、据以创作衍生作品、传播、表演和展示此等内容(整体或部分), 和/或将此等内容编入当前已知的或以后开发的其他任何形式的作品、媒体或技术中。</div><div><br></div><div>5、用户通过HC网络服务所发布的任何内容并不反映HC的观点或政策, HC对此不承担任何责任。用户须对上述内容的真实性、合法性、无害性、有效性等全权负责, 与用户所发布信息相关的任何法律责任由用户自行承担, 与HC无关。</div><div><br></div><div>五、版权声明</div><div>HC提供的网络服务中包含的任何文本、图片、图形、音频和/或视频资料均受版权、商标和/或其它财产所有权法律的保护, 未经相关权利人同意, 上述资料均不得在任何媒体直接或间接发布、播放、出于播放或发布目的而改写或再发行, 或者被用于其他任何商业目的。所有以上资料或资料的任何部分仅可作为私人和非商业用途保存。HC不就由上述资料产生或在传送或递交全部或部分上述资料过程中产生的延误、不准确、错误和遗漏或从中产生或由此产生的任何损害赔偿, 以任何形式, 向用户或任何第三方负责。</div><div><br></div><div>六、隐私保护</div><div>1、保护用户隐私是HC的一项基本政策, HC保证不对外公开或向第三方提供用户的注册资料及用户在使用网络服务时存储在HC内的非公开内容, 但下列情况除外:</div><div><br></div><div>（1）事先获得用户的书面明确授权;</div><div><br></div><div>（2）根据有关的法律法规要求;</div><div><br></div><div>（3）按照相关政府主管部门的要求;</div><div><br></div><div>（4）为维护社会公众的利益;</div><div><br></div><div>（5）为维护HC的合法权益;</div><div><br></div><div>2、为了更好地为用户提供全面服务，用户同意HC可将用户注册资料及使用信息提供HC关联公司使用。HC保证前述关联公司同等级地严格遵循本协议第六条第1款之隐私保护责任。</div><div><br></div><div>3、用户同意：HC或HC运营商的关联公司在必要时有权根据用户注册时或接受服务时所提供的联系信息（包括但不限于电子邮件地址、联系电话、联系地址、即时聊天工具账号等），通过电子邮件、电话、短信、邮寄、即时聊天、弹出页面等方式向用户发送如下信息：</div><div><br></div><div>（1）各类重要通知信息，可能包括但不限于订单、交易单、修改密码提示等重要信息。此类信息可能对用户的权利义务产生重大的有利或不利影响，用户务必及时关注。</div><div><br></div><div>（2）商品和服务广告、促销优惠等商业性信息。若用户不愿意接收此类信息，则可通过告知（口头或书面）的方式通知HC或HC运营商的关联公司取消发送，亦可通过HC或HC运营商关联公司所提供的相应退订功能（若有）进行退订。</div><div><br></div><div>七、协议的用途、更新和效力</div><div>1、本协议之服务条款用以规范用户使用HC提供的服务,本协议与HC社区行为准则构成完整的协议。</div><div><br></div><div>2、鉴于国家法律法规不时变化及HC运营之需要，HC有权对本协议条款不时地进行修改，修改后的协议一旦被公布于HC上即告生效，并替代原来的协议。 用户有义务不时关注并阅读最新版的协议及网站公告。如用户不同意更新后的协议，则应立即停止接受HC依据本协议提供的服务；若用户继续使用HC提供的服务的，即视为同意更新后的协议。 如果本协议中任何一条被视为废止、无效或因任何理由不可执行，该条应视为可分的且并不影响任何其余条款的有效性和可执行性。</div><div><br></div><div>八、联系方式</div><div>当您有个人信息相关问题或其他的投诉、建议等，可以通过如下方式与HC联系，HC将尽快审核所涉及内容，并于15个工作日内对于您的问题、投诉、建议进行回复</div>', '2023-01-10 16:44:22', '0');
-
--- ----------------------------
--- Table structure for renting_appointment
--- ----------------------------
-DROP TABLE IF EXISTS `renting_appointment`;
-CREATE TABLE `renting_appointment` (
-  `appointment_id` varchar(30) NOT NULL COMMENT '租户ID',
-  `tenant_name` varchar(64) NOT NULL COMMENT '租户名称',
-  `tenant_sex` varchar(2) NOT NULL COMMENT '性别 0 男 1女',
-  `tenant_tel` varchar(11) NOT NULL COMMENT '租户电话',
-  `appointment_time` datetime NOT NULL COMMENT '预约时间',
-  `appointment_room_id` varchar(30) DEFAULT NULL COMMENT '预约房间ID',
-  `room_id` varchar(30) DEFAULT NULL COMMENT '真实租房屋ID',
-  `store_id` varchar(30) NOT NULL COMMENT '代理商ID',
-  `state` varchar(12) NOT NULL COMMENT '状态，1001 提交，2002 租房失败，3003 租房成功',
-  `msg` varchar(100) DEFAULT NULL COMMENT '租房失败原因',
-  `remark` varchar(500) DEFAULT NULL COMMENT ' 租房失败时原因',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据在用状态 0 在用 1 失效',
-  `renting_id` varchar(30) DEFAULT NULL COMMENT '房源ID'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of renting_appointment
--- ----------------------------
-INSERT INTO `renting_appointment` VALUES ('812020091300690001', '张三', '0', '18909711234', '2020-09-13 13:54:12', '752020080500600202', null, '402019062754960011', '1001', null, '大概找个1000元左右的房子，1', '2020-09-13 14:02:26', '1', null);
-INSERT INTO `renting_appointment` VALUES ('812020091338400002', '王五', '0', '18909711234', '2020-09-13 14:03:00', '752020080500600202', '752020080500600202', '402019062754960011', '3003', null, '测试', '2020-09-13 14:03:44', '0', '812020090990810001');
-INSERT INTO `renting_appointment` VALUES ('802020091466170006', '张三', '0', '18909711234', '2020-09-14 23:07:56', '752020062714380008', '752020080500600202', '402019062754960011', '3003', null, '', '2020-09-14 23:22:07', '0', '812020090990810001');
-INSERT INTO `renting_appointment` VALUES ('802020091571520007', '吴学文', '0', '18909711234', '2020-09-15 09:17:49', '752020062714380008', '', '402019062754960011', '2002', '测试', '', '2020-09-15 09:20:56', '0', null);
-INSERT INTO `renting_appointment` VALUES ('802020092947680006', '张默默', '0', '18909711234', '2020-09-30 01:05:00', '752020080500600202', '752020080500600202', '400000000000000001', '3003', null, '', '2020-09-29 10:03:35', '0', '812020091878220023');
-INSERT INTO `renting_appointment` VALUES ('802020092980560008', '吴学文', '0', '18909711234', '2020-09-29 10:17:00', '752020080500600202', null, '', '2002', '的SV', null, '2020-09-29 10:20:04', '0', null);
-INSERT INTO `renting_appointment` VALUES ('802020092911940005', '长沙小伙', '0', '18909711234', '2020-09-29 16:06:00', '752020091278580065', '752020101744030366', '', '3003', null, null, '2020-09-29 16:06:54', '0', '812020102658960074');
-INSERT INTO `renting_appointment` VALUES ('802020093025050019', '王无里', '0', '18909711443', '2020-09-30 22:00:00', '752020091278580065', '752020091278580065', '', '3003', null, null, '2020-09-30 22:31:50', '0', '812020092920890001');
-INSERT INTO `renting_appointment` VALUES ('802020093020860020', '吴学文', '0', '18909711443', '2020-09-30 22:00:00', '752020091278580065', '752020091278580065', '', '3003', null, null, '2020-09-30 22:34:35', '0', '812020092920890001');
-INSERT INTO `renting_appointment` VALUES ('802020101546500007', '是我呀', '1', '18909711234', '2020-10-15 11:08:33', '752020091278580065', '752020091278580065', '400000000000000001', '3003', null, '', '2020-10-15 11:33:42', '0', '812020092920890001');
-INSERT INTO `renting_appointment` VALUES ('802020102279690062', 'zhang', '0', '13456748909', '2020-10-22 13:45:07', '752020091212520115', '', '400000000000000001', '2002', '交通不便', '', '2020-10-22 13:46:00', '0', null);
-INSERT INTO `renting_appointment` VALUES ('802020111740760215', '模型淋漓尽致', '0', '13834872024', '2020-11-17 11:06:00', '752020091278580065', '752020091278580065', '', '3003', null, null, '2020-11-17 11:06:36', '0', '812020092920890001');
-INSERT INTO `renting_appointment` VALUES ('802020112338430017', '乌拉拉', '0', '17878778787', '2020-11-23 14:20:14', '752020091211910116', '752020111755670084', '400000000000000001', '3003', null, '', '2020-11-23 14:20:56', '0', '812020111949450251');
-INSERT INTO `renting_appointment` VALUES ('802020112436480028', '张三', '0', '15888888888', '2020-11-24 08:33:23', '752020091211910116', '752020111755670084', '400000000000000001', '3003', null, '星', '2020-11-24 08:34:23', '0', '812020111949450251');
-INSERT INTO `renting_appointment` VALUES ('802020112449160031', '法外狂徒', '0', '15999999999', '2020-11-24 08:45:51', '752020080500600202', '752020080500600202', '400000000000000001', '3003', null, '我就要这套', '2020-11-24 08:46:54', '0', '812020091878220021');
-INSERT INTO `renting_appointment` VALUES ('802020112604630024', '听了魔一样', '0', '13834872024', '2020-11-26 11:09:00', '752020111755670084', '752020111755670084', '', '3003', null, null, '2020-11-26 11:09:43', '0', '812020112606470020');
-INSERT INTO `renting_appointment` VALUES ('802020112695340035', '快乐与嗯', '0', '13834872024', '2020-11-26 15:37:00', '752020111755670084', '752020111755670084', '', '3003', null, null, '2020-11-26 15:38:01', '0', '812020112606220031');
-INSERT INTO `renting_appointment` VALUES ('802020112610840048', '我试试', '0', '13834872023', '2020-11-26 16:39:06', '752020091211910116', '752020111755670084', '400000000000000001', '3003', null, '', '2020-11-26 16:39:37', '0', '812020112606220031');
-INSERT INTO `renting_appointment` VALUES ('802020120218850149', '李雷', '0', '17878787878', '2020-12-03 16:23:00', '752020111755670084', '752020111755670084', '', '3003', null, null, '2020-12-02 16:24:18', '0', '812020112606220031');
-INSERT INTO `renting_appointment` VALUES ('802020120203420152', '李丽丽', '0', '17815781578', '2020-12-02 16:27:00', '752020111755670084', '752020111755670084', '', '3003', null, null, '2020-12-02 16:31:57', '0', '812020112606220031');
-INSERT INTO `renting_appointment` VALUES ('802020120213560154', '李丽丽', '0', '17852525852', '2020-12-02 16:32:00', '752020111755670084', '752020080500600202', '', '3003', null, null, '2020-12-02 16:32:59', '0', '812020091878220024');
-INSERT INTO `renting_appointment` VALUES ('802020122229910007', '111', '1', '18049530235', '2020-12-23 10:55:54', '752020122278250176', '', '400000000000000001', '2002', '111', '', '2020-12-22 11:00:33', '0', null);
-INSERT INTO `renting_appointment` VALUES ('802020122287380008', '1111', '1', '18049530235', '2020-12-22 11:00:47', '752020122279500157', '', '400000000000000001', '2002', '12333333', '', '2020-12-22 11:03:11', '0', null);
-INSERT INTO `renting_appointment` VALUES ('802021010615880460', '乌伦古湖', '1', '18049530235', '2021-01-06 14:44:00', 'undefined', null, '', '2002', '12333333', null, '2021-01-06 14:45:08', '0', null);
-INSERT INTO `renting_appointment` VALUES ('802021010699580466', '我就是很想继续继续下降', '0', '18049530235', '2021-01-06 14:57:00', '752020091237800114', null, '', '1001', null, null, '2021-01-06 14:58:33', '0', null);
-INSERT INTO `renting_appointment` VALUES ('802021020467480041', '王二', '0', '15771709666', '2021-02-04 14:54:00', '752020091237800114', '752020111442170354', '', '3003', null, null, '2021-02-04 14:54:52', '0', '812020111510600195');
-INSERT INTO `renting_appointment` VALUES ('802021022384360041', '小王', '0', '18033358888', '2021-02-23 14:34:00', '752020091237800114', '752020091237800114', '', '3003', null, null, '2021-02-23 14:35:16', '0', '812021010642810462');
-INSERT INTO `renting_appointment` VALUES ('802021031093050026', '111', '0', '13133311331', '2021-03-10 19:39:00', '752020091237800114', '752020091278580065', '', '3003', null, null, '2021-03-10 19:39:40', '0', '812020092920890001');
-INSERT INTO `renting_appointment` VALUES ('802021032363240095', '王五', '0', '18600000001', '2021-03-23 11:08:02', '752021020101810062', '', '400000000000000001', '2002', '2', '北航', '2021-03-23 11:12:54', '0', null);
-INSERT INTO `renting_appointment` VALUES ('802021052581890036', '撒地方', '0', '13343342424', '2021-05-25 16:56:20', '752020091211910116', '752020091237800114', '400000000000000001', '3003', null, '2', '2021-05-25 18:45:03', '0', '812021010642810462');
-INSERT INTO `renting_appointment` VALUES ('802021060112620010', '租客测试', '0', '13940700987', '2021-06-01 13:17:43', '752020120924880289', '752020091237800114', '400000000000000001', '3003', null, '', '2021-06-01 13:18:20', '0', '812021010642810462');
-INSERT INTO `renting_appointment` VALUES ('802021060181110011', '租客', '0', '13940700987', '2021-06-01 13:20:43', '752021052674770375', '752020091237800114', '400000000000000001', '3003', null, '', '2021-06-01 13:19:47', '0', '812021010642810462');
-INSERT INTO `renting_appointment` VALUES ('802021060132330012', '租客cs', '0', '13940700987', '2021-06-01 13:15:43', '752020091237800114', '752020091237800114', '400000000000000001', '3003', null, '', '2021-06-01 13:20:16', '0', '812021010642810462');
-INSERT INTO `renting_appointment` VALUES ('802021060161570027', '李哪吒', '0', '13456335682', '2021-06-01 14:00:33', '752020091237800114', '752020080500600202', '400000000000000001', '3003', null, '', '2021-06-01 14:02:02', '0', '812020091878220021');
-INSERT INTO `renting_appointment` VALUES ('802021060349450076', '租客', '0', '13940700987', '2021-06-03 16:59:03', '752020120807580152', '752020091237800114', '400000000000000001', '3003', null, '', '2021-06-03 16:59:27', '0', '812021010642810462');
-INSERT INTO `renting_appointment` VALUES ('802021090986040010', 'test', '0', '13333333333', '2021-09-10 11:45:22', '752021081357440167', '', '400000000000000001', '1001', null, '313', '2021-09-09 10:47:46', '0', null);
-INSERT INTO `renting_appointment` VALUES ('802021110538442671', '张三', '0', '17201880188', '2021-11-05 21:46:59', '752021102975970140', '', '400000000000000001', '1001', null, '', '2021-11-05 21:47:04', '0', null);
-INSERT INTO `renting_appointment` VALUES ('802021112360050708', 'pp', '0', '13500003337', '2021-11-18 10:50:27', '752021112128030076', '', '400000000000000001', '1001', null, '', '2021-11-23 19:14:07', '0', null);
-INSERT INTO `renting_appointment` VALUES ('802022121721620171', '振华租客', '0', '18603651333', '2022-12-17 01:18:11', '752022121772990038', '', '102022121650370027', '1001', null, '', '2022-12-17 01:18:58', '0', null);
-
--- ----------------------------
--- Table structure for renting_config
--- ----------------------------
-DROP TABLE IF EXISTS `renting_config`;
-CREATE TABLE `renting_config` (
-  `renting_config_id` varchar(30) NOT NULL COMMENT '房屋出租配置ID',
-  `renting_type` varchar(12) NOT NULL COMMENT '出租类型，3344 整租  4455 合租',
-  `renting_formula` varchar(12) NOT NULL COMMENT '收费计算公式,1001 固定值 ，2002 每月租金比例',
-  `service_price` decimal(10,2) NOT NULL COMMENT '服务费,1001 时固定费 2002 时 不能超过 1 一般为 0.n',
-  `service_owner_rate` decimal(10,2) NOT NULL COMMENT '业主缴费比率 不能超过 1 一般为 0.n',
-  `service_tenant_rate` decimal(10,2) NOT NULL COMMENT '租客缴费比率 不能超过 1 一般为 0.n',
-  `admin_separate_rate` decimal(10,2) NOT NULL COMMENT '运营团队封账比率 不能超过 1 一般为 0.n',
-  `proxy_separate_rate` decimal(10,2) NOT NULL COMMENT '代理商团队封账比率 不能超过 1 一般为 0.n',
-  `property_separate_rate` decimal(10,2) NOT NULL COMMENT '物业团队封账比率 不能超过 1 一般为 0.n',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态，详细参考c_status表，0, 在用 1失效',
-  UNIQUE KEY `renting_config_id` (`renting_config_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of renting_config
--- ----------------------------
-INSERT INTO `renting_config` VALUES ('812020082731810008', '3344', '1001', '100.00', '0.50', '0.50', '0.30', '0.30', '0.40', '2020-08-27 20:23:46', '1');
-INSERT INTO `renting_config` VALUES ('812020091184450042', '3344', '2002', '0.80', '0.40', '0.60', '0.70', '0.00', '0.30', '2020-09-11 13:50:28', '1');
-INSERT INTO `renting_config` VALUES ('812020101560390004', '4455', '1001', '1.00', '1.00', '1.00', '1.00', '0.00', '1.00', '2020-10-15 10:34:18', '1');
-INSERT INTO `renting_config` VALUES ('812020110421770259', '3344', '1001', '100.00', '10.00', '10.00', '10.00', '0.00', '10.00', '2020-11-04 16:16:00', '1');
-INSERT INTO `renting_config` VALUES ('812020111580310200', '3344', '2002', '2.00', '10.00', '10.00', '10.00', '0.00', '10.00', '2020-11-15 14:46:27', '1');
-INSERT INTO `renting_config` VALUES ('812020112008250262', '3344', '1001', '3500.00', '1.00', '1.00', '1.00', '0.00', '1.00', '2020-11-20 10:09:27', '1');
-INSERT INTO `renting_config` VALUES ('812020112333610013', '3344', '1001', '1.00', '1.00', '1.00', '1.00', '0.00', '1.00', '2020-11-23 14:16:22', '1');
-INSERT INTO `renting_config` VALUES ('812020112397950025', '3344', '1001', '1.00', '1.00', '0.05', '0.30', '0.00', '0.30', '2020-11-23 17:08:29', '1');
-INSERT INTO `renting_config` VALUES ('812020112614990009', '3344', '1001', '10.00', '10.00', '10.00', '10.00', '0.00', '10.00', '2020-11-26 10:49:09', '1');
-INSERT INTO `renting_config` VALUES ('812020112617260001', '3344', '1001', '10.00', '1.00', '1.00', '1.00', '0.00', '0.00', '2020-11-26 08:09:44', '1');
-INSERT INTO `renting_config` VALUES ('812020112663870010', '4455', '1001', '100.00', '0.00', '5.00', '5.00', '0.00', '5.00', '2020-11-26 10:50:12', '0');
-INSERT INTO `renting_config` VALUES ('812020122169130014', '4455', '1001', '10.00', '111.00', '11.00', '11.00', '0.00', '11.00', '2020-12-21 15:04:04', '0');
-INSERT INTO `renting_config` VALUES ('812021011544670046', '4455', '1001', '11.00', '1.00', '1.00', '1.00', '0.00', '1.00', '2021-01-15 23:22:03', '0');
-INSERT INTO `renting_config` VALUES ('812021012656920033', '3344', '1001', '10.00', '0.10', '0.70', '0.10', '0.00', '0.10', '2021-01-26 10:40:53', '0');
-INSERT INTO `renting_config` VALUES ('812021051718630010', '3344', '1001', '10000.00', '20.00', '80.00', '50.00', '0.00', '50.00', '2021-05-17 23:36:10', '0');
-INSERT INTO `renting_config` VALUES ('812021060150300015', '3344', '2002', '100.00', '100.00', '98.00', '1.00', '0.00', '1.00', '2021-06-01 13:56:12', '1');
-INSERT INTO `renting_config` VALUES ('812021060161000009', '3344', '2002', '100.00', '5.00', '5.00', '5.00', '0.00', '5.00', '2021-06-01 13:09:40', '0');
-INSERT INTO `renting_config` VALUES ('812021062209300033', '3344', '1001', '0.00', '1.00', '1.00', '1.00', '0.00', '1.00', '2021-06-22 10:48:54', '0');
-INSERT INTO `renting_config` VALUES ('812021062317080016', '4455', '1001', '0.00', '90.00', '80.00', '70.00', '0.00', '60.00', '2021-06-23 17:10:39', '0');
-INSERT INTO `renting_config` VALUES ('812021062821090004', '3344', '1001', '111.00', '11.00', '11.00', '111.00', '0.00', '11.00', '2021-06-28 10:19:29', '0');
-INSERT INTO `renting_config` VALUES ('812021070604070031', '4455', '2002', '60.00', '80.00', '80.00', '80.00', '0.00', '80.00', '2021-07-06 11:40:07', '1');
-INSERT INTO `renting_config` VALUES ('812021080633360001', '4455', '1001', '100.00', '0.50', '0.50', '0.50', '0.00', '0.50', '2021-08-06 15:19:03', '1');
-INSERT INTO `renting_config` VALUES ('812021113052150173', '4455', '2002', '324.00', '23.00', '23.00', '43.00', '0.00', '24.00', '2021-11-30 14:07:06', '0');
-INSERT INTO `renting_config` VALUES ('812021120230460222', '4455', '2002', '2342.00', '3.00', '3.00', '3.00', '0.00', '3.00', '2021-12-02 14:08:33', '1');
-
--- ----------------------------
--- Table structure for renting_pool
--- ----------------------------
-DROP TABLE IF EXISTS `renting_pool`;
-CREATE TABLE `renting_pool` (
-  `renting_id` varchar(30) NOT NULL COMMENT '租房ID',
-  `renting_title` varchar(200) NOT NULL COMMENT '房屋名称',
-  `room_id` varchar(30) NOT NULL COMMENT '房屋ID',
-  `community_id` varchar(30) NOT NULL COMMENT '小区ID',
-  `price` decimal(10,2) NOT NULL COMMENT '每月金额',
-  `payment_type` varchar(12) NOT NULL COMMENT '预付类型，1001 押一付一，2002 押一付三 3003 押一付六',
-  `renting_config_id` varchar(30) NOT NULL COMMENT '租房配置',
-  `renting_desc` longtext COMMENT '房源描述',
-  `state` varchar(12) NOT NULL COMMENT '状态，提交中 0，代理商确认 1，预约看房 2，待支付 3，申请合同 4，运营团队确认 5 ，完成 6',
-  `owner_name` varchar(200) NOT NULL COMMENT '业主名称',
-  `owner_tel` varchar(11) NOT NULL COMMENT '业主联系电话',
-  `longitude` varchar(12) DEFAULT NULL COMMENT '经度',
-  `latitude` varchar(12) DEFAULT NULL COMMENT '维度',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据在用状态 0 在用 1 失效',
-  `check_in` varchar(12) NOT NULL COMMENT '入住类型，1001 立即入住 2002 入住预约',
-  `community_name` varchar(200) NOT NULL COMMENT '小区名称',
-  UNIQUE KEY `renting_id` (`renting_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of renting_pool
--- ----------------------------
-INSERT INTO `renting_pool` VALUES ('812020090990810001', '格兰小镇单间出租', '752020080500600202', '7020181217000001', '1000.00', '1001', '812020082731810008', '房屋整洁，拎包入住', '6', 'test001', '18909711443', null, null, '2020-09-09 12:15:18', '0', '1001', '丰仪家园');
-INSERT INTO `renting_pool` VALUES ('812020091871210019', '有房子出租了', '752020080500600202', '2022030411790004', '1200.00', '1001', '812020091184450042', '出租0002', '1', 'test001', '18909711443', null, null, '2020-09-18 10:49:13', '0', '1001', '丰仪家园');
-INSERT INTO `renting_pool` VALUES ('812020091878220021', '单间出租', '752020080500600202', '2021082568430029', '1500.00', '1001', '812021060161000009', '便宜出租', '3', 'test001', '18909711443', null, null, '2020-09-18 11:20:57', '0', '1001', '丰仪家园');
-INSERT INTO `renting_pool` VALUES ('812020091878220023', '单间出租', '752020080500600202', '7020181217000001', '1500.00', '1001', '812020082731810008', '便宜出租', '3', 'test001', '18909711443', null, null, '2020-09-18 11:20:57', '0', '1001', '丰仪家园');
-INSERT INTO `renting_pool` VALUES ('812020091878220024', '单间出租', '752020080500600202', '7020181217000001', '1500.00', '1001', '812020082731810008', '便宜出租', '3', 'test001', '18909711443', null, null, '2020-09-18 11:20:57', '0', '1001', '丰仪家园');
-INSERT INTO `renting_pool` VALUES ('812020091878220025', '单间出租', '752020080500600202', '7020181217000001', '1500.00', '1001', '812020082731810008', '便宜出租', '1', 'test001', '18909711443', null, null, '2020-09-18 11:20:57', '0', '1001', '丰仪家园');
-INSERT INTO `renting_pool` VALUES ('812020091878220026', '单间出租', '752020080500600202', '7020181217000001', '1500.00', '1001', '812020082731810008', '便宜出租', '1', 'ppp', '18909711443', null, null, '2020-09-18 11:20:57', '0', '1001', '丰仪家园');
-INSERT INTO `renting_pool` VALUES ('812020091878220027', '单间出租', '752020080500600202', '7020181217000001', '1500.00', '1001', '812020082731810008', '便宜出租', '1', 'test001', '18909711443', null, null, '2020-09-18 11:20:57', '0', '1001', '丰仪家园');
-INSERT INTO `renting_pool` VALUES ('812020091878220028', '单间出租', '752020080500600202', '7020181217000001', '1500.00', '1001', '812020082731810008', '便宜出租', '1', 'test001', '18909711443', null, null, '2020-09-18 11:20:57', '0', '1001', '丰仪家园');
-INSERT INTO `renting_pool` VALUES ('812020091878220029', '单间出租', '752020080500600202', '7020181217000001', '1500.00', '1001', '812020082731810008', '便宜出租', '6', 'test001', '18909711443', null, null, '2020-09-18 11:20:57', '0', '1001', '丰仪家园');
-INSERT INTO `renting_pool` VALUES ('812020091878220031', '单间出租', '752020080500600202', '7020181217000001', '1500.00', '1001', '812020082731810008', '便宜出租', '1', 'test001', '18909711443', null, null, '2020-09-18 11:20:57', '0', '1001', '丰仪家园');
-INSERT INTO `renting_pool` VALUES ('812020091878220032', '单间出租', '752020080500600202', '7020181217000001', '1500.00', '1001', '812020082731810008', '便宜出租', '1', 'test001', '18909711443', null, null, '2020-09-18 11:20:57', '0', '1001', '丰仪家园');
-INSERT INTO `renting_pool` VALUES ('812020091878220033', '单间出租', '752020080500600202', '2022120696080599', '1500.00', '1001', '812020082731810008', '便宜出租', '1', 'test001', '18909711443', null, null, '2020-09-18 11:20:57', '0', '1001', '丰仪家园');
-INSERT INTO `renting_pool` VALUES ('812020091878220034', '单间出租', '752020080500600202', '7020181217000001', '1500.00', '1001', '812020082731810008', '便宜出租', '1', 'test001', '18909711443', null, null, '2020-09-18 11:20:57', '0', '1001', '丰仪家园');
-INSERT INTO `renting_pool` VALUES ('812020091878220035', '单间出租', '752020080500600202', '7020181217000001', '1500.00', '1001', '812020082731810008', '便宜出租', '1', 'test001', '18909711443', null, null, '2020-09-18 11:20:57', '0', '1001', '丰仪家园');
-INSERT INTO `renting_pool` VALUES ('812020091878220036', '单间出租', '752020080500600202', '7020181217000001', '1500.00', '1001', '812020082731810008', '便宜出租', '1', 'test001', '18909711443', null, null, '2020-09-18 11:20:57', '0', '1001', '丰仪家园');
-INSERT INTO `renting_pool` VALUES ('812020091878220037', '单间出租', '752020080500600202', '7020181217000001', '1500.00', '1001', '812020082731810008', '便宜出租', '1', 'test001', '18909711443', null, null, '2020-09-18 11:20:57', '0', '1001', '丰仪家园');
-INSERT INTO `renting_pool` VALUES ('812020091878220038', '单间出租', '752020080500600202', '2022030411790004', '1500.00', '1001', '812020082731810008', '便宜出租001', '1', 'test001', '18909711443', null, null, '2020-09-18 11:20:57', '0', '1001', '丰仪家园');
-INSERT INTO `renting_pool` VALUES ('812020092920890001', '十八洞沟豪华避暑出租', '752020091278580065', '7020181217000001', '1500.00', '1001', '812020082731810008', '家庭没骂，爱琴不错，差查嗷嗷', '3', 'test001', '18909711443', null, null, '2020-09-29 13:27:06', '0', '1001', '丰仪家园');
-INSERT INTO `renting_pool` VALUES ('812020102658960074', '213', '752020101744030366', '7020181217000001', '888.00', '1001', '812020101560390004', 'weq', '3', 'test001', '18909711443', null, null, '2020-10-26 14:51:28', '0', '1001', '丰仪家园');
-INSERT INTO `renting_pool` VALUES ('812020111510600195', '不不不', '752020111442170354', '7020181217000001', '1000.00', '3003', '812020101560390004', '加不加班会不会', '3', 'test001', '18909711443', null, null, '2020-11-15 00:59:17', '0', '1001', '丰仪家园');
-INSERT INTO `renting_pool` VALUES ('812020111949450251', 'test', '752020111755670084', '7020181217000001', '2000.00', '1001', '812020111580310200', 'test', '3', 'test001', '18909711443', null, null, '2020-11-19 21:39:47', '1', '1001', '丰仪家园');
-INSERT INTO `renting_pool` VALUES ('812020112606220031', '么困饿哭', '752020111755670084', '7020181217000001', '1000.00', '1001', '812020112663870010', '同俄吞没', '6', 'test001', '18909711443', null, null, '2020-11-26 15:37:25', '0', '1001', '丰仪家园');
-INSERT INTO `renting_pool` VALUES ('812020112606470020', '肯走啦嗯', '752020111755670084', '7020181217000001', '1000.00', '1001', '812020112663870010', '同恶意low了', '6', 'test001', '18909711443', null, null, '2020-11-26 11:06:17', '0', '1001', '丰仪家园');
-INSERT INTO `renting_pool` VALUES ('812020112624230011', '揭秘嘻嘻嘻', '752020111755670084', '7020181217000001', '1000.00', '1001', '812020112663870010', '你能拿', '1', 'test001', '18909711443', null, null, '2020-11-26 10:53:48', '1', '1001', '丰仪家园');
-INSERT INTO `renting_pool` VALUES ('812020112630490015', '他他他补补啊爬山', '752020111755670084', '7020181217000001', '1000.00', '1001', '812020112663870010', '同乐鳄鱼小姐妹一样', '6', 'test001', '18909711443', null, null, '2020-11-26 11:04:38', '0', '1001', '丰仪家园');
-INSERT INTO `renting_pool` VALUES ('812020112685020005', '我是来记录她第一眼', '752020111755670084', '7020181217000001', '1000.00', '1001', '812020112397950025', '看了他问我', '1', 'test001', '18909711443', null, null, '2020-11-26 10:44:09', '1', '1001', '丰仪家园');
-INSERT INTO `renting_pool` VALUES ('812020122125590010', '茅房一间', '752020121609880956', '7020181217000001', '999.00', '3003', '812020122169130014', '爱住不住', '1', 'test001', '18909711443', null, null, '2020-12-21 14:10:45', '1', '2002', '丰仪家园');
-INSERT INTO `renting_pool` VALUES ('812020122912410083', '而改革和别别扭扭', '752020091237800114', '7020181217000001', '1100.00', '1001', '812020122169130014', '从古井不波白白净净', '1', 'test001', '18909711443', null, null, '2020-12-29 10:02:28', '1', '1001', '丰仪家园');
-INSERT INTO `renting_pool` VALUES ('812021010642810462', '一室一厅一卫', '752020091237800114', '7020181217000001', '110.00', '1001', '812020122169130014', '这就是说可怜兮兮好好看好看好看好看', '3', 'test001', '18909711443', null, null, '2021-01-06 14:51:31', '0', '1001', '丰仪家园');
-INSERT INTO `renting_pool` VALUES ('812021012649330034', '香格里拉豪华版', '752021012235783217', '2021012222523156', '2000.00', '1001', '812021012656920033', '房屋超级好', '0', '王小川', '15812345678', null, null, '2021-01-26 10:42:13', '0', '2002', '开心乐园');
-INSERT INTO `renting_pool` VALUES ('812021031075640019', '7777', '752021031001090057', '2022120203810096', '800.00', '1001', '812020112663870010', '123465', '1', 'test001', '18909711443', null, null, '2021-03-10 14:03:29', '0', '1001', '丰仪家园');
-INSERT INTO `renting_pool` VALUES ('812021062388600005', '大套房出租', '752021062392270041', '2021062365411062', '1500.00', '1001', '812021062209300033', '整租，拎包入住', '0', 'yz002', '15222222222', null, null, '2021-06-23 15:04:33', '0', '1001', '琰众小区');
-INSERT INTO `renting_pool` VALUES ('812021063036300006', '大房', '752021062388650005', '2021062365411062', '2000.00', '1001', '812021062821090004', '1111', '0', 'yz002', '15222222222', null, null, '2021-06-30 15:01:21', '0', '1001', '琰众小区');
-
--- ----------------------------
--- Table structure for renting_pool_attr
--- ----------------------------
-DROP TABLE IF EXISTS `renting_pool_attr`;
-CREATE TABLE `renting_pool_attr` (
-  `attr_id` varchar(30) NOT NULL COMMENT '属性id',
-  `renting_id` varchar(30) NOT NULL COMMENT '租户ID',
-  `spec_cd` varchar(12) NOT NULL COMMENT '规格id,参考spec表',
-  `value` varchar(50) NOT NULL COMMENT '属性值',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态，详细参考c_status表，S 保存，0, 在用 1失效',
-  `community_id` varchar(30) NOT NULL COMMENT '小区ID 分片ID',
-  UNIQUE KEY `attr_id` (`attr_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of renting_pool_attr
--- ----------------------------
-
--- ----------------------------
--- Table structure for renting_pool_flow
--- ----------------------------
-DROP TABLE IF EXISTS `renting_pool_flow`;
-CREATE TABLE `renting_pool_flow` (
-  `flow_id` varchar(30) NOT NULL COMMENT '主键ID',
-  `renting_id` varchar(30) NOT NULL COMMENT '出租ID',
-  `user_name` varchar(64) NOT NULL COMMENT '处理人',
-  `deal_time` datetime NOT NULL COMMENT '处理时间',
-  `state` varchar(12) NOT NULL COMMENT '动作，1001 提交,2002 代理商审核',
-  `user_role` varchar(12) NOT NULL COMMENT '用户角色，1业主，2 租客，3 代理商，4运营团队',
-  `context` longtext COMMENT '处理说明',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态 0 有效 1 无效',
-  `community_id` varchar(30) NOT NULL COMMENT '分片字段，小区ID',
-  `user_tel` varchar(11) NOT NULL COMMENT '处理人电话'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of renting_pool_flow
--- ----------------------------
-INSERT INTO `renting_pool_flow` VALUES ('752020091238330001', '812020090990810001', 'dails', '2020-09-12 18:24:25', '2002', '3', '同意', '2020-09-12 18:24:26', '0', '7020181217000001', '18909786269');
-INSERT INTO `renting_pool_flow` VALUES ('752020091511850001', '812020090990810001', '王五', '2020-09-15 18:55:57', '4004', '2', '确认租房', '2020-09-15 18:55:57', '1', '7020181217000001', '18909711234');
-INSERT INTO `renting_pool_flow` VALUES ('752020091804680018', '812020090990810001', '张三', '2020-09-18 09:46:56', '4004', '2', '确认租房', '2020-09-18 09:46:56', '0', '7020181217000001', '18909711234');
-INSERT INTO `renting_pool_flow` VALUES ('752020092116620028', '812020091878220021', 'admin', '2020-09-21 23:38:42', '2002', '4', '同意', '2020-09-21 23:38:43', '0', '7020181217000001', '17797173944');
-INSERT INTO `renting_pool_flow` VALUES ('752020092632820060', '812020091878220023', 'dails', '2020-09-26 13:13:59', '2002', '3', '同意', '2020-09-26 13:13:59', '0', '7020181217000001', '18909786269');
-INSERT INTO `renting_pool_flow` VALUES ('752020092974400004', '812020092920890001', 'admin', '2020-09-29 13:39:08', '2002', '4', '同意', '2020-09-29 13:39:08', '0', '7020181217000001', '17797173944');
-INSERT INTO `renting_pool_flow` VALUES ('752020101518490005', '812020091878220024', 'admin', '2020-10-15 11:05:58', '2002', '4', '同意', '2020-10-15 11:05:59', '0', '7020181217000001', '17797173944');
-INSERT INTO `renting_pool_flow` VALUES ('752020101568640006', '812020091878220029', 'admin', '2020-10-15 11:07:12', '3003', '4', '1', '2020-10-15 11:07:12', '0', '7020181217000001', '17797173944');
-INSERT INTO `renting_pool_flow` VALUES ('752020101525870008', '812020092920890001', '是我呀', '2020-10-15 11:38:54', '4004', '2', '确认租房', '2020-10-15 11:38:54', '0', '7020181217000001', '18909711234');
-INSERT INTO `renting_pool_flow` VALUES ('752020101982680041', '812020091878220025', 'admin', '2020-10-19 16:02:20', '2002', '4', '同意', '2020-10-19 16:02:20', '0', '7020181217000001', '17797173944');
-INSERT INTO `renting_pool_flow` VALUES ('752020101928800042', '812020092920890001', '吴学文', '2020-10-19 16:07:59', '4004', '2', '确认租房', '2020-10-19 16:07:59', '0', '7020181217000001', '18909711443');
-INSERT INTO `renting_pool_flow` VALUES ('752020111034170008', '812020102658960074', 'admin', '2020-11-10 15:59:41', '2002', '4', '同意', '2020-11-10 15:59:41', '0', '7020181217000001', '17797173944');
-INSERT INTO `renting_pool_flow` VALUES ('752020111079790009', '812020091878220026', 'admin', '2020-11-10 16:00:10', '2002', '4', '同意', '2020-11-10 16:00:10', '0', '7020181217000001', '17797173944');
-INSERT INTO `renting_pool_flow` VALUES ('752020111209880095', '812020091878220027', 'admin', '2020-11-12 17:44:11', '2002', '4', '同意', '2020-11-12 17:44:11', '0', '7020181217000001', '17797173944');
-INSERT INTO `renting_pool_flow` VALUES ('752020111773070216', '812020092920890001', '模型淋漓尽致', '2020-11-17 11:08:27', '4004', '2', '确认租房', '2020-11-17 11:08:27', '0', '7020181217000001', '13834872024');
-INSERT INTO `renting_pool_flow` VALUES ('752020111790640217', '812020092920890001', '王无里', '2020-11-17 11:19:44', '4004', '2', '确认租房', '2020-11-17 11:19:44', '0', '7020181217000001', '18909711443');
-INSERT INTO `renting_pool_flow` VALUES ('752020112322790014', '812020111949450251', 'admin', '2020-11-23 14:18:47', '2002', '4', '同意', '2020-11-23 14:18:47', '0', '7020181217000001', '17797173944');
-INSERT INTO `renting_pool_flow` VALUES ('752020112308430018', '812020111949450251', '乌拉拉', '2020-11-23 14:24:12', '4004', '2', '确认租房', '2020-11-23 14:24:12', '0', '7020181217000001', '17878778787');
-INSERT INTO `renting_pool_flow` VALUES ('752020112435590026', '812020102658960074', '长沙小伙', '2020-11-24 08:32:42', '4004', '2', '确认租房', '2020-11-24 08:32:42', '0', '7020181217000001', '18909711234');
-INSERT INTO `renting_pool_flow` VALUES ('752020112489660027', '812020111510600195', 'admin', '2020-11-24 08:33:17', '2002', '4', '同意', '2020-11-24 08:33:17', '0', '7020181217000001', '17797173944');
-INSERT INTO `renting_pool_flow` VALUES ('752020112408620029', '812020111949450251', '张三', '2020-11-24 08:36:34', '4004', '2', '确认租房', '2020-11-24 08:36:34', '0', '7020181217000001', '15888888888');
-INSERT INTO `renting_pool_flow` VALUES ('752020112440140030', '812020091871210019', 'admin', '2020-11-24 08:38:07', '2002', '4', '同意', '2020-11-24 08:38:07', '0', '7020181217000001', '17797173944');
-INSERT INTO `renting_pool_flow` VALUES ('752020112443570032', '812020091878220021', '法外狂徒', '2020-11-24 08:47:12', '4004', '2', '确认租房', '2020-11-24 08:47:12', '0', '7020181217000001', '15999999999');
-INSERT INTO `renting_pool_flow` VALUES ('752020112485020033', '812020091878220023', '张默默', '2020-11-24 08:47:45', '4004', '2', '确认租房', '2020-11-24 08:47:45', '0', '7020181217000001', '18909711234');
-INSERT INTO `renting_pool_flow` VALUES ('752020112435990046', '812020091878220028', 'admin', '2020-11-24 16:03:52', '2002', '4', '同意', '2020-11-24 16:03:52', '0', '7020181217000001', '17797173944');
-INSERT INTO `renting_pool_flow` VALUES ('752020112688650008', '812020112685020005', 'admin', '2020-11-26 10:45:02', '2002', '4', '同意', '2020-11-26 10:45:02', '0', '7020181217000001', '17797173944');
-INSERT INTO `renting_pool_flow` VALUES ('752020112626060014', '812020112624230011', 'admin', '2020-11-26 10:53:57', '2002', '4', '同意', '2020-11-26 10:53:57', '0', '7020181217000001', '17797173944');
-INSERT INTO `renting_pool_flow` VALUES ('752020112664920018', '812020112630490015', 'admin', '2020-11-26 11:05:41', '3003', '4', '敖德萨多', '2020-11-26 11:05:41', '0', '7020181217000001', '17797173944');
-INSERT INTO `renting_pool_flow` VALUES ('752020112694630023', '812020112606470020', 'admin', '2020-11-26 11:06:29', '2002', '4', '同意', '2020-11-26 11:06:29', '0', '7020181217000001', '17797173944');
-INSERT INTO `renting_pool_flow` VALUES ('752020112656780025', '812020112606470020', '听了魔一样', '2020-11-26 11:19:27', '4004', '2', '确认租房', '2020-11-26 11:19:27', '0', '7020181217000001', '13834872024');
-INSERT INTO `renting_pool_flow` VALUES ('752020112699320030', '812020091878220031', 'admin', '2020-11-26 15:35:07', '2002', '4', '同意', '2020-11-26 15:35:07', '0', '7020181217000001', '17797173944');
-INSERT INTO `renting_pool_flow` VALUES ('752020112626820034', '812020112606220031', 'admin', '2020-11-26 15:37:39', '2002', '4', '同意', '2020-11-26 15:37:39', '0', '7020181217000001', '17797173944');
-INSERT INTO `renting_pool_flow` VALUES ('752020112645530036', '812020112606220031', '快乐与嗯', '2020-11-26 15:38:09', '4004', '2', '确认租房', '2020-11-26 15:38:09', '0', '7020181217000001', '13834872024');
-INSERT INTO `renting_pool_flow` VALUES ('752020120283820150', '812020112606220031', '李雷', '2020-12-02 16:30:40', '4004', '2', '确认租房', '2020-12-02 16:30:40', '0', '7020181217000001', '17878787878');
-INSERT INTO `renting_pool_flow` VALUES ('752020120263240151', '812020112606220031', '我试试', '2020-12-02 16:30:59', '4004', '2', '确认租房', '2020-12-02 16:30:59', '0', '7020181217000001', '13834872023');
-INSERT INTO `renting_pool_flow` VALUES ('752020120283480153', '812020112606220031', '李丽丽', '2020-12-02 16:32:15', '4004', '2', '确认租房', '2020-12-02 16:32:15', '0', '7020181217000001', '17815781578');
-INSERT INTO `renting_pool_flow` VALUES ('752020120367000190', '812020091878220032', 'admin', '2020-12-03 10:45:25', '2002', '4', '同意', '2020-12-03 10:45:25', '0', '7020181217000001', '17797173944');
-INSERT INTO `renting_pool_flow` VALUES ('752020120992410127', '812020091878220024', '李丽丽', '2020-12-09 12:29:03', '4004', '2', '确认租房', '2020-12-09 12:29:03', '0', '7020181217000001', '17852525852');
-INSERT INTO `renting_pool_flow` VALUES ('752020122369370022', '812020122125590010', 'admin', '2020-12-23 16:03:09', '2002', '4', '同意', '2020-12-23 16:03:09', '0', '7020181217000001', '17797173944');
-INSERT INTO `renting_pool_flow` VALUES ('752020122300930023', '812020091878220033', 'admin', '2020-12-23 16:03:11', '2002', '4', '同意', '2020-12-23 16:03:12', '0', '7020181217000001', '17797173944');
-INSERT INTO `renting_pool_flow` VALUES ('752020122325610024', '812020091878220034', 'admin', '2020-12-23 16:03:14', '2002', '4', '同意', '2020-12-23 16:03:14', '0', '7020181217000001', '17797173944');
-INSERT INTO `renting_pool_flow` VALUES ('752020122326810025', '812020091878220035', 'admin', '2020-12-23 16:03:16', '2002', '4', '同意', '2020-12-23 16:03:16', '0', '7020181217000001', '17797173944');
-INSERT INTO `renting_pool_flow` VALUES ('752020122395280026', '812020091878220036', 'admin', '2020-12-23 16:03:19', '2002', '4', '同意', '2020-12-23 16:03:19', '0', '7020181217000001', '17797173944');
-INSERT INTO `renting_pool_flow` VALUES ('752020122375950027', '812020091878220037', 'admin', '2020-12-23 16:03:21', '2002', '4', '同意', '2020-12-23 16:03:21', '0', '7020181217000001', '17797173944');
-INSERT INTO `renting_pool_flow` VALUES ('752020122347310028', '812020091878220038', 'admin', '2020-12-23 16:03:24', '2002', '4', '同意', '2020-12-23 16:03:24', '0', '7020181217000001', '17797173944');
-INSERT INTO `renting_pool_flow` VALUES ('752020122996660086', '812020122912410083', 'admin', '2020-12-29 10:11:23', '2002', '4', '同意', '2020-12-29 10:11:23', '0', '7020181217000001', '17797173944');
-INSERT INTO `renting_pool_flow` VALUES ('752021010643080465', '812021010642810462', 'admin', '2021-01-06 14:56:25', '2002', '4', '同意', '2021-01-06 14:56:26', '0', '7020181217000001', '17797173944');
-INSERT INTO `renting_pool_flow` VALUES ('752021052929670089', '812021031075640019', 'admin', '2021-05-29 14:54:40', '2002', '4', '同意', '2021-05-29 14:54:40', '0', '7020181217000001', '17797173944');
-INSERT INTO `renting_pool_flow` VALUES ('752021060160020013', '812021010642810462', '租客cs', '2021-06-01 13:21:59', '4004', '2', '确认租房', '2021-06-01 13:21:59', '0', '7020181217000001', '13940700987');
-INSERT INTO `renting_pool_flow` VALUES ('752021060102330014', '812020092920890001', '111', '2021-06-01 13:30:23', '4004', '2', '确认租房', '2021-06-01 13:30:23', '0', '7020181217000001', '13133311331');
-INSERT INTO `renting_pool_flow` VALUES ('752021060113090020', '812021010642810462', '租客', '2021-06-01 13:58:59', '4004', '2', '确认租房', '2021-06-01 13:58:59', '0', '7020181217000001', '13940700987');
-INSERT INTO `renting_pool_flow` VALUES ('752021060133660047', '812020091878220021', '李哪吒', '2021-06-01 15:41:52', '4004', '2', '确认租房', '2021-06-01 15:41:52', '0', '7020181217000001', '13456335682');
-INSERT INTO `renting_pool_flow` VALUES ('752021060306720077', '812021010642810462', '租客', '2021-06-03 16:59:56', '4004', '2', '确认租房', '2021-06-03 16:59:56', '0', '7020181217000001', '13940700987');
-INSERT INTO `renting_pool_flow` VALUES ('752021060355380078', '812021010642810462', '租客测试', '2021-06-03 17:02:02', '4004', '2', '确认租房', '2021-06-03 17:02:02', '0', '7020181217000001', '13940700987');
-INSERT INTO `renting_pool_flow` VALUES ('752021060370470079', '812021010642810462', '撒地方', '2021-06-03 17:04:40', '4004', '2', '确认租房', '2021-06-03 17:04:40', '0', '7020181217000001', '13343342424');
-INSERT INTO `renting_pool_flow` VALUES ('752021060353370080', '812021010642810462', '小王', '2021-06-03 17:04:47', '4004', '2', '确认租房', '2021-06-03 17:04:47', '0', '7020181217000001', '18033358888');
-INSERT INTO `renting_pool_flow` VALUES ('752021062841140005', '812020111510600195', '王二', '2021-06-28 10:43:44', '4004', '2', '确认租房', '2021-06-28 10:43:29', '0', '7020181217000001', '15771709666');
 
 -- ----------------------------
 -- Table structure for report_custom
@@ -52202,124 +48524,6 @@ INSERT INTO `shop_location` VALUES ('7420260818600325818', '101', '7420260812680
 INSERT INTO `shop_location` VALUES ('7420260818778325701', 'B', '-1', '1', '', '2026-08-18 12:40:41', '1', '2026070812860502', '0');
 
 -- ----------------------------
--- Table structure for shop_vip_account
--- ----------------------------
-DROP TABLE IF EXISTS `shop_vip_account`;
-CREATE TABLE `shop_vip_account` (
-  `vip_acct_id` varchar(30) NOT NULL COMMENT '账户ID',
-  `vip_id` varchar(30) NOT NULL COMMENT '会员ID',
-  `acct_name` varchar(128) NOT NULL COMMENT '账户名称',
-  `acct_type` varchar(12) NOT NULL COMMENT '账户类型，2003 现金账户 2004 积分账户 2005 优惠券账户',
-  `amount` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '金额',
-  `shop_id` varchar(30) NOT NULL COMMENT '商铺ID',
-  `store_id` varchar(30) NOT NULL COMMENT '商户ID',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态，详细参考c_status表，S 保存，0, 在用 1失效',
-  PRIMARY KEY (`vip_acct_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of shop_vip_account
--- ----------------------------
-INSERT INTO `shop_vip_account` VALUES ('262021062362370002', '262021062345400001', '李大妈', '2004', '0.00', '502021051970730004', '402021062178540311', '2021-06-23 10:26:21', '0');
-INSERT INTO `shop_vip_account` VALUES ('262021062546260008', '262021062554510007', '学文', '2004', '0.00', '502021052279460001', '402021062178540311', '2021-06-25 14:13:12', '0');
-INSERT INTO `shop_vip_account` VALUES ('262021062592960010', '262021062556880009', '学文', '2004', '3.00', '502021052279460001', '402021062178540311', '2021-06-25 14:13:30', '0');
-INSERT INTO `shop_vip_account` VALUES ('262021063067430002', '262021063045230001', '7575', '2004', '155.00', '502021062941530001', '402021062178540311', '2021-06-30 16:23:18', '0');
-INSERT INTO `shop_vip_account` VALUES ('262021072698340007', '262021072640260006', '白金会员', '2004', '0.00', '502021072668730001', '402021062178540311', '2021-07-26 14:05:48', '0');
-INSERT INTO `shop_vip_account` VALUES ('262021081222570029', '262021081278550028', '学文', '2004', '2.00', '502021080429730002', '402021080419640017', '2021-08-12 23:21:57', '0');
-INSERT INTO `shop_vip_account` VALUES ('262021090343750048', '262021090316110047', '白文杰', '2004', '0.00', '502021083131950061', '402021080419640017', '2021-09-03 17:47:28', '0');
-INSERT INTO `shop_vip_account` VALUES ('262021090384020052', '262021090391580051', '邢梦娜', '2004', '0.00', '502021083131950061', '402021080419640017', '2021-09-03 17:48:54', '0');
-INSERT INTO `shop_vip_account` VALUES ('262021090399610050', '262021090393860049', '韩亚卓', '2004', '0.00', '502021083131950061', '402021080419640017', '2021-09-03 17:48:11', '0');
-INSERT INTO `shop_vip_account` VALUES ('262021090786790119', '262021090762130118', '夏雷', '2004', '0.00', '502021090665310092', '402021090629280138', '2021-09-07 08:57:46', '0');
-INSERT INTO `shop_vip_account` VALUES ('262021091510370034', '262021091500210033', '1111', '2004', '0.00', '502021090678430072', '402021080419640017', '2021-09-15 16:38:06', '0');
-INSERT INTO `shop_vip_account` VALUES ('262021091586690036', '262021091577000035', '1111', '2004', '0.00', '502021090678430072', '402021080419640017', '2021-09-15 16:38:10', '0');
-INSERT INTO `shop_vip_account` VALUES ('262021091647580044', '262021091650290043', '夏雷', '2004', '1.00', '502021083085880016', '402021083096450294', '2021-09-16 10:32:23', '0');
-INSERT INTO `shop_vip_account` VALUES ('262021111541790029', '262021111530690028', '李艳平', '2004', '10.00', '502021102727680001', '402021080419640017', '2021-11-15 17:25:08', '0');
-INSERT INTO `shop_vip_account` VALUES ('262021111937750048', '262021111975590047', 'test001', '2004', '0.00', '502021080706300001', '402021080419640017', '2021-11-19 14:03:37', '0');
-INSERT INTO `shop_vip_account` VALUES ('262021111997410050', '262021111936770049', 'test001', '2004', '0.00', '502021080706300001', '402021080419640017', '2021-11-19 14:03:48', '0');
-INSERT INTO `shop_vip_account` VALUES ('262021112806380010', '262021112882820009', 'sd', '2004', '2.00', '502021112684800001', '402021080419640017', '2021-11-28 20:15:48', '0');
-INSERT INTO `shop_vip_account` VALUES ('262021120619570049', '262021120628540048', '学文', '2004', '0.00', '502021120673950035', '402021120656380137', '2021-12-06 11:18:15', '0');
-INSERT INTO `shop_vip_account` VALUES ('262021121742490006', '262021121764400005', '从心', '2004', '0.00', '502021102727680001', '402021080419640017', '2021-12-17 20:52:06', '0');
-INSERT INTO `shop_vip_account` VALUES ('262021121812220014', '262021121887320013', '潘念念', '2004', '0.00', '502021102727680001', '402021080419640017', '2021-12-18 09:55:04', '0');
-INSERT INTO `shop_vip_account` VALUES ('262021122840650006', '262021122839930005', '吴会员', '2004', '0.00', '502021120255860001', '402021120236440240', '2021-12-28 15:56:24', '0');
-INSERT INTO `shop_vip_account` VALUES ('262021122847650008', '262021122825610007', '俊哥会员', '2004', '0.00', '502021120255860001', '402021120236440240', '2021-12-28 16:51:25', '0');
-INSERT INTO `shop_vip_account` VALUES ('262021122854080002', '262021122854150001', '大河向东了流', '2004', '0.00', '502021102727680001', '402021080419640017', '2021-12-28 15:29:50', '0');
-INSERT INTO `shop_vip_account` VALUES ('262021123184950002', '112021123106880001', '888888', '2004', '0.00', '502021102727680001', '402021080419640017', '2021-12-31 14:49:13', '0');
-INSERT INTO `shop_vip_account` VALUES ('262022011091570020', '112022011094230019', '青AFN632', '2004', '0.00', '502021102727680001', '402021080419640017', '2022-01-10 18:23:38', '0');
-INSERT INTO `shop_vip_account` VALUES ('262022022103920016', '262022022175030015', '程杨明', '2004', '0.00', '502021080429730002', '402021080419640017', '2022-02-21 19:12:31', '0');
-INSERT INTO `shop_vip_account` VALUES ('262022022180520013', '262022022138000012', '会飞的猪', '2004', '0.00', '502021080429730002', '402021080419640017', '2022-02-21 18:19:50', '0');
-INSERT INTO `shop_vip_account` VALUES ('262022022604520002', '262022022667860001', 'suqin', '2004', '0.00', '502021080429730002', '402022022325120128', '2022-02-26 01:22:58', '0');
-INSERT INTO `shop_vip_account` VALUES ('262022030354440016', '262022030377820015', '憨憨', '2004', '0.00', '502021080429730002', '402022022325120128', '2022-03-03 10:21:41', '0');
-INSERT INTO `shop_vip_account` VALUES ('262022030395440018', '262022030373120017', '哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或', '2004', '0.00', '502021080429730002', '402022022325120128', '2022-03-03 10:22:53', '0');
-INSERT INTO `shop_vip_account` VALUES ('262022030504760029', '262022030566290028', '、@#！#！', '2004', '0.00', '502021080429730002', '402022022325120128', '2022-03-05 10:27:44', '0');
-INSERT INTO `shop_vip_account` VALUES ('262022030505210035', '262022030578940034', '#@！￥#%……', '2004', '0.00', '502021080429730002', '402022022325120128', '2022-03-05 14:23:56', '0');
-INSERT INTO `shop_vip_account` VALUES ('262022030522300031', '262022030541670030', 'dq', '2004', '0.00', '502021080429730002', '402022022325120128', '2022-03-05 10:54:24', '0');
-INSERT INTO `shop_vip_account` VALUES ('262022030523690041', '262022030510200040', '我认为群若1', '2004', '0.00', '502021080429730002', '402022022325120128', '2022-03-05 15:20:12', '0');
-INSERT INTO `shop_vip_account` VALUES ('262022030527320033', '262022030583110032', '#大帅#', '2004', '0.00', '502021080429730002', '402022022325120128', '2022-03-05 14:20:46', '0');
-INSERT INTO `shop_vip_account` VALUES ('262022030534580037', '262022030510540036', '大大', '2004', '0.00', '502021080429730002', '402022022325120128', '2022-03-05 15:03:30', '0');
-INSERT INTO `shop_vip_account` VALUES ('262022030535020039', '262022030550030038', '大大', '2004', '0.00', '502021080429730002', '402022022325120128', '2022-03-05 15:15:47', '0');
-INSERT INTO `shop_vip_account` VALUES ('262022030589680043', '262022030563300042', '大大', '2004', '0.00', '502021080429730002', '402022022325120128', '2022-03-05 15:23:49', '0');
-INSERT INTO `shop_vip_account` VALUES ('262022060253820004', '262022060279100003', '学文', '2004', '0.00', '502021080429730002', '402022022325120128', '2022-06-02 00:17:36', '0');
-INSERT INTO `shop_vip_account` VALUES ('262022060299690002', '262022060243340001', '张菲菲', '2004', '0.00', '502021080429730002', '402022022325120128', '2022-06-02 00:10:28', '0');
-INSERT INTO `shop_vip_account` VALUES ('262022060952490014', '262022060958840013', '预约问', '2004', '0.00', '502022060991520008', '102022060997450001', '2022-06-09 11:12:06', '0');
-INSERT INTO `shop_vip_account` VALUES ('262022121145550040', '262022121120040039', '西安华少', '2004', '0.00', '502022102068010001', '402022081670250001', '2022-12-11 06:51:51', '0');
-
--- ----------------------------
--- Table structure for shop_vip_account_detail
--- ----------------------------
-DROP TABLE IF EXISTS `shop_vip_account_detail`;
-CREATE TABLE `shop_vip_account_detail` (
-  `detail_id` varchar(30) NOT NULL COMMENT '明细ID',
-  `vip_acct_id` varchar(30) NOT NULL COMMENT '账户ID',
-  `detail_type` varchar(128) NOT NULL COMMENT '类型，1001 转入 2002 转出',
-  `rel_acct_id` varchar(30) NOT NULL DEFAULT '-1' COMMENT '关联账户',
-  `amount` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '金额',
-  `shop_id` varchar(30) NOT NULL COMMENT '商铺ID',
-  `store_id` varchar(30) NOT NULL COMMENT '商户ID',
-  `order_id` varchar(30) NOT NULL COMMENT '交易单号',
-  `remark` varchar(1024) DEFAULT NULL COMMENT '备注',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态，详细参考c_status表，S 保存，0, 在用 1失效',
-  PRIMARY KEY (`detail_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of shop_vip_account_detail
--- ----------------------------
-INSERT INTO `shop_vip_account_detail` VALUES ('912021062541240018', '262021062592960010', '1001', '-1', '1.00', '502021052279460001', '402021062178540311', '962021062578110015', '收银台累计积分', '2021-06-25 14:45:08', '0');
-INSERT INTO `shop_vip_account_detail` VALUES ('912021062546210022', '262021062592960010', '1001', '-1', '2.00', '502021052279460001', '402021062178540311', '962021062587560019', '收银台累计积分', '2021-06-25 14:46:24', '0');
-INSERT INTO `shop_vip_account_detail` VALUES ('912021062558520034', '262021062592960010', '1001', '-1', '2.00', '502021052279460001', '402021062178540311', '962021062583680031', '收银台累计积分', '2021-06-25 14:49:33', '0');
-INSERT INTO `shop_vip_account_detail` VALUES ('912021062570780026', '262021062592960010', '1001', '-1', '2.00', '502021052279460001', '402021062178540311', '962021062521420023', '收银台累计积分', '2021-06-25 14:48:30', '0');
-INSERT INTO `shop_vip_account_detail` VALUES ('912021062584200030', '262021062592960010', '1001', '-1', '2.00', '502021052279460001', '402021062178540311', '962021062503620027', '收银台累计积分', '2021-06-25 14:49:11', '0');
-INSERT INTO `shop_vip_account_detail` VALUES ('912021062588890007', '262021062592960010', '1001', '-1', '3.00', '502021052279460001', '402021062178540311', '962021062506600004', '收银台累计积分', '2021-06-25 15:13:46', '0');
-INSERT INTO `shop_vip_account_detail` VALUES ('912021071037360014', '262021063067430002', '1001', '-1', '95.00', '502021062941530001', '402021062178540311', '962021071073200011', '收银台累计积分', '2021-07-10 14:46:33', '0');
-INSERT INTO `shop_vip_account_detail` VALUES ('912021071162640008', '262021063067430002', '1001', '-1', '96.00', '502021062941530001', '402021062178540311', '962021071187320001', '收银台累计积分', '2021-07-11 16:53:02', '0');
-INSERT INTO `shop_vip_account_detail` VALUES ('912021071205930060', '262021063067430002', '1001', '-1', '1097.00', '502021062941530001', '402021062178540311', '962021071265500056', '收银台累计积分', '2021-07-12 12:09:28', '0');
-INSERT INTO `shop_vip_account_detail` VALUES ('912021071237340101', '262021063067430002', '1001', '-1', '1098.00', '502021062941530001', '402021062178540311', '962021071261070097', '收银台累计积分', '2021-07-12 14:25:16', '0');
-INSERT INTO `shop_vip_account_detail` VALUES ('912021071246800086', '262021063067430002', '1001', '-1', '1098.00', '502021062941530001', '402021062178540311', '962021071276610079', '收银台累计积分', '2021-07-12 14:17:49', '0');
-INSERT INTO `shop_vip_account_detail` VALUES ('912021071257700109', '262021063067430002', '1001', '-1', '1099.00', '502021062941530001', '402021062178540311', '962021071275190102', '收银台累计积分', '2021-07-12 14:26:20', '0');
-INSERT INTO `shop_vip_account_detail` VALUES ('912021071258070078', '262021063067430002', '1001', '-1', '1097.00', '502021062941530001', '402021062178540311', '962021071202820074', '收银台累计积分', '2021-07-12 14:16:15', '0');
-INSERT INTO `shop_vip_account_detail` VALUES ('912021071261020005', '262021063067430002', '1001', '-1', '97.00', '502021062941530001', '402021062178540311', '962021071258310001', '收银台累计积分', '2021-07-12 11:46:10', '0');
-INSERT INTO `shop_vip_account_detail` VALUES ('912021071266840073', '262021063067430002', '1001', '-1', '1097.00', '502021062941530001', '402021062178540311', '962021071278560069', '收银台累计积分', '2021-07-12 13:23:45', '0');
-INSERT INTO `shop_vip_account_detail` VALUES ('912021071280750096', '262021063067430002', '1001', '-1', '1098.00', '502021062941530001', '402021062178540311', '962021071235360092', '收银台累计积分', '2021-07-12 14:24:35', '0');
-INSERT INTO `shop_vip_account_detail` VALUES ('912021071286130091', '262021063067430002', '1001', '-1', '1098.00', '502021062941530001', '402021062178540311', '962021071239160087', '收银台累计积分', '2021-07-12 14:19:20', '0');
-INSERT INTO `shop_vip_account_detail` VALUES ('912021072471300002', '262021063067430002', '1001', '-1', '51.00', '502021062941530001', '402021062178540311', '962021072408580006', '收银台累计积分', '2021-07-24 18:30:46', '0');
-INSERT INTO `shop_vip_account_detail` VALUES ('912021072480640001', '262021063067430002', '2002', '-1', '500.00', '502021062941530001', '402021062178540311', '962021072408580006', '收银台累计积分', '2021-07-24 18:30:46', '0');
-INSERT INTO `shop_vip_account_detail` VALUES ('912021072502850005', '262021063067430002', '1001', '-1', '3.00', '502021062941530001', '402021062178540311', '962021072551360017', '收银台累计积分', '2021-07-25 23:25:37', '0');
-INSERT INTO `shop_vip_account_detail` VALUES ('912021072509740004', '262021063067430002', '1001', '-1', '0.00', '502021062941530001', '402021062178540311', '962021072567000003', '收银台累计积分', '2021-07-25 00:07:08', '0');
-INSERT INTO `shop_vip_account_detail` VALUES ('912021072577790003', '262021063067430002', '2002', '-1', '500.00', '502021062941530001', '402021062178540311', '962021072567000003', '收银台累计积分', '2021-07-25 00:07:07', '0');
-INSERT INTO `shop_vip_account_detail` VALUES ('912021072666870006', '262021063067430002', '1001', '-1', '2.00', '502021062941530001', '402021062178540311', '962021072674140010', '收银台累计积分', '2021-07-26 10:41:06', '0');
-INSERT INTO `shop_vip_account_detail` VALUES ('912021081220240002', '262021081222570029', '1001', '-1', '2.00', '502021080429730002', '402021080419640017', '962021081222950128', '收银台累计积分', '2021-08-12 23:22:56', '0');
-INSERT INTO `shop_vip_account_detail` VALUES ('912021091626590004', '262021091647580044', '1001', '-1', '1.00', '502021083085880016', '402021083096450294', '962021091677520095', '收银台累计积分', '2021-09-16 10:53:09', '0');
-INSERT INTO `shop_vip_account_detail` VALUES ('912021112239980012', '262021081222570029', '1001', '-1', '0.00', '502021080429730002', '402021080419640017', '962021112247920025', '收银台累计积分', '2021-11-22 10:05:41', '0');
-INSERT INTO `shop_vip_account_detail` VALUES ('912021120100930025', '262021111541790029', '1001', '-1', '2.00', '502021102727680001', '402021080419640017', '962021120125110001', '收银台累计积分', '2021-12-01 16:07:16', '0');
-INSERT INTO `shop_vip_account_detail` VALUES ('912021120146400027', '262021111541790029', '1001', '-1', '2.00', '502021102727680001', '402021080419640017', '962021120106710020', '收银台累计积分', '2021-12-01 16:21:24', '0');
-INSERT INTO `shop_vip_account_detail` VALUES ('912021120163910024', '262021111541790029', '1001', '-1', '4.00', '502021102727680001', '402021080419640017', '962021120192410001', '收银台累计积分', '2021-12-01 14:48:01', '0');
-INSERT INTO `shop_vip_account_detail` VALUES ('912021120177220026', '262021111541790029', '1001', '-1', '2.00', '502021102727680001', '402021080419640017', '962021120148700010', '收银台累计积分', '2021-12-01 16:12:57', '0');
-INSERT INTO `shop_vip_account_detail` VALUES ('912021120809920031', '262021112806380010', '1001', '-1', '2.00', '502021112684800001', '402021080419640017', '962021120839850176', '收银台累计积分', '2021-12-08 15:06:56', '0');
-INSERT INTO `shop_vip_account_detail` VALUES ('912021122955660002', '262021081222570029', '1001', '-1', '0.00', '502021080429730002', '402021080419640017', '962021122965480007', '收银台累计积分', '2021-12-29 08:34:22', '0');
-
--- ----------------------------
 -- Table structure for small_wechat
 -- ----------------------------
 DROP TABLE IF EXISTS `small_wechat`;
@@ -52681,7 +48885,7 @@ INSERT INTO `staff_app_auth` VALUES ('132026082796190004', '302026081670940053',
 INSERT INTO `staff_app_auth` VALUES ('132026082810220288', '302026082849920034', '102026082824190028', 'WECHAT', 'o3Ujf2KDnYphb4uziSLgWH7KWlIc', '2002', '5rWB5pif', '2026-08-31 14:28:58', '0');
 INSERT INTO `staff_app_auth` VALUES ('132026082856560011', '302026082396120033', '102026082315990027', 'WECHAT', 'o3Ujf2MRJzq0qNqJTA6kLlCHcWcA', '2002', 'MjAyNg==', '2026-08-28 10:36:45', '0');
 INSERT INTO `staff_app_auth` VALUES ('132026082968110206', '302026082902910027', '102026082999240021', 'WECHAT', 'o3Ujf2ET3aH6-FwyTQ5BDID8RCgg', '2002', '5YiY5YmR', '2026-08-29 23:42:17', '0');
-INSERT INTO `staff_app_auth` VALUES ('132026083111900312', '302026083061001480', '102026083075151481', 'WECHAT', 'o3Ujf2PDTYMFhfqS2f7xkl7Xdjo4', '2002', '5peBIOingiDogIU=', '2026-09-01 11:09:32', '0');
+INSERT INTO `staff_app_auth` VALUES ('132026083111900312', '302026083061001480', '102026083075151481', 'WECHAT', 'o3Ujf2PDTYMFhfqS2f7xkl7Xdjo4', '2002', '5peBIOingiDogIU=', '2026-09-01 11:13:22', '0');
 
 -- ----------------------------
 -- Table structure for staff_community
@@ -54545,112 +50749,6 @@ CREATE TABLE `task_template_spec` (
 -- ----------------------------
 INSERT INTO `task_template_spec` VALUES ('111', '1001', '10001', '调用地址', '必填，请输入http定时调用地址', 'T', '2020-06-03 12:29:53', '0');
 INSERT INTO `task_template_spec` VALUES ('112', '1002', '10002', '出账类型', '必填，002 按月出账 003 按日出账 001 按年出账 005 一次性按月出账', 'T', '2020-06-03 12:29:53', '0');
-
--- ----------------------------
--- Table structure for temp_car_fee_config
--- ----------------------------
-DROP TABLE IF EXISTS `temp_car_fee_config`;
-CREATE TABLE `temp_car_fee_config` (
-  `config_id` varchar(30) NOT NULL COMMENT '临时车收费标准ID',
-  `fee_name` varchar(64) NOT NULL COMMENT '收费标准名称',
-  `b_id` varchar(30) DEFAULT '-1' COMMENT '业务ID',
-  `pa_id` varchar(30) NOT NULL COMMENT '停车场ID',
-  `area_num` varchar(30) NOT NULL COMMENT '停车场编码',
-  `car_type` varchar(12) NOT NULL COMMENT '车辆类型',
-  `rule_id` varchar(30) NOT NULL COMMENT '收费规则',
-  `community_id` varchar(30) NOT NULL COMMENT '小区ID',
-  `start_time` datetime NOT NULL COMMENT '开始时间',
-  `end_time` datetime NOT NULL COMMENT '结束时间',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态，详细参考c_status表，S 保存，0, 在用 1失效',
-  `fee_config_id` varchar(30) NOT NULL COMMENT '费用项配置ID',
-  PRIMARY KEY (`config_id`),
-  KEY `tcfc_community_id` (`community_id`),
-  KEY `tcfc_pa_id` (`pa_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of temp_car_fee_config
--- ----------------------------
-
--- ----------------------------
--- Table structure for temp_car_fee_config_attr
--- ----------------------------
-DROP TABLE IF EXISTS `temp_car_fee_config_attr`;
-CREATE TABLE `temp_car_fee_config_attr` (
-  `config_id` varchar(30) NOT NULL COMMENT '标准ID',
-  `b_id` varchar(30) DEFAULT '-1' COMMENT '业务ID',
-  `community_id` varchar(30) NOT NULL COMMENT '小区ID',
-  `attr_id` varchar(30) NOT NULL COMMENT '属性id',
-  `spec_cd` varchar(12) NOT NULL COMMENT '规格id',
-  `value` varchar(500) NOT NULL COMMENT '属性值',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态，详细参考c_status表，S 保存，0, 在用 1失效',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of temp_car_fee_config_attr
--- ----------------------------
-
--- ----------------------------
--- Table structure for temp_car_fee_rule
--- ----------------------------
-DROP TABLE IF EXISTS `temp_car_fee_rule`;
-CREATE TABLE `temp_car_fee_rule` (
-  `rule_id` varchar(30) NOT NULL COMMENT '收费规则ID',
-  `rule_name` varchar(64) NOT NULL COMMENT '收费规则，如标准收费，按次收费',
-  `bean_name` varchar(128) NOT NULL COMMENT '规则处理类',
-  `remark` varchar(512) DEFAULT NULL COMMENT '备注',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态，详细参考c_status表，S 保存，0, 在用 1失效',
-  PRIMARY KEY (`rule_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of temp_car_fee_rule
--- ----------------------------
-INSERT INTO `temp_car_fee_rule` VALUES ('6700012001', '标准收费', '123123', '标准收费', '2021-01-16 14:18:42', '0');
-INSERT INTO `temp_car_fee_rule` VALUES ('6700012002', '按次收费', '123123', '按次收费', '2021-01-16 14:19:09', '0');
-INSERT INTO `temp_car_fee_rule` VALUES ('6700012003', '按白天夜间段收费', '123123', '按白天夜间段收费', '2021-01-16 14:19:33', '0');
-INSERT INTO `temp_car_fee_rule` VALUES ('6700012004', '按设定时间收费', '123123', '按设定时间收费', '2021-01-16 14:19:56', '0');
-INSERT INTO `temp_car_fee_rule` VALUES ('6700012005', '标准收费2', '123123', '标准收费2', '2021-01-16 14:19:56', '0');
-
--- ----------------------------
--- Table structure for temp_car_fee_rule_spec
--- ----------------------------
-DROP TABLE IF EXISTS `temp_car_fee_rule_spec`;
-CREATE TABLE `temp_car_fee_rule_spec` (
-  `spec_id` varchar(30) NOT NULL COMMENT '规格ID',
-  `rule_id` varchar(64) NOT NULL COMMENT '规则ID',
-  `spec_name` varchar(64) NOT NULL COMMENT '规格名称',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态',
-  `remark` varchar(256) DEFAULT NULL COMMENT '描述',
-  `seq` int(11) NOT NULL COMMENT '页面排序',
-  PRIMARY KEY (`spec_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of temp_car_fee_rule_spec
--- ----------------------------
-INSERT INTO `temp_car_fee_rule_spec` VALUES ('5600012001', '6700012001', '免费时间(分钟)', '2021-01-16 14:35:14', '0', '必填,请填写免费停车时间', '1');
-INSERT INTO `temp_car_fee_rule_spec` VALUES ('5600012002', '6700012001', '首段时长(分钟)', '2021-01-16 14:36:26', '0', '必填,请填写首段时长', '3');
-INSERT INTO `temp_car_fee_rule_spec` VALUES ('5600012003', '6700012001', '首段时长收费', '2021-01-16 14:36:51', '0', '必填,请填写首段时长收费', '4');
-INSERT INTO `temp_car_fee_rule_spec` VALUES ('5600012004', '6700012001', '超过首段(分钟)', '2021-01-16 14:38:46', '0', '必填,请填写超过首段后每多少分钟', '5');
-INSERT INTO `temp_car_fee_rule_spec` VALUES ('5600012005', '6700012001', '超过首段收费', '2021-01-16 14:38:46', '0', '必填,请填写超过首段后每多少分钟按多少收费', '6');
-INSERT INTO `temp_car_fee_rule_spec` VALUES ('5600012006', '6700012001', '停车超过(分钟)', '2021-01-16 14:41:12', '0', '必填,请填写停车超过多少分钟后', '7');
-INSERT INTO `temp_car_fee_rule_spec` VALUES ('5600012007', '6700012001', '每多少分钟', '2021-01-16 14:41:12', '0', '必填,请填写超过多少分钟后每多少分钟', '8');
-INSERT INTO `temp_car_fee_rule_spec` VALUES ('5600012008', '6700012001', '停车超过收费', '2021-01-16 14:41:49', '0', '必填,请填写超过多少分钟后每多少分钟按多少收费', '9');
-INSERT INTO `temp_car_fee_rule_spec` VALUES ('5600012009', '6700012001', '最高收费', '2021-01-16 14:42:34', '0', '必填,请填写单次进出最高收费', '2');
-INSERT INTO `temp_car_fee_rule_spec` VALUES ('5600012010', '6700012005', '免费时间(分钟)', '2021-01-16 14:35:14', '0', '必填,请填写免费停车时间', '1');
-INSERT INTO `temp_car_fee_rule_spec` VALUES ('5600012011', '6700012005', '超过免费(分钟)', '2021-01-16 14:35:14', '0', '必填,请填写超过免费后每多少分钟', '2');
-INSERT INTO `temp_car_fee_rule_spec` VALUES ('5600012012', '6700012005', '超过免费收费', '2021-01-16 14:35:14', '0', '必填,请填写超过免费后每多少分钟按多少收费', '3');
-INSERT INTO `temp_car_fee_rule_spec` VALUES ('5600012013', '6700012005', '首段最高时间(分钟)', '2021-01-16 14:35:14', '0', '必填,请填写超过首段多少分钟', '4');
-INSERT INTO `temp_car_fee_rule_spec` VALUES ('5600012014', '6700012005', '首段最高收费', '2021-01-16 14:35:14', '0', '必填,请填写首段最高收费', '5');
-INSERT INTO `temp_car_fee_rule_spec` VALUES ('5600012015', '6700012005', '超过首段(分钟)', '2021-01-16 14:35:14', '0', '必填,请填写超过首段后每多少分钟', '6');
-INSERT INTO `temp_car_fee_rule_spec` VALUES ('5600012016', '6700012005', '超过首段收费', '2021-01-16 14:35:14', '0', '必填,请填写超过首段后每多少分钟按多少收费', '7');
-INSERT INTO `temp_car_fee_rule_spec` VALUES ('5600012017', '6700012005', '最高时间(分钟)', '2021-01-16 14:35:14', '0', '必填,请填写最高多少分钟', '8');
-INSERT INTO `temp_car_fee_rule_spec` VALUES ('5600012018', '6700012005', '最高收费', '2021-01-16 14:35:14', '0', '必填,请填写最高收费', '9');
 
 -- ----------------------------
 -- Table structure for transaction_log
@@ -56775,7 +52873,7 @@ CREATE TABLE `u_user` (
 -- Records of u_user
 -- ----------------------------
 INSERT INTO `u_user` VALUES ('21', '30518939884421922816', 'admin', 'sss@sf.com', 'ccc地方都是', '3ad352384261cbc2c7462210dbb3ce61', null, null, '0', '17797173944', '00', '202022030905502375', '2018-12-02 16:01:50', '0', null);
-INSERT INTO `u_user` VALUES ('23', '30520751775595118592', 'dev', '129@qq.com', 'Qingdao', '109c333b381580e1fe8a5ff630c398a7', null, '0', '0', '17797173942', '00', '202021111595270456', '2018-12-07 16:01:38', '0', null);
+INSERT INTO `u_user` VALUES ('23', '30520751775595118592', 'dev', '129@qq.com', 'Qingdao', '3ad352384261cbc2c7462210dbb3ce61', null, '0', '0', '17797173942', '00', '202021111595270456', '2018-12-07 16:01:38', '0', null);
 
 -- ----------------------------
 -- Table structure for u_user_address
