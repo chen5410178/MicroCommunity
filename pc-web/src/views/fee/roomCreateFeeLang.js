@@ -234,7 +234,13 @@ export const messages = {
       noCar: 'No car',
       noContract: 'No contract',
       selectReceipt: 'Please select receipt',
-      contract: 'Contract'
+      contract: 'Contract',
+      feeMonth: 'Billing Month',
+      payWay: 'Payment Method',
+      deductionAmount: 'Discount Amount',
+      lateAmount: 'Late Fee',
+      acctAmount: 'Account Deduction',
+      degree: 'Meter Reading (Start ~ End)'
     },
     simplifyMeterWaterLog: {
       selectMeterType: 'Select meter type',
@@ -744,7 +750,13 @@ export const messages = {
       noCar: '没有车位',
       noContract: '没有合同',
       selectReceipt: '请选择收据',
-      contract: '合同'
+      contract: '合同',
+      feeMonth: '计费月',
+      payWay: '支付方式',
+      deductionAmount: '优惠金额',
+      lateAmount: '滞纳金',
+      acctAmount: '账户抵扣',
+      degree: '抄表起止度数'
     },
     simplifyMeterWaterLog: {
       selectMeterType: '请选择表类型',
@@ -1254,7 +1266,13 @@ export const messages = {
       noCar: '沒有車位',
       noContract: '沒有合約',
       selectReceipt: '請選擇收據',
-      contract: '合約'
+      contract: '合約',
+      feeMonth: '計費月',
+      payWay: '支付方式',
+      deductionAmount: '優惠金額',
+      lateAmount: '滯納金',
+      acctAmount: '帳戶抵扣',
+      degree: '抄表起止度數'
     },
     simplifyMeterWaterLog: {
       selectMeterType: '請選擇表類型',

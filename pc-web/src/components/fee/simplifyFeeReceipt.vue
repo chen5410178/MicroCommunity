@@ -88,6 +88,39 @@
             {{ scope.row.amount }}{{ $t('simplifyFeeReceipt.yuan') }}
           </template>
         </el-table-column>
+        <el-table-column :label="$t('simplifyFeeReceipt.feeMonth')" align="center">
+          <template slot-scope="scope">
+            {{ scope.row.feeMonth || '-' }}
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('simplifyFeeReceipt.payWay')" align="center">
+          <template slot-scope="scope">
+            {{ scope.row.primeRate || scope.row.payWay || '-' }}
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('simplifyFeeReceipt.deductionAmount')" align="center">
+          <template slot-scope="scope">
+            {{ scope.row.deductionAmount || '-' }}
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('simplifyFeeReceipt.lateAmount')" align="center">
+          <template slot-scope="scope">
+            {{ scope.row.lateAmount || '-' }}
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('simplifyFeeReceipt.acctAmount')" align="center">
+          <template slot-scope="scope">
+            {{ scope.row.acctAmount || '-' }}
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('simplifyFeeReceipt.degree')" align="center">
+          <template slot-scope="scope">
+            <span v-if="scope.row.startDegree || scope.row.endDegree">
+              {{ scope.row.startDegree || '-' }} ~ {{ scope.row.endDegree || '-' }}
+            </span>
+            <span v-else>-</span>
+          </template>
+        </el-table-column>
         <el-table-column prop="createTime" :label="$t('simplifyFeeReceipt.payTime')" align="center"></el-table-column>
         <el-table-column prop="receiptId" :label="$t('simplifyFeeReceipt.receiptId')" align="center"></el-table-column>
       </el-table>
