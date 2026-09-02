@@ -69,7 +69,12 @@ export const messages = {
       },
       view: {
         title: 'Payment QR Code',
-        tip: 'Please take a screenshot and post it at the cashier'
+        tip: 'Please take a screenshot and post it at the cashier',
+        miniQrcode: 'Mini Program QR Code',
+        publicQrcode: 'Official Account QR Code',
+        miniTip: 'Scan with WeChat to pay in Mini Program',
+        publicTip: 'Scan with WeChat to pay in Official Account',
+        noQrcode: 'No QR Code'
       },
       message: {
         addSuccess: 'Added successfully',
@@ -152,7 +157,12 @@ export const messages = {
       },
       view: {
         title: '支付二维码',
-        tip: '请截图贴在收银台'
+        tip: '请截图贴在收银台',
+        miniQrcode: '小程序二维码',
+        publicQrcode: '公众号二维码',
+        miniTip: '微信扫码打开小程序缴费',
+        publicTip: '微信扫码打开公众号缴费',
+        noQrcode: '暂无二维码'
       },
       message: {
         addSuccess: '添加成功',
@@ -235,7 +245,12 @@ export const messages = {
       },
       view: {
         title: '支付二維碼',
-        tip: '請截圖貼在收銀台'
+        tip: '請截圖貼在收銀台',
+        miniQrcode: '小程序二維碼',
+        publicQrcode: '公眾號二維碼',
+        miniTip: '微信掃碼打開小程序繳費',
+        publicTip: '微信掃碼打開公眾號繳費',
+        noQrcode: '暫無二維碼'
       },
       message: {
         addSuccess: '添加成功',
