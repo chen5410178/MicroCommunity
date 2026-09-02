@@ -35,9 +35,13 @@
         objName,t.community_id,t.community_id communityId,t.receipt_id,t.receipt_id receiptId,t.obj_type,t.obj_type
         objType,t.create_time createTime,frd.fee_name feeName,t.pay_obj_id payObjId,t.pay_obj_name
         payObjName,t.receivable_amount,t.receivable_amount receivableAmount,
-        frd.start_time startTime,frd.end_time endTime,t.receipt_code receiptCode,frd.print_count printCount
+        frd.start_time startTime,frd.end_time endTime,t.receipt_code receiptCode,frd.print_count printCount,
+        frd.fee_month feeMonth,frd.pay_way payWay,frd.deduction_amount deductionAmount,
+        frd.late_amount lateAmount,frd.acct_amount acctAmount,frd.start_degree startDegree,
+        frd.end_degree endDegree,d.name primeRate
         from fee_receipt t
         inner join fee_receipt_detail frd on t.receipt_id = frd.receipt_id and frd.status_cd = '0'
+        left join t_dict d on frd.pay_way = d.status_cd and d.table_name = 'pay_fee_detail' and d.table_columns = 'prime_rate'
         where 1 =1
         <if test="amount !=null and amount != ''">
             and t.amount= #{amount}

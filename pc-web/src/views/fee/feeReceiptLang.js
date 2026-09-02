@@ -24,7 +24,14 @@ export const messages = {
         payObjName: 'Owner',
         carNum: 'Carport',
         amount: 'Total Amount(¥)',
-        createTime: 'Payment Time'
+        createTime: 'Payment Time',
+        feeMonth: 'Billing Month',
+        cycle: 'Billing Cycle',
+        payWay: 'Payment Method',
+        deductionAmount: 'Discount Amount',
+        lateAmount: 'Late Fee',
+        acctAmount: 'Account Deduction',
+        degree: 'Meter Reading (Start ~ End)'
       },
       button: {
         reprint: 'Reprint Receipt',
@@ -58,7 +65,14 @@ export const messages = {
         payObjName: '业主',
         carNum: '车位',
         amount: '总金额(单位:元)',
-        createTime: '缴费时间'
+        createTime: '缴费时间',
+        feeMonth: '计费月',
+        cycle: '缴费周期',
+        payWay: '支付方式',
+        deductionAmount: '优惠金额',
+        lateAmount: '滞纳金',
+        acctAmount: '账户抵扣',
+        degree: '抄表起止度数'
       },
       button: {
         reprint: '补打收据',
@@ -92,7 +106,14 @@ export const messages = {
         payObjName: '業主',
         carNum: '車位',
         amount: '總金額(單位:元)',
-        createTime: '繳費時間'
+        createTime: '繳費時間',
+        feeMonth: '計費月',
+        cycle: '繳費週期',
+        payWay: '支付方式',
+        deductionAmount: '優惠金額',
+        lateAmount: '滯納金',
+        acctAmount: '帳戶抵扣',
+        degree: '抄表起止度數'
       },
       button: {
         reprint: '補打收據',

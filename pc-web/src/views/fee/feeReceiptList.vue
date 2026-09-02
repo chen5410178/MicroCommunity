@@ -72,6 +72,44 @@
         <el-table-column prop="payObjName" :label="$t('feeReceipt.table.payObjName')" align="center" />
         <el-table-column prop="carNum" :label="$t('feeReceipt.table.carNum')" align="center" />
         <el-table-column prop="amount" :label="$t('feeReceipt.table.amount')" align="center" />
+        <el-table-column :label="$t('feeReceipt.table.feeMonth')" align="center">
+          <template slot-scope="scope">
+            {{ scope.row.feeMonth || '-' }}
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('feeReceipt.table.cycle')" align="center">
+          <template slot-scope="scope">
+            {{ scope.row.startTime || '-' }} ~ {{ scope.row.endTime || '-' }}
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('feeReceipt.table.payWay')" align="center">
+          <template slot-scope="scope">
+            {{ scope.row.primeRate || scope.row.payWay || '-' }}
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('feeReceipt.table.deductionAmount')" align="center">
+          <template slot-scope="scope">
+            {{ scope.row.deductionAmount || '-' }}
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('feeReceipt.table.lateAmount')" align="center">
+          <template slot-scope="scope">
+            {{ scope.row.lateAmount || '-' }}
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('feeReceipt.table.acctAmount')" align="center">
+          <template slot-scope="scope">
+            {{ scope.row.acctAmount || '-' }}
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('feeReceipt.table.degree')" align="center">
+          <template slot-scope="scope">
+            <span v-if="scope.row.startDegree || scope.row.endDegree">
+              {{ scope.row.startDegree || '-' }} ~ {{ scope.row.endDegree || '-' }}
+            </span>
+            <span v-else>-</span>
+          </template>
+        </el-table-column>
         <el-table-column prop="createTime" :label="$t('feeReceipt.table.createTime')" align="center" />
         <el-table-column :label="$t('common.operation')" align="center" width="200">
           <template slot-scope="scope">

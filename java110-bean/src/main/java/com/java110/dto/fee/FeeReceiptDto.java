@@ -51,6 +51,15 @@ public class FeeReceiptDto extends PageDto implements Serializable {
 
     private String receiptCode;
 
+    private String feeMonth;         // 计费月
+    private String payWay;           // 支付方式(原始值)
+    private String deductionAmount;  // 优惠金额
+    private String lateAmount;       // 滞纳金
+    private String acctAmount;       // 账户抵扣
+    private String startDegree;      // 抄表开始度数
+    private String endDegree;        // 抄表结束度数
+    private String primeRate;        // 支付方式名称(t_dict)
+
     public String getAmount() {
         return amount;
     }
@@ -257,5 +266,69 @@ public class FeeReceiptDto extends PageDto implements Serializable {
 
     public void setReceivableAmount(String receivableAmount) {
         this.receivableAmount = receivableAmount;
+    }
+
+    public String getFeeMonth() {
+        return feeMonth;
+    }
+
+    public void setFeeMonth(String feeMonth) {
+        this.feeMonth = feeMonth;
+    }
+
+    public String getPayWay() {
+        return payWay;
+    }
+
+    public void setPayWay(String payWay) {
+        this.payWay = payWay;
+    }
+
+    public String getDeductionAmount() {
+        return deductionAmount;
+    }
+
+    public void setDeductionAmount(String deductionAmount) {
+        this.deductionAmount = deductionAmount;
+    }
+
+    public String getLateAmount() {
+        return lateAmount;
+    }
+
+    public void setLateAmount(String lateAmount) {
+        this.lateAmount = lateAmount;
+    }
+
+    public String getAcctAmount() {
+        return acctAmount;
+    }
+
+    public void setAcctAmount(String acctAmount) {
+        this.acctAmount = acctAmount;
+    }
+
+    public String getStartDegree() {
+        return startDegree;
+    }
+
+    public void setStartDegree(String startDegree) {
+        this.startDegree = startDegree;
+    }
+
+    public String getEndDegree() {
+        return endDegree;
+    }
+
+    public void setEndDegree(String endDegree) {
+        this.endDegree = endDegree;
+    }
+
+    public String getPrimeRate() {
+        return primeRate;
+    }
+
+    public void setPrimeRate(String primeRate) {
+        this.primeRate = primeRate;
     }
 }

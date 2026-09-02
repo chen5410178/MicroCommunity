@@ -20,6 +20,25 @@ export function queryFeeReceipt(params) {
   })
 }
 
+// 查询收据明细
+export function queryFeeReceiptDetail(params) {
+  return new Promise((resolve, reject) => {
+    request({
+      url: '/feeReceipt/queryFeeReceiptDetail',
+      method: 'get',
+      params: {
+        ...params,
+        communityId: getCommunityId()
+      }
+    }).then(response => {
+      const res = response.data
+      resolve(res)
+    }).catch(error => {
+      reject(error)
+    })
+  })
+}
+
 // 查询打印页面配置
 export function listFeePrintPage(params) {
   return new Promise((resolve, reject) => {
