@@ -1,17 +1,6 @@
 ﻿<template>
   <el-dialog :title="$t('applyRoomDiscount.edit.title')" :visible.sync="visible" width="60%" @close="handleClose">
     <el-form ref="form" :model="form" :rules="rules" label-width="120px">
-      <el-form-item :label="$t('applyRoomDiscount.edit.startTime')" prop="startTime">
-        <el-date-picker v-model="form.startTime" type="datetime"
-          :placeholder="$t('applyRoomDiscount.edit.startTimePlaceholder')" value-format="yyyy-MM-dd HH:mm:ss"
-          style="width:100%" @change="validateDate" />
-      </el-form-item>
-
-      <el-form-item :label="$t('applyRoomDiscount.edit.endTime')" prop="endTime">
-        <el-date-picker v-model="form.endTime" type="datetime"
-          :placeholder="$t('applyRoomDiscount.edit.endTimePlaceholder')" value-format="yyyy-MM-dd HH:mm:ss"
-          style="width:100%" @change="validateDate" />
-      </el-form-item>
 
       <el-form-item :label="$t('applyRoomDiscount.edit.state')" prop="state">
         <el-select v-model="form.state" :placeholder="$t('applyRoomDiscount.edit.statePlaceholder')" style="width:100%">
@@ -91,7 +80,8 @@ export default {
       this.form = {
         ...this.form,
         ...data,
-        communityId: getCommunityId()
+        communityId: getCommunityId(),
+        state:''
       }
       setTimeout(() => {
         if (this.$refs.uploadImage) {

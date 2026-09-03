@@ -193,7 +193,23 @@ public class ComputeFeeDiscountImpl implements IComputeFeeDiscount {
                 }
                 computeDiscountDto.setDiscountType(FeeDiscountDto.DISCOUNT_TYPE_DV);
                 computeDiscountDto.setArdId(applyRoomDiscount.getArdId());
-                computeDiscountDtos.add(computeDiscountDto);
+                // 同一优惠申请命中多个费用时会产出多条相同 discountId 的记录，
+                // 前端按 discountId 作为勾选 value 且逐条累加金额，重复记录会导致展示错乱与金额重复计算，
+                // 此处按 discountId 合并，discountPrice 累加
+                ComputeDiscountDto sameDiscountDto = null;
+                for (ComputeDiscountDto tmpComputeDiscountDto : computeDiscountDtos) {
+                    if (computeDiscountDto.getDiscountId().equals(tmpComputeDiscountDto.getDiscountId())) {
+                        sameDiscountDto = tmpComputeDiscountDto;
+                        break;
+                    }
+                }
+                if (sameDiscountDto != null) {
+                    BigDecimal discountPrice = new BigDecimal(sameDiscountDto.getDiscountPrice() + "")
+                            .add(new BigDecimal(computeDiscountDto.getDiscountPrice() + ""));
+                    sameDiscountDto.setDiscountPrice(discountPrice.doubleValue());
+                } else {
+                    computeDiscountDtos.add(computeDiscountDto);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -43,18 +43,6 @@
         </div>
       </template>
 
-      <el-form-item :label="$t('applyRoomDiscount.review.startTime')" prop="startTime">
-        <el-date-picker v-model="form.startTime" type="datetime"
-          :placeholder="$t('applyRoomDiscount.review.startTimePlaceholder')" value-format="yyyy-MM-dd HH:mm:ss"
-          style="width:100%" />
-      </el-form-item>
-
-      <el-form-item :label="$t('applyRoomDiscount.review.endTime')" prop="endTime">
-        <el-date-picker v-model="form.endTime" type="datetime"
-          :placeholder="$t('applyRoomDiscount.review.endTimePlaceholder')" value-format="yyyy-MM-dd HH:mm:ss"
-          style="width:100%" />
-      </el-form-item>
-
       <el-form-item :label="$t('applyRoomDiscount.review.state')" prop="state">
         <el-select v-model="form.state" :placeholder="$t('applyRoomDiscount.review.statePlaceholder')"
           style="width:100%">
@@ -186,7 +174,8 @@ export default {
         ...data,
         communityId: getCommunityId(),
         selectedFees: [],
-        refundAmount: ''
+        refundAmount: '',
+        state:''
       }
       //多费用申请：列表不再返回单 feeId，取第一个勾选费用用于加载缴费记录
       if (data.feeIds && data.feeIds.length > 0) {
