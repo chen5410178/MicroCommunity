@@ -16,6 +16,7 @@
 package com.java110.acct.cmd.invoice;
 
 import com.alibaba.fastjson.JSONObject;
+import com.java110.acct.bmo.invoice.IIssueMallInvoiceBmo;
 import com.java110.core.annotation.Java110Cmd;
 import com.java110.core.annotation.Java110Transactional;
 import com.java110.core.context.CmdContextUtils;
@@ -77,6 +78,9 @@ public class AuditInvoiceApplyCmd extends Cmd {
     @Autowired
     private IPayFeeDetailV1InnerServiceSMO payFeeDetailV1InnerServiceSMOImpl;
 
+    @Autowired
+    private IIssueMallInvoiceBmo issueMallInvoiceBmo;
+
 
     @Override
     public void validate(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) {
@@ -103,34 +107,54 @@ public class AuditInvoiceApplyCmd extends Cmd {
 
         InvoiceApplyPo invoiceApplyPo = new InvoiceApplyPo();
         invoiceApplyPo.setApplyId(reqJson.getString("applyId"));
-        //退费审核通过
+        //退费审核通过 → 调商城自动开票(状态G/F/事件/发票号/pdfUrl/pay_fee_detail 由 BMO 回写)
         if ("1100".equals(reqJson.getString("state"))) {
-            invoiceApplyPo.setState(InvoiceApplyDto.STATE_UPLOAD);
-        }else{
-            invoiceApplyPo.setState(InvoiceApplyDto.STATE_FAIL);
+            InvoiceApplyDto applyQuery = new InvoiceApplyDto();
+            applyQuery.setApplyId(reqJson.getString("applyId"));
+            applyQuery.setCommunityId(reqJson.getString("communityId"));
+            List<InvoiceApplyDto> applyDtos = invoiceApplyV1InnerServiceSMOImpl.queryInvoiceApplys(applyQuery);
+
+            String buyerName = "";
+            String buyerTaxNo = "";
+            String buyerAddress = "";
+            String applyTel = "";
+            if (!ListUtil.isNull(applyDtos)) {
+                buyerName = applyDtos.get(0).getInvoiceName();
+                buyerTaxNo = applyDtos.get(0).getInvoiceNum();
+                buyerAddress = applyDtos.get(0).getInvoiceAddress();
+                applyTel = applyDtos.get(0).getApplyTel();
+            }
+
+            InvoiceApplyItemDto itemQuery = new InvoiceApplyItemDto();
+            itemQuery.setApplyId(reqJson.getString("applyId"));
+            List<InvoiceApplyItemDto> itemDtos = invoiceApplyItemV1InnerServiceSMOImpl.queryInvoiceApplyItems(itemQuery);
+
+            issueMallInvoiceBmo.issue(reqJson.getString("applyId"), reqJson.getString("communityId"),
+                    buyerName, buyerTaxNo, buyerAddress, applyTel, itemDtos);
+
+            cmdDataFlowContext.setResponseEntity(ResultVo.success());
+            return;
         }
+
+        invoiceApplyPo.setState(InvoiceApplyDto.STATE_FAIL);
         int flag = invoiceApplyV1InnerServiceSMOImpl.updateInvoiceApply(invoiceApplyPo);
 
         if (flag < 1) {
             throw new CmdException("更新数据失败");
         }
 
-        // todo 保存事件
+        // todo 保存事件(3003 驳回)
         InvoiceEventPo invoiceEventPo = new InvoiceEventPo();
         invoiceEventPo.setApplyId(reqJson.getString("applyId"));
         invoiceEventPo.setCommunityId(reqJson.getString("communityId"));
         invoiceEventPo.setEventId(GenerateCodeFactory.getGeneratorId("11"));
-        if ("1100".equals(reqJson.getString("state"))) {
-            invoiceEventPo.setEventType(InvoiceEventDto.STATE_COMPLETE);
-        }else{
-            invoiceEventPo.setEventType(InvoiceEventDto.STATE_FAIL);
-        }
+        invoiceEventPo.setEventType(InvoiceEventDto.STATE_FAIL);
         invoiceEventPo.setCreateUserId(userId);
         invoiceEventPo.setCreateUserName(userDtos.get(0).getName());
         invoiceEventPo.setRemark(reqJson.getString("remark"));
         invoiceEventV1InnerServiceSMOImpl.saveInvoiceEvent(invoiceEventPo);
 
-        //todo 修改缴费明细开票状态为完成或者待开票
+        //todo 修改缴费明细开票状态为待开票
         InvoiceApplyItemDto invoiceApplyItemDto = new InvoiceApplyItemDto();
         invoiceApplyItemDto.setApplyId(invoiceApplyPo.getApplyId());
         invoiceApplyItemDto.setItemType(InvoiceApplyItemDto.ITEM_TYPE_FEE);
@@ -140,15 +164,11 @@ public class AuditInvoiceApplyCmd extends Cmd {
         }
 
         for(InvoiceApplyItemDto tmpInvoiceApplyItemDto : invoiceApplyItemDtos){
-            // todo 将缴费记录开票状态修改为D 开票中
+            // todo 将缴费记录开票状态修改为N 待开票
             PayFeeDetailPo payFeeDetailPo = new PayFeeDetailPo();
             payFeeDetailPo.setDetailId(tmpInvoiceApplyItemDto.getItemObjId());
             payFeeDetailPo.setCommunityId(tmpInvoiceApplyItemDto.getCommunityId());
-            if ("1100".equals(reqJson.getString("state"))) {
-                payFeeDetailPo.setOpenInvoice("Y"); // todo 开票完成
-            }else{
-                payFeeDetailPo.setOpenInvoice("N"); // todo 带开票
-            }
+            payFeeDetailPo.setOpenInvoice("N"); // todo 待开票
 
             payFeeDetailV1InnerServiceSMOImpl.updatePayFeeDetailNew(payFeeDetailPo);
         }

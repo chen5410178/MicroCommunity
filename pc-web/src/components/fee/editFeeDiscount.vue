@@ -95,6 +95,8 @@ export default {
           feeDiscountRuleSpecs: row.feeDiscountSpecs || [],
           communityId: this.editFeeDiscountInfo.communityId
         }
+              this._loadEditFeeDiscountRules()
+
       })
     },
     async getCommunityId() {

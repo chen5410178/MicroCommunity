@@ -17,12 +17,14 @@ package com.java110.acct.cmd.invoice;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.java110.acct.bmo.invoice.IIssueMallInvoiceBmo;
 import com.java110.core.annotation.Java110Cmd;
 import com.java110.core.annotation.Java110Transactional;
 import com.java110.core.context.CmdContextUtils;
 import com.java110.core.context.ICmdDataFlowContext;
 import com.java110.core.event.cmd.Cmd;
 import com.java110.core.event.cmd.CmdEvent;
+import com.java110.core.factory.CommunitySettingFactory;
 import com.java110.core.factory.GenerateCodeFactory;
 import com.java110.dto.account.AccountReceiptDto;
 import com.java110.dto.fee.FeeDetailDto;
@@ -47,6 +49,7 @@ import com.java110.utils.util.Assert;
 import com.java110.utils.util.BeanConvertUtil;
 import com.java110.utils.util.DateUtil;
 import com.java110.utils.util.ListUtil;
+import com.java110.utils.util.StringUtil;
 import com.java110.vo.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.slf4j.Logger;
@@ -99,6 +102,9 @@ public class SaveInvoiceApplyCmd extends Cmd {
     @Autowired
     private IUserV1InnerServiceSMO userV1InnerServiceSMOImpl;
 
+    @Autowired
+    private IIssueMallInvoiceBmo issueMallInvoiceBmo;
+
     @Override
     public void validate(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) {
         Assert.hasKeyAndValue(reqJson, "oiId", "请求报文中未包含oiId");
@@ -114,6 +120,10 @@ public class SaveInvoiceApplyCmd extends Cmd {
         List<OwnerInvoiceDto> ownerInvoiceDtos = ownerInvoiceV1InnerServiceSMOImpl.queryOwnerInvoices(ownerInvoiceDto);
 
         Assert.listOnlyOne(ownerInvoiceDtos, "发票抬头不存在");
+
+        reqJson.put("invoiceName", ownerInvoiceDtos.get(0).getInvoiceName());
+        reqJson.put("invoiceNum", ownerInvoiceDtos.get(0).getInvoiceNum());
+        reqJson.put("invoiceAddress", ownerInvoiceDtos.get(0).getInvoiceAddress());
 
         OwnerDto ownerDto = new OwnerDto();
         ownerDto.setMemberId(ownerInvoiceDtos.get(0).getOwnerId());
@@ -180,6 +190,19 @@ public class SaveInvoiceApplyCmd extends Cmd {
         //todo 保存开票申请项
         invoiceApplyItemV1InnerServiceSMOImpl.saveInvoiceApplyItems(invoiceApplyItemPos);
 
+        //todo 自动开票(小区配置 INVOICE_AUTO_SWITCH: 1-自动 2-审核, 默认1自动)
+        try {
+            String invoiceAuto = CommunitySettingFactory.getValue(invoiceApplyPo.getCommunityId(), "INVOICE_AUTO_SWITCH");
+            if (StringUtil.isEmpty(invoiceAuto) || "1".equals(invoiceAuto)) {
+                List<InvoiceApplyItemDto> itemDtos = BeanConvertUtil.covertBeanList(invoiceApplyItemPos, InvoiceApplyItemDto.class);
+                issueMallInvoiceBmo.issue(invoiceApplyPo.getApplyId(), invoiceApplyPo.getCommunityId(),
+                        reqJson.getString("invoiceName"), reqJson.getString("invoiceNum"),
+                        reqJson.getString("invoiceAddress"), reqJson.getString("applyTel"),
+                        itemDtos);
+            }
+        } catch (Exception e) {
+            logger.error("自动开票失败 applyId: {}", invoiceApplyPo.getApplyId(), e);
+        }
 
         cmdDataFlowContext.setResponseEntity(ResultVo.success());
     }
