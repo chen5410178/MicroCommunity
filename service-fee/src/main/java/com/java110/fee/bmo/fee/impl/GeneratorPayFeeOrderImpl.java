@@ -97,14 +97,14 @@ public class GeneratorPayFeeOrderImpl implements IGeneratorPayFeeOrder {
         PayFeeDetailPo payFeeDetailPo = batchPayFeeOrders.get(0).getPayFeeDetailPo();
         BigDecimal giftAmount = new BigDecimal("0");
         BigDecimal receivableAmount = new BigDecimal("0");
-        BigDecimal discountAmount = new BigDecimal("0");
+        BigDecimal deductionAmount = new BigDecimal("0");
         BigDecimal receivedAmount = new BigDecimal("0");
         BigDecimal lateAmount = new BigDecimal("0");
         BigDecimal acctAmount = new BigDecimal("0");
         for (BatchPayFeeOrder batchPayFeeOrder : batchPayFeeOrders) {
             giftAmount = giftAmount.add(new BigDecimal(batchPayFeeOrder.getPayFeeDetailPo().getGiftAmount()));
             receivableAmount = receivableAmount.add(new BigDecimal(batchPayFeeOrder.getPayFeeDetailPo().getReceivableAmount()));
-            discountAmount = discountAmount.add(new BigDecimal(batchPayFeeOrder.getPayFeeDetailPo().getDiscountAmount()));
+            deductionAmount = deductionAmount.add(new BigDecimal(batchPayFeeOrder.getPayFeeDetailPo().getDeductionAmount()));
             receivedAmount = receivedAmount.add(new BigDecimal(batchPayFeeOrder.getPayFeeDetailPo().getReceivedAmount()));
             lateAmount = lateAmount.add(new BigDecimal(batchPayFeeOrder.getPayFeeDetailPo().getLateAmount()));
             acctAmount = acctAmount.add(new BigDecimal(batchPayFeeOrder.getPayFeeDetailPo().getAcctAmount()));
@@ -116,7 +116,7 @@ public class GeneratorPayFeeOrderImpl implements IGeneratorPayFeeOrder {
         payFeeOrderPo.setPayOrderId(payFeeDetailPo.getPayOrderId());
         payFeeOrderPo.setPrimeRate(payFeeDetailPo.getPrimeRate());
         payFeeOrderPo.setReceivableAmount(receivableAmount.doubleValue() + "");
-        payFeeOrderPo.setDiscountAmount(discountAmount.doubleValue() + "");
+        payFeeOrderPo.setDiscountAmount(deductionAmount.doubleValue() + "");
         payFeeOrderPo.setRemark(payFeeDetailPo.getRemark());
         payFeeOrderPo.setReceivedAmount(receivedAmount.doubleValue() + "");
         payFeeOrderPo.setOwnerId(feeDto.getOwnerId());

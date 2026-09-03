@@ -286,4 +286,26 @@ ALTER TABLE `apply_room_discount` DROP COLUMN `fee_id`;
 - 同一优惠申请（discountId）命中多个缴费费用时，原先返回多条重复折扣记录，导致前端折扣面板重复展示、勾选错乱、应付金额重复累加（翻倍）。
 - 现按 discountId 合并：discountPrice 使用 BigDecimal 累加（保留首条记录的其余字段），接口只返回一条折扣行。
 - 影响链路：`feeDiscount.computeFeeDiscount`（批量缴费页展示）与 `BatchPayFeeImpl.computeFeesDiscount()`（缴费重算）共用 `compute()`，自动受益；合并前后各费用减免总额不变，不影响实际扣减。
+
+## 2026-09-03 — 修复：房屋缴费历史界面缺失 pay_fee_detail 金额字段
+
+### 根因
+
+service-fee cmd `fee.queryFeeDetail`（`service-fee/.../cmd/fee/QueryFeeDetailCmd.java:103`）调用 `BeanConvertUtil.covertBeanList(feeDetailList, ApiFeeDetailDataVo.class)`，目标 VO 类 `ApiFeeDetailDataVo` 缺少 `acctAmount / discountAmount / deductionAmount / lateAmount / giftAmount / payableAmount / feeTime / feeStartTime / feeEndTime / importFeeName / bId / configId / payerObjType` 共 13 个字段，导致响应 JSON 不含上述字段。`BeanConvertUtil.objectFieldsPutMap()` 按目标类的字段反射迭代拷贝，目标类未声明的字段被丢弃。
+
+数据库 / SQL / DTO / Mapper 均无需改动（`docs/db/TT.sql:30367-30398`、`java110-db/.../fee/FeeDetailServiceDaoImplMapper.xml:114-129`、`java110-bean/.../dto/fee/FeeDetailDto.java`、`java110-bean/.../po/fee/PayFeeDetailPo.java` 已含全部字段），仅 VO 类缺失。
+
+### 代码变更
+
+- `java110-bean/src/main/java/com/java110/vo/api/ApiFeeDetailDataVo.java`：新增 13 个字段及 getter/setter，字段顺序与 `FeeDetailDto` 对齐；`fee.queryFeeDetail` 与 `fee.queryAdminFeeDetail` 两个 Cmd 自动受益，无需改动。
+- `pc-web/src/components/fee/simplifyHisFee.vue`：表格列改造
+  - "应收/实收"列移除 `v-if="scope.row.acctAmount > 0"` 判断（账户抵扣挪到独立列）。
+  - 在"应收/实收"列后新增 5 个金额列：账户抵扣 `acctAmount`、打折金额 `discountAmount`（保留 `payFeeDetailDiscountDtoList` 子项）、减免金额 `deductionAmount`、滞纳金 `lateAmount`、赠送金额 `giftAmount`。
+  - 全部金额使用 `|| '-'` 兜底（禁止 `?.` 可选链 / `??` 空值合并）。
+- `pc-web/src/views/fee/roomCreateFeeLang.js`：i18n 三语（en/zh/zh-TW）的 `simplifyHisFee` 子段新增 6 个键：`acctAmount` / `discountAmount` / `deductionAmount` / `lateAmount` / `giftAmount` / `discountDetail`。
+- `CHANGE_LOG.md`：登记本次根因定位与变更内容。
+
+### 数据库变更
+
+无。
 ```

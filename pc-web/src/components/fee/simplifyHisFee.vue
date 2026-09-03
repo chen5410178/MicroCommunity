@@ -32,17 +32,46 @@
                 {{ scope.row.payerObjName }}{{ $t('simplifyHisFee.viewInFee') }}
               </div>
               <div v-else>
-                {{ scope.row.receivableAmount }}/{{ scope.row.receivedAmount }}<br>
-                <div v-if="scope.row.acctAmount > 0">
-                  {{ $t('simplifyHisFee.accountDeduction') }}: {{ scope.row.acctAmount }}<br>
-                </div>
+                {{ scope.row.receivableAmount }}/{{ scope.row.receivedAmount }}
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('simplifyHisFee.acctAmount')" align="center">
+            <template slot-scope="scope">
+              <span>{{ scope.row.acctAmount || '-' }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('simplifyHisFee.discountAmount')" align="center">
+            <template slot-scope="scope">
+              <div v-if="scope.row.state === '1500'">-</div>
+              <div v-else>
+                <div>{{ scope.row.discountAmount || '-' }}</div>
                 <div
-                  v-for="(item, index) in scope.row.payFeeDetailDiscountDtoList"
-                  :key="index"
+                  v-if="scope.row.payFeeDetailDiscountDtoList && scope.row.payFeeDetailDiscountDtoList.length > 0"
                 >
-                  {{ item.discountName }}: {{ Math.abs(item.discountPrice) }}<br>
+                  <div
+                    v-for="(item, index) in scope.row.payFeeDetailDiscountDtoList"
+                    :key="index"
+                  >
+                    {{ item.discountName }}: {{ Math.abs(item.discountPrice) }}
+                  </div>
                 </div>
               </div>
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('simplifyHisFee.deductionAmount')" align="center">
+            <template slot-scope="scope">
+              <span>{{ scope.row.deductionAmount || '-' }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('simplifyHisFee.lateAmount')" align="center">
+            <template slot-scope="scope">
+              <span>{{ scope.row.lateAmount || '-' }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('simplifyHisFee.giftAmount')" align="center">
+            <template slot-scope="scope">
+              <span>{{ scope.row.giftAmount || '-' }}</span>
             </template>
           </el-table-column>
           <el-table-column prop="primeRateName" :label="$t('simplifyHisFee.paymentMethod')" align="center"></el-table-column>

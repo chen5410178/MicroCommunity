@@ -53,7 +53,7 @@ public class ApiFeeDetailDataVo extends Vo {
 
     private String feeFlag;
 
-    private String receiptCode;
+private String receiptCode;
 
     private String note;
 
@@ -61,6 +61,21 @@ public class ApiFeeDetailDataVo extends Vo {
 
 
     private String openInvoice; // todo 默认 未开票
+
+    private String payableAmount;
+    private String bId;
+    private String payerObjType;
+    private String configId;
+    private String importFeeName;
+    private String acctAmount;
+    private String discountAmount;
+    private String deductionAmount;
+    private String lateAmount;
+    private String giftAmount;
+    private String feeTime;
+    private String feeStartTime;
+    private String feeEndTime;
+
     public String getPrimeRate() {
         return primeRate;
     }
@@ -301,7 +316,7 @@ public class ApiFeeDetailDataVo extends Vo {
         this.note = note;
     }
 
-    public String getOpenInvoice() {
+public String getOpenInvoice() {
         return openInvoice;
     }
 
@@ -315,5 +330,109 @@ public class ApiFeeDetailDataVo extends Vo {
 
     public void setPayOrderId(String payOrderId) {
         this.payOrderId = payOrderId;
+    }
+
+    public String getPayableAmount() {
+        return payableAmount;
+    }
+
+    public void setPayableAmount(String payableAmount) {
+        this.payableAmount = payableAmount;
+    }
+
+    public String getbId() {
+        return bId;
+    }
+
+    public void setbId(String bId) {
+        this.bId = bId;
+    }
+
+    public String getPayerObjType() {
+        return payerObjType;
+    }
+
+    public void setPayerObjType(String payerObjType) {
+        this.payerObjType = payerObjType;
+    }
+
+    public String getConfigId() {
+        return configId;
+    }
+
+    public void setConfigId(String configId) {
+        this.configId = configId;
+    }
+
+    public String getImportFeeName() {
+        return importFeeName;
+    }
+
+    public void setImportFeeName(String importFeeName) {
+        this.importFeeName = importFeeName;
+    }
+
+    public String getAcctAmount() {
+        return acctAmount;
+    }
+
+    public void setAcctAmount(String acctAmount) {
+        this.acctAmount = acctAmount;
+    }
+
+    public String getDiscountAmount() {
+        return discountAmount;
+    }
+
+    public void setDiscountAmount(String discountAmount) {
+        this.discountAmount = discountAmount;
+    }
+
+    public String getDeductionAmount() {
+        return deductionAmount;
+    }
+
+    public void setDeductionAmount(String deductionAmount) {
+        this.deductionAmount = deductionAmount;
+    }
+
+    public String getLateAmount() {
+        return lateAmount;
+    }
+
+    public void setLateAmount(String lateAmount) {
+        this.lateAmount = lateAmount;
+    }
+
+    public String getGiftAmount() {
+        return giftAmount;
+    }
+
+    public void setGiftAmount(String giftAmount) {
+        this.giftAmount = giftAmount;
+    }
+
+    public String getFeeTime() {
+        return feeTime;
+    }
+
+    public void setFeeTime(String feeTime) {
+        this.feeTime = feeTime;
+    }
+
+    public String getFeeStartTime() {
+        return feeStartTime;
+    }
+
+    public void setFeeStartTime(String feeStartTime) {
+        this.feeStartTime = feeStartTime;
+    }
+
+    public String getFeeEndTime() {
+        return feeEndTime;
+    }
+
+    public void setFeeEndTime(String feeEndTime) {
+        this.feeEndTime = feeEndTime;
     }
 }

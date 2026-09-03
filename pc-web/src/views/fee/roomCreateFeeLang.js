@@ -111,7 +111,7 @@ export const messages = {
       paymentHistory: 'Payment History',
       splitFee: 'Split Fee'
     },
-    simplifyHisFee: {
+simplifyHisFee: {
       feeItem: 'Fee Item',
       payerObject: 'Payer Object',
       receiptNumber: 'Receipt Number',
@@ -119,6 +119,12 @@ export const messages = {
       cycle: 'Cycle(Month)',
       receivableReceived: 'Receivable/Received(Yuan)',
       accountDeduction: 'Account Deduction',
+      acctAmount: 'Account Deduction',
+      discountAmount: 'Discount Amount',
+      deductionAmount: 'Deduction Amount',
+      lateAmount: 'Late Fee',
+      giftAmount: 'Gift Amount',
+      discountDetail: 'Discount Detail',
       paymentMethod: 'Payment Method',
       paymentPeriod: 'Payment Period',
       paymentTime: 'Payment Time',
@@ -627,7 +633,7 @@ export const messages = {
       paymentHistory: '缴费历史',
       splitFee: '拆费'
     },
-    simplifyHisFee: {
+simplifyHisFee: {
       feeItem: '费用项',
       payerObject: '收费对象',
       receiptNumber: '收据编号',
@@ -635,6 +641,12 @@ export const messages = {
       cycle: '周期(单位:月)',
       receivableReceived: '应收/实收(单位:元)',
       accountDeduction: '账户扣款',
+      acctAmount: '账户抵扣',
+      discountAmount: '打折金额',
+      deductionAmount: '减免金额',
+      lateAmount: '滞纳金',
+      giftAmount: '赠送金额',
+      discountDetail: '打折明细',
       paymentMethod: '缴费方式',
       paymentPeriod: '缴费起始段',
       paymentTime: '缴费时间',
@@ -1143,7 +1155,7 @@ export const messages = {
       paymentHistory: '繳費歷史',
       splitFee: '拆費'
     },
-    simplifyHisFee: {
+simplifyHisFee: {
       feeItem: '費用項目',
       payerObject: '收費對象',
       receiptNumber: '收據編號',
@@ -1151,6 +1163,12 @@ export const messages = {
       cycle: '週期(單位:月)',
       receivableReceived: '應收/實收(單位:元)',
       accountDeduction: '帳戶扣款',
+      acctAmount: '帳戶抵扣',
+      discountAmount: '打折金額',
+      deductionAmount: '減免金額',
+      lateAmount: '滯納金',
+      giftAmount: '贈送金額',
+      discountDetail: '打折明細',
       paymentMethod: '繳費方式',
       paymentPeriod: '繳費起始段',
       paymentTime: '繳費時間',

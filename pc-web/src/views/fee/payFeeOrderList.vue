@@ -166,7 +166,6 @@
     <pay-fee-deposit ref="payFeeDeposit"></pay-fee-deposit>
     <pre-pay-fee-dialog ref="prePayFeeDialog" @notify-pre-fee-order="onNotifyPreFeeOrder"></pre-pay-fee-dialog>
     <pay-fee-order-confirm ref="payFeeOrderConfirm" @submitSuccess="submitSuccess"></pay-fee-order-confirm>
-    <pay-fee-discount ref="payFeeDiscount"></pay-fee-discount>
     <pay-fee-coupon ref="payFeeCoupon"></pay-fee-coupon>
     <prestore-account2 ref="prestoreAccount2"></prestore-account2>
     <pay-fee-order-result ref="payFeeOrderResult" @back="handleClose" />
@@ -185,7 +184,6 @@ import OrderPrePayFee from '@/components/fee/orderPrePayFee.vue'
 import PayFeeDeposit from '@/components/fee/payFeeDeposit.vue'
 import PrePayFeeDialog from '@/components/fee/prePayFeeDialog.vue'
 import PayFeeOrderConfirm from '@/components/fee/payFeeOrderConfirm.vue'
-import PayFeeDiscount from '@/components/fee/payFeeDiscount.vue'
 import PayFeeCoupon from '@/components/fee/payFeeCoupon.vue'
 import PrestoreAccount2 from '@/components/fee/prestoreAccount2.vue'
 import { dateFormat,getDateStr } from '@/utils/dateUtil'
@@ -203,7 +201,6 @@ export default {
     PayFeeDeposit,
     PrePayFeeDialog,
     PayFeeOrderConfirm,
-    PayFeeDiscount,
     PayFeeCoupon,
     PrestoreAccount2,
     PayFeeOrderResult
@@ -307,14 +304,6 @@ export default {
         payerObjId: this.payFeeOrderInfo.payerObjId,
         payerObjType: this.payFeeOrderInfo.payerObjType,
         feeId: this.payFeeOrderInfo.feeId
-      })
-      this.$refs.payFeeDiscount.computeFeeDiscount({
-        feeId: this.payFeeOrderInfo.feeId,
-        cycles: 1,
-        payerObjId: this.payFeeOrderInfo.payerObjId,
-        payerObjType: this.payFeeOrderInfo.payerObjType,
-        endTime: this.payFeeOrderInfo.endTime,
-        custEndTime: this.payFeeOrderInfo.custEndTime
       })
       this.$refs.payFeeCoupon.computeFeeCoupon({
         feeId: this.payFeeOrderInfo.feeId,
