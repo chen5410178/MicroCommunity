@@ -28,7 +28,7 @@
         <el-button type="primary" size="small" v-if="hasPrivilege('502020082314267912')"
           @click="openBatchPayShopFeeModal">
           <i class="el-icon-plus"></i>
-          {{ $t('simplifyShopFee.batchPayment') }}
+          {{ $t('simplifyShopFee.payment') }}
         </el-button>
         <el-button type="primary" size="small" style="margin-left:10px" v-if="hasPrivilege('502020080570210194')"
           @click="toShopPrePayFeeOrder">
@@ -86,7 +86,7 @@
                 <td class="text-center multiline-text">-</td>
                 <td class="text-center">{{ feeSub.stateName }}</td>
                 <td class="text-center">
-                  <el-button class="btn-link" type="text" v-if="feeSub.state != '2009001' && hasPrivilege('502020082314267912')" @click="payFee(feeSub)">{{ $t('simplifyShopFee.payment') }}</el-button>
+                  <!-- <el-button class="btn-link" type="text" v-if="feeSub.state != '2009001' && hasPrivilege('502020082314267912')" @click="payFee(feeSub)">{{ $t('simplifyShopFee.payment') }}</el-button> -->
                   <el-button class="btn-link" type="text" @click="payFeeHis(feeSub)">{{ $t('simplifyShopFee.paymentHistory') }}</el-button>
                   <el-dropdown v-if="hasPrivilege('502020090604200029') || hasPrivilege('502021070488970005') || hasPrivilege('502020090427190001')">
                     <span class="el-dropdown-link">{{ $t('simplifyShopFee.moreOperations') }}<i class="el-icon-arrow-down el-icon--right"></i></span>

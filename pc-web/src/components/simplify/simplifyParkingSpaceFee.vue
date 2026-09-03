@@ -35,7 +35,7 @@
       </el-col>
       <el-col :span="6" class="text-right" v-if="simplifyParkingSpaceFeeInfo.psId || simplifyParkingSpaceFeeInfo.ownerId">
         <el-button type="primary" size="small"  v-if="hasPrivilege('502020082314267912')" @click="_openBatchPayParkingSpaceFeeModal">
-          {{ $t('simplifyRoomFee.batchPayment') }}
+          {{ $t('simplifyRoomFee.payment') }}
         </el-button>
         <el-button v-if="hasPrivilege('502020082314267912')" type="primary" size="small" @click="_toPrePayFeeOrder">
           <i class="el-icon-plus"></i>
@@ -88,9 +88,9 @@
                 <td class="text-center multiline-text">{{ feeSub.remark || '-' }}</td>
                 <td class="text-center">{{ feeSub.stateName }}</td>
                 <td class="text-center">
-                  <el-button class="btn-link" type="text"
+                  <!-- <el-button class="btn-link" type="text"
                     v-if="feeSub.state != '2009001' && hasPrivilege('502020082314267912')"
-                    @click="_simplifyParkingSpacePayFee(feeSub)">{{ $t('simplifyParkingSpaceFee.pay') }}</el-button>
+                    @click="_simplifyParkingSpacePayFee(feeSub)">{{ $t('simplifyParkingSpaceFee.pay') }}</el-button> -->
                   <el-button class="btn-link" type="text" @click="_simplifyParkingSpacePayFeeHis(feeSub)">{{
                     $t('simplifyParkingSpaceFee.payHistory') }}</el-button>
                   <el-dropdown

@@ -9,10 +9,10 @@
         </el-select>
       </el-col>
       <el-col :span="22" class="text-right">
-        <el-button type="success" size="small" style="margin-left:10px" @click="_openBatchPayFee">
-          {{ $t('simplifyContractFee.batchPayFee') }}
+        <el-button type="primary" size="small" style="margin-left:10px" @click="_openBatchPayFee">
+          {{ $t('simplifyContractFee.payment') }}
         </el-button>
-        <el-button type="warning" size="small" style="margin-left:10px" @click="_openPrePayFee">
+        <el-button type="primary" size="small" style="margin-left:10px" @click="_openPrePayFee">
           {{ $t('simplifyContractFee.prePayFee') }}
         </el-button>
       </el-col>
@@ -60,7 +60,7 @@
 
                 <td class="text-center">{{ feeSub.stateName }}</td>
                 <td class="text-center">
-                  <el-button class="btn-link" type="text" v-if="feeSub.state != '2009001' && hasPrivilege('502020082314267912')" @click="_payContractFee(feeSub)">{{ $t('simplifyContractFee.payment') }}</el-button>
+                  <!-- <el-button class="btn-link" type="text" v-if="feeSub.state != '2009001' && hasPrivilege('502020082314267912')" @click="_payContractFee(feeSub)">{{ $t('simplifyContractFee.payment') }}</el-button> -->
                   <el-button class="btn-link" type="text" @click="_payContractFeeHis(feeSub)">{{ $t('simplifyContractFee.paymentHistory') }}</el-button>
                   <el-dropdown v-if="hasPrivilege('502020090604200029') || hasPrivilege('502021070488970005') || hasPrivilege('502020090427190001')">
                     <span class="el-dropdown-link">{{ $t('simplifyRoomFee.moreOperations') }}<i class="el-icon-arrow-down el-icon--right"></i></span>
