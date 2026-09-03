@@ -28,6 +28,7 @@ import com.java110.utils.cache.MappingCache;
 import com.java110.utils.util.Assert;
 import com.java110.utils.util.BeanConvertUtil;
 import com.java110.utils.util.StringUtil;
+import com.java110.vo.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -133,6 +134,9 @@ public class ApplyRoomDiscountApi {
         applyRoomDiscountDto.setCommunityId(applyRoomDiscountPo.getCommunityId());
         applyRoomDiscountDto.setRoomId(applyRoomDiscountPo.getRoomId());
         //按费用逐个校验：同一房屋、同一费用已存在有效申请(最近一条申请 end_time >= 当前时间，即未过期/未失效)则拦截
+        if(feeIds.size()>12){
+            return ResultVo.error("优惠费用不能超过12条");
+        }
         Date nowDate = new Date();
         for (int feeIndex = 0; feeIndex < feeIds.size(); feeIndex++) {
             applyRoomDiscountDto.setFeeId(feeIds.getString(feeIndex));
@@ -146,7 +150,7 @@ public class ApplyRoomDiscountApi {
             }
             Date finishTime = simpleDateFormat.parse(endTime);
             if (finishTime.getTime() >= nowDate.getTime()) {
-                throw new UnsupportedOperationException("该费用已申请过优惠，请勿重复申请");
+                return ResultVo.error("该费用已申请过优惠，请勿重复申请");
             }
         }
         //空置房优惠可用
