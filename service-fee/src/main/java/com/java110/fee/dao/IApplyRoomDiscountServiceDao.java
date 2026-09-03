@@ -25,6 +25,23 @@ public interface IApplyRoomDiscountServiceDao {
      */
     void saveApplyRoomDiscountInfo(Map info) throws DAOException;
 
+    /**
+     * 保存 优惠申请关联费用信息（子表）
+     *
+     * @param info
+     * @throws DAOException DAO异常
+     */
+    void saveApplyRoomDiscountFeeInfo(Map info) throws DAOException;
+
+    /**
+     * 按 ardId 失效（逻辑删除）优惠申请关联费用（子表）
+     *
+     * @param info
+     * @throws DAOException DAO异常
+     */
+    void deleteApplyRoomDiscountFeeByArdId(Map info) throws DAOException;
+
+
 
     /**
      * 查询房屋折扣申请信息（instance过程）

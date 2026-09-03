@@ -42,6 +42,12 @@ export default [
         component: () => import('@/views/fee/discountTypeList.vue')
     },
     {
+        path: '/views/fee/addApplyRoomDiscount',
+        meta: { title: '电话申请' },
+        name: '/views/fee/addApplyRoomDiscount',
+        component: () => import('@/views/fee/addApplyRoomDiscountList.vue')
+    },
+    {
         path: '/views/fee/listApplyRoomDiscountRecord',
         meta: { title: '优惠记录' },
         name: '/views/fee/listApplyRoomDiscountRecord',

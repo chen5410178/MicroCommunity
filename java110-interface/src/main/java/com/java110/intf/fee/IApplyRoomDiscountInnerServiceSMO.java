@@ -26,6 +26,24 @@ public interface IApplyRoomDiscountInnerServiceSMO {
     @RequestMapping(value = "/saveApplyRoomDiscount", method = RequestMethod.POST)
     public int saveApplyRoomDiscount(@RequestBody ApplyRoomDiscountPo applyRoomDiscountPo);
 
+    /**
+     * <p>批量保存优惠申请关联费用（子表 apply_room_discount_fee）</p>
+     *
+     * @param applyRoomDiscountPo 含 ardId、feeIds、feeNames、communityId
+     * @return 保存条数
+     */
+    @RequestMapping(value = "/saveApplyRoomDiscountFees", method = RequestMethod.POST)
+    public int saveApplyRoomDiscountFees(@RequestBody ApplyRoomDiscountPo applyRoomDiscountPo);
+
+    /**
+     * <p>按 ardId 失效（逻辑删除）优惠申请关联费用（子表 apply_room_discount_fee）</p>
+     *
+     * @param applyRoomDiscountPo 含 ardId
+     * @return 影响条数
+     */
+    @RequestMapping(value = "/deleteApplyRoomDiscountFees", method = RequestMethod.POST)
+    public int deleteApplyRoomDiscountFees(@RequestBody ApplyRoomDiscountPo applyRoomDiscountPo);
+
     @RequestMapping(value = "/updateApplyRoomDiscount", method = RequestMethod.POST)
     public int updateApplyRoomDiscount(@RequestBody ApplyRoomDiscountPo applyRoomDiscountPo);
 

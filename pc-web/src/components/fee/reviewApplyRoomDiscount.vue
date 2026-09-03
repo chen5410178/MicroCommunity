@@ -188,6 +188,10 @@ export default {
         selectedFees: [],
         refundAmount: ''
       }
+      //多费用申请：列表不再返回单 feeId，取第一个勾选费用用于加载缴费记录
+      if (data.feeIds && data.feeIds.length > 0) {
+        this.form.feeId = data.feeIds[0]
+      }
       this.visible = true
       this.loadDiscounts()
       this.loadFees()

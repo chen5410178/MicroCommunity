@@ -57,6 +57,11 @@
         <el-table-column prop="discountId" :label="$t('applyRoomDiscount.table.discountId')" align="center" />
         <el-table-column prop="discountName" :label="$t('applyRoomDiscount.table.discountName')" align="center" />
         <el-table-column prop="applyTypeName" :label="$t('applyRoomDiscount.table.applyType')" align="center" />
+        <el-table-column :label="$t('applyRoomDiscount.table.feeNames')" align="center">
+          <template slot-scope="scope">
+            {{ scope.row.feeNames && scope.row.feeNames.length > 0 ? scope.row.feeNames.join('、') : '-' }}
+          </template>
+        </el-table-column>
         <el-table-column prop="createUserName" :label="$t('applyRoomDiscount.table.createUser')" align="center" />
         <el-table-column prop="createUserTel" :label="$t('applyRoomDiscount.table.createUserTel')" align="center" />
         <el-table-column prop="startTime" :label="$t('applyRoomDiscount.table.startTime')" align="center" />
@@ -108,7 +113,6 @@
     </el-card>
 
     <!-- 子组件 -->
-    <add-apply-room-discount ref="addApplyRoomDiscount" @success="handleSuccess" />
     <edit-apply-room-discount ref="editApplyRoomDiscount" @success="handleSuccess" />
     <edit-apply-room-discount-record ref="editApplyRoomDiscountRecord" @success="handleSuccess" />
     <review-apply-room-discount ref="reviewApplyRoomDiscount" @success="handleSuccess" />
@@ -120,7 +124,6 @@
 <script>
 import { getDict,getCommunityId } from '@/api/community/communityApi'
 import { queryApplyRoomDiscount, queryApplyRoomDiscountType } from '@/api/fee/applyRoomDiscountManageApi'
-import AddApplyRoomDiscount from '@/components/fee/addApplyRoomDiscount'
 import EditApplyRoomDiscount from '@/components/fee/editApplyRoomDiscount'
 import EditApplyRoomDiscountRecord from '@/components/fee/editApplyRoomDiscountRecord'
 import ReviewApplyRoomDiscount from '@/components/fee/reviewApplyRoomDiscount'
@@ -132,7 +135,6 @@ import {  exportData } from '@/api/report/reportFeeSummaryApi'
 export default {
   name: 'ApplyRoomDiscountManageList',
   components: {
-    AddApplyRoomDiscount,
     EditApplyRoomDiscount,
     EditApplyRoomDiscountRecord,
     ReviewApplyRoomDiscount,
@@ -224,7 +226,7 @@ export default {
       this.getList()
     },
     handleOpenAddApply() {
-      this.$refs.addApplyRoomDiscount.open()
+      this.$router.push('/views/fee/addApplyRoomDiscount')
     },
     handleOpenEdit(row) {
       this.$refs.editApplyRoomDiscountRecord.open(row)

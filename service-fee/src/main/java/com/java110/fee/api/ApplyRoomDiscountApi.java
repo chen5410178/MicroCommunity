@@ -110,47 +110,51 @@ public class ApplyRoomDiscountApi {
         Assert.hasKeyAndValue(reqJson, "startTime", "请求报文中未包含startTime");
         Assert.hasKeyAndValue(reqJson, "endTime", "请求报文中未包含endTime");
         Assert.hasKeyAndValue(reqJson, "applyType", "请求报文中未包含applyType");
+        Assert.hasKey(reqJson, "feeIds", "请求报文中未包含feeIds");
+        JSONArray feeIds = reqJson.getJSONArray("feeIds");
+        if (feeIds == null || feeIds.size() < 1) {
+            throw new IllegalArgumentException("请至少选择一个优惠费用");
+        }
+        //仅当时间为日期格式(yyyy-MM-dd)时补全时分秒，完整时间直接存储
         if (!StringUtil.isEmpty(reqJson.getString("startTime"))) {
-            String startTime = reqJson.getString("startTime") + " 00:00:00";
-            reqJson.put("startTime", startTime);
+            String startTime = reqJson.getString("startTime");
+            if (startTime.length() == 10) {
+                reqJson.put("startTime", startTime + " 00:00:00");
+            }
         }
         if (!StringUtil.isEmpty(reqJson.getString("endTime"))) {
-            String endTime = reqJson.getString("endTime") + " 23:59:59";
-            reqJson.put("endTime", endTime);
+            String endTime = reqJson.getString("endTime");
+            if (endTime.length() == 10) {
+                reqJson.put("endTime", endTime + " 23:59:59");
+            }
         }
         ApplyRoomDiscountPo applyRoomDiscountPo = BeanConvertUtil.covertBean(reqJson, ApplyRoomDiscountPo.class);
         ApplyRoomDiscountDto applyRoomDiscountDto = new ApplyRoomDiscountDto();
         applyRoomDiscountDto.setCommunityId(applyRoomDiscountPo.getCommunityId());
         applyRoomDiscountDto.setRoomId(applyRoomDiscountPo.getRoomId());
-        applyRoomDiscountDto.setFeeId(applyRoomDiscountPo.getFeeId());
-        //查询折扣申请表中该房屋下符合条件的最新的一条数据
-        List<ApplyRoomDiscountDto> applyRoomDiscountDtos = applyRoomDiscountInnerServiceSMOImpl.queryFirstApplyRoomDiscounts(applyRoomDiscountDto);
-        //获取本次填写的开始时间
-        Date startDate = simpleDateFormat.parse(applyRoomDiscountPo.getStartTime());
-        if (applyRoomDiscountDtos.size() == 0) {
-            //空置房优惠可用
-            applyRoomDiscountPo.setInUse("0");
-            applyRoomDiscountPo.setArdId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_ardId));
-            applyRoomDiscountPo.setState(ApplyRoomDiscountDto.STATE_APPLY);
-            saveFile(applyRoomDiscountPo);
-            return saveApplyRoomDiscountBMOImpl.save(applyRoomDiscountPo);
-        } else if (applyRoomDiscountDtos.size() > 0) {
-            //取出结束时间
-            String endTime = applyRoomDiscountDtos.get(0).getEndTime();
-            Date finishTime = simpleDateFormat.parse(endTime);
-            if (startDate.getTime() - finishTime.getTime() >= 0) {
-                //空置房优惠可用
-                applyRoomDiscountPo.setInUse("0");
-                applyRoomDiscountPo.setArdId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_ardId));
-                applyRoomDiscountPo.setState(ApplyRoomDiscountDto.STATE_APPLY);
-                saveFile(applyRoomDiscountPo);
-                return saveApplyRoomDiscountBMOImpl.save(applyRoomDiscountPo);
-            } else {
-                throw new UnsupportedOperationException("该时间段已经申请过空置房，请重新输入空置房申请开始和结束时间");
+        //按费用逐个校验：同一房屋、同一费用已存在有效申请(最近一条申请 end_time >= 当前时间，即未过期/未失效)则拦截
+        Date nowDate = new Date();
+        for (int feeIndex = 0; feeIndex < feeIds.size(); feeIndex++) {
+            applyRoomDiscountDto.setFeeId(feeIds.getString(feeIndex));
+            List<ApplyRoomDiscountDto> applyRoomDiscountDtos = applyRoomDiscountInnerServiceSMOImpl.queryFirstApplyRoomDiscounts(applyRoomDiscountDto);
+            if (applyRoomDiscountDtos == null || applyRoomDiscountDtos.size() < 1) {
+                continue;
             }
-        } else {
-            throw new UnsupportedOperationException("信息错误");
+            String endTime = applyRoomDiscountDtos.get(0).getEndTime();
+            if (StringUtil.isEmpty(endTime)) {
+                continue;
+            }
+            Date finishTime = simpleDateFormat.parse(endTime);
+            if (finishTime.getTime() >= nowDate.getTime()) {
+                throw new UnsupportedOperationException("该费用已申请过优惠，请勿重复申请");
+            }
         }
+        //空置房优惠可用
+        applyRoomDiscountPo.setInUse("0");
+        applyRoomDiscountPo.setArdId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_ardId));
+        applyRoomDiscountPo.setState(ApplyRoomDiscountDto.STATE_APPLY);
+        saveFile(applyRoomDiscountPo);
+        return saveApplyRoomDiscountBMOImpl.save(applyRoomDiscountPo);
     }
 
     /**

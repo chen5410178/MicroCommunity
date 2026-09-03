@@ -40,6 +40,37 @@ public class ApplyRoomDiscountServiceDaoImpl extends BaseServiceDao implements I
         }
     }
 
+    /**
+     * 保存优惠申请关联费用信息（子表）
+     *
+     * @param info
+     * @throws DAOException DAO异常
+     */
+    @Override
+    public void saveApplyRoomDiscountFeeInfo(Map info) throws DAOException {
+        logger.debug("保存优惠申请关联费用信息 入参 info : {}", info);
+
+        int saveFlag = sqlSessionTemplate.insert("applyRoomDiscountServiceDaoImpl.saveApplyRoomDiscountFeeInfo", info);
+
+        if (saveFlag < 1) {
+            throw new DAOException(ResponseConstant.RESULT_PARAM_ERROR, "保存优惠申请关联费用信息失败：" + JSONObject.toJSONString(info));
+        }
+    }
+
+    /**
+     * 按 ardId 失效（逻辑删除）优惠申请关联费用（子表）
+     *
+     * @param info
+     * @throws DAOException DAO异常
+     */
+    @Override
+    public void deleteApplyRoomDiscountFeeByArdId(Map info) throws DAOException {
+        logger.debug("失效优惠申请关联费用信息 入参 info : {}", info);
+
+        sqlSessionTemplate.update("applyRoomDiscountServiceDaoImpl.deleteApplyRoomDiscountFeeByArdId", info);
+    }
+
+
 
     /**
      * 查询房屋折扣申请信息（instance）

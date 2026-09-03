@@ -23,10 +23,15 @@ public class ApplyRoomDiscountPo implements Serializable {
     private String state;
     private String communityId;
     private String discountId;
-    private String feeId;
     private String returnWay;
     private String returnAmount;
     private List<String> photos;
+
+    //勾选的费用ID集合（保存时写入子表 apply_room_discount_fee）
+    private List<String> feeIds;
+
+    //费用名称集合（与 feeIds 按序对应，冗余存储于子表）
+    private List<String> feeNames;
 
     //是否可用状态
     private String inUse;
@@ -185,14 +190,6 @@ public class ApplyRoomDiscountPo implements Serializable {
         this.bId = bId;
     }
 
-    public String getFeeId() {
-        return feeId;
-    }
-
-    public void setFeeId(String feeId) {
-        this.feeId = feeId;
-    }
-
     public String getReturnWay() {
         return returnWay;
     }
@@ -207,6 +204,22 @@ public class ApplyRoomDiscountPo implements Serializable {
 
     public void setReturnAmount(String returnAmount) {
         this.returnAmount = returnAmount;
+    }
+
+    public List<String> getFeeIds() {
+        return feeIds;
+    }
+
+    public void setFeeIds(List<String> feeIds) {
+        this.feeIds = feeIds;
+    }
+
+    public List<String> getFeeNames() {
+        return feeNames;
+    }
+
+    public void setFeeNames(List<String> feeNames) {
+        this.feeNames = feeNames;
     }
 
     public List<String> getPhotos() {

@@ -7,12 +7,31 @@
     <!-- 保存房屋折扣申请信息 add by wuxw 2018-07-03 -->
     <insert id="saveApplyRoomDiscountInfo" parameterType="Map">
         insert into apply_room_discount(
-        apply_type,ard_id,create_user_name,create_user_tel,create_remark,check_user_id,check_remark,room_id,room_name,review_user_id,review_remark,start_time,end_time,state,community_id,discount_id,in_use,fee_id,return_way,return_amount
+        apply_type,ard_id,create_user_name,create_user_tel,create_remark,check_user_id,check_remark,room_id,room_name,review_user_id,review_remark,start_time,end_time,state,community_id,discount_id,in_use,return_way,return_amount
         ) values (
         #{applyType},#{ardId},#{createUserName},#{createUserTel},#{createRemark},#{checkUserId},#{checkRemark},#{roomId},#{roomName},#{reviewUserId},#{reviewRemark},#{startTime},#{endTime},#{state},
-        #{communityId},#{discountId},#{inUse},#{feeId},#{returnWay},#{returnAmount}
+        #{communityId},#{discountId},#{inUse},#{returnWay},#{returnAmount}
         )
     </insert>
+
+    <!-- 保存优惠申请关联费用信息（子表） -->
+    <insert id="saveApplyRoomDiscountFeeInfo" parameterType="Map">
+        insert into apply_room_discount_fee(
+        ard_fee_id,ard_id,fee_id,fee_name,community_id,create_time,status_cd
+        ) values (
+        #{ardFeeId},#{ardId},#{feeId},#{feeName},#{communityId},#{createTime},#{statusCd}
+        )
+    </insert>
+
+    <!-- 按 ardId 失效（逻辑删除）优惠申请关联费用（子表） -->
+    <update id="deleteApplyRoomDiscountFeeByArdId" parameterType="Map">
+        update apply_room_discount_fee t set t.status_cd = '1'
+        where t.ard_id = #{ardId}
+        <if test="statusCd != null and statusCd != ''">
+            and t.status_cd = #{statusCd}
+        </if>
+    </update>
+
 
     <!-- 查询房屋折扣申请信息 add by wuxw 2018-07-03 -->
     <select id="getApplyRoomDiscountInfo" parameterType="Map" resultType="Map">
@@ -23,14 +42,16 @@
         roomName,t.review_user_id,t.review_user_id reviewUserId,t.review_remark,t.review_remark
         reviewRemark,t.start_time,t.start_time startTime,t.end_time,t.end_time
         endTime,t.state,td.name stateName,t.community_id,t.community_id communityId,t.discount_id,t.discount_id
-        discountId,t.in_use,t.in_use inUse,t.fee_id,t.fee_id feeId,t.return_way,t.return_way returnWay,t.return_amount,t.return_amount returnAmount,t.create_time,t.create_time createTime,
-        ardt.type_name applyTypeName,fd.discount_name discountName
+        discountId,t.in_use,t.in_use inUse,t.return_way,t.return_way returnWay,t.return_amount,t.return_amount returnAmount,t.create_time,t.create_time createTime,
+        ardt.type_name applyTypeName,fd.discount_name discountName,
+        group_concat(ardf.fee_id SEPARATOR ',') feeIds,group_concat(ardf.fee_name SEPARATOR ',') feeNames
         from apply_room_discount t
         left join t_dict td on t.state = td.status_cd and td.table_name='apply_room_discount' and td.table_columns
         ='state'
         left join apply_room_discount_type ardt on t.apply_type = ardt.apply_type and t.community_id = ardt.community_id
         and ardt.status_cd = '0'
         left join fee_discount fd on t.discount_id=fd.discount_id
+        left join apply_room_discount_fee ardf on ardf.ard_id = t.ard_id and ardf.status_cd = '0'
         where t.status_cd = '0'
         <if test="applyType !=null and applyType != ''">
             and t.apply_type= #{applyType}
@@ -84,7 +105,7 @@
             and t.in_use= #{inUse}
         </if>
         <if test="feeId !=null and feeId != ''">
-            and t.fee_id= #{feeId}
+            and exists(select 1 from apply_room_discount_fee ardf_t where ardf_t.ard_id = t.ard_id and ardf_t.fee_id= #{feeId} and ardf_t.status_cd='0')
         </if>
         <if test="returnWay !=null and returnWay != ''">
             and t.return_way= #{returnWay}
@@ -95,11 +116,13 @@
         <if test="bId !=null and bId != ''">
             and t.b_id= #{bId}
         </if>
+        group by t.ard_id
         order by t.create_time desc
         <if test="page != -1 and page != null ">
             limit #{page}, #{row}
         </if>
     </select>
+
 
     <!-- 查询房屋折扣申请信息 add by wuxw 2018-07-03 -->
     <select id="getFirstApplyRoomDiscounts" parameterType="Map" resultType="Map">
@@ -111,12 +134,14 @@
         reviewRemark,t.start_time,t.start_time startTime,t.end_time,t.end_time
         endTime,t.state,td.name stateName,t.community_id,t.community_id communityId,t.discount_id,t.discount_id
         discountId,
-        ardt.type_name applyTypeName, t.create_time createTime
+        ardt.type_name applyTypeName, t.create_time createTime,
+        group_concat(ardf.fee_id SEPARATOR ',') feeIds,group_concat(ardf.fee_name SEPARATOR ',') feeNames
         from apply_room_discount t
         left join t_dict td on t.state = td.status_cd and td.table_name='apply_room_discount' and td.table_columns =
         'state'
         left join apply_room_discount_type ardt on t.apply_type = ardt.apply_type and t.community_id = ardt.community_id
         and ardt.status_cd = '0'
+        left join apply_room_discount_fee ardf on ardf.ard_id = t.ard_id and ardf.status_cd = '0'
         where t.status_cd = '0' and t.state != '3' and t.state != '5'
         <if test="applyType !=null and applyType != ''">
             and t.apply_type= #{applyType}
@@ -173,10 +198,12 @@
             and t.return_amount= #{returnAmount}
         </if>
         <if test="feeId !=null and feeId != ''">
-            and t.fee_id= #{feeId}
+            and exists(select 1 from apply_room_discount_fee ardf_t where ardf_t.ard_id = t.ard_id and ardf_t.fee_id= #{feeId} and ardf_t.status_cd='0')
         </if>
+        group by t.ard_id
         order by t.create_time desc limit 0,1
     </select>
+
 
 
     <!-- 修改房屋折扣申请信息 add by wuxw 2018-07-03 -->
@@ -226,9 +253,6 @@
         </if>
         <if test="inUse !=null and inUse != ''">
             , t.in_use= #{inUse}
-        </if>
-        <if test="feeId !=null and feeId != ''">
-            , t.fee_id= #{feeId}
         </if>
         <if test="returnWay !=null and returnWay != ''">
             , t.return_way= #{returnWay}
@@ -308,7 +332,7 @@
             and t.return_amount= #{returnAmount}
         </if>
         <if test="feeId !=null and feeId != ''">
-            and t.fee_id= #{feeId}
+            and exists(select 1 from apply_room_discount_fee ardf where ardf.ard_id = t.ard_id and ardf.fee_id= #{feeId} and ardf.status_cd='0')
         </if>
     </select>
 

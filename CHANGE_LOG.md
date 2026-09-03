@@ -239,4 +239,41 @@ UPDATE `c_mapping_domain` SET `description` = '系统存储配置，IMG_PATH 配
 
 -- 5. 定时任务菜单 URL 去除 FTP 遗留命名
 UPDATE `m_menu_org` SET `url` = '/jobIndex/' WHERE `m_id` = '702019090293430003';
+
+## 2026-09-03 优惠申请（电话申请）改造：支持多费用勾选 + 批量缴费自动打折
+
+### 1. 新增申请-费用关联表 apply_room_discount_fee（TT.sql 已同步）
+
+```sql
+DROP TABLE IF EXISTS `apply_room_discount_fee`;
+CREATE TABLE `apply_room_discount_fee` (
+  `ard_fee_id` varchar(30) NOT NULL COMMENT '主键ID',
+  `ard_id` varchar(30) NOT NULL COMMENT '优惠申请ID',
+  `fee_id` varchar(30) NOT NULL COMMENT '费用ID',
+  `fee_name` varchar(128) DEFAULT NULL COMMENT '费用名称（冗余存储，取自 fee_config.fee_name）',
+  `community_id` varchar(30) NOT NULL COMMENT '小区ID',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态0正常1失效',
+  PRIMARY KEY (`ard_fee_id`),
+  KEY `idx_ard_id` (`ard_id`),
+  KEY `idx_fee_id` (`fee_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+```
+
+### 2. 主表 apply_room_discount 删除 fee_id 列（存量库升级需按顺序执行 ①②）
+
+```sql
+-- ① 迁移历史数据（存在 fee_id 的旧申请写入子表，fee_name 联查 fee_config 回填）
+INSERT INTO apply_room_discount_fee(ard_fee_id, ard_id, fee_id, fee_name, community_id, create_time, status_cd)
+SELECT CONCAT('F', REPLACE(UUID(), '-', ''), FLOOR(RAND()*10)), t.ard_id, t.fee_id, fc.fee_name, t.community_id, now(), '0'
+FROM apply_room_discount t
+LEFT JOIN pay_fee pf ON pf.fee_id = t.fee_id AND pf.status_cd = '0'
+LEFT JOIN fee_config fc ON fc.config_id = pf.config_id AND fc.status_cd = '0'
+WHERE t.fee_id IS NOT NULL AND t.fee_id != '';
+
+-- ② 删除主表字段
+ALTER TABLE `apply_room_discount` DROP COLUMN `fee_id`;
+```
+
+> 说明：新库（TT.sql 重建）中 apply_room_discount 已不含 fee_id 列，仅存量库需要执行上述迁移；申请时间由前端默认传值（startTime=当前时间、endTime=2050-01-01 23:59:59，长期有效），批量缴费与单费用缴费命中口径统一为 state='4' and in_use='0' and end_time >= 当前时间 and feeId 命中子表。
 ```

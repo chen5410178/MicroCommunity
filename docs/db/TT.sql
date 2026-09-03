@@ -2483,7 +2483,6 @@ CREATE TABLE `apply_room_discount` (
   `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态0正常1失效',
   `in_use` varchar(2) NOT NULL COMMENT '是否可用 0表示可用；1表示不可用',
   `b_id` varchar(30) DEFAULT NULL COMMENT '业务Id',
-  `fee_id` varchar(30) DEFAULT NULL,
   `return_way` varchar(4) DEFAULT NULL COMMENT '返还方式1001折扣1002账户余额',
   `return_amount` varchar(255) DEFAULT NULL COMMENT '返还金额',
   PRIMARY KEY (`ard_id`),
@@ -2494,6 +2493,27 @@ CREATE TABLE `apply_room_discount` (
 
 -- ----------------------------
 -- Records of apply_room_discount
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for apply_room_discount_fee
+-- ----------------------------
+DROP TABLE IF EXISTS `apply_room_discount_fee`;
+CREATE TABLE `apply_room_discount_fee` (
+  `ard_fee_id` varchar(30) NOT NULL COMMENT '主键ID',
+  `ard_id` varchar(30) NOT NULL COMMENT '优惠申请ID',
+  `fee_id` varchar(30) NOT NULL COMMENT '费用ID',
+  `fee_name` varchar(128) DEFAULT NULL COMMENT '费用名称（冗余存储，取自 fee_config.fee_name）',
+  `community_id` varchar(30) NOT NULL COMMENT '小区ID',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态0正常1失效',
+  PRIMARY KEY (`ard_fee_id`),
+  KEY `idx_ard_id` (`ard_id`),
+  KEY `idx_fee_id` (`fee_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of apply_room_discount_fee
 -- ----------------------------
 
 -- ----------------------------

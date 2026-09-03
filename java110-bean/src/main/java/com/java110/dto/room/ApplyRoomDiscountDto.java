@@ -47,6 +47,12 @@ public class ApplyRoomDiscountDto extends PageDto implements Serializable {
     private String returnWay;
     private String returnAmount;
 
+    //关联费用ID集合（子表 apply_room_discount_fee 联查）
+    private List<String> feeIds;
+
+    //关联费用名称集合（子表冗余字段）
+    private List<String> feeNames;
+
     private List<String> photos;
     //文件真实名称
     private String fileRealName;
@@ -249,6 +255,22 @@ public class ApplyRoomDiscountDto extends PageDto implements Serializable {
 
     public void setFeeId(String feeId) {
         this.feeId = feeId;
+    }
+
+    public List<String> getFeeIds() {
+        return feeIds;
+    }
+
+    public void setFeeIds(List<String> feeIds) {
+        this.feeIds = feeIds;
+    }
+
+    public List<String> getFeeNames() {
+        return feeNames;
+    }
+
+    public void setFeeNames(List<String> feeNames) {
+        this.feeNames = feeNames;
     }
 
     public String getReturnWay() {

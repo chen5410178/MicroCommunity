@@ -27,6 +27,8 @@ public class SaveApplyRoomDiscountBMOImpl implements ISaveApplyRoomDiscountBMO {
         int flag = applyRoomDiscountInnerServiceSMOImpl.saveApplyRoomDiscount(applyRoomDiscountPo);
 
         if (flag > 0) {
+            //保存勾选费用（子表 apply_room_discount_fee）
+            applyRoomDiscountInnerServiceSMOImpl.saveApplyRoomDiscountFees(applyRoomDiscountPo);
             return ResultVo.createResponseEntity(ResultVo.CODE_OK, "保存成功");
         }
 
