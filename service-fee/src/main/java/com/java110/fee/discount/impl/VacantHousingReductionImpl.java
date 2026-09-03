@@ -40,7 +40,7 @@ public class VacantHousingReductionImpl implements IComputeDiscount {
         double money = 0.0;
         for (FeeDiscountSpecDto feeDiscountSpecDto : feeDiscountSpecDtos) {
             if (SPEC_MONTH.equals(feeDiscountSpecDto.getSpecId())) {
-                month = Double.parseDouble(feeDiscountSpecDto.getSpecValue());
+                month = 1;
             }
             if (SPEC_MONEY.equals(feeDiscountSpecDto.getSpecId())) {
                 money = Double.parseDouble(feeDiscountSpecDto.getSpecValue());

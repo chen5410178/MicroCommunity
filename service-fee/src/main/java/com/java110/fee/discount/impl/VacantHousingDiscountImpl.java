@@ -53,7 +53,7 @@ public class VacantHousingDiscountImpl implements IComputeDiscount {
         for (FeeDiscountSpecDto feeDiscountSpecDto : feeDiscountSpecDtos) {
             //取得月份
             if (SPEC_MONTH.equals(feeDiscountSpecDto.getSpecId())) {
-                month = Double.parseDouble(feeDiscountSpecDto.getSpecValue());
+                month = 1;
             }
             //取得打折率
             if (SPEC_RATE.equals(feeDiscountSpecDto.getSpecId())) {
