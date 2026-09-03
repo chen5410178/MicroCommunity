@@ -103,6 +103,22 @@ public class ApplyRoomDiscountServiceDaoImpl extends BaseServiceDao implements I
         return businessApplyRoomDiscountInfos;
     }
 
+    /**
+     * 查询优惠申请关联费用信息（子表）：按 ardIds / feeId 批量查询
+     *
+     * @param info
+     * @return List<Map>
+     * @throws DAOException DAO异常
+     */
+    @Override
+    public List<Map> getApplyRoomDiscountFees(Map info) throws DAOException {
+        logger.debug("查询优惠申请关联费用信息 入参 info : {}", info);
+
+        List<Map> businessApplyRoomDiscountFeeInfos = sqlSessionTemplate.selectList("applyRoomDiscountServiceDaoImpl.getApplyRoomDiscountFees", info);
+
+        return businessApplyRoomDiscountFeeInfos;
+    }
+
 
     /**
      * 修改房屋折扣申请信息

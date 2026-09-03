@@ -62,6 +62,15 @@ public interface IApplyRoomDiscountServiceDao {
     List<Map> queryFirstApplyRoomDiscounts(Map info);
 
     /**
+     * 查询优惠申请关联费用信息（子表）：按 ardIds / feeId 批量查询
+     *
+     * @param info
+     * @return List<Map>
+     * @throws DAOException DAO异常
+     */
+    List<Map> getApplyRoomDiscountFees(Map info) throws DAOException;
+
+    /**
      * 修改房屋折扣申请信息
      *
      * @param info 修改信息

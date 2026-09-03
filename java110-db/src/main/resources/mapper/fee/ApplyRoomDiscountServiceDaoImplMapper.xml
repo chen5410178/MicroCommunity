@@ -43,15 +43,13 @@
         reviewRemark,t.start_time,t.start_time startTime,t.end_time,t.end_time
         endTime,t.state,td.name stateName,t.community_id,t.community_id communityId,t.discount_id,t.discount_id
         discountId,t.in_use,t.in_use inUse,t.return_way,t.return_way returnWay,t.return_amount,t.return_amount returnAmount,t.create_time,t.create_time createTime,
-        ardt.type_name applyTypeName,fd.discount_name discountName,
-        group_concat(ardf.fee_id SEPARATOR ',') feeIds,group_concat(ardf.fee_name SEPARATOR ',') feeNames
+        ardt.type_name applyTypeName,fd.discount_name discountName
         from apply_room_discount t
         left join t_dict td on t.state = td.status_cd and td.table_name='apply_room_discount' and td.table_columns
         ='state'
         left join apply_room_discount_type ardt on t.apply_type = ardt.apply_type and t.community_id = ardt.community_id
         and ardt.status_cd = '0'
         left join fee_discount fd on t.discount_id=fd.discount_id
-        left join apply_room_discount_fee ardf on ardf.ard_id = t.ard_id and ardf.status_cd = '0'
         where t.status_cd = '0'
         <if test="applyType !=null and applyType != ''">
             and t.apply_type= #{applyType}
@@ -104,8 +102,11 @@
         <if test="inUse !=null and inUse != ''">
             and t.in_use= #{inUse}
         </if>
-        <if test="feeId !=null and feeId != ''">
-            and exists(select 1 from apply_room_discount_fee ardf_t where ardf_t.ard_id = t.ard_id and ardf_t.fee_id= #{feeId} and ardf_t.status_cd='0')
+        <if test="ardIds != null and ardIds.size() > 0">
+            and t.ard_id in
+            <foreach collection="ardIds" item="ardId" open="(" separator="," close=")">
+                #{ardId}
+            </foreach>
         </if>
         <if test="returnWay !=null and returnWay != ''">
             and t.return_way= #{returnWay}
@@ -116,7 +117,6 @@
         <if test="bId !=null and bId != ''">
             and t.b_id= #{bId}
         </if>
-        group by t.ard_id
         order by t.create_time desc
         <if test="page != -1 and page != null ">
             limit #{page}, #{row}
@@ -134,14 +134,12 @@
         reviewRemark,t.start_time,t.start_time startTime,t.end_time,t.end_time
         endTime,t.state,td.name stateName,t.community_id,t.community_id communityId,t.discount_id,t.discount_id
         discountId,
-        ardt.type_name applyTypeName, t.create_time createTime,
-        group_concat(ardf.fee_id SEPARATOR ',') feeIds,group_concat(ardf.fee_name SEPARATOR ',') feeNames
+        ardt.type_name applyTypeName, t.create_time createTime
         from apply_room_discount t
         left join t_dict td on t.state = td.status_cd and td.table_name='apply_room_discount' and td.table_columns =
         'state'
         left join apply_room_discount_type ardt on t.apply_type = ardt.apply_type and t.community_id = ardt.community_id
         and ardt.status_cd = '0'
-        left join apply_room_discount_fee ardf on ardf.ard_id = t.ard_id and ardf.status_cd = '0'
         where t.status_cd = '0' and t.state != '3' and t.state != '5'
         <if test="applyType !=null and applyType != ''">
             and t.apply_type= #{applyType}
@@ -197,10 +195,12 @@
         <if test="returnAmount !=null and returnAmount != ''">
             and t.return_amount= #{returnAmount}
         </if>
-        <if test="feeId !=null and feeId != ''">
-            and exists(select 1 from apply_room_discount_fee ardf_t where ardf_t.ard_id = t.ard_id and ardf_t.fee_id= #{feeId} and ardf_t.status_cd='0')
+        <if test="ardIds != null and ardIds.size() > 0">
+            and t.ard_id in
+            <foreach collection="ardIds" item="ardId" open="(" separator="," close=")">
+                #{ardId}
+            </foreach>
         </if>
-        group by t.ard_id
         order by t.create_time desc limit 0,1
     </select>
 
@@ -331,8 +331,27 @@
         <if test="returnAmount !=null and returnAmount != ''">
             and t.return_amount= #{returnAmount}
         </if>
-        <if test="feeId !=null and feeId != ''">
-            and exists(select 1 from apply_room_discount_fee ardf where ardf.ard_id = t.ard_id and ardf.fee_id= #{feeId} and ardf.status_cd='0')
+        <if test="ardIds != null and ardIds.size() > 0">
+            and t.ard_id in
+            <foreach collection="ardIds" item="ardId" open="(" separator="," close=")">
+                #{ardId}
+            </foreach>
+        </if>
+    </select>
+
+    <!-- 查询优惠申请关联费用信息（子表）：按 ardIds / feeId 批量查询，Java 层组装 feeIds/feeNames -->
+    <select id="getApplyRoomDiscountFees" parameterType="Map" resultType="Map">
+        select ardf.ard_id ardId, ardf.fee_id feeId, ardf.fee_name feeName
+        from apply_room_discount_fee ardf
+        where ardf.status_cd = '0'
+        <if test="ardIds != null and ardIds.size() > 0">
+            and ardf.ard_id in
+            <foreach collection="ardIds" item="ardId" open="(" separator="," close=")">
+                #{ardId}
+            </foreach>
+        </if>
+        <if test="feeId != null and feeId != ''">
+            and ardf.fee_id = #{feeId}
         </if>
     </select>
 
