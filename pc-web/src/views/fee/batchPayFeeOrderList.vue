@@ -1,6 +1,21 @@
 <template>
   <div class="batch-pay-fee-order-container">
-    <el-row :gutter="20">
+    <!-- 空状态：未查询到费用 -->
+    <el-card v-if="batchPayFeeOrderInfo.batchFees.length === 0" class="empty-page">
+      <div class="empty-page-header">
+        <el-button size="small" @click="$router.go(-1)">
+          <i class="el-icon-back"></i>
+          {{ $t('batchPayFeeOrder.back') }}
+        </el-button>
+      </div>
+      <div class="empty-page-content">
+        <i class="el-icon-document"></i>
+        <span>{{ $t('batchPayFeeOrder.noPayableFee') }}</span>
+      </div>
+    </el-card>
+
+    <!-- 有费用：原布局 -->
+    <el-row v-else :gutter="20">
       <el-col :span="5">
         <el-card class="payer-list-card">
           <div class="payer-list">
@@ -494,7 +509,36 @@ export default {
 <style lang="scss" scoped>
 .batch-pay-fee-order-container {
   padding: 20px;
-  
+
+  .empty-page {
+    min-height: 800px;
+    display: flex;
+    flex-direction: column;
+
+    .empty-page-header {
+      display: flex;
+      justify-content: flex-end;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #ebeef5;
+      margin-bottom: 40px;
+    }
+
+    .empty-page-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: #909399;
+      font-size: 16px;
+
+      i {
+        font-size: 64px;
+        margin-bottom: 20px;
+      }
+    }
+  }
+
   .payer-list-card {
     height: 100%;
     

@@ -7,7 +7,8 @@ export const messages = {
       currentCancel: 'Cancel Current',
       back: 'Back',
       scanPay: 'Scan Payment',
-      submitPay: 'Submit Payment'
+      submitPay: 'Submit Payment',
+      noPayableFee: 'No payable fees currently'
     },
     batchPayConfirm: {
       title: 'Payment Confirmation',
@@ -74,7 +75,8 @@ export const messages = {
       currentCancel: '当前取消',
       back: '返回',
       scanPay: '扫码收费',
-      submitPay: '提交收费'
+      submitPay: '提交收费',
+      noPayableFee: '当前没有可缴费用'
     },
     batchPayConfirm: {
       title: '收费确认',
@@ -129,7 +131,7 @@ export const messages = {
       enterActualCycle: '请输入实际周期',
       endTime: '缴费结束时间',
       selectEndTime: '缴费结束时间',
-enterCustomAmount: '请输入自定义金额'
+      enterCustomAmount: '请输入自定义金额'
     }
   },
   'zh-TW': {
@@ -140,7 +142,8 @@ enterCustomAmount: '请输入自定义金额'
       currentCancel: '當前取消',
       back: '返回',
       scanPay: '掃碼收費',
-      submitPay: '提交收費'
+      submitPay: '提交收費',
+      noPayableFee: '當前沒有可繳費用'
     },
     batchPayConfirm: {
       title: '收費確認',
