@@ -65,7 +65,6 @@ public class GetQrcodeOweFeesCmd extends Cmd {
         FeeDto feeDto = new FeeDto();
         feeDto.setOwnerId(reqJson.getString("ownerId"));
         feeDto.setCommunityId(reqJson.getString("communityId"));
-        feeDto.setArrearsEndTime(DateUtil.getCurrentDate());
         feeDto.setState(FeeDto.STATE_DOING);
         List<FeeDto> feeDtos = feeInnerServiceSMOImpl.queryFees(feeDto);
 
@@ -74,38 +73,6 @@ public class GetQrcodeOweFeesCmd extends Cmd {
             context.setResponseEntity(ResultVo.createResponseEntity(feeDtos));
             return;
         }
-
-        String val = CommunitySettingFactory.getValue(feeDtos.get(0).getCommunityId(), TOTAL_FEE_PRICE);
-        if (StringUtil.isEmpty(val)) {
-            val = MappingCache.getValue(DOMAIN_COMMON, TOTAL_FEE_PRICE);
-        }
-        List<FeeDto> tmpFeeDtos = new ArrayList<>();
-        for (FeeDto tmpFeeDto : feeDtos) {
-            try {
-                computeFeeSMOImpl.computeEveryOweFee(tmpFeeDto);//计算欠费金额
-                //如果金额为0 就排除
-                tmpFeeDto.setFeeTotalPrice(
-                        MoneyUtil.computePriceScale(
-                                tmpFeeDto.getFeeTotalPrice(),
-                                tmpFeeDto.getScale(),
-                                Integer.parseInt(tmpFeeDto.getDecimalPlace())
-                        )
-                );
-
-                tmpFeeDto.setVal(val);
-                //todo 这里考虑负数金额，有些可能要红冲
-                if (tmpFeeDto.getFeePrice() !=0) {
-                    String ownerName = FeeAttrDto.getFeeAttrValue(tmpFeeDto,FeeAttrDto.SPEC_CD_OWNER_NAME);
-                    ownerName = StringUtil.maskName(ownerName);
-                    tmpFeeDto.setFeeAttrDtos(null); //todo 这里删掉 以免信息泄露带来的风险
-                    tmpFeeDto.setOwnerName(ownerName);
-                    tmpFeeDtos.add(tmpFeeDto);
-                }
-            } catch (Exception e) {
-                logger.error("可能费用资料有问题导致算费失败", e);
-            }
-        }
-
 
         context.setResponseEntity(ResultVo.createResponseEntity(feeDtos));
     }
