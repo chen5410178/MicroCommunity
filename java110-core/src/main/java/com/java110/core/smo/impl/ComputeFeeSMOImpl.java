@@ -584,6 +584,26 @@ public class ComputeFeeSMOImpl implements IComputeFeeSMO {
             Assert.listOnlyOne(ownerDtos, "业主不存在");
             return ownerDtos.get(0);
         }
+        if (FeeDto.PAYER_OBJ_TYPE_CAR.equals(feeDto.getPayerObjType())) {//车辆相关
+            OwnerCarDto ownerCarDto = new OwnerCarDto();
+            ownerCarDto.setCarId(feeDto.getPayerObjId());
+            ownerCarDto.setCommunityId(feeDto.getCommunityId());
+            List<OwnerCarDto> ownerCarDtos = ownerCarInnerServiceSMOImpl.queryOwnerCars(ownerCarDto);
+            if (ListUtil.isNull(ownerCarDtos)) {
+                return null; // 车辆不存在，返回 null 不抛异常
+            }
+            if (StringUtil.isEmpty(ownerCarDtos.get(0).getOwnerId())) {
+                return null; // 车辆未绑定业主
+            }
+            ownerDto = new OwnerDto();
+            ownerDto.setMemberId(ownerCarDtos.get(0).getOwnerId());
+            ownerDto.setCommunityId(feeDto.getCommunityId());
+            List<OwnerDto> ownerDtos = ownerInnerServiceSMOImpl.queryOwners(ownerDto);
+            if (ListUtil.isNull(ownerDtos)) {
+                return null;
+            }
+            return ownerDtos.get(0);
+        }
         return null;
     }
 

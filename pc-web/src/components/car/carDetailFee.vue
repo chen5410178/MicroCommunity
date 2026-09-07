@@ -90,8 +90,8 @@
     </div>
 
     <add-meter-water ref="addMeterWater" @success="notify"></add-meter-water>
-    <delete-fee ref="deleteFee"></delete-fee>
-    <edit-fee ref="editFee"></edit-fee>
+    <delete-fee ref="deleteFee" @success="notify"></delete-fee>
+    <edit-fee ref="editFee" @success="notify"></edit-fee>
   </div>
 </template>
 

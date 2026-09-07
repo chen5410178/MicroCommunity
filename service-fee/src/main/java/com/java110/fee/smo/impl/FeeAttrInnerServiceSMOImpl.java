@@ -61,6 +61,10 @@ public class FeeAttrInnerServiceSMOImpl extends BaseServiceSMO implements IFeeAt
     @Override
     public int saveFeeAttrs(@RequestBody List<FeeAttrPo> feeAttrPos) {
 
+        if (feeAttrPos == null || feeAttrPos.isEmpty()) {
+            return 1;
+        }
+
         List<Map> feeAttrs = new ArrayList<>();
         for (FeeAttrPo feeAttrPo : feeAttrPos) {
             feeAttrs.add(BeanConvertUtil.beanCovertMap(feeAttrPo));

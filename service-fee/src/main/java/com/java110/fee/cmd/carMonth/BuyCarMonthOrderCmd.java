@@ -23,12 +23,7 @@ import com.java110.dto.user.UserDto;
 import com.java110.fee.bill.ICycleConvertOnceFee;
 import com.java110.intf.community.ICommunityMemberV1InnerServiceSMO;
 import com.java110.intf.community.IParkingSpaceInnerServiceSMO;
-import com.java110.intf.fee.IFeeAttrInnerServiceSMO;
-import com.java110.intf.fee.IFeeInnerServiceSMO;
-import com.java110.intf.fee.IPayFeeBatchV1InnerServiceSMO;
-import com.java110.intf.fee.IPayFeeConfigV1InnerServiceSMO;
-import com.java110.intf.fee.IPayFeeDetailV1InnerServiceSMO;
-import com.java110.intf.fee.IPayFeeRuleV1InnerServiceSMO;
+import com.java110.intf.fee.*;
 import com.java110.intf.job.IIotInnerServiceSMO;
 import com.java110.intf.user.*;
 import com.java110.po.car.OwnerCarPo;
@@ -77,6 +72,9 @@ public class BuyCarMonthOrderCmd extends Cmd {
 
     @Autowired
     private IPayFeeDetailV1InnerServiceSMO payFeeDetailV1InnerServiceSMOImpl;
+
+    @Autowired
+    private IPayFeeV1InnerServiceSMO payFeeV1InnerServiceSMOImpl;
 
     @Autowired
     private IParkingSpaceInnerServiceSMO parkingSpaceInnerServiceSMOImpl;
@@ -255,37 +253,22 @@ public class BuyCarMonthOrderCmd extends Cmd {
         feeDto.setStartTime(DateUtil.getDateFromStringB(DateUtil.getFormatTimeStringB(startTime)));
         List<FeeDto> feeDtos = feeInnerServiceSMOImpl.queryFees(feeDto);
 
-        Assert.listOnlyOne(feeDtos, "生成账单失败");
+
+        if(ListUtil.isNull(feeDtos)){
+            throw new CmdException("生成账单失败");
+        }
 
         //todo 缴费对象载体
         PayFeePo payFeePo = new PayFeePo();
         payFeePo.setFeeId(feeDtos.get(0).getFeeId());
         payFeePo.setCommunityId(feeDtos.get(0).getCommunityId());
-        payFeePo.setEndTime(DateUtil.getFormatTimeStringA(feeDtos.get(0).getEndTime()));
+        payFeePo.setState(FeeDto.STATE_FINISH);
+        payFeePo.setOweAmount("0");
 
-        //todo 计算用量
-        List<FeeAttrPo> feeAttrsPos = new ArrayList<>();
-        if (!ListUtil.isNull(ownerCarDtos)) {
-            feeAttrsPos.add(addFeeAttr(payFeePo, FeeAttrDto.SPEC_CD_PAY_OBJECT_NAME,
-                    ownerCarDtos.get(0).getAreaNum() + "-" + ownerCarDtos.get(0).getNum() + "(" + ownerCarDtos.get(0).getCarNum() + ")"));
-        }
 
-        //todo 查询业主信息
-        OwnerDto ownerDto = new OwnerDto();
-        ownerDto.setMemberId(ownerCarDtos.get(0).getOwnerId());
-        ownerDto.setOwnerTypeCd(OwnerDto.OWNER_TYPE_CD_OWNER);
-        List<OwnerDto> ownerDtos = ownerV1InnerServiceSMOImpl.queryOwners(ownerDto);
-        if (!ListUtil.isNull(ownerDtos)) {
+        payFeeV1InnerServiceSMOImpl.updatePayFee(payFeePo);
 
-            feeAttrsPos.add(addFeeAttr(payFeePo, FeeAttrDto.SPEC_CD_ONCE_FEE_DEADLINE_TIME,
-                    payFeePo.getEndTime()));
 
-            feeAttrsPos.add(addFeeAttr(payFeePo, FeeAttrDto.SPEC_CD_OWNER_ID, ownerDtos.get(0).getOwnerId()));
-            feeAttrsPos.add(addFeeAttr(payFeePo, FeeAttrDto.SPEC_CD_OWNER_LINK, ownerDtos.get(0).getLink()));
-            feeAttrsPos.add(addFeeAttr(payFeePo, FeeAttrDto.SPEC_CD_OWNER_NAME, ownerDtos.get(0).getName()));
-
-        }
-        feeAttrInnerServiceSMOImpl.saveFeeAttrs(feeAttrsPos);
         String oId = Java110TransactionalFactory.getOId();
 
         PayFeeDetailPo payFeeDetailPo = new PayFeeDetailPo();
@@ -318,6 +301,7 @@ public class BuyCarMonthOrderCmd extends Cmd {
         payFeeDetailPo.setCashierId("-1");
 
         payFeeDetailV1InnerServiceSMOImpl.savePayFeeDetailNew(payFeeDetailPo);
+
 
         //todo 修改车辆时间
         OwnerCarPo ownerCarPo = new OwnerCarPo();
