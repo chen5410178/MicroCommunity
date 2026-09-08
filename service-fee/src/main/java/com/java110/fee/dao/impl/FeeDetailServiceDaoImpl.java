@@ -126,6 +126,18 @@ public class FeeDetailServiceDaoImpl extends BaseServiceDao implements IFeeDetai
     }
 
     @Override
+    public double queryFeeDetailAmount(Map info) {
+        logger.debug("查询费用明细金额合计 入参 info : {}",info);
+
+        List<Map> businessFeeDetailInfos = sqlSessionTemplate.selectList("feeDetailServiceDaoImpl.queryFeeDetailAmount", info);
+        if (businessFeeDetailInfos.size() < 1 || businessFeeDetailInfos.get(0).get("amount") == null) {
+            return 0.0;
+        }
+
+        return Double.parseDouble(businessFeeDetailInfos.get(0).get("amount").toString());
+    }
+
+    @Override
     public void saveFeeDetail(Map feeDetail) throws DAOException {
         logger.debug("保存明细 入参 info : {}",feeDetail);
 

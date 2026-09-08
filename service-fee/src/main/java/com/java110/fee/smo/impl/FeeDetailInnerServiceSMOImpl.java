@@ -87,6 +87,11 @@ public class FeeDetailInnerServiceSMOImpl extends BaseServiceSMO implements IFee
     }
 
     @Override
+    public double queryFeeDetailAmount(@RequestBody FeeDetailDto feeDetailDto) {
+        return feeDetailServiceDaoImpl.queryFeeDetailAmount(BeanConvertUtil.beanCovertMap(feeDetailDto));
+    }
+
+    @Override
     @Java110Transactional
     public int saveFeeDetail(@RequestBody PayFeeDetailPo payFeeDetailPo) {
         feeDetailServiceDaoImpl.saveFeeDetail(BeanConvertUtil.beanCovertMap(payFeeDetailPo));

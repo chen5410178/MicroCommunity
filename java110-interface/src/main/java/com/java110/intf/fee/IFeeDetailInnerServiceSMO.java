@@ -50,6 +50,15 @@ public interface IFeeDetailInnerServiceSMO {
     int queryFeeDetailsCount(@RequestBody FeeDetailDto feeDetailDto);
 
     /**
+     * 查询费用明细金额合计
+     *
+     * @param feeDetailDto 数据对象分享
+     * @return 金额合计
+     */
+    @RequestMapping(value = "/queryFeeDetailAmount", method = RequestMethod.POST)
+    double queryFeeDetailAmount(@RequestBody FeeDetailDto feeDetailDto);
+
+    /**
      * 保存费用明细
      *
      * @param payFeeDetailPo

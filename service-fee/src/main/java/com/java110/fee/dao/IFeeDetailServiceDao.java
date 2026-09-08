@@ -72,6 +72,14 @@ public interface IFeeDetailServiceDao {
     int queryFeeDetailsCount(Map info);
 
     /**
+     * 查询费用明细金额合计（未开票合计等）
+     *
+     * @param info 费用明细信息
+     * @return 金额合计
+     */
+    double queryFeeDetailAmount(Map info);
+
+    /**
      * 保存 费用明细信息
      *
      * @param feeDetail 费用明细信息 封装

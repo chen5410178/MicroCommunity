@@ -360,4 +360,23 @@ DELETE FROM `c_route` WHERE service_id IN ('982026090800000001','982026090800000
 DELETE FROM `c_service` WHERE service_id IN ('982026090800000001','982026090800000003','982026090800000004','982026090800000005','982026090800000006');
 ```
 
+## 2026-09-08 — 业主端开票页 App 专用接口注册（c_service / c_route）
+
+配合业主端发票页改版（`WechatOwnerServiceV2/pages/invoice/invoice.vue`：未开票缴费单选 + 已开票记录 + 申请开票弹层），新增手机端 App 专用查询命令（不复用通用查询接口）：
+
+- `fee.queryAppUnInvoiceFeeDetail`（`service-fee/.../cmd/fee/QueryAppUnInvoiceFeeDetailCmd.java`）：validate 从请求头 `user-id` 校验业主绑定并写入 `ownerId/applyTel`；查询当前业主 `open_invoice='N'` 且已支付(state=1400) 的缴费明细分页，`sumTotal` 返回未开票合计金额（新增 `queryFeeDetailAmount` 合计查询）。
+- `invoice.queryAppInvoiceApply`（`service-acct/.../cmd/invoice/QueryAppInvoiceApplyCmd.java`）：按 `communityId + applyTel`（业主档案手机号，服务端从登录态推导，不信任前端传参）分页查询已开票记录，返回 `{records,total,data}`。
+
+```sql
+-- ① c_service 服务注册
+INSERT INTO `c_service` VALUES ('2103', '982026090800000007', 'fee.queryAppUnInvoiceFeeDetail', 'API', '查询未开票缴费明细(业主端)', '1', NULL, 'CMD', 'http://fee-service', 'GET', '60', '3', '8000418002', '2026-09-08 18:30:00', '0');
+INSERT INTO `c_service` VALUES ('2104', '982026090800000008', 'invoice.queryAppInvoiceApply', 'API', '查询已开票记录(业主端)', '1', NULL, 'CMD', 'http://acct-service', 'GET', '60', '3', '8000418002', '2026-09-08 18:30:00', '0');
+
+-- ② c_route 路由配置（业主端 app 992020061452450002，与 owner.queryAppOwnerCars 等 App 命令同 app）
+INSERT INTO `c_route` VALUES ('3089', '992020061452450002', '982026090800000007', 'Q', '1000', 'S', '2026-09-08 18:30:00', '0');
+INSERT INTO `c_route` VALUES ('3090', '992020061452450002', '982026090800000008', 'Q', '1000', 'S', '2026-09-08 18:30:00', '0');
+```
+
+> 注：执行后需刷新 AppRouteCache 或重启 service-api；提交开票仍复用 `invoice.saveInvoiceApply`（已注册），无需新增。
+
 
