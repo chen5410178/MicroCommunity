@@ -20391,13 +20391,8 @@ INSERT INTO `c_route` VALUES ('3079', '8000418004', '9820260827000001', 'Q', nul
 INSERT INTO `c_route` VALUES ('3080', '8000418004', '9820260827000002', 'Q', null, 'S', '2026-08-27 13:53:40', '0');
 INSERT INTO `c_route` VALUES ('3081', '8000418004', '982026082700000009', 'Q', '1000', 'S', '2026-08-28 09:00:00', '0');
 INSERT INTO `c_route` VALUES ('3082', '8000418004', '982026082800000001', 'Q', '1000', 'S', '2026-08-28 10:00:00', '0');
--- 2026-09-08 按房屋开票: owner.queryOwnerByRoom 与 发票抬头商城统一管理接口路由
-INSERT INTO `c_route` VALUES ('3083', '8000418004', '982026090800000001', 'Q', '1000', 'S', '2026-09-08 15:00:00', '0');
+-- 2026-09-08 按房屋开票: 发票抬头商城统一管理接口路由(仅保留 queryInvoiceHeadings, 其余冗余接口已撤销)
 INSERT INTO `c_route` VALUES ('3084', '8000418004', '982026090800000002', 'Q', '1000', 'S', '2026-09-08 15:00:00', '0');
-INSERT INTO `c_route` VALUES ('3085', '8000418004', '982026090800000003', 'Q', '1000', 'S', '2026-09-08 15:00:00', '0');
-INSERT INTO `c_route` VALUES ('3086', '8000418004', '982026090800000004', 'Q', '1000', 'S', '2026-09-08 15:00:00', '0');
-INSERT INTO `c_route` VALUES ('3087', '8000418004', '982026090800000005', 'Q', '1000', 'S', '2026-09-08 15:00:00', '0');
-INSERT INTO `c_route` VALUES ('3088', '8000418004', '982026090800000006', 'Q', '1000', 'S', '2026-09-08 15:00:00', '0');
 
 -- ----------------------------
 -- Table structure for c_service
@@ -22470,13 +22465,8 @@ INSERT INTO `c_service` VALUES ('2093', '9820260827000001', 'cache.queryCache', 
 INSERT INTO `c_service` VALUES ('2094', '9820260827000002', 'cache.flushCache', 'API', '刷新缓存', '1', null, 'CMD', 'http://dev-service', 'POST', '60', '3', '8000418002', '2026-08-27 13:53:02', '0');
 INSERT INTO `c_service` VALUES ('2095', '982026082700000009', 'parkingArea.queryParkingAreaAndSectionsHasOwner', 'API', '查询有主车位的停车场及停车区域', '1', null, 'CMD', 'http://community-service', 'GET', '60', '3', '8000418002', '2026-08-28 09:00:00', '0');
 INSERT INTO `c_service` VALUES ('2096', '982026082800000001', 'reportFeeMonthStatistics.queryReportFeeDetailParkingSpace', 'API', '查询车位费用明细', '1', null, 'CMD', 'http://report-service', 'GET', '60', '3', '8000418002', '2026-08-28 10:00:00', '0');
--- 2026-09-08 按房屋开票: 新增 owner.queryOwnerByRoom(按房屋查业主) 与 发票抬头商城统一管理接口
-INSERT INTO `c_service` VALUES ('2097', '982026090800000001', 'owner.queryOwnerByRoom', 'API', '按房屋查询业主', '1', null, 'CMD', 'http://user-service', 'GET', '60', '3', '8000418002', '2026-09-08 15:00:00', '0');
+-- 2026-09-08 按房屋开票: 发票抬头商城统一管理接口(仅保留 queryInvoiceHeadings, 其余冗余接口已撤销)
 INSERT INTO `c_service` VALUES ('2098', '982026090800000002', 'invoice.queryInvoiceHeadings', 'API', '查询发票抬头(商城)', '1', null, 'CMD', 'http://acct-service', 'GET', '60', '3', '8000418002', '2026-09-08 15:00:00', '0');
-INSERT INTO `c_service` VALUES ('2099', '982026090800000003', 'invoice.saveInvoiceHeading', 'API', '保存发票抬头(商城)', '1', null, 'CMD', 'http://acct-service', 'POST', '60', '3', '8000418002', '2026-09-08 15:00:00', '0');
-INSERT INTO `c_service` VALUES ('2100', '982026090800000004', 'invoice.deleteInvoiceHeading', 'API', '删除发票抬头(商城)', '1', null, 'CMD', 'http://acct-service', 'POST', '60', '3', '8000418002', '2026-09-08 15:00:00', '0');
-INSERT INTO `c_service` VALUES ('2101', '982026090800000005', 'invoice.setInvoiceHeadingDefault', 'API', '设置默认发票抬头(商城)', '1', null, 'CMD', 'http://acct-service', 'POST', '60', '3', '8000418002', '2026-09-08 15:00:00', '0');
-INSERT INTO `c_service` VALUES ('2102', '982026090800000006', 'invoice.getMyInvoiceHeading', 'API', '查询默认发票抬头(商城)', '1', null, 'CMD', 'http://acct-service', 'GET', '60', '3', '8000418002', '2026-09-08 15:00:00', '0');
 
 -- ----------------------------
 -- Table structure for c_service_business

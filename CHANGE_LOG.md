@@ -326,5 +326,38 @@ ALTER TABLE `invoice_apply`
 ```sql
 ALTER TABLE `invoice_apply`
   ADD COLUMN `invoice_kind` varchar(12) NOT NULL DEFAULT '普票' COMMENT '发票种类(普票/专票)' AFTER `invoice_type`;
+
+  -- ① 服务定义 c_service
+INSERT INTO `c_service` VALUES ('2098', '982026090800000002', 'invoice.queryInvoiceHeadings', 'API', '查询发票抬头(商城)', '1', null, 'CMD', 'http://acct-service', 'GET', '60', '3', '8000418002', '2026-09-08 15:00:00', '0');
+
+-- ② 路由关系 c_route(物业端 app 8000418004)
+INSERT INTO `c_route` VALUES ('3084', '8000418004', '982026090800000002', 'Q', '1000', 'S', '2026-09-08 15:00:00', '0');
 ```
+
+## 2026-09-09 — 撤销发票相关冗余接口注册（保留 queryInvoiceHeadings）
+
+### 背景
+
+物业端按房屋开票页(`pc-web/src/views/fee/ownerApplyInvoiceList.vue`)仅实际调用 `invoice.queryInvoiceHeadings`（选房后回填商城抬头）；抬头保存/更新由提交开票 `invoice.saveInvoiceApply` 内部 `syncInvoiceHeadingToMall()` 统一同步商城，无需独立接口。其余 5 个接口在本仓库内无调用方，属冗余注册。
+
+### 变更内容
+
+1. **删除 5 个 CMD 类**（无历史调用方）：
+   - `service-user/src/main/java/com/java110/user/cmd/owner/QueryOwnerByRoomCmd.java`（前端选房用 `room.queryRooms` 已含业主）
+   - `service-acct/src/main/java/com/java110/acct/cmd/invoice/SaveInvoiceHeadingCmd.java`（开票时已同步）
+   - `service-acct/src/main/java/com/java110/acct/cmd/invoice/DeleteInvoiceHeadingCmd.java`（无调用方）
+   - `service-acct/src/main/java/com/java110/acct/cmd/invoice/SetInvoiceHeadingDefaultCmd.java`（无调用方）
+   - `service-acct/src/main/java/com/java110/acct/cmd/invoice/GetMyInvoiceHeadingCmd.java`（当前无调用方，原为 IoT 对齐预留）
+2. **保留**：`QueryInvoiceHeadingsCmd.java`（`invoice.queryInvoiceHeadings` c_service 2098 = 982026090800000002，c_route 3084）与 `SaveInvoiceApplyCmd.java`（syncInvoiceHeadingToMall 为抬头保存/更新单一通道）。
+3. **数据库基线脚本**：`docs/db/TT.sql` 已同步，删除 c_service 2097/2099/2100/2101/2102 与 c_route 3083/3085/3086/3087/3088 注册，仅保留 2098/3084；`docs/sql/invoice/register_invoice_service.sql` 精简为仅注册 `invoice.queryInvoiceHeadings`。
+
+> 注意：c_route 主键 id 存在跨历史自增占用（如 2097/2099/2100/2101/2102 在 c_route 表中曾为 2022 年其他服务使用），**执行撤销 SQL 时按 service_id 精确匹配删除**，避免误删历史路由。模板如下：
+
+```sql
+-- 撤销 5 个冗余接口注册（目标库执行，执行后刷新 AppRouteCache 或重启 service-api）
+-- c_route 主键为 id（3083/3085/3086/3087/3088），按 service_id 精确匹配删除更安全
+DELETE FROM `c_route` WHERE service_id IN ('982026090800000001','982026090800000003','982026090800000004','982026090800000005','982026090800000006');
+DELETE FROM `c_service` WHERE service_id IN ('982026090800000001','982026090800000003','982026090800000004','982026090800000005','982026090800000006');
+```
+
 

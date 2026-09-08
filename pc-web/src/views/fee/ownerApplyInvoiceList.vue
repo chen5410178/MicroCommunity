@@ -31,7 +31,7 @@
         </el-row>
 
         <el-row :gutter="20">
-          <el-col :span="8">
+          <el-col :span="12">
             <el-form-item :label="$t('ownerApplyInvoice.invoiceKind')" required>
               <el-select v-model="formData.invoiceKind" :placeholder="$t('ownerApplyInvoice.invoiceKindPlaceholder')"
                 style="width:100%" @change="handleInvoiceKindChange">
@@ -52,16 +52,11 @@
         </el-row>
 
         <el-row :gutter="20">
-          <el-col :span="8">
+          <el-col :span="12">
             <el-form-item :label="$t('ownerApplyInvoice.invoiceTitle')">
               <el-input v-model="formData.invoiceName" :placeholder="$t('ownerApplyInvoice.invoiceTitlePlaceholder')" />
             </el-form-item>
           </el-col>
-          <el-col :span="4" class="text-left">
-            <el-button v-if="formData.invoiceLink" type="primary" size="small"
-              style="margin-left: 150px; margin-bottom: 20px" @click="openSearchHeading">
-              {{ $t('ownerApplyInvoice.chooseExistingHeading') }}
-            </el-button></el-col>
           <el-col :span="12">
             <el-form-item :label="$t('ownerApplyInvoice.taxpayerId')">
               <el-input v-model="formData.invoiceNum" :placeholder="$t('ownerApplyInvoice.taxpayerIdPlaceholder')" />
@@ -151,25 +146,21 @@
     </div>
 
     <room-tree ref="roomTree" @selectRoom="handleChooseRoom" />
-    <search-owner-invoice ref="searchOwnerInvoice" :visible.sync="showSearchHeading" @select="handleHeadingSelect" />
   </div>
 </template>
 
 <script>
 import { queryRooms, queryFeeDetail, saveInvoiceApply, listInvoiceHeadings } from '@/api/fee/ownerApplyInvoiceApi'
 import RoomTree from '@/components/room/roomTree'
-import SearchOwnerInvoice from '@/components/fee/searchOwnerInvoice'
 import { dateFormat } from '@/utils/dateUtil'
 
 export default {
   name: 'OwnerApplyInvoiceList',
   components: {
-    RoomTree,
-    SearchOwnerInvoice
+    RoomTree
   },
   data() {
     return {
-      showSearchHeading: false,
       roomName: '',
       roomId: '',
       formData: {
@@ -292,6 +283,7 @@ export default {
           page: 1,
           row: 50,
           ownerId: this.formData.ownerId,
+          state: '1400',
           openInvoice: 'N'
         })
         this.feeDetails = feeDetails || []
@@ -299,18 +291,6 @@ export default {
         console.error('Failed to load fee details:', error)
         this.$message.error(this.$t('common.loadFailed'))
       }
-    },
-    openSearchHeading() {
-      if (!this.formData.invoiceLink) return
-      this.showSearchHeading = true
-      this.$nextTick(() => {
-        if (this.$refs.searchOwnerInvoice) {
-          this.$refs.searchOwnerInvoice.open(this.formData.invoiceLink)
-        }
-      })
-    },
-    handleHeadingSelect(heading) {
-      this.applyHeading(heading)
     },
     async handleSubmit() {
       if (!this.formData.ownerId) {
