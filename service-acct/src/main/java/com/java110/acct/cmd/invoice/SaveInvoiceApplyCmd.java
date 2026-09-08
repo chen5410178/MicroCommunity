@@ -112,6 +112,15 @@ public class SaveInvoiceApplyCmd extends Cmd {
         Assert.hasKeyAndValue(reqJson, "ownerName", "请求报文中未包含ownerName");
         Assert.hasKeyAndValue(reqJson, "communityId", "请求报文中未包含communityId");
 
+        //todo 专票前置校验(防开票失败回写F): 企业抬头+税号+开户行必填
+        if ("专票".equals(reqJson.getString("invoiceKind"))) {
+            if (!"2002".equals(reqJson.getString("invoiceType"))) {
+                throw new CmdException("专票必须为企业抬头");
+            }
+            Assert.hasKeyAndValue(reqJson, "invoiceNum", "专票必须填写纳税人识别号");
+            Assert.hasKeyAndValue(reqJson, "invoiceAccount", "专票必须填写开户行及账号");
+        }
+
         //todo 查询业主档案补充申请手机号(商城抬头归属手机号)
         if (reqJson.containsKey("ownerId")) {
             OwnerDto ownerDto = new OwnerDto();
@@ -154,6 +163,9 @@ public class SaveInvoiceApplyCmd extends Cmd {
         invoiceApplyPo.setApplyId(GenerateCodeFactory.getGeneratorId(CODE_PREFIX_ID));
         if (StringUtil.isEmpty(invoiceApplyPo.getOiId())) {
             invoiceApplyPo.setOiId("-1");
+        }
+        if (StringUtil.isEmpty(invoiceApplyPo.getInvoiceKind())) {
+            invoiceApplyPo.setInvoiceKind("普票");
         }
 
         List<InvoiceApplyItemPo> invoiceApplyItemPos = new ArrayList<>();

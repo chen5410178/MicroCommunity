@@ -53,7 +53,6 @@ public class IssueMallInvoiceBmoImpl implements IIssueMallInvoiceBmo {
     private static Logger logger = LoggerFactory.getLogger(IssueMallInvoiceBmoImpl.class);
 
     private static final String ORG_TYPE_COMMUNITY = "C";
-    private static final String INVOICE_TYPE = "普票";
     private static final String STATE_DONE = "DONE";
     private static final String FAIL_REASON_UNCONFIGURED = "商城开票未生效(未开启商城或返回异常)";
 
@@ -105,7 +104,11 @@ public class IssueMallInvoiceBmoImpl implements IIssueMallInvoiceBmo {
         data.put("buyerTaxNo", buyerTaxNo);
         data.put("buyerAddress", buyerAddress);
         data.put("buyerTel", applyTel);
-        data.put("invoiceType", INVOICE_TYPE);
+        String invoiceKind = invoiceApply.getInvoiceKind();
+        if (StringUtil.isEmpty(invoiceKind)) {
+            invoiceKind = "普票";
+        }
+        data.put("invoiceType", invoiceKind);
         data.put("amount", invoiceApply.getInvoiceAmount());
         JSONArray itemArray = new JSONArray();
         String firstBizCategory = "";

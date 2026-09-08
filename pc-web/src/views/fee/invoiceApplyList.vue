@@ -26,6 +26,13 @@
                   <el-input v-model="conditions.invoiceCode" :placeholder="$t('invoiceApply.invoiceCodePlaceholder')" />
                 </el-col>
                 <el-col :span="4">
+                  <el-select v-model="conditions.invoiceKind" :placeholder="$t('invoiceApply.invoiceKindPlaceholder')">
+                    <el-option :label="$t('invoiceApply.invoiceKindAll')" value="" />
+                    <el-option :label="$t('invoiceApply.normalInvoice')" value="普票" />
+                    <el-option :label="$t('invoiceApply.specialInvoice')" value="专票" />
+                  </el-select>
+                </el-col>
+                <el-col :span="4">
                   <el-select v-model="conditions.invoiceType" :placeholder="$t('invoiceApply.invoiceTypePlaceholder')">
                     <el-option label="请选择发票类型" value="" />
                     <el-option label="个人" value="1001" />
@@ -62,6 +69,11 @@
               </div>
               <el-table :data="invoiceApplys" border style="width: 100%">
                 <el-table-column prop="applyId" :label="$t('invoiceApply.table.id')" align="center" />
+                <el-table-column :label="$t('invoiceApply.table.invoiceKind')" align="center">
+                  <template slot-scope="scope">
+                    {{ scope.row.invoiceKind || $t('invoiceApply.normalInvoice') }}
+                  </template>
+                </el-table-column>
                 <el-table-column prop="invoiceType" :label="$t('invoiceApply.table.invoiceType')" align="center">
                   <template slot-scope="scope">
                     {{ scope.row.invoiceType === '1001' ? $t('invoiceApply.personal') : $t('invoiceApply.company') }}
@@ -160,6 +172,7 @@ export default {
       ],
       conditions: {
         invoiceCode: '',
+        invoiceKind: '',
         invoiceType: '',
         ownerName: '',
         applyTel: '',

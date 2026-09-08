@@ -1,12 +1,12 @@
 import request from '@/utils/request'
 import { getCommunityId } from '@/api/community/communityApi'
 
-// 按房屋查询业主(户主)
-export function queryOwnerByRoom(params) {
+// 按房屋查询(含业主信息: ownerId/ownerName/link)
+export function queryRooms(params) {
   return new Promise((resolve, reject) => {
     const communityId = getCommunityId()
     request({
-      url: '/owner.queryOwnerByRoom',
+      url: '/room.queryRooms',
       method: 'get',
       params: {
         ...params,

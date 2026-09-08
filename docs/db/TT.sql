@@ -26060,6 +26060,7 @@ CREATE TABLE `invoice_apply` (
   `apply_id` varchar(30) NOT NULL COMMENT 'ID',
   `oi_id` varchar(30) NOT NULL COMMENT '业主发票ID(抬头同步商城后不再使用, 传-1)',
   `invoice_type` varchar(12) NOT NULL COMMENT '发票类型 1001 个人 2002 企业',
+  `invoice_kind` varchar(12) NOT NULL DEFAULT '普票' COMMENT '发票种类(普票/专票)',
   `owner_name` varchar(64) NOT NULL COMMENT '业主名称',
   `invoice_name` varchar(64) DEFAULT NULL COMMENT '发票名头(抬头快照)',
   `invoice_num` varchar(64) DEFAULT NULL COMMENT '纳税人识别号(抬头快照)',

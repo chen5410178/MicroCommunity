@@ -23,11 +23,29 @@
               {{ $t('ownerApplyInvoice.chooseRoom') }}
             </el-button></el-col>
           <el-col :span="12">
-            <el-form-item :label="$t('ownerApplyInvoice.owner')" required>
-              <el-select v-model="formData.ownerId" :placeholder="$t('ownerApplyInvoice.ownerPlaceholder')"
-                style="width:100%" @change="handleOwnerChange">
-                <el-option v-for="item in owners" :key="item.memberId || item.ownerId" :label="item.name"
-                  :value="item.memberId || item.ownerId" />
+            <el-form-item :label="$t('ownerApplyInvoice.owner')">
+              <el-input v-model="formData.ownerName" :placeholder="$t('ownerApplyInvoice.ownerNamePlaceholder')"
+                disabled />
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <el-form-item :label="$t('ownerApplyInvoice.invoiceKind')" required>
+              <el-select v-model="formData.invoiceKind" :placeholder="$t('ownerApplyInvoice.invoiceKindPlaceholder')"
+                style="width:100%" @change="handleInvoiceKindChange">
+                <el-option :label="$t('ownerApplyInvoice.normalInvoice')" value="普票" />
+                <el-option :label="$t('ownerApplyInvoice.specialInvoice')" value="专票" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item :label="$t('ownerApplyInvoice.invoiceType')" required>
+              <el-select v-model="formData.invoiceType" :placeholder="$t('ownerApplyInvoice.invoiceTypePlaceholder')"
+                :disabled="formData.invoiceKind === '专票'" style="width:100%">
+                <el-option :label="$t('ownerApplyInvoice.personal')" value="1001" />
+                <el-option :label="$t('ownerApplyInvoice.enterprise')" value="2002" />
               </el-select>
             </el-form-item>
           </el-col>
@@ -40,7 +58,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="4" class="text-left">
-            <el-button v-if="currentOwner && currentOwner.link" type="primary" size="small"
+            <el-button v-if="formData.invoiceLink" type="primary" size="small"
               style="margin-left: 150px; margin-bottom: 20px" @click="openSearchHeading">
               {{ $t('ownerApplyInvoice.chooseExistingHeading') }}
             </el-button></el-col>
@@ -52,43 +70,34 @@
         </el-row>
 
         <el-row :gutter="20">
-          <el-col :span="8">
-            <el-form-item :label="$t('ownerApplyInvoice.invoiceType')" required>
-              <el-select v-model="formData.invoiceType" :placeholder="$t('ownerApplyInvoice.invoiceTypePlaceholder')"
-                style="width:100%">
-                <el-option :label="$t('ownerApplyInvoice.personal')" value="1001" />
-                <el-option :label="$t('ownerApplyInvoice.enterprise')" value="2002" />
-              </el-select>
-            </el-form-item>
-          </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('ownerApplyInvoice.contactPhone')" required>
               <el-input v-model="formData.invoiceLink" :placeholder="$t('ownerApplyInvoice.contactPhonePlaceholder')"
                 disabled />
             </el-form-item>
           </el-col>
-        </el-row>
-
-        <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item :label="$t('ownerApplyInvoice.addressPhone')">
               <el-input v-model="formData.invoiceAddress" :placeholder="$t('ownerApplyInvoice.addressPlaceholder')" />
             </el-form-item>
           </el-col>
+        </el-row>
+
+        <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item :label="$t('ownerApplyInvoice.email')">
               <el-input v-model="formData.email" :placeholder="$t('ownerApplyInvoice.emailPlaceholder')" />
             </el-form-item>
           </el-col>
-        </el-row>
-
-        <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item :label="$t('ownerApplyInvoice.bankAccount')">
               <el-input v-model="formData.invoiceAccount"
                 :placeholder="$t('ownerApplyInvoice.bankAccountPlaceholder')" />
             </el-form-item>
           </el-col>
+        </el-row>
+
+        <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item :label="$t('ownerApplyInvoice.remark')">
               <el-input v-model="formData.remark" :placeholder="$t('ownerApplyInvoice.remarkPlaceholder')" />
@@ -141,21 +150,21 @@
       </el-button>
     </div>
 
-    <search-room ref="searchRoomRef" @chooseRoom="handleChooseRoom" />
+    <room-tree ref="roomTree" @selectRoom="handleChooseRoom" />
     <search-owner-invoice ref="searchOwnerInvoice" :visible.sync="showSearchHeading" @select="handleHeadingSelect" />
   </div>
 </template>
 
 <script>
-import { queryOwnerByRoom, queryFeeDetail, saveInvoiceApply, listInvoiceHeadings } from '@/api/fee/ownerApplyInvoiceApi'
-import SearchRoom from '@/components/room/searchRoom'
+import { queryRooms, queryFeeDetail, saveInvoiceApply, listInvoiceHeadings } from '@/api/fee/ownerApplyInvoiceApi'
+import RoomTree from '@/components/room/roomTree'
 import SearchOwnerInvoice from '@/components/fee/searchOwnerInvoice'
 import { dateFormat } from '@/utils/dateUtil'
 
 export default {
   name: 'OwnerApplyInvoiceList',
   components: {
-    SearchRoom,
+    RoomTree,
     SearchOwnerInvoice
   },
   data() {
@@ -163,11 +172,10 @@ export default {
       showSearchHeading: false,
       roomName: '',
       roomId: '',
-      owners: [],
-      currentOwner: null,
       formData: {
         ownerId: '',
         ownerName: '',
+        invoiceKind: '普票',
         invoiceType: '',
         invoiceName: '',
         invoiceNum: '',
@@ -187,41 +195,43 @@ export default {
       this.$router.go(-1)
     },
     openChooseRoom() {
-      if (this.$refs.searchRoomRef) {
-        this.$refs.searchRoomRef.open()
+      if (this.$refs.roomTree) {
+        this.$refs.roomTree.open()
       }
     },
     handleChooseRoom(room) {
       this.roomId = room.roomId
-      this.roomName = room.floorNum + '-' + room.unitNum + '-' + room.roomNum
-      this.owners = []
-      this.currentOwner = null
+      this.roomName = room.roomName
       this.resetOwnerData()
       this.clearHeadingForm()
-      this.loadOwners()
+      this.loadRoomOwner()
     },
-    async loadOwners() {
+    async loadRoomOwner() {
       try {
-        const res = await queryOwnerByRoom({
+        const res = await queryRooms({
           page: 1,
-          row: 50,
+          row: 10,
           roomId: this.roomId
         })
-        this.owners = res.data || []
-        if (!this.owners.length) {
+        const rooms = res.rooms || []
+        if (!rooms.length || !rooms[0].ownerId) {
           this.$message.warning(this.$t('ownerApplyInvoice.noOwner'))
-          this.owners = []
-          this.currentOwner = null
-          this.resetOwnerData()
           return
         }
-        // 未选择业主时自动带出第一个
-        if (!this.formData.ownerId) {
-          this.formData.ownerId = this.owners[0].memberId || this.owners[0].ownerId
-          this.handleOwnerChange(this.formData.ownerId)
+        const room = rooms[0]
+        this.formData.ownerId = room.ownerId
+        this.formData.ownerName = room.ownerName
+        this.formData.invoiceLink = room.link
+
+        if (!room.link) {
+          this.$message.warning(this.$t('ownerApplyInvoice.ownerNoPhone'))
+          return
         }
+
+        this.loadFeeDetails()
+        this.loadHeadings(room.link)
       } catch (error) {
-        console.error('Failed to load owners:', error)
+        console.error('Failed to load room owner:', error)
         this.$message.error(this.$t('common.loadFailed'))
       }
     },
@@ -232,26 +242,10 @@ export default {
       this.feeDetails = []
       this.selectedDetailId = ''
     },
-    handleOwnerChange(ownerId) {
-      const owner = this.owners.find(item => (item.memberId || item.ownerId) === ownerId)
-      this.currentOwner = owner || null
-      this.formData.ownerId = ownerId
-      this.formData.ownerName = owner ? owner.name : ''
-      this.formData.invoiceLink = owner ? owner.link : ''
-
-      this.feeDetails = []
-      this.selectedDetailId = ''
-      this.clearHeadingForm()
-
-      if (!owner) return
-
-      if (!owner.link) {
-        this.$message.warning(this.$t('ownerApplyInvoice.ownerNoPhone'))
-        return
+    handleInvoiceKindChange(invoiceKind) {
+      if (invoiceKind === '专票') {
+        this.formData.invoiceType = '2002'
       }
-
-      this.loadFeeDetails()
-      this.loadHeadings(owner.link)
     },
     clearHeadingForm() {
       this.formData.invoiceType = ''
@@ -279,11 +273,15 @@ export default {
       }
     },
     applyHeading(heading) {
-      this.formData.invoiceType = heading.headingType === '公司' ? '2002' : '1001'
+      if (this.formData.invoiceKind === '专票') {
+        this.formData.invoiceType = '2002'
+      } else {
+        this.formData.invoiceType = heading.headingType === '公司' ? '2002' : '1001'
+      }
       this.formData.invoiceName = heading.headingName
       this.formData.invoiceNum = heading.taxNo
       this.formData.invoiceAddress = heading.address
-      this.formData.invoiceLink = this.currentOwner && this.currentOwner.link ? this.currentOwner.link : heading.phone
+      this.formData.invoiceLink = this.formData.invoiceLink || heading.phone
       this.formData.email = heading.email
       this.formData.invoiceAccount = heading.bankNo
       this.formData.remark = heading.remark
@@ -303,11 +301,11 @@ export default {
       }
     },
     openSearchHeading() {
-      if (!this.currentOwner || !this.currentOwner.link) return
+      if (!this.formData.invoiceLink) return
       this.showSearchHeading = true
       this.$nextTick(() => {
         if (this.$refs.searchOwnerInvoice) {
-          this.$refs.searchOwnerInvoice.open(this.currentOwner.link)
+          this.$refs.searchOwnerInvoice.open(this.formData.invoiceLink)
         }
       })
     },
@@ -323,6 +321,10 @@ export default {
         this.$message.warning(this.$t('ownerApplyInvoice.ownerNoPhone'))
         return
       }
+      if (!this.formData.invoiceKind) {
+        this.$message.warning(this.$t('ownerApplyInvoice.invoiceKindRequired'))
+        return
+      }
       if (!this.formData.invoiceType) {
         this.$message.warning(this.$t('ownerApplyInvoice.invoiceTypeRequired'))
         return
@@ -330,6 +332,16 @@ export default {
       if (!this.formData.invoiceName) {
         this.$message.warning(this.$t('ownerApplyInvoice.invoiceTitleRequired'))
         return
+      }
+      if (this.formData.invoiceKind === '专票') {
+        if (!this.formData.invoiceNum) {
+          this.$message.warning(this.$t('ownerApplyInvoice.taxNoRequired'))
+          return
+        }
+        if (!this.formData.invoiceAccount) {
+          this.$message.warning(this.$t('ownerApplyInvoice.bankAccountRequired'))
+          return
+        }
       }
       if (!this.selectedDetailId) {
         this.$message.warning(this.$t('ownerApplyInvoice.noFeeSelected'))

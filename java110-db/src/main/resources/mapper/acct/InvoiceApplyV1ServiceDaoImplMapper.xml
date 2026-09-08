@@ -8,9 +8,9 @@
     <!-- 保存发票申请信息 add by wuxw 2018-07-03 -->
     <insert id="saveInvoiceApplyInfo" parameterType="Map">
         insert into invoice_apply(
-        apply_id,oi_id,create_user_id,owner_name,invoice_type,invoice_name,invoice_num,invoice_address,apply_tel,invoice_amount,create_user_name,remark,state,community_id
+        apply_id,oi_id,create_user_id,owner_name,invoice_type,invoice_kind,invoice_name,invoice_num,invoice_address,apply_tel,invoice_amount,create_user_name,remark,state,community_id
         ) values (
-        #{applyId},#{oiId},#{createUserId},#{ownerName},#{invoiceType},#{invoiceName},#{invoiceNum},#{invoiceAddress},#{applyTel},#{invoiceAmount},#{createUserName},#{remark},#{state},#{communityId}
+        #{applyId},#{oiId},#{createUserId},#{ownerName},#{invoiceType},#{invoiceKind},#{invoiceName},#{invoiceNum},#{invoiceAddress},#{applyTel},#{invoiceAmount},#{createUserName},#{remark},#{state},#{communityId}
         )
     </insert>
 
@@ -19,7 +19,8 @@
     <select id="getInvoiceApplyInfo" parameterType="Map" resultType="Map">
         select t.apply_id,t.apply_id applyId,t.oi_id,t.oi_id oiId,t.create_user_id,t.create_user_id
         createUserId,t.owner_name,t.owner_name ownerName,t.invoice_type,t.invoice_type
-        invoiceType,t.invoice_name,t.invoice_name invoiceName,t.invoice_num,t.invoice_num invoiceNum,t.invoice_address,t.invoice_address invoiceAddress,
+        invoiceType,t.invoice_kind,t.invoice_kind
+        invoiceKind,t.invoice_name,t.invoice_name invoiceName,t.invoice_num,t.invoice_num invoiceNum,t.invoice_address,t.invoice_address invoiceAddress,
         t.apply_tel,t.apply_tel applyTel,t.invoice_amount,t.invoice_amount
         invoiceAmount,t.create_user_name,t.create_user_name createUserName,t.remark,t.status_cd,t.status_cd
         statusCd,t.state,t.community_id,t.community_id communityId,
@@ -44,6 +45,9 @@
         </if>
         <if test="invoiceType !=null and invoiceType != ''">
             and t.invoice_type= #{invoiceType}
+        </if>
+        <if test="invoiceKind !=null and invoiceKind != ''">
+            and t.invoice_kind= #{invoiceKind}
         </if>
         <if test="applyTel !=null and applyTel != ''">
             and t.apply_tel= #{applyTel}
@@ -144,6 +148,9 @@
         </if>
         <if test="invoiceType !=null and invoiceType != ''">
             and t.invoice_type= #{invoiceType}
+        </if>
+        <if test="invoiceKind !=null and invoiceKind != ''">
+            and t.invoice_kind= #{invoiceKind}
         </if>
         <if test="applyTel !=null and applyTel != ''">
             and t.apply_tel= #{applyTel}

@@ -9,6 +9,7 @@ import com.java110.core.event.cmd.CmdEvent;
 import com.java110.dto.owner.OwnerAppUserDto;
 import com.java110.dto.owner.OwnerCarDto;
 import com.java110.dto.owner.OwnerDto;
+import com.java110.dto.parking.ParkingAreaDto;
 import com.java110.dto.parking.ParkingSpaceDto;
 import com.java110.intf.community.IParkingSpaceInnerServiceSMO;
 import com.java110.intf.user.IOwnerAppUserV1InnerServiceSMO;
@@ -73,48 +74,30 @@ public class QueryParkingSpacesByOwnerCmd extends Cmd{
             throw new CmdException("未认证房屋");
         }
 
+        ParkingSpaceDto parkingSpaceDto = new ParkingSpaceDto();
+        parkingSpaceDto.setCommunityId(reqJson.getString("communityId"));
+        parkingSpaceDto.setOwnerId(memberId);
+        List<ParkingSpaceDto> parkingSpaceDtos = parkingSpaceInnerServiceSMOImpl.queryParkingSpaces(parkingSpaceDto);
 
-        OwnerCarDto ownerCarDto = new OwnerCarDto();
-        ownerCarDto.setOwnerId(memberId);
-        List<OwnerCarDto> ownerCarDtos = ownerCarInnerServiceSMOImpl.queryOwnerCars(ownerCarDto);
 
-        //在没有 停车位的情况下 直接返回空
-        ResponseEntity<String> responseEntity = null;
-        if (ownerCarDtos == null || ownerCarDtos.size() == 0) {
-            responseEntity = new ResponseEntity<String>("{\"parkingSpaces\":[]}", HttpStatus.OK);
-            context.setResponseEntity(responseEntity);
-            return;
-        }
-
-        ParkingSpaceDto parkingSpaceDto = null;
         List<ApiParkingSpaceDataVo> apiParkingSpaceDataVos = new ArrayList<>();
-        for (OwnerCarDto tmpOwnerCarDto : ownerCarDtos) {
 
-            parkingSpaceDto = new ParkingSpaceDto();
-            parkingSpaceDto.setCommunityId(reqJson.getString("communityId"));
-            parkingSpaceDto.setPsId(tmpOwnerCarDto.getPsId());
-            List<ParkingSpaceDto> parkingSpaceDtos = parkingSpaceInnerServiceSMOImpl.queryParkingSpaces(parkingSpaceDto);
-
-            if (parkingSpaceDtos == null || parkingSpaceDtos.size() != 1) {
-                //throw new ListenerExecuteException(ResponseConstant.RESULT_CODE_ERROR, "根据psId 查询存在多条停车位信息" + tmpOwnerCarDto.getPsId());
-                continue;
-            }
+        for(ParkingSpaceDto tmpParkingSpaceDto: parkingSpaceDtos) {
 
             parkingSpaceDto = parkingSpaceDtos.get(0);
 
-            ApiParkingSpaceDataVo apiParkingSpaceDataVo = BeanConvertUtil.covertBean(tmpOwnerCarDto, ApiParkingSpaceDataVo.class);
+            ApiParkingSpaceDataVo apiParkingSpaceDataVo = BeanConvertUtil.covertBean(tmpParkingSpaceDto, ApiParkingSpaceDataVo.class);
 
             apiParkingSpaceDataVo = BeanConvertUtil.covertBean(parkingSpaceDto, apiParkingSpaceDataVo);
-            apiParkingSpaceDataVo.setCarNum(tmpOwnerCarDto.getCarNum());
-            apiParkingSpaceDataVo.setCarType(tmpOwnerCarDto.getCarType());
-            apiParkingSpaceDataVo.setCarTypeName(tmpOwnerCarDto.getCarTypeName());
+            apiParkingSpaceDataVo.setCarNum(tmpParkingSpaceDto.getCarNum());
 
             apiParkingSpaceDataVos.add(apiParkingSpaceDataVo);
-
         }
 
+
+
         apiParkingSpaceVo.setParkingSpaces(apiParkingSpaceDataVos);
-        responseEntity = new ResponseEntity<String>(JSONObject.toJSONString(apiParkingSpaceVo), HttpStatus.OK);
+        ResponseEntity responseEntity = new ResponseEntity<String>(JSONObject.toJSONString(apiParkingSpaceVo), HttpStatus.OK);
         context.setResponseEntity(responseEntity);
     }
 }

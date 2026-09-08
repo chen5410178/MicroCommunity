@@ -619,7 +619,7 @@ const routes = [
         path: '/pages/fee/invoiceApply',
         name: '/pages/fee/invoiceApply',
         component: () => import('@/views/fee/invoiceApplyList.vue'),
-        meta: { title: '发票' }
+        meta: { title: '开票中心' }
       },
       {
         path: '/views/fee/ownerApplyInvoice',
