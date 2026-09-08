@@ -20393,6 +20393,10 @@ INSERT INTO `c_route` VALUES ('3081', '8000418004', '982026082700000009', 'Q', '
 INSERT INTO `c_route` VALUES ('3082', '8000418004', '982026082800000001', 'Q', '1000', 'S', '2026-08-28 10:00:00', '0');
 -- 2026-09-08 按房屋开票: 发票抬头商城统一管理接口路由(仅保留 queryInvoiceHeadings, 其余冗余接口已撤销)
 INSERT INTO `c_route` VALUES ('3084', '8000418004', '982026090800000002', 'Q', '1000', 'S', '2026-09-08 15:00:00', '0');
+-- 2026-09-08 业主端开票页 App 专用接口路由(业主端 app 992020061452450002)
+INSERT INTO `c_route` VALUES ('3089', '992020061452450002', '982026090800000007', 'Q', '1000', 'S', '2026-09-08 18:30:00', '0');
+INSERT INTO `c_route` VALUES ('3090', '992020061452450002', '982026090800000008', 'Q', '1000', 'S', '2026-09-08 18:30:00', '0');
+INSERT INTO `c_route` VALUES ('3091', '992020061452450002', '982026090800000009', 'Q', '1000', 'S', '2026-09-08 19:00:00', '0');
 
 -- ----------------------------
 -- Table structure for c_service
@@ -22467,6 +22471,10 @@ INSERT INTO `c_service` VALUES ('2095', '982026082700000009', 'parkingArea.query
 INSERT INTO `c_service` VALUES ('2096', '982026082800000001', 'reportFeeMonthStatistics.queryReportFeeDetailParkingSpace', 'API', '查询车位费用明细', '1', null, 'CMD', 'http://report-service', 'GET', '60', '3', '8000418002', '2026-08-28 10:00:00', '0');
 -- 2026-09-08 按房屋开票: 发票抬头商城统一管理接口(仅保留 queryInvoiceHeadings, 其余冗余接口已撤销)
 INSERT INTO `c_service` VALUES ('2098', '982026090800000002', 'invoice.queryInvoiceHeadings', 'API', '查询发票抬头(商城)', '1', null, 'CMD', 'http://acct-service', 'GET', '60', '3', '8000418002', '2026-09-08 15:00:00', '0');
+-- 2026-09-08 业主端开票页 App 专用接口
+INSERT INTO `c_service` VALUES ('2103', '982026090800000007', 'fee.queryAppUnInvoiceFeeDetail', 'API', '查询未开票缴费明细(业主端)', '1', null, 'CMD', 'http://fee-service', 'GET', '60', '3', '8000418002', '2026-09-08 18:30:00', '0');
+INSERT INTO `c_service` VALUES ('2104', '982026090800000008', 'invoice.queryAppInvoiceApply', 'API', '查询已开票记录(业主端)', '1', null, 'CMD', 'http://acct-service', 'GET', '60', '3', '8000418002', '2026-09-08 18:30:00', '0');
+INSERT INTO `c_service` VALUES ('2105', '982026090800000009', 'invoice.queryAppInvoiceHeader', 'API', '查询发票抬头(业主端)', '1', null, 'CMD', 'http://acct-service', 'GET', '60', '3', '8000418002', '2026-09-08 19:00:00', '0');
 
 -- ----------------------------
 -- Table structure for c_service_business

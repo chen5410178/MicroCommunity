@@ -267,10 +267,6 @@ public class SaveInvoiceApplyCmd extends Cmd {
             return invoiceAmount;
         }
 
-        if (detailIds.size() > 1) {
-            throw new CmdException("当前仅支持单条开票");
-        }
-
         FeeDetailDto feeDetailDto = new FeeDetailDto();
         feeDetailDto.setDetailIds(detailIds.toArray(new String[detailIds.size()]));
         feeDetailDto.setCommunityId(reqJson.getString("communityId"));
