@@ -32,6 +32,9 @@ public class InvoiceApplyPo implements Serializable {
     private String createUserId;
     private String ownerName;
     private String invoiceType;
+    private String invoiceName;
+    private String invoiceNum;
+    private String invoiceAddress;
     private String applyTel;
     private String invoiceAmount;
     private String createUserName;
@@ -80,6 +83,30 @@ public class InvoiceApplyPo implements Serializable {
 
     public void setInvoiceType(String invoiceType) {
         this.invoiceType = invoiceType;
+    }
+
+    public String getInvoiceName() {
+        return invoiceName;
+    }
+
+    public void setInvoiceName(String invoiceName) {
+        this.invoiceName = invoiceName;
+    }
+
+    public String getInvoiceNum() {
+        return invoiceNum;
+    }
+
+    public void setInvoiceNum(String invoiceNum) {
+        this.invoiceNum = invoiceNum;
+    }
+
+    public String getInvoiceAddress() {
+        return invoiceAddress;
+    }
+
+    public void setInvoiceAddress(String invoiceAddress) {
+        this.invoiceAddress = invoiceAddress;
     }
 
     public String getApplyTel() {

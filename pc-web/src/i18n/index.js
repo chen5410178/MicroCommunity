@@ -108,7 +108,6 @@ import { messages as communitySpaceConfirmMessages } from '../views/community/co
 import { messages as addOwnerCommitteeMessages } from '../views/owner/addOwnerCommitteeLang'
 import { messages as editOwnerCommitteeMessages } from '../views/owner/editOwnerCommitteeLang'
 import { messages as ownerCommitteeDetailMessages } from '../views/owner/ownerCommitteeDetailLang'
-import { messages as ownerInvoiceMessages } from '../views/fee/ownerInvoiceLang'
 import { messages as invoiceApplyMessages } from '../views/fee/invoiceApplyLang'
 import { messages as ownerApplyInvoiceMessages } from '../views/fee/ownerApplyInvoiceLang'
 import { messages as invoiceApplyDetailMessages } from '../views/fee/invoiceApplyDetailLang'
@@ -257,7 +256,6 @@ const messages = {
     ...addOwnerCommitteeMessages.en,
     ...editOwnerCommitteeMessages.en,
     ...ownerCommitteeDetailMessages.en,
-    ...ownerInvoiceMessages.en,
     ...invoiceApplyMessages.en,
     ...ownerApplyInvoiceMessages.en,
     ...invoiceApplyDetailMessages.en,
@@ -399,7 +397,6 @@ const messages = {
     ...addOwnerCommitteeMessages.zh,
     ...editOwnerCommitteeMessages.zh,
     ...ownerCommitteeDetailMessages.zh,
-    ...ownerInvoiceMessages.zh,
     ...invoiceApplyMessages.zh,
     ...ownerApplyInvoiceMessages.zh,
     ...invoiceApplyDetailMessages.zh,
@@ -539,7 +536,6 @@ const messages = {
     ...addOwnerCommitteeMessages['zh-TW'],
     ...editOwnerCommitteeMessages['zh-TW'],
     ...ownerCommitteeDetailMessages['zh-TW'],
-    ...ownerInvoiceMessages['zh-TW'],
     ...invoiceApplyMessages['zh-TW'],
     ...ownerApplyInvoiceMessages['zh-TW'],
     ...invoiceApplyDetailMessages['zh-TW'],

@@ -1,5 +1,7 @@
 package com.java110.dto.invoice;
 
+import com.java110.dto.PageDto;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -12,7 +14,7 @@ import java.util.List;
  * @Version 1.0
  * add by wuxw 2019/4/24
  **/
-public class InvoiceApplyDto extends OwnerInvoiceDto implements Serializable {
+public class InvoiceApplyDto extends PageDto implements Serializable {
 
     public static final String STATE_WAIT = "W";//W待审核 U 待上传 F 审核失败 G 带领用 C 已领用
     public static final String STATE_UPLOAD = "U";//W待审核 U 待上传 F 审核失败 G 带领用 C 已领用
@@ -26,6 +28,12 @@ public class InvoiceApplyDto extends OwnerInvoiceDto implements Serializable {
     private String createUserId;
     private String ownerName;
     private String invoiceType;
+    private String invoiceName;
+    private String invoiceNum;
+    private String invoiceAddress;
+    private String invoiceLink;
+    private String invoiceAccount;
+    private String ownerId;
     private String applyTel;
     private String invoiceAmount;
     private String createUserName;
@@ -82,6 +90,54 @@ public class InvoiceApplyDto extends OwnerInvoiceDto implements Serializable {
 
     public void setInvoiceType(String invoiceType) {
         this.invoiceType = invoiceType;
+    }
+
+    public String getInvoiceName() {
+        return invoiceName;
+    }
+
+    public void setInvoiceName(String invoiceName) {
+        this.invoiceName = invoiceName;
+    }
+
+    public String getInvoiceNum() {
+        return invoiceNum;
+    }
+
+    public void setInvoiceNum(String invoiceNum) {
+        this.invoiceNum = invoiceNum;
+    }
+
+    public String getInvoiceAddress() {
+        return invoiceAddress;
+    }
+
+    public void setInvoiceAddress(String invoiceAddress) {
+        this.invoiceAddress = invoiceAddress;
+    }
+
+    public String getInvoiceLink() {
+        return invoiceLink;
+    }
+
+    public void setInvoiceLink(String invoiceLink) {
+        this.invoiceLink = invoiceLink;
+    }
+
+    public String getInvoiceAccount() {
+        return invoiceAccount;
+    }
+
+    public void setInvoiceAccount(String invoiceAccount) {
+        this.invoiceAccount = invoiceAccount;
+    }
+
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
     }
 
     public String getApplyTel() {

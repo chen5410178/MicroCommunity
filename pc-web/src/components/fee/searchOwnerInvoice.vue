@@ -2,9 +2,11 @@
   <el-dialog :title="$t('searchOwnerInvoice.title')" :visible.sync="visible" width="80%" @close="handleClose">
     <div>
       <el-row :gutter="20">
-   
-        <el-col :span="9">
-          <el-input v-model="searchForm.ownerNameLike" :placeholder="$t('searchOwnerInvoice.placeholderOwner')" clearable
+        <el-col :span="6">
+          <el-input v-model="searchForm.userPhone" :placeholder="$t('searchOwnerInvoice.placeholderUserPhone')" clearable />
+        </el-col>
+        <el-col :span="6">
+          <el-input v-model="searchForm.keyword" :placeholder="$t('searchOwnerInvoice.placeholderOwner')" clearable
             @keyup.enter.native="handleSearch" />
         </el-col>
         <el-col :span="6">
@@ -14,16 +16,15 @@
         </el-col>
       </el-row>
 
-      <el-table v-loading="loading" :data="ownerInvoices" border style="width: 100%; margin-top: 20px">
-        <el-table-column prop="ownerName" :label="$t('searchOwnerInvoice.ownerName')" align="center" />
-        <el-table-column prop="invoiceType" :label="$t('searchOwnerInvoice.invoiceType')" align="center">
+      <el-table v-loading="loading" :data="headings" border style="width: 100%; margin-top: 20px">
+        <el-table-column prop="headingType" :label="$t('searchOwnerInvoice.invoiceType')" align="center">
           <template slot-scope="scope">
-            {{ scope.row.invoiceType === '1001' ? $t('searchOwnerInvoice.personal') : $t('searchOwnerInvoice.company') }}
+            {{ scope.row.headingType === '个人' ? $t('searchOwnerInvoice.personal') : $t('searchOwnerInvoice.company') }}
           </template>
         </el-table-column>
-        <el-table-column prop="invoiceName" :label="$t('searchOwnerInvoice.invoiceTitle')" align="center" />
-        <el-table-column prop="invoiceNum" :label="$t('searchOwnerInvoice.taxpayerId')" align="center" />
-        <el-table-column prop="invoiceAddress" :label="$t('searchOwnerInvoice.addressPhone')" align="center" />
+        <el-table-column prop="headingName" :label="$t('searchOwnerInvoice.invoiceTitle')" align="center" />
+        <el-table-column prop="taxNo" :label="$t('searchOwnerInvoice.taxpayerId')" align="center" />
+        <el-table-column prop="address" :label="$t('searchOwnerInvoice.addressPhone')" align="center" />
         <el-table-column :label="$t('searchOwnerInvoice.operation')" align="center">
           <template slot-scope="scope">
             <el-button type="primary" size="small" @click="handleSelect(scope.row)">
@@ -41,7 +42,7 @@
 </template>
 
 <script>
-import { listOwnerInvoice } from '@/api/fee/ownerApplyInvoiceApi'
+import { listInvoiceHeadings } from '@/api/fee/ownerApplyInvoiceApi'
 
 export default {
   name: 'SearchOwnerInvoice',
@@ -55,10 +56,10 @@ export default {
     return {
       loading: false,
       searchForm: {
-        roomName: '',
-        ownerNameLike: ''
+        userPhone: '',
+        keyword: ''
       },
-      ownerInvoices: [],
+      headings: [],
       pagination: {
         current: 1,
         size: 10,
@@ -67,28 +68,36 @@ export default {
     }
   },
   methods: {
-    open() {
+    open(userPhone) {
+      if (userPhone) {
+        this.searchForm.userPhone = userPhone
+      }
       this.visible = true
+      this.pagination.current = 1
       this.loadData()
     },
     handleClose() {
       this.$emit('update:visible', false)
     },
     async loadData() {
+      if (!this.searchForm.userPhone) {
+        this.$message.warning(this.$t('searchOwnerInvoice.userPhoneRequired'))
+        return
+      }
       this.loading = true
       try {
         const params = {
           page: this.pagination.current,
           row: this.pagination.size,
-          ownerNameLike: this.searchForm.ownerNameLike,
-          roomName: this.searchForm.roomName
+          userPhone: this.searchForm.userPhone,
+          keyword: this.searchForm.keyword
         }
 
-        const res = await listOwnerInvoice(params)
-        this.ownerInvoices = res.data
+        const res = await listInvoiceHeadings(params)
+        this.headings = res.data
         this.pagination.total = res.total
       } catch (error) {
-        console.error('Failed to load owner invoices:', error)
+        console.error('Failed to load invoice headings:', error)
         this.$message.error(this.$t('common.loadFailed'))
       } finally {
         this.loading = false
@@ -106,8 +115,21 @@ export default {
       this.pagination.current = page
       this.loadData()
     },
-    handleSelect(owner) {
-      this.$emit('select', owner)
+    handleSelect(heading) {
+      // 商城字段映射回物业字段: 个人/公司 -> 1001/2002
+      const mapped = {
+        headingId: heading.headingId,
+        invoiceType: heading.headingType === '公司' ? '2002' : '1001',
+        invoiceName: heading.headingName,
+        invoiceNum: heading.taxNo,
+        invoiceAddress: heading.address,
+        invoiceLink: heading.phone,
+        email: heading.email,
+        invoiceAccount: heading.bankNo,
+        remark: heading.remark,
+        userPhone: heading.userPhone || this.searchForm.userPhone
+      }
+      this.$emit('select', mapped)
       this.handleClose()
     }
   }

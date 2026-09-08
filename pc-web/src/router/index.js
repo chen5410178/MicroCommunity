@@ -616,17 +616,6 @@ const routes = [
         component: () => import('@/views/owner/ownerCommitteeDetailList.vue'),
       },
       {
-        path: '/pages/fee/ownerInvoice',
-        name: '/pages/fee/ownerInvoice',
-        component: () => import('@/views/fee/ownerInvoiceList.vue'),
-        meta: { title: '发票抬头' }
-      },
-      {
-        path: '/views/fee/addOwnerInvoice',
-        name: '/views/fee/addOwnerInvoice',
-        component: () => import('@/views/fee/addOwnerInvoiceList.vue'),
-      },
-      {
         path: '/pages/fee/invoiceApply',
         name: '/pages/fee/invoiceApply',
         component: () => import('@/views/fee/invoiceApplyList.vue'),

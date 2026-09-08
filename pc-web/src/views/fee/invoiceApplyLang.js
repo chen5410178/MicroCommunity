@@ -2,8 +2,8 @@ export const messages = {
   en: {
     invoiceApply: {
       searchTitle: 'Search Conditions',
-      title: 'Invoice Application',
-      apply: 'Apply',
+      title: 'Invoicing',
+      apply: 'Invoicing',
       table: {
         id: 'ID',
         invoiceType: 'Invoice Type',
@@ -76,8 +76,8 @@ export const messages = {
   zh: {
     invoiceApply: {
       searchTitle: '查询条件',
-      title: '申请发票',
-      apply: '申请',
+      title: '开票',
+      apply: '开票',
       table: {
         id: '编号',
         invoiceType: '发票类型',
@@ -150,8 +150,8 @@ uploadImage: {
   'zh-TW': {
     invoiceApply: {
       searchTitle: '查詢條件',
-      title: '申請發票',
-      apply: '申請',
+      title: '開票',
+      apply: '開票',
       table: {
         id: '編號',
         invoiceType: '發票類型',

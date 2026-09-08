@@ -309,3 +309,98 @@ service-fee cmd `fee.queryFeeDetail`（`service-fee/.../cmd/fee/QueryFeeDetailCm
 
 无。
 ```
+
+## 2026-09-08 — 发票抬头统一由商城管理（物业端下线 owner_invoice）
+
+### 背景
+
+物业端发票抬头原先由本地 `owner_invoice` 表独立维护，与商城（MicroCommunityMall）/物联网（MicroCommunityIot）三套数据各自独立。本次改造：抬头统一由商城 `invoice_heading` 表管理（user_phone 归属维度），物业端删除本地表与逻辑，全部转发商城接口。
+
+### 数据库变更
+
+```sql
+-- 1) 物业库下线 owner_invoice（存量库先迁移后执行, 迁移脚本见 docs/sql/invoice/owner_invoice_to_mall_heading.sql）
+-- RENAME TABLE `owner_invoice` TO `owner_invoice_bak`;
+-- DROP TABLE IF EXISTS `owner_invoice`;  (新库无需执行, TT.sql 已注释下线)
+
+-- 2) invoice_apply 增加抬头快照列(列表/详情展示用, 数据来自商城抬头同步)
+ALTER TABLE `invoice_apply`
+  ADD COLUMN `invoice_name` varchar(64) DEFAULT NULL COMMENT '发票名头(抬头快照)' AFTER `invoice_type`,
+  ADD COLUMN `invoice_num` varchar(64) DEFAULT NULL COMMENT '纳税人识别号(抬头快照)' AFTER `invoice_name`,
+  ADD COLUMN `invoice_address` varchar(64) DEFAULT NULL COMMENT '地址(抬头快照)' AFTER `invoice_num`;
+```
+
+> 商城库（hc_mall）变更见商城项目 `docs/sql/invoice/invoice_ddl.sql`：`invoice_heading` 增加 address/bank_no/remark 列，并新增 openapi BMO `listInvoiceHeadingsBmoImpl` / `deleteInvoiceHeadingBmoImpl` / `setInvoiceHeadingDefaultBmoImpl`。
+
+### 代码变更（MicroCommunityV2）
+
+- **删除（owner_invoice 全套下线）**：`OwnerInvoiceDto`、`OwnerInvoicePo`、`IOwnerInvoiceV1InnerServiceSMO`、`IOwnerInvoiceV1ServiceDao`、`OwnerInvoiceV1ServiceDaoImpl`、`OwnerInvoiceV1InnerServiceSMOImpl`、`SaveOwnerInvoiceCmd`、`UpdateOwnerInvoiceCmd`、`DeleteOwnerInvoiceCmd`、`ListOwnerInvoiceCmd`、`OwnerInvoiceV1ServiceDaoImplMapper.xml`。
+- **`InvoiceApplyDto`**：由 `extends OwnerInvoiceDto` 改为 `extends PageDto`，补齐 invoiceName/invoiceNum/invoiceAddress/invoiceLink/invoiceAccount/ownerId 自用字段。
+- **`InvoiceApplyPo` / `InvoiceApplyV1ServiceDaoImplMapper.xml`**：新增 invoiceName/invoiceNum/invoiceAddress 快照列读写；查询去掉 `left join owner_invoice`。
+- **`SaveInvoiceApplyCmd`**：抬头来源改商城——去掉 oiId 必填，改为断言 invoiceType/invoiceName；`applyTel` 取业主档案 link；保存申请后同步抬头到商城（saveInvoiceHeadingBmoImpl，isDefault=0 不抢占默认），失败不阻断开票申请。
+- **新增 5 个转发 CMD（service-acct/cmd/invoice/）**：
+  - `QueryInvoiceHeadingsCmd`（invoice.queryInvoiceHeadings → listInvoiceHeadingsBmoImpl，按 userPhone 分页+关键字）
+  - `SaveInvoiceHeadingCmd`（invoice.saveInvoiceHeading → saveInvoiceHeadingBmoImpl，upsert；类型 1001/2002→个人/公司；userPhone 优先取业主 link）
+  - `DeleteInvoiceHeadingCmd`（invoice.deleteInvoiceHeading → deleteInvoiceHeadingBmoImpl）
+  - `SetInvoiceHeadingDefaultCmd`（invoice.setInvoiceHeadingDefault → setInvoiceHeadingDefaultBmoImpl）
+  - `GetMyInvoiceHeadingCmd`（invoice.getMyInvoiceHeading → queryInvoiceHeadingBmoImpl 单条默认，对齐 IoT）
+
+### 前端变更（pc-web）
+
+- `api/fee/ownerInvoiceApi.js`：URL 改 invoice.queryInvoiceHeadings / invoice.saveInvoiceHeading / invoice.deleteInvoiceHeading / invoice.setInvoiceHeadingDefault，参数改商城字段。
+- `api/fee/addOwnerInvoiceApi.js`：URL 改 invoice.saveInvoiceHeading。
+- `api/fee/ownerApplyInvoiceApi.js`：saveInvoiceApply 参数增加抬头字段；新增 getMyInvoiceHeading。
+- `views/fee/ownerInvoiceList.vue`：按 userPhone/关键字查询商城抬头；字段列改商城字段（headingType/headingName/taxNo/address/phone/bankNo/remark/isDefault）；新增"设为默认"。
+- `views/fee/addOwnerInvoiceList.vue`：表单字段改商城（headingType/headingName/taxNo/address/phone/userPhone/email/bankNo/remark），选择业主自动带出手机号。
+- `components/fee/editOwnerInvoice.vue`：改调 invoice.saveInvoiceHeading（upsert）。
+- `components/fee/deleteOwnerInvoice.vue`：改调 invoice.deleteInvoiceHeading。
+- `components/fee/searchOwnerInvoice.vue`：按业主手机号/关键字查商城抬头，选择结果映射回物业字段。
+- `views/fee/ownerApplyInvoiceList.vue`：选择抬头后携带抬头字段提交；未选抬头时按业主手机号自动带出默认抬头。
+- `views/fee/ownerInvoiceLang.js` / `ownerApplyInvoiceLang.js`：新增三语键。
+
+### 前端变更（WechatOwnerServiceV2 业主端）
+
+- `api/url.js`：invoice.listOwnerInvoice/saveOwnerInvoice/updateOwnerInvoice 改为 invoice.queryInvoiceHeadings / invoice.saveInvoiceHeading / invoice.getMyInvoiceHeading。
+- `api/invoice/invoiceApi.js`：新增 getMyInvoiceHeading；getOwnerInvoice 返回值调整。
+- `pages/invoice/invoiceSetting.vue`：按业主手机号（ownerId）查询商城默认抬头回显；保存调 saveInvoiceHeading。
+- `pages/invoice/addInvoiceApply.vue`：开票申请按手机号带出商城默认抬头；提交传抬头字段。
+
+### 说明
+
+- MALL_SWITCH 未开启时：抬头查询/保存接口返回"商城系统未部署"，开票申请按现有 IssueMallInvoiceBmoImpl 失败回写逻辑处理，不影响其他业务。
+- 存量数据迁移脚本（两种方式：导入导出工具/同库中转表）见 `docs/sql/invoice/owner_invoice_to_mall_heading.sql`。
+- 服务编码兼容：原 invoice.listOwnerInvoice/saveOwnerInvoice/updateOwnerInvoice/deleteOwnerInvoice 已下线，pc-web 与 WechatOwnerService 需同版本发布。
+## 2026-09-08 — 物业端开票页面改造（去掉发票抬头管理页，按房屋开票）
+
+### 背景
+
+原“发票抬头管理”页（ownerInvoice）下线，抬头统一在开票时按业主手机号从商城 invoice_heading 取/填（有则带回、无则填写，提交时 upsert 到商城）；开票入口收敛为“开票”（原发票申请列表），开票流程重做：选择房屋 → 自动带出业主 → 带出未开票缴费记录（单选一条）→ 开票。
+
+### 代码变更（MicroCommunityV2）
+
+- **service-user 新增 `QueryOwnerByRoomCmd`**（serviceCode `owner.queryOwnerByRoom`，GET）：按 roomId/communityId 查询户主列表，复用 `IOwnerInnerServiceSMO.queryOwnersByRoom`（join building_room/building_owner_room_rel/building_owner，owner_type_cd=1001），返回 memberId/ownerId/name/link/roomNum/communityId。
+- **service-acct `SaveInvoiceApplyCmd`**：`computeFeeDetail` 增加单选校验（detailIds 超过 1 条抛 `CmdException("当前仅支持单条开票")`），保持“仅缴费开票”FEE 分支，arIds 账户分支保留不启用。
+- **服务路由注册**（c_service/c_route，app 8000418004，见 docs/sql/invoice/register_invoice_service.sql 与 TT.sql）：
+  - `owner.queryOwnerByRoom`（user-service）
+  - `invoice.queryInvoiceHeadings` / `invoice.saveInvoiceHeading` / `invoice.deleteInvoiceHeading` / `invoice.setInvoiceHeadingDefault` / `invoice.getMyInvoiceHeading`（acct-service，父方案新增 CMD 补注册）
+
+### 前端变更（pc-web）
+
+- **删除（发票抬头管理下线）**：`views/fee/ownerInvoiceList.vue`、`views/fee/addOwnerInvoiceList.vue`、`components/fee/editOwnerInvoice.vue`、`components/fee/deleteOwnerInvoice.vue`、`api/fee/ownerInvoiceApi.js`、`api/fee/addOwnerInvoiceApi.js`、`views/fee/ownerInvoiceLang.js`；`router/index.js` 删除 `/pages/fee/ownerInvoice`、`/views/fee/addOwnerInvoice` 路由；`i18n/index.js` 移除 ownerInvoiceMessages 注册。
+- **`views/fee/ownerApplyInvoiceList.vue` 重做**：顶部 searchRoom 弹窗选房屋 → `owner.queryOwnerByRoom` 带出业主（下拉单选）→ 按业主 link 查商城抬头（有则默认回填+可选“选择已有抬头”，无则表单填写）→ 自动带出未开票缴费记录（`fee.queryFeeDetail` openInvoice=N，radio 单选一条）→ 提交 `invoice.saveInvoiceApply`（detailIds 单条）。
+- **`components/fee/searchOwnerInvoice.vue` 改造**：去掉选业主入口，改为按业主手机号查商城抬头列表选择（`open(userPhone)` 打开，选择后 `@select` 映射物业字段回填）。
+- **`api/fee/ownerApplyInvoiceApi.js`**：新增 `queryOwnerByRoom`；移除 listAccountReceipt/getMyInvoiceHeading；参数对齐（仅 detailIds 提交）。
+- **`views/fee/invoiceApplyLang.js`**：title/apply 改“开票”。
+- **`views/fee/ownerApplyInvoiceLang.js`**：重写开票流程三语文案。
+- 业主无手机号：页面提示“业主无手机号，无法获取抬头，请联系业主完善”，禁止提交。
+
+### 数据库脚本
+
+- `docs/sql/invoice/delete_owner_invoice_menu.sql`：删除 m_menu `702023100962610004`（发票抬头）、p_privilege `502023100906390005`、p_privilege_rel、m_menu_user 及旧抬头 c_service 路由；“发票”菜单更名“开票”（702023100951520002 / 502023100942720003）。
+- `docs/sql/invoice/register_invoice_service.sql`：注册 owner.queryOwnerByRoom 与 5 个 invoice.* 抬头接口路由（存量库执行；新库已合入 TT.sql）。
+- `docs/db/TT.sql`：同步 m_menu/p_privilege/m_menu_user 更名与下线注释、c_service/c_route 新路由注册。
+
+### 注意事项
+
+- 预存款/账户开票本期不做：前端不传 arIds，后端 computeAcctDetail 分支保留但不启用。
+- 开票成功/失败回写 open_invoice（D/Y/N）沿用现有逻辑，不改动。

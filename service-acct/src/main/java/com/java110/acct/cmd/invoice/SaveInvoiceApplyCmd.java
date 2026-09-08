@@ -31,14 +31,14 @@ import com.java110.dto.fee.FeeDetailDto;
 import com.java110.dto.invoice.InvoiceApplyDto;
 import com.java110.dto.invoice.InvoiceApplyItemDto;
 import com.java110.dto.owner.OwnerDto;
-import com.java110.dto.invoice.OwnerInvoiceDto;
 import com.java110.dto.user.UserDto;
+import com.java110.dto.MallDataDto;
 import com.java110.intf.acct.IInvoiceApplyItemV1InnerServiceSMO;
 import com.java110.intf.acct.IInvoiceApplyV1InnerServiceSMO;
-import com.java110.intf.acct.IOwnerInvoiceV1InnerServiceSMO;
 import com.java110.intf.fee.IAccountReceiptV1InnerServiceSMO;
 import com.java110.intf.fee.IFeeDetailInnerServiceSMO;
 import com.java110.intf.fee.IPayFeeDetailV1InnerServiceSMO;
+import com.java110.intf.job.IMallInnerServiceSMO;
 import com.java110.intf.user.IOwnerV1InnerServiceSMO;
 import com.java110.intf.user.IUserV1InnerServiceSMO;
 import com.java110.po.fee.PayFeeDetailPo;
@@ -81,13 +81,13 @@ public class SaveInvoiceApplyCmd extends Cmd {
     private IInvoiceApplyV1InnerServiceSMO invoiceApplyV1InnerServiceSMOImpl;
 
     @Autowired
-    private IOwnerInvoiceV1InnerServiceSMO ownerInvoiceV1InnerServiceSMOImpl;
-
-    @Autowired
     private IOwnerV1InnerServiceSMO ownerV1InnerServiceSMOImpl;
 
     @Autowired
     private IInvoiceApplyItemV1InnerServiceSMO invoiceApplyItemV1InnerServiceSMOImpl;
+
+    @Autowired
+    private IMallInnerServiceSMO mallInnerServiceSMOImpl;
 
 
     @Autowired
@@ -107,35 +107,24 @@ public class SaveInvoiceApplyCmd extends Cmd {
 
     @Override
     public void validate(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) {
-        Assert.hasKeyAndValue(reqJson, "oiId", "请求报文中未包含oiId");
         Assert.hasKeyAndValue(reqJson, "invoiceType", "请求报文中未包含invoiceType");
+        Assert.hasKeyAndValue(reqJson, "invoiceName", "请求报文中未包含invoiceName");
         Assert.hasKeyAndValue(reqJson, "ownerName", "请求报文中未包含ownerName");
         Assert.hasKeyAndValue(reqJson, "communityId", "请求报文中未包含communityId");
 
-        //todo 查询发票抬头补充 申请手机号
+        //todo 查询业主档案补充申请手机号(商城抬头归属手机号)
+        if (reqJson.containsKey("ownerId")) {
+            OwnerDto ownerDto = new OwnerDto();
+            ownerDto.setMemberId(reqJson.getString("ownerId"));
+            ownerDto.setCommunityId(reqJson.getString("communityId"));
+            List<OwnerDto> ownerDtos = ownerV1InnerServiceSMOImpl.queryOwners(ownerDto);
 
-        OwnerInvoiceDto ownerInvoiceDto = new OwnerInvoiceDto();
-        ownerInvoiceDto.setOiId(reqJson.getString("oiId"));
-        ownerInvoiceDto.setCommunityId(reqJson.getString("communityId"));
-        List<OwnerInvoiceDto> ownerInvoiceDtos = ownerInvoiceV1InnerServiceSMOImpl.queryOwnerInvoices(ownerInvoiceDto);
+            if (ownerDtos == null || ownerDtos.isEmpty()) {
+                throw new CmdException("业主不存在");
+            }
 
-        Assert.listOnlyOne(ownerInvoiceDtos, "发票抬头不存在");
-
-        reqJson.put("invoiceName", ownerInvoiceDtos.get(0).getInvoiceName());
-        reqJson.put("invoiceNum", ownerInvoiceDtos.get(0).getInvoiceNum());
-        reqJson.put("invoiceAddress", ownerInvoiceDtos.get(0).getInvoiceAddress());
-
-        OwnerDto ownerDto = new OwnerDto();
-        ownerDto.setMemberId(ownerInvoiceDtos.get(0).getOwnerId());
-        ownerDto.setCommunityId(reqJson.getString("communityId"));
-        List<OwnerDto> ownerDtos = ownerV1InnerServiceSMOImpl.queryOwners(ownerDto);
-
-        if (ownerDtos == null || ownerDtos.isEmpty()) {
-            throw new CmdException("业主不存在");
+            reqJson.put("applyTel", ownerDtos.get(0).getLink());
         }
-
-        reqJson.put("applyTel", ownerDtos.get(0).getLink());
-
     }
 
     /**
@@ -163,6 +152,9 @@ public class SaveInvoiceApplyCmd extends Cmd {
 
         InvoiceApplyPo invoiceApplyPo = BeanConvertUtil.covertBean(reqJson, InvoiceApplyPo.class);
         invoiceApplyPo.setApplyId(GenerateCodeFactory.getGeneratorId(CODE_PREFIX_ID));
+        if (StringUtil.isEmpty(invoiceApplyPo.getOiId())) {
+            invoiceApplyPo.setOiId("-1");
+        }
 
         List<InvoiceApplyItemPo> invoiceApplyItemPos = new ArrayList<>();
         BigDecimal invoiceAmount = new BigDecimal("0.0");
@@ -190,6 +182,9 @@ public class SaveInvoiceApplyCmd extends Cmd {
         //todo 保存开票申请项
         invoiceApplyItemV1InnerServiceSMOImpl.saveInvoiceApplyItems(invoiceApplyItemPos);
 
+        //todo 同步抬头到商城(存在更新、不存在新增, 失败不阻断开票申请)
+        syncInvoiceHeadingToMall(reqJson);
+
         //todo 自动开票(小区配置 INVOICE_AUTO_SWITCH: 1-自动 2-审核, 默认1自动)
         try {
             String invoiceAuto = CommunitySettingFactory.getValue(invoiceApplyPo.getCommunityId(), "INVOICE_AUTO_SWITCH");
@@ -205,6 +200,40 @@ public class SaveInvoiceApplyCmd extends Cmd {
         }
 
         cmdDataFlowContext.setResponseEntity(ResultVo.success());
+    }
+
+    /**
+     * 同步抬头到商城(saveInvoiceHeadingBmoImpl, 与IoT SaveInvoiceCmd行为一致: 存在更新、不存在新增)
+     * 抬头归属手机号 = 业主档案手机号(applyTel), phone 兜底取 applyTel
+     */
+    private void syncInvoiceHeadingToMall(JSONObject reqJson) {
+        String applyTel = reqJson.getString("applyTel");
+        if (StringUtil.isEmpty(applyTel)) {
+            logger.warn("业主手机号为空, 跳过同步商城抬头");
+            return;
+        }
+
+        JSONObject headingParam = new JSONObject();
+        // 1001-个人 2002-公司 -> 商城 个人/公司
+        String headingType = "2002".equals(reqJson.getString("invoiceType")) ? "公司" : "个人";
+        headingParam.put("headingType", headingType);
+        headingParam.put("headingName", reqJson.getString("invoiceName"));
+        headingParam.put("taxNo", reqJson.getString("invoiceNum"));
+        headingParam.put("phone", applyTel);
+        headingParam.put("userPhone", applyTel);
+        headingParam.put("email", reqJson.getString("email"));
+        headingParam.put("address", reqJson.getString("invoiceAddress"));
+        headingParam.put("bankNo", reqJson.getString("invoiceAccount"));
+        headingParam.put("remark", reqJson.getString("remark"));
+        headingParam.put("isDefault", "0");
+        try {
+            ResultVo resultVo = mallInnerServiceSMOImpl.postMallData(new MallDataDto("saveInvoiceHeadingBmoImpl", headingParam));
+            if (resultVo == null || resultVo.getCode() != ResultVo.CODE_OK || resultVo.getData() == null) {
+                logger.warn("同步商城抬头未生效: {}", resultVo == null ? "null" : resultVo.getMsg());
+            }
+        } catch (Exception e) {
+            logger.warn("同步商城抬头异常", e);
+        }
     }
 
 
@@ -224,6 +253,10 @@ public class SaveInvoiceApplyCmd extends Cmd {
         JSONArray detailIds = reqJson.getJSONArray("detailIds");
         if (detailIds == null || detailIds.isEmpty()) {
             return invoiceAmount;
+        }
+
+        if (detailIds.size() > 1) {
+            throw new CmdException("当前仅支持单条开票");
         }
 
         FeeDetailDto feeDetailDto = new FeeDetailDto();

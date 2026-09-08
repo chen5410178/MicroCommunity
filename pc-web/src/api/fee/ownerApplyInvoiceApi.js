@@ -1,12 +1,12 @@
 import request from '@/utils/request'
 import { getCommunityId } from '@/api/community/communityApi'
 
-// 获取业主发票信息列表
-export function listOwnerInvoice(params) {
+// 按房屋查询业主(户主)
+export function queryOwnerByRoom(params) {
   return new Promise((resolve, reject) => {
     const communityId = getCommunityId()
     request({
-      url: '/invoice.listOwnerInvoice',
+      url: '/owner.queryOwnerByRoom',
       method: 'get',
       params: {
         ...params,
@@ -14,8 +14,27 @@ export function listOwnerInvoice(params) {
       }
     }).then(response => {
       const res = response.data
+      resolve(res)
+    }).catch(error => {
+      reject(error)
+    })
+  })
+}
 
-        resolve(res)
+// 按业主手机号查询商城发票抬头列表
+export function listInvoiceHeadings(params) {
+  return new Promise((resolve, reject) => {
+    const communityId = getCommunityId()
+    request({
+      url: '/invoice.queryInvoiceHeadings',
+      method: 'get',
+      params: {
+        ...params,
+        communityId
+      }
+    }).then(response => {
+      const res = response.data
+      resolve(res)
     }).catch(error => {
       reject(error)
     })
@@ -35,29 +54,7 @@ export function queryFeeDetail(params) {
       }
     }).then(response => {
       const res = response.data
-
-        resolve(res)
-    }).catch(error => {
-      reject(error)
-    })
-  })
-}
-
-// 查询账户预存明细
-export function listAccountReceipt(params) {
-  return new Promise((resolve, reject) => {
-    const communityId = getCommunityId()
-    request({
-      url: '/receipt.listAccountReceipt',
-      method: 'get',
-      params: {
-        ...params,
-        communityId
-      }
-    }).then(response => {
-      const res = response.data
-
-        resolve(res)
+      resolve(res)
     }).catch(error => {
       reject(error)
     })
