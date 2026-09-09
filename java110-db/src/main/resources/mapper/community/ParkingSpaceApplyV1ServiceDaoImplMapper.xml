@@ -8,18 +8,18 @@
     <!-- 保存车位申请信息 add by wuxw 2018-07-03 -->
     <insert id="saveParkingSpaceApplyInfo" parameterType="Map">
         insert into parking_space_apply(
-        car_brand,apply_person_name,car_num,ps_id,remark,apply_id,car_color,car_type,config_id,apply_person_link,start_time,apply_person_id,end_time,state,community_id,pa_id
+        apply_person_name,car_num,ps_id,remark,apply_id,car_type,config_id,apply_person_link,start_time,apply_person_id,end_time,state,community_id,pa_id
         ) values (
-        #{carBrand},#{applyPersonName},#{carNum},#{psId},#{remark},#{applyId},#{carColor},#{carType},#{configId},#{applyPersonLink},#{startTime},#{applyPersonId},#{endTime},#{state},#{communityId},#{paId}
+        #{applyPersonName},#{carNum},#{psId},#{remark},#{applyId},#{carType},#{configId},#{applyPersonLink},#{startTime},#{applyPersonId},#{endTime},#{state},#{communityId},#{paId}
         )
     </insert>
 
 
     <!-- 查询车位申请信息 add by wuxw 2018-07-03 -->
     <select id="getParkingSpaceApplyInfo" parameterType="Map" resultType="Map">
-        select t.car_brand,t.car_brand carBrand,t.apply_person_name,t.apply_person_name
+        select t.apply_person_name,t.apply_person_name
         applyPersonName,t.car_num,t.car_num carNum,t.ps_id,t.ps_id psId,t.remark,t.status_cd,t.status_cd
-        statusCd,t.apply_id,t.apply_id applyId,t.car_color,t.car_color carColor,t.car_type,t.car_type
+        statusCd,t.apply_id,t.apply_id applyId,t.car_type,t.car_type
         carType,t.create_time,t.create_time createTime,t.config_id,t.config_id
         configId,t.apply_person_link,t.apply_person_link applyPersonLink,t.start_time,t.start_time
         startTime,t.apply_person_id,t.apply_person_id applyPersonId,t.end_time,t.end_time
@@ -33,9 +33,6 @@
         left join t_dict t3 on t1.parking_type = t3.status_cd and t3.table_name ='parking_space' and t3.table_columns ='parking_type'
         left join t_dict t4 on t1.state = t4.status_cd and t4.table_name ='parking_space' and t4.table_columns ='state'
         where 1 = 1
-        <if test="carBrand !=null and carBrand != ''">
-            and t.car_brand= #{carBrand}
-        </if>
         <if test="applyPersonName !=null and applyPersonName != ''">
             and t.apply_person_name= #{applyPersonName}
         </if>
@@ -53,9 +50,6 @@
         </if>
         <if test="applyId !=null and applyId != ''">
             and t.apply_id= #{applyId}
-        </if>
-        <if test="carColor !=null and carColor != ''">
-            and t.car_color= #{carColor}
         </if>
         <if test="carType !=null and carType != ''">
             and t.car_type= #{carType}
@@ -101,9 +95,6 @@
         <if test="newBId != null and newBId != ''">
             ,t.b_id = #{newBId}
         </if>
-        <if test="carBrand !=null and carBrand != ''">
-            , t.car_brand= #{carBrand}
-        </if>
         <if test="applyPersonName !=null and applyPersonName != ''">
             , t.apply_person_name= #{applyPersonName}
         </if>
@@ -118,9 +109,6 @@
         </if>
         <if test="remark !=null and remark != ''">
             , t.remark= #{remark}
-        </if>
-        <if test="carColor !=null and carColor != ''">
-            , t.car_color= #{carColor}
         </if>
         <if test="carType !=null and carType != ''">
             , t.car_type= #{carType}
@@ -164,9 +152,6 @@
         select count(1) count
         from parking_space_apply t
         where 1 =1
-        <if test="carBrand !=null and carBrand != ''">
-            and t.car_brand= #{carBrand}
-        </if>
         <if test="applyPersonName !=null and applyPersonName != ''">
             and t.apply_person_name= #{applyPersonName}
         </if>
@@ -184,9 +169,6 @@
         </if>
         <if test="applyId !=null and applyId != ''">
             and t.apply_id= #{applyId}
-        </if>
-        <if test="carColor !=null and carColor != ''">
-            and t.car_color= #{carColor}
         </if>
         <if test="carType !=null and carType != ''">
             and t.car_type= #{carType}

@@ -4,17 +4,11 @@
       <el-form-item :label="$t('editParkingSpaceApply.carNum')">
         <el-input v-model="form.carNum" disabled></el-input>
       </el-form-item>
-      <el-form-item :label="$t('editParkingSpaceApply.carBrand')">
-        <el-input v-model="form.carBrand"></el-input>
-      </el-form-item>
       <el-form-item :label="$t('editParkingSpaceApply.carType')">
         <el-select v-model="form.carType" style="width:100%">
           <el-option v-for="item in carTypes" :key="item.value" :label="item.label" :value="item.value">
           </el-option>
         </el-select>
-      </el-form-item>
-      <el-form-item :label="$t('editParkingSpaceApply.carColor')">
-        <el-input v-model="form.carColor"></el-input>
       </el-form-item>
       <el-form-item :label="$t('editParkingSpaceApply.startTime')">
         <el-date-picker v-model="form.startTime" type="datetime" style="width:100%" value-format="yyyy-MM-dd HH:mm:ss">
@@ -48,9 +42,7 @@ export default {
       form: {
         applyId: '',
         carNum: '',
-        carBrand: '',
         carType: '',
-        carColor: '',
         startTime: '',
         endTime: '',
         remark: ''
@@ -73,9 +65,7 @@ export default {
       this.form = {
         applyId: data.applyId,
         carNum: data.carNum,
-        carBrand: data.carBrand,
         carType: data.carType,
-        carColor: data.carColor,
         startTime: data.startTime,
         endTime: data.endTime,
         remark: data.remark || ''

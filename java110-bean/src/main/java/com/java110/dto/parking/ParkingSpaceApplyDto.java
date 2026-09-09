@@ -18,13 +18,11 @@ public class ParkingSpaceApplyDto extends PageDto implements Serializable {
     public static final String STATE_FAIL = "4004"; // 审核失败
     public static final String STATE_SUCCESS = "3003"; // 审核成功
 
-    private String carBrand;
     private String applyPersonName;
     private String carNum;
     private String psId;
     private String remark;
     private String applyId;
-    private String carColor;
     private String carType;
     private String configId;
     private String applyPersonLink;
@@ -45,14 +43,6 @@ public class ParkingSpaceApplyDto extends PageDto implements Serializable {
     private Date createTime;
 
     private String statusCd = "0";
-
-    public String getCarBrand() {
-        return carBrand;
-    }
-
-    public void setCarBrand(String carBrand) {
-        this.carBrand = carBrand;
-    }
 
     public String getApplyPersonName() {
         return applyPersonName;
@@ -92,14 +82,6 @@ public class ParkingSpaceApplyDto extends PageDto implements Serializable {
 
     public void setApplyId(String applyId) {
         this.applyId = applyId;
-    }
-
-    public String getCarColor() {
-        return carColor;
-    }
-
-    public void setCarColor(String carColor) {
-        this.carColor = carColor;
     }
 
     public String getCarType() {

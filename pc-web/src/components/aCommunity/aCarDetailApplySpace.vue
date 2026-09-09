@@ -16,13 +16,11 @@
             <span v-else>{{$t('carDetailApply.none')}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="carBrand" :label="$t('carDetailApply.carBrand')" align="center"></el-table-column>
         <el-table-column :label="$t('carDetailApply.carType')" align="center">
           <template slot-scope="scope">
             {{_getParkingSpaceApplyCatType(scope.row.carType)}}
           </template>
         </el-table-column>
-        <el-table-column prop="carColor" :label="$t('carDetailApply.color')" align="center"></el-table-column>
         <el-table-column prop="startTime" :label="$t('carDetailApply.startTime')" align="center"></el-table-column>
         <el-table-column prop="endTime" :label="$t('carDetailApply.endTime')" align="center"></el-table-column>
         <el-table-column prop="applyPersonName" :label="$t('carDetailApply.applicant')" align="center"></el-table-column>

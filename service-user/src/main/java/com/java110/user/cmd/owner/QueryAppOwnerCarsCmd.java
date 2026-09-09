@@ -80,6 +80,7 @@ public class QueryAppOwnerCarsCmd extends Cmd {
     @Override
     public void doCmd(CmdEvent event, ICmdDataFlowContext context, JSONObject reqJson) throws CmdException, ParseException {
         OwnerCarDto ownerCarDto = BeanConvertUtil.covertBean(reqJson, OwnerCarDto.class);
+        ownerCarDto.setMemberId("");
         int total = ownerCarInnerServiceSMOImpl.queryOwnerCarsCount(ownerCarDto);
 //        int count = 0;
         List<OwnerCarDto> ownerCarDtos = null;

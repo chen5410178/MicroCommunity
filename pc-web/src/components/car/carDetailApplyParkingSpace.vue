@@ -19,15 +19,11 @@
             {{ scope.row.psId ? `${scope.row.areaNum}停车场 - ${scope.row.num}停车位` : $t('carDetailApplyParkingSpace.none') }}
           </template>
         </el-table-column>
-        <el-table-column prop="carBrand" :label="$t('carDetailApplyParkingSpace.carBrand')"
-          align="center"></el-table-column>
         <el-table-column :label="$t('carDetailApplyParkingSpace.carType')" align="center">
           <template slot-scope="scope">
             {{ _getParkingSpaceApplyCatType(scope.row.carType) }}
           </template>
         </el-table-column>
-        <el-table-column prop="carColor" :label="$t('carDetailApplyParkingSpace.color')"
-          align="center"></el-table-column>
         <el-table-column prop="startTime" :label="$t('carDetailApplyParkingSpace.startTime')"
           align="center"></el-table-column>
         <el-table-column prop="endTime" :label="$t('carDetailApplyParkingSpace.endTime')"

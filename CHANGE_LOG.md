@@ -384,38 +384,13 @@ INSERT INTO `c_route` VALUES ('3091', '992020061452450002', '982026090800000009'
 
 ## 2026-09-09 — 车位列表查询条件调整 & 车位申请/审核字段调整
 
-### 背景
-
-1. 车位列表页(`pc-web/src/views/car/listParkingSpaceList.vue`)移除无业务价值的"车位ID"查询项，新增"业主名称、车牌号"查询（按车主/车辆维度检索）。
-2. 车位申请提交时须选择"停车场"（而非具体车位）；审核通过不再强制选择具体车位（不更新车位状态）；移除"汽车品牌、汽车颜色"字段。
-
-### DDL
-
 ```sql
 -- 车位申请表增加停车场ID（申请时选择停车场，审核通过不再强制选择车位）
 ALTER TABLE `parking_space_apply`
     ADD COLUMN `pa_id` varchar(30) DEFAULT NULL COMMENT '停车场ID' AFTER `ps_id`;
+
+-- 彻底移除汽车品牌/颜色字段（存量库执行，执行前请备份）
+ALTER TABLE `parking_space_apply`
+    DROP COLUMN `car_brand`,
+    DROP COLUMN `car_color`;
 ```
-
-> 部署脚本：`docs/sql/community/20260909_parking_space_apply_add_pa_id.sql`；`docs/db/TT.sql` 已同步表结构与示例数据。
-
-### 后端修改
-
-- `java110-bean/.../po/parking/ParkingSpaceApplyPo.java`：新增 `paId` 属性。
-- `java110-bean/.../dto/parking/ParkingSpaceDto.java`：新增 `ownerNameLike`/`carNumLike`（like 模糊查询标识）。
-- `java110-db/.../mapper/community/ParkingSpaceApplyV1ServiceDaoImplMapper.xml`：insert/update/select 支持 `pa_id`；select 用 `COALESCE(t.pa_id, t1.pa_id)` 回带停车场编号 `areaNum`（申请单未绑定车位时也能带出申请时选择的停车场）。
-- `java110-db/.../mapper/community/ParkingSpaceV1ServiceDaoImplMapper.xml`：`getParkingSpaceInfo`/`queryParkingSpacesCount` 增加 `ownerNameLike`/`carNumLike` like 过滤。
-- `service-community/.../cmd/parkingSpace/QueryParkingSpacesCmd.java`：移除 carNum 走 owner_car 反查的特殊分支（分页按车辆数、忽略其他条件），改为普通查询分支按 `carNumLike` 模糊过滤（兼容老参数 carNum 转换为 carNumLike）。
-- `service-community/.../cmd/parkingSpaceApply/SaveParkingSpaceApplyCmd.java`：validate 增加 `paId` 必填（"请选择停车场"），落库时写入 paId。
-- `service-community/.../cmd/parkingSpaceApply/AuditParkingSpaceApplyCmd.java`：移除"审核通过必须选择车位(psId)"校验；psId 为空时跳过按 psId 反查车位与"车位状态改为已出租"步骤；paId 兜底 "-1"（owner_car.pa_id 默认 -1）。
-
-### 前端修改（pc-web）
-
-- `views/car/listParkingSpaceList.vue`：查询区删除车位ID，新增业主名称/车牌号（ownerNameLike/carNumLike），同步 data/请求参数/reset。
-- `views/car/addParkingSpaceApply.vue`：新增停车场 el-select 下拉（listParkingAreas，必填，回填 paId/paName）；删除汽车品牌/颜色表单项及校验。
-- `views/car/auditParkingSpaceApply.vue`：删除选择车位交互（SearchParkingSpace/psId 校验）与品牌/颜色展示；所属停车场改为申请单带出（areaNum）。
-- `views/car/parkingSpaceApplyManageList.vue`：删除 carBrand 查询项与 carBrand/carColor 表格列。
-- `components/car/editParkingSpaceApply.vue`：删除 carBrand/carColor 表单项及校验。
-- 语言包三语同步：`listParkingSpaceLang.js`、`addParkingSpaceApplyLang.js`、`auditParkingSpaceApplyLang.js`、`parkingSpaceApplyManageLang.js`。
-
-> 注意：`parking_space_apply.pa_id` 为新增可空列，老数据不受影响；执行 SQL 后需刷新缓存或重启 service-community。

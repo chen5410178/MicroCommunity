@@ -27,14 +27,12 @@ import java.util.Date;
  */
 public class ParkingSpaceApplyPo implements Serializable {
 
-    private String carBrand;
-private String applyPersonName;
+    private String applyPersonName;
 private String carNum;
 private String psId;
 private String remark;
 private String statusCd = "0";
 private String applyId;
-private String carColor;
 private String carType;
 private String configId;
 private String applyPersonLink;
@@ -45,12 +43,6 @@ private String state;
     private String feeId;
     private String communityId;
     private String paId;
-public String getCarBrand() {
-        return carBrand;
-    }
-public void setCarBrand(String carBrand) {
-        this.carBrand = carBrand;
-    }
 public String getApplyPersonName() {
         return applyPersonName;
     }
@@ -86,12 +78,6 @@ public String getApplyId() {
     }
 public void setApplyId(String applyId) {
         this.applyId = applyId;
-    }
-public String getCarColor() {
-        return carColor;
-    }
-public void setCarColor(String carColor) {
-        this.carColor = carColor;
     }
 public String getCarType() {
         return carType;
