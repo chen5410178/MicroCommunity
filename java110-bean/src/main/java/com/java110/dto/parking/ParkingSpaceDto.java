@@ -42,9 +42,11 @@ public class ParkingSpaceDto extends PageDto implements Serializable {
     private String userId;
     private String areaNum;
     private String carNum;
+    private String carNumLike;
     private String carId;
     private String ownerId;
     private String ownerName;
+    private String ownerNameLike;
     private String startTime;
     private String endTime;
     private String idCard;
@@ -258,6 +260,14 @@ public class ParkingSpaceDto extends PageDto implements Serializable {
         this.carNum = carNum;
     }
 
+    public String getCarNumLike() {
+        return carNumLike;
+    }
+
+    public void setCarNumLike(String carNumLike) {
+        this.carNumLike = carNumLike;
+    }
+
     public String getOwnerId() {
         return ownerId;
     }
@@ -272,6 +282,14 @@ public class ParkingSpaceDto extends PageDto implements Serializable {
 
     public void setOwnerName(String ownerName) {
         this.ownerName = ownerName;
+    }
+
+    public String getOwnerNameLike() {
+        return ownerNameLike;
+    }
+
+    public void setOwnerNameLike(String ownerNameLike) {
+        this.ownerNameLike = ownerNameLike;
     }
 
     public String getIdCard() {

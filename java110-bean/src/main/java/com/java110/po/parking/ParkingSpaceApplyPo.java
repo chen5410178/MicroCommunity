@@ -42,8 +42,9 @@ private String startTime;
 private String applyPersonId;
 private String endTime;
 private String state;
-private String feeId;
-private String communityId;
+    private String feeId;
+    private String communityId;
+    private String paId;
 public String getCarBrand() {
         return carBrand;
     }
@@ -147,5 +148,13 @@ public void setCommunityId(String communityId) {
 
     public void setFeeId(String feeId) {
         this.feeId = feeId;
+    }
+
+    public String getPaId() {
+        return paId;
+    }
+
+    public void setPaId(String paId) {
+        this.paId = paId;
     }
 }

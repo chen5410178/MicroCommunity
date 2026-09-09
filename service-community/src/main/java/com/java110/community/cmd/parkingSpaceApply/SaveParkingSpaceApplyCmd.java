@@ -74,6 +74,7 @@ public class SaveParkingSpaceApplyCmd extends Cmd {
         Assert.hasKeyAndValue(reqJson, "carNum", "请求报文中未包含carNum");
         Assert.hasKeyAndValue(reqJson, "carType", "请求报文中未包含carType");
         Assert.hasKeyAndValue(reqJson, "state", "请求报文中未包含state");
+        Assert.hasKeyAndValue(reqJson, "paId", "请选择停车场");
         Assert.hasKeyAndValue(reqJson, "applyPersonName", "请求报文中未包含applyPersonName");
         Assert.hasKeyAndValue(reqJson, "applyPersonLink", "请求报文中未包含applyPersonLink");
         Assert.hasKeyAndValue(reqJson, "applyPersonId", "请求报文中未包含applyPersonId");

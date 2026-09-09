@@ -21,12 +21,14 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="$t('addParkingSpaceApply.carBrand')" prop="carBrand" :rules="[
-            { required: true, message: $t('addParkingSpaceApply.requiredCarBrand') },
-            { max: 50, message: $t('addParkingSpaceApply.maxCarBrand') }
+          <el-form-item :label="$t('addParkingSpaceApply.parkingArea')" prop="paId" :rules="[
+            { required: true, message: $t('addParkingSpaceApply.requiredParkingArea') }
           ]">
-            <el-input v-model="addParkingSpaceApplyInfo.carBrand"
-              :placeholder="$t('addParkingSpaceApply.placeholderCarBrand')" />
+            <el-select v-model="addParkingSpaceApplyInfo.paId" style="width: 100%"
+              :placeholder="$t('addParkingSpaceApply.placeholderParkingArea')"
+              @change="handleParkingAreaChange">
+              <el-option v-for="item in parkingAreas" :key="item.paId" :label="item.num" :value="item.paId" />
+            </el-select>
           </el-form-item>
         </el-col>
       </el-row>
@@ -41,18 +43,6 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="12">
-          <el-form-item :label="$t('addParkingSpaceApply.carColor')" prop="carColor" :rules="[
-            { required: true, message: $t('addParkingSpaceApply.requiredCarColor') },
-            { max: 12, message: $t('addParkingSpaceApply.maxCarColor') }
-          ]">
-            <el-input v-model="addParkingSpaceApplyInfo.carColor"
-              :placeholder="$t('addParkingSpaceApply.placeholderCarColor')" />
-          </el-form-item>
-        </el-col>
-      </el-row>
-
-      <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item :label="$t('addParkingSpaceApply.applyPersonName')" prop="applyPersonName" :rules="[
             { required: true, message: $t('addParkingSpaceApply.requiredApplyPersonName') },
@@ -69,6 +59,9 @@
             {{ $t('addParkingSpaceApply.selectOwner') }}
           </el-button>
         </el-col>
+      </el-row>
+
+      <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item :label="$t('addParkingSpaceApply.applyPersonLink')" prop="applyPersonLink" :rules="[
             { required: true, message: $t('addParkingSpaceApply.requiredApplyPersonLink') },
@@ -109,6 +102,7 @@
 
 <script>
 import { saveParkingSpaceApply } from '@/api/car/addParkingSpaceApplyApi'
+import { listParkingAreas } from '@/api/car/listParkingSpaceApi'
 import { getDict } from '@/api/community/communityApi'
 import SearchOwner from '@/components/owner/SearchOwner'
 
@@ -126,20 +120,20 @@ export default {
         psName: '',
         applyId: '',
         carNum: '',
-        carBrand: '',
         carType: '',
-        carColor: '',
         applyPersonName: '',
         applyPersonLink: '',
         applyPersonId: '',
         state: '1001',
         remark: ''
       },
-      carTypes: []
+      carTypes: [],
+      parkingAreas: []
     }
   },
   async created() {
     await this.getCarTypeDict()
+    await this.loadParkingAreas()
   },
   methods: {
     async getCarTypeDict() {
@@ -149,6 +143,23 @@ export default {
       } catch (error) {
         console.error('获取车辆类型字典失败:', error)
       }
+    },
+    async loadParkingAreas() {
+      try {
+        const params = {
+          page: 1,
+          row: 50,
+          communityId: this.getCommunityId()
+        }
+        const res = await listParkingAreas(params)
+        this.parkingAreas = res.parkingAreas || []
+      } catch (error) {
+        this.$message.error(this.$t('common.loadError'))
+      }
+    },
+    handleParkingAreaChange(paId) {
+      const selected = this.parkingAreas.find(item => item.paId === paId)
+      this.addParkingSpaceApplyInfo.paName = selected ? (selected.num || selected.name || '') : ''
     },
     handleChooseOwner(owner) {
       this.addParkingSpaceApplyInfo.applyPersonName = owner.name
@@ -187,9 +198,7 @@ export default {
         psName: '',
         applyId: '',
         carNum: '',
-        carBrand: '',
         carType: '',
-        carColor: '',
         applyPersonName: '',
         applyPersonLink: '',
         applyPersonId: '',

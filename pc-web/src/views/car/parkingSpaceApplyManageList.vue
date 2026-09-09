@@ -13,11 +13,6 @@
           </el-col>
           <el-col :span="4">
             <el-form-item>
-              <el-input v-model="conditions.carBrand" :placeholder="$t('parkingSpaceApplyManage.carBrand')" clearable />
-            </el-form-item>
-          </el-col>
-          <el-col :span="4">
-            <el-form-item>
               <el-input v-model="conditions.applyPersonName" :placeholder="$t('parkingSpaceApplyManage.applicantName')"
                 clearable />
             </el-form-item>
@@ -40,7 +35,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="4">
+          <el-col :span="8">
             <el-button type="primary" @click="_queryParkingSpaceApplyMethod">
               {{ $t('parkingSpaceApplyManage.search') }}
             </el-button>
@@ -71,13 +66,11 @@
             <span v-else>-</span>
           </template>
         </el-table-column>
-        <el-table-column prop="carBrand" :label="$t('parkingSpaceApplyManage.carBrand')" align="center" />
         <el-table-column :label="$t('parkingSpaceApplyManage.vehicleType')" align="center">
           <template slot-scope="scope">
             {{ _getCatType(scope.row.carType) }}
           </template>
         </el-table-column>
-        <el-table-column prop="carColor" :label="$t('parkingSpaceApplyManage.color')" align="center" />
         <el-table-column prop="startTime" :label="$t('parkingSpaceApplyManage.startTime')" align="center" />
         <el-table-column prop="endTime" :label="$t('parkingSpaceApplyManage.endTime')" align="center" />
         <el-table-column prop="applyPersonName" :label="$t('parkingSpaceApplyManage.applicant')" align="center" />
@@ -138,7 +131,6 @@ export default {
       conditions: {
         state: '',
         carNum: '',
-        carBrand: '',
         applyPersonName: '',
         applyPersonLink: '',
         communityId: ''
@@ -182,7 +174,6 @@ export default {
       this.conditions = {
         state: '',
         carNum: '',
-        carBrand: '',
         applyPersonName: '',
         applyPersonLink: '',
         communityId: ''

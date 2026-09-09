@@ -22,16 +22,6 @@
       </el-form-item>
       
       <el-form-item 
-        :label="$t('editParkingSpaceApply.carBrand')" 
-        prop="carBrand"
-      >
-        <el-input 
-          v-model="formData.carBrand" 
-          :placeholder="$t('editParkingSpaceApply.fillCarBrand')"
-        />
-      </el-form-item>
-      
-      <el-form-item 
         :label="$t('editParkingSpaceApply.vehicleType')" 
         prop="carType"
       >
@@ -53,16 +43,6 @@
             value="9903" 
           />
         </el-select>
-      </el-form-item>
-      
-      <el-form-item 
-        :label="$t('editParkingSpaceApply.color')" 
-        prop="carColor"
-      >
-        <el-input 
-          v-model="formData.carColor" 
-          :placeholder="$t('editParkingSpaceApply.fillColor')"
-        />
       </el-form-item>
       
       <el-form-item 
@@ -139,9 +119,7 @@ export default {
       formData: {
         applyId: '',
         carNum: '',
-        carBrand: '',
         carType: '',
-        carColor: '',
         startTime: '',
         endTime: '',
         applyPersonName: '',
@@ -154,14 +132,8 @@ export default {
         carNum: [
           { required: true, message: this.$t('editParkingSpaceApply.fillLicensePlate'), trigger: 'blur' }
         ],
-        carBrand: [
-          { required: true, message: this.$t('editParkingSpaceApply.fillCarBrand'), trigger: 'blur' }
-        ],
         carType: [
           { required: true, message: this.$t('editParkingSpaceApply.selectVehicleType'), trigger: 'change' }
-        ],
-        carColor: [
-          { required: true, message: this.$t('editParkingSpaceApply.fillColor'), trigger: 'blur' }
         ],
         startTime: [
           { required: true, message: this.$t('editParkingSpaceApply.fillStartTime'), trigger: 'change' }
@@ -174,7 +146,18 @@ export default {
   },
   methods: {
     open(data) {
-      this.formData = { ...data }
+      this.formData = {
+        applyId: data.applyId,
+        carNum: data.carNum,
+        carType: data.carType,
+        startTime: data.startTime,
+        endTime: data.endTime,
+        applyPersonName: data.applyPersonName,
+        applyPersonLink: data.applyPersonLink,
+        applyPersonId: data.applyPersonId,
+        state: data.state || '1001',
+        remark: data.remark || ''
+      }
       this.visible = true
     },
     

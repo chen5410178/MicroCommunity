@@ -90,10 +90,6 @@ public class AuditParkingSpaceApplyCmd extends Cmd {
     public void validate(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) {
         Assert.hasKeyAndValue(reqJson, "applyId", "applyId不能为空");
         Assert.hasKeyAndValue(reqJson, "communityId", "communityId不能为空");
-        //审核通过必须选择车位
-        if (ParkingSpaceApplyDto.STATE_SUCCESS.equals(reqJson.getString("state"))) {
-            Assert.hasKeyAndValue(reqJson, "psId", "审核通过必须选择车位");
-        }
     }
 
     @Override
@@ -124,8 +120,8 @@ public class AuditParkingSpaceApplyCmd extends Cmd {
             throw new CmdException("未查询到申请单，请联系管理员");
         }
         ParkingSpaceApplyDto parkingSpaceApply = parkingSpaceApplyDtos.get(0);
-        //父方案联动：申请单未带出所属停车场时按 psId 反查车位所属停车场
-        if (StringUtil.isEmpty(parkingSpaceApply.getPaId())) {
+        //申请单未带出所属停车场且已绑定具体车位时，按 psId 反查车位所属停车场
+        if (StringUtil.isEmpty(parkingSpaceApply.getPaId()) && !StringUtil.isEmpty(parkingSpaceApply.getPsId())) {
             ParkingSpaceDto parkingSpaceDto = new ParkingSpaceDto();
             parkingSpaceDto.setPsId(parkingSpaceApply.getPsId());
             List<ParkingSpaceDto> parkingSpaceDtos = parkingSpaceV1InnerServiceSMOImpl.queryParkingSpaces(parkingSpaceDto);
@@ -133,6 +129,10 @@ public class AuditParkingSpaceApplyCmd extends Cmd {
                 throw new CmdException("未查询到所选车位信息，请联系管理员");
             }
             parkingSpaceApply.setPaId(parkingSpaceDtos.get(0).getPaId());
+        }
+        //未绑定具体车位时停车场取申请单 paId，兜底 -1（owner_car.pa_id 默认 -1）
+        if (StringUtil.isEmpty(parkingSpaceApply.getPaId())) {
+            parkingSpaceApply.setPaId("-1");
         }
         //2、审核的时，判断车辆是否在owner_car中有，有就跳过。  没有的话写入owner_car，--都要写入pay_fee。
         OwnerCarDto ownerCarDto = new OwnerCarDto();
@@ -185,13 +185,15 @@ public class AuditParkingSpaceApplyCmd extends Cmd {
             }
             //同一停车场已有车辆：跳过（幂等）
         }
-        // 将车位状态 修改为已出租状态
-        ParkingSpacePo parkingSpacePo = new ParkingSpacePo();
-        parkingSpacePo.setPsId(parkingSpaceApply.getPsId());
-        parkingSpacePo.setState(ParkingSpaceDto.STATE_HIRE);
-        flag = parkingSpaceV1InnerServiceSMOImpl.updateParkingSpace(parkingSpacePo);
-        if (flag < 1) {
-            throw new CmdException("更新车位状态失败");
+        // 仅当申请单已绑定具体车位时才将车位状态修改为已出租
+        if (!StringUtil.isEmpty(parkingSpaceApply.getPsId())) {
+            ParkingSpacePo parkingSpacePo = new ParkingSpacePo();
+            parkingSpacePo.setPsId(parkingSpaceApply.getPsId());
+            parkingSpacePo.setState(ParkingSpaceDto.STATE_HIRE);
+            flag = parkingSpaceV1InnerServiceSMOImpl.updateParkingSpace(parkingSpacePo);
+            if (flag < 1) {
+                throw new CmdException("更新车位状态失败");
+            }
         }
         cmdDataFlowContext.setResponseEntity(ResultVo.success());
     }

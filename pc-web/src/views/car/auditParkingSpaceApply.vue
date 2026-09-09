@@ -15,18 +15,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item :label="$t('auditParkingSpaceApply.carBrand') + '：'">
-              <span>{{ formData.carBrand }}</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
             <el-form-item :label="$t('auditParkingSpaceApply.carType') + '：'">
               <span>{{ formData.carType }}</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item :label="$t('auditParkingSpaceApply.color') + '：'">
-              <span>{{ formData.carColor }}</span>
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -88,16 +78,7 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item v-if="formData.state === '3003'" :label="$t('auditParkingSpaceApply.selectParkingSpace')">
-          <el-input v-model="formData.psName" :placeholder="$t('auditParkingSpaceApply.selectParkingSpace')" readonly
-            style="width: 80%;" />
-          <el-button type="primary" @click="openChooseParkingSpace" style="margin-left: 10px;">
-            <i class="el-icon-search"></i>
-            {{ $t('auditParkingSpaceApply.select') }}
-          </el-button>
-        </el-form-item>
-
-        <el-form-item v-if="formData.state === '3003' && formData.areaNum"
+        <el-form-item v-if="formData.areaNum"
           :label="$t('auditParkingSpaceApply.belongParkingLot')">
           <span>{{ formData.areaNum }}</span>
         </el-form-item>
@@ -117,38 +98,26 @@
         </el-form-item>
       </el-form>
     </el-card>
-
-
-    <!-- 搜索车位组件 -->
-    <search-parking-space ref="searchParkingSpace" :ps-flag="formData.parkingSpaceFlag"
-      @choose-parking-space="handleChooseParkingSpace" />
   </div>
 </template>
 
 <script>
 import { getParkingSpaceApplyDetail, auditParkingSpaceApply } from '@/api/car/auditParkingSpaceApplyApi'
-import SearchParkingSpace from '@/components/car/SearchParkingSpace'
 
 import { getCommunityId } from '@/api/community/communityApi'
 
 export default {
   name: 'AuditParkingSpaceApply',
-  components: {
-    SearchParkingSpace
-  },
   data() {
     return {
       formData: {
         applyId: '',
         communityId: getCommunityId(),
         psId: '',
-        psName: '',
         paId: '',
         areaNum: '',
         carNum: '',
-        carBrand: '',
         carType: '',
-        carColor: '',
         startTime: '',
         endTime: '',
         applyPersonName: '',
@@ -156,8 +125,7 @@ export default {
         applyPersonId: '',
         state: '',
         remark: '',
-        remark2: '',
-        parkingSpaceFlag: 'F'
+        remark2: ''
       }
     }
   },
@@ -183,25 +151,10 @@ export default {
         this.$message.error(this.$t('common.queryFailed'))
       }
     },
-    openChooseParkingSpace() {
-      this.$refs.searchParkingSpace.open()
-    },
-    handleChooseParkingSpace(parkingSpace) {
-      console.log('选择车位', parkingSpace)
-      this.formData.psId = parkingSpace.psId
-      this.formData.psName = parkingSpace.num
-      this.formData.paId = parkingSpace.paId || ''
-      this.formData.areaNum = parkingSpace.areaNum || ''
-    },
     async doAudit() {
       // 验证逻辑
       if (!this.formData.state) {
         this.$message.warning(this.$t('auditParkingSpaceApply.selectResult'))
-        return
-      }
-
-      if (this.formData.state === '3003' && !this.formData.psId) {
-        this.$message.warning(this.$t('auditParkingSpaceApply.selectParkingSpace'))
         return
       }
 
@@ -218,6 +171,9 @@ export default {
           ...this.formData,
           remark
         }
+        delete data.psId
+        delete data.psName
+        delete data.parkingSpaceFlag
 
         await auditParkingSpaceApply(data)
         this.$message.success(this.$t('common.operationSuccess'))

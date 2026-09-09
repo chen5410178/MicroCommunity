@@ -34,11 +34,11 @@
           </div>
           <div class="">
             <el-row :gutter="20">
-              <el-col :span="6">
+              <el-col :span="4">
                 <el-input v-model.trim="listParkingSpaceInfo.num"
                   :placeholder="$t('listParkingSpace.parkingSpaceNumPlaceholder')" clearable />
               </el-col>
-              <el-col :span="6">
+              <el-col :span="4">
                 <el-select v-model="listParkingSpaceInfo.conditions.state"
                   :placeholder="$t('listParkingSpace.parkingSpaceStatePlaceholder')" style="width:100%">
                   <el-option value="" :label="$t('listParkingSpace.parkingSpaceStatePlaceholder')"></el-option>
@@ -47,11 +47,15 @@
                   <el-option value="F" :label="$t('listParkingSpace.free')"></el-option>
                 </el-select>
               </el-col>
-              <el-col :span="6">
-                <el-input v-model.trim="listParkingSpaceInfo.conditions.psId"
-                  :placeholder="$t('listParkingSpace.parkingSpaceIdPlaceholder')" clearable />
+              <el-col :span="4">
+                <el-input v-model.trim="listParkingSpaceInfo.conditions.ownerNameLike"
+                  :placeholder="$t('listParkingSpace.ownerNamePlaceholder')" clearable />
               </el-col>
-              <el-col :span="6">
+              <el-col :span="4">
+                <el-input v-model.trim="listParkingSpaceInfo.conditions.carNumLike"
+                  :placeholder="$t('listParkingSpace.carNumPlaceholder')" clearable />
+              </el-col>
+              <el-col :span="8">
                 <el-button type="primary" size="small" @click="queryParkingSpaceMethod">
                   {{ $t('listParkingSpace.query') }}
                 </el-button>
@@ -210,7 +214,8 @@ export default {
         pageSize: 10,
         num: '',
         conditions: {
-          psId: '',
+          ownerNameLike: '',
+          carNumLike: '',
           area: '',
           paId: '',
           areaNum: '',
@@ -247,7 +252,8 @@ export default {
           row: this.listParkingSpaceInfo.pageSize,
           communityId: getCommunityId(),
           num: this.listParkingSpaceInfo.num,
-          psId: this.listParkingSpaceInfo.conditions.psId,
+          ownerNameLike: this.listParkingSpaceInfo.conditions.ownerNameLike,
+          carNumLike: this.listParkingSpaceInfo.conditions.carNumLike,
           area: this.listParkingSpaceInfo.conditions.area,
           paId: this.listParkingSpaceInfo.conditions.paId,
           sectionId: this.listParkingSpaceInfo.conditions.sectionId,
@@ -277,7 +283,8 @@ export default {
     },
 
     resetParkingSpaceMethod() {
-      this.listParkingSpaceInfo.conditions.psId = ''
+      this.listParkingSpaceInfo.conditions.ownerNameLike = ''
+      this.listParkingSpaceInfo.conditions.carNumLike = ''
       this.listParkingSpaceInfo.conditions.state = ''
       this.listParkingSpaceInfo.num = ''
       this.loadParkingSpaceData()

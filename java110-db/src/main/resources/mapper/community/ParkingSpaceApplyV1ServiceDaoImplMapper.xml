@@ -8,9 +8,9 @@
     <!-- 保存车位申请信息 add by wuxw 2018-07-03 -->
     <insert id="saveParkingSpaceApplyInfo" parameterType="Map">
         insert into parking_space_apply(
-        car_brand,apply_person_name,car_num,ps_id,remark,apply_id,car_color,car_type,config_id,apply_person_link,start_time,apply_person_id,end_time,state,community_id
+        car_brand,apply_person_name,car_num,ps_id,remark,apply_id,car_color,car_type,config_id,apply_person_link,start_time,apply_person_id,end_time,state,community_id,pa_id
         ) values (
-        #{carBrand},#{applyPersonName},#{carNum},#{psId},#{remark},#{applyId},#{carColor},#{carType},#{configId},#{applyPersonLink},#{startTime},#{applyPersonId},#{endTime},#{state},#{communityId}
+        #{carBrand},#{applyPersonName},#{carNum},#{psId},#{remark},#{applyId},#{carColor},#{carType},#{configId},#{applyPersonLink},#{startTime},#{applyPersonId},#{endTime},#{state},#{communityId},#{paId}
         )
     </insert>
 
@@ -24,11 +24,11 @@
         configId,t.apply_person_link,t.apply_person_link applyPersonLink,t.start_time,t.start_time
         startTime,t.apply_person_id,t.apply_person_id applyPersonId,t.end_time,t.end_time
         endTime,t.state,t.community_id,t.community_id communityId,
-        t1.num ,t1.pa_id paId,t3.name parkingTypeName,t4.name stateName,
+        t1.num ,COALESCE(t.pa_id, t1.pa_id) paId,t3.name parkingTypeName,t4.name stateName,
         t2.car_id carId,par.num areaNum
         from parking_space_apply t
         left join parking_space t1 on t.ps_id = t1.ps_id and t1.status_cd = '0'
-        left join parking_area par on t1.pa_id = par.pa_id and par.status_cd = '0'
+        left join parking_area par on COALESCE(t.pa_id, t1.pa_id) = par.pa_id and par.status_cd = '0'
         left join owner_car t2 on t.apply_person_id = t2.owner_id and t.community_id =t2.community_id and t.car_num = t2.car_num and t2.status_cd =0
         left join t_dict t3 on t1.parking_type = t3.status_cd and t3.table_name ='parking_space' and t3.table_columns ='parking_type'
         left join t_dict t4 on t1.state = t4.status_cd and t4.table_name ='parking_space' and t4.table_columns ='state'
@@ -140,6 +140,9 @@
         <if test="applyPersonId !=null and applyPersonId != ''">
             , t.apply_person_id= #{applyPersonId}
         </if>
+        <if test="paId !=null and paId != ''">
+            , t.pa_id= #{paId}
+        </if>
         <if test="endTime !=null and endTime != ''">
             , t.end_time= #{endTime}
         </if>
@@ -205,6 +208,9 @@
         </if>
         <if test="applyPersonId !=null and applyPersonId != ''">
             and t.apply_person_id= #{applyPersonId}
+        </if>
+        <if test="paId !=null and paId != ''">
+            and t.pa_id= #{paId}
         </if>
         <if test="endTime !=null and endTime != ''">
             and t.end_time= #{endTime}
