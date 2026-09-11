@@ -21,14 +21,23 @@ export function login(data) {
   })
 }
 
-// 获取验证码接口
+// 获取验证码接口（返回 {loginCodeId, img}）
 export function getCaptcha() {
   return new Promise((resolve, reject) => {
     request({
       url: '/callComponent/validate-code/generateValidateCode',
       method: 'get'
     }).then(response => {
-      const res = response.data
+      let res = response.data
+      // 兼容后端返回 JSON 字符串的情况
+      if (typeof res === 'string') {
+        try {
+          res = JSON.parse(res)
+        } catch (error) {
+          reject(error)
+          return
+        }
+      }
       // 获取验证码成功
       resolve(res)
     }).catch(error => {

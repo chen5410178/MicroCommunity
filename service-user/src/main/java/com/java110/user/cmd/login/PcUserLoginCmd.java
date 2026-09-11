@@ -67,6 +67,8 @@ import java.util.Map;
         params = {
                 @Java110ParamDoc(name = "username", length = 30, remark = "用户名，物业系统分配"),
                 @Java110ParamDoc(name = "passwd", length = 30, remark = "密码，物业系统分配"),
+                @Java110ParamDoc(name = "validateCode", length = 10, remark = "验证码"),
+                @Java110ParamDoc(name = "loginCodeId", length = 64, remark = "验证码标识，获取验证码接口返回"),
         })
 
 @Java110ResponseDoc(
@@ -103,6 +105,24 @@ public class PcUserLoginCmd extends Cmd {
         // AuthenticationFactory.checkLoginErrorCount(reqJson.getString("username"));
 
         reqJson.put("passwd", AuthenticationFactory.passwdMd5(reqJson.getString("passwd")));
+
+
+        String appId = CmdContextUtils.getAppId(cmdDataFlowContext);
+
+        // web端需要 验证码校验（loginCodeId 机制，不依赖 sessionId）
+        if (AppDto.WEB_APP_ID.equals(appId)) {
+            Assert.hasKeyAndValue(reqJson, "validateCode", "未包含验证码");
+            Assert.hasKeyAndValue(reqJson, "loginCodeId", "未包含验证码标识");
+            String code = CommonCache.getValue("CAPTCHA_" + reqJson.getString("loginCodeId"));
+            if (StringUtil.isEmpty(code)) {
+                throw new CmdException("验证码已过期，请刷新重试");
+            }
+            if (!code.equals(reqJson.getString("validateCode").toLowerCase())) {
+                throw new CmdException("验证码错误");
+            }
+            // 校验通过，验证码一次性消费，防止重放
+            CommonCache.removeValue("CAPTCHA_" + reqJson.getString("loginCodeId"));
+        }
 
 
     }

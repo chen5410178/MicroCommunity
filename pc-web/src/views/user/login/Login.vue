@@ -44,9 +44,10 @@ export default {
       logo: '',
       companyName:'',
       loginForm: {
-        username: 'wuxw',
-        passwd: 'admin',
-        validateCode: ''
+        username: '',
+        passwd: '',
+        validateCode: '',
+        loginCodeId: ''
       },
       captchaUrl: '',
       loading: false,
@@ -125,7 +126,8 @@ export default {
     async refreshCaptcha() {
       try {
         const res = await getCaptcha();
-        this.captchaUrl = res;
+        this.captchaUrl = res.img;
+        this.loginForm.loginCodeId = res.loginCodeId;
       } catch (error) {
         this.$message.error(this.$t('login.getCaptchaFailed'));
       }

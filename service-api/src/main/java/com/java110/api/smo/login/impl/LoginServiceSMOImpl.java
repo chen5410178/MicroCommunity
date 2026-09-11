@@ -7,6 +7,7 @@ import com.java110.api.smo.login.ILoginServiceSMO;
 import com.java110.core.cache.Java110RedisConfig;
 import com.java110.core.context.IPageData;
 import com.java110.core.factory.AuthenticationFactory;
+import com.java110.core.factory.GenerateCodeFactory;
 import com.java110.core.factory.ValidateCodeFactory;
 import com.java110.core.log.LoggerFactory;
 import com.java110.utils.cache.CommonCache;
@@ -106,20 +107,25 @@ public class LoginServiceSMOImpl extends DefaultAbstractComponentSMO implements 
      */
     @Override
     public ResponseEntity<String> generateValidateCode(IPageData pd) {
-        int w = 200, h = 80;
         String verifyCode = ValidateCodeFactory.generateVerifyCode(4);
         ResponseEntity<String> verifyCodeImage = null;
         try {
             verifyCodeImage = new ResponseEntity<>(ValidateCodeFactory.outputImage(200, 80, verifyCode), HttpStatus.OK);
 
-            //将验证码存入Redis中
-            CommonCache.setValue(pd.getSessionId() + "_validateCode", verifyCode.toLowerCase(), CommonCache.defaultExpireTime);
+            //生成验证码标识，不再依赖 sessionId
+            String loginCodeId = GenerateCodeFactory.getUUID();
 
+            //将验证码存入Redis中
+            CommonCache.setValue("CAPTCHA_" + loginCodeId, verifyCode.toLowerCase(), CommonCache.defaultExpireTime);
+
+            JSONObject result = new JSONObject();
+            result.put("loginCodeId", loginCodeId);
+            result.put("img", verifyCodeImage.getBody());
+            return new ResponseEntity<>(result.toJSONString(), HttpStatus.OK);
         } catch (Exception e) {
             logger.error("生成验证码失败，", e);
-            verifyCodeImage = new ResponseEntity<>("", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return verifyCodeImage;
     }
 
     /**
@@ -134,9 +140,17 @@ public class LoginServiceSMOImpl extends DefaultAbstractComponentSMO implements 
         ResponseEntity<String> verifyResult = null;
         Assert.jsonObjectHaveKey(pd.getReqData(), "validateCode", "请求报文中未包含 validateCode节点" + pd.toString());
 
-        String code = CommonCache.getValue(pd.getSessionId() + "_validateCode");
+        JSONObject reqJson = JSONObject.parseObject(pd.getReqData());
 
-        if (JSONObject.parseObject(pd.getReqData()).getString("validateCode").toLowerCase().equals(code)) {
+        String code = null;
+        //优先按 loginCodeId 校验，兼容旧 sessionId 逻辑
+        if (reqJson.containsKey("loginCodeId") && !StringUtil.isEmpty(reqJson.getString("loginCodeId"))) {
+            code = CommonCache.getValue("CAPTCHA_" + reqJson.getString("loginCodeId"));
+        } else {
+            code = CommonCache.getValue(pd.getSessionId() + "_validateCode");
+        }
+
+        if (reqJson.getString("validateCode").toLowerCase().equals(code)) {
             verifyResult = new ResponseEntity<>("成功", HttpStatus.OK);
         } else {
             pd.setToken("");
