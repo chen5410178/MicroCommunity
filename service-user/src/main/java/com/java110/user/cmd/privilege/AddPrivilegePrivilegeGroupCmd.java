@@ -11,6 +11,7 @@ import com.java110.intf.order.IPrivilegeInnerServiceSMO;
 import com.java110.intf.store.IStoreV1InnerServiceSMO;
 import com.java110.intf.user.IPrivilegeRelV1InnerServiceSMO;
 import com.java110.po.privilege.PrivilegeRelPo;
+import com.java110.user.bmo.privilege.IPrivilegeAssignBMO;
 import com.java110.utils.exception.CmdException;
 import com.java110.utils.util.Assert;
 import com.java110.utils.util.BeanConvertUtil;
@@ -18,6 +19,7 @@ import com.java110.vo.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Java110Cmd(serviceCode = "add.privilege.PrivilegeGroup")
@@ -31,6 +33,10 @@ public class AddPrivilegePrivilegeGroupCmd extends Cmd {
 
     @Autowired
     private IPrivilegeRelV1InnerServiceSMO privilegeRelV1InnerServiceSMOImpl;
+
+    @Autowired
+    private IPrivilegeAssignBMO privilegeAssignBMOImpl;
+
 
     @Override
     public void validate(CmdEvent event, ICmdDataFlowContext context, JSONObject reqJson) throws CmdException {
@@ -60,6 +66,14 @@ public class AddPrivilegePrivilegeGroupCmd extends Cmd {
 
         reqJson.put("storeId", storeDtos.get(0).getStoreId());
         reqJson.put("storeTypeCd", storeDtos.get(0).getStoreTypeCd());
+
+        String userId = context.getReqHeaders().get("user-id");
+        List<String> assignPIds = new ArrayList<>();
+        for (int pIdIndex = 0; pIdIndex < pIds.size(); pIdIndex++) {
+            assignPIds.add(pIds.getJSONObject(pIdIndex).getString("pId"));
+        }
+        privilegeAssignBMOImpl.validateAssignable(storeDtos.get(0).getStoreId(), userId,
+                storeDtos.get(0).getStoreTypeCd(), assignPIds);
 
     }
 

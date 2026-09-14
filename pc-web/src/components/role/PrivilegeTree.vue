@@ -1,5 +1,6 @@
 <template>
   <div class="privilege-tree">
+    <div class="assign-tip">{{ $t('role.assignTip') }}</div>
     <el-tree
       ref="privilegeTree"
       :data="treeData"
@@ -167,5 +168,11 @@ export default {
   border-radius: 4px;
   padding: 15px;
   margin-top: 10px;
+}
+
+.assign-tip {
+  color: #909399;
+  font-size: 12px;
+  margin-bottom: 10px;
 }
 </style>

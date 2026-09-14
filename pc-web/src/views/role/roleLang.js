@@ -33,7 +33,8 @@ export const messages = {
         female: 'Female',
         detail: 'Detail',
         addRole: 'Add Role',
-        editRole: 'Edit Role'
+        editRole: 'Edit Role',
+        assignTip: 'You can only assign privileges you already have'
       }
     },
     zh: {
@@ -70,7 +71,8 @@ export const messages = {
         female: '女',
         detail: '详情',
         addRole: '添加角色',
-        editRole: '编辑角色'
+        editRole: '编辑角色',
+        assignTip: '只能从您拥有的权限中分配'
       }
     },
     'zh-TW': {
@@ -107,7 +109,8 @@ export const messages = {
         female: '女',
         detail: '详情',
         addRole: '添加角色',
-        editRole: '编辑角色'
+        editRole: '编辑角色',
+        assignTip: '只能從您擁有的權限中分配'
       }
     }
   }

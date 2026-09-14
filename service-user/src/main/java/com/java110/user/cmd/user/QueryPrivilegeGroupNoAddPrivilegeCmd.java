@@ -11,6 +11,7 @@ import com.java110.dto.store.StoreDto;
 import com.java110.intf.store.IStoreV1InnerServiceSMO;
 import com.java110.service.context.DataQuery;
 import com.java110.service.smo.IQueryServiceSMO;
+import com.java110.user.bmo.privilege.IPrivilegeAssignBMO;
 import com.java110.utils.constant.CommonConstant;
 import com.java110.utils.exception.CmdException;
 import com.java110.utils.factory.ApplicationContextFactory;
@@ -30,6 +31,10 @@ public class QueryPrivilegeGroupNoAddPrivilegeCmd extends Cmd {
 
     @Autowired
     private IQueryServiceSMO queryServiceSMOImpl;
+
+    @Autowired
+    private IPrivilegeAssignBMO privilegeAssignBMOImpl;
+
 
 
     @Override
@@ -103,6 +108,7 @@ public class QueryPrivilegeGroupNoAddPrivilegeCmd extends Cmd {
 
         }
 
+        privilegeAssignBMOImpl.filterAssignable(tmpPrivilegeArrays, storeId, userId, storeTypeCd);
 
         context.setResponseEntity(new ResponseEntity<String>(tmpPrivilegeArrays.toJSONString(), HttpStatus.OK));
     }

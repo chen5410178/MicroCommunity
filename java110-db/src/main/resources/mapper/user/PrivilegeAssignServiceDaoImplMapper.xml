@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="privilegeAssignServiceDaoImpl">
+
+    <!-- 操作人拥有的权限：权限组授权(privilege_flag='1') ∪ 直授权限(privilege_flag='0')，与权限树同域过滤 -->
+    <select id="queryUserPrivilegeIds" parameterType="Map" resultType="Map">
+        select p.p_id pId
+        from p_privilege p
+        inner join p_privilege_rel ppr on ppr.p_id = p.p_id and ppr.status_cd = '0'
+        inner join p_privilege_group ppg on ppg.pg_id = ppr.pg_id and ppg.status_cd = '0'
+        inner join p_privilege_user ppu on ppu.p_id = ppg.pg_id
+            and ppu.privilege_flag = '1' and ppu.status_cd = '0'
+        where p.status_cd = '0'
+          and ppu.user_id = #{userId}
+          and p.domain in (#{domain}, '9999')
+        union
+        select p.p_id pId
+        from p_privilege p
+        inner join p_privilege_user ppu on ppu.p_id = p.p_id
+            and ppu.privilege_flag = '0' and ppu.status_cd = '0'
+        where p.status_cd = '0'
+          and ppu.user_id = #{userId}
+          and p.domain in (#{domain}, '9999')
+    </select>
+
+    <!-- 是否商户管理员（创建物业公司生成的账号，rel_cd = 600311000001） -->
+    <select id="queryStoreAdminCount" parameterType="Map" resultType="int">
+        select count(1)
+        from s_store_user su
+        where su.status_cd = '0'
+          and su.user_id = #{userId}
+          and su.rel_cd = #{relCd}
+        <if test="storeId != null and storeId != ''">
+            and su.store_id = #{storeId}
+        </if>
+    </select>
+
+</mapper>

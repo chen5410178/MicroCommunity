@@ -30,7 +30,7 @@ spring:
   activiti:
     database-schema-update: false
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/TT?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
+    url: jdbc:mysql://127.0.0.1:3306/tt?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8&enabledTLSProtocols=TLSv1.2
     username: TT
     password: hc12345678
     type: com.alibaba.druid.pool.DruidDataSource
