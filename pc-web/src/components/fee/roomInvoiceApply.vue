@@ -1,10 +1,11 @@
 <template>
   <div>
     <div class="flex justify-between margin-bottom-sm">
-      <span>{{ $t('invoiceApply.title') }}</span>
+      <span></span>
+      <el-button type="primary" size="small" @click="_invoiceApply">
+        {{ $t('invoiceApply.apply') }}
+      </el-button>
     </div>
-
-
     <el-table :data="invoiceApplys" border style="width: 100%">
       <el-table-column prop="applyId" :label="$t('invoiceApply.table.id')" align="center" />
       <el-table-column :label="$t('invoiceApply.table.invoiceKind')" align="center">
@@ -56,9 +57,6 @@
       </el-table-column>
       <el-table-column :label="$t('common.operation')" align="center" width="200" fixed="right">
         <template slot-scope="scope">
-          <el-button size="mini" @click="_invoiceApply(scope.row)">
-            {{ $t('invoiceApply.apply') }}
-          </el-button>
           <el-button v-if="scope.row.mallState === 'DONE'" size="mini" type="warning" @click="_openRedDialog(scope.row)">
             {{ $t('invoiceApply.invoiceRed') }}
           </el-button>
