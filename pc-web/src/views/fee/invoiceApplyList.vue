@@ -80,57 +80,30 @@
         <el-card class="margin-top">
           <el-tabs v-model="activeTab" @tab-click="handleTabClick">
             <el-tab-pane :label="$t('invoiceApply.tabInvoice')" name="invoice">
-              <div class="flex justify-between margin-bottom-sm">
-                <span>{{ $t('invoiceApply.title') }}</span>
-                <el-button type="primary" size="small" @click="_invoiceApply">
-                  {{ $t('invoiceApply.apply') }}
-                </el-button>
-              </div>
-              <invoice-apply-table :list-data="invoiceApplys" @detail="_openInvoiceApplyDetail" @red="_openRedDialog"
-                @submit="_reSubmitInvoiceApply" @delete="_openDeleteInvoiceApplyModel" />
-              <el-pagination :current-page="page.current" :page-sizes="[10, 20, 30, 50]" :page-size="page.size"
-                :total="page.total" layout="total, sizes, prev, pager, next, jumper" @size-change="handleSizeChange"
-                @current-change="handleCurrentChange" />
+              <invoice-apply-record v-if="activeTab === 'invoice'" ref="invoiceApplyRecord" :conditions="conditions"
+                :room-name="treeRoomName" />
             </el-tab-pane>
             <el-tab-pane :label="$t('invoiceApply.tabInvoiceRed')" name="invoiceRed">
-              <div class="flex justify-between margin-bottom-sm">
-                <span>{{ $t('invoiceApply.redTitle') }}</span>
-              </div>
-              <invoice-red-table :list-data="invoiceReds" />
-              <el-pagination :current-page="redPage.current" :page-sizes="[10, 20, 30, 50]"
-                :page-size="redPage.size" :total="redPage.total" layout="total, sizes, prev, pager, next, jumper"
-                @size-change="handleRedSizeChange" @current-change="handleRedCurrentChange" />
+              <invoice-red-record v-if="activeTab === 'invoiceRed'" ref="invoiceRedRecord"
+                :conditions="conditions" />
             </el-tab-pane>
           </el-tabs>
         </el-card>
       </div>
     </div>
-
-    <delete-invoice-apply ref="deleteDialog" @success="listInvoiceApplys" />
-    <invoice-red-dialog ref="redDialog" @success="listInvoiceApplys" />
   </div>
 </template>
 
 <script>
-import {
-  listInvoiceApply,
-  reSubmitInvoiceApply,
-  listInvoiceReds
-} from '@/api/fee/invoiceApplyApi'
-import { getCommunityId } from '@/api/community/communityApi'
-import DeleteInvoiceApply from '@/components/fee/deleteInvoiceApply'
-import InvoiceApplyTable from '@/components/fee/invoiceApplyTable'
-import InvoiceRedDialog from '@/components/fee/invoiceRedDialog'
-import InvoiceRedTable from '@/components/fee/invoiceRedTable'
+import InvoiceApplyRecord from '@/components/fee/invoiceApplyRecord'
+import InvoiceRedRecord from '@/components/fee/invoiceRedRecord'
 import RoomTreeDivHasOwner from '@/components/room/roomTreeDivHasOwner'
 
 export default {
   name: 'InvoiceApplyList',
   components: {
-    DeleteInvoiceApply,
-    InvoiceApplyTable,
-    InvoiceRedDialog,
-    InvoiceRedTable,
+    InvoiceApplyRecord,
+    InvoiceRedRecord,
     RoomTreeDivHasOwner
   },
   data() {
@@ -149,18 +122,6 @@ export default {
         floorId: '',
         unitId: ''
       },
-      invoiceApplys: [],
-      invoiceReds: [],
-      page: {
-        current: 1,
-        size: 10,
-        total: 0
-      },
-      redPage: {
-        current: 1,
-        size: 10,
-        total: 0
-      },
       // 房屋树筛选
       treeRoomName: '',
       // 拖拽相关
@@ -173,9 +134,7 @@ export default {
     }
   },
   created() {
-    this.communityId = getCommunityId()
     this.restoreTreeWidth()
-    this.listInvoiceApplys()
   },
   mounted() {
     document.addEventListener('mousemove', this.onMouseMove)
@@ -190,14 +149,12 @@ export default {
     handleSelectFloor(param) {
       this._clearRoomFilter()
       this.conditions.floorId = param.floorId
-      this._resetPage()
       this.listCurrentTab()
     },
     // 点击单元：按单元筛选(后端 left join building_unit 按 unit_id 过滤)
     handleSelectUnit(param) {
       this._clearRoomFilter()
       this.conditions.unitId = param.unitId
-      this._resetPage()
       this.listCurrentTab()
     },
     // 点击房屋：按房屋精确筛选
@@ -205,7 +162,6 @@ export default {
       this._clearRoomFilter()
       this.conditions.roomId = param.roomId
       this.treeRoomName = param.roomName
-      this._resetPage()
       this.listCurrentTab()
     },
     // 清空树筛选(房屋/楼栋/单元)与选房记忆
@@ -229,7 +185,6 @@ export default {
     // 全部：清除房屋筛选并重新查询
     _showAllRooms() {
       this._clearRoomFilter()
-      this._resetPage()
       this.listCurrentTab()
     },
     _resetConditionMethod() {
@@ -247,114 +202,26 @@ export default {
         unitId: ''
       }
       this._clearTreeFilter()
-      this._resetPage()
       this.listCurrentTab()
     },
-    _resetPage() {
-      this.page.current = 1
-      this.redPage.current = 1
-    },
-    // 两个 tab 共用查询条件与房屋树, 仅数据来源不同
+    // 两个 tab 共用查询条件与房屋树, 数据由各自子组件维护
     handleTabClick(tab) {
       this.activeTab = tab.name
-      this._resetPage()
-      this.listCurrentTab()
     },
+    // 刷新当前 tab 子组件(子组件按 v-if 懒加载, 首次挂载时自行加载)
     listCurrentTab() {
-      if (this.activeTab === 'invoiceRed') {
-        this.listInvoiceReds()
-        return
+      const refName = this.activeTab === 'invoiceRed' ? 'invoiceRedRecord' : 'invoiceApplyRecord'
+      const target = this.$refs[refName]
+      if (target) {
+        target.reload()
       }
-      this.listInvoiceApplys()
-    },
-    async listInvoiceApplys() {
-      try {
-        const params = {
-          ...this.conditions,
-          page: this.page.current,
-          row: this.page.size,
-          communityId: this.communityId
-        }
-        const res = await listInvoiceApply(params)
-        this.invoiceApplys = res.data
-        this.page.total = res.total
-      } catch (error) {
-        this.$message.error(this.$t('common.fetchError'))
-      }
-    },
-    async listInvoiceReds() {
-      try {
-        const params = {
-          ...this.conditions,
-          page: this.redPage.current,
-          row: this.redPage.size,
-          communityId: this.communityId
-        }
-        const res = await listInvoiceReds(params)
-        this.invoiceReds = res.data || []
-        this.redPage.total = res.total || 0
-      } catch (error) {
-        // 商城未开启/商城调用异常时后端已返回空分页, 此处兜底为空列表, 不弹错误提示
-        this.invoiceReds = []
-        this.redPage.total = 0
-      }
-    },
-    handleSizeChange(size) {
-      this.page.size = size
-      this.listInvoiceApplys()
-    },
-    handleCurrentChange(current) {
-      this.page.current = current
-      this.listInvoiceApplys()
-    },
-    handleRedSizeChange(size) {
-      this.redPage.size = size
-      this.listInvoiceReds()
-    },
-    handleRedCurrentChange(current) {
-      this.redPage.current = current
-      this.listInvoiceReds()
     },
     _queryInvoiceApplyMethod() {
       // 输入房屋编号查询时清除树筛选(互斥)
       if (this.conditions.roomNameLike) {
         this._clearTreeFilter()
       }
-      this._resetPage()
       this.listCurrentTab()
-    },
-    _invoiceApply() {
-      if (this.conditions.roomId) {
-        this.$router.push({
-          path: '/views/fee/ownerApplyInvoice',
-          query: { roomId: this.conditions.roomId, roomName: this.treeRoomName }
-        })
-        return
-      }
-      this.$router.push('/views/fee/ownerApplyInvoice')
-    },
-    _openInvoiceApplyDetail(row) {
-      this.$router.push(`/views/fee/invoiceApplyDetail?applyId=${row.applyId}`)
-    },
-    _openRedDialog(row) {
-      this.$refs.redDialog.open(row)
-    },
-    async _reSubmitInvoiceApply(row) {
-      try {
-        const res = await reSubmitInvoiceApply({ applyId: row.applyId })
-        const data = res.data || {}
-        if (data.state === 'F') {
-          this.$message.error(data.failReason || this.$t('invoiceApply.submitFailed'))
-        } else {
-          this.$message.success(this.$t('invoiceApply.submitSuccess'))
-        }
-        this.listInvoiceApplys()
-      } catch (error) {
-        this.$message.error(error.message)
-      }
-    },
-    _openDeleteInvoiceApplyModel(row) {
-      this.$refs.deleteDialog.open(row)
     },
     restoreTreeWidth() {
       const savedWidth = localStorage.getItem('invoiceApplyTreeWidth')
@@ -480,12 +347,6 @@ export default {
 
 .border-radius {
   border-radius: 4px;
-}
-
-.text-ellipsis {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .tree-panel * {
