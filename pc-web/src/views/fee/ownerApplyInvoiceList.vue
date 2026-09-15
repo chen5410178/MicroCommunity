@@ -95,7 +95,8 @@
         <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item :label="$t('ownerApplyInvoice.remark')">
-              <el-input v-model="formData.remark" :placeholder="$t('ownerApplyInvoice.remarkPlaceholder')" />
+              <el-input v-model="formData.remark" :placeholder="$t('ownerApplyInvoice.remarkMaxLength')"
+                maxlength="200" show-word-limit />
             </el-form-item>
           </el-col>
         </el-row>
@@ -335,10 +336,11 @@ export default {
         })
         const data = res.data || {}
         if (data.state === 'F') {
-          this.$message.error(`${this.$t('ownerApplyInvoice.submitFailed')}：${data.failReason || ''}`)
-        } else {
-          this.$message.success(this.$t('ownerApplyInvoice.submitSuccess'))
+          // 商城未建单时物业端零落库, 停留当前页面提示失败原因, 便于修正后重新提交
+          this.$message.error(`${this.$t('ownerApplyInvoice.submitFailedNotSaved')}：${data.failReason || ''}`)
+          return
         }
+        this.$message.success(this.$t('ownerApplyInvoice.submitSuccess'))
         this.goBack()
       } catch (error) {
         console.error('Failed to submit invoice application:', error)

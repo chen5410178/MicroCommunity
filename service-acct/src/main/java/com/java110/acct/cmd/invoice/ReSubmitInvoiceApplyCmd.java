@@ -24,11 +24,16 @@ import com.java110.core.event.cmd.Cmd;
 import com.java110.core.event.cmd.CmdEvent;
 import com.java110.dto.invoice.InvoiceApplyDto;
 import com.java110.dto.invoice.InvoiceApplyItemDto;
+import com.java110.dto.invoice.InvoiceMallStateDto;
 import com.java110.intf.acct.IInvoiceApplyItemV1InnerServiceSMO;
 import com.java110.intf.acct.IInvoiceApplyV1InnerServiceSMO;
+import com.java110.po.invoice.InvoiceApplyItemPo;
+import com.java110.po.invoice.InvoiceApplyPo;
 import com.java110.utils.exception.CmdException;
 import com.java110.utils.util.Assert;
+import com.java110.utils.util.BeanConvertUtil;
 import com.java110.utils.util.ListUtil;
+import com.java110.utils.util.StringUtil;
 import com.java110.vo.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -42,6 +47,8 @@ import java.util.List;
  */
 @Java110Cmd(serviceCode = "invoice.reSubmitInvoiceApply")
 public class ReSubmitInvoiceApplyCmd extends Cmd {
+
+    private static final String OI_ID_NOT_SUBMIT = "-1";
 
     @Autowired
     private IInvoiceApplyV1InnerServiceSMO invoiceApplyV1InnerServiceSMOImpl;
@@ -78,18 +85,19 @@ public class ReSubmitInvoiceApplyCmd extends Cmd {
             throw new CmdException("未包含开票项");
         }
 
-        // 抬头从申请单重建(邮箱/开户行未落物业库, 传空由商城保留原抬头对应字段)
-        String headingType = "2002".equals(invoiceApply.getInvoiceType()) ? "公司" : "个人";
-        InvoiceApplyDto submitResult = propertyInvoiceSubmitBmo.submit(applyId, communityId, headingType,
-                invoiceApply.getInvoiceName(), invoiceApply.getInvoiceNum(),
-                invoiceApply.getInvoiceAddress(), invoiceApply.getApplyTel(), null, null, items);
+        // 抬头从申请单重建(邮箱/开户行未落物业库, 传空由商城保留原抬头对应字段);
+        // 商城未建单回写 state=F + remark(失败原因摘要), 商城已建单回写 oi_id/state=S + 明细回写
+        InvoiceApplyPo invoiceApplyPo = BeanConvertUtil.covertBean(invoiceApply, InvoiceApplyPo.class);
+        List<InvoiceApplyItemPo> invoiceApplyItemPos = BeanConvertUtil.covertBeanList(items, InvoiceApplyItemPo.class);
+        InvoiceMallStateDto mallState = propertyInvoiceSubmitBmo.reSubmit(invoiceApplyPo, invoiceApplyItemPos);
 
         JSONObject resultData = new JSONObject();
-        resultData.put("applyId", submitResult.getApplyId());
-        resultData.put("state", submitResult.getState());
-        resultData.put("oiId", submitResult.getOiId());
-        resultData.put("mallState", submitResult.getMallState());
-        resultData.put("failReason", submitResult.getFailReason());
+        resultData.put("applyId", applyId);
+        resultData.put("state", StringUtil.isEmpty(mallState.getInvoiceId())
+                ? InvoiceApplyDto.STATE_SUBMIT_FAIL : InvoiceApplyDto.STATE_SUBMIT);
+        resultData.put("oiId", StringUtil.isEmpty(mallState.getInvoiceId()) ? OI_ID_NOT_SUBMIT : mallState.getInvoiceId());
+        resultData.put("mallState", mallState.getState());
+        resultData.put("failReason", mallState.getFailReason());
 
         context.setResponseEntity(ResultVo.createResponseEntity(resultData));
     }

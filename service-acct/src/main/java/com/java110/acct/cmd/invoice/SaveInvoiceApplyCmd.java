@@ -17,6 +17,7 @@ package com.java110.acct.cmd.invoice;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.java110.acct.bmo.invoice.IInvoiceStateSyncBmo;
 import com.java110.acct.bmo.invoice.IPropertyInvoiceSubmitBmo;
 import com.java110.core.annotation.Java110Cmd;
 import com.java110.core.annotation.Java110Transactional;
@@ -29,16 +30,15 @@ import com.java110.dto.account.AccountReceiptDto;
 import com.java110.dto.fee.FeeDetailDto;
 import com.java110.dto.invoice.InvoiceApplyDto;
 import com.java110.dto.invoice.InvoiceApplyItemDto;
+import com.java110.dto.invoice.InvoiceMallStateDto;
 import com.java110.dto.owner.OwnerDto;
 import com.java110.dto.user.UserDto;
 import com.java110.intf.acct.IInvoiceApplyItemV1InnerServiceSMO;
 import com.java110.intf.acct.IInvoiceApplyV1InnerServiceSMO;
 import com.java110.intf.fee.IAccountReceiptV1InnerServiceSMO;
 import com.java110.intf.fee.IFeeDetailInnerServiceSMO;
-import com.java110.intf.fee.IPayFeeDetailV1InnerServiceSMO;
 import com.java110.intf.user.IOwnerV1InnerServiceSMO;
 import com.java110.intf.user.IUserV1InnerServiceSMO;
-import com.java110.po.fee.PayFeeDetailPo;
 import com.java110.po.invoice.InvoiceApplyPo;
 import com.java110.po.invoice.InvoiceApplyItemPo;
 import com.java110.utils.exception.CmdException;
@@ -74,6 +74,18 @@ public class SaveInvoiceApplyCmd extends Cmd {
 
     public static final String CODE_PREFIX_ID = "10";
 
+    /**
+     * remark 列宽(invoice_apply.remark / invoice_apply_item.remark 均 varchar(200))
+     */
+    private static final int REMARK_MAX_LEN = 200;
+
+    /**
+     * 缴费明细开票状态: Y 已开票 N 开票失败 D 开票中(待审核/待开票)
+     */
+    private static final String OPEN_INVOICE_YES = "Y";
+    private static final String OPEN_INVOICE_NO = "N";
+    private static final String OPEN_INVOICE_ING = "D";
+
     @Autowired
     private IInvoiceApplyV1InnerServiceSMO invoiceApplyV1InnerServiceSMOImpl;
 
@@ -88,9 +100,6 @@ public class SaveInvoiceApplyCmd extends Cmd {
     private IFeeDetailInnerServiceSMO feeDetailInnerServiceSMOImpl;
 
     @Autowired
-    private IPayFeeDetailV1InnerServiceSMO payFeeDetailV1InnerServiceSMOImpl;
-
-    @Autowired
     private IAccountReceiptV1InnerServiceSMO accountReceiptV1InnerServiceSMOImpl;
 
     @Autowired
@@ -98,6 +107,9 @@ public class SaveInvoiceApplyCmd extends Cmd {
 
     @Autowired
     private IPropertyInvoiceSubmitBmo propertyInvoiceSubmitBmo;
+
+    @Autowired
+    private IInvoiceStateSyncBmo invoiceStateSyncBmoImpl;
 
     @Override
     public void validate(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) {
@@ -154,6 +166,7 @@ public class SaveInvoiceApplyCmd extends Cmd {
         Assert.listOnlyOne(userDtos, "用户未登录");
 
         InvoiceApplyPo invoiceApplyPo = BeanConvertUtil.covertBean(reqJson, InvoiceApplyPo.class);
+        // todo applyId 必须先于商城调用生成(商城 invoice_order.ext_apply_id = 物业 applyId), 但不提前落库
         invoiceApplyPo.setApplyId(GenerateCodeFactory.getGeneratorId(CODE_PREFIX_ID));
         if (StringUtil.isEmpty(invoiceApplyPo.getOiId())) {
             invoiceApplyPo.setOiId("-1");
@@ -161,7 +174,10 @@ public class SaveInvoiceApplyCmd extends Cmd {
         if (StringUtil.isEmpty(invoiceApplyPo.getInvoiceKind())) {
             invoiceApplyPo.setInvoiceKind("普票");
         }
+        // todo 备注按列宽截断, 避免 remark 溢出(Data too long)
+        invoiceApplyPo.setRemark(StringUtil.truncateMessage(invoiceApplyPo.getRemark(), REMARK_MAX_LEN));
 
+        // todo 组装开票项与金额(只算不写库)
         List<InvoiceApplyItemPo> invoiceApplyItemPos = new ArrayList<>();
         BigDecimal invoiceAmount = new BigDecimal("0.0");
         //todo 计算已缴费用
@@ -177,33 +193,63 @@ public class SaveInvoiceApplyCmd extends Cmd {
         invoiceApplyPo.setInvoiceAmount(invoiceAmount.doubleValue() + "");
         invoiceApplyPo.setCreateUserId(userId);
         invoiceApplyPo.setCreateUserName(userDtos.get(0).getName());
+
+        //todo 先提交商城开票申请(单接口): 抬头字段随开票报文一起传, 商城先 upsert 抬头再落开票单,
+        //     商城未建单(异常/无 invoiceId)时物业端零写入, 失败原因直接返回前端
+        InvoiceMallStateDto mallState = propertyInvoiceSubmitBmo.submitMall(invoiceApplyPo, invoiceApplyItemPos,
+                parseHeadingType(reqJson), reqJson.getString("email"), reqJson.getString("invoiceAccount"));
+
+        if (StringUtil.isEmpty(mallState.getInvoiceId())) {
+            JSONObject failData = new JSONObject();
+            failData.put("applyId", invoiceApplyPo.getApplyId());
+            failData.put("state", InvoiceApplyDto.STATE_SUBMIT_FAIL);
+            failData.put("oiId", invoiceApplyPo.getOiId());
+            failData.put("mallState", mallState.getState());
+            failData.put("failReason", mallState.getFailReason());
+            cmdDataFlowContext.setResponseEntity(ResultVo.createResponseEntity(failData));
+            return;
+        }
+
+        //todo 商城已建单才落库: 记录商城单号与提交结果(S), 审核/开票进度只读展示商城状态
+        invoiceApplyPo.setOiId(mallState.getInvoiceId());
         invoiceApplyPo.setState(InvoiceApplyDto.STATE_SUBMIT);
+        if (InvoiceMallStateDto.STATE_DONE.equals(mallState.getState())
+                && !StringUtil.isEmpty(mallState.getInvoiceNo())) {
+            invoiceApplyPo.setInvoiceCode(mallState.getInvoiceNo());
+        }
         int flag = invoiceApplyV1InnerServiceSMOImpl.saveInvoiceApply(invoiceApplyPo);
 
         if (flag < 1) {
             throw new CmdException("保存数据失败");
         }
 
-
         //todo 保存开票申请项
         invoiceApplyItemV1InnerServiceSMOImpl.saveInvoiceApplyItems(invoiceApplyItemPos);
 
-        //todo 提交商城开票申请(单接口): 抬头字段随开票报文一起传, 商城先 upsert 抬头再落开票单,
-        //     物业端只记录提交结果(S/F), 商城按 audit_switch 决定待审核/直接开票
-        List<InvoiceApplyItemDto> itemDtos = BeanConvertUtil.covertBeanList(invoiceApplyItemPos, InvoiceApplyItemDto.class);
-        InvoiceApplyDto submitResult = propertyInvoiceSubmitBmo.submit(invoiceApplyPo.getApplyId(), invoiceApplyPo.getCommunityId(),
-                parseHeadingType(reqJson), reqJson.getString("invoiceName"), reqJson.getString("invoiceNum"),
-                reqJson.getString("invoiceAddress"), reqJson.getString("applyTel"),
-                reqJson.getString("email"), reqJson.getString("invoiceAccount"), itemDtos);
+        //todo 落库成功后按商城结果回写缴费明细开票状态(开票成功Y/开票失败N/待审核与待开票D)
+        invoiceStateSyncBmoImpl.writeBackFeeDetail(invoiceApplyPo.getApplyId(), parseOpenInvoice(mallState.getState()));
 
         JSONObject resultData = new JSONObject();
-        resultData.put("applyId", submitResult.getApplyId());
-        resultData.put("state", submitResult.getState());
-        resultData.put("oiId", submitResult.getOiId());
-        resultData.put("mallState", submitResult.getMallState());
-        resultData.put("failReason", submitResult.getFailReason());
+        resultData.put("applyId", invoiceApplyPo.getApplyId());
+        resultData.put("state", InvoiceApplyDto.STATE_SUBMIT);
+        resultData.put("oiId", invoiceApplyPo.getOiId());
+        resultData.put("mallState", mallState.getState());
+        resultData.put("failReason", mallState.getFailReason());
 
         cmdDataFlowContext.setResponseEntity(ResultVo.createResponseEntity(resultData));
+    }
+
+    /**
+     * 商城结果 -> 缴费明细开票状态: 开票成功Y / 开票失败N / 待审核与待开票D(开票中)
+     */
+    private String parseOpenInvoice(String mallState) {
+        if (InvoiceMallStateDto.STATE_DONE.equals(mallState)) {
+            return OPEN_INVOICE_YES;
+        }
+        if (InvoiceMallStateDto.STATE_FAIL.equals(mallState)) {
+            return OPEN_INVOICE_NO;
+        }
+        return OPEN_INVOICE_ING;
     }
 
     /**
@@ -256,23 +302,17 @@ public class SaveInvoiceApplyCmd extends Cmd {
             invoiceApplyItemPo.setItemAmount(tmpFeeDetailDto.getReceivedAmount());
             invoiceApplyItemPo.setItemId(GenerateCodeFactory.getGeneratorId("11"));
             invoiceApplyItemPo.setItemName(tmpFeeDetailDto.getFeeName());
-            invoiceApplyItemPo.setRemark(tmpFeeDetailDto.getPayerObjName()+tmpFeeDetailDto.getFeeName()
+            // todo 明细备注按列宽截断(invoice_apply_item.remark varchar(200))
+            invoiceApplyItemPo.setRemark(StringUtil.truncateMessage(tmpFeeDetailDto.getPayerObjName()+tmpFeeDetailDto.getFeeName()
                     + "("
                     + DateUtil.getFormatTimeStringB(tmpFeeDetailDto.getStartTime())
                     + "~"
                     + DateUtil.getFormatTimeStringB(tmpFeeDetailDto.getEndTime())
-                    + ")");
+                    + ")", REMARK_MAX_LEN));
             invoiceApplyItemPo.setPayTime(DateUtil.getFormatTimeStringA(tmpFeeDetailDto.getCreateTime()));
             invoiceApplyItemPo.setItemObjId(tmpFeeDetailDto.getDetailId());
             invoiceApplyItemPo.setItemType(InvoiceApplyItemDto.ITEM_TYPE_FEE);
             invoiceApplyItemPos.add(invoiceApplyItemPo);
-
-            // todo 将缴费记录开票状态修改为D 开票中
-            PayFeeDetailPo payFeeDetailPo = new PayFeeDetailPo();
-            payFeeDetailPo.setDetailId(tmpFeeDetailDto.getDetailId());
-            payFeeDetailPo.setCommunityId(tmpFeeDetailDto.getCommunityId());
-            payFeeDetailPo.setOpenInvoice("D"); // todo 开票中
-            payFeeDetailV1InnerServiceSMOImpl.updatePayFeeDetailNew(payFeeDetailPo);
         }
 
         return invoiceAmount;

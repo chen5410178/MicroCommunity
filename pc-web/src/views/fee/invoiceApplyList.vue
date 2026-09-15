@@ -92,9 +92,11 @@
                 {{ mallStateName(scope.row.mallState) }}
               </template>
             </el-table-column>
-            <el-table-column :label="$t('invoiceApply.table.failReason')" align="center">
+            <el-table-column :label="$t('invoiceApply.table.failReason')" align="center" width="200">
               <template slot-scope="scope">
-                {{ failReason(scope.row) }}
+                <el-tooltip :content="failReason(scope.row)" :disabled="failReason(scope.row) === '-'" placement="top">
+                  <div class="text-ellipsis">{{ failReason(scope.row) }}</div>
+                </el-tooltip>
               </template>
             </el-table-column>
             <el-table-column prop="createTime" :label="$t('invoiceApply.table.applyTime')" align="center" />
@@ -257,5 +259,11 @@ export default {
 
 .float-right {
   float: right;
+}
+
+.text-ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>

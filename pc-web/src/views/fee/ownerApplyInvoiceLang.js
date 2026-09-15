@@ -36,6 +36,7 @@ export const messages = {
       bankAccountPlaceholder: 'Please enter bank account',
       remark: 'Remark',
       remarkPlaceholder: 'Remark (optional)',
+      remarkMaxLength: 'Remark up to 200 characters',
       personal: 'Personal',
       enterprise: 'Enterprise',
       chooseExistingHeading: 'Choose Existing Heading',
@@ -51,7 +52,8 @@ export const messages = {
       noFeeSelected: 'Please select one paid fee record',
       submit: 'Submit',
       submitSuccess: 'Submitted, invoice progress is subject to the mall',
-      submitFailed: 'Submit failed, please retry in the invoice list'
+      submitFailed: 'Submit failed, please retry in the invoice list',
+      submitFailedNotSaved: 'Submit failed, application not saved, please correct and retry'
     },
     searchOwnerInvoice: {
       title: 'Select Invoice Heading',
@@ -106,6 +108,7 @@ export const messages = {
       bankAccountPlaceholder: '请填写开户行及账号',
       remark: '备注',
       remarkPlaceholder: '选填备注',
+      remarkMaxLength: '备注最多200字',
       personal: '个人',
       enterprise: '企业',
       chooseExistingHeading: '选择已有抬头',
@@ -121,7 +124,8 @@ export const messages = {
       noFeeSelected: '请选择一条缴费记录',
       submit: '提交',
       submitSuccess: '已提交，开票进度以商城为准',
-      submitFailed: '提交失败，请在开票列表中重新提交'
+      submitFailed: '提交失败，请在开票列表中重新提交',
+      submitFailedNotSaved: '提交失败（未保存申请单），请修正后重新提交'
     },
     searchOwnerInvoice: {
       title: '选择发票抬头',
@@ -176,6 +180,7 @@ export const messages = {
       bankAccountPlaceholder: '請填寫開戶行及帳號',
       remark: '備註',
       remarkPlaceholder: '選填備註',
+      remarkMaxLength: '備註最多200字',
       personal: '個人',
       enterprise: '企業',
       chooseExistingHeading: '選擇已有抬頭',
@@ -191,7 +196,8 @@ export const messages = {
       noFeeSelected: '請選擇一條繳費記錄',
       submit: '提交',
       submitSuccess: '已提交，開票進度以商城為準',
-      submitFailed: '提交失敗，請在開票列表中重新提交'
+      submitFailed: '提交失敗，請在開票列表中重新提交',
+      submitFailedNotSaved: '提交失敗（未保存申請單），請修正後重新提交'
     },
     searchOwnerInvoice: {
       title: '選擇發票抬頭',

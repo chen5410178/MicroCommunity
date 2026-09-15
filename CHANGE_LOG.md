@@ -512,3 +512,34 @@ DELETE FROM `c_service` WHERE `service_id` = '982026090800000010';
 > 执行后需刷新 `AppRouteCache` 或重启 `service-api`；`invoice_setting(setting_id='global').audit_switch`、`invoice_seller`/`invoice_platform`/`invoice_category_map` 需已配置。
 > 物业 `invoice_apply` 表结构不变（`oi_id` 继续存商城单号，关联以商城 `ext_apply_id` 为准；该表无 email/invoice_account 列，重提时对应抬头字段传空）。
 
+## 2026-09-15 — 开票提交顺序反转：先调商城开票、商城建单后才落物业库 + remark 统一截断
+
+### 背景
+
+物业端提交/重新提交发票申请报 `code=404` + `Data too long for column 'remark'`。原因：`SaveInvoiceApplyCmd` 先把 `invoice_apply`+items 落库、并在**算钱阶段**就把 `pay_fee_detail.open_invoice` 置 `D`，之后才调商城开票；商城失败时 `PropertyInvoiceSubmitBmoImpl.updateSubmitFail()` 把商城返回的**整段 MyBatis/SQL 异常文本**原样写入 `invoice_apply.remark`（`varchar(200)`）→ `MysqlDataTruncation` → 事务回滚（**丢单**）、明细卡在 `D`（"未开票"列表查不到、无法再提交）、商城真实失败原因被异常文本覆盖。
+
+### 变更内容
+
+**后端（service-acct）**
+
+1. `IPropertyInvoiceSubmitBmo`：删除 `submit(...)`；新增 `submitMall(applyPo, items, headingType, email, bankNo)`（纯商城调用，不读写物业库）与 `reSubmit(applyPo, items)`（申请单已存在场景），均返回 `InvoiceMallStateDto`（复用，无新增 DTO / 表）。
+2. `PropertyInvoiceSubmitBmoImpl`：`submitMall()` 组装报文（`applyId`=商城 `ext_apply_id`、抬头字段、多明细）后调商城，**异常 / `ResultVo≠OK` / `data==null`(MALL_SWITCH) / 无 `invoiceId` 一律转 `failReason` 返回、不抛异常**；新增 `safeRemark()`（压缩连续空白 + `StringUtil.truncateMessage(…,200)`）与 `safeFailReason()`（原文 `logger.warn`（关键字"商城开票失败原因(原文)"）入日志；含 `### Error updating database`/`### SQL:`/`nested exception` 时按 `###` 分段取首个可读片段，兜底 `商城开票调用失败(详见服务日志)`）；`reSubmit()` 无 `invoiceId` → `updateSubmitFail`（`state=F` + remark 摘要，内部 try/catch 只记日志），有 `invoiceId` → 写 `oi_id`/`state=S`（`DONE` 且有 `invoiceNo` 才写 `invoice_code`）并按 `DONE→Y / FAIL→N / 其他→D` 回写明细。
+3. `SaveInvoiceApplyCmd`：顺序反转为「生成 `applyId`（先于商城调用，但不落库）→ 组装明细/金额（**只算不写**，删除原先把 `pay_fee_detail.open_invoice` 置 `D` 的写库代码）→ `submitMall()` → **无 `invoiceId` 时零写入**并直接返回 `{applyId,state:F,oiId,mallState,failReason}` → 有 `invoiceId` 才保存 apply+items，再按商城结果回写明细开票状态」；`invoice_apply.remark` 与 `invoice_apply_item.remark` 写入前均按 200 字符截断。`@Java110Transactional` 保留（商城调用发生在所有写库动作之前，失败无数据可回滚）。
+4. `ReSubmitInvoiceApplyCmd`：适配 `reSubmit()`（`BeanConvertUtil` DTO→PO），响应补 `mallState/failReason`，`state` 按有无 `invoiceId` 取 `S`/`F`。
+
+**前端（pc-web）**
+
+5. `ownerApplyInvoiceList.vue`：提交返回 `state==='F'` 时提示"提交失败（未保存申请单）+ 失败原因"并**停留当前页面**（不再 `goBack()`，此时库中无记录）；备注输入框加 `maxlength="200" show-word-limit`。
+6. `invoiceApplyList.vue`：失败原因列固定宽度 + `.text-ellipsis` 截断展示、`el-tooltip` 悬浮展示全文。
+7. `ownerApplyInvoiceLang.js`：简/繁/英三语新增 `remarkMaxLength`、`submitFailedNotSaved` 文案键。
+
+### 数据库变更
+
+无。`invoice_apply.remark` / `invoice_apply_item.remark` 保持 `varchar(200)`（截断在代码侧完成，不扩列），Mapper 与表结构不变。
+
+> 历史"卡死"明细排查（一次性，非必须）：`SELECT detail_id, open_invoice FROM pay_fee_detail WHERE open_invoice = 'D' AND status_cd = '0';` —— 老版本商城失败时曾被提前置 `D`，可按申请单核对后手工恢复为 `N`。
+
+### 未实现（P2，本次跳过）
+
+- `SendMallImpl`（service-job）HTTP 4xx/5xx 分支补 `saveTranslateError` 落 `machine_translate_error`：该实现是 **service-job 全局商城调用出口**，改动影响面超出本次开票范围，**跳过**（已评估并确认）；商城真实失败原因仍可通过 service-acct 日志（warn"商城开票失败原因(原文)"）与响应 `failReason` 追溯。
+
