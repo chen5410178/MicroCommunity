@@ -17,14 +17,13 @@ package com.java110.acct.cmd.invoice;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.java110.acct.bmo.invoice.IIssueMallInvoiceBmo;
+import com.java110.acct.bmo.invoice.IPropertyInvoiceSubmitBmo;
 import com.java110.core.annotation.Java110Cmd;
 import com.java110.core.annotation.Java110Transactional;
 import com.java110.core.context.CmdContextUtils;
 import com.java110.core.context.ICmdDataFlowContext;
 import com.java110.core.event.cmd.Cmd;
 import com.java110.core.event.cmd.CmdEvent;
-import com.java110.core.factory.CommunitySettingFactory;
 import com.java110.core.factory.GenerateCodeFactory;
 import com.java110.dto.account.AccountReceiptDto;
 import com.java110.dto.fee.FeeDetailDto;
@@ -103,7 +102,7 @@ public class SaveInvoiceApplyCmd extends Cmd {
     private IUserV1InnerServiceSMO userV1InnerServiceSMOImpl;
 
     @Autowired
-    private IIssueMallInvoiceBmo issueMallInvoiceBmo;
+    private IPropertyInvoiceSubmitBmo propertyInvoiceSubmitBmo;
 
     @Override
     public void validate(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) {
@@ -183,7 +182,7 @@ public class SaveInvoiceApplyCmd extends Cmd {
         invoiceApplyPo.setInvoiceAmount(invoiceAmount.doubleValue() + "");
         invoiceApplyPo.setCreateUserId(userId);
         invoiceApplyPo.setCreateUserName(userDtos.get(0).getName());
-        invoiceApplyPo.setState(InvoiceApplyDto.STATE_WAIT);
+        invoiceApplyPo.setState(InvoiceApplyDto.STATE_SUBMIT);
         int flag = invoiceApplyV1InnerServiceSMOImpl.saveInvoiceApply(invoiceApplyPo);
 
         if (flag < 1) {
@@ -197,21 +196,21 @@ public class SaveInvoiceApplyCmd extends Cmd {
         //todo 同步抬头到商城(存在更新、不存在新增, 失败不阻断开票申请)
         syncInvoiceHeadingToMall(reqJson);
 
-        //todo 自动开票(小区配置 INVOICE_AUTO_SWITCH: 1-自动 2-审核, 默认1自动)
-        try {
-            String invoiceAuto = CommunitySettingFactory.getValue(invoiceApplyPo.getCommunityId(), "INVOICE_AUTO_SWITCH");
-            if (StringUtil.isEmpty(invoiceAuto) || "1".equals(invoiceAuto)) {
-                List<InvoiceApplyItemDto> itemDtos = BeanConvertUtil.covertBeanList(invoiceApplyItemPos, InvoiceApplyItemDto.class);
-                issueMallInvoiceBmo.issue(invoiceApplyPo.getApplyId(), invoiceApplyPo.getCommunityId(),
-                        reqJson.getString("invoiceName"), reqJson.getString("invoiceNum"),
-                        reqJson.getString("invoiceAddress"), reqJson.getString("applyTel"),
-                        itemDtos);
-            }
-        } catch (Exception e) {
-            logger.error("自动开票失败 applyId: {}", invoiceApplyPo.getApplyId(), e);
-        }
+        //todo 提交商城开票申请: 商城落单并按 audit_switch 决定待审核/直接开票, 物业端只记录提交结果(S/F)
+        List<InvoiceApplyItemDto> itemDtos = BeanConvertUtil.covertBeanList(invoiceApplyItemPos, InvoiceApplyItemDto.class);
+        InvoiceApplyDto submitResult = propertyInvoiceSubmitBmo.submit(invoiceApplyPo.getApplyId(), invoiceApplyPo.getCommunityId(),
+                reqJson.getString("invoiceName"), reqJson.getString("invoiceNum"),
+                reqJson.getString("invoiceAddress"), reqJson.getString("applyTel"),
+                itemDtos);
 
-        cmdDataFlowContext.setResponseEntity(ResultVo.success());
+        JSONObject resultData = new JSONObject();
+        resultData.put("applyId", submitResult.getApplyId());
+        resultData.put("state", submitResult.getState());
+        resultData.put("oiId", submitResult.getOiId());
+        resultData.put("mallState", submitResult.getMallState());
+        resultData.put("failReason", submitResult.getFailReason());
+
+        cmdDataFlowContext.setResponseEntity(ResultVo.createResponseEntity(resultData));
     }
 
     /**

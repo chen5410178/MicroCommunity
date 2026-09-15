@@ -42,24 +42,3 @@ export function getInvoiceApplyItemList(params) {
     })
   })
 }
-
-/**
- * 获取发票申请审核记录
- * @param {Object} params 
- * @returns 
- */
-export function getInvoiceEventList(params) {
-  return new Promise((resolve, reject) => {
-    params.communityId = getCommunityId()
-    request({
-      url: '/invoice.listInvoiceEvent',
-      method: 'get',
-      params
-    }).then(response => {
-      const res = response.data
-      resolve(res)
-    }).catch(error => {
-      reject(error)
-    })
-  })
-}

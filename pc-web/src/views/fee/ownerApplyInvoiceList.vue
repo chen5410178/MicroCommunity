@@ -329,11 +329,16 @@ export default {
       }
 
       try {
-        await saveInvoiceApply({
+        const res = await saveInvoiceApply({
           ...this.formData,
           detailIds: [this.selectedDetailId]
         })
-        this.$message.success(this.$t('common.operationSuccess'))
+        const data = res.data || {}
+        if (data.state === 'F') {
+          this.$message.error(`${this.$t('ownerApplyInvoice.submitFailed')}：${data.failReason || ''}`)
+        } else {
+          this.$message.success(this.$t('ownerApplyInvoice.submitSuccess'))
+        }
         this.goBack()
       } catch (error) {
         console.error('Failed to submit invoice application:', error)

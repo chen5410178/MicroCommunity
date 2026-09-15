@@ -49,7 +49,9 @@ export const messages = {
       cashier: 'Cashier',
       status: 'Status',
       noFeeSelected: 'Please select one paid fee record',
-      submit: 'Submit'
+      submit: 'Submit',
+      submitSuccess: 'Submitted, invoice progress is subject to the mall',
+      submitFailed: 'Submit failed, please retry in the invoice list'
     },
     searchOwnerInvoice: {
       title: 'Select Invoice Heading',
@@ -117,7 +119,9 @@ export const messages = {
       cashier: '收银员',
       status: '状态',
       noFeeSelected: '请选择一条缴费记录',
-      submit: '提交'
+      submit: '提交',
+      submitSuccess: '已提交，开票进度以商城为准',
+      submitFailed: '提交失败，请在开票列表中重新提交'
     },
     searchOwnerInvoice: {
       title: '选择发票抬头',
@@ -185,7 +189,9 @@ export const messages = {
       cashier: '收銀員',
       status: '狀態',
       noFeeSelected: '請選擇一條繳費記錄',
-      submit: '提交'
+      submit: '提交',
+      submitSuccess: '已提交，開票進度以商城為準',
+      submitFailed: '提交失敗，請在開票列表中重新提交'
     },
     searchOwnerInvoice: {
       title: '選擇發票抬頭',

@@ -13,11 +13,12 @@ export const messages = {
       invoiceNum: 'Taxpayer ID:',
       invoiceAddress: 'Address/Phone:',
       invoiceAmount: 'Apply Amount:',
-      stateName: 'Status:',
+      stateName: 'Submit Result:',
+      mallState: 'Mall Status:',
+      failReason: 'Fail Reason:',
       createTime: 'Apply Time:',
       invoiceCode: 'Invoice Code:',
       feeTab: 'Fee Details',
-      eventTab: 'Audit Records',
       imageTab: 'View Invoice',
       notUploaded: 'Not uploaded',
       noInvoice: 'No Invoice',
@@ -35,13 +36,6 @@ export const messages = {
       accountType: 'Account',
       fetchError: 'Failed to fetch fee details'
     },
-    invoiceApplyDetailEvent: {
-      type: 'Type',
-      operator: 'Operator',
-      remark: 'Remark',
-      time: 'Time',
-      fetchError: 'Failed to fetch audit records'
-    },
   },
   zh: {
     invoiceApplyDetail: {
@@ -57,11 +51,12 @@ export const messages = {
       invoiceNum: '纳税人识别号：',
       invoiceAddress: '地址、电话：',
       invoiceAmount: '申请金额：',
-      stateName: '审核状态：',
+      stateName: '提交结果：',
+      mallState: '商城状态：',
+      failReason: '失败原因：',
       createTime: '申请时间：',
       invoiceCode: '发票编号：',
       feeTab: '开票明细',
-      eventTab: '审核记录',
       imageTab: '查看发票',
       notUploaded: '未上传',
       noInvoice: '没有发票',
@@ -79,13 +74,6 @@ downloadInvoice: '下载发票',
       accountType: '账户',
       fetchError: '获取费用明细失败'
     },
-invoiceApplyDetailEvent: {
-      type: '类型',
-      operator: '操作人',
-      remark: '说明',
-      time: '时间',
-      fetchError: '获取审核记录失败'
-    },
   },
   'zh-TW': {
     invoiceApplyDetail: {
@@ -101,11 +89,12 @@ invoiceApplyDetailEvent: {
       invoiceNum: '納稅人識別號：',
       invoiceAddress: '地址、電話：',
       invoiceAmount: '申請金額：',
-      stateName: '審核狀態：',
+      stateName: '提交結果：',
+      mallState: '商城狀態：',
+      failReason: '失敗原因：',
       createTime: '申請時間：',
       invoiceCode: '發票編號：',
       feeTab: '開票明細',
-      eventTab: '審核記錄',
       imageTab: '查看發票',
       notUploaded: '未上傳',
       noInvoice: '沒有發票',
@@ -122,13 +111,6 @@ invoiceApplyDetailEvent: {
       feeType: '費用',
       accountType: '帳戶',
       fetchError: '獲取費用明細失敗'
-    },
-    invoiceApplyDetailEvent: {
-      type: '類型',
-      operator: '操作人',
-      remark: '說明',
-      time: '時間',
-      fetchError: '獲取審核記錄失敗'
     },
   },
 }

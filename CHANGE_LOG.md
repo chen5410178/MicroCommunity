@@ -394,3 +394,67 @@ ALTER TABLE `parking_space_apply`
     DROP COLUMN `car_brand`,
     DROP COLUMN `car_color`;
 ```
+
+## 2026-09-15 — 商城为开票/审核权威源：物业端零状态、只提交 + 只读展示
+
+### 背景
+
+物业端提交开票后状态被写成“审核失败（F）”、商城 `/pages/admin/invoiceList` 审核页签无数据。原因为：① 商城 `PropertyInvoiceBmoImpl` 强制 `state='WAIT'` 直接开票（不读 `audit_switch`），商城审核页（查 `state='AUDIT'`）永远为空；② 物业端自建 `W/U/F/G/C` 状态机并用小区配置 `INVOICE_AUTO_SWITCH` 自判是否开票；③ 商城失败原因被丢弃；④ 无商城状态回读通道。
+
+### 目标架构（已落地）
+
+- **商城**：开票单落库方 + 审核开关（`invoice_setting.audit_switch`）唯一仲裁者 + 开票执行者 + 状态权威源；
+- **物业**：只保留“提交开票申请”（提交结果 `S` 已提交 / `F` 提交失败，可重新提交）+ 只读展示商城状态、发票号、失败原因；**不维护发票状态机，不落发票业务状态**。
+
+### 变更内容
+
+**商城仓库（MicroCommunityMall）**
+
+1. `PropertyInvoiceBmoImpl`：按 `audit_switch` 置 `AUDIT`（等商城审核，不调开票）/ `WAIT`（直接开票）；销方未配置时**先落单** `state='FAIL'+fail_reason`（保证商城开票单列表可见可追溯，不再抛异常）；幂等分支支持 `FAIL` 置回 `WAIT` 重试（重提）、`AUDIT/DONE/RED` 直接回传。
+2. 新增 `QueryInvoiceStatusBatchBmoImpl`（`mallApiCode=queryInvoiceStatusBatchBmoImpl`，入参 `invoiceIds[]`/逗号串）供物业端批量回读状态。
+3. `InvoiceV1ServiceDaoImplMapper.xml` 的 `getInvoiceInfo`/`queryInvoicesCount` 增加 `invoiceIds` IN 条件；`InvoiceDto` 增加 `invoiceIds`。
+4. `mall-webvue` 开票单列表新增 `FAIL` 页签与“来源(source)”列（`invoiceList.vue` + `lang/admin/invoiceLang.js` 中英）。
+
+**物业仓库（MicroCommunityV2）**
+
+1. `SaveInvoiceApplyCmd`：删除 `INVOICE_AUTO_SWITCH` 判定与自动开票分支；保存申请后提交商城，写 `state=S/F`、`oi_id=商城单号`，失败原因入 `remark`，响应返回 `{applyId,state,oiId,mallState,failReason}`。
+2. `IIssueMallInvoiceBmo/IssueMallInvoiceBmoImpl` → 重构为 `IPropertyInvoiceSubmitBmo/PropertyInvoiceSubmitBmoImpl`（只提交 + 结果透传 + 明细按商城即时结果回写，删除本地 `G/F` 状态写入与发票事件写入）。
+3. 新增 `IInvoiceStateSyncBmo/InvoiceStateSyncBmoImpl`：批量取商城状态（`fillMallState` 只读展示 / `syncMallState` 展示 + 回写 `pay_fee_detail.open_invoice`）；`ListInvoiceApplyCmd` 列表实时填充商城状态。
+4. 新增 CMD：`SyncInvoiceApplyStateCmd`（`invoice.syncInvoiceApplyState`）、`ReSubmitInvoiceApplyCmd`（`invoice.reSubmitInvoiceApply`）；新增 DTO `InvoiceMallStateDto`；`InvoiceApplyDto` 仅保留 `STATE_SUBMIT='S'`、`STATE_SUBMIT_FAIL='F'`（旧 `W/U/G/C` 标 `@Deprecated`），新增 `mallState/failReason/oiIdNotEqual/applyIds`。
+5. 新增定时兜底 `service-job` `InvoiceStateSyncJob`（每 5 分钟，扫 `oi_id != '-1'`，按商城结果回写明细与发票号）。
+6. **删除发票办理功能**：CMD `AuditInvoiceApplyCmd`/`UploadInvoicePhotoCmd`/`WriteInvoiceApplyCmd`/`ListInvoiceEventCmd`/`Save,Update,DeleteInvoiceApplyItemCmd`/`cmd/invoiceEvent/*`；前端组件 `components/fee/uploadInvoicePhoto.vue`/`wirteInvoiceEvent.vue`/`invoiceApplyDetailEvent.vue`；api 精简（`invoiceApplyApi.js` 移除 audit/upload/write 并新增 sync/reSubmit，`invoiceApplyDetailApi.js` 移除事件查询）。
+   > **偏差说明**：方案原列删除 `components/fee/audit.vue`，但该组件为通用审核弹窗，`payFeeBatchList.vue`/`returnPayFeeManageList.vue` 仍在引用，删除会导致构建失败，故**保留**并仅移除 `invoiceApplyList.vue` 中的引入与 `invoiceApplyLang.js` 中的 `audit/uploadInvoicePhoto/wirteInvoiceEvent` 文案键（同名键由 `feeI18n` 提供）。
+7. 前端页面：`invoiceApplyList.vue` 去状态树、列为“提交结果/商城状态/失败原因/发票号”、操作仅“详情/同步状态/重新提交/删除”；`invoiceApplyDetailList.vue` 去事件页签（保留费用明细 + 发票只读下载）；`ownerApplyInvoiceList.vue` 按 `state/failReason` 提示；`invoiceApplyLang.js`/`invoiceApplyDetailLang.js`/`ownerApplyInvoiceLang.js` 三语文案同步。
+
+### 数据库变更（物业库 TT）
+
+```sql
+-- ① 服务注册：商城开票状态只读同步 + 提交失败重新提交
+INSERT INTO `c_service` VALUES ('2106', '982026090800000010', 'invoice.syncInvoiceApplyState', 'API', '同步商城开票状态', '1', null, 'CMD', 'http://acct-service', 'POST', '60', '3', '8000418002', '2026-09-15 12:29:38', '0');
+INSERT INTO `c_service` VALUES ('2107', '982026090800000011', 'invoice.reSubmitInvoiceApply', 'API', '重新提交开票申请', '1', null, 'CMD', 'http://acct-service', 'POST', '60', '3', '8000418002', '2026-09-15 12:29:38', '0');
+INSERT INTO `c_route` VALUES ('3092', '8000418004', '982026090800000010', 'D', '1000', 'S', '2026-09-15 12:29:38', '0');
+INSERT INTO `c_route` VALUES ('3093', '8000418004', '982026090800000011', 'D', '1000', 'S', '2026-09-15 12:29:38', '0');
+
+-- ② 服务注销：审核/上传发票/登记核销/查询发票事件（TT.sql 中已注释下线；存量库执行下列删除）
+DELETE FROM `c_route` WHERE service_id IN ('982023101251070001','982023101245240001','982023101272310011','982023101340300041');
+DELETE FROM `c_service` WHERE service_id IN ('982023101251070001','982023101245240001','982023101272310011','982023101340300041');
+
+-- ③ 存量状态清洗 + 字典调整
+UPDATE `invoice_apply` SET `state` = 'S' WHERE `state` IN ('W', 'U', 'G', 'C');
+UPDATE `t_dict` SET `name` = '提交失败', `description` = '提交失败' WHERE `id` = '626307';
+INSERT INTO `t_dict` (`id`,`status_cd`,`name`,`description`,`create_time`,`table_name`,`table_columns`)
+SELECT '626311', 'S', '已提交', '已提交', '2026-09-15 12:29:38', 'invoice_apply', 'state' FROM DUAL
+WHERE NOT EXISTS (SELECT 1 FROM `t_dict` WHERE `status_cd`='S' AND `table_name`='invoice_apply' AND `table_columns`='state');
+
+-- ④ 定时兜底同步任务（service-job InvoiceStateSyncJob）
+INSERT INTO `task_template` VALUES ('1036', '商城开票状态同步', '兜底同步商城开票状态并回写缴费明细开票状态', '2026-09-15 12:29:38', '0', 'invoiceStateSyncJob');
+INSERT INTO `task` VALUES ('522026091512293800', '-1', '商城开票状态同步', '1036', '0 */5 * * * ?', '002', '0', '2026-09-15 12:29:38');
+```
+
+> 增量脚本：`docs/sql/invoice/register_invoice_sync_service.sql`（①②④）、`docs/sql/invoice/unregister_invoice_action_service.sql`（②）、`docs/sql/invoice/migrate_invoice_apply_state.sql`（③）、`docs/sql/invoice/invoice_precheck.sql`（开票前置配置自检）。执行后需刷新 `AppRouteCache` 或重启 `service-api`。
+> 基线同步：上述 ①②③④ 已同步 `docs/db/TT.sql`（新增 `c_service` 2106/2107、`c_route` 3092/3093、`t_dict` 626311(S=已提交)、`task_template` 1036 + `task` 522026091512293800；1791/1792/1793/1794 及其路由已注释下线）。
+> 开关收敛：物业端 `INVOICE_AUTO_SWITCH` 已废弃，审核开关统一由商城 `invoice_setting.audit_switch` 决定（`docs/db/invoice/invoice_auto_setting.sql` 已加废弃说明）。
+
+### 未实现（P2，待确认）
+
+- F10 物业端删除申请单时同步撤销商城单（`CancelInvoiceBmoImpl`）：商城仓库暂无撤销/作废开票单接口，本次未实现；当前物业端删除申请单仅释放缴费明细 `open_invoice='N'`。

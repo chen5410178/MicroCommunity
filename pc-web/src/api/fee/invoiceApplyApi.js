@@ -21,30 +21,6 @@ export function listInvoiceApply(params) {
   })
 }
 
-// 审核发票申请
-export function auditInvoiceApply(data) {
-  return new Promise((resolve, reject) => {
-    const communityId = getCommunityId()
-    request({
-      url: '/invoice.auditInvoiceApply',
-      method: 'post',
-      data: {
-        ...data,
-        communityId
-      }
-    }).then(response => {
-      const res = response.data
-      if (res.code === 0) {
-        resolve(res)
-      } else {
-        reject(new Error(res.msg || 'error'))
-      }
-    }).catch(error => {
-      reject(error)
-    })
-  })
-}
-
 // 删除发票申请
 export function deleteInvoiceApply(data) {
   return new Promise((resolve, reject) => {
@@ -69,12 +45,12 @@ export function deleteInvoiceApply(data) {
   })
 }
 
-// 上传发票照片
-export function uploadInvoicePhoto(data) {
+// 同步商城开票状态(只读展示商城状态/发票号/失败原因, 并回写缴费明细)
+export function syncInvoiceApplyState(data) {
   return new Promise((resolve, reject) => {
     const communityId = getCommunityId()
     request({
-      url: '/invoice.uploadInvoicePhoto',
+      url: '/invoice.syncInvoiceApplyState',
       method: 'post',
       data: {
         ...data,
@@ -93,12 +69,12 @@ export function uploadInvoicePhoto(data) {
   })
 }
 
-// 写入发票事件
-export function writeInvoiceEvent(data) {
+// 提交失败重新提交(商城幂等, 成功后可再次同步状态)
+export function reSubmitInvoiceApply(data) {
   return new Promise((resolve, reject) => {
     const communityId = getCommunityId()
     request({
-      url: '/invoice.writeInvoiceApply',
+      url: '/invoice.reSubmitInvoiceApply',
       method: 'post',
       data: {
         ...data,
@@ -110,32 +86,6 @@ export function writeInvoiceEvent(data) {
         resolve(res)
       } else {
         reject(new Error(res.msg || 'error'))
-      }
-    }).catch(error => {
-      reject(error)
-    })
-  })
-}
-
-// 上传图片
-export function uploadImage(formData) {
-  return new Promise((resolve, reject) => {
-    const communityId = getCommunityId()
-    formData.append('communityId', communityId)
-    
-    request({
-      url: 'uploadFile/uploadImage',
-      method: 'post',
-      data: formData,
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    }).then(response => {
-      const res = response.data
-            if (res.code === 0) {
-        resolve(res.data)
-      } else {
-        reject(new Error(res.msg || '上传图片失败'))
       }
     }).catch(error => {
       reject(error)

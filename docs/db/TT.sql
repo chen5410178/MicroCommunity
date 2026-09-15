@@ -20043,16 +20043,17 @@ INSERT INTO `c_route` VALUES ('2684', '8000418004', '982023100941940009', 'D', '
 INSERT INTO `c_route` VALUES ('2685', '8000418004', '982023101106040002', 'D', '1000', 'S', '2023-10-11 14:47:58', '0');
 INSERT INTO `c_route` VALUES ('2686', '8000418004', '982023101138660014', 'D', '1000', 'S', '2023-10-11 16:04:59', '0');
 INSERT INTO `c_route` VALUES ('2687', '8000418004', '982023101229390038', 'Q', '1000', 'S', '2023-10-12 15:16:42', '0');
-INSERT INTO `c_route` VALUES ('2688', '8000418004', '982023101251070001', 'Q', '1000', 'S', '2023-10-12 18:13:15', '0');
-INSERT INTO `c_route` VALUES ('2689', '8000418004', '982023101245240001', 'D', '1000', 'S', '2023-10-12 19:47:01', '0');
-INSERT INTO `c_route` VALUES ('2690', '8000418004', '982023101272310011', 'D', '1000', 'S', '2023-10-12 23:40:48', '0');
-INSERT INTO `c_route` VALUES ('2691', '8000418004', '982023101340300041', 'D', '1000', 'S', '2023-10-13 14:02:39', '0');
+-- 2026-09-15 发票办理功能下线(商城为开票/审核权威源) 路由下线
+-- INSERT INTO `c_route` VALUES ('2688', '8000418004', '982023101251070001', 'Q', '1000', 'S', '2023-10-12 18:13:15', '0');
+-- INSERT INTO `c_route` VALUES ('2689', '8000418004', '982023101245240001', 'D', '1000', 'S', '2023-10-12 19:47:01', '0');
+-- INSERT INTO `c_route` VALUES ('2690', '8000418004', '982023101272310011', 'D', '1000', 'S', '2023-10-12 23:40:48', '0');
+-- INSERT INTO `c_route` VALUES ('2691', '8000418004', '982023101340300041', 'D', '1000', 'S', '2023-10-13 14:02:39', '0');
 INSERT INTO `c_route` VALUES ('2693', '992020061452450002', '982023100903410007', 'Q', '1000', 'S', '2023-10-16 23:18:39', '0');
 INSERT INTO `c_route` VALUES ('2695', '992020061452450002', '982023100906890008', 'Q', '1000', 'S', '2023-10-16 23:29:49', '0');
 INSERT INTO `c_route` VALUES ('2697', '992020061452450002', '982023100941940009', 'D', '1000', 'S', '2023-10-16 23:30:40', '0');
 INSERT INTO `c_route` VALUES ('2699', '992020061452450002', '982023100977360002', 'Q', '1000', 'S', '2023-10-17 00:16:19', '0');
 INSERT INTO `c_route` VALUES ('2701', '992020061452450002', '982023101138660014', 'D', '1000', 'S', '2023-10-17 00:41:25', '0');
-INSERT INTO `c_route` VALUES ('2703', '992020061452450002', '982023101251070001', 'Q', '1000', 'S', '2023-10-17 01:16:24', '0');
+-- INSERT INTO `c_route` VALUES ('2703', '992020061452450002', '982023101251070001', 'Q', '1000', 'S', '2023-10-17 01:16:24', '0');
 INSERT INTO `c_route` VALUES ('2705', '992020061452450002', '982023101106040002', 'D', '1000', 'S', '2023-10-17 10:43:44', '0');
 INSERT INTO `c_route` VALUES ('2706', '8000418004', '982023101868180006', 'D', '1000', 'S', '2023-10-18 23:35:25', '0');
 INSERT INTO `c_route` VALUES ('2708', '992020061452450002', '982023102091690013', 'D', '1000', 'S', '2023-10-20 09:25:32', '0');
@@ -20397,6 +20398,9 @@ INSERT INTO `c_route` VALUES ('3084', '8000418004', '982026090800000002', 'Q', '
 INSERT INTO `c_route` VALUES ('3089', '992020061452450002', '982026090800000007', 'Q', '1000', 'S', '2026-09-08 18:30:00', '0');
 INSERT INTO `c_route` VALUES ('3090', '992020061452450002', '982026090800000008', 'Q', '1000', 'S', '2026-09-08 18:30:00', '0');
 INSERT INTO `c_route` VALUES ('3091', '992020061452450002', '982026090800000009', 'Q', '1000', 'S', '2026-09-08 19:00:00', '0');
+-- 2026-09-15 物业端只提交申请: 商城开票状态只读同步 + 提交失败重新提交
+INSERT INTO `c_route` VALUES ('3092', '8000418004', '982026090800000010', 'D', '1000', 'S', '2026-09-15 12:29:38', '0');
+INSERT INTO `c_route` VALUES ('3093', '8000418004', '982026090800000011', 'D', '1000', 'S', '2026-09-15 12:29:38', '0');
 
 -- ----------------------------
 -- Table structure for c_service
@@ -22163,10 +22167,11 @@ INSERT INTO `c_service` VALUES ('1783', '982023100977360002', 'invoice.listInvoi
 INSERT INTO `c_service` VALUES ('1788', '982023101106040002', 'invoice.saveInvoiceApply', 'API', '申请发票', '1', '', 'CMD', 'http://acct-service', 'POST', '60', '3', '8000418002', '2023-10-11 14:47:58', '0');
 INSERT INTO `c_service` VALUES ('1789', '982023101138660014', 'invoice.deleteInvoiceApply', 'API', '删除发票申请', '1', '', 'CMD', 'http://acct-service', 'POST', '60', '3', '8000418002', '2023-10-11 16:04:59', '0');
 INSERT INTO `c_service` VALUES ('1790', '982023101229390038', 'invoice.listInvoiceApplyItem', 'API', '查询发票明细', '1', '', 'CMD', 'http://acct-service', 'GET', '60', '3', '8000418002', '2023-10-12 15:16:42', '0');
-INSERT INTO `c_service` VALUES ('1791', '982023101251070001', 'invoice.listInvoiceEvent', 'API', '查询发票事件', '1', '', 'CMD', 'http://acct-service', 'GET', '60', '3', '8000418002', '2023-10-12 18:13:15', '0');
-INSERT INTO `c_service` VALUES ('1792', '982023101245240001', 'invoice.auditInvoiceApply', 'API', '审核发票', '1', '', 'CMD', 'http://acct-service', 'POST', '60', '3', '8000418002', '2023-10-12 19:47:01', '0');
-INSERT INTO `c_service` VALUES ('1793', '982023101272310011', 'invoice.uploadInvoicePhoto', 'API', '上传发票', '1', '', 'CMD', 'http://acct-service', 'POST', '60', '3', '8000418002', '2023-10-12 23:40:48', '0');
-INSERT INTO `c_service` VALUES ('1794', '982023101340300041', 'invoice.writeInvoiceApply', 'API', '登记发票', '1', '', 'CMD', 'http://acct-service', 'POST', '60', '3', '8000418002', '2023-10-13 14:02:39', '0');
+-- 2026-09-15 发票办理功能下线(商城为开票/审核权威源, 物业端不再审核/上传/登记/查询事件) 服务与路由下线
+-- INSERT INTO `c_service` VALUES ('1791', '982023101251070001', 'invoice.listInvoiceEvent', 'API', '查询发票事件', '1', '', 'CMD', 'http://acct-service', 'GET', '60', '3', '8000418002', '2023-10-12 18:13:15', '0');
+-- INSERT INTO `c_service` VALUES ('1792', '982023101245240001', 'invoice.auditInvoiceApply', 'API', '审核发票', '1', '', 'CMD', 'http://acct-service', 'POST', '60', '3', '8000418002', '2023-10-12 19:47:01', '0');
+-- INSERT INTO `c_service` VALUES ('1793', '982023101272310011', 'invoice.uploadInvoicePhoto', 'API', '上传发票', '1', '', 'CMD', 'http://acct-service', 'POST', '60', '3', '8000418002', '2023-10-12 23:40:48', '0');
+-- INSERT INTO `c_service` VALUES ('1794', '982023101340300041', 'invoice.writeInvoiceApply', 'API', '登记发票', '1', '', 'CMD', 'http://acct-service', 'POST', '60', '3', '8000418002', '2023-10-13 14:02:39', '0');
 INSERT INTO `c_service` VALUES ('1795', '982023101868180006', 'fee.roomCreatePayFee', 'API', '房屋批量创建费用', '1', '', 'CMD', 'http://fee-service', 'POST', '60', '3', '8000418002', '2023-10-18 23:35:25', '0');
 INSERT INTO `c_service` VALUES ('1796', '982023102091690013', 'owner.deleteOwnerMember', 'API', '删除业主成员', '1', '', 'CMD', 'http://user-service', 'POST', '60', '3', '8000418002', '2023-10-20 09:25:17', '0');
 INSERT INTO `c_service` VALUES ('1797', '982023102431140004', 'payFeeRule.listPayFeeRule', 'API', '查询账单规则', '1', '', 'CMD', 'http://fee-service', 'GET', '60', '3', '8000418002', '2023-10-24 19:03:28', '0');
@@ -22475,6 +22480,9 @@ INSERT INTO `c_service` VALUES ('2098', '982026090800000002', 'invoice.queryInvo
 INSERT INTO `c_service` VALUES ('2103', '982026090800000007', 'fee.queryAppUnInvoiceFeeDetail', 'API', '查询未开票缴费明细(业主端)', '1', null, 'CMD', 'http://fee-service', 'GET', '60', '3', '8000418002', '2026-09-08 18:30:00', '0');
 INSERT INTO `c_service` VALUES ('2104', '982026090800000008', 'invoice.queryAppInvoiceApply', 'API', '查询已开票记录(业主端)', '1', null, 'CMD', 'http://acct-service', 'GET', '60', '3', '8000418002', '2026-09-08 18:30:00', '0');
 INSERT INTO `c_service` VALUES ('2105', '982026090800000009', 'invoice.queryAppInvoiceHeader', 'API', '查询发票抬头(业主端)', '1', null, 'CMD', 'http://acct-service', 'GET', '60', '3', '8000418002', '2026-09-08 19:00:00', '0');
+-- 2026-09-15 物业端只提交申请: 商城开票状态只读同步 + 提交失败重新提交
+INSERT INTO `c_service` VALUES ('2106', '982026090800000010', 'invoice.syncInvoiceApplyState', 'API', '同步商城开票状态', '1', null, 'CMD', 'http://acct-service', 'POST', '60', '3', '8000418002', '2026-09-15 12:29:38', '0');
+INSERT INTO `c_service` VALUES ('2107', '982026090800000011', 'invoice.reSubmitInvoiceApply', 'API', '重新提交开票申请', '1', null, 'CMD', 'http://acct-service', 'POST', '60', '3', '8000418002', '2026-09-15 12:29:38', '0');
 
 -- ----------------------------
 -- Table structure for c_service_business
@@ -50680,6 +50688,7 @@ INSERT INTO `task` VALUES ('522022110817280096', '-1', '设备保养任务生成
 INSERT INTO `task` VALUES ('522023013155060050', '-1', '提醒员工考勤', '1032', '0 */5 * * * ?', '001', '0', '2023-01-31 02:49:00');
 INSERT INTO `task` VALUES ('522024010230000023', '-1', '工作单周期性任务生成', '1035', '0 */30 * * * ?', '001', '0', '2024-01-02 23:45:33');
 INSERT INTO `task` VALUES ('522026050690454001', '-1', '费用账单生成', '1002', '0 0 3 * * ?', '002', '0', '2026-05-06 16:04:52');
+INSERT INTO `task` VALUES ('522026091512293800', '-1', '商城开票状态同步', '1036', '0 */5 * * * ?', '002', '0', '2026-09-15 12:29:38');
 
 -- ----------------------------
 -- Table structure for task_attr
@@ -50746,6 +50755,7 @@ INSERT INTO `task_template` VALUES ('1029', '考勤任务生成', '考勤任务�
 INSERT INTO `task_template` VALUES ('1030', '保养任务生成', '保养任务生成', '2020-06-17 14:11:34', '0', 'generatorMaintainanceTaskTemplate');
 INSERT INTO `task_template` VALUES ('1032', '考勤提醒', '考勤提醒', '2020-06-17 14:11:34', '0', 'publishStaffAttendanceTaskTemplate');
 INSERT INTO `task_template` VALUES ('1035', '工作单周期性任务生成', '工作单周期性任务生成', '2020-06-17 14:11:34', '0', 'cycleWorkTaskGeneratorTemplate');
+INSERT INTO `task_template` VALUES ('1036', '商城开票状态同步', '兜底同步商城开票状态并回写缴费明细开票状态', '2026-09-15 12:29:38', '0', 'invoiceStateSyncJob');
 
 -- ----------------------------
 -- Table structure for task_template_spec
@@ -51929,9 +51939,10 @@ INSERT INTO `t_dict` VALUES ('626303', '5005', '登记', '登记', '2019-10-15 0
 INSERT INTO `t_dict` VALUES ('626304', '29000', '发票图片', '发票图片', '2022-07-29 14:44:16', 'file_rel', 'rel_type_cd');
 INSERT INTO `t_dict` VALUES ('626305', 'W', '待审核', '待审核', '2019-10-15 09:47:21', 'invoice_apply', 'state');
 INSERT INTO `t_dict` VALUES ('626306', 'U', '待上传', '待上传', '2019-10-15 09:47:21', 'invoice_apply', 'state');
-INSERT INTO `t_dict` VALUES ('626307', 'F', '审核失败', '审核失败', '2019-10-15 09:47:21', 'invoice_apply', 'state');
+INSERT INTO `t_dict` VALUES ('626307', 'F', '提交失败', '提交失败', '2019-10-15 09:47:21', 'invoice_apply', 'state');
 INSERT INTO `t_dict` VALUES ('626308', 'G', '待领用', '待领用', '2019-10-15 09:47:21', 'invoice_apply', 'state');
 INSERT INTO `t_dict` VALUES ('626309', 'C', '已领用', '已领用', '2019-10-15 09:47:21', 'invoice_apply', 'state');
+INSERT INTO `t_dict` VALUES ('626311', 'S', '已提交', '已提交', '2026-09-15 12:29:38', 'invoice_apply', 'state');
 INSERT INTO `t_dict` VALUES ('626310', '888800010017', '公摊费', '公摊费', '2019-10-30 20:57:36', 'pay_fee_config', 'fee_type_cd_show');
 INSERT INTO `t_dict` VALUES ('626314', '1038', '方', '方', '2023-08-08 17:08:37', 'resource_store', 'unit_code');
 INSERT INTO `t_dict` VALUES ('626315', 'listOwnerCar', '业主车辆', '业主车辆', '2023-07-17 09:59:29', 'user_download_file', 'file_type');

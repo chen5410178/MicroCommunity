@@ -31,6 +31,15 @@
         <if test="applyId !=null and applyId != ''">
             and t.apply_id= #{applyId}
         </if>
+        <if test="applyIds != null and applyIds.length > 0">
+            and t.apply_id in
+            <foreach collection="applyIds" item="applyIdItem" open="(" separator="," close=")">
+                #{applyIdItem}
+            </foreach>
+        </if>
+        <if test="oiIdNotEqual !=null and oiIdNotEqual != ''">
+            and t.oi_id != #{oiIdNotEqual}
+        </if>
         <if test="invoiceCode !=null and invoiceCode != ''">
             and t.invoice_code= #{invoiceCode}
         </if>
@@ -133,6 +142,15 @@
         where 1 =1
         <if test="applyId !=null and applyId != ''">
             and t.apply_id= #{applyId}
+        </if>
+        <if test="applyIds != null and applyIds.length > 0">
+            and t.apply_id in
+            <foreach collection="applyIds" item="applyIdItem" open="(" separator="," close=")">
+                #{applyIdItem}
+            </foreach>
+        </if>
+        <if test="oiIdNotEqual !=null and oiIdNotEqual != ''">
+            and t.oi_id != #{oiIdNotEqual}
         </if>
         <if test="invoiceCode !=null and invoiceCode != ''">
             and t.invoice_code= #{invoiceCode}

@@ -76,10 +76,24 @@
               </el-col>
               <el-col :span="6">
                 <div class="form-group">
+                  <label class="col-form-label">{{ $t('invoiceApplyDetail.mallState') }}</label>
+                  <label>{{ mallStateName }}</label>
+                </div>
+              </el-col>
+              <el-col :span="6">
+                <div class="form-group">
+                  <label class="col-form-label">{{ $t('invoiceApplyDetail.failReason') }}</label>
+                  <label>{{ invoiceApplyDetailInfo.failReason || '-' }}</label>
+                </div>
+              </el-col>
+              <el-col :span="6">
+                <div class="form-group">
                   <label class="col-form-label">{{ $t('invoiceApplyDetail.createTime') }}</label>
                   <label>{{ invoiceApplyDetailInfo.createTime }}</label>
                 </div>
               </el-col>
+            </el-row>
+            <el-row :gutter="20">
               <el-col :span="6">
                 <div class="form-group">
                   <label class="col-form-label">{{ $t('invoiceApplyDetail.invoiceCode') }}</label>
@@ -97,10 +111,6 @@
           <invoice-apply-detail-fee v-if="invoiceApplyDetailInfo._currentTab === 'invoiceApplyDetailFee'"
             :apply-id="invoiceApplyDetailInfo.applyId"
             :owner-id="invoiceApplyDetailInfo.ownerId"></invoice-apply-detail-fee>
-        </el-tab-pane>
-        <el-tab-pane :label="$t('invoiceApplyDetail.eventTab')" name="invoiceApplyDetailEvent">
-          <invoice-apply-detail-event v-if="invoiceApplyDetailInfo._currentTab === 'invoiceApplyDetailEvent'"
-            :apply-id="invoiceApplyDetailInfo.applyId"></invoice-apply-detail-event>
         </el-tab-pane>
         <el-tab-pane :label="$t('invoiceApplyDetail.imageTab')" name="invoiceApplyDetailJpg">
           <div v-if="invoiceApplyDetailInfo.urls && invoiceApplyDetailInfo.urls.length > 0">
@@ -120,13 +130,11 @@
 <script>
 import { getInvoiceApplyDetail } from '@/api/fee/invoiceApplyDetailApi'
 import InvoiceApplyDetailFee from '@/components/fee/invoiceApplyDetailFee'
-import InvoiceApplyDetailEvent from '@/components/fee/invoiceApplyDetailEvent'
 
 export default {
   name: 'InvoiceApplyDetailList',
   components: {
-    InvoiceApplyDetailFee,
-    InvoiceApplyDetailEvent
+    InvoiceApplyDetailFee
   },
   data() {
     return {
@@ -140,11 +148,29 @@ export default {
         invoiceAddress: '',
         invoiceAmount: '',
         stateName: '',
+        mallState: '',
+        failReason: '',
         createTime: '',
         invoiceCode: '',
         urls: [],
         _currentTab: 'invoiceApplyDetailFee'
       }
+    }
+  },
+  computed: {
+    mallStateName() {
+      const mallState = this.invoiceApplyDetailInfo.mallState
+      if (!mallState) {
+        return '-'
+      }
+      const map = {
+        AUDIT: this.$t('invoiceApply.mallState.AUDIT'),
+        WAIT: this.$t('invoiceApply.mallState.WAIT'),
+        DONE: this.$t('invoiceApply.mallState.DONE'),
+        FAIL: this.$t('invoiceApply.mallState.FAIL'),
+        RED: this.$t('invoiceApply.mallState.RED')
+      }
+      return map[mallState] || mallState
     }
   },
   created() {

@@ -16,6 +16,7 @@
 package com.java110.acct.cmd.invoice;
 
 import com.alibaba.fastjson.JSONObject;
+import com.java110.acct.bmo.invoice.IInvoiceStateSyncBmo;
 import com.java110.core.annotation.Java110Cmd;
 import com.java110.core.context.ICmdDataFlowContext;
 import com.java110.core.event.cmd.Cmd;
@@ -59,6 +60,10 @@ public class ListInvoiceApplyCmd extends Cmd {
     @Autowired
     private IFileRelInnerServiceSMO fileRelInnerServiceSMOImpl;
 
+    @Autowired
+    private IInvoiceStateSyncBmo invoiceStateSyncBmoImpl;
+
+
     @Override
     public void validate(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) {
         super.validatePageInfo(reqJson);
@@ -80,6 +85,9 @@ public class ListInvoiceApplyCmd extends Cmd {
         } else {
             invoiceApplyDtos = new ArrayList<>();
         }
+
+        //todo 只读展示商城开票状态(商城为状态权威源, 不落物业状态、不动缴费明细)
+        invoiceStateSyncBmoImpl.fillMallState(invoiceApplyDtos);
 
         //todo 查询电子发票
         queryInvoicePhoto(invoiceApplyDtos);

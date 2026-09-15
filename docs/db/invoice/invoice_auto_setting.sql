@@ -1,5 +1,8 @@
 -- 发票申请开票方式小区设置(INVOICE_AUTO_SWITCH)
--- 用于物业端发票申请自动开票(调商城 propertyInvoiceBmoImpl) 与审核开票双模式
+-- 已废弃(2026-09-15): 审核开关统一由商城 invoice_setting.audit_switch 决定,
+--   物业端不再读取本设置、不再自行判定是否开票;
+--   保留数据行仅为兼容历史脚本与历史记录, 新增小区无需再配置。
+-- 历史用途: 物业端发票申请自动开票(调商城 propertyInvoiceBmoImpl) 与审核开票双模式
 -- 执行于 hc_community 库(需与 community_setting_key 表一致)
 INSERT INTO `community_setting_key`
 (key_id, setting_type, setting_name, setting_key, remark, create_time, status_cd)

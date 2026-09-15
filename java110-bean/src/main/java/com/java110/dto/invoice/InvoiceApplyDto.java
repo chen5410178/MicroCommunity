@@ -16,11 +16,35 @@ import java.util.List;
  **/
 public class InvoiceApplyDto extends PageDto implements Serializable {
 
+    public static final String STATE_SUBMIT = "S";//S 已提交(提交成功, 审核/开票进度以商城为准)
+    public static final String STATE_SUBMIT_FAIL = "F";//F 提交失败(可重新提交)
+
+    /**
+     * @deprecated 物业端不再维护发票状态机(审核/上传/登记/领用), 保留常量仅用于历史数据兼容
+     */
+    @Deprecated
     public static final String STATE_WAIT = "W";//W待审核 U 待上传 F 审核失败 G 带领用 C 已领用
+    /**
+     * @deprecated 物业端不再维护发票状态机
+     */
+    @Deprecated
     public static final String STATE_UPLOAD = "U";//W待审核 U 待上传 F 审核失败 G 带领用 C 已领用
+    /**
+     * @deprecated 物业端不再维护发票状态机, 用 STATE_SUBMIT_FAIL 替代
+     */
+    @Deprecated
     public static final String STATE_FAIL = "F";//W待审核 U 待上传 F 审核失败 G 带领用 C 已领用
+    /**
+     * @deprecated 物业端不再维护发票状态机
+     */
+    @Deprecated
     public static final String STATE_GET = "G";//W待审核 U 待上传 F 审核失败 G 带领用 C 已领用
+    /**
+     * @deprecated 物业端不再维护发票状态机
+     */
+    @Deprecated
     public static final String STATE_COMPLETE = "C";//W待审核 U 待上传 F 审核失败 G 带领用 C 已领用
+
 
 
     private String applyId;
@@ -44,6 +68,28 @@ public class InvoiceApplyDto extends PageDto implements Serializable {
     private String communityId;
 
     private String invoiceCode;
+
+    /**
+     * 商城开票单状态(只读展示, 实时从商城读取: AUDIT/WAIT/DONE/FAIL/RED)
+     */
+    private String mallState;
+
+    /**
+     * 商城开票失败原因(只读展示)
+     */
+    private String failReason;
+
+    /**
+     * 查询条件: 排除的开票单号(定时任务扫描已提交商城(oi_id != '-1')的单)
+     */
+    private String oiIdNotEqual;
+
+    /**
+     * 查询条件: 批量申请ID(同步商城状态用)
+     */
+    private String[] applyIds;
+
+
 
 
     private Date createTime;
@@ -236,5 +282,37 @@ public class InvoiceApplyDto extends PageDto implements Serializable {
 
     public void setInvoiceCode(String invoiceCode) {
         this.invoiceCode = invoiceCode;
+    }
+
+    public String getMallState() {
+        return mallState;
+    }
+
+    public void setMallState(String mallState) {
+        this.mallState = mallState;
+    }
+
+    public String getFailReason() {
+        return failReason;
+    }
+
+    public void setFailReason(String failReason) {
+        this.failReason = failReason;
+    }
+
+    public String getOiIdNotEqual() {
+        return oiIdNotEqual;
+    }
+
+    public void setOiIdNotEqual(String oiIdNotEqual) {
+        this.oiIdNotEqual = oiIdNotEqual;
+    }
+
+    public String[] getApplyIds() {
+        return applyIds;
+    }
+
+    public void setApplyIds(String[] applyIds) {
+        this.applyIds = applyIds;
     }
 }
