@@ -13,7 +13,6 @@ import com.java110.intf.fee.IPayFeeDetailV1InnerServiceSMO;
 import com.java110.intf.job.IMallInnerServiceSMO;
 import com.java110.job.quartz.TaskSystemQuartz;
 import com.java110.po.fee.PayFeeDetailPo;
-import com.java110.po.invoice.InvoiceApplyPo;
 import com.java110.utils.util.BeanConvertUtil;
 import com.java110.utils.util.ListUtil;
 import com.java110.utils.util.StringUtil;
@@ -27,10 +26,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 商城开票状态兜底同步(定时任务)
- * 物业端不维护发票状态, 商城 invoice_order 为唯一权威状态;
- * 本任务扫描已提交商城(oi_id != '-1')的申请单, 按商城结果回写缴费明细 pay_fee_detail.open_invoice
- * (开票成功Y/开票失败N, 待审核或待开票不动), 并兜底回填发票号。
+ * 缴费明细开票状态兜底回写(定时任务)
+ * 物业端不维护发票状态、不做状态展示(状态/失败原因/PDF 由查询时按 applyId 实时取商城),
+ * 本任务按 applyId(商城 ext_apply_id) 批量取商城权威结果, 仅回写缴费明细 pay_fee_detail.open_invoice
+ * (开票成功Y/开票失败N, 待审核或待开票不动)。
  */
 @Component
 public class InvoiceStateSyncJob extends TaskSystemQuartz {
@@ -55,7 +54,7 @@ public class InvoiceStateSyncJob extends TaskSystemQuartz {
 
     @Override
     protected void process(TaskDto taskDto) throws Exception {
-        logger.debug("开始执行商城开票状态兜底同步");
+        logger.debug("开始执行缴费明细开票状态兜底回写");
 
         InvoiceApplyDto queryDto = new InvoiceApplyDto();
         queryDto.setStatusCd("0");
@@ -72,31 +71,24 @@ public class InvoiceStateSyncJob extends TaskSystemQuartz {
         }
 
         for (InvoiceApplyDto invoiceApply : invoiceApplys) {
-            InvoiceMallStateDto mallState = mallStates.get(invoiceApply.getOiId());
+            InvoiceMallStateDto mallState = mallStates.get(invoiceApply.getApplyId());
             if (mallState == null) {
                 continue;
             }
             try {
                 syncOne(invoiceApply, mallState);
             } catch (Exception e) {
-                logger.error("同步商城开票状态失败 applyId: {}", invoiceApply.getApplyId(), e);
+                logger.error("回写缴费明细开票状态失败 applyId: {}", invoiceApply.getApplyId(), e);
             }
         }
     }
 
     /**
-     * 按商城结果回写缴费明细并兜底回填发票号(不修改物业端 state)
+     * 按商城结果回写缴费明细(不修改物业端 state, 不回填任何发票展示字段)
      */
     private void syncOne(InvoiceApplyDto invoiceApply, InvoiceMallStateDto mallState) {
         if (InvoiceMallStateDto.STATE_DONE.equals(mallState.getState())) {
             writeBackFeeDetail(invoiceApply.getApplyId(), OPEN_INVOICE_YES);
-            if (StringUtil.isEmpty(invoiceApply.getInvoiceCode()) && !StringUtil.isEmpty(mallState.getInvoiceNo())) {
-                InvoiceApplyPo updatePo = new InvoiceApplyPo();
-                updatePo.setApplyId(invoiceApply.getApplyId());
-                updatePo.setCommunityId(invoiceApply.getCommunityId());
-                updatePo.setInvoiceCode(mallState.getInvoiceNo());
-                invoiceApplyV1InnerServiceSMOImpl.updateInvoiceApply(updatePo);
-            }
             return;
         }
         if (InvoiceMallStateDto.STATE_FAIL.equals(mallState.getState())) {
@@ -125,31 +117,32 @@ public class InvoiceStateSyncJob extends TaskSystemQuartz {
     }
 
     /**
-     * 分批调商城批量状态接口(queryInvoiceStatusBatchBmoImpl), 返回 invoiceId -> 商城状态
+     * 分批调商城批量状态接口(queryInvoiceStatusBatchBmoImpl): 按 applyIds(商城 ext_apply_id) 查询.
+     * 返回 applyId -> 商城状态
      */
     private Map<String, InvoiceMallStateDto> queryMallStates(List<InvoiceApplyDto> invoiceApplys) {
         Map<String, InvoiceMallStateDto> mallStates = new HashMap<>();
-        List<String> oiIds = new ArrayList<>();
+        List<String> applyIds = new ArrayList<>();
         for (InvoiceApplyDto invoiceApply : invoiceApplys) {
-            if (StringUtil.isEmpty(invoiceApply.getOiId()) || oiIds.contains(invoiceApply.getOiId())) {
+            if (StringUtil.isEmpty(invoiceApply.getApplyId()) || applyIds.contains(invoiceApply.getApplyId())) {
                 continue;
             }
-            oiIds.add(invoiceApply.getOiId());
-            if (oiIds.size() < BATCH_SIZE) {
+            applyIds.add(invoiceApply.getApplyId());
+            if (applyIds.size() < BATCH_SIZE) {
                 continue;
             }
-            queryMallStatesByBatch(oiIds, mallStates);
-            oiIds = new ArrayList<>();
+            queryMallStatesByBatch(applyIds, mallStates);
+            applyIds = new ArrayList<>();
         }
-        if (!oiIds.isEmpty()) {
-            queryMallStatesByBatch(oiIds, mallStates);
+        if (!applyIds.isEmpty()) {
+            queryMallStatesByBatch(applyIds, mallStates);
         }
         return mallStates;
     }
 
-    private void queryMallStatesByBatch(List<String> oiIds, Map<String, InvoiceMallStateDto> mallStates) {
+    private void queryMallStatesByBatch(List<String> applyIds, Map<String, InvoiceMallStateDto> mallStates) {
         JSONObject reqParam = new JSONObject();
-        reqParam.put("invoiceIds", oiIds);
+        reqParam.put("applyIds", applyIds);
         ResultVo resultVo;
         try {
             resultVo = mallInnerServiceSMOImpl.postMallData(new MallDataDto(MALL_API_CODE, reqParam));
@@ -167,10 +160,10 @@ public class InvoiceStateSyncJob extends TaskSystemQuartz {
         }
         for (int i = 0; i < invoices.size(); i++) {
             InvoiceMallStateDto mallState = BeanConvertUtil.covertBean(invoices.getJSONObject(i), InvoiceMallStateDto.class);
-            if (StringUtil.isEmpty(mallState.getInvoiceId())) {
+            if (StringUtil.isEmpty(mallState.getApplyId())) {
                 continue;
             }
-            mallStates.put(mallState.getInvoiceId(), mallState);
+            mallStates.put(mallState.getApplyId(), mallState);
         }
     }
 }

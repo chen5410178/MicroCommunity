@@ -36,7 +36,8 @@ import java.util.List;
 
 /**
  * 提交失败重新提交(invoice.reSubmitInvoiceApply)
- * 复用商城幂等逻辑(orgId+orgType+source=WEB+remark), 商城已有单则按其状态决定复用/重试开票;
+ * 复用商城幂等逻辑(orgId+orgType+source=WEB+ext_apply_id), 商城已有单则按其状态决定复用/重试开票;
+ * 抬头字段随开票报文一起传, 由商城按 phone(headingType) 存在改/不存在增;
  * 提交成功 state=S(已提交), 提交失败 state=F(提交失败)并展示失败原因, 可继续重新提交。
  */
 @Java110Cmd(serviceCode = "invoice.reSubmitInvoiceApply")
@@ -77,9 +78,11 @@ public class ReSubmitInvoiceApplyCmd extends Cmd {
             throw new CmdException("未包含开票项");
         }
 
-        InvoiceApplyDto submitResult = propertyInvoiceSubmitBmo.submit(applyId, communityId,
+        // 抬头从申请单重建(邮箱/开户行未落物业库, 传空由商城保留原抬头对应字段)
+        String headingType = "2002".equals(invoiceApply.getInvoiceType()) ? "公司" : "个人";
+        InvoiceApplyDto submitResult = propertyInvoiceSubmitBmo.submit(applyId, communityId, headingType,
                 invoiceApply.getInvoiceName(), invoiceApply.getInvoiceNum(),
-                invoiceApply.getInvoiceAddress(), invoiceApply.getApplyTel(), items);
+                invoiceApply.getInvoiceAddress(), invoiceApply.getApplyTel(), null, null, items);
 
         JSONObject resultData = new JSONObject();
         resultData.put("applyId", submitResult.getApplyId());

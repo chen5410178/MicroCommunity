@@ -22,6 +22,7 @@ export const messages = {
       imageTab: 'View Invoice',
       notUploaded: 'Not uploaded',
       noInvoice: 'No Invoice',
+      noInvoicePdf: 'No Invoice PDF',
       downloadInvoice: 'Download Invoice',
       fetchError: 'Failed to fetch invoice details'
     },
@@ -60,7 +61,8 @@ export const messages = {
       imageTab: '查看发票',
       notUploaded: '未上传',
       noInvoice: '没有发票',
-downloadInvoice: '下载发票',
+      noInvoicePdf: '暂无发票',
+      downloadInvoice: '下载发票',
       fetchError: '获取发票详情失败'
     },
     invoiceApplyDetailFee: {
@@ -98,6 +100,7 @@ downloadInvoice: '下载发票',
       imageTab: '查看發票',
       notUploaded: '未上傳',
       noInvoice: '沒有發票',
+      noInvoicePdf: '暫無發票',
       downloadInvoice: '下載發票',
       fetchError: '獲取發票詳情失敗'
     },

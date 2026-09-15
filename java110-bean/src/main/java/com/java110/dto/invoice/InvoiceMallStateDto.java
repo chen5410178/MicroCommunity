@@ -13,12 +13,24 @@ public class InvoiceMallStateDto implements Serializable {
     public static final String STATE_FAIL = "FAIL";//开票失败
     public static final String STATE_RED = "RED";//已冲红
 
+    /**
+     * 物业端发票申请ID(对应商城 invoice_order.ext_apply_id)
+     */
+    private String applyId;
     private String invoiceId;
     private String state;
     private String invoiceNo;
     private String invoiceCode;
     private String pdfUrl;
     private String failReason;
+
+    public String getApplyId() {
+        return applyId;
+    }
+
+    public void setApplyId(String applyId) {
+        this.applyId = applyId;
+    }
 
     public String getInvoiceId() {
         return invoiceId;

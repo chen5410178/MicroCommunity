@@ -19,16 +19,12 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.java110.acct.bmo.invoice.IInvoiceStateSyncBmo;
 import com.java110.acct.bmo.invoice.IPropertyInvoiceSubmitBmo;
-import com.java110.core.factory.GenerateCodeFactory;
 import com.java110.dto.MallDataDto;
-import com.java110.dto.file.FileRelDto;
 import com.java110.dto.invoice.InvoiceApplyDto;
 import com.java110.dto.invoice.InvoiceApplyItemDto;
 import com.java110.dto.invoice.InvoiceMallStateDto;
 import com.java110.intf.acct.IInvoiceApplyV1InnerServiceSMO;
-import com.java110.intf.common.IFileRelInnerServiceSMO;
 import com.java110.intf.job.IMallInnerServiceSMO;
-import com.java110.po.file.FileRelPo;
 import com.java110.po.invoice.InvoiceApplyPo;
 import com.java110.utils.exception.CmdException;
 import com.java110.utils.util.ListUtil;
@@ -43,7 +39,8 @@ import java.util.List;
 
 /**
  * 物业端提交开票申请实现
- * 只提交申请并记录提交结果(S 已提交 / F 提交失败), 审核与开票进度全部以商城为准, 不在本地维护
+ * 只调商城一个开票接口(抬头随报文, 商城先 upsert 抬头再落开票单), 只记录提交结果(S 已提交 / F 提交失败),
+ * 审核与开票进度全部以商城为准, 不在本地维护; 发票PDF只存商城, 物业端查询时只读展示/下载
  */
 @Service
 public class PropertyInvoiceSubmitBmoImpl implements IPropertyInvoiceSubmitBmo {
@@ -64,15 +61,12 @@ public class PropertyInvoiceSubmitBmoImpl implements IPropertyInvoiceSubmitBmo {
     private IInvoiceApplyV1InnerServiceSMO invoiceApplyV1InnerServiceSMOImpl;
 
     @Autowired
-    private IFileRelInnerServiceSMO fileRelInnerServiceSMOImpl;
-
-    @Autowired
     private IInvoiceStateSyncBmo invoiceStateSyncBmoImpl;
 
     @Override
-    public InvoiceApplyDto submit(String applyId, String communityId, String buyerName,
-                                  String buyerTaxNo, String buyerAddress, String applyTel,
-                                  List<InvoiceApplyItemDto> items) {
+    public InvoiceApplyDto submit(String applyId, String communityId, String headingType, String buyerName,
+                                  String buyerTaxNo, String buyerAddress, String applyTel, String email,
+                                  String bankNo, List<InvoiceApplyItemDto> items) {
 
         InvoiceApplyDto applyQuery = new InvoiceApplyDto();
         applyQuery.setApplyId(applyId);
@@ -83,14 +77,18 @@ public class PropertyInvoiceSubmitBmoImpl implements IPropertyInvoiceSubmitBmo {
         }
         InvoiceApplyDto invoiceApply = applies.get(0);
 
-        // 组装商城参数(多费用明细+抬头信息)
+        // 组装商城参数(物业申请单号+抬头信息+多费用明细): 商城先按 phone(headingType) upsert 抬头, 再落开票单
         JSONObject data = new JSONObject();
+        data.put("applyId", applyId);
         data.put("orgId", communityId);
         data.put("orgType", ORG_TYPE_COMMUNITY);
+        data.put("headingType", headingType);
         data.put("buyerName", buyerName);
         data.put("buyerTaxNo", buyerTaxNo);
         data.put("buyerAddress", buyerAddress);
         data.put("buyerTel", applyTel);
+        data.put("buyerBankNo", bankNo);
+        data.put("email", email);
         String invoiceKind = invoiceApply.getInvoiceKind();
         if (StringUtil.isEmpty(invoiceKind)) {
             invoiceKind = "普票";
@@ -152,9 +150,10 @@ public class PropertyInvoiceSubmitBmoImpl implements IPropertyInvoiceSubmitBmo {
         invoiceApplyV1InnerServiceSMOImpl.updateInvoiceApply(updatePo);
 
         // 按商城即时结果回写缴费明细(已开票Y/开票失败N, 待审核或待开票不动)
+        // 发票PDF只存商城(invoice_order.pdf_url), 物业端不落库, 查询时读取商城地址直接下载
         if (InvoiceMallStateDto.STATE_DONE.equals(mallState)) {
             invoiceStateSyncBmoImpl.writeBackFeeDetail(applyId, OPEN_INVOICE_YES);
-            saveInvoicePdf(applyId, invoiceData.getString("pdfUrl"));
+            invoiceApply.setMallPdfUrl(invoiceData.getString("pdfUrl"));
         } else if (InvoiceMallStateDto.STATE_FAIL.equals(mallState)) {
             invoiceStateSyncBmoImpl.writeBackFeeDetail(applyId, OPEN_INVOICE_NO);
         }
@@ -187,27 +186,5 @@ public class PropertyInvoiceSubmitBmoImpl implements IPropertyInvoiceSubmitBmo {
         invoiceApply.setFailReason(failReason);
         invoiceApply.setRemark(failReason);
         return invoiceApply;
-    }
-
-    /**
-     * 缓存商城电子发票PDF链接(file_rel 29000, 只读下载用)
-     */
-    private void saveInvoicePdf(String applyId, String pdfUrl) {
-        if (StringUtil.isEmpty(pdfUrl)) {
-            return;
-        }
-        FileRelPo deleteFileRelPo = new FileRelPo();
-        deleteFileRelPo.setObjId(applyId);
-        deleteFileRelPo.setRelTypeCd(FileRelDto.REL_TYPE_CE_INVOICE);
-        fileRelInnerServiceSMOImpl.deleteFileRel(deleteFileRelPo);
-
-        FileRelPo fileRelPo = new FileRelPo();
-        fileRelPo.setObjId(applyId);
-        fileRelPo.setRelTypeCd(FileRelDto.REL_TYPE_CE_INVOICE);
-        fileRelPo.setFileRelId(GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_fileRelId));
-        fileRelPo.setSaveWay("OSS");
-        fileRelPo.setFileRealName(pdfUrl);
-        fileRelPo.setFileSaveName(pdfUrl);
-        fileRelInnerServiceSMOImpl.saveFileRel(fileRelPo);
     }
 }

@@ -31,13 +31,11 @@ import com.java110.dto.invoice.InvoiceApplyDto;
 import com.java110.dto.invoice.InvoiceApplyItemDto;
 import com.java110.dto.owner.OwnerDto;
 import com.java110.dto.user.UserDto;
-import com.java110.dto.MallDataDto;
 import com.java110.intf.acct.IInvoiceApplyItemV1InnerServiceSMO;
 import com.java110.intf.acct.IInvoiceApplyV1InnerServiceSMO;
 import com.java110.intf.fee.IAccountReceiptV1InnerServiceSMO;
 import com.java110.intf.fee.IFeeDetailInnerServiceSMO;
 import com.java110.intf.fee.IPayFeeDetailV1InnerServiceSMO;
-import com.java110.intf.job.IMallInnerServiceSMO;
 import com.java110.intf.user.IOwnerV1InnerServiceSMO;
 import com.java110.intf.user.IUserV1InnerServiceSMO;
 import com.java110.po.fee.PayFeeDetailPo;
@@ -84,9 +82,6 @@ public class SaveInvoiceApplyCmd extends Cmd {
 
     @Autowired
     private IInvoiceApplyItemV1InnerServiceSMO invoiceApplyItemV1InnerServiceSMOImpl;
-
-    @Autowired
-    private IMallInnerServiceSMO mallInnerServiceSMOImpl;
 
 
     @Autowired
@@ -193,15 +188,13 @@ public class SaveInvoiceApplyCmd extends Cmd {
         //todo 保存开票申请项
         invoiceApplyItemV1InnerServiceSMOImpl.saveInvoiceApplyItems(invoiceApplyItemPos);
 
-        //todo 同步抬头到商城(存在更新、不存在新增, 失败不阻断开票申请)
-        syncInvoiceHeadingToMall(reqJson);
-
-        //todo 提交商城开票申请: 商城落单并按 audit_switch 决定待审核/直接开票, 物业端只记录提交结果(S/F)
+        //todo 提交商城开票申请(单接口): 抬头字段随开票报文一起传, 商城先 upsert 抬头再落开票单,
+        //     物业端只记录提交结果(S/F), 商城按 audit_switch 决定待审核/直接开票
         List<InvoiceApplyItemDto> itemDtos = BeanConvertUtil.covertBeanList(invoiceApplyItemPos, InvoiceApplyItemDto.class);
         InvoiceApplyDto submitResult = propertyInvoiceSubmitBmo.submit(invoiceApplyPo.getApplyId(), invoiceApplyPo.getCommunityId(),
-                reqJson.getString("invoiceName"), reqJson.getString("invoiceNum"),
+                parseHeadingType(reqJson), reqJson.getString("invoiceName"), reqJson.getString("invoiceNum"),
                 reqJson.getString("invoiceAddress"), reqJson.getString("applyTel"),
-                itemDtos);
+                reqJson.getString("email"), reqJson.getString("invoiceAccount"), itemDtos);
 
         JSONObject resultData = new JSONObject();
         resultData.put("applyId", submitResult.getApplyId());
@@ -214,39 +207,11 @@ public class SaveInvoiceApplyCmd extends Cmd {
     }
 
     /**
-     * 同步抬头到商城(saveInvoiceHeadingBmoImpl, 与IoT SaveInvoiceCmd行为一致: 存在更新、不存在新增)
-     * 抬头归属手机号 = 业主档案手机号(applyTel), phone 兜底取 applyTel
+     * 商城抬头类型: 1001-个人 2002-公司 -> 个人/公司(商城按 phone+headingType upsert 抬头)
      */
-    private void syncInvoiceHeadingToMall(JSONObject reqJson) {
-        String applyTel = reqJson.getString("applyTel");
-        if (StringUtil.isEmpty(applyTel)) {
-            logger.warn("业主手机号为空, 跳过同步商城抬头");
-            return;
-        }
-
-        JSONObject headingParam = new JSONObject();
-        // 1001-个人 2002-公司 -> 商城 个人/公司
-        String headingType = "2002".equals(reqJson.getString("invoiceType")) ? "公司" : "个人";
-        headingParam.put("headingType", headingType);
-        headingParam.put("headingName", reqJson.getString("invoiceName"));
-        headingParam.put("taxNo", reqJson.getString("invoiceNum"));
-        headingParam.put("phone", applyTel);
-        headingParam.put("userPhone", applyTel);
-        headingParam.put("email", reqJson.getString("email"));
-        headingParam.put("address", reqJson.getString("invoiceAddress"));
-        headingParam.put("bankNo", reqJson.getString("invoiceAccount"));
-        headingParam.put("remark", reqJson.getString("remark"));
-        headingParam.put("isDefault", "0");
-        try {
-            ResultVo resultVo = mallInnerServiceSMOImpl.postMallData(new MallDataDto("saveInvoiceHeadingBmoImpl", headingParam));
-            if (resultVo == null || resultVo.getCode() != ResultVo.CODE_OK || resultVo.getData() == null) {
-                logger.warn("同步商城抬头未生效: {}", resultVo == null ? "null" : resultVo.getMsg());
-            }
-        } catch (Exception e) {
-            logger.warn("同步商城抬头异常", e);
-        }
+    private String parseHeadingType(JSONObject reqJson) {
+        return "2002".equals(reqJson.getString("invoiceType")) ? "公司" : "个人";
     }
-
 
     /**
      * 计算已缴费费用

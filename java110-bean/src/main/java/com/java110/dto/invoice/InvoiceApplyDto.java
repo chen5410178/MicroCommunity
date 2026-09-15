@@ -80,12 +80,17 @@ public class InvoiceApplyDto extends PageDto implements Serializable {
     private String failReason;
 
     /**
+     * 商城发票PDF地址(只读展示/下载, 商城 invoice_order.pdf_url 为唯一存放方, 物业端不落库)
+     */
+    private String mallPdfUrl;
+
+    /**
      * 查询条件: 排除的开票单号(定时任务扫描已提交商城(oi_id != '-1')的单)
      */
     private String oiIdNotEqual;
 
     /**
-     * 查询条件: 批量申请ID(同步商城状态用)
+     * 查询条件: 批量申请ID(按商城 ext_apply_id 批量取状态用)
      */
     private String[] applyIds;
 
@@ -298,6 +303,14 @@ public class InvoiceApplyDto extends PageDto implements Serializable {
 
     public void setFailReason(String failReason) {
         this.failReason = failReason;
+    }
+
+    public String getMallPdfUrl() {
+        return mallPdfUrl;
+    }
+
+    public void setMallPdfUrl(String mallPdfUrl) {
+        this.mallPdfUrl = mallPdfUrl;
     }
 
     public String getOiIdNotEqual() {

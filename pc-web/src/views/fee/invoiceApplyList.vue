@@ -98,14 +98,18 @@
               </template>
             </el-table-column>
             <el-table-column prop="createTime" :label="$t('invoiceApply.table.applyTime')" align="center" />
-            <el-table-column :label="$t('common.operation')" align="center" width="260">
+            <el-table-column :label="$t('invoiceApply.table.invoicePdf')" align="center">
+              <template slot-scope="scope">
+                <el-button v-if="scope.row.mallPdfUrl" type="text" @click="_downloadInvoicePdf(scope.row)">
+                  {{ $t('invoiceApply.downloadInvoice') }}
+                </el-button>
+                <span v-else>{{ $t('invoiceApply.noInvoicePdf') }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column :label="$t('common.operation')" align="center" width="200">
               <template slot-scope="scope">
                 <el-button size="mini" @click="_openInvoiceApplyDetail(scope.row)">
                   {{ $t('common.detail') }}
-                </el-button>
-                <el-button size="mini" :disabled="!scope.row.oiId || scope.row.oiId === '-1'"
-                  @click="_syncInvoiceApplyState(scope.row)">
-                  {{ $t('invoiceApply.syncState') }}
                 </el-button>
                 <el-button v-if="scope.row.state === 'F'" size="mini" type="primary"
                   @click="_reSubmitInvoiceApply(scope.row)">
@@ -129,7 +133,7 @@
 </template>
 
 <script>
-import { listInvoiceApply, syncInvoiceApplyState, reSubmitInvoiceApply } from '@/api/fee/invoiceApplyApi'
+import { listInvoiceApply, reSubmitInvoiceApply } from '@/api/fee/invoiceApplyApi'
 import { getCommunityId } from '@/api/community/communityApi'
 import DeleteInvoiceApply from '@/components/fee/deleteInvoiceApply'
 
@@ -195,14 +199,12 @@ export default {
     _openInvoiceApplyDetail(row) {
       this.$router.push(`/views/fee/invoiceApplyDetail?applyId=${row.applyId}`)
     },
-    async _syncInvoiceApplyState(row) {
-      try {
-        await syncInvoiceApplyState({ applyIds: [row.applyId] })
-        this.$message.success(this.$t('invoiceApply.syncSuccess'))
-        this.listInvoiceApplys()
-      } catch (error) {
-        this.$message.error(error.message)
+    _downloadInvoicePdf(row) {
+      if (!row.mallPdfUrl) {
+        this.$message.warning(this.$t('invoiceApply.noInvoicePdf'))
+        return
       }
+      window.open(row.mallPdfUrl)
     },
     async _reSubmitInvoiceApply(row) {
       try {

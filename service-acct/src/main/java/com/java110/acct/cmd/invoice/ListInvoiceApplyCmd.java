@@ -27,6 +27,7 @@ import com.java110.intf.common.IFileRelInnerServiceSMO;
 import com.java110.utils.exception.CmdException;
 import com.java110.utils.util.Assert;
 import com.java110.utils.util.BeanConvertUtil;
+import com.java110.utils.util.StringUtil;
 import com.java110.vo.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.java110.dto.invoice.InvoiceApplyDto;
@@ -86,7 +87,7 @@ public class ListInvoiceApplyCmd extends Cmd {
             invoiceApplyDtos = new ArrayList<>();
         }
 
-        //todo 只读展示商城开票状态(商城为状态权威源, 不落物业状态、不动缴费明细)
+        //todo 只读展示商城开票状态(商城为状态权威源, 每次查询按 applyId 实时取状态/失败原因/发票号/发票PDF, 不落库)
         invoiceStateSyncBmoImpl.fillMallState(invoiceApplyDtos);
 
         //todo 查询电子发票
@@ -105,8 +106,18 @@ public class ListInvoiceApplyCmd extends Cmd {
             return;
         }
 
+        InvoiceApplyDto invoiceApply = invoiceApplyDtos.get(0);
+        // 发票PDF只存商城, 优先返回商城地址供页面直接下载
+        if (!StringUtil.isEmpty(invoiceApply.getMallPdfUrl())) {
+            List<String> urls = new ArrayList<>();
+            urls.add(invoiceApply.getMallPdfUrl());
+            invoiceApply.setUrls(urls);
+            return;
+        }
+
+        // 历史存量兜底: 早前流程在物业库 file_rel(29000) 缓存的发票PDF(新流程不再写入)
         FileRelDto fileRelDto = new FileRelDto();
-        fileRelDto.setObjId(invoiceApplyDtos.get(0).getApplyId());
+        fileRelDto.setObjId(invoiceApply.getApplyId());
         fileRelDto.setRelTypeCd(FileRelDto.REL_TYPE_CE_INVOICE); //业主照片
         List<FileRelDto> fileRelDtos = fileRelInnerServiceSMOImpl.queryFileRels(fileRelDto);
         //String imgUrl = MappingCache.getValue(MappingConstant.FILE_DOMAIN, "IMG_PATH");
@@ -116,7 +127,7 @@ public class ListInvoiceApplyCmd extends Cmd {
             for (FileRelDto fileRel : fileRelDtos) {
                 urls.add(fileRel.getFileRealName());
             }
-            invoiceApplyDtos.get(0).setUrls(urls);
+            invoiceApply.setUrls(urls);
         }
     }
 }

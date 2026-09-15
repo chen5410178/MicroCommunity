@@ -42,7 +42,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 商城开票状态同步实现(只读展示 + 缴费明细回写)
+ * 商城开票状态查询填充实现(只读展示 + 缴费明细回写)
+ * 物业端不落状态: 列表/详情每次查询按 applyId(商城 ext_apply_id) 实时取商城状态、失败原因、发票号、发票PDF
  */
 @Service
 public class InvoiceStateSyncBmoImpl implements IInvoiceStateSyncBmo {
@@ -50,8 +51,7 @@ public class InvoiceStateSyncBmoImpl implements IInvoiceStateSyncBmo {
     private static final Logger logger = LoggerFactory.getLogger(InvoiceStateSyncBmoImpl.class);
 
     private static final String MALL_API_CODE = "queryInvoiceStatusBatchBmoImpl";
-    private static final String OPEN_INVOICE_YES = "Y";
-    private static final String OPEN_INVOICE_NO = "N";
+    private static final String OI_ID_NOT_SUBMIT = "-1";
     private static final String MALL_DOMAIN = "MALL";
 
     @Autowired
@@ -68,35 +68,22 @@ public class InvoiceStateSyncBmoImpl implements IInvoiceStateSyncBmo {
         if (ListUtil.isNull(applies)) {
             return;
         }
-        Map<String, InvoiceMallStateDto> mallStates = queryMallStates(collectOiIds(applies));
-        if (mallStates.isEmpty()) {
+        Map<String, InvoiceMallStateDto> mallStatesByApplyId = new HashMap<>();
+        Map<String, InvoiceMallStateDto> mallStatesByInvoiceId = new HashMap<>();
+        queryMallStates(applies, mallStatesByApplyId, mallStatesByInvoiceId);
+        if (mallStatesByApplyId.isEmpty() && mallStatesByInvoiceId.isEmpty()) {
             return;
         }
         for (InvoiceApplyDto apply : applies) {
-            InvoiceMallStateDto mallState = mallStates.get(apply.getOiId());
+            InvoiceMallStateDto mallState = mallStatesByApplyId.get(apply.getApplyId());
+            if (mallState == null) {
+                // 存量单(商城开票单无 ext_apply_id)兼容按商城单号兜底匹配
+                mallState = mallStatesByInvoiceId.get(apply.getOiId());
+            }
             if (mallState == null) {
                 continue;
             }
-            apply.setMallState(mallState.getState());
-            apply.setFailReason(mallState.getFailReason());
-            if (StringUtil.isEmpty(apply.getInvoiceCode()) && !StringUtil.isEmpty(mallState.getInvoiceNo())) {
-                apply.setInvoiceCode(mallState.getInvoiceNo());
-            }
-        }
-    }
-
-    @Override
-    public void syncMallState(List<InvoiceApplyDto> applies) {
-        fillMallState(applies);
-        if (ListUtil.isNull(applies)) {
-            return;
-        }
-        for (InvoiceApplyDto apply : applies) {
-            if (InvoiceMallStateDto.STATE_DONE.equals(apply.getMallState())) {
-                writeBackFeeDetail(apply.getApplyId(), OPEN_INVOICE_YES);
-            } else if (InvoiceMallStateDto.STATE_FAIL.equals(apply.getMallState())) {
-                writeBackFeeDetail(apply.getApplyId(), OPEN_INVOICE_NO);
-            }
+            fillOne(apply, mallState);
         }
     }
 
@@ -119,58 +106,82 @@ public class InvoiceStateSyncBmoImpl implements IInvoiceStateSyncBmo {
     }
 
     /**
-     * 收集已提交商城的开票单号
+     * 商城结果回填到申请单(只读展示, 不落库)
      */
-    private String[] collectOiIds(List<InvoiceApplyDto> applies) {
-        List<String> oiIds = new ArrayList<>();
-        for (InvoiceApplyDto apply : applies) {
-            if (StringUtil.isEmpty(apply.getOiId()) || "-1".equals(apply.getOiId())) {
-                continue;
-            }
-            if (oiIds.contains(apply.getOiId())) {
-                continue;
-            }
-            oiIds.add(apply.getOiId());
+    private void fillOne(InvoiceApplyDto apply, InvoiceMallStateDto mallState) {
+        apply.setMallState(mallState.getState());
+        apply.setFailReason(mallState.getFailReason());
+        if (StringUtil.isEmpty(apply.getInvoiceCode()) && !StringUtil.isEmpty(mallState.getInvoiceNo())) {
+            apply.setInvoiceCode(mallState.getInvoiceNo());
         }
-        return oiIds.toArray(new String[oiIds.size()]);
+        // 发票PDF只存商城, 物业端查询时读取用于展示/下载
+        apply.setMallPdfUrl(mallState.getPdfUrl());
+        // 历史提单未记录商城单号时以商城返回值补齐展示, 不改库
+        if (StringUtil.isEmpty(apply.getOiId()) || OI_ID_NOT_SUBMIT.equals(apply.getOiId())) {
+            apply.setOiId(mallState.getInvoiceId());
+        }
     }
 
     /**
-     * 调商城批量状态接口(queryInvoiceStatusBatchBmoImpl), 返回 invoiceId -> 商城状态
+     * 调商城批量状态接口(queryInvoiceStatusBatchBmoImpl):
+     * 按 applyIds(商城 ext_apply_id) 查询, 并对已有商城单号的存量单按 invoiceIds 兼容查询
+     *
+     * @param applies              物业端发票申请列表
+     * @param mallStatesByApplyId  出参: applyId -> 商城状态
+     * @param mallStatesByInvoiceId 出参: 商城开票单号 -> 商城状态
      */
-    private Map<String, InvoiceMallStateDto> queryMallStates(String[] oiIds) {
-        Map<String, InvoiceMallStateDto> mallStates = new HashMap<>();
-        if (oiIds == null || oiIds.length < 1) {
-            return mallStates;
+    private void queryMallStates(List<InvoiceApplyDto> applies, Map<String, InvoiceMallStateDto> mallStatesByApplyId,
+                                 Map<String, InvoiceMallStateDto> mallStatesByInvoiceId) {
+        List<String> applyIds = new ArrayList<>();
+        List<String> oiIds = new ArrayList<>();
+        for (InvoiceApplyDto apply : applies) {
+            if (!StringUtil.isEmpty(apply.getApplyId()) && !applyIds.contains(apply.getApplyId())) {
+                applyIds.add(apply.getApplyId());
+            }
+            if (StringUtil.isEmpty(apply.getOiId()) || OI_ID_NOT_SUBMIT.equals(apply.getOiId())) {
+                continue;
+            }
+            if (!oiIds.contains(apply.getOiId())) {
+                oiIds.add(apply.getOiId());
+            }
+        }
+        if (applyIds.isEmpty() && oiIds.isEmpty()) {
+            return;
         }
         // 商城未开启时无需回读状态
         if (!"ON".equals(MappingCache.getValue(MALL_DOMAIN, "MALL_SWITCH"))) {
-            return mallStates;
+            return;
         }
         JSONObject reqParam = new JSONObject();
-        reqParam.put("invoiceIds", oiIds);
+        if (!applyIds.isEmpty()) {
+            reqParam.put("applyIds", applyIds);
+        }
+        if (!oiIds.isEmpty()) {
+            reqParam.put("invoiceIds", oiIds);
+        }
         ResultVo resultVo;
         try {
             resultVo = mallInnerServiceSMOImpl.postMallData(new MallDataDto(MALL_API_CODE, reqParam));
         } catch (Exception e) {
             logger.warn("查询商城开票状态异常", e);
-            return mallStates;
+            return;
         }
         if (resultVo == null || resultVo.getCode() != ResultVo.CODE_OK || resultVo.getData() == null) {
             logger.warn("查询商城开票状态未生效: {}", resultVo == null ? "null" : resultVo.getMsg());
-            return mallStates;
+            return;
         }
         JSONArray invoices = ((JSONObject) resultVo.getData()).getJSONArray("invoices");
         if (invoices == null || invoices.isEmpty()) {
-            return mallStates;
+            return;
         }
         for (int i = 0; i < invoices.size(); i++) {
             InvoiceMallStateDto mallState = BeanConvertUtil.covertBean(invoices.getJSONObject(i), InvoiceMallStateDto.class);
-            if (StringUtil.isEmpty(mallState.getInvoiceId())) {
-                continue;
+            if (!StringUtil.isEmpty(mallState.getApplyId())) {
+                mallStatesByApplyId.put(mallState.getApplyId(), mallState);
             }
-            mallStates.put(mallState.getInvoiceId(), mallState);
+            if (!StringUtil.isEmpty(mallState.getInvoiceId())) {
+                mallStatesByInvoiceId.put(mallState.getInvoiceId(), mallState);
+            }
         }
-        return mallStates;
     }
 }

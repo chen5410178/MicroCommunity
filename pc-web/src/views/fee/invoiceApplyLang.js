@@ -18,7 +18,8 @@ export const messages = {
         submitState: 'Submit Result',
         mallState: 'Mall Status',
         failReason: 'Fail Reason',
-        applyTime: 'Apply Time'
+        applyTime: 'Apply Time',
+        invoicePdf: 'Invoice PDF'
       },
       mallState: {
         AUDIT: 'Pending Audit',
@@ -37,9 +38,9 @@ export const messages = {
       normalInvoice: 'Normal Invoice',
       specialInvoice: 'Special VAT Invoice',
       notUploaded: 'Not Uploaded',
-      syncState: 'Sync Status',
+      downloadInvoice: 'Download Invoice',
+      noInvoicePdf: 'No Invoice PDF',
       reSubmit: 'Re-submit',
-      syncSuccess: 'Status synced',
       submitSuccess: 'Submitted',
       submitFailed: 'Submit failed',
       invoiceCodePlaceholder: 'Please enter invoice number',
@@ -76,7 +77,8 @@ export const messages = {
         submitState: '提交结果',
         mallState: '商城状态',
         failReason: '失败原因',
-        applyTime: '申请时间'
+        applyTime: '申请时间',
+        invoicePdf: '发票PDF'
       },
       mallState: {
         AUDIT: '待审核',
@@ -95,9 +97,9 @@ export const messages = {
       normalInvoice: '普票',
       specialInvoice: '专票',
       notUploaded: '未上传',
-      syncState: '同步状态',
+      downloadInvoice: '下载发票',
+      noInvoicePdf: '暂无发票',
       reSubmit: '重新提交',
-      syncSuccess: '状态已同步',
       submitSuccess: '已提交',
       submitFailed: '提交失败',
       invoiceCodePlaceholder: '请填写发票号',
@@ -134,7 +136,8 @@ export const messages = {
         submitState: '提交結果',
         mallState: '商城狀態',
         failReason: '失敗原因',
-        applyTime: '申請時間'
+        applyTime: '申請時間',
+        invoicePdf: '發票PDF'
       },
       mallState: {
         AUDIT: '待審核',
@@ -153,9 +156,9 @@ export const messages = {
       normalInvoice: '普票',
       specialInvoice: '專票',
       notUploaded: '未上傳',
-      syncState: '同步狀態',
+      downloadInvoice: '下載發票',
+      noInvoicePdf: '暫無發票',
       reSubmit: '重新提交',
-      syncSuccess: '狀態已同步',
       submitSuccess: '已提交',
       submitFailed: '提交失敗',
       invoiceCodePlaceholder: '請填寫發票號',

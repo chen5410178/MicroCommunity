@@ -113,13 +113,13 @@
             :owner-id="invoiceApplyDetailInfo.ownerId"></invoice-apply-detail-fee>
         </el-tab-pane>
         <el-tab-pane :label="$t('invoiceApplyDetail.imageTab')" name="invoiceApplyDetailJpg">
-          <div v-if="invoiceApplyDetailInfo.urls && invoiceApplyDetailInfo.urls.length > 0">
-            <div v-for="(item, index) in invoiceApplyDetailInfo.urls" :key="index">
-              <a target="_blank" :href="item">{{ $t('invoiceApplyDetail.downloadInvoice') }}</a>
-            </div>
+          <div v-if="invoiceApplyDetailInfo.mallPdfUrl">
+            <a target="_blank" :href="invoiceApplyDetailInfo.mallPdfUrl">
+              {{ $t('invoiceApplyDetail.downloadInvoice') }}
+            </a>
           </div>
           <div class="padding" v-else>
-            {{ $t('invoiceApplyDetail.noInvoice') }}
+            {{ $t('invoiceApplyDetail.noInvoicePdf') }}
           </div>
         </el-tab-pane>
       </el-tabs>
@@ -152,7 +152,7 @@ export default {
         failReason: '',
         createTime: '',
         invoiceCode: '',
-        urls: [],
+        mallPdfUrl: '',
         _currentTab: 'invoiceApplyDetailFee'
       }
     }

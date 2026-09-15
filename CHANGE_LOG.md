@@ -458,3 +458,57 @@ INSERT INTO `task` VALUES ('522026091512293800', '-1', '商城开票状态同步
 ### 未实现（P2，待确认）
 
 - F10 物业端删除申请单时同步撤销商城单（`CancelInvoiceBmoImpl`）：商城仓库暂无撤销/作废开票单接口，本次未实现；当前物业端删除申请单仅释放缴费明细 `open_invoice='N'`。
+
+## 2026-09-15 — 物业开票单归并：单接口提交（抬头随开票 upsert）· ext_apply_id 关联 · 查询即取商城状态/PDF
+
+### 背景
+
+上一版实现仍有偏差：物业端提交开票时**先调"保存抬头"再调"开票"两跳跨系统调用**（抬头同步失败被 `logger.warn` 吞掉）；商城侧无物业 `applyId` 一等字段，幂等与状态查询靠 `remark` 拼串/`oi_id` 匹配；物业端把商城 PDF 落到本地 `file_rel(29000)` 再读回；列表/详情外挂一个"同步状态"接口与按钮。
+
+本轮收敛为：**物业 → 商城只保留一个开票接口（抬头字段随开票报文）**，商城**先按 `phone+headingType` upsert 抬头、再落开票单（`ext_apply_id`=物业 `applyId`）**，物业端**只在查询时按 `applyId` 实时取商城状态/失败原因/发票号/发票 PDF**，本地不落状态、不落 PDF、无"同步"动作。
+
+### 变更内容
+
+**商城仓库（MicroCommunityMall）**
+
+1. DDL：`invoice_order` 新增 `ext_apply_id VARCHAR(32)`（`AFTER source`）+ 索引 `idx_ext_apply`；同步 `docs/sql/invoice/invoice_ddl.sql` 建表语句。
+2. `InvoicePo` 新增 `extApplyId`；`InvoiceDto` 新增 `extApplyId`/`extApplyIds[]`；`InvoiceV1ServiceDaoImplMapper.xml` 的 `saveInvoiceInfo` 插列、`updateInvoiceInfo` 可更新、`getInvoiceInfo`/`queryInvoicesCount` 支持 `extApplyId` 与 `extApplyIds IN`。
+3. 新增 `bmo/support/InvoiceHeadingUpsertService`（`phone+headingType` 存在改、不存在增；空串可选字段归一化为 `null`，避免随单 upsert 误清已维护的抬头邮箱/地址/开户行）；`SaveInvoiceHeadingBmoImpl`（IoT `SaveInvoiceCmd` 仍在使用）重构为调用同一实现，对外入参/出参不变。
+4. `PropertyInvoiceBmoImpl`：`doCmd` 顺序改为 **① upsert 抬头 → ② 幂等（`ext_apply_id` 命中复用/重试，`remark` 降级为兜底摘要并对无 `ext_apply_id` 的存量单补写） → ③ 查销方 → ④ 落单写 `ext_apply_id` → ⑤ 按 `audit_switch` 开票**；返回值增加 `extApplyId`；`validate` 增加 `headingType` 必填（`applyId` 保持非必填，兼容 IoT 侧不传 `applyId` 的调用）。
+5. `QueryInvoiceStatusBatchBmoImpl`：支持 `applyIds`（按 `ext_apply_id IN` 查，与 `invoiceIds` 可同时传，结果按开票单号去重），返回体新增 `applyId`。
+
+**物业仓库（MicroCommunityV2）**
+
+1. `SaveInvoiceApplyCmd`：**删除 `syncInvoiceHeadingToMall()` 与 `IMallInnerServiceSMO` 依赖**（提交仅一次跨系统调用）；抬头字段（`headingType/buyerName/buyerTaxNo/buyerAddress/buyerTel/email/buyerBankNo`）随开票报文传给商城。
+2. `IPropertyInvoiceSubmitBmo.submit(...)` 签名扩展为传入抬头全量字段（含 `headingType/email/bankNo`）；`PropertyInvoiceSubmitBmoImpl` 报文增加 `applyId`（商城 `ext_apply_id`）与抬头字段，**删除 `saveInvoicePdf()` 与 `IFileRelInnerServiceSMO` 依赖**（不再写 `file_rel 29000`）；保留提交结果 `S/F` 与明细即时回写。
+3. `ReSubmitInvoiceApplyCmd` 适配新签名（抬头由 apply 记录重建，`email/bankNo` 物业库无对应列传空，由商城保留原抬头值）。
+4. `InvoiceStateSyncBmoImpl`：改为**按 `applyIds`（商城 `ext_apply_id`）批量取状态**并对有商城单号的存量单兼容 `invoiceIds` 查询；回填 `mallState/failReason/invoiceCode/mallPdfUrl/oiId`（**只读不写库**，不再写 `remark` 摘要）；删除 `syncMallState`。
+5. `InvoiceApplyDto` 新增 `mallPdfUrl`；`InvoiceMallStateDto` 新增 `applyId`；`ListInvoiceApplyCmd.queryInvoicePhoto()` 优先用商城 `mallPdfUrl` 组装展示地址，`file_rel(29000)` 仅历史存量兜底。
+6. **删除"同步状态"**：CMD `SyncInvoiceApplyStateCmd`、服务注册 `c_service 2106`/`c_route 3092`（注释下线 + 存量库注销脚本）、前端"同步状态"按钮与 `syncInvoiceApplyState` api。
+7. `service-job InvoiceStateSyncJob`（决策 A 保留）：入参由 `invoiceIds` 改为 `applyIds`，用途降级为**仅回写缴费明细 `open_invoice` 兜底**（去掉发票号回填等状态展示语义）。
+8. 前端：`invoiceApplyList.vue` 删除同步按钮、新增"发票 PDF"列（有值显示"下载发票"，`window.open` 直连商城 PDF）；`invoiceApplyDetailList.vue` 发票页签改用 `mallPdfUrl`（无则"暂无发票"）；`invoiceApplyLang.js`/`invoiceApplyDetailLang.js` 删同步文案键、增 `downloadInvoice`/`noInvoicePdf` 三语文案。
+
+### 数据库变更
+
+**商城库（hc_mall）**：`docs/sql/invoice/invoice_order_ext_apply_id.sql`
+
+```sql
+ALTER TABLE `invoice_order`
+  ADD COLUMN `ext_apply_id` VARCHAR(32) DEFAULT NULL COMMENT '外部(物业)发票申请ID' AFTER `source`,
+  ADD KEY `idx_ext_apply` (`ext_apply_id`);
+
+-- 存量 WEB 单可选回填: remark 格式为 applyId|业主名称|业务类目
+UPDATE `invoice_order` SET `ext_apply_id` = SUBSTRING_INDEX(`remark`, '|', 1)
+ WHERE `source` = 'WEB' AND (`ext_apply_id` IS NULL OR `ext_apply_id` = '') AND `remark` LIKE '%|%';
+```
+
+**物业库（TT）**：`docs/sql/invoice/unregister_invoice_sync_state_service.sql`（`docs/db/TT.sql` 已注释下线基线）
+
+```sql
+DELETE FROM `c_route` WHERE `service_id` = '982026090800000010';
+DELETE FROM `c_service` WHERE `service_id` = '982026090800000010';
+```
+
+> 执行后需刷新 `AppRouteCache` 或重启 `service-api`；`invoice_setting(setting_id='global').audit_switch`、`invoice_seller`/`invoice_platform`/`invoice_category_map` 需已配置。
+> 物业 `invoice_apply` 表结构不变（`oi_id` 继续存商城单号，关联以商城 `ext_apply_id` 为准；该表无 email/invoice_account 列，重提时对应抬头字段传空）。
+
