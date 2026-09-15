@@ -20,7 +20,9 @@ export const messages = {
       billingRules: 'Billing Rules',
       feeBills: 'Fee Bills',
       prePayFee: 'Pre Pay Fee',
-      onlyHasOwnerTip: 'Only rooms with owners are displayed'
+      onlyHasOwnerTip: 'Only rooms with owners are displayed',
+      invoice: 'Invoice',
+      invoiceRed: 'Invoice Red'
     },
     inputSearchRoom: {
       noRoomFound: 'No room found'
@@ -542,7 +544,9 @@ simplifyHisFee: {
       billingRules: '设置费用',
       feeBills: '费用账单',
       prePayFee: '预付收款',
-      onlyHasOwnerTip: '仅显示有业主的房屋'
+      onlyHasOwnerTip: '仅显示有业主的房屋',
+      invoice: '发票',
+      invoiceRed: '发票红冲'
     },
     inputSearchRoom: {
       noRoomFound: '未查询到房屋'
@@ -1064,7 +1068,9 @@ simplifyHisFee: {
       billingRules: '設定費用',
       feeBills: '費用帳單',
       prePayFee: '預付收款',
-      onlyHasOwnerTip: '僅顯示有業主的房屋'
+      onlyHasOwnerTip: '僅顯示有業主的房屋',
+      invoice: '發票',
+      invoiceRed: '發票紅沖'
     },
     inputSearchRoom: {
       noRoomFound: '未查詢到房屋'

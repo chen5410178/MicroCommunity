@@ -52,7 +52,43 @@ export const messages = {
       phonePlaceholder: 'Please enter applicant phone',
       roomNamePlaceholder: 'Please enter room number',
       roomFilterTitle: 'Room Filter',
-      allRooms: 'All Rooms'
+      allRooms: 'All Rooms',
+      tabInvoice: 'Invoice Management',
+      tabInvoiceRed: 'Invoice Red',
+      invoiceRed: 'Red',
+      redTitle: 'Invoice Red List',
+      redDialogTitle: 'Issue Red Invoice',
+      redReason: 'Red Reason',
+      redReasonPlaceholder: 'Please select red reason',
+      redReasonRequired: 'Please select red reason',
+      redReasonOptions: {
+        invoiceError: 'Invoice Error',
+        salesReturn: 'Sales Return',
+        serviceStop: 'Service Terminated',
+        other: 'Other'
+      },
+      redRemark: 'Remark',
+      redRemarkPlaceholder: 'Please enter remark (optional)',
+      confirmRed: 'Confirm Red',
+      redSuccess: 'Red invoice application submitted',
+      redFailed: 'Red invoice not finished, please retry in mall',
+      redEmptyTip: 'No red invoice data',
+      redState: {
+        WAIT: 'Pending Red',
+        DONE: 'Red Issued'
+      },
+      redTable: {
+        applyId: 'Apply ID',
+        redId: 'Red ID',
+        invoiceNo: 'Invoice No.',
+        buyerName: 'Buyer',
+        amount: 'Red Amount',
+        reason: 'Red Reason',
+        remark: 'Remark',
+        state: 'Status',
+        redNo: 'Red Invoice No.',
+        createTime: 'Time'
+      }
     },
     deleteInvoiceApply: {
       title: 'Confirm Operation',
@@ -115,7 +151,43 @@ export const messages = {
       phonePlaceholder: '请填写申请人电话',
       roomNamePlaceholder: '请填写房屋编号',
       roomFilterTitle: '房屋筛选',
-      allRooms: '全部房屋'
+      allRooms: '全部房屋',
+      tabInvoice: '发票管理',
+      tabInvoiceRed: '发票红冲',
+      invoiceRed: '红冲',
+      redTitle: '发票红冲列表',
+      redDialogTitle: '发起红冲',
+      redReason: '红冲原因',
+      redReasonPlaceholder: '请选择红冲原因',
+      redReasonRequired: '请选择红冲原因',
+      redReasonOptions: {
+        invoiceError: '开票有误',
+        salesReturn: '销售退回',
+        serviceStop: '服务终止',
+        other: '其他'
+      },
+      redRemark: '备注',
+      redRemarkPlaceholder: '请填写备注(选填)',
+      confirmRed: '确认红冲',
+      redSuccess: '红冲申请已提交',
+      redFailed: '红冲未完成, 可在商城后台重试',
+      redEmptyTip: '暂无红冲数据',
+      redState: {
+        WAIT: '待冲红',
+        DONE: '已冲红'
+      },
+      redTable: {
+        applyId: '申请单号',
+        redId: '红冲单号',
+        invoiceNo: '发票号码',
+        buyerName: '购买方',
+        amount: '红冲金额',
+        reason: '红冲原因',
+        remark: '备注',
+        state: '状态',
+        redNo: '红字发票号码',
+        createTime: '时间'
+      }
     },
     deleteInvoiceApply: {
       title: '请确认您的操作',
@@ -178,7 +250,43 @@ export const messages = {
       phonePlaceholder: '請填寫申請人電話',
       roomNamePlaceholder: '請填寫房屋編號',
       roomFilterTitle: '房屋篩選',
-      allRooms: '全部房屋'
+      allRooms: '全部房屋',
+      tabInvoice: '發票管理',
+      tabInvoiceRed: '發票紅沖',
+      invoiceRed: '紅沖',
+      redTitle: '發票紅沖列表',
+      redDialogTitle: '發起紅沖',
+      redReason: '紅沖原因',
+      redReasonPlaceholder: '請選擇紅沖原因',
+      redReasonRequired: '請選擇紅沖原因',
+      redReasonOptions: {
+        invoiceError: '開票有誤',
+        salesReturn: '銷售退回',
+        serviceStop: '服務終止',
+        other: '其他'
+      },
+      redRemark: '備註',
+      redRemarkPlaceholder: '請填寫備註(選填)',
+      confirmRed: '確認紅沖',
+      redSuccess: '紅沖申請已提交',
+      redFailed: '紅沖未完成, 可在商城後台重試',
+      redEmptyTip: '暫無紅沖數據',
+      redState: {
+        WAIT: '待沖紅',
+        DONE: '已沖紅'
+      },
+      redTable: {
+        applyId: '申請單號',
+        redId: '紅沖單號',
+        invoiceNo: '發票號碼',
+        buyerName: '購買方',
+        amount: '紅沖金額',
+        reason: '紅沖原因',
+        remark: '備註',
+        state: '狀態',
+        redNo: '紅字發票號碼',
+        createTime: '時間'
+      }
     },
     deleteInvoiceApply: {
       title: '請確認您的操作',

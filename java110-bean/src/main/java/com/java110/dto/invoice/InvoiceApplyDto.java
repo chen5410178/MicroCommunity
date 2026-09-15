@@ -74,6 +74,17 @@ public class InvoiceApplyDto extends PageDto implements Serializable {
      */
     private String roomNameLike;
 
+    /**
+     * 查询条件: 楼栋ID(房屋树的楼栋节点, 关联 building_unit.floor_id)
+     */
+    private String floorId;
+
+    /**
+     * 查询条件: 单元ID(房屋树的单元节点, 关联 building_unit.unit_id)
+     */
+    private String unitId;
+
+
     private String invoiceCode;
 
     /**
@@ -278,6 +289,23 @@ public class InvoiceApplyDto extends PageDto implements Serializable {
     public void setRoomNameLike(String roomNameLike) {
         this.roomNameLike = roomNameLike;
     }
+
+    public String getFloorId() {
+        return floorId;
+    }
+
+    public void setFloorId(String floorId) {
+        this.floorId = floorId;
+    }
+
+    public String getUnitId() {
+        return unitId;
+    }
+
+    public void setUnitId(String unitId) {
+        this.unitId = unitId;
+    }
+
 
 
 

@@ -115,6 +115,14 @@
                 ref="simplifyRefundDeposit"
                 :key="'simplifyRefundDeposit' + roomCreateFeeInfo.roomId"></simplify-refund-deposit>
             </el-tab-pane>
+            <el-tab-pane :label="$t('roomCreateFee.invoice')" name="roomInvoiceApply">
+              <room-invoice-apply v-if="roomCreateFeeInfo._currentTab === 'roomInvoiceApply'" ref="roomInvoiceApply"
+                :key="'roomInvoiceApply' + roomCreateFeeInfo.roomId"></room-invoice-apply>
+            </el-tab-pane>
+            <el-tab-pane :label="$t('roomCreateFee.invoiceRed')" name="roomInvoiceRed">
+              <room-invoice-red v-if="roomCreateFeeInfo._currentTab === 'roomInvoiceRed'" ref="roomInvoiceRed"
+                :key="'roomInvoiceRed' + roomCreateFeeInfo.roomId"></room-invoice-red>
+            </el-tab-pane>
             
           </el-tabs>
         </el-card>
@@ -140,6 +148,8 @@ import SimplifyCallable from '@/components/fee/simplifyCallable'
 import SimplifyFeeReceipt from '@/components/fee/simplifyFeeReceipt'
 import SimplifyMeterWaterLog from '@/components/fee/simplifyMeterWaterLog'
 import SimplifyRefundDeposit from '@/components/fee/simplifyRefundDeposit'
+import RoomInvoiceApply from '@/components/fee/roomInvoiceApply'
+import RoomInvoiceRed from '@/components/fee/roomInvoiceRed'
 import FeeDetailFeeRule from '@/components/fee/feeDetailFeeRule'
 import PrePayFeeDetail from '@/components/fee/prePayFeeDetail'
 
@@ -164,6 +174,8 @@ export default {
     SimplifyMeterWaterLog,
 
     SimplifyRefundDeposit,
+    RoomInvoiceApply,
+    RoomInvoiceRed,
     FeeDetailFeeRule,
 
     ExportFeeImportExcel,

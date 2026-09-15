@@ -216,11 +216,23 @@ export default {
       this.isInitialized = true
     },
     async handleNodeClick(data, node) {
-      if (data.id.startsWith('u_')) {
+      if (data.id.startsWith('f_')) {
+        // 楼栋节点: 通知调用方按楼栋筛选
+        this.$emit('selectFloor', {
+          floorId: data.floorId,
+          floorNum: data.floorNum
+        })
+      } else if (data.id.startsWith('u_')) {
         if (!node.expanded) {
           await this.loadRooms(data, node)
           node.expanded = true
         }
+        // 单元节点: 通知调用方按单元筛选
+        this.$emit('selectUnit', {
+          floorId: data.floorId,
+          unitId: data.unitId,
+          unitNum: data.unitNum
+        })
       } else if (data.id.startsWith('r_')) {
         // 获取父节点信息
         const parentNodes = this.getParentNodes(data)

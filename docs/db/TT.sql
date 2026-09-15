@@ -20402,6 +20402,9 @@ INSERT INTO `c_route` VALUES ('3091', '992020061452450002', '982026090800000009'
 -- 2026-09-15 同步状态服务下线(查询即实时取商城状态/失败原因/发票PDF, 无"同步状态"概念; CMD 与前端按钮已删除)
 -- INSERT INTO `c_route` VALUES ('3092', '8000418004', '982026090800000010', 'D', '1000', 'S', '2026-09-15 12:29:38', '0');
 INSERT INTO `c_route` VALUES ('3093', '8000418004', '982026090800000011', 'D', '1000', 'S', '2026-09-15 12:29:38', '0');
+-- 2026-09-15 发票红冲: 发起红冲(D=POST) + 红冲列表(Q=GET)
+INSERT INTO `c_route` VALUES ('3094', '8000418004', '982026090800000012', 'D', '1000', 'S', '2026-09-15 18:00:00', '0');
+INSERT INTO `c_route` VALUES ('3095', '8000418004', '982026090800000013', 'Q', '1000', 'S', '2026-09-15 18:00:00', '0');
 
 -- ----------------------------
 -- Table structure for c_service
@@ -22485,6 +22488,9 @@ INSERT INTO `c_service` VALUES ('2105', '982026090800000009', 'invoice.queryAppI
 -- 2026-09-15 同步状态服务下线(查询即实时取商城状态/失败原因/发票PDF, 无"同步状态"概念; CMD 与前端按钮已删除)
 -- INSERT INTO `c_service` VALUES ('2106', '982026090800000010', 'invoice.syncInvoiceApplyState', 'API', '同步商城开票状态', '1', null, 'CMD', 'http://acct-service', 'POST', '60', '3', '8000418002', '2026-09-15 12:29:38', '0');
 INSERT INTO `c_service` VALUES ('2107', '982026090800000011', 'invoice.reSubmitInvoiceApply', 'API', '重新提交开票申请', '1', null, 'CMD', 'http://acct-service', 'POST', '60', '3', '8000418002', '2026-09-15 12:29:38', '0');
+-- 2026-09-15 发票红冲: 发起红冲 + 红冲列表(红冲单/红字发票号以商城为权威源, 物业端不落库)
+INSERT INTO `c_service` VALUES ('2108', '982026090800000012', 'invoice.saveInvoiceRed', 'API', '发起发票红冲', '1', null, 'CMD', 'http://acct-service', 'POST', '60', '3', '8000418002', '2026-09-15 18:00:00', '0');
+INSERT INTO `c_service` VALUES ('2109', '982026090800000013', 'invoice.listInvoiceReds', 'API', '查询发票红冲', '1', null, 'CMD', 'http://acct-service', 'GET', '60', '3', '8000418002', '2026-09-15 18:00:00', '0');
 
 -- ----------------------------
 -- Table structure for c_service_business

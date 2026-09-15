@@ -3,15 +3,17 @@
     <div class="resizable-layout">
       <!-- 左侧：房屋筛选树 -->
       <div class="tree-panel" :style="{ width: treeWidth + 'px' }">
-        <div class="tree-panel-header">
-          <span>{{ $t('invoiceApply.roomFilterTitle') }}</span>
-          <el-button v-if="treeHasRoom" type="text" size="small" @click="_showAllRooms">
-            {{ $t('invoiceApply.allRooms') }}
-          </el-button>
-        </div>
         <div class="tree-body">
-          <room-tree-div-has-owner ref="roomTreeDiv" :auto-select-first="false" storage-key="invoiceApplyFilterRoom"
-            @selectRoom="handleSelectRoom" @treeEmpty="handleTreeEmpty" />
+          <div class="tree-all-row" @click="_showAllRooms">
+            <el-button type="text" @click="_showAllRooms">
+              {{ $t('common.all') }}
+            </el-button>
+          </div>
+          <div class="tree-scroll">
+            <room-tree-div-has-owner ref="roomTreeDiv" :auto-select-first="false" storage-key="invoiceApplyFilterRoom"
+              @selectFloor="handleSelectFloor" @selectUnit="handleSelectUnit" @selectRoom="handleSelectRoom"
+              @treeEmpty="handleTreeEmpty" />
+          </div>
         </div>
       </div>
 
@@ -76,106 +78,64 @@
           </el-row>
         </el-card>
         <el-card class="margin-top">
-          <div slot="header" class="flex justify-between">
-            <span>{{ $t('invoiceApply.title') }}</span>
-            <el-button type="primary" size="small" class="float-right" @click="_invoiceApply">
-              {{ $t('invoiceApply.apply') }}
-            </el-button>
-          </div>
-          <el-table :data="invoiceApplys" border style="width: 100%">
-            <el-table-column prop="applyId" :label="$t('invoiceApply.table.id')" align="center" />
-            <el-table-column :label="$t('invoiceApply.table.invoiceKind')" align="center">
-              <template slot-scope="scope">
-                {{ scope.row.invoiceKind || $t('invoiceApply.normalInvoice') }}
-              </template>
-            </el-table-column>
-            <el-table-column prop="invoiceType" :label="$t('invoiceApply.table.invoiceType')" align="center">
-              <template slot-scope="scope">
-                {{ scope.row.invoiceType === '1001' ? $t('invoiceApply.personal') : $t('invoiceApply.company') }}
-              </template>
-            </el-table-column>
-            <el-table-column prop="ownerName" :label="$t('invoiceApply.table.ownerName')" align="center" />
-            <el-table-column :label="$t('invoiceApply.table.roomName')" align="center">
-              <template slot-scope="scope">
-                {{ scope.row.roomName || '-' }}
-              </template>
-            </el-table-column>
-            <el-table-column :label="$t('invoiceApply.table.applicant')" align="center">
-              <template slot-scope="scope">
-                {{ scope.row.createUserName }}({{ scope.row.applyTel }})
-              </template>
-            </el-table-column>
-            <el-table-column prop="invoiceName" :label="$t('invoiceApply.table.invoiceName')" align="center" />
-            <el-table-column prop="invoiceNum" :label="$t('invoiceApply.table.taxNumber')" align="center" />
-            <el-table-column prop="invoiceAddress" :label="$t('invoiceApply.table.addressPhone')" align="center" />
-            <el-table-column prop="invoiceAmount" :label="$t('invoiceApply.table.amount')" align="center" />
-            <el-table-column prop="invoiceCode" :label="$t('invoiceApply.table.invoiceCode')" align="center">
-              <template slot-scope="scope">
-                {{ scope.row.invoiceCode || $t('invoiceApply.notUploaded') }}
-              </template>
-            </el-table-column>
-            <el-table-column prop="stateName" :label="$t('invoiceApply.table.submitState')" align="center" />
-            <el-table-column :label="$t('invoiceApply.table.mallState')" align="center">
-              <template slot-scope="scope">
-                {{ mallStateName(scope.row.mallState) }}
-              </template>
-            </el-table-column>
-            <el-table-column :label="$t('invoiceApply.table.failReason')" align="center" width="200">
-              <template slot-scope="scope">
-                <el-tooltip :content="failReason(scope.row)" :disabled="failReason(scope.row) === '-'" placement="top">
-                  <div class="text-ellipsis">{{ failReason(scope.row) }}</div>
-                </el-tooltip>
-              </template>
-            </el-table-column>
-            <el-table-column prop="createTime" :label="$t('invoiceApply.table.applyTime')" align="center" />
-            <el-table-column :label="$t('invoiceApply.table.invoicePdf')" align="center">
-              <template slot-scope="scope">
-                <el-button v-if="scope.row.mallPdfUrl" type="text" @click="_downloadInvoicePdf(scope.row)">
-                  {{ $t('invoiceApply.downloadInvoice') }}
+          <el-tabs v-model="activeTab" @tab-click="handleTabClick">
+            <el-tab-pane :label="$t('invoiceApply.tabInvoice')" name="invoice">
+              <div class="flex justify-between margin-bottom-sm">
+                <span>{{ $t('invoiceApply.title') }}</span>
+                <el-button type="primary" size="small" @click="_invoiceApply">
+                  {{ $t('invoiceApply.apply') }}
                 </el-button>
-                <span v-else>{{ $t('invoiceApply.noInvoicePdf') }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column :label="$t('common.operation')" align="center" width="200">
-              <template slot-scope="scope">
-                <el-button size="mini" @click="_openInvoiceApplyDetail(scope.row)">
-                  {{ $t('common.detail') }}
-                </el-button>
-                <el-button v-if="scope.row.state === 'F'" size="mini" type="primary"
-                  @click="_reSubmitInvoiceApply(scope.row)">
-                  {{ $t('invoiceApply.reSubmit') }}
-                </el-button>
-                <el-button size="mini" type="danger" @click="_openDeleteInvoiceApplyModel(scope.row)">
-                  {{ $t('common.delete') }}
-                </el-button>
-              </template>
-            </el-table-column>
-          </el-table>
-          <el-pagination :current-page="page.current" :page-sizes="[10, 20, 30, 50]" :page-size="page.size"
-            :total="page.total" layout="total, sizes, prev, pager, next, jumper" @size-change="handleSizeChange"
-            @current-change="handleCurrentChange" />
+              </div>
+              <invoice-apply-table :list-data="invoiceApplys" @detail="_openInvoiceApplyDetail" @red="_openRedDialog"
+                @submit="_reSubmitInvoiceApply" @delete="_openDeleteInvoiceApplyModel" />
+              <el-pagination :current-page="page.current" :page-sizes="[10, 20, 30, 50]" :page-size="page.size"
+                :total="page.total" layout="total, sizes, prev, pager, next, jumper" @size-change="handleSizeChange"
+                @current-change="handleCurrentChange" />
+            </el-tab-pane>
+            <el-tab-pane :label="$t('invoiceApply.tabInvoiceRed')" name="invoiceRed">
+              <div class="flex justify-between margin-bottom-sm">
+                <span>{{ $t('invoiceApply.redTitle') }}</span>
+              </div>
+              <invoice-red-table :list-data="invoiceReds" />
+              <el-pagination :current-page="redPage.current" :page-sizes="[10, 20, 30, 50]"
+                :page-size="redPage.size" :total="redPage.total" layout="total, sizes, prev, pager, next, jumper"
+                @size-change="handleRedSizeChange" @current-change="handleRedCurrentChange" />
+            </el-tab-pane>
+          </el-tabs>
         </el-card>
       </div>
     </div>
 
     <delete-invoice-apply ref="deleteDialog" @success="listInvoiceApplys" />
+    <invoice-red-dialog ref="redDialog" @success="listInvoiceApplys" />
   </div>
 </template>
 
 <script>
-import { listInvoiceApply, reSubmitInvoiceApply } from '@/api/fee/invoiceApplyApi'
+import {
+  listInvoiceApply,
+  reSubmitInvoiceApply,
+  listInvoiceReds
+} from '@/api/fee/invoiceApplyApi'
 import { getCommunityId } from '@/api/community/communityApi'
 import DeleteInvoiceApply from '@/components/fee/deleteInvoiceApply'
+import InvoiceApplyTable from '@/components/fee/invoiceApplyTable'
+import InvoiceRedDialog from '@/components/fee/invoiceRedDialog'
+import InvoiceRedTable from '@/components/fee/invoiceRedTable'
 import RoomTreeDivHasOwner from '@/components/room/roomTreeDivHasOwner'
 
 export default {
   name: 'InvoiceApplyList',
   components: {
     DeleteInvoiceApply,
+    InvoiceApplyTable,
+    InvoiceRedDialog,
+    InvoiceRedTable,
     RoomTreeDivHasOwner
   },
   data() {
     return {
+      activeTab: 'invoice',
       conditions: {
         invoiceCode: '',
         invoiceKind: '',
@@ -185,16 +145,23 @@ export default {
         createUserName: '',
         state: '',
         roomId: '',
-        roomNameLike: ''
+        roomNameLike: '',
+        floorId: '',
+        unitId: ''
       },
       invoiceApplys: [],
+      invoiceReds: [],
       page: {
         current: 1,
         size: 10,
         total: 0
       },
+      redPage: {
+        current: 1,
+        size: 10,
+        total: 0
+      },
       // 房屋树筛选
-      treeHasRoom: true,
       treeRoomName: '',
       // 拖拽相关
       treeWidth: 250,
@@ -219,27 +186,51 @@ export default {
     document.removeEventListener('mouseup', this.onMouseUp)
   },
   methods: {
-    // 点击房屋树：按房屋精确筛选(与房屋编号输入互斥)
+    // 点击楼栋：按楼栋筛选(后端 left join building_unit 按 floor_id 过滤)
+    handleSelectFloor(param) {
+      this._clearRoomFilter()
+      this.conditions.floorId = param.floorId
+      this._resetPage()
+      this.listCurrentTab()
+    },
+    // 点击单元：按单元筛选(后端 left join building_unit 按 unit_id 过滤)
+    handleSelectUnit(param) {
+      this._clearRoomFilter()
+      this.conditions.unitId = param.unitId
+      this._resetPage()
+      this.listCurrentTab()
+    },
+    // 点击房屋：按房屋精确筛选
     handleSelectRoom(param) {
+      this._clearRoomFilter()
       this.conditions.roomId = param.roomId
-      this.conditions.roomNameLike = ''
       this.treeRoomName = param.roomName
-      this.page.current = 1
-      this.listInvoiceApplys()
+      this._resetPage()
+      this.listCurrentTab()
     },
-    handleTreeEmpty() {
-      this.treeHasRoom = false
-    },
-    // 全部房屋：清除树筛选与输入筛选
-    _showAllRooms() {
+    // 清空树筛选(房屋/楼栋/单元)与选房记忆
+    _clearTreeFilter() {
       this.conditions.roomId = ''
-      this.conditions.roomNameLike = ''
+      this.conditions.floorId = ''
+      this.conditions.unitId = ''
       this.treeRoomName = ''
       if (this.$refs.roomTreeDiv) {
         this.$refs.roomTreeDiv.clearSelection()
       }
-      this.page.current = 1
-      this.listInvoiceApplys()
+    },
+    // 清空房屋维度全部筛选(树筛选 + 房屋编号输入)
+    _clearRoomFilter() {
+      this.conditions.roomNameLike = ''
+      this._clearTreeFilter()
+    },
+    handleTreeEmpty() {
+      // 无房屋时右侧仍展示全部记录, 不阻塞
+    },
+    // 全部：清除房屋筛选并重新查询
+    _showAllRooms() {
+      this._clearRoomFilter()
+      this._resetPage()
+      this.listCurrentTab()
     },
     _resetConditionMethod() {
       this.conditions = {
@@ -251,13 +242,29 @@ export default {
         createUserName: '',
         state: '',
         roomId: '',
-        roomNameLike: ''
+        roomNameLike: '',
+        floorId: '',
+        unitId: ''
       }
-      this.treeRoomName = ''
-      if (this.$refs.roomTreeDiv) {
-        this.$refs.roomTreeDiv.clearSelection()
-      }
+      this._clearTreeFilter()
+      this._resetPage()
+      this.listCurrentTab()
+    },
+    _resetPage() {
       this.page.current = 1
+      this.redPage.current = 1
+    },
+    // 两个 tab 共用查询条件与房屋树, 仅数据来源不同
+    handleTabClick(tab) {
+      this.activeTab = tab.name
+      this._resetPage()
+      this.listCurrentTab()
+    },
+    listCurrentTab() {
+      if (this.activeTab === 'invoiceRed') {
+        this.listInvoiceReds()
+        return
+      }
       this.listInvoiceApplys()
     },
     async listInvoiceApplys() {
@@ -275,6 +282,23 @@ export default {
         this.$message.error(this.$t('common.fetchError'))
       }
     },
+    async listInvoiceReds() {
+      try {
+        const params = {
+          ...this.conditions,
+          page: this.redPage.current,
+          row: this.redPage.size,
+          communityId: this.communityId
+        }
+        const res = await listInvoiceReds(params)
+        this.invoiceReds = res.data || []
+        this.redPage.total = res.total || 0
+      } catch (error) {
+        // 商城未开启/商城调用异常时后端已返回空分页, 此处兜底为空列表, 不弹错误提示
+        this.invoiceReds = []
+        this.redPage.total = 0
+      }
+    },
     handleSizeChange(size) {
       this.page.size = size
       this.listInvoiceApplys()
@@ -283,17 +307,21 @@ export default {
       this.page.current = current
       this.listInvoiceApplys()
     },
+    handleRedSizeChange(size) {
+      this.redPage.size = size
+      this.listInvoiceReds()
+    },
+    handleRedCurrentChange(current) {
+      this.redPage.current = current
+      this.listInvoiceReds()
+    },
     _queryInvoiceApplyMethod() {
       // 输入房屋编号查询时清除树筛选(互斥)
       if (this.conditions.roomNameLike) {
-        this.conditions.roomId = ''
-        this.treeRoomName = ''
-        if (this.$refs.roomTreeDiv) {
-          this.$refs.roomTreeDiv.clearSelection()
-        }
+        this._clearTreeFilter()
       }
-      this.page.current = 1
-      this.listInvoiceApplys()
+      this._resetPage()
+      this.listCurrentTab()
     },
     _invoiceApply() {
       if (this.conditions.roomId) {
@@ -308,12 +336,8 @@ export default {
     _openInvoiceApplyDetail(row) {
       this.$router.push(`/views/fee/invoiceApplyDetail?applyId=${row.applyId}`)
     },
-    _downloadInvoicePdf(row) {
-      if (!row.mallPdfUrl) {
-        this.$message.warning(this.$t('invoiceApply.noInvoicePdf'))
-        return
-      }
-      window.open(row.mallPdfUrl)
+    _openRedDialog(row) {
+      this.$refs.redDialog.open(row)
     },
     async _reSubmitInvoiceApply(row) {
       try {
@@ -331,28 +355,6 @@ export default {
     },
     _openDeleteInvoiceApplyModel(row) {
       this.$refs.deleteDialog.open(row)
-    },
-    mallStateName(mallState) {
-      if (!mallState) {
-        return '-'
-      }
-      const map = {
-        AUDIT: this.$t('invoiceApply.mallState.AUDIT'),
-        WAIT: this.$t('invoiceApply.mallState.WAIT'),
-        DONE: this.$t('invoiceApply.mallState.DONE'),
-        FAIL: this.$t('invoiceApply.mallState.FAIL'),
-        RED: this.$t('invoiceApply.mallState.RED')
-      }
-      return map[mallState] || mallState
-    },
-    failReason(row) {
-      if (row.failReason) {
-        return row.failReason
-      }
-      if (row.state === 'F') {
-        return row.remark
-      }
-      return '-'
     },
     restoreTreeWidth() {
       const savedWidth = localStorage.getItem('invoiceApplyTreeWidth')
@@ -427,18 +429,25 @@ export default {
   overflow: hidden;
 }
 
-.tree-panel-header {
+.tree-body {
+  flex: 1;
+  min-height: 0;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-bottom: 8px;
-  margin-bottom: 6px;
-  border-bottom: 1px solid #ebeef5;
-  font-size: 14px;
-  color: #303133;
+  flex-direction: column;
+  overflow: hidden;
 }
 
-.tree-body {
+/* "全部"入口与楼栋节点对齐(树组件 10px 内边距 + 展开箭头约 24px) */
+.tree-all-row {
+  padding: 5px 10px 5px 34px;
+}
+
+.tree-all-row .el-button {
+  padding: 0;
+  font-size: 14px;
+}
+
+.tree-scroll {
   flex: 1;
   min-height: 0;
   overflow: hidden;
@@ -471,10 +480,6 @@ export default {
 
 .border-radius {
   border-radius: 4px;
-}
-
-.float-right {
-  float: right;
 }
 
 .text-ellipsis {

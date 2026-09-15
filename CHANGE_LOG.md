@@ -555,11 +555,11 @@ DELETE FROM `c_service` WHERE `service_id` = '982026090800000010';
 
 **物业仓库（MicroCommunityV2）**
 
-1. `InvoiceApplyPo` 新增 `roomId`/`roomName`；`InvoiceApplyDto` 新增 `roomId`/`roomName`（结果列 + 精确查询条件）与 `roomNameLike`（模糊查询条件）。
-2. `InvoiceApplyV1ServiceDaoImplMapper.xml`：`saveInvoiceApplyInfo` 插 `room_id/room_name`；`getInvoiceApplyInfo` 增 `t.room_id/t.room_name` 及驼峰别名、增 `roomId` 精确与 `roomNameLike` 模糊条件；`queryInvoiceApplysCount` 同步追加两条件（分页总数口径一致）；`updateInvoiceApplyInfo`**不加** room 列（提交后房屋不可改，避免重提/状态回写误改房屋）。
+1. `InvoiceApplyPo` 新增 `roomId`/`roomName`；`InvoiceApplyDto` 新增 `roomId`/`roomName`（结果列 + 精确查询条件）、`roomNameLike`（模糊查询条件）与 `floorId`/`unitId`（楼栋/单元查询条件）。
+2. `InvoiceApplyV1ServiceDaoImplMapper.xml`：`saveInvoiceApplyInfo` 插 `room_id/room_name`；`getInvoiceApplyInfo` 增 `t.room_id/t.room_name` 及驼峰别名、增 `roomId`/`roomNameLike`/`floorId`/`unitId` 条件，并按 `t.room_id` **left join `building_room` → `building_unit`**（`floorId` 过滤 `bu.floor_id`、`unitId` 过滤 `bu.unit_id`）；`queryInvoiceApplysCount` 同步 join 与条件（分页总数口径一致）；`updateInvoiceApplyInfo`**不加** room 列（提交后房屋不可改，避免重提/状态回写误改房屋）。
 3. `SaveInvoiceApplyCmd`：`validate` 增加"有 `roomId` 必须有 `roomName`"校验（后端**不强制**房屋，兼容 App/历史调用）；`doCmd` 中 `roomName` 按列宽 64 截断（与 remark 200 截断同口径）。房屋信息**只落物业库**，`PropertyInvoiceSubmitBmoImpl.buildMallData()` 未加 room 字段（商城报文与幂等键 `orgId+orgType+source=WEB+ext_apply_id` 完全不变）。
-4. `invoiceApplyList.vue`：改为左右布局（左房屋筛选树 + 可拖拽分隔线 + 右查询/表格/分页，拖拽宽度记忆键 `invoiceApplyTreeWidth`，与房屋收费的 `roomCreateFeeTreeWidth` 隔离）；表格新增"房屋编号"列（空值显示 `-`）；查询条件新增"房屋编号"输入（`roomNameLike`）；新增"重置"按钮；树点击按 `roomId` 精确筛选、输入房屋编号与树筛选**互斥**、"全部房屋"清除树筛选与高亮；"开票"跳转携带 `?roomId=&roomName=`。
-5. `roomTreeDivHasOwner.vue`：新增 props `autoSelectFirst`（默认 `true`，为 `false` 时初始化不自动选中/不 emit `selectRoom`）与 `storageKey`（默认 `lastSelectedRoom`）；新增公开方法 `clearSelection()`；默认值保持向后兼容，`roomCreateFee` 行为不变，两页选房记忆互不干扰（开票中心用 `invoiceApplyFilterRoom` + `autoSelectFirst=false` 双保险）。
+4. `invoiceApplyList.vue`：改为左右布局（左房屋筛选树 + 可拖拽分隔线 + 右查询/表格/分页，拖拽宽度记忆键 `invoiceApplyTreeWidth`，与房屋收费的 `roomCreateFeeTreeWidth` 隔离）；表格新增"房屋编号"列（空值显示 `-`）；查询条件新增"房屋编号"输入（`roomNameLike`）；新增"重置"按钮；树筛选三档（楼栋 `floorId` / 单元 `unitId` / 房屋 `roomId`）与输入房屋编号**互斥**；树面板顶部（与楼栋节点左对齐）"全部"入口清除房屋筛选与高亮；"开票"跳转携带 `?roomId=&roomName=`；表格"操作"列 `fixed="right"` 横向固定。
+5. `roomTreeDivHasOwner.vue`：新增 props `autoSelectFirst`（默认 `true`，为 `false` 时初始化不自动选中/不 emit `selectRoom`）与 `storageKey`（默认 `lastSelectedRoom`）；新增公开方法 `clearSelection()`；点击楼栋节点 emit `selectFloor`（`floorId/floorNum`）、点击单元节点 emit `selectUnit`（`floorId/unitId/unitNum`）；默认值保持向后兼容，`roomCreateFee` 行为不变，两页选房记忆互不干扰（开票中心用 `invoiceApplyFilterRoom` + `autoSelectFirst=false` 双保险）。
 6. `ownerApplyInvoiceList.vue`：支持 `?roomId=&roomName=` 预填（并 `loadRoomOwner()`，房屋编号以查询结果为准）；提交前拦截未选房屋（`roomRequired`）；提交报文补 `roomId/roomName`；`applyHeading()` 不再用 `heading.remark` 回填申请备注（切断"抬头备注 → 申请备注 → 再次写回商城"的二次污染回路）。
 7. 三语文案：`invoiceApplyLang.js` 增 `table.roomName`/`roomNamePlaceholder`/`roomFilterTitle`/`allRooms`；`ownerApplyInvoiceLang.js` 增 `roomRequired`。
 
@@ -591,4 +591,62 @@ ALTER TABLE `invoice_apply`
 
 - 存量申请单房屋回填：`add_invoice_apply_room.sql` 内已附注释版 `pay_fee_detail/pay_fee` JOIN 回填语句，需人工核对后执行（历史记录显示 `-` 不影响使用）。
 - 开票详情页展示房屋编号（方案 F11 可选部分）：本方案文件清单未含 `invoiceApplyDetailList.vue`，本次未改。
+
+## 2026-09-15 — 发票红冲（物业端发起，商城执行）：物业端零新增表 · 红冲数据以商城为权威源 · 开票页/房屋详情页双入口
+
+### 背景
+
+1. `/pages/fee/invoiceApply` 开票成功后需要「红冲」入口，操作员在物业端即可对已开票发票发起冲红。
+2. 红冲单（`invoice_red`）、红字发票号码与冲红状态全部以**商城**为权威源，**物业端不新建红冲表**。
+3. 开票页参考 `/pages/property/roomCreateFee` 的右侧 tab，拆分为「发票管理」「发票红冲」；房屋收费详情页在「押金」后新增「发票」「发票红冲」两个 tab。
+
+### 变更内容
+
+**商城仓库（MicroCommunityMall）**
+
+1. `InvoiceRedDto` 新增 `String[] invoiceIds` 与 `String extApplyId`（批量查询与申请单号回显）。
+2. `InvoiceRedV1ServiceDaoImplMapper.xml`：`getInvoiceRedInfo` 增 `io.ext_apply_id extApplyId` 输出与 `invoiceIds` IN 条件；`queryInvoiceRedsCount` 增 `invoiceIds` IN 条件（列表/总数口径一致）。
+3. 新增 `QueryInvoiceRedsBmoImpl`（`@Service("queryInvoiceRedsBmoImpl")`）：按 `applyIds`（`ext_apply_id IN`）解析 `invoiceId` 集合再分页查 `invoice_red`，返回 `{reds:[{applyId,invoiceId,redId,invoiceNo,buyerName,amount,reason,remark,state,redNo,createTime}], total}`，兼容直接传 `invoiceIds`。
+4. 新增 `PropertyInvoiceRedBmoImpl`（`@Service("propertyInvoiceRedBmoImpl")`）：校验 `orgId/orgType/applyId/reason`；按 `orgId+orgType+source=WEB+ext_apply_id` 定位开票单（缺失报「开票单不存在」）；已存在红冲单**幂等返回**；`state != DONE` 报「仅已开票状态可发起冲红」；落 `invoice_red`（`amount` 取负、`state=WAIT`）并将原单置 `RED` 写 `red_id`，随后同步调 `confirmInvoiceRed(redId)`（内部含分布式锁 → 诺诺红字开票 + 轮询）：成功返回 `state=DONE + redNo`，失败返回 `state=WAIT + failReason`（红冲单保留，可在商城后台「发票冲红」重试）。
+
+**物业仓库（MicroCommunityV2）**
+
+5. `java110-bean` 新增只读 DTO `dto/invoice/InvoiceRedDto.java`（`applyId/invoiceId/redId/invoiceNo/buyerName/amount/reason/remark/state/redNo/applyIds[]/failReason/createTime`，`extends PageDto`，含 `STATE_WAIT/STATE_DONE`）。
+6. `service-acct` 新增 `IInvoiceRedBmo` / `InvoiceRedBmoImpl`：`applyRed()` 调商城 `propertyInvoiceRedBmoImpl` 并解析结果；`queryMallReds()` 调商城 `queryInvoiceRedsBmoImpl`；`MALL_SWITCH != ON` 时**写操作抛 `CmdException`（商城未开启, 无法发起红冲）、查询静默返回空分页**；含 `safeRemark`（压缩空白 + 200 截断）与 `safeFailReason`（SQL 噪音摘要化）。
+7. `service-acct` 新增 CMD `SaveInvoiceRedCmd`（`invoice.saveInvoiceRed`）：校验 `applyId/communityId/reason` + `Assert.listOnlyOne` 校验申请单归属当前小区 + 调 BMO，返回 `{applyId,invoiceId,redId,state,redNo,failReason}`；**物业端不落任何表**。
+8. `service-acct` 新增 CMD `ListInvoiceRedsCmd`（`invoice.listInvoiceReds`）：`validatePageInfo` + `communityId` 必填；先按发票列表同样的筛选条件查 `invoice_apply`（`page=-1`）取 `applyId` 去重集合（超 `MAX_EXT_APPLY_IDS=2000` 截断并 warn），空集直接返回空分页，否则交商城分页查询后 `ResultVo(totalPage, count, reds)`。
+9. 前端 API `api/fee/invoiceApplyApi.js` 新增 `listInvoiceReds(params)`（GET）与 `saveInvoiceRed(data)`（POST，`code!==0` reject）。
+10. 新增组件：`components/fee/invoiceApplyTable.vue`（发票表格，`props: listData/showRoomColumn`，`emit: detail/red/submit/delete`，操作列 `common.operation` 宽 200 `fixed="right"`，红冲按钮仅 `mallState==='DONE'` 显示）、`components/fee/invoiceRedDialog.vue`（红冲弹窗，原因必选 + 备注 ≤200，`state!=DONE` 时 warning 提示并刷新）、`components/fee/invoiceRedTable.vue`（红冲列表表格，空态提示）、`components/fee/roomInvoiceApply.vue`（房屋详情-发票 tab，`open({roomId,roomName})`，含开票跳转/红冲/详情/重新提交/删除）、`components/fee/roomInvoiceRed.vue`（房屋详情-发票红冲 tab，`open({roomId})`）。
+11. `views/fee/invoiceApplyList.vue`：表格区域改为 `el-tabs`（「发票管理」「发票红冲」），两 tab 共用查询条件与房屋树（切 tab 复用当前筛选重新查询）；分页分别维护 `page` / `redPage`。
+12. `views/fee/roomCreateFeeList.vue`：在「押金」tab 后新增「发票」「发票红冲」两个 `el-tab-pane`（`name=roomInvoiceApply/roomInvoiceRed`，`v-if` 懒加载 + `:key` 随 `roomId` 重挂载，复用 `changeTab()` 的 `open(params)` 约定）。
+13. 三语文案（en/zh/zh-TW）：`invoiceApplyLang.js` 增 `tabInvoice`/`tabInvoiceRed`/`invoiceRed`/`redTitle`/`redDialogTitle`/`redReason*`/`redRemark*`/`confirmRed`/`redSuccess`/`redFailed`/`redEmptyTip`/`redState.*`/`redTable.*`；`roomCreateFeeLang.js` 增 `invoice`/`invoiceRed`。
+
+### 数据库变更
+
+- **物业库（TT）**：无表结构变更（不新增 `invoice_red` 等任何表/列）。仅新增服务注册增量脚本 `docs/sql/invoice/register_invoice_red_service.sql`（`docs/db/TT.sql` 基线已同步）：
+
+```sql
+-- ① 服务定义 c_service
+INSERT INTO `c_service` VALUES ('2111', '982026090800000012', 'invoice.saveInvoiceRed', 'API', '发起发票红冲', '1', null, 'CMD', 'http://acct-service', 'POST', '60', '3', '8000418002', '2026-09-15 18:00:00', '0');
+INSERT INTO `c_service` VALUES ('2112', '982026090800000013', 'invoice.listInvoiceReds', 'API', '查询发票红冲', '1', null, 'CMD', 'http://acct-service', 'GET', '60', '3', '8000418002', '2026-09-15 18:00:00', '0');
+
+-- ② 路由关系 c_route(物业端 app 8000418004, D=POST 受理单, Q=GET 查询单)
+INSERT INTO `c_route` VALUES ('3098', '8000418004', '982026090800000012', 'D', '1000', 'S', '2026-09-15 18:00:00', '0');
+INSERT INTO `c_route` VALUES ('3099', '8000418004', '982026090800000013', 'Q', '1000', 'S', '2026-09-15 18:00:00', '0');
+```
+
+- **商城库（hc_mall）**：无 DDL（`invoice_red`/`invoice_order` 已存在，仅扩展 Mapper 查询条件与输出列）；商城开放接口按 `@Service("propertyInvoiceRedBmoImpl")` / `@Service("queryInvoiceRedsBmoImpl")` 自动装配，**无需**服务注册。
+
+### 部署执行项
+
+1. 物业库执行 `docs/sql/invoice/register_invoice_red_service.sql`（c_service 2108/2109 + c_route 3094/3095），执行后刷新服务路由缓存（`AppRouteCache`）或重启 `service-api`。
+2. 物业端与商城端重新构建部署（商城需先发布以提供 `propertyInvoiceRedBmoImpl` / `queryInvoiceRedsBmoImpl`）。
+3. 前端 `pc-web` 重新 build（新增组件与三语文案）。
+4. 回归抽查：开票成功单点「红冲」→ 商城 `invoice_red` 新增记录且原单 `invoice_order.state=RED`，物业列表 `mallState` 变 `RED`、红冲按钮消失、红冲 tab 出现该记录；重复点击幂等；对 `WAIT/AUDIT/FAIL` 单红冲提示「仅已开票状态可发起冲红」；商城开关 OFF 时红冲 tab 空列表且无错误提示。
+
+### 风险与未实现
+
+- 商城红字开票含轮询（最长约 20s），受物业端 `outRestTemplate` 读超时（boot 10s / service-job 5s）限制：超时后红冲单已落库（`state=WAIT`），物业端提示失败，可在商城后台「发票冲红」确认重试。
+- `invoice_red` 无 `fail_reason` 列：冲红失败时状态停留 `WAIT`，失败原因仅随当次响应返回，不落库（如需展示历史失败原因，需另出 DDL 脚本）。
+- 红冲不改写 `pay_fee_detail.open_invoice`（按现有语义保留）；红冲按钮暂未挂权限码（待业务提供权限码后补充 `hasPrivilege`）。
 

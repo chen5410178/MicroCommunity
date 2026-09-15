@@ -27,6 +27,8 @@
         t.room_id,t.room_id roomId,t.room_name,t.room_name roomName,
         td.`name` stateName,t.invoice_code invoiceCode,t.create_time createTime
         from invoice_apply t
+        left join building_room br on br.room_id = t.room_id and br.status_cd = '0'
+        left join building_unit bu on bu.unit_id = br.unit_id and bu.status_cd = '0'
         left join t_dict td on t.state = td.status_cd and td.table_name = 'invoice_apply' and td.table_columns = 'state'
         where 1 =1
         <if test="applyId !=null and applyId != ''">
@@ -85,6 +87,12 @@
         </if>
         <if test="roomNameLike !=null and roomNameLike != ''">
             and t.room_name like concat('%',#{roomNameLike},'%')
+        </if>
+        <if test="floorId !=null and floorId != ''">
+            and bu.floor_id= #{floorId}
+        </if>
+        <if test="unitId !=null and unitId != ''">
+            and bu.unit_id= #{unitId}
         </if>
         order by t.create_time desc
         <if test="page != -1 and page != null ">
@@ -146,6 +154,8 @@
     <select id="queryInvoiceApplysCount" parameterType="Map" resultType="Map">
         select count(1) count
         from invoice_apply t
+        left join building_room br on br.room_id = t.room_id and br.status_cd = '0'
+        left join building_unit bu on bu.unit_id = br.unit_id and bu.status_cd = '0'
         where 1 =1
         <if test="applyId !=null and applyId != ''">
             and t.apply_id= #{applyId}
@@ -203,6 +213,12 @@
         </if>
         <if test="roomNameLike !=null and roomNameLike != ''">
             and t.room_name like concat('%',#{roomNameLike},'%')
+        </if>
+        <if test="floorId !=null and floorId != ''">
+            and bu.floor_id= #{floorId}
+        </if>
+        <if test="unitId !=null and unitId != ''">
+            and bu.unit_id= #{unitId}
         </if>
 
 
