@@ -11,96 +11,92 @@
       </div>
 
       <!-- 业主信息 -->
-      <div class="margin-top">
+      <div class="margin-top text-left">
         <el-row :gutter="20">
-          <el-col :span="24">
-            <el-row :gutter="20">
-              <el-col :span="6">
-                <div class="form-group">
-                  <label class="col-form-label">{{ $t('invoiceApplyDetail.applyId') }}</label>
-                  <label>{{ invoiceApplyDetailInfo.applyId }}</label>
-                </div>
-              </el-col>
-              <el-col :span="6">
-                <div class="form-group">
-                  <label class="col-form-label">{{ $t('invoiceApplyDetail.invoiceType') }}</label>
-                  <label>{{ invoiceApplyDetailInfo.invoiceType === '1001' ? $t('invoiceApplyDetail.personal') :
-                    $t('invoiceApplyDetail.company') }}</label>
-                </div>
-              </el-col>
-              <el-col :span="6">
-                <div class="form-group">
-                  <label class="col-form-label">{{ $t('invoiceApplyDetail.ownerName') }}</label>
-                  <label>{{ invoiceApplyDetailInfo.ownerName }}</label>
-                </div>
-              </el-col>
-              <el-col :span="6">
-                <div class="form-group">
-                  <label class="col-form-label">{{ $t('invoiceApplyDetail.createUserName') }}</label>
-                  <label>{{ invoiceApplyDetailInfo.createUserName }}({{ invoiceApplyDetailInfo.applyTel }})</label>
-                </div>
-              </el-col>
-            </el-row>
-            <el-row :gutter="20">
-              <el-col :span="6">
-                <div class="form-group">
-                  <label class="col-form-label">{{ $t('invoiceApplyDetail.invoiceName') }}</label>
-                  <label>{{ invoiceApplyDetailInfo.invoiceName }}</label>
-                </div>
-              </el-col>
-              <el-col :span="6">
-                <div class="form-group">
-                  <label class="col-form-label">{{ $t('invoiceApplyDetail.invoiceNum') }}</label>
-                  <label>{{ invoiceApplyDetailInfo.invoiceNum }}</label>
-                </div>
-              </el-col>
-              <el-col :span="6">
-                <div class="form-group">
-                  <label class="col-form-label">{{ $t('invoiceApplyDetail.invoiceAddress') }}</label>
-                  <label>{{ invoiceApplyDetailInfo.invoiceAddress }}</label>
-                </div>
-              </el-col>
-              <el-col :span="6">
-                <div class="form-group">
-                  <label class="col-form-label">{{ $t('invoiceApplyDetail.invoiceAmount') }}</label>
-                  <label>{{ invoiceApplyDetailInfo.invoiceAmount }}</label>
-                </div>
-              </el-col>
-            </el-row>
-            <el-row :gutter="20">
-              <el-col :span="6">
-                <div class="form-group">
-                  <label class="col-form-label">{{ $t('invoiceApplyDetail.stateName') }}</label>
-                  <label>{{ invoiceApplyDetailInfo.stateName }}</label>
-                </div>
-              </el-col>
-              <el-col :span="6">
-                <div class="form-group">
-                  <label class="col-form-label">{{ $t('invoiceApplyDetail.mallState') }}</label>
-                  <label>{{ mallStateName }}</label>
-                </div>
-              </el-col>
-              <el-col :span="6">
-                <div class="form-group">
-                  <label class="col-form-label">{{ $t('invoiceApplyDetail.failReason') }}</label>
-                  <label>{{ invoiceApplyDetailInfo.failReason || '-' }}</label>
-                </div>
-              </el-col>
-              <el-col :span="6">
-                <div class="form-group">
-                  <label class="col-form-label">{{ $t('invoiceApplyDetail.createTime') }}</label>
-                  <label>{{ invoiceApplyDetailInfo.createTime }}</label>
-                </div>
-              </el-col>
-            </el-row>
-            <el-row :gutter="20">
-              <el-col :span="6">
-                <div class="form-group">
-                  <label class="col-form-label">{{ $t('invoiceApplyDetail.invoiceCode') }}</label>
-                  <label>{{ invoiceApplyDetailInfo.invoiceCode || $t('invoiceApplyDetail.notUploaded') }}</label>
-                </div>
-              </el-col>
-            </el-row>
+          <el-col :span="6">
+            <div class="form-group">
+              <label class="col-form-label">{{ $t('invoiceApplyDetail.applyId') }}</label>
+              <label>{{ invoiceApplyDetailInfo.applyId }}</label>
+            </div>
+          </el-col>
+          <el-col :span="6">
+            <div class="form-group">
+              <label class="col-form-label">{{ $t('invoiceApplyDetail.invoiceType') }}</label>
+              <label>{{ invoiceApplyDetailInfo.invoiceType === '1001' ? $t('invoiceApplyDetail.personal') :
+                $t('invoiceApplyDetail.company') }}</label>
+            </div>
+          </el-col>
+          <el-col :span="6">
+            <div class="form-group">
+              <label class="col-form-label">{{ $t('invoiceApplyDetail.ownerName') }}</label>
+              <label>{{ invoiceApplyDetailInfo.ownerName }}</label>
+            </div>
+          </el-col>
+          <el-col :span="6">
+            <div class="form-group">
+              <label class="col-form-label">{{ $t('invoiceApplyDetail.createUserName') }}</label>
+              <label>{{ invoiceApplyDetailInfo.createUserName }}({{ invoiceApplyDetailInfo.applyTel }})</label>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="6">
+            <div class="form-group">
+              <label class="col-form-label">{{ $t('invoiceApplyDetail.invoiceName') }}</label>
+              <label>{{ invoiceApplyDetailInfo.invoiceName }}</label>
+            </div>
+          </el-col>
+          <el-col :span="6">
+            <div class="form-group">
+              <label class="col-form-label">{{ $t('invoiceApplyDetail.invoiceNum') }}</label>
+              <label>{{ invoiceApplyDetailInfo.invoiceNum }}</label>
+            </div>
+          </el-col>
+          <el-col :span="6">
+            <div class="form-group">
+              <label class="col-form-label">{{ $t('invoiceApplyDetail.invoiceAddress') }}</label>
+              <label>{{ invoiceApplyDetailInfo.invoiceAddress }}</label>
+            </div>
+          </el-col>
+          <el-col :span="6">
+            <div class="form-group">
+              <label class="col-form-label">{{ $t('invoiceApplyDetail.invoiceAmount') }}</label>
+              <label>{{ invoiceApplyDetailInfo.invoiceAmount }}</label>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="6">
+            <div class="form-group">
+              <label class="col-form-label">{{ $t('invoiceApplyDetail.stateName') }}</label>
+              <label>{{ invoiceApplyDetailInfo.stateName }}</label>
+            </div>
+          </el-col>
+          <el-col :span="6">
+            <div class="form-group">
+              <label class="col-form-label">{{ $t('invoiceApplyDetail.mallState') }}</label>
+              <label>{{ mallStateName }}</label>
+            </div>
+          </el-col>
+          <el-col :span="6">
+            <div class="form-group">
+              <label class="col-form-label">{{ $t('invoiceApplyDetail.failReason') }}</label>
+              <label>{{ invoiceApplyDetailInfo.failReason || '-' }}</label>
+            </div>
+          </el-col>
+          <el-col :span="6">
+            <div class="form-group">
+              <label class="col-form-label">{{ $t('invoiceApplyDetail.createTime') }}</label>
+              <label>{{ invoiceApplyDetailInfo.createTime }}</label>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="6">
+            <div class="form-group">
+              <label class="col-form-label">{{ $t('invoiceApplyDetail.invoiceCode') }}</label>
+              <label>{{ invoiceApplyDetailInfo.invoiceCode || $t('invoiceApplyDetail.notUploaded') }}</label>
+            </div>
           </el-col>
         </el-row>
       </div>
@@ -235,4 +231,5 @@ export default {
 
 .col-form-label {
   margin-right: 10px;
-}</style>
+}
+</style>

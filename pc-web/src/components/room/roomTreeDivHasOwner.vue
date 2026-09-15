@@ -22,6 +22,18 @@ import { getCommunityId } from '@/api/community/communityApi'
 
 export default {
   name: 'RoomTreeDivHasOwner',
+  props: {
+    // 是否自动选中上次/首个房屋(默认 true, 保持房屋收费页原行为)
+    autoSelectFirst: {
+      type: Boolean,
+      default: true
+    },
+    // 选房记忆的 localStorage 键(不同页面隔离记忆)
+    storageKey: {
+      type: String,
+      default: 'lastSelectedRoom'
+    }
+  },
   data() {
     return {
       treeData: [],
@@ -41,13 +53,13 @@ export default {
   methods: {
     async loadTreeData() {
       // 加载上次选择的房屋信息
-      let lastSelected = localStorage.getItem('lastSelectedRoom');
+      let lastSelected = localStorage.getItem(this.storageKey);
       if (lastSelected) {
         try {
           this.lastSelected = JSON.parse(lastSelected);
         } catch (error) {
           console.error('解析lastSelected失败:', error);
-          localStorage.removeItem('lastSelectedRoom');
+          localStorage.removeItem(this.storageKey);
         }
       }
       
@@ -92,6 +104,10 @@ export default {
       this.$nextTick(() => {
         if (this.treeData.length === 0) {
           this.$emit('treeEmpty')
+          return
+        }
+        // 不自动选中时: 只渲染树, 初始化不 emit selectRoom(由调用方决定筛选口径)
+        if (!this.autoSelectFirst) {
           return
         }
         // 如果有上次选择的房屋，则展开并选择；否则选择第一个房屋
@@ -216,7 +232,7 @@ export default {
         };
         
         // 保存到localStorage
-        localStorage.setItem('lastSelectedRoom', JSON.stringify(selectedData));
+        localStorage.setItem(this.storageKey, JSON.stringify(selectedData));
         this.lastSelected = selectedData;
 
         this.$emit('selectRoom', {
@@ -266,7 +282,7 @@ export default {
           this.$set(node.data, 'children', roomNodes)
           
           // 只有在初始化时才自动选择第一个房屋
-          if (!this.isInitialized) {
+          if (!this.isInitialized && this.autoSelectFirst) {
             this.$emit('selectRoom', {
               roomId: roomNodes[0].roomId,
               roomName: roomNodes[0].roomName
@@ -280,8 +296,15 @@ export default {
     },
     // 新增：清除保存的选择记录
     clearLastSelected() {
-      localStorage.removeItem('lastSelectedRoom')
+      localStorage.removeItem(this.storageKey)
       this.lastSelected = {}
+    },
+    // 新增：清除当前高亮与选房记忆(供"全部房屋"调用)
+    clearSelection() {
+      this.clearLastSelected()
+      if (this.$refs.tree) {
+        this.$refs.tree.setCurrentKey(null)
+      }
     }
   }
 }

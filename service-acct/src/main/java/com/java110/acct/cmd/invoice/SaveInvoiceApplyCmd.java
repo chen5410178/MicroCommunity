@@ -80,6 +80,11 @@ public class SaveInvoiceApplyCmd extends Cmd {
     private static final int REMARK_MAX_LEN = 200;
 
     /**
+     * room_name 列宽(invoice_apply.room_name varchar(64))
+     */
+    private static final int ROOM_NAME_MAX_LEN = 64;
+
+    /**
      * 缴费明细开票状态: Y 已开票 N 开票失败 D 开票中(待审核/待开票)
      */
     private static final String OPEN_INVOICE_YES = "Y";
@@ -117,6 +122,12 @@ public class SaveInvoiceApplyCmd extends Cmd {
         Assert.hasKeyAndValue(reqJson, "invoiceName", "请求报文中未包含invoiceName");
         Assert.hasKeyAndValue(reqJson, "ownerName", "请求报文中未包含ownerName");
         Assert.hasKeyAndValue(reqJson, "communityId", "请求报文中未包含communityId");
+
+        //todo 选房开票时房屋信息成对出现(仅物业库留存, 商城报文不带房屋)
+        if (!StringUtil.isEmpty(reqJson.getString("roomId"))) {
+            Assert.hasKeyAndValue(reqJson, "roomName", "请求报文中未包含房屋编号");
+        }
+
 
         //todo 专票前置校验(防开票失败回写F): 企业抬头+税号+开户行必填
         if ("专票".equals(reqJson.getString("invoiceKind"))) {
@@ -176,6 +187,8 @@ public class SaveInvoiceApplyCmd extends Cmd {
         }
         // todo 备注按列宽截断, 避免 remark 溢出(Data too long)
         invoiceApplyPo.setRemark(StringUtil.truncateMessage(invoiceApplyPo.getRemark(), REMARK_MAX_LEN));
+        // todo 房屋编号按列宽截断, 避免 room_name 溢出(Data too long)
+        invoiceApplyPo.setRoomName(StringUtil.truncateMessage(invoiceApplyPo.getRoomName(), ROOM_NAME_MAX_LEN));
 
         // todo 组装开票项与金额(只算不写库)
         List<InvoiceApplyItemPo> invoiceApplyItemPos = new ArrayList<>();

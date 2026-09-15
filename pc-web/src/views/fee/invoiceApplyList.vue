@@ -1,7 +1,27 @@
 <template>
-  <div class="padding">
-    <el-row>
-      <el-col :span="24">
+  <div class="app-container">
+    <div class="resizable-layout">
+      <!-- 左侧：房屋筛选树 -->
+      <div class="tree-panel" :style="{ width: treeWidth + 'px' }">
+        <div class="tree-panel-header">
+          <span>{{ $t('invoiceApply.roomFilterTitle') }}</span>
+          <el-button v-if="treeHasRoom" type="text" size="small" @click="_showAllRooms">
+            {{ $t('invoiceApply.allRooms') }}
+          </el-button>
+        </div>
+        <div class="tree-body">
+          <room-tree-div-has-owner ref="roomTreeDiv" :auto-select-first="false" storage-key="invoiceApplyFilterRoom"
+            @selectRoom="handleSelectRoom" @treeEmpty="handleTreeEmpty" />
+        </div>
+      </div>
+
+      <!-- 拖拽分隔线 -->
+      <div class="resize-handle" @mousedown="startResize" @mouseover="showResizeCursor" @mouseleave="hideResizeCursor">
+        <div class="resize-line"></div>
+      </div>
+
+      <!-- 右侧：发票记录 -->
+      <div class="content-panel" :style="{ width: 'calc(100% - ' + (treeWidth + 10) + 'px)' }">
         <el-card>
           <div slot="header" class="text-left">
             <span>{{ $t('invoiceApply.searchTitle') }}</span>
@@ -41,18 +61,21 @@
               <el-input v-model="conditions.applyTel" :placeholder="$t('invoiceApply.phonePlaceholder')" />
             </el-col>
             <el-col :span="4" class="margin-top-sm">
+              <el-input v-model="conditions.roomNameLike" :placeholder="$t('invoiceApply.roomNamePlaceholder')"
+                clearable />
+            </el-col>
+            <el-col :span="4" class="margin-top-sm">
               <el-button type="primary" @click="_queryInvoiceApplyMethod">
                 <i class="el-icon-search" />
                 <span>{{ $t('common.search') }}</span>
               </el-button>
+              <el-button size="small" @click="_resetConditionMethod">
+                {{ $t('common.reset') }}
+              </el-button>
             </el-col>
           </el-row>
         </el-card>
-      </el-col>
-    </el-row>
-    <el-row class="margin-top">
-      <el-col :span="24">
-        <el-card>
+        <el-card class="margin-top">
           <div slot="header" class="flex justify-between">
             <span>{{ $t('invoiceApply.title') }}</span>
             <el-button type="primary" size="small" class="float-right" @click="_invoiceApply">
@@ -72,6 +95,11 @@
               </template>
             </el-table-column>
             <el-table-column prop="ownerName" :label="$t('invoiceApply.table.ownerName')" align="center" />
+            <el-table-column :label="$t('invoiceApply.table.roomName')" align="center">
+              <template slot-scope="scope">
+                {{ scope.row.roomName || '-' }}
+              </template>
+            </el-table-column>
             <el-table-column :label="$t('invoiceApply.table.applicant')" align="center">
               <template slot-scope="scope">
                 {{ scope.row.createUserName }}({{ scope.row.applyTel }})
@@ -127,8 +155,8 @@
             :total="page.total" layout="total, sizes, prev, pager, next, jumper" @size-change="handleSizeChange"
             @current-change="handleCurrentChange" />
         </el-card>
-      </el-col>
-    </el-row>
+      </div>
+    </div>
 
     <delete-invoice-apply ref="deleteDialog" @success="listInvoiceApplys" />
   </div>
@@ -138,11 +166,13 @@
 import { listInvoiceApply, reSubmitInvoiceApply } from '@/api/fee/invoiceApplyApi'
 import { getCommunityId } from '@/api/community/communityApi'
 import DeleteInvoiceApply from '@/components/fee/deleteInvoiceApply'
+import RoomTreeDivHasOwner from '@/components/room/roomTreeDivHasOwner'
 
 export default {
   name: 'InvoiceApplyList',
   components: {
-    DeleteInvoiceApply
+    DeleteInvoiceApply,
+    RoomTreeDivHasOwner
   },
   data() {
     return {
@@ -153,21 +183,83 @@ export default {
         ownerName: '',
         applyTel: '',
         createUserName: '',
-        state: ''
+        state: '',
+        roomId: '',
+        roomNameLike: ''
       },
       invoiceApplys: [],
       page: {
         current: 1,
         size: 10,
         total: 0
-      }
+      },
+      // 房屋树筛选
+      treeHasRoom: true,
+      treeRoomName: '',
+      // 拖拽相关
+      treeWidth: 250,
+      minTreeWidth: 200,
+      maxTreeWidth: 600,
+      isResizing: false,
+      startX: 0,
+      startWidth: 0
     }
   },
   created() {
     this.communityId = getCommunityId()
+    this.restoreTreeWidth()
     this.listInvoiceApplys()
   },
+  mounted() {
+    document.addEventListener('mousemove', this.onMouseMove)
+    document.addEventListener('mouseup', this.onMouseUp)
+  },
+  beforeDestroy() {
+    document.removeEventListener('mousemove', this.onMouseMove)
+    document.removeEventListener('mouseup', this.onMouseUp)
+  },
   methods: {
+    // 点击房屋树：按房屋精确筛选(与房屋编号输入互斥)
+    handleSelectRoom(param) {
+      this.conditions.roomId = param.roomId
+      this.conditions.roomNameLike = ''
+      this.treeRoomName = param.roomName
+      this.page.current = 1
+      this.listInvoiceApplys()
+    },
+    handleTreeEmpty() {
+      this.treeHasRoom = false
+    },
+    // 全部房屋：清除树筛选与输入筛选
+    _showAllRooms() {
+      this.conditions.roomId = ''
+      this.conditions.roomNameLike = ''
+      this.treeRoomName = ''
+      if (this.$refs.roomTreeDiv) {
+        this.$refs.roomTreeDiv.clearSelection()
+      }
+      this.page.current = 1
+      this.listInvoiceApplys()
+    },
+    _resetConditionMethod() {
+      this.conditions = {
+        invoiceCode: '',
+        invoiceKind: '',
+        invoiceType: '',
+        ownerName: '',
+        applyTel: '',
+        createUserName: '',
+        state: '',
+        roomId: '',
+        roomNameLike: ''
+      }
+      this.treeRoomName = ''
+      if (this.$refs.roomTreeDiv) {
+        this.$refs.roomTreeDiv.clearSelection()
+      }
+      this.page.current = 1
+      this.listInvoiceApplys()
+    },
     async listInvoiceApplys() {
       try {
         const params = {
@@ -192,10 +284,25 @@ export default {
       this.listInvoiceApplys()
     },
     _queryInvoiceApplyMethod() {
+      // 输入房屋编号查询时清除树筛选(互斥)
+      if (this.conditions.roomNameLike) {
+        this.conditions.roomId = ''
+        this.treeRoomName = ''
+        if (this.$refs.roomTreeDiv) {
+          this.$refs.roomTreeDiv.clearSelection()
+        }
+      }
       this.page.current = 1
       this.listInvoiceApplys()
     },
     _invoiceApply() {
+      if (this.conditions.roomId) {
+        this.$router.push({
+          path: '/views/fee/ownerApplyInvoice',
+          query: { roomId: this.conditions.roomId, roomName: this.treeRoomName }
+        })
+        return
+      }
       this.$router.push('/views/fee/ownerApplyInvoice')
     },
     _openInvoiceApplyDetail(row) {
@@ -246,16 +353,125 @@ export default {
         return row.remark
       }
       return '-'
+    },
+    restoreTreeWidth() {
+      const savedWidth = localStorage.getItem('invoiceApplyTreeWidth')
+      if (savedWidth) {
+        const width = parseInt(savedWidth)
+        if (width >= this.minTreeWidth && width <= this.maxTreeWidth) {
+          this.treeWidth = width
+        }
+      }
+    },
+    saveTreeWidth() {
+      localStorage.setItem('invoiceApplyTreeWidth', this.treeWidth.toString())
+    },
+    startResize(event) {
+      event.preventDefault()
+      this.isResizing = true
+      this.startX = event.clientX
+      this.startWidth = this.treeWidth
+      document.body.style.cursor = 'col-resize'
+      document.body.style.userSelect = 'none'
+    },
+    onMouseMove(event) {
+      if (!this.isResizing) return
+      const deltaX = event.clientX - this.startX
+      const newWidth = this.startWidth + deltaX
+      if (newWidth >= this.minTreeWidth && newWidth <= this.maxTreeWidth) {
+        this.treeWidth = newWidth
+      }
+    },
+    onMouseUp() {
+      if (this.isResizing) {
+        this.isResizing = false
+        this.saveTreeWidth()
+        document.body.style.cursor = ''
+        document.body.style.userSelect = ''
+      }
+    },
+    showResizeCursor() {
+      if (!this.isResizing) {
+        document.body.style.cursor = 'col-resize'
+      }
+    },
+    hideResizeCursor() {
+      if (!this.isResizing) {
+        document.body.style.cursor = ''
+      }
     }
   }
 }
 </script>
 
 <style scoped>
+.app-container {
+  padding: 20px;
+  height: calc(100vh - 120px);
+  overflow: hidden;
+}
+
+.resizable-layout {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+
+.tree-panel {
+  background: #fff;
+  border-radius: 4px;
+  padding: 10px;
+  border: 1px solid #e4e7ed;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.tree-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 8px;
+  margin-bottom: 6px;
+  border-bottom: 1px solid #ebeef5;
+  font-size: 14px;
+  color: #303133;
+}
+
+.tree-body {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.content-panel {
+  overflow-y: auto;
+}
+
+.resize-handle {
+  width: 10px;
+  cursor: col-resize;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.resize-handle:hover .resize-line {
+  background-color: #409eff;
+}
+
+.resize-line {
+  width: 2px;
+  height: 30px;
+  background-color: #dcdfe6;
+  border-radius: 1px;
+  transition: background-color 0.2s;
+}
+
 .border-radius {
   border-radius: 4px;
 }
-
 
 .float-right {
   float: right;
@@ -265,5 +481,9 @@ export default {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.tree-panel * {
+  user-select: none;
 }
 </style>

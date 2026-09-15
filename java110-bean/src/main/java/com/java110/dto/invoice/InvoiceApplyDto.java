@@ -66,6 +66,13 @@ public class InvoiceApplyDto extends PageDto implements Serializable {
     private String state;
     private String stateName;
     private String communityId;
+    private String roomId;
+    private String roomName;
+
+    /**
+     * 查询条件: 房屋编号模糊匹配
+     */
+    private String roomNameLike;
 
     private String invoiceCode;
 
@@ -247,6 +254,31 @@ public class InvoiceApplyDto extends PageDto implements Serializable {
     public void setCommunityId(String communityId) {
         this.communityId = communityId;
     }
+
+    public String getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(String roomId) {
+        this.roomId = roomId;
+    }
+
+    public String getRoomName() {
+        return roomName;
+    }
+
+    public void setRoomName(String roomName) {
+        this.roomName = roomName;
+    }
+
+    public String getRoomNameLike() {
+        return roomNameLike;
+    }
+
+    public void setRoomNameLike(String roomNameLike) {
+        this.roomNameLike = roomNameLike;
+    }
+
 
 
     public Date getCreateTime() {

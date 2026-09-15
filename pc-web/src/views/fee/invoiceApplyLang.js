@@ -9,6 +9,7 @@ export const messages = {
         invoiceKind: 'Invoice Kind',
         invoiceType: 'Invoice Type',
         ownerName: 'Owner Name',
+        roomName: 'Room No.',
         applicant: 'Applicant',
         invoiceName: 'Invoice Title',
         taxNumber: 'Taxpayer ID',
@@ -48,7 +49,10 @@ export const messages = {
       invoiceTypePlaceholder: 'Please select invoice type',
       ownerNamePlaceholder: 'Please enter owner name',
       applicantPlaceholder: 'Please enter applicant',
-      phonePlaceholder: 'Please enter applicant phone'
+      phonePlaceholder: 'Please enter applicant phone',
+      roomNamePlaceholder: 'Please enter room number',
+      roomFilterTitle: 'Room Filter',
+      allRooms: 'All Rooms'
     },
     deleteInvoiceApply: {
       title: 'Confirm Operation',
@@ -68,6 +72,7 @@ export const messages = {
         invoiceKind: '发票种类',
         invoiceType: '发票类型',
         ownerName: '业主名称',
+        roomName: '房屋编号',
         applicant: '申请人',
         invoiceName: '发票名头',
         taxNumber: '纳税人识别号',
@@ -107,7 +112,10 @@ export const messages = {
       invoiceTypePlaceholder: '请选择发票类型',
       ownerNamePlaceholder: '请填写业主名称',
       applicantPlaceholder: '请填写申请人',
-      phonePlaceholder: '请填写申请人电话'
+      phonePlaceholder: '请填写申请人电话',
+      roomNamePlaceholder: '请填写房屋编号',
+      roomFilterTitle: '房屋筛选',
+      allRooms: '全部房屋'
     },
     deleteInvoiceApply: {
       title: '请确认您的操作',
@@ -127,6 +135,7 @@ export const messages = {
         invoiceKind: '發票種類',
         invoiceType: '發票類型',
         ownerName: '業主名稱',
+        roomName: '房屋編號',
         applicant: '申請人',
         invoiceName: '發票名頭',
         taxNumber: '納稅人識別號',
@@ -166,7 +175,10 @@ export const messages = {
       invoiceTypePlaceholder: '請選擇發票類型',
       ownerNamePlaceholder: '請填寫業主名稱',
       applicantPlaceholder: '請填寫申請人',
-      phonePlaceholder: '請填寫申請人電話'
+      phonePlaceholder: '請填寫申請人電話',
+      roomNamePlaceholder: '請填寫房屋編號',
+      roomFilterTitle: '房屋篩選',
+      allRooms: '全部房屋'
     },
     deleteInvoiceApply: {
       title: '請確認您的操作',

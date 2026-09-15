@@ -8,9 +8,9 @@
     <!-- 保存发票申请信息 add by wuxw 2018-07-03 -->
     <insert id="saveInvoiceApplyInfo" parameterType="Map">
         insert into invoice_apply(
-        apply_id,oi_id,create_user_id,owner_name,invoice_type,invoice_kind,invoice_name,invoice_num,invoice_address,apply_tel,invoice_amount,create_user_name,remark,state,community_id
+        apply_id,oi_id,create_user_id,owner_name,invoice_type,invoice_kind,invoice_name,invoice_num,invoice_address,apply_tel,invoice_amount,create_user_name,remark,state,community_id,room_id,room_name
         ) values (
-        #{applyId},#{oiId},#{createUserId},#{ownerName},#{invoiceType},#{invoiceKind},#{invoiceName},#{invoiceNum},#{invoiceAddress},#{applyTel},#{invoiceAmount},#{createUserName},#{remark},#{state},#{communityId}
+        #{applyId},#{oiId},#{createUserId},#{ownerName},#{invoiceType},#{invoiceKind},#{invoiceName},#{invoiceNum},#{invoiceAddress},#{applyTel},#{invoiceAmount},#{createUserName},#{remark},#{state},#{communityId},#{roomId},#{roomName}
         )
     </insert>
 
@@ -24,6 +24,7 @@
         t.apply_tel,t.apply_tel applyTel,t.invoice_amount,t.invoice_amount
         invoiceAmount,t.create_user_name,t.create_user_name createUserName,t.remark,t.status_cd,t.status_cd
         statusCd,t.state,t.community_id,t.community_id communityId,
+        t.room_id,t.room_id roomId,t.room_name,t.room_name roomName,
         td.`name` stateName,t.invoice_code invoiceCode,t.create_time createTime
         from invoice_apply t
         left join t_dict td on t.state = td.status_cd and td.table_name = 'invoice_apply' and td.table_columns = 'state'
@@ -78,6 +79,12 @@
         </if>
         <if test="communityId !=null and communityId != ''">
             and t.community_id= #{communityId}
+        </if>
+        <if test="roomId !=null and roomId != ''">
+            and t.room_id= #{roomId}
+        </if>
+        <if test="roomNameLike !=null and roomNameLike != ''">
+            and t.room_name like concat('%',#{roomNameLike},'%')
         </if>
         order by t.create_time desc
         <if test="page != -1 and page != null ">
@@ -190,6 +197,12 @@
         </if>
         <if test="communityId !=null and communityId != ''">
             and t.community_id= #{communityId}
+        </if>
+        <if test="roomId !=null and roomId != ''">
+            and t.room_id= #{roomId}
+        </if>
+        <if test="roomNameLike !=null and roomNameLike != ''">
+            and t.room_name like concat('%',#{roomNameLike},'%')
         </if>
 
 

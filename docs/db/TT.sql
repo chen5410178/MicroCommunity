@@ -26076,6 +26076,8 @@ CREATE TABLE `invoice_apply` (
   `apply_tel` varchar(11) NOT NULL COMMENT '申请人电话',
   `invoice_amount` decimal(10,2) NOT NULL COMMENT '申请金额',
   `community_id` varchar(30) NOT NULL COMMENT '小区ID',
+  `room_id` varchar(30) DEFAULT NULL COMMENT '房屋ID(选房开票时记录)',
+  `room_name` varchar(64) DEFAULT NULL COMMENT '房屋编号(楼栋-单元-房号)',
   `create_user_id` varchar(30) NOT NULL COMMENT '用户ID',
   `create_user_name` varchar(64) NOT NULL COMMENT '申请人',
   `state` varchar(12) NOT NULL DEFAULT 'W' COMMENT '审核状态 W待审核 U 待上传 F 审核失败 G 带领用 C 已领用',
@@ -26083,7 +26085,8 @@ CREATE TABLE `invoice_apply` (
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `status_cd` varchar(2) NOT NULL DEFAULT '0' COMMENT '数据状态，详细参考c_status表，0, 在用 1失效',
   `invoice_code` varchar(128) DEFAULT NULL COMMENT '发票编号',
-  PRIMARY KEY (`apply_id`)
+  PRIMARY KEY (`apply_id`),
+  KEY `idx_room_id` (`room_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------

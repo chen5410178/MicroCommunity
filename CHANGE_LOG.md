@@ -543,3 +543,52 @@ DELETE FROM `c_service` WHERE `service_id` = '982026090800000010';
 
 - `SendMallImpl`（service-job）HTTP 4xx/5xx 分支补 `saveTranslateError` 落 `machine_translate_error`：该实现是 **service-job 全局商城调用出口**，改动影响面超出本次开票范围，**跳过**（已评估并确认）；商城真实失败原因仍可通过 service-acct 日志（warn"商城开票失败原因(原文)"）与响应 `failReason` 追溯。
 
+## 2026-09-15 — 开票中心改造：申请单落房屋（room_id/room_name）· 页面左右布局（房屋树/发票记录）· 商城抬头不再写入开票单备注
+
+### 背景
+
+1. 发票申请无法追溯"哪套房"：只能靠业主姓名猜；列表也不能按房屋筛选。
+2. `/pages/fee/invoiceApply` 交互低效，需要"左房屋树 + 右发票记录"（与 `/pages/property/roomCreateFee` 左侧一致）。
+3. 商城后台抬头备注被污染成 `102026091518181085|林健|桂测试物业费1.8`：物业随单 upsert 抬头时把**开票单备注**（`applyId|业主|业务类目`）当成**抬头备注**写入了 `invoice_heading.remark`（`PropertyInvoiceBmoImpl.buildHeadingParam()`）。
+
+### 变更内容
+
+**物业仓库（MicroCommunityV2）**
+
+1. `InvoiceApplyPo` 新增 `roomId`/`roomName`；`InvoiceApplyDto` 新增 `roomId`/`roomName`（结果列 + 精确查询条件）与 `roomNameLike`（模糊查询条件）。
+2. `InvoiceApplyV1ServiceDaoImplMapper.xml`：`saveInvoiceApplyInfo` 插 `room_id/room_name`；`getInvoiceApplyInfo` 增 `t.room_id/t.room_name` 及驼峰别名、增 `roomId` 精确与 `roomNameLike` 模糊条件；`queryInvoiceApplysCount` 同步追加两条件（分页总数口径一致）；`updateInvoiceApplyInfo`**不加** room 列（提交后房屋不可改，避免重提/状态回写误改房屋）。
+3. `SaveInvoiceApplyCmd`：`validate` 增加"有 `roomId` 必须有 `roomName`"校验（后端**不强制**房屋，兼容 App/历史调用）；`doCmd` 中 `roomName` 按列宽 64 截断（与 remark 200 截断同口径）。房屋信息**只落物业库**，`PropertyInvoiceSubmitBmoImpl.buildMallData()` 未加 room 字段（商城报文与幂等键 `orgId+orgType+source=WEB+ext_apply_id` 完全不变）。
+4. `invoiceApplyList.vue`：改为左右布局（左房屋筛选树 + 可拖拽分隔线 + 右查询/表格/分页，拖拽宽度记忆键 `invoiceApplyTreeWidth`，与房屋收费的 `roomCreateFeeTreeWidth` 隔离）；表格新增"房屋编号"列（空值显示 `-`）；查询条件新增"房屋编号"输入（`roomNameLike`）；新增"重置"按钮；树点击按 `roomId` 精确筛选、输入房屋编号与树筛选**互斥**、"全部房屋"清除树筛选与高亮；"开票"跳转携带 `?roomId=&roomName=`。
+5. `roomTreeDivHasOwner.vue`：新增 props `autoSelectFirst`（默认 `true`，为 `false` 时初始化不自动选中/不 emit `selectRoom`）与 `storageKey`（默认 `lastSelectedRoom`）；新增公开方法 `clearSelection()`；默认值保持向后兼容，`roomCreateFee` 行为不变，两页选房记忆互不干扰（开票中心用 `invoiceApplyFilterRoom` + `autoSelectFirst=false` 双保险）。
+6. `ownerApplyInvoiceList.vue`：支持 `?roomId=&roomName=` 预填（并 `loadRoomOwner()`，房屋编号以查询结果为准）；提交前拦截未选房屋（`roomRequired`）；提交报文补 `roomId/roomName`；`applyHeading()` 不再用 `heading.remark` 回填申请备注（切断"抬头备注 → 申请备注 → 再次写回商城"的二次污染回路）。
+7. 三语文案：`invoiceApplyLang.js` 增 `table.roomName`/`roomNamePlaceholder`/`roomFilterTitle`/`allRooms`；`ownerApplyInvoiceLang.js` 增 `roomRequired`。
+
+**商城仓库（MicroCommunityMall）**
+
+8. `PropertyInvoiceBmoImpl.buildHeadingParam()` 删除 `remark` 传参：物业随单 upsert 抬头不再写入/覆盖 `invoice_heading.remark`；`InvoiceHeadingUpsertService`、`SaveInvoiceHeadingBmoImpl`、`ListInvoiceHeadingsBmoImpl` 与 `invoice_heading` 表结构**均不改**（商城后台维护抬头备注能力保留）；`invoice_order.remark`（`applyId|业主|类目`）保留（商城存量单幂等兜底匹配依赖它）。
+
+### 数据库变更
+
+**物业库（TT）**：`docs/sql/invoice/add_invoice_apply_room.sql`（`docs/db/TT.sql` 的 `invoice_apply` 建表基线已同步）
+
+```sql
+ALTER TABLE `invoice_apply`
+  ADD COLUMN `room_id` varchar(30) DEFAULT NULL COMMENT '房屋ID(选房开票时记录)' AFTER `community_id`,
+  ADD COLUMN `room_name` varchar(64) DEFAULT NULL COMMENT '房屋编号(楼栋-单元-房号)' AFTER `room_id`,
+  ADD KEY `idx_room_id` (`room_id`);
+```
+
+**商城库（hc_mall）**：无 DDL。可选一次性清理脚本 `docs/sql/invoice/clean_invoice_heading_remark.sql`（清理被开票单备注污染的抬头备注，**务必先 `SELECT` 人工核对**；只清 `invoice_heading.remark`，严禁动 `invoice_order.remark`）。
+
+### 部署执行项
+
+1. 物业库执行 `docs/sql/invoice/add_invoice_apply_room.sql`（ALTER + `idx_room_id`），无需服务注册/路由变更。
+2. 商城库无需 DDL；如需清理历史污染抬头，先 `SELECT` 核对再执行清理脚本。
+3. 前端 `pc-web` 重新 build（新增 i18n 键与页面布局变更）。
+4. 回归抽查：`SELECT apply_id, room_id, room_name, state FROM invoice_apply ORDER BY create_time DESC LIMIT 20;`；`SELECT heading_id, phone, heading_name, remark FROM invoice_heading WHERE remark LIKE '%|%';`；房屋收费页 `/pages/property/roomCreateFee` 选房/输入房屋编号行为应与改造前一致。
+
+### 未实现（P2，待确认）
+
+- 存量申请单房屋回填：`add_invoice_apply_room.sql` 内已附注释版 `pay_fee_detail/pay_fee` JOIN 回填语句，需人工核对后执行（历史记录显示 `-` 不影响使用）。
+- 开票详情页展示房屋编号（方案 F11 可选部分）：本方案文件清单未含 `invoiceApplyDetailList.vue`，本次未改。
+

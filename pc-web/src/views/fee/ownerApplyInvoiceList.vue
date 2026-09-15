@@ -181,6 +181,16 @@ export default {
       selectedDetailId: ''
     }
   },
+  created() {
+    // 从开票中心带房进入时预填房屋并加载业主
+    const roomId = this.$route.query.roomId
+    const roomName = this.$route.query.roomName
+    if (roomId) {
+      this.roomId = roomId
+      this.roomName = roomName || ''
+      this.loadRoomOwner()
+    }
+  },
   methods: {
     dateFormat,
     goBack() {
@@ -211,6 +221,10 @@ export default {
           return
         }
         const room = rooms[0]
+        // 房屋编号以查询结果为准(楼栋-单元-房号), 缺失时沿用带入的编号
+        if (room.floorNum && room.unitNum && room.roomNum) {
+          this.roomName = `${room.floorNum}-${room.unitNum}-${room.roomNum}`
+        }
         this.formData.ownerId = room.ownerId
         this.formData.ownerName = room.ownerName
         this.formData.invoiceLink = room.link
@@ -276,7 +290,6 @@ export default {
       this.formData.invoiceLink = this.formData.invoiceLink || heading.phone
       this.formData.email = heading.email
       this.formData.invoiceAccount = heading.bankNo
-      this.formData.remark = heading.remark
     },
     async loadFeeDetails() {
       try {
@@ -294,6 +307,10 @@ export default {
       }
     },
     async handleSubmit() {
+      if (!this.roomId) {
+        this.$message.warning(this.$t('ownerApplyInvoice.roomRequired'))
+        return
+      }
       if (!this.formData.ownerId) {
         this.$message.warning(this.$t('ownerApplyInvoice.chooseOwner'))
         return
@@ -332,6 +349,8 @@ export default {
       try {
         const res = await saveInvoiceApply({
           ...this.formData,
+          roomId: this.roomId,
+          roomName: this.roomName,
           detailIds: [this.selectedDetailId]
         })
         const data = res.data || {}
