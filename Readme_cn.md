@@ -5,7 +5,7 @@
 目前很多地方商用超过四年半时间 欢迎直接使用或者推广使用
  
  相关代码：<br/><br/>
- 1、[物业系统前端](https://gitee.com/java110/MicroCommunityWeb) : 物业员工使用电脑端<br/>
+ 1、[物业系统前端](https://gitee.com/wuxw7/MicroCommunity) : 物业员工使用电脑端，是当前项目中的pc-web<br/>
  2、[物业系统后端](https://gitee.com/wuxw7/MicroCommunity): 核心业务处理端<br/>
  3、[业主手机端](https://gitee.com/java110/WechatOwnerService): 提供用户使用，包括投诉 建议，缴费、报修 等<br/>
  4、[物业手机版](https://gitee.com/java110/PropertyApp): 物业员工使用手机端<br/>
