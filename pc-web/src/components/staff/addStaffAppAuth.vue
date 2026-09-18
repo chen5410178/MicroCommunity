@@ -36,9 +36,12 @@
 </template>
 
 <script>
-import { generatorQrCode } from '@/api/staff/staffAppAuthManageApi' // 假设这是员工认证专用API
+import { generatorQrCode, queryStaffAppAuth } from '@/api/staff/staffAppAuthManageApi' // 假设这是员工认证专用API
 import QRCode from 'qrcodejs2'
 import { getCommunityId } from '@/api/community/communityApi'
+
+const AUTH_POLL_INTERVAL = 3000
+const AUTH_POLL_TIMEOUT = 5 * 60 * 1000
 
 export default {
   name: 'StaffAuthQrCode',
@@ -49,7 +52,9 @@ export default {
         appType: 'WECHAT',
         showRefresh: false,
         timer: null,
-        qrCodeUrl: '' // 新增字段存储二维码URL
+        qrCodeUrl: '', // 新增字段存储二维码URL
+        authTimer: null,
+        authStartTime: 0
       }
     }
   },
@@ -58,10 +63,42 @@ export default {
       this.visible = true
       this.$nextTick(() => {
         this.generateQrCode()
+        this.startAuthPolling()
       })
     },
     handleClose() {
       clearTimeout(this.qrCodeInfo.timer)
+      this.stopAuthPolling()
+    },
+    startAuthPolling() {
+      this.stopAuthPolling()
+      this.qrCodeInfo.authStartTime = Date.now()
+      this.qrCodeInfo.authTimer = setInterval(() => {
+        this.pollAuthState()
+      }, AUTH_POLL_INTERVAL)
+    },
+    stopAuthPolling() {
+      if (this.qrCodeInfo.authTimer) {
+        clearInterval(this.qrCodeInfo.authTimer)
+        this.qrCodeInfo.authTimer = null
+      }
+    },
+    async pollAuthState() {
+      if (Date.now() - this.qrCodeInfo.authStartTime > AUTH_POLL_TIMEOUT) {
+        this.stopAuthPolling()
+        return
+      }
+      try {
+        const { data } = await queryStaffAppAuth({ page: 1, row: 1 })
+        if (data && data.state === '2002') {
+          this.stopAuthPolling()
+          this.$message.success(this.$t('addStaffAppAuth.authSuccess'))
+          this.$emit('success')
+          this.visible = false
+        }
+      } catch (error) {
+        // 轮询失败不打断当前流程，等待下次轮询
+      }
     },
     startRefreshTimer() {
       this.qrCodeInfo.timer = setTimeout(() => {
@@ -82,7 +119,7 @@ export default {
         this.renderQrCode(data)
         this.startRefreshTimer()
       } catch (error) {
-        this.$message.error(this.$t('staffAuth.qrcodeError'))
+        this.$message.error(this.$t('addStaffAppAuth.qrcodeError'))
         this.qrCodeInfo.showRefresh = true // 出错时立即显示刷新按钮
       }
     },
@@ -98,7 +135,18 @@ export default {
         correctLevel: QRCode.CorrectLevel.H
       })
     },
-    handleFinish() {
+    async handleFinish() {
+      this.stopAuthPolling()
+      try {
+        const { data } = await queryStaffAppAuth({ page: 1, row: 1 })
+        if (data && data.state === '2002') {
+          this.$message.success(this.$t('addStaffAppAuth.authSuccess'))
+        } else {
+          this.$message.warning(this.$t('addStaffAppAuth.authPending'))
+        }
+      } catch (error) {
+        this.$message.error(this.$t('addStaffAppAuth.authFail'))
+      }
       this.$emit('success')
       this.visible = false
     },

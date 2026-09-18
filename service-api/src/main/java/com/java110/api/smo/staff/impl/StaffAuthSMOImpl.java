@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.java110.api.properties.WechatAuthProperties;
 import com.java110.api.smo.DefaultAbstractComponentSMO;
 import com.java110.api.smo.staff.IStaffAuthSMO;
+import com.java110.api.utils.StaffAuthResultPageUtil;
 import com.java110.core.context.IPageData;
 import com.java110.core.context.PageData;
 import com.java110.core.factory.WechatFactory;
@@ -16,6 +17,7 @@ import com.java110.utils.constant.ResponseConstant;
 import com.java110.utils.constant.WechatConstant;
 import com.java110.utils.exception.SMOException;
 import com.java110.utils.util.BeanConvertUtil;
+import com.java110.utils.util.DateUtil;
 import com.java110.utils.util.StringUtil;
 import com.java110.vo.ResultVo;
 import org.slf4j.Logger;
@@ -59,6 +61,17 @@ public class StaffAuthSMOImpl extends DefaultAbstractComponentSMO implements ISt
         String staffId = paramIn.getString("staffId");
         String storeId = paramIn.getString("storeId");
         String wId = paramIn.getString("wId");
+
+        if (StringUtil.isEmpty(staffId) || StringUtil.isEmpty(storeId)) {
+            logger.error("员工认证参数缺失，staffId={},storeId={}", staffId, storeId);
+            return StaffAuthResultPageUtil.fail("认证参数缺失，请返回电脑端重新生成二维码后再次扫码");
+        }
+
+        if (StringUtil.isEmpty(authCode)) {
+            logger.error("员工认证未获取到微信授权码，staffId={}", staffId);
+            return StaffAuthResultPageUtil.fail("微信授权失败，请重新扫码");
+        }
+
         SmallWeChatDto smallWeChatDto = null;
         if (!StringUtil.isEmpty(wId)) {
             paramIn.put("appId", WechatFactory.getAppId(wId));
@@ -80,45 +93,62 @@ public class StaffAuthSMOImpl extends DefaultAbstractComponentSMO implements ISt
 
         logger.debug("调用微信换去openId ", paramOut);
         if (paramOut.getStatusCode() != HttpStatus.OK) {
-            return ResultVo.redirectPage("/");
-
+            return StaffAuthResultPageUtil.fail("微信授权失败，请重新扫码");
         }
 
         JSONObject paramObj = JSONObject.parseObject(paramOut.getBody());
+        if (paramObj.containsKey("errcode")) {
+            logger.error("微信获取 access_token 失败，{}", paramOut.getBody());
+            return StaffAuthResultPageUtil.fail("微信授权失败，请重新扫码");
+        }
         //获取 openId
         String openId = paramObj.getString("openid");
+        if (StringUtil.isEmpty(openId)) {
+            logger.error("微信未返回 openId，{}", paramOut.getBody());
+            return StaffAuthResultPageUtil.fail("微信授权失败，请重新扫码");
+        }
         url = WechatConstant.APP_GET_USER_INFO_URL
                 .replace("ACCESS_TOKEN", paramObj.getString("access_token"))
                 .replace("OPENID", openId);
 
         paramOut = outRestTemplate.getForEntity(url, String.class);
 
-        logger.debug("调用微信换去openId ", paramOut);
+        logger.debug("调用微信换去用户信息 ", paramOut);
         if (paramOut.getStatusCode() != HttpStatus.OK) {
-            return ResultVo.redirectPage("/");
+            return StaffAuthResultPageUtil.fail("获取微信用户信息失败，请重新扫码");
         }
         paramObj = JSONObject.parseObject(paramOut.getBody());
+        if (paramObj.containsKey("errcode")) {
+            logger.error("微信获取用户信息失败，{}", paramOut.getBody());
+            return StaffAuthResultPageUtil.fail("获取微信用户信息失败，请重新扫码");
+        }
+        String openName = paramObj.getString("nickname");
         JSONObject paramAuth = new JSONObject();
         paramAuth.put("openId", openId);
         paramAuth.put("staffId", staffId);
         paramAuth.put("storeId", storeId);
         paramAuth.put("appType", "WECHAT");
         paramAuth.put("state", "2002");
-        paramAuth.put("openName", paramObj.getString("nickname"));
+        paramAuth.put("openName", openName);
 
         ResponseEntity<String> responseEntity = this.callCenterService(restTemplate, pd, paramAuth.toJSONString(),
                 "/staff/updateStaffAppAuth", HttpMethod.POST);
-        url = UrlCache.getOwnerUrl();
-        if(url.contains("/#/")){
-            if(url.contains("?")){
-                url += ("&wAppId="+smallWeChatDto.getAppId());
-            }else{
-                url += ("?wAppId="+smallWeChatDto.getAppId());
-            }
-        }else{
-            url += ("/#/?wAppId="+smallWeChatDto.getAppId());
+
+        JSONObject resultObj = null;
+        try {
+            resultObj = JSONObject.parseObject(responseEntity.getBody());
+        } catch (Exception e) {
+            logger.error("员工认证落库结果解析失败，{}", responseEntity.getBody(), e);
         }
-        return ResultVo.redirectPage(url);
+        if (responseEntity.getStatusCode() != HttpStatus.OK || resultObj == null
+                || resultObj.getIntValue("code") != ResultVo.CODE_OK) {
+            String msg = resultObj == null ? "" : resultObj.getString("msg");
+            logger.error("员工认证落库失败，{}", responseEntity.getBody());
+            return StaffAuthResultPageUtil.fail("员工认证失败，请返回电脑端重新生成二维码后再次扫码"
+                    + (StringUtil.isEmpty(msg) ? "" : "（" + msg + "）"));
+        }
+
+        return StaffAuthResultPageUtil.success(openName, "WECHAT", DateUtil.getNowDefault());
 
     }
 

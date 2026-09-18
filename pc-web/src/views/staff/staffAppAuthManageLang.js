@@ -19,7 +19,10 @@ export const messages = {
       finishScan: 'Scan Completed',
       requiredSelect: 'Required, please select authentication type',
       wechat: 'WeChat',
-      qrcodeError: 'Failed to generate QR code'
+      qrcodeError: 'Failed to generate QR code',
+      authSuccess: 'Authentication successful',
+      authFail: 'Authentication failed',
+      authPending: 'Authentication not completed yet, please finish authentication in WeChat'
     }
   },
   zh: {
@@ -42,7 +45,10 @@ export const messages = {
       finishScan: '扫码完成',
       requiredSelect: '必填，请选择认证方式',
       wechat: '微信',
-qrcodeError: '生成二维码失败'
+      qrcodeError: '生成二维码失败',
+      authSuccess: '认证成功',
+      authFail: '认证失败',
+      authPending: '认证尚未完成，请在微信中完成认证后重试'
     }
   },
   'zh-TW': {
@@ -65,7 +71,10 @@ qrcodeError: '生成二维码失败'
       finishScan: '掃碼完成',
       requiredSelect: '必填，請選擇認證方式',
       wechat: '微信',
-      qrcodeError: '生成二維碼失敗'
+      qrcodeError: '生成二維碼失敗',
+      authSuccess: '認證成功',
+      authFail: '認證失敗',
+      authPending: '認證尚未完成，請在微信中完成認證後重試'
     }
   }
 }

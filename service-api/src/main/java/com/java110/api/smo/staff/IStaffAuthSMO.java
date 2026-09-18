@@ -17,7 +17,9 @@ public interface IStaffAuthSMO {
 
 
     /**
-     * 获取access_token
+     * 获取access_token（员工扫码认证回调）
+     * <p>
+     * 认证结果不再跳转业主端首页，统一返回后端直出的认证结果页（HTML）
      *
      * @param pd
      * @return
