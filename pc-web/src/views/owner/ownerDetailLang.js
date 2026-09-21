@@ -562,41 +562,41 @@ export const messages = {
       uploadFailed: '照片上传失败'
     },
     editOwnerMember: {
-      title: '修改成員',
-      personRole: '人員角色',
-      name: '客戶名稱',
-      link: '聯繫手機',
-      sex: '性別',
-      concactLink: '備用手機',
+      title: '修改成员',
+      personRole: '人员角色',
+      name: '客户名称',
+      link: '联系手机',
+      sex: '性别',
+      concactLink: '备用手机',
       address: '地址',
-      idCard: '身份證',
-      remark: '備註',
+      idCard: '身份证',
+      remark: '备注',
       photo: '照片',
-      uploadPhoto: '上傳照片',
+      uploadPhoto: '上传照片',
       placeholder: {
-        personRole: '必填，請選擇人員角色',
-        name: '必填，請填寫客戶名稱',
-        link: '必填，請填寫聯繫方式',
-        sex: '必填，請選擇性別',
-        concactLink: '可選，請填寫備用手機',
-        address: '可填，請填寫地址',
-        idCard: '可選，請填寫身份證',
-        remark: '可填，請填寫備註'
+        personRole: '必填，请选择人员角色',
+        name: '必填，请填写客户名称',
+        link: '必填，请填写联系方式',
+        sex: '必填，请选择性别',
+        concactLink: '可选，请填写备用手机',
+        address: '可填，请填写地址',
+        idCard: '可选，请填写身份证',
+        remark: '可填，请填写备注'
       },
       role: {
         tenant: '租客',
-        family: '家庭成員',
-        staff: '公司員工',
+        family: '家庭成员',
+        staff: '公司员工',
         other: '其他'
       },
       validate: {
-        nameLength: '姓名長度必須在2位至64位',
-        phoneFormat: '手機號格式錯誤',
-        idCardFormat: '身份證格式不對',
-        remarkLength: '備註長度不能超過200位',
-        photoSize: '圖片大小不能超過2MB'
+        nameLength: '姓名长度必须在2位至64位',
+        phoneFormat: '手机号格式错误',
+        idCardFormat: '身份证格式不对',
+        remarkLength: '备注长度不能超过200位',
+        photoSize: '图片大小不能超过2MB'
       },
-      uploadFailed: '照片上傳失敗'
+      uploadFailed: '照片上传失败'
     }
   },
   'zh-TW': {

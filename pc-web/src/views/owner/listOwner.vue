@@ -167,7 +167,7 @@
                   </el-button>
                   <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item @click.native="openEditOwnerModal(scope.row)">
-                      {{ $t('listOwner.actions.editOwner') }}
+                      {{ isMemberOwner(scope.row) ? $t('listOwner.actions.editMember') : $t('listOwner.actions.editOwner') }}
                     </el-dropdown-item>
                     <el-dropdown-item @click.native="openDeleteOwnerModal(scope.row)">
                       {{ $t('listOwner.actions.deleteOwner') }}
@@ -203,6 +203,7 @@
     <add-owner ref="addOwner" @success="handleOwnerSuccess" />
     <edit-owner ref="editOwner" @success="handleOwnerSuccess" />
     <delete-owner ref="deleteOwner" @success="handleOwnerSuccess" />
+    <edit-owner-member ref="editOwnerMember" @success="handleOwnerSuccess" />
     <owner-rooms ref="ownerRooms" />
     <owner-members ref="ownerMembers" />
     <owner-cars ref="ownerCars" />
@@ -216,6 +217,7 @@ import { queryOwners } from '@/api/owner/ownerApi'
 import AddOwner from '@/components/owner/addOwner'
 import EditOwner from '@/components/owner/editOwner'
 import DeleteOwner from '@/components/owner/deleteOwner'
+import EditOwnerMember from '@/components/owner/editOwnerMember'
 import { getAttrSpecList } from '@/api/dev/attrSpecApi'
 import OwnerRooms from '@/components/owner/ownerRooms'
 import OwnerMembers from '@/components/owner/ownerMembers'
@@ -229,6 +231,7 @@ export default {
     AddOwner,
     EditOwner,
     DeleteOwner,
+    EditOwnerMember,
     OwnerRooms,
     OwnerMembers,
     OwnerCars,
@@ -355,7 +358,16 @@ export default {
       this.$refs.addOwner.open()
     },
 
+    isMemberOwner(owner) {
+      if (!owner) return false
+      return owner.ownerTypeCd !== '1001'
+    },
+
     openEditOwnerModal(owner) {
+      if (this.isMemberOwner(owner)) {
+        this.$refs.editOwnerMember.open(owner)
+        return
+      }
       this.$refs.editOwner.open(owner)
     },
 

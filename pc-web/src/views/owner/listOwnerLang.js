@@ -56,6 +56,7 @@ export const messages = {
       },
       actions: {
         editOwner: 'Edit Owner',
+        editMember: 'Edit Member',
         deleteOwner: 'Delete Owner',
         addRoom: 'Add Room'
       },
@@ -119,6 +120,7 @@ export const messages = {
       },
       actions: {
         editOwner: '修改业主',
+        editMember: '修改成员',
         deleteOwner: '删除业主',
         addRoom: '入住房屋'
       },
@@ -182,6 +184,7 @@ export const messages = {
       },
       actions: {
         editOwner: '修改業主',
+        editMember: '修改成員',
         deleteOwner: '刪除業主',
         addRoom: '入住房屋'
       },
