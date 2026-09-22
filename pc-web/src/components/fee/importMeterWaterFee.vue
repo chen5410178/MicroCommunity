@@ -184,13 +184,15 @@ export default {
 
         try {
           const res = await importMeterWaterData(formData)
-          if(!res.code){
-            this.$message.error(res)
+          if(res.code !=0 ){
+            this.$message.error(res.msg)
             return ;
           }
           this.$message.success(this.$t('common.operationSuccess'))
           this.dialogVisible = false
           this.$emit('success', res.logId)
+          this.$router.push('/pages/property/assetImportLog')
+
         } catch (error) {
           this.$message.error(error)
         }
