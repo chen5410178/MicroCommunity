@@ -1,5 +1,8 @@
 <template>
   <div id="app">
+    <div class="route-progress" v-if="routeLoading">
+      <div class="route-progress-bar"></div>
+    </div>
     <keep-alive :include="keepAliveComponents">
       <router-view></router-view>
     </keep-alive>
@@ -9,6 +12,27 @@
 <script>
 export default {
   name: 'App',
+  data() {
+    return {
+      routeLoading: false
+    }
+  },
+  created() {
+    const self = this
+    // 关闭全局 prefetch 后，首次进入未预取页面需要等待 chunk 下载，给出进度提示
+    this._unregisterBeforeEach = this.$router.beforeEach(function (to, from, next) {
+      self.routeLoading = true
+      next()
+    })
+    this.$router.afterEach(function () {
+      self.routeLoading = false
+    })
+  },
+  beforeDestroy() {
+    if (this._unregisterBeforeEach) {
+      this._unregisterBeforeEach()
+    }
+  },
   computed: {
     keepAliveComponents() {
       const routes = this.$router.options.routes || []
@@ -584,5 +608,39 @@ h3 {
 
 .vc-table-border tr th {
     border: 1px solid #000000;
+}
+
+.route-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    z-index: 9999;
+    background-color: transparent;
+    pointer-events: none;
+}
+
+.route-progress-bar {
+    width: 100%;
+    height: 100%;
+    background-color: #409eff;
+    transform-origin: left center;
+    animation: route-progress-run 1.2s ease-in-out infinite;
+}
+
+@keyframes route-progress-run {
+    0% {
+        transform: scaleX(0.05);
+        opacity: 1;
+    }
+    50% {
+        transform: scaleX(0.7);
+        opacity: 1;
+    }
+    100% {
+        transform: scaleX(1);
+        opacity: 0.5;
+    }
 }
 </style> 

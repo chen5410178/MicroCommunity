@@ -57,7 +57,7 @@
             <ul>
               <template v-for="(menu, index) in menuTree">
                 <li :key="index" v-if="menu.childs && menu.childs.length > 0" :class="{ active: menu.active }"
-                  @click="switchMenu(menu)">
+                  v-on:mouseenter="_prefetchMenu(menu)" @click="switchMenu(menu)">
                   <i class="fa " v-bind:class="menu.icon"></i><span class="margin-left-xs">{{ $t('menu.' + menu.name)
                     }}</span>
                 </li>
@@ -69,7 +69,7 @@
               <li class="title">{{ $t('menu.' + curMenuName) }}</li>
               <template v-for="(subMenu, index) in subMenus">
                 <li :key="index" v-if="subMenu.isShow == 'Y'" :class="{ active: subMenu.active }"
-                  v-on:click="_gotoPage(subMenu.href, subMenu.name)">
+                  v-on:mouseenter="_prefetchMenu(subMenu)" v-on:click="_gotoPage(subMenu.href, subMenu.name)">
                   {{ $t('menu.' + subMenu.name) }}
                 </li>
               </template>
@@ -115,6 +115,8 @@ import viewMenuUserList from '@/components/system/viewMenuUserList.vue'
 import searchCommunityDataList from '@/components/system/searchCommunityDataList.vue'
 import { initSystem } from '@/api/util/vcApi'
 import config from '@/conf/config'
+import { loadLocaleMessages } from '@/i18n/loader'
+import { prefetchOnIdle, prefetchRouteByPath } from '@/utils/routePrefetch'
 
 
 export default {
@@ -280,6 +282,8 @@ export default {
           return a.seq - b.seq
         });
         this.menuTree = _menus;
+        // 菜单渲染完成后按当前用户的菜单权限做空闲预取
+        this._prefetchOnIdle(_menus);
       })
     },
     switchMenu(_menu) {
@@ -390,9 +394,71 @@ export default {
       this.visitedTabs = []
       this.$router.push('/views/index/index').catch(function () { })
     },
-    handleSwitchLang(command) {
+    async handleSwitchLang(command) {
+      try {
+        await loadLocaleMessages(command)
+      } catch (error) {
+        console.error('语言包加载失败：', error)
+      }
       this.$i18n.locale = command
       localStorage.setItem('language', command)
+    },
+    // 菜单 href 转路由 path，非路由地址返回空串
+    _toRouterPath(href) {
+      if (!href || href.indexOf('.html') > -1 || href.indexOf('?') === 0 || href.indexOf('http') === 0) {
+        return ''
+      }
+      let path = href
+      if (path.indexOf('/#/') > -1) {
+        path = path.replace('/#/', '/')
+      }
+      if (path.charAt(0) !== '/') {
+        return ''
+      }
+      if (this.$route && this.$route.path === path) {
+        return ''
+      }
+      return path
+    },
+    // 鼠标悬浮菜单即时预取对应页面 chunk
+    _prefetchMenu(menu) {
+      if (!menu) {
+        return
+      }
+      if (menu.href) {
+        prefetchRouteByPath(this.$router, this._toRouterPath(menu.href))
+        return
+      }
+      const childs = menu.childs || []
+      for (let i = 0; i < childs.length; i++) {
+        const path = this._toRouterPath(childs[i].href)
+        if (path) {
+          prefetchRouteByPath(this.$router, path)
+          return
+        }
+      }
+    },
+    // 菜单渲染完成后空闲预取，仅预取当前用户菜单内的页面，总预算 8
+    _prefetchOnIdle(menus) {
+      const self = this
+      const hrefs = []
+      const collect = function (list) {
+        for (let i = 0; i < list.length; i++) {
+          const menu = list[i]
+          if (!menu || menu.isShow === 'N') {
+            continue
+          }
+          const path = self._toRouterPath(menu.href)
+          if (path && hrefs.indexOf(path) < 0) {
+            hrefs.push(path)
+          }
+          if (menu.childs && menu.childs.length > 0) {
+            collect(menu.childs)
+          }
+        }
+      }
+      collect(menus || [])
+      prefetchOnIdle(this.$router, hrefs, { budget: 8 })
     }
 
   }

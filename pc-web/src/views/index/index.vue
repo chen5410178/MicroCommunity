@@ -16,16 +16,36 @@
   <script>
   import {getStoreInfo} from "@/api/user/indexApi"
   import {deepCopy} from "@/utils/vc"
-  import indexDev from "@/components/index/index-dev.vue"
-  import indexAdmin from "@/components/index/index-admin.vue"
-  import indexProperty from '@/components/index/index-property.vue'
+
+  // 首页按门店类型异步加载，未命中的首页组件（及其 echarts 依赖）不会下载
+  const asyncIndexLoading = {
+    name: 'asyncIndexLoading',
+    render: function (h) {
+      return h('div', {
+        style: 'padding: 60px 0; text-align: center; color: #909399; font-size: 13px;'
+      }, [
+        h('i', { class: 'el-icon-loading' })
+      ])
+    }
+  }
+
+  const asyncIndexComponent = function (loader) {
+    return function () {
+      return {
+        component: loader(),
+        loading: asyncIndexLoading,
+        delay: 200,
+        timeout: 30000
+      }
+    }
+  }
   
   export default {
     name: 'index',
     components: {
-        indexDev,
-        indexAdmin,
-        indexProperty
+        indexDev: asyncIndexComponent(function () { return import('@/components/index/index-dev.vue') }),
+        indexAdmin: asyncIndexComponent(function () { return import('@/components/index/index-admin.vue') }),
+        indexProperty: asyncIndexComponent(function () { return import('@/components/index/index-property.vue') })
     },
     data() {
       return {

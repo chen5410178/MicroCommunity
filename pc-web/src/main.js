@@ -5,6 +5,8 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 //import 'formiojs/dist/formio.full.min.css'
 import i18n from './i18n'
+import config from '@/conf/config'
+import { loadLocaleMessages } from '@/i18n/loader'
 import {getCommunityName,getCommunityId} from '@/api/community/communityApi'
 
 // 验证全局脚本是否正确加载
@@ -47,8 +49,16 @@ Vue.prototype.$getUser = function() {
 Vue.use(ElementUI)
 Vue.config.productionTip = false
 
-new Vue({
-  router,
-  i18n,
-  render: h => h(App)
-}).$mount('#app') 
+function mountApp() {
+  new Vue({
+    router,
+    i18n,
+    render: h => h(App)
+  }).$mount('#app')
+}
+
+// 首屏只加载当前语言包，加载完成后再挂载，避免菜单/通用文案缺失
+loadLocaleMessages(config.lang).then(mountApp).catch(function (error) {
+  console.error('语言包加载失败：', error)
+  mountApp()
+})

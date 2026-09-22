@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Layout from '@/views/layout/layout.vue'
-import Login from '@/views/user/login/Login.vue'
-import printEquipmentAccountLabel from '@/views/resource/printEquipmentAccountLabelList.vue'
+// 登录页、打印页改为路由级懒加载，避免打进首屏主包
+const Login = () => import('@/views/user/login/Login.vue')
+const printEquipmentAccountLabel = () => import('@/views/resource/printEquipmentAccountLabelList.vue')
 import inspectionRouter from './inspectionRouter'
 import machineRouter from './machineRouter'
 import oaRouter from './oaRouter'
