@@ -129,7 +129,6 @@ export default [
     },
     {
         path: '/views/fee/refundDepositFee',
-        meta: { title: '退押金' },
         name: '/views/fee/refundDepositFee',
         component: () => import('@/views/fee/refundDepositFeeList.vue')
     },

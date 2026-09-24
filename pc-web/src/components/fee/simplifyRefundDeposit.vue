@@ -102,7 +102,7 @@ export default {
     },
     _openRefundModel() {
       const roomId = this.simplifyRefundDepositInfo.roomId
-      this.$router.push(`/pages/fee/refundDepositFee?roomId=${roomId}`)
+      this.$router.push(`/views/fee/refundDepositFee?roomId=${roomId}`)
     },
     _toSimplifyFeeDepositFeeDetail(fee) {
       this.$router.push(`/views/fee/propertyFee?feeId=${fee.feeId}`)
