@@ -3,6 +3,7 @@ package com.java110.fee.cmd.refundFee;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.java110.core.annotation.Java110Cmd;
+import com.java110.core.annotation.Java110Transactional;
 import com.java110.core.context.CmdContextUtils;
 import com.java110.core.context.ICmdDataFlowContext;
 import com.java110.core.event.cmd.Cmd;
@@ -96,6 +97,7 @@ public class ApplyRefundDepositCmd extends Cmd {
     }
 
     @Override
+    @Java110Transactional
     public void doCmd(CmdEvent event, ICmdDataFlowContext context, JSONObject reqJson) throws CmdException, ParseException {
         String userId = CmdContextUtils.getUserId(context);
 
@@ -140,7 +142,8 @@ public class ApplyRefundDepositCmd extends Cmd {
         refundFeeOrderPo.setCommunityId(payFeeOrderDtos.get(0).getCommunityId());
         refundFeeOrderPo.setPayerObjType(payFeeOrderDtos.get(0).getPayerObjType());
         refundFeeOrderPo.setPayerObjId(payFeeOrderDtos.get(0).getPayerObjId());
-        refundFeeOrderPo.setPayOrderId(payFeeOrderDtos.get(0).getExtOrderId());
+        //refundFeeOrderPo.setPayOrderId(payFeeOrderDtos.get(0).getExtOrderId());
+        refundFeeOrderPo.setPayOrderId(payFeeOrderDtos.get(0).getPayOrderId());
 
         refundFeeOrderV1InnerServiceSMOImpl.saveRefundFeeOrder(refundFeeOrderPo);
 
