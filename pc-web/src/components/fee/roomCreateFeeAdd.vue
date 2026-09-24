@@ -206,14 +206,17 @@ export default {
         ...this.formData,
         communityId: getCommunityId()
       }
-
-      const { code, msg } = await saveRoomCreateFee(params)
-      if (!code ||code == 0) {
-        this.$message.success(this.$t('common.operationSuccess'))
-        this.$emit('success')
-        this.handleClose()
-      } else {
-        this.$message.error(msg)
+      try {
+        const { code, msg } = await saveRoomCreateFee(params)
+        if (!code || code == 0) {
+          this.$message.success(this.$t('common.operationSuccess'))
+          this.$emit('success')
+          this.handleClose()
+        } else {
+          this.$message.error(msg)
+        }
+      } catch (error) {
+        this.$message.error(error)
       }
 
     },
