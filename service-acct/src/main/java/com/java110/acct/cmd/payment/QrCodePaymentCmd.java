@@ -66,25 +66,31 @@ public class QrCodePaymentCmd extends Cmd {
     public void doCmd(CmdEvent event, ICmdDataFlowContext cmdDataFlowContext, JSONObject reqJson) throws CmdException {
         String orderId = GenerateCodeFactory.getGeneratorId(GenerateCodeFactory.CODE_PREFIX_orderId);
         double receivedAmount = Double.parseDouble(reqJson.getString("receivedAmount"));
-        String authCode = reqJson.getString("authCode");
-        if (StringUtil.isEmpty(authCode) || authCode.length() < 2) {
+        String authCode = StringUtil.isEmpty(reqJson.getString("authCode")) ? "" : reqJson.getString("authCode").trim();
+        if (authCode.length() < 2) {
             throw new IllegalArgumentException("授权码错误");
         }
+        reqJson.put("authCode", authCode);
 
         String payQrAdapt = computeAdapt(reqJson.getString("subServiceCode"),reqJson);//MappingCache.getValue(WechatConstant.WECHAT_DOMAIN, WechatConstant.PAY_QR_ADAPT);
 
         if (StringUtil.isEmpty(payQrAdapt)) {
-            int pre = Integer.parseInt(authCode.substring(0, 2));
-            if (pre > 24 && pre < 31) { // 支付宝
+            String primeRate = computePrimeRateByAuthCode(authCode);
+            if (FeeDetailDto.PRIME_REATE_ALI_QRCODE.equals(primeRate)) { // 支付宝
                 qrCodePaymentSMOImpl = ApplicationContextFactory.getBean("qrCodeAliPaymentAdapt", IQrCodePaymentSMO.class);
-                reqJson.put("primeRate", FeeDetailDto.PRIME_REATE_ALI_QRCODE);
             } else {
                 qrCodePaymentSMOImpl = ApplicationContextFactory.getBean("qrCodeWechatPaymentAdapt", IQrCodePaymentSMO.class);
-                reqJson.put("primeRate", FeeDetailDto.PRIME_REATE_WECHAT_QRCODE);
             }
+            reqJson.put("primeRate", primeRate);
         } else {
             qrCodePaymentSMOImpl = ApplicationContextFactory.getBean(payQrAdapt, IQrCodePaymentSMO.class);
         }
+
+        //todo 缓存本次支付渠道，支付状态确认时保持费率一致
+        if (!StringUtil.isEmpty(reqJson.getString("primeRate"))) {
+            CommonCache.setValue("qrCode_primeRate" + orderId, reqJson.getString("primeRate"), CommonCache.TOKEN_EXPIRE_TIME);
+        }
+
 
         CommunityDto communityDto = new CommunityDto();
         communityDto.setCommunityId(reqJson.getString("communityId"));
@@ -136,6 +142,26 @@ public class QrCodePaymentCmd extends Cmd {
 
         JSONObject paramOut = CallApiServiceFactory.postForApi(appId, reqJson, reqJson.getString("subServiceCode"), JSONObject.class, userId);
         cmdDataFlowContext.setResponseEntity(ResultVo.createResponseEntity(paramOut));
+    }
+
+
+    /**
+     * 根据授权码前缀计算支付渠道，前两位 25~30 为支付宝，其余为微信
+     *
+     * @param authCode 授权码
+     * @return 支付渠道
+     */
+    private String computePrimeRateByAuthCode(String authCode) {
+        int pre = 0;
+        try {
+            pre = Integer.parseInt(authCode.substring(0, 2));
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("授权码格式错误");
+        }
+        if (pre > 24 && pre < 31) { // 支付宝
+            return FeeDetailDto.PRIME_REATE_ALI_QRCODE;
+        }
+        return FeeDetailDto.PRIME_REATE_WECHAT_QRCODE;
     }
 
 

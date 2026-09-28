@@ -127,15 +127,18 @@
       </el-row>
 
       <!-- 扫码输入框 -->
-      <el-row v-if="batchPayConfirmInfo.payType == 'qrCode' && (batchPayConfirmInfo.primeRate == '3' || batchPayConfirmInfo.primeRate == '4' || batchPayConfirmInfo.primeRate == '10')">
+      <el-row v-if="batchPayConfirmInfo.payType == 'qrCode'">
         <el-col :span="12">
           <el-form-item :label="$t('batchPayConfirm.authCode')">
             <el-input
               v-model="batchPayConfirmInfo.authCode"
               @keyup.enter.native="_qrCodePayFee"
-              :placeholder="$t('batchPayConfirm.scanCode')"
+              @focus="_selectAuthCode"
+              clearable
+              :placeholder="$t('batchPayConfirm.authCodePlaceholder')"
               ref="authCodeInput"
             />
+            <div class="auth-code-tip">{{$t('batchPayConfirm.authCodeTip')}}</div>
           </el-form-item>
         </el-col>
       </el-row>
@@ -232,21 +235,46 @@ export default {
       Object.assign(this.batchPayConfirmInfo, params)
       this.batchPayConfirmInfo.orgFeePrices = params.feePrices
       
-      this.$nextTick(() => {
-        if (this.batchPayConfirmInfo.payType == 'qrCode') {
-          setTimeout(() => {
-            if (this.$refs.authCodeInput) {
-              this.$refs.authCodeInput.focus()
-            }
-          }, 500)
-        }
-      })
+      if (this.batchPayConfirmInfo.payType == 'qrCode' && !this.batchPayConfirmInfo.primeRate) {
+        this.batchPayConfirmInfo.primeRate = '3'
+      }
+      
+      this._focusAuthCode()
       
       this._loadOwnerAccts()
     },
     
     handleClose() {
       this.visible = false
+    },
+    
+    _focusAuthCode() {
+      if (this.batchPayConfirmInfo.payType != 'qrCode') {
+        return
+      }
+      
+      this.$nextTick(() => {
+        setTimeout(() => {
+          this._selectAuthCode()
+        }, 500)
+      })
+    },
+    
+    _selectAuthCode() {
+      const authCodeInput = this.$refs.authCodeInput
+      if (!authCodeInput) {
+        return
+      }
+      
+      authCodeInput.focus()
+      authCodeInput.select()
+    },
+    
+    _resetAuthCode() {
+      this.batchPayConfirmInfo.authCode = ''
+      this.$nextTick(() => {
+        this._selectAuthCode()
+      })
     },
     
     async _initDictData() {
@@ -376,12 +404,18 @@ export default {
     
     async _qrCodePayFee() {
       if (!this.batchPayConfirmInfo.primeRate) {
-        this.$message.warning('请选择支付方式')
+        this.batchPayConfirmInfo.primeRate = '3'
+      }
+      
+      const authCode = (this.batchPayConfirmInfo.authCode || '').trim()
+      
+      if (!authCode) {
+        this.$message.warning(this.$t('batchPayConfirm.authCodeRequired'))
+        this._selectAuthCode()
         return
       }
       
       const payFees = this._preparePayFees()
-      const payType = (this.batchPayConfirmInfo.primeRate === '12') ? 'yudifu' : 'qrCode'
       const paramData = this._mergeTransforPreFee()
       
       const data = {
@@ -394,23 +428,14 @@ export default {
         receivedAmount: this.batchPayConfirmInfo.feePrices,
         discountAmount: this.batchPayConfirmInfo.discount,
         rules: paramData.rules,
+        authCode: authCode,
         subServiceCode: 'fee.payBatchFee',
-        payType: payType,
+        payType: 'qrCode',
         isBatch: 'yes'
       }
       
       try {
         const response = await qrCodePayment(data)
-        
-        if (payType === 'yudifu') {
-          if (response.code === 0) {
-            this.batchPayConfirmInfo.qrCodeUrl = response.data.qrCode
-            this.$forceUpdate()
-          } else {
-            this.$message.error(response.msg || '生成二维码失败')
-          }
-          return
-        }
         
         if (response.code === 404) {
           this.$message.error(response.msg)
@@ -418,15 +443,19 @@ export default {
             this.batchPayConfirmInfo.orderId = response.data.orderId
             this.batchPayConfirmInfo.paymentPoolId = response.data.paymentPoolId
             setTimeout(() => this._qrCodeCheckPayFinish(), 5000)
+          } else {
+            this._resetAuthCode()
           }
         } else if (response.code === 0) {
           this._doDealPayResult(response)
         } else {
           this.$message.error(response.msg)
+          this._resetAuthCode()
         }
       } catch (error) {
         console.error('扫码支付失败:', error)
         this.$message.error('扫码支付失败')
+        this._resetAuthCode()
       }
     },
     
@@ -450,6 +479,7 @@ export default {
         receivedAmount: this.batchPayConfirmInfo.feePrices,
         discountAmount: this.batchPayConfirmInfo.discount,
         rules: paramData.rules,
+        authCode: (this.batchPayConfirmInfo.authCode || '').trim(),
         subServiceCode: 'fee.payBatchFee',
         orderId: this.batchPayConfirmInfo.orderId,
         paymentPoolId: this.batchPayConfirmInfo.paymentPoolId
@@ -632,4 +662,11 @@ export default {
 .dialog-footer {
   text-align: right;
 }
+
+.auth-code-tip {
+  font-size: 12px;
+  color: #909399;
+  line-height: 20px;
+}
+
 </style>
