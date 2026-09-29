@@ -58,4 +58,10 @@ public interface IInitializeBuildingUnitDao {
     int deleteParkingSpace(Map info) throws DAOException;
 
     int deleteOwnerCar(Map info);
+
+    int deleteBuildingShopOwner(Map info) throws DAOException;
+
+    int deleteBuildingShop(Map info) throws DAOException;
+
+    int deleteShopLocation(Map info) throws DAOException;
 }

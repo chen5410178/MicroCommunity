@@ -111,6 +111,18 @@ public class IinitializeBuildingUnitBmoImpl implements IinitializeBuildingUnitBm
         int deleteFlagCar = initializeBuildingUnitSMOImpl.deleteOwnerCar(communityIds);
         massage.append("车辆初始化完成，清理数据【"+deleteFlagCar+"】条！");
 
+        //商铺业主
+        int deleteFlagShopOwner = initializeBuildingUnitSMOImpl.deleteBuildingShopOwner(communityIds);
+        massage.append("商铺业主初始化完成，清理数据【"+deleteFlagShopOwner+"】条！");
+
+        //商铺
+        int deleteFlagShop = initializeBuildingUnitSMOImpl.deleteBuildingShop(communityIds);
+        massage.append("商铺初始化完成，清理数据【"+deleteFlagShop+"】条！");
+
+        //商铺位置
+        int deleteFlagShopLocation = initializeBuildingUnitSMOImpl.deleteShopLocation(communityIds);
+        massage.append("商铺位置初始化完成，清理数据【"+deleteFlagShopLocation+"】条！");
+
         return ResultVo.createResponseEntity(massage);
     }
 

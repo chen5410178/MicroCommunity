@@ -65,4 +65,13 @@ public interface IinitializeBuildingUnitSMO {
 
     @RequestMapping(value = "/deleteOwnerCar", method = RequestMethod.POST)
     int deleteOwnerCar(@RequestBody Map communityIds);
+
+    @RequestMapping(value = "/deleteBuildingShopOwner", method = RequestMethod.POST)
+    int deleteBuildingShopOwner(@RequestBody Map communityIds);
+
+    @RequestMapping(value = "/deleteBuildingShop", method = RequestMethod.POST)
+    int deleteBuildingShop(@RequestBody Map communityIds);
+
+    @RequestMapping(value = "/deleteShopLocation", method = RequestMethod.POST)
+    int deleteShopLocation(@RequestBody Map communityIds);
 }

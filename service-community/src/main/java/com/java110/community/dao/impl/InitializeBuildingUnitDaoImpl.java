@@ -124,5 +124,32 @@ public class InitializeBuildingUnitDaoImpl extends BaseServiceDao implements IIn
         return deleteFlag;
     }
 
+    @Override
+    public int deleteBuildingShopOwner(Map info) throws DAOException {
+        logger.debug("商铺业主Instance 入参 info : {}", info);
+
+        int deleteFlag = sqlSessionTemplate.delete("initializeBuildingUnitDaoImpl.deleteBuildingShopOwner", info);
+
+        return deleteFlag;
+    }
+
+    @Override
+    public int deleteBuildingShop(Map info) throws DAOException {
+        logger.debug("商铺Instance 入参 info : {}", info);
+
+        int deleteFlag = sqlSessionTemplate.delete("initializeBuildingUnitDaoImpl.deleteBuildingShop", info);
+
+        return deleteFlag;
+    }
+
+    @Override
+    public int deleteShopLocation(Map info) throws DAOException {
+        logger.debug("商铺位置Instance 入参 info : {}", info);
+
+        int deleteFlag = sqlSessionTemplate.delete("initializeBuildingUnitDaoImpl.deleteShopLocation", info);
+
+        return deleteFlag;
+    }
+
 
 }

@@ -96,6 +96,24 @@ public class InitializeBuildingUnitSMOImpl extends BaseServiceSMO implements Iin
         return deleteFlag;
     }
 
+    @Override
+    public int deleteBuildingShopOwner(@RequestBody Map communityId) {
+        int deleteFlag = initializeBuildingUnitDaoImpl.deleteBuildingShopOwner(communityId);
+        return deleteFlag;
+    }
+
+    @Override
+    public int deleteBuildingShop(@RequestBody Map communityId) {
+        int deleteFlag = initializeBuildingUnitDaoImpl.deleteBuildingShop(communityId);
+        return deleteFlag;
+    }
+
+    @Override
+    public int deleteShopLocation(@RequestBody Map communityId) {
+        int deleteFlag = initializeBuildingUnitDaoImpl.deleteShopLocation(communityId);
+        return deleteFlag;
+    }
+
     public static Logger getLogger() {
         return logger;
     }

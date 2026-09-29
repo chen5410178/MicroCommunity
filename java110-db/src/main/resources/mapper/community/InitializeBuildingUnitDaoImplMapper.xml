@@ -45,4 +45,22 @@
         and community_id = #{communityId}
     </delete>
 
+    <!-- 初始化数据 商铺业主 -->
+    <delete id="deleteBuildingShopOwner" parameterType="Map">
+        delete from building_shop_owner where 1=1
+            and community_id = #{communityId}
+    </delete>
+
+    <!-- 初始化数据 商铺 -->
+    <delete id="deleteBuildingShop" parameterType="Map">
+        delete from building_shop where 1=1
+            and community_id = #{communityId}
+    </delete>
+
+    <!-- 初始化数据 商铺位置 -->
+    <delete id="deleteShopLocation" parameterType="Map">
+        delete from shop_location where 1=1
+            and community_id = #{communityId}
+    </delete>
+
 </mapper>
