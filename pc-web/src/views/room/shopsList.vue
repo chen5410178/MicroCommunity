@@ -213,8 +213,8 @@ export default {
       listBuildingShops(this.queryParams)
         .then(res => {
           const data = res.data
-          this.shopsData = Array.isArray(data) ? data : (data && data.data) || []
-          this.pagination.total = (data && data.total) || this.shopsData.length
+          this.shopsData =  data
+          this.pagination.total = res.total
         })
         .catch(console.error)
         .finally(() => { this.loading = false })
