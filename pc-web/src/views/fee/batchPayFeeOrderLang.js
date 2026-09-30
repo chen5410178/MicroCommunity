@@ -37,6 +37,8 @@ export const messages = {
       confirmPayment: 'Confirm Payment',
       payTip: 'Payment Notice',
       paySuccess: 'Payment Successful',
+      payTimeout: 'Payment status query timeout, please manually confirm payment result later',
+      payCheckFailed: 'Payment status check failed',
       back: 'Back',
       mergePrint: 'Merge Print',
       printReceipt: 'Print Receipt'
@@ -108,6 +110,8 @@ export const messages = {
       confirmPayment: '确定收费',
       payTip: '缴费提示',
       paySuccess: '缴费成功',
+      payTimeout: '支付状态查询超时，请稍后手动确认支付结果',
+      payCheckFailed: '支付状态检查失败',
       back: '返回',
       mergePrint: '合并打印',
       printReceipt: '打印收据'
@@ -178,6 +182,8 @@ export const messages = {
       confirmPayment: '確定收費',
       payTip: '繳費提示',
       paySuccess: '繳費成功',
+      payTimeout: '支付狀態查詢超時，請稍後手動確認支付結果',
+      payCheckFailed: '支付狀態檢查失敗',
       back: '返回',
       mergePrint: '合併列印',
       printReceipt: '列印收據'

@@ -210,7 +210,11 @@ export default {
         payerObjType: '',
         payerObjs: []
       },
-      communityId: ''
+      communityId: '',
+      checkTimer: null,
+      retryCount: 0,
+      MAX_RETRY: 60,
+      pollingOrderId: ''
     }
   },
   computed: {
@@ -245,7 +249,25 @@ export default {
     },
     
     handleClose() {
+      this._clearCheckTimer()
+      this.retryCount = 0
+      this.pollingOrderId = ''
       this.visible = false
+    },
+    
+    _startCheckPayFinish(delay) {
+      this._clearCheckTimer()
+      this.checkTimer = setTimeout(() => {
+        this.checkTimer = null
+        this._qrCodeCheckPayFinish()
+      }, delay || 5000)
+    },
+    
+    _clearCheckTimer() {
+      if (this.checkTimer) {
+        clearTimeout(this.checkTimer)
+        this.checkTimer = null
+      }
     },
     
     _focusAuthCode() {
@@ -442,7 +464,9 @@ export default {
           if (response.data && response.data.orderId) {
             this.batchPayConfirmInfo.orderId = response.data.orderId
             this.batchPayConfirmInfo.paymentPoolId = response.data.paymentPoolId
-            setTimeout(() => this._qrCodeCheckPayFinish(), 5000)
+            this.retryCount = 0
+            this.pollingOrderId = response.data.orderId
+            this._startCheckPayFinish(5000)
           } else {
             this._resetAuthCode()
           }
@@ -466,6 +490,10 @@ export default {
     },
     
     async _qrCodeCheckPayFinish() {
+      if (!this.visible || this.pollingOrderId !== this.batchPayConfirmInfo.orderId) {
+        return
+      }
+      
       const payFees = this._preparePayFees()
       const paramData = this._mergeTransforPreFee()
       
@@ -490,18 +518,35 @@ export default {
         
         if (response.code === 404) {
           this.$message.error(response.msg)
-        } else if (response.code === 41) {
-          setTimeout(() => this._qrCodeCheckPayFinish(), 5000)
-        } else {
-          this._doDealPayResult(response)
+          return
         }
+        
+        if (response.code === 41) {
+          this.retryCount++
+          if (this.retryCount < this.MAX_RETRY) {
+            this._startCheckPayFinish(5000)
+          } else {
+            this.$message.warning(this.$t('batchPayConfirm.payTimeout'))
+            this.handleClose()
+          }
+          return
+        }
+        
+        this._doDealPayResult(response)
       } catch (error) {
         console.error('检查支付状态失败:', error)
-        this.$message.error('检查支付状态失败')
+        this.retryCount++
+        if (this.retryCount < this.MAX_RETRY) {
+          this._startCheckPayFinish(5000)
+        } else {
+          this.$message.error(this.$t('batchPayConfirm.payCheckFailed'))
+          this.handleClose()
+        }
       }
     },
     
     async _doDealPayResult(json) {
+      this._clearCheckTimer()
       this.handleClose()
       
       setTimeout(async () => {
@@ -642,6 +687,10 @@ export default {
       }
     },
     dateFormatH
+  },
+  
+  beforeDestroy() {
+    this._clearCheckTimer()
   }
 }
 </script>
