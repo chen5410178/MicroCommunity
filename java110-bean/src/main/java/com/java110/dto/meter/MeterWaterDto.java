@@ -34,6 +34,11 @@ public class MeterWaterDto extends PageDto implements Serializable {
     private String feeId;
     private double price;
 
+    private String payFeeId;
+    private String receivableAmount;
+    private String oweAmount;
+    private String payFeeRemark;
+
     private String batchId;
 
 
@@ -163,6 +168,38 @@ public class MeterWaterDto extends PageDto implements Serializable {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public String getPayFeeId() {
+        return payFeeId;
+    }
+
+    public void setPayFeeId(String payFeeId) {
+        this.payFeeId = payFeeId;
+    }
+
+    public String getReceivableAmount() {
+        return receivableAmount;
+    }
+
+    public void setReceivableAmount(String receivableAmount) {
+        this.receivableAmount = receivableAmount;
+    }
+
+    public String getOweAmount() {
+        return oweAmount;
+    }
+
+    public void setOweAmount(String oweAmount) {
+        this.oweAmount = oweAmount;
+    }
+
+    public String getPayFeeRemark() {
+        return payFeeRemark;
+    }
+
+    public void setPayFeeRemark(String payFeeRemark) {
+        this.payFeeRemark = payFeeRemark;
     }
 
     public String getMeterTypeName() {

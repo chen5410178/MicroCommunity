@@ -154,7 +154,7 @@
                  t.payer_obj_id= #{payerObjId},
             </if>
             <if test="remark !=null and remark != ''">
-                t.remark= #{remark}
+                t.remark= #{remark},
             </if>
             <if test="feeRemark !=null and feeRemark != ''">
                 t.fee_remark = #{feeRemark},
