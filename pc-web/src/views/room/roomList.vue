@@ -374,7 +374,6 @@ export default {
           roomId: '',
           state: '',
           section: '',
-          roomType: '1010301',
           roomSubType: '',
           flag: ''
         },
@@ -432,6 +431,8 @@ export default {
       this.roomInfo.conditions.communityId = this.getCommunityId()
 
       const params = { ...this.roomInfo.conditions }
+      delete params.roomType
+
 
       // 处理房间号格式
       const allNum = params.roomId || ''
@@ -556,7 +557,6 @@ export default {
         roomId: '',
         state: '',
         section: '',
-        roomType: '1010301',
         roomSubType: '',
         flag: ''
       }

@@ -348,7 +348,7 @@ public class ImportOwnerRoomInnerServiceSMOImpl extends BaseServiceSMO implement
             roomPo.setRoomNum(importOwnerRoomDto.getRoomNum());
             roomPo.setRoomRent(importOwnerRoomDto.getRoomRent());
             roomPo.setRoomSubType(importOwnerRoomDto.getRoomSubType());
-            roomPo.setRoomType("0".equals(importOwnerRoomDto.getUnitNum()) ? RoomDto.ROOM_TYPE_SHOPS : RoomDto.ROOM_TYPE_ROOM);
+            roomPo.setRoomType(RoomDto.ROOM_TYPE_ROOM);
             roomPo.setUnitId(unitId);
             roomPo.setRemark("房产导入");
             roomPo.setUserId(importOwnerRoomDto.getUserId());
@@ -375,7 +375,7 @@ public class ImportOwnerRoomInnerServiceSMOImpl extends BaseServiceSMO implement
                 roomPo.setRoomNum(importOwnerRoomDto.getRoomNum());
                 roomPo.setRoomRent(importOwnerRoomDto.getRoomRent());
                 roomPo.setRoomSubType(importOwnerRoomDto.getRoomSubType());
-                roomPo.setRoomType("0".equals(importOwnerRoomDto.getUnitNum()) ? RoomDto.ROOM_TYPE_SHOPS : RoomDto.ROOM_TYPE_ROOM);
+                roomPo.setRoomType(RoomDto.ROOM_TYPE_ROOM);
                 roomPo.setUnitId(unitId);
                 roomPo.setRemark("房产导入");
                 roomPo.setUserId(importOwnerRoomDto.getUserId());
