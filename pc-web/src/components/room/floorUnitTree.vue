@@ -87,7 +87,7 @@ export default {
           treeData.push(floorMap[item.floorId])
         }
         
-        if (item.unitId && item.unitNum !== '0') {
+        if (item.unitId) {
           floorMap[item.floorId].children.push({
             id: `u_${item.unitId}`,
             unitId: item.unitId,
