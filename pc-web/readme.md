@@ -4,7 +4,7 @@
  HC小区管理系统是一套saas物业管理的系统，包括 房产、业主、 费用 （可以线上缴费）、报修（可以线上报修）、投诉建议、采购、巡检、停车、门径、道闸、监控、工作流、问卷和公告等功能。
  
  相关代码：<br/><br/>
- 1、[物业系统前端](https://gitee.com/java110/MicroCommunityWeb) : 物业员工使用电脑端<br/>
+ 1、[物业系统前端](https://gitee.com/wuxw7/MicroCommunity/tree/master/pc-web) : 物业员工使用电脑端<br/>
  2、[物业系统后端](https://gitee.com/wuxw7/MicroCommunity): 核心业务处理端<br/>
  3、[业主手机端](https://gitee.com/java110/WechatOwnerService): 提供用户使用，包括投诉 建议，缴费、报修 等<br/>
  4、[物业手机版](https://gitee.com/java110/PropertyApp): 物业员工使用手机端<br/>

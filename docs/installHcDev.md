@@ -70,8 +70,10 @@ dataSource.yml 中修改password密码<br/>
 注意 比如 service-api服务中是没有dataSource.yml 文件<br/>
 6、启动模块service-开头服务下的*ServiceApplicationStart.java文件中的main方法<br/>
 注意启动是没有顺序的，但是我们优先推荐您启动service-eureka<br/>
-7、下载前段代码 <br/>
-git clone https://gitee.com/java110/MicroCommunityWeb.git <br/>
+7、下载前端代码 <br/>
+git clone https://gitee.com/wuxw7/MicroCommunity.git <br/>
+前端代码位于仓库的 pc-web 目录下，克隆完成后进入该目录：<br/>
+cd MicroCommunity/pc-web <br/>
 8、修改vue.config.js 中的ip和端口信息<br/>
 ```shell script
     proxy: {

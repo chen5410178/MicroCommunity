@@ -81,8 +81,10 @@ Modify password in dataSource.yml<br/>
 Note that for example, there is no dataSource.yml file in the service-api service<br/>
 6、Start the main method in the *ServiceApplicationStart.java file under the service-start service-start module<br/>
 Note that there is no order to start, but we recommend that you start service-eureka first<br/>
-7、Download the previous code <br/>
-git clone https://github.com/java110/MicroCommunityWeb.git <br/>
+7、Download the front-end code <br/>
+git clone https://gitee.com/wuxw7/MicroCommunity.git <br/>
+The front-end code is located in the pc-web directory of the repository, enter it after cloning: <br/>
+cd MicroCommunity/pc-web <br/>
 8、Modify the address in app.js<br/>
 ```shell script
 app.use('/callComponent', proxy('http://192.168.100.108:8008', opts));
@@ -90,11 +92,11 @@ app.use('/app', proxy('http://192.168.100.108:8008', opts));
 ```
 Change 192.168.100.108 to the ip of your backend<br/>
 9、start and access<br/>
-npm start
+npm run dev
 ```shell script
-PS C:\project\vip\MicroCommunityWeb> npm start
-> micrcommunityweb@0.0.0 start C:\project\vip\MicroCommunityWeb
-> node ./bin/www
+PS C:\project\vip\MicroCommunity\pc-web> npm run dev
+> property_web@0.0.0 dev C:\project\vip\MicroCommunity\pc-web
+> vue-cli-service serve
 ```
 Indicates that the startup was successful<br/>
 address：http://localhost:3000

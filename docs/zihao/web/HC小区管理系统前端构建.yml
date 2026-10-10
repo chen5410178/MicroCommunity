@@ -1,10 +1,10 @@
 version: "1.0"
 job:
     job_name: HC小区管理系统前端构建
-    git_url: http://gitee.com/java110/MicroCommunityWebV2.git
+    git_url: https://gitee.com/wuxw7/MicroCommunity.git
     git_passwd: xx
     git_username: xx
-    work_dir: /home/hc/MicroCommunityWebV2
+    work_dir: /home/hc/MicroCommunity/pc-web
     job_shell: |-
         rm -rf /home/data/web/propertyWebV2
         npm install

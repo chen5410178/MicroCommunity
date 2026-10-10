@@ -3,7 +3,7 @@
  HC community management system is a set of saas property management system, including real estate, owners, fees (payment can be made online), repair application (repair can be reported online), complaints and suggestions, procurement, inspection, parking, gates, gates, monitoring , workflow, questionnaires, and announcements.
  
  Related code：<br/><br/>
- 1、[Front end of property system](https://gitee.com/java110/MicroCommunityWeb) : Property staff using computer terminal<br/>
+ 1、[Front end of property system](https://gitee.com/wuxw7/MicroCommunity/tree/master/pc-web) : Property staff using computer terminal<br/>
  2、[Property system backend](https://gitee.com/wuxw7/MicroCommunity): core business processing<br/>
  3、[Owner's mobile phone](https://gitee.com/java110/WechatOwnerService): 
 Provide users with use, including complaints and suggestions, payment, repairs, etc.<br/>
